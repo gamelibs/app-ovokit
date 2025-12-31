@@ -1,0 +1,29 @@
+{
+  "slug": "td-waves-and-ai-scaling",
+  "title": "塔防波次生成与敌人调度",
+  "subtitle": "用简单的波次 DSL + 调度器，控制压力曲线与变体组合。",
+  "tags": ["塔防", "随机与生成", "数值与成长"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "状态机(占位)", "Pixi.js(占位)"],
+  "corePoints": ["波次 DSL", "压力曲线", "刷怪调度"],
+  "stats": { "views": 4502, "likes": 378 },
+  "breakdown": [
+    {
+      "title": "波次结构",
+      "bullets": ["预热 → 爬坡 → 高潮 → 缓冲", "变体用于制造“识别与对策”"]
+    },
+    {
+      "title": "调度策略",
+      "bullets": ["预算制：每波次按预算选敌人", "节拍器：按节拍分批出怪"]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "波次预算（简化）",
+      "language": "ts",
+      "code": "type EnemyId = string;\ntype Enemy = { id: EnemyId; cost: number };\n\nexport function pickWave(enemies: Enemy[], budget: number) {\n  const picked: Enemy[] = [];\n  let remaining = budget;\n  for (const enemy of enemies) {\n    while (remaining >= enemy.cost) {\n      picked.push(enemy);\n      remaining -= enemy.cost;\n    }\n  }\n  return picked;\n}\n"
+    }
+  ],
+  "demo": { "note": "MVP：Demo 区先留占位。" }
+}
+

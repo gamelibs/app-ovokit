@@ -1,4 +1,9 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+OVOKIT: 游戏玩法 + 技术实现 + 可试玩 Demo（MVP）
+
+- 首页：小红书风卡片流
+- 详情页：玩法拆解 + 代码 + Demo（iframe 占位）
+- 内容源：本地 `content/plays/<slug>/{meta.json,article.mdx}`
+- 版主发布：右上角菜单登录后进入 `/mod/new`
 
 ## Getting Started
 
@@ -6,19 +11,19 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+设置版主口令（可选，用于本地发布）：
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+export MOD_PASSWORD="your-password"
+```
+
+然后通过右上角菜单进入版主模式。
+
+注：当前默认使用 `--webpack` 运行/构建以避免受限环境下 Turbopack 的问题。
 
 ## Learn More
 

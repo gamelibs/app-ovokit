@@ -1,0 +1,37 @@
+{
+  "slug": "merge-level-core-loop",
+  "title": "合成 & 升级玩法核心逻辑",
+  "subtitle": "拆解“合成升级”的节奏、产出与反馈，并给出可复用的数据结构。",
+  "tags": ["推荐", "合成", "放置", "数值与成长"],
+  "difficulty": "入门",
+  "techStack": ["TypeScript", "Next.js", "Canvas(占位)"],
+  "corePoints": ["合并规则", "产出节奏", "局内反馈"],
+  "stats": { "views": 6780, "likes": 5238 },
+  "breakdown": [
+    {
+      "title": "玩法目标",
+      "bullets": ["让玩家持续做“更优选择”", "用可视化反馈放大小收益"]
+    },
+    {
+      "title": "核心循环",
+      "bullets": ["产出资源 → 合成升级 → 解锁新单位 → 提升产出"]
+    },
+    {
+      "title": "实现要点",
+      "bullets": [
+        "合并表驱动：由配置决定升级结果",
+        "可撤销的操作：用事件日志回放",
+        "将“节奏”写进数值曲线：每 N 次合成给强反馈"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "合并规则（表驱动）",
+      "language": "ts",
+      "code": "type UnitId = string;\n\ntype MergeRule = { from: UnitId; to: UnitId; cost: number };\n\nexport const mergeRules: MergeRule[] = [\n  { from: \"u_1\", to: \"u_2\", cost: 2 },\n  { from: \"u_2\", to: \"u_3\", cost: 2 },\n];\n"
+    }
+  ],
+  "demo": { "note": "MVP 阶段：后续通过 iframe 嵌入可试玩 Demo。" }
+}
+

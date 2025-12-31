@@ -1,0 +1,29 @@
+{
+  "slug": "grid-movement-and-collision",
+  "title": "格子移动与碰撞：从规则到实现",
+  "subtitle": "用统一的“占用/可达”模型，处理推箱子、位移技能与阻挡。",
+  "tags": ["移动与空间", "交互与碰撞", "规则与状态"],
+  "difficulty": "入门",
+  "techStack": ["TypeScript", "Canvas(占位)"],
+  "corePoints": ["占用表", "可达性", "碰撞分层"],
+  "stats": { "views": 3810, "likes": 612 },
+  "breakdown": [
+    {
+      "title": "数据模型",
+      "bullets": ["占用表 occupancy[x,y] → entityId", "层级：地形/单位/投射物"]
+    },
+    {
+      "title": "移动判定",
+      "bullets": ["先算意图，再做 resolve", "支持链式推动（可选）"]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "占用表（简化）",
+      "language": "ts",
+      "code": "export type Pos = { x: number; y: number };\n\nexport class Occupancy {\n  private map = new Map<string, string>();\n  private key(p: Pos) {\n    return `${p.x},${p.y}`;\n  }\n  get(p: Pos) {\n    return this.map.get(this.key(p));\n  }\n  set(p: Pos, id: string) {\n    this.map.set(this.key(p), id);\n  }\n  clear(p: Pos) {\n    this.map.delete(this.key(p));\n  }\n}\n"
+    }
+  ],
+  "demo": { "note": "MVP：Demo 先留 iframe 容器。" }
+}
+

@@ -1,0 +1,29 @@
+{
+  "slug": "finite-state-machine-for-combat",
+  "title": "用状态机组织战斗单位行为",
+  "subtitle": "把单位行为拆成可测试、可组合的状态，减少 if-else 爆炸。",
+  "tags": ["战斗", "状态机", "规则与状态"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "XState(占位)"],
+  "corePoints": ["行为解耦", "可视化调试", "可扩展性"],
+  "stats": { "views": 4761, "likes": 195 },
+  "breakdown": [
+    {
+      "title": "为什么需要状态机",
+      "bullets": ["复杂行为可读性差", "需求变化导致分支膨胀"]
+    },
+    {
+      "title": "拆分建议",
+      "bullets": ["Idle/Move/Attack/Hitstun/Dead", "状态间用事件驱动"]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "事件驱动（简化）",
+      "language": "ts",
+      "code": "type State = \"idle\" | \"move\" | \"attack\";\ntype Event =\n  | { type: \"SEE_TARGET\" }\n  | { type: \"IN_RANGE\" }\n  | { type: \"LOST_TARGET\" };\n\nexport function transition(state: State, event: Event): State {\n  if (state === \"idle\" && event.type === \"SEE_TARGET\") return \"move\";\n  if (state === \"move\" && event.type === \"IN_RANGE\") return \"attack\";\n  if (state === \"attack\" && event.type === \"LOST_TARGET\") return \"idle\";\n  return state;\n}\n"
+    }
+  ],
+  "demo": { "note": "MVP：后续接入可视化状态机调试器。" }
+}
+
