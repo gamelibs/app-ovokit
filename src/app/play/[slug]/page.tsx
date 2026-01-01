@@ -65,12 +65,21 @@ export default async function PlayDetailPage({
               {play.subtitle}
             </p>
 
-            <div className="mt-4 aspect-video w-full overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-200 to-zinc-50 dark:from-white/10 dark:to-black">
-              <div className="grid h-full place-items-center">
-                <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
-                  封面占位（后续可接图片/视频）
+            <div className="mt-4 aspect-video w-full overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-200 to-zinc-50 dark:from-white/10 dark:to-black md:aspect-[3/4]">
+              {play.cover?.src ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={play.cover.src}
+                  alt={play.cover.alt ?? play.title}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="grid h-full place-items-center">
+                  <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
+                    封面占位（后续可接图片/视频）
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </header>
 
@@ -113,7 +122,15 @@ export default async function PlayDetailPage({
             </p>
             <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
               <div className="aspect-video w-full">
-                {play.demo.iframeSrc ? (
+                {play.demo.videoSrc ? (
+                  // eslint-disable-next-line jsx-a11y/media-has-caption
+                  <video
+                    src={play.demo.videoSrc}
+                    className="h-full w-full object-cover"
+                    controls
+                    playsInline
+                  />
+                ) : play.demo.iframeSrc ? (
                   <iframe
                     title={`${play.title} Demo`}
                     src={play.demo.iframeSrc}
@@ -122,7 +139,7 @@ export default async function PlayDetailPage({
                   />
                 ) : (
                   <div className="grid h-full place-items-center text-sm text-zinc-500 dark:text-zinc-400">
-                    iframe 占位（MVP）
+                    Demo 占位（MVP）
                   </div>
                 )}
               </div>

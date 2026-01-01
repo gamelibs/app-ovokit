@@ -10,14 +10,24 @@ function formatCompactNumber(n: number) {
 
 export function PlayCard({ play }: { play: PlayMeta }) {
   return (
-    <article className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-white/5">
+    <article className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-white/5">
       <div className="relative">
-        <div className="aspect-video w-full bg-gradient-to-br from-zinc-200 to-zinc-50 dark:from-white/10 dark:to-black">
-          <div className="absolute inset-0 grid place-items-center">
-            <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
-              封面占位
+        <div className="aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-zinc-200 to-zinc-50 dark:from-white/10 dark:to-black min-[420px]:aspect-[3/4]">
+          {play.cover?.src ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={play.cover.src}
+              alt={play.cover.alt ?? play.title}
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div className="absolute inset-0 grid place-items-center">
+              <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
+                封面占位
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <button
           type="button"
@@ -55,36 +65,46 @@ export function PlayCard({ play }: { play: PlayMeta }) {
         </p>
 
         <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
-          <div className="flex items-center gap-2">
-            <dt className="text-zinc-500 dark:text-zinc-400">玩法难度</dt>
-            <dd className="font-medium">{play.difficulty}</dd>
+          <div className="flex min-w-0 items-center gap-2">
+            <dt className="shrink-0 whitespace-nowrap text-zinc-500 dark:text-zinc-400">
+              玩法难度
+            </dt>
+            <dd className="min-w-0 font-medium">{play.difficulty}</dd>
           </div>
-          <div className="flex items-center gap-2">
-            <dt className="text-zinc-500 dark:text-zinc-400">技术栈</dt>
-            <dd className="truncate font-medium">{play.techStack.join(" / ")}</dd>
+          <div className="flex min-w-0 items-center gap-2">
+            <dt className="shrink-0 whitespace-nowrap text-zinc-500 dark:text-zinc-400">
+              技术栈
+            </dt>
+            <dd className="min-w-0 truncate font-medium">
+              {play.techStack.join(" / ")}
+            </dd>
           </div>
-          <div className="col-span-2 flex items-center gap-2">
-            <dt className="text-zinc-500 dark:text-zinc-400">核心点</dt>
-            <dd className="truncate font-medium">{play.corePoints.join(" / ")}</dd>
+          <div className="col-span-2 flex min-w-0 items-center gap-2">
+            <dt className="shrink-0 whitespace-nowrap text-zinc-500 dark:text-zinc-400">
+              核心点
+            </dt>
+            <dd className="min-w-0 truncate font-medium">
+              {play.corePoints.join(" / ")}
+            </dd>
           </div>
         </dl>
 
-        <div className="mt-4 flex items-center gap-3">
+        <div className="mt-4 flex flex-wrap items-center gap-3">
           <button
             type="button"
             disabled
-            className="inline-flex h-10 items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white opacity-60"
+            className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white opacity-60"
             aria-label="立即试玩（即将支持）"
           >
             立即试玩
           </button>
           <Link
             href={`/play/${play.slug}`}
-            className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
+            className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
           >
             查看实现
           </Link>
-          <div className="ml-auto flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
+          <div className="flex w-full items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400 sm:ml-auto sm:w-auto">
             <span className="inline-flex items-center gap-1">
               <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4">
                 <path

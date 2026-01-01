@@ -1,13 +1,39 @@
 import { playCategories } from "@/lib/content/plays";
-import { TagPill } from "./TagPill";
+import Link from "next/link";
 
-export function CategoryTabs() {
+function pillClass(active: boolean) {
+  if (active) {
+    return "inline-flex h-10 flex-none items-center justify-center rounded-full bg-zinc-900 px-4 text-sm font-semibold text-white shadow-sm dark:bg-white/10 dark:text-zinc-50";
+  }
+  return "inline-flex h-10 flex-none items-center justify-center rounded-full px-4 text-sm font-semibold text-zinc-600 hover:bg-black/5 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-zinc-50";
+}
+
+export function CategoryTabs({
+  selectedKey,
+  q,
+}: {
+  selectedKey?: string;
+  q?: string;
+}) {
   return (
-    <div className="flex items-center gap-2 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="flex items-center gap-3 overflow-x-auto py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {playCategories.map((c, idx) => (
-        <TagPill key={c.key} tone={idx === 0 ? "primary" : "neutral"}>
-          {c.label}
-        </TagPill>
+        <Link
+          key={c.key}
+          href={{
+            pathname: "/",
+            query: {
+              ...(q ? { q } : {}),
+              ...(c.key === "for-you" ? {} : { cat: c.key }),
+            },
+          }}
+          className={pillClass(
+            (selectedKey ?? "for-you") === c.key || (idx === 0 && !selectedKey),
+          )}
+          aria-current={(selectedKey ?? "for-you") === c.key ? "page" : undefined}
+        >
+          <span className="whitespace-nowrap">{c.label}</span>
+        </Link>
       ))}
     </div>
   );

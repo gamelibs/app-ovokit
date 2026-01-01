@@ -1,13 +1,17 @@
 import type { ReactNode } from "react";
 import { BottomNav } from "./BottomNav";
+import { DisableNextDevIndicator } from "./DisableNextDevIndicator";
 import { TopNav } from "./TopNav";
+import { isModerator } from "@/lib/mod/auth";
 
-export function SiteFrame({ children }: { children: ReactNode }) {
+export async function SiteFrame({ children }: { children: ReactNode }) {
+  const moderator = await isModerator();
   return (
     <div className="min-h-dvh bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-50">
-      <TopNav />
+      <DisableNextDevIndicator />
+      <TopNav isModerator={moderator} />
       {children}
-      <BottomNav />
+      <BottomNav isModerator={moderator} />
     </div>
   );
 }
