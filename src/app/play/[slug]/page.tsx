@@ -123,7 +123,6 @@ export default async function PlayDetailPage({
             <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
               <div className="aspect-video w-full">
                 {play.demo.videoSrc ? (
-                  // eslint-disable-next-line jsx-a11y/media-has-caption
                   <video
                     src={play.demo.videoSrc}
                     className="h-full w-full object-cover"

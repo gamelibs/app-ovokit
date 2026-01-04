@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DesktopNav } from "./DesktopNav";
 import { MenuDrawer } from "./MenuDrawer";
@@ -8,12 +8,11 @@ import { MenuDrawer } from "./MenuDrawer";
 export function TopNav({ isModerator }: { isModerator: boolean }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const [q, setQ] = useState("");
-
-  useEffect(() => {
+  const [q, setQ] = useState(() => {
+    if (typeof window === "undefined") return "";
     const sp = new URLSearchParams(window.location.search);
-    setQ(sp.get("q") ?? "");
-  }, []);
+    return sp.get("q") ?? "";
+  });
 
   function goSearch() {
     const trimmed = q.trim();
@@ -134,4 +133,3 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
     </header>
   );
 }
-

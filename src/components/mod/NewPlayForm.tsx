@@ -123,8 +123,9 @@ export function NewPlayForm({
     try {
       const raw = window.localStorage.getItem(draftKey);
       if (!raw) return;
-      const d = JSON.parse(raw) as any;
-      if (!d || typeof d !== "object") return;
+      const parsed = JSON.parse(raw) as unknown;
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return;
+      const d = parsed as Record<string, unknown>;
       setTitle(String(d.title ?? ""));
       setSubtitle(String(d.subtitle ?? ""));
       setSlug(String(d.slug ?? ""));
@@ -137,7 +138,7 @@ export function NewPlayForm({
       setDemoNote(String(d.demoNote ?? "MVP：Demo 先留 iframe 占位。"));
       setIframeSrc(String(d.iframeSrc ?? ""));
       setCoverAlt(String(d.coverAlt ?? ""));
-      setArticleMdx(String(d.articleMdx ?? `# ${d.title || "标题"}\n\n`));
+      setArticleMdx(String(d.articleMdx ?? `# ${String(d.title || "标题")}\n\n`));
       setOverwrite(Boolean(d.overwrite ?? false));
       if (typeof d.updatedAt === "number") setDraftRestoredAt(d.updatedAt);
     } catch {
@@ -191,6 +192,7 @@ export function NewPlayForm({
     iframeSrc,
     coverAlt,
     articleMdx,
+    draftKey,
   ]);
 
   function clearDraft() {
@@ -674,4 +676,3 @@ export function NewPlayForm({
     </div>
   );
 }
-
