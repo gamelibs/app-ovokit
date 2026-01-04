@@ -2,6 +2,10 @@
   "slug": "play-1677a241",
   "title": "小游戏玩法知识分享---之---合成",
   "subtitle": "撑握此知识，可实现任何合成小游戏",
+  "cover": {
+    "src": "/plays/play-1677a241/cover.jpg",
+    "alt": "小游戏玩法知识分享---之---合成"
+  },
   "tags": [
     "推荐",
     "合成"
@@ -110,8 +114,8 @@
   "demo": {
     "note": "MVP：Demo 先留 iframe 占位。"
   },
-  "cover": {
-    "src": "/plays/play-1677a241/cover.jpg",
+  "coverWide": {
+    "src": "/plays/play-1677a241/cover-wide.jpg",
     "alt": "小游戏玩法知识分享---之---合成"
   }
 }

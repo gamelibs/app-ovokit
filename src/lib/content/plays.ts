@@ -45,6 +45,7 @@ export type PlayMeta = {
   title: string;
   subtitle: string;
   cover?: PlayCover;
+  coverWide?: PlayCover;
   tags: PlayTag[];
   difficulty: PlayDifficulty;
   techStack: string[];

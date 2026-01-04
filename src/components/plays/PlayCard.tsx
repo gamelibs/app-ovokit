@@ -14,13 +14,27 @@ export function PlayCard({ play }: { play: PlayMeta }) {
       <div className="relative">
         <div className="aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-zinc-200 to-zinc-50 dark:from-white/10 dark:to-black min-[420px]:aspect-[3/4]">
           {play.cover?.src ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={play.cover.src}
-              alt={play.cover.alt ?? play.title}
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
+            <div className="relative h-full w-full">
+              {/* Background fill (blurred) */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={play.cover.src}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-60"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-black/15" aria-hidden="true" />
+
+              {/* Foreground (full image) */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={play.cover.src}
+                alt={play.cover.alt ?? play.title}
+                className="relative z-10 h-full w-full object-contain"
+                loading="lazy"
+              />
+            </div>
           ) : (
             <div className="absolute inset-0 grid place-items-center">
               <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">

@@ -7,6 +7,46 @@ import type { PlayCover, PlayMeta } from "@/lib/content/plays";
 
 type Difficulty = "入门" | "进阶" | "硬核";
 
+function ImagePreview({
+  src,
+  alt,
+  label,
+  aspectClassName,
+}: {
+  src: string;
+  alt: string;
+  label: string;
+  aspectClassName: string;
+}) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
+      <div className={`relative w-full ${aspectClassName}`}>
+        {src ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={src}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full scale-110 object-cover opacity-40 blur-2xl"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={src}
+              alt={alt}
+              className="absolute inset-0 h-full w-full object-contain"
+            />
+          </>
+        ) : (
+          <div className="grid h-full place-items-center text-sm text-zinc-500 dark:text-zinc-400">
+            {label}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function slugify(input: string) {
   return input
     .trim()
@@ -65,7 +105,7 @@ export function NewPlayForm({
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [slug, setSlug] = useState("");
-  const [fallbackSlug] = useState(() => makeFallbackSlug());
+  const [fallbackSlug, setFallbackSlug] = useState("play-draft");
   const [difficulty, setDifficulty] = useState<Difficulty>("入门");
   const [tags, setTags] = useState("推荐, 合成");
   const [techStack, setTechStack] = useState("TypeScript, Next.js");
@@ -77,10 +117,17 @@ export function NewPlayForm({
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [coverPreviewUrl, setCoverPreviewUrl] = useState<string>("");
   const [coverAlt, setCoverAlt] = useState<string>("");
+  const [coverWideFile, setCoverWideFile] = useState<File | null>(null);
+  const [coverWidePreviewUrl, setCoverWidePreviewUrl] = useState<string>("");
+  const [coverWideAlt, setCoverWideAlt] = useState<string>("");
   const [demoVideoFile, setDemoVideoFile] = useState<File | null>(null);
   const [coverError, setCoverError] = useState<string | null>(null);
+  const [coverWideError, setCoverWideError] = useState<string | null>(null);
   const [demoVideoError, setDemoVideoError] = useState<string | null>(null);
   const [existingCover, setExistingCover] = useState<PlayCover | null>(null);
+  const [existingCoverWide, setExistingCoverWide] = useState<PlayCover | null>(
+    null,
+  );
   const [existingVideoSrc, setExistingVideoSrc] = useState<string | null>(null);
   const [articleMdx, setArticleMdx] = useState(
     `# ${title || "标题"}\n\n这篇是 **MVP 占位**：后续将补充完整内容。\n`,
@@ -98,6 +145,11 @@ export function NewPlayForm({
   const saveTimer = useRef<number | null>(null);
 
   useEffect(() => {
+    if (mode !== "create") return;
+    setFallbackSlug(makeFallbackSlug());
+  }, [mode]);
+
+  useEffect(() => {
     if (mode !== "edit" || !initial) return;
     setTitle(initial.meta.title ?? "");
     setSubtitle(initial.meta.subtitle ?? "");
@@ -112,8 +164,11 @@ export function NewPlayForm({
     setIframeSrc(initial.meta.demo?.iframeSrc ?? "");
     setExistingVideoSrc(initial.meta.demo?.videoSrc ?? null);
     setExistingCover(initial.meta.cover ?? null);
+    setExistingCoverWide(initial.meta.coverWide ?? null);
     setCoverAlt(initial.meta.cover?.alt ?? "");
     setCoverPreviewUrl(initial.meta.cover?.src ?? "");
+    setCoverWideAlt(initial.meta.coverWide?.alt ?? "");
+    setCoverWidePreviewUrl(initial.meta.coverWide?.src ?? "");
     setArticleMdx(initial.articleMdx ?? "");
     setOverwrite(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -228,6 +283,37 @@ export function NewPlayForm({
       reader.readAsDataURL(file);
     });
     setCoverPreviewUrl(preview);
+    setExistingCover(null);
+  }
+
+  async function onPickCoverWide(file: File | null) {
+    setError(null);
+    setCoverWideError(null);
+    if (!file) {
+      setCoverWideFile(null);
+      setCoverWidePreviewUrl("");
+      return;
+    }
+    if (file.type && !file.type.startsWith("image/")) {
+      setCoverWideError("横向封面必须是图片文件");
+      return;
+    }
+    if (file.size > coverMaxBytes) {
+      setCoverWideError(
+        `横向封面过大（最大 ${Math.floor(coverMaxBytes / 1024 / 1024)}MB）`,
+      );
+      return;
+    }
+    setCoverWideFile(file);
+
+    const preview = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error("读取图片失败"));
+      reader.onload = () => resolve(String(reader.result || ""));
+      reader.readAsDataURL(file);
+    });
+    setCoverWidePreviewUrl(preview);
+    setExistingCoverWide(null);
   }
 
   async function onPickDemoVideo(file: File | null) {
@@ -266,11 +352,15 @@ export function NewPlayForm({
           cover: coverFile
             ? { alt: coverAlt || title || undefined }
             : undefined,
+          coverWide: coverWideFile
+            ? { alt: coverWideAlt || title || undefined }
+            : undefined,
           meta: {
             slug: effectiveSlug,
             title,
             subtitle,
             cover: existingCover ?? undefined,
+            coverWide: existingCoverWide ?? undefined,
             tags: parseCsv(tags),
             difficulty,
             techStack: parseCsv(techStack),
@@ -288,6 +378,7 @@ export function NewPlayForm({
         }),
       );
       if (coverFile) fd.append("cover", coverFile, coverFile.name);
+      if (coverWideFile) fd.append("coverWide", coverWideFile, coverWideFile.name);
       if (demoVideoFile) fd.append("demoVideo", demoVideoFile, demoVideoFile.name);
 
       const res = await fetch("/api/mod/plays", { method: "POST", body: fd });
@@ -455,7 +546,11 @@ export function NewPlayForm({
           <code className="font-mono">png/jpg/webp</code>，最大{" "}
           <code className="font-mono">5MB</code>。
         </p>
-        <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_220px] sm:items-start">
+        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+          说明：信息流会按比例裁切展示；详情页头图会以{" "}
+          <code className="font-mono">4:3</code> 区域自适应（完整展示 + 模糊背景填充，不会占满屏）。
+        </p>
+        <div className="mt-3 grid gap-4 lg:grid-cols-2">
           <div className="grid gap-2">
             <input
               type="file"
@@ -513,22 +608,74 @@ export function NewPlayForm({
             ) : null}
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
-            <div className="aspect-[3/4] w-full">
-              {coverPreviewUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={coverPreviewUrl}
-                  alt={coverAlt || title || "封面"}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="grid h-full place-items-center text-sm text-zinc-500 dark:text-zinc-400">
-                  封面预览
-                </div>
-              )}
-            </div>
+          <ImagePreview
+            src={coverPreviewUrl}
+            alt={coverAlt || title || "封面"}
+            label="封面预览（信息流 3:4）"
+            aspectClassName="aspect-[4/3] min-[420px]:aspect-[3/4]"
+          />
+
+          <div className="grid gap-2">
+            <div className="text-sm font-semibold">详情横向封面（可选）</div>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              建议尺寸：<code className="font-mono">1200×900</code>（横向）。不上传则详情页使用竖向封面。
+            </p>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => void onPickCoverWide(e.target.files?.[0] ?? null)}
+              className="block w-full text-sm text-zinc-600 file:mr-3 file:rounded-xl file:border-0 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-900 hover:file:bg-zinc-200 dark:text-zinc-300 dark:file:bg-white/10 dark:file:text-zinc-50 dark:hover:file:bg-white/20"
+            />
+            {existingCoverWide && !coverWideFile ? (
+              <div className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
+                <span className="truncate">
+                  已有横向封面：<code className="font-mono">{existingCoverWide.src}</code>
+                </span>
+                <button
+                  type="button"
+                  className="rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                  onClick={() => {
+                    setExistingCoverWide(null);
+                    if (!coverWideFile) setCoverWidePreviewUrl("");
+                  }}
+                >
+                  移除
+                </button>
+              </div>
+            ) : null}
+            {coverWideError ? (
+              <div className="text-xs font-semibold text-red-600 dark:text-red-400">
+                {coverWideError}
+              </div>
+            ) : null}
+            <label className="grid gap-1">
+              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                横向封面描述（alt，可选）
+              </span>
+              <input
+                value={coverWideAlt}
+                onChange={(e) => setCoverWideAlt(e.target.value)}
+                className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+                placeholder="默认使用标题"
+              />
+            </label>
+            {coverWideFile ? (
+              <button
+                type="button"
+                className="h-10 w-full rounded-xl border border-zinc-200 bg-white text-sm font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-black/30 dark:hover:bg-white/10"
+                onClick={() => setCoverWideFile(null)}
+              >
+                移除横向封面
+              </button>
+            ) : null}
           </div>
+
+          <ImagePreview
+            src={coverWidePreviewUrl}
+            alt={coverWideAlt || title || "横向封面"}
+            label="横向封面预览（详情头图 4:3）"
+            aspectClassName="aspect-[4/3]"
+          />
         </div>
       </div>
 

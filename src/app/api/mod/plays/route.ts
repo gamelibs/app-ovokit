@@ -11,6 +11,9 @@ type CreatePayload = {
     dataUrl: string;
     alt?: string;
   };
+  coverWide?: {
+    alt?: string;
+  };
   meta: PlayMeta;
   articleMdx?: string;
 };
@@ -77,6 +80,7 @@ export async function POST(req: Request) {
 
   let body: CreatePayload | null = null;
   let coverFile: File | null = null;
+  let coverWideFile: File | null = null;
   let demoVideoFile: File | null = null;
 
   if (contentType.includes("multipart/form-data")) {
@@ -91,6 +95,9 @@ export async function POST(req: Request) {
 
     const cf = fd.get("cover");
     coverFile = cf instanceof File ? cf : null;
+
+    const cw = fd.get("coverWide");
+    coverWideFile = cw instanceof File ? cw : null;
 
     const vf = fd.get("demoVideo");
     demoVideoFile = vf instanceof File ? vf : null;
@@ -173,6 +180,31 @@ export async function POST(req: Request) {
     };
   }
 
+  let coverWide: PlayMeta["coverWide"] | undefined;
+  if (coverWideFile) {
+    const ext = extFromFile(coverWideFile);
+    if (!ext || (coverWideFile.type && !coverWideFile.type.toLowerCase().startsWith("image/"))) {
+      return new NextResponse(
+        "Invalid wide cover image: only png/jpg/webp supported",
+        { status: 400 },
+      );
+    }
+    const buf = await fileToBuffer(coverWideFile);
+    if (buf.length > 5 * 1024 * 1024) {
+      return new NextResponse("Wide cover image too large (max 5MB)", { status: 400 });
+    }
+
+    const outDir = playCoverDir(meta.slug);
+    await fs.mkdir(outDir, { recursive: true });
+    const filename = `cover-wide.${ext}`;
+    const outPath = path.join(outDir, filename);
+    await fs.writeFile(outPath, buf);
+    coverWide = {
+      src: `/plays/${meta.slug}/${filename}`,
+      alt: body.coverWide?.alt,
+    };
+  }
+
   let demoVideoSrc: string | undefined;
   if (demoVideoFile) {
     const ext = extFromFile(demoVideoFile);
@@ -197,6 +229,7 @@ export async function POST(req: Request) {
   const normalized: PlayMeta = {
     ...meta,
     cover: cover ?? meta.cover,
+    coverWide: coverWide ?? meta.coverWide,
     stats: meta.stats ?? { views: 0, likes: 0 },
     breakdown: meta.breakdown ?? [],
     codeSnippets: meta.codeSnippets ?? [],
