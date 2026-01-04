@@ -10,14 +10,24 @@ function formatCompactNumber(n: number) {
 
 export function PlayCard({ play }: { play: PlayMeta }) {
   return (
-    <article className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-white/5">
+    <article className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-white/5">
       <div className="relative">
-        <div className="aspect-video w-full bg-gradient-to-br from-zinc-200 to-zinc-50 dark:from-white/10 dark:to-black">
-          <div className="absolute inset-0 grid place-items-center">
-            <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
-              封面占位
+        <div className="aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-zinc-200 to-zinc-50 dark:from-white/10 dark:to-black min-[420px]:aspect-[3/4]">
+          {play.cover?.src ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={play.cover.src}
+              alt={play.cover.alt ?? play.title}
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div className="absolute inset-0 grid place-items-center">
+              <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
+                封面占位
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <button
           type="button"
@@ -55,17 +65,27 @@ export function PlayCard({ play }: { play: PlayMeta }) {
         </p>
 
         <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
-          <div className="flex items-center gap-2">
-            <dt className="text-zinc-500 dark:text-zinc-400">玩法难度</dt>
-            <dd className="font-medium">{play.difficulty}</dd>
+          <div className="flex min-w-0 items-center gap-2">
+            <dt className="shrink-0 whitespace-nowrap text-zinc-500 dark:text-zinc-400">
+              玩法难度
+            </dt>
+            <dd className="min-w-0 font-medium">{play.difficulty}</dd>
           </div>
-          <div className="flex items-center gap-2">
-            <dt className="text-zinc-500 dark:text-zinc-400">技术栈</dt>
-            <dd className="truncate font-medium">{play.techStack.join(" / ")}</dd>
+          <div className="flex min-w-0 items-center gap-2">
+            <dt className="shrink-0 whitespace-nowrap text-zinc-500 dark:text-zinc-400">
+              技术栈
+            </dt>
+            <dd className="min-w-0 truncate font-medium">
+              {play.techStack.join(" / ")}
+            </dd>
           </div>
-          <div className="col-span-2 flex items-center gap-2">
-            <dt className="text-zinc-500 dark:text-zinc-400">核心点</dt>
-            <dd className="truncate font-medium">{play.corePoints.join(" / ")}</dd>
+          <div className="col-span-2 flex min-w-0 items-center gap-2">
+            <dt className="shrink-0 whitespace-nowrap text-zinc-500 dark:text-zinc-400">
+              核心点
+            </dt>
+            <dd className="min-w-0 truncate font-medium">
+              {play.corePoints.join(" / ")}
+            </dd>
           </div>
         </dl>
 
@@ -120,3 +140,4 @@ export function PlayCard({ play }: { play: PlayMeta }) {
     </article>
   );
 }
+

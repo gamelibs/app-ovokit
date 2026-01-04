@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
 
 type ModStatus = { isModerator: boolean };
 
@@ -18,6 +20,7 @@ export function MenuDrawer({
   open: boolean;
   onClose: () => void;
 }) {
+  const router = useRouter();
   const [status, setStatus] = useState<ModStatus>({ isModerator: false });
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -56,6 +59,7 @@ export function MenuDrawer({
       }
       setPassword("");
       setStatus(await fetchModStatus());
+      router.refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : "登录失败");
     } finally {
@@ -69,6 +73,7 @@ export function MenuDrawer({
     try {
       await fetch("/api/mod/logout", { method: "POST" });
       setStatus({ isModerator: false });
+      router.refresh();
     } finally {
       setBusy(false);
     }
@@ -76,7 +81,7 @@ export function MenuDrawer({
 
   if (!open) return null;
 
-  return (
+  const drawer = (
     <div className="fixed inset-0 z-50">
       <button
         type="button"
@@ -84,7 +89,7 @@ export function MenuDrawer({
         aria-label="Close drawer"
         onClick={onClose}
       />
-      <div className="absolute right-0 top-0 h-full w-[320px] max-w-[88vw] overflow-y-auto bg-white pb-[env(safe-area-inset-bottom)] shadow-2xl dark:bg-zinc-950">
+      <div className="absolute right-0 top-0 h-full w-[320px] max-w-[88vw] overflow-y-auto bg-white pb-[env(safe-area-inset-bottom)] text-zinc-900 shadow-2xl dark:bg-zinc-950 dark:text-zinc-50">
         <div className="flex items-center justify-between border-b border-zinc-200 px-4 pb-3 pt-[calc(env(safe-area-inset-top)+0.75rem)] dark:border-white/10">
           <div className="text-sm font-semibold">菜单</div>
           <button
@@ -114,21 +119,21 @@ export function MenuDrawer({
               <Link
                 href="/"
                 onClick={onClose}
-                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold hover:bg-zinc-50 dark:bg-black/30 dark:hover:bg-white/10"
+                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
               >
                 首页信息流
               </Link>
               <Link
                 href="/#tags"
                 onClick={onClose}
-                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold hover:bg-zinc-50 dark:bg-black/30 dark:hover:bg-white/10"
+                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
               >
                 标签（占位）
               </Link>
               <Link
                 href="/#about"
                 onClick={onClose}
-                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold hover:bg-zinc-50 dark:bg-black/30 dark:hover:bg-white/10"
+                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
               >
                 关于（占位）
               </Link>
@@ -162,7 +167,7 @@ export function MenuDrawer({
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="输入版主口令"
                   type="password"
-                  className="h-10 w-full rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+                  className="h-10 w-full rounded-xl border border-zinc-200 bg-white px-3 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:ring-white/10"
                 />
                 <button
                   type="button"
@@ -187,14 +192,14 @@ export function MenuDrawer({
                 <Link
                   href="/mod"
                   onClick={onClose}
-                  className="rounded-xl bg-white px-3 py-2 text-sm font-semibold hover:bg-zinc-50 dark:bg-black/30 dark:hover:bg-white/10"
+                  className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
                 >
                   内容管理
                 </Link>
                 <Link
                   href="/mod/new"
                   onClick={onClose}
-                  className="rounded-xl bg-white px-3 py-2 text-sm font-semibold hover:bg-zinc-50 dark:bg-black/30 dark:hover:bg-white/10"
+                  className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
                 >
                   新建玩法
                 </Link>
@@ -205,4 +210,9 @@ export function MenuDrawer({
       </div>
     </div>
   );
+
+  return typeof document === "undefined"
+    ? null
+    : createPortal(drawer, document.body);
 }
+

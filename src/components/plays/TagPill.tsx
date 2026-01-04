@@ -8,11 +8,11 @@ export function TagPill({
   tone?: "neutral" | "primary";
 }) {
   const base =
-    "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium";
+    "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold";
   const styles =
     tone === "primary"
-      ? "bg-blue-50 text-blue-700 ring-1 ring-blue-100 dark:bg-blue-500/15 dark:text-blue-200 dark:ring-blue-500/20"
-      : "bg-zinc-100 text-zinc-700 ring-1 ring-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:ring-white/10";
+      ? "border-blue-600 bg-blue-600 text-white dark:border-blue-500/30 dark:bg-blue-500/15 dark:text-blue-200"
+      : "border-zinc-200/80 bg-white/80 text-zinc-900 dark:border-white/10 dark:bg-white/5 dark:text-zinc-200";
   return <span className={`${base} ${styles}`}>{children}</span>;
 }
 

@@ -26,7 +26,13 @@ export type PlayCodeSnippet = {
 
 export type PlayDemo = {
   iframeSrc?: string;
+  videoSrc?: string;
   note?: string;
+};
+
+export type PlayCover = {
+  src: string;
+  alt?: string;
 };
 
 export type PlayBreakdownSection = {
@@ -38,6 +44,7 @@ export type PlayMeta = {
   slug: string;
   title: string;
   subtitle: string;
+  cover?: PlayCover;
   tags: PlayTag[];
   difficulty: PlayDifficulty;
   techStack: string[];
@@ -103,8 +110,20 @@ export async function readPlayArticleMdx(slug: string): Promise<string | null> {
 
 export async function listPlays(): Promise<PlayMeta[]> {
   const slugs = await listPlaySlugs();
-  const metas = await Promise.all(slugs.map((s) => readPlayMeta(s)));
-  return metas.filter((m): m is PlayMeta => Boolean(m));
+  const entries = await Promise.all(
+    slugs.map(async (slug) => {
+      const meta = await readPlayMeta(slug);
+      if (!meta) return null;
+      const metaPath = path.join(playDir(slug), "meta.json");
+      const stat = await fs.stat(metaPath).catch(() => null);
+      return { meta, mtimeMs: stat?.mtimeMs ?? 0 };
+    }),
+  );
+
+  return entries
+    .filter((e): e is NonNullable<typeof e> => Boolean(e))
+    .sort((a, b) => b.mtimeMs - a.mtimeMs)
+    .map((e) => e.meta);
 }
 
 export async function getPlayBySlug(slug: string): Promise<Play | null> {

@@ -1,0 +1,117 @@
+{
+  "slug": "play-1677a241",
+  "title": "小游戏玩法知识分享---之---合成",
+  "subtitle": "撑握此知识，可实现任何合成小游戏",
+  "tags": [
+    "推荐",
+    "合成"
+  ],
+  "difficulty": "入门",
+  "techStack": [
+    "js"
+  ],
+  "corePoints": [
+    "位置检索，类型判断"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "玩法目标",
+      "bullets": [
+        "把低级物品通过合成升级为更高级物品，最终解锁最高等级/稀有物品",
+        "在有限格子与时间/体力约束下最大化产出效率（单位时间收益）",
+        "通过任务/订单驱动产出路线：先产A再合B，满足订单获得货币与推进"
+      ]
+    },
+    {
+      "title": "核心循环（Core Loop）",
+      "bullets": [
+        "产出：点击/建筑生成基础物品（可叠加冷却、体力、产量）",
+        "合成：拖拽两件同等级物品 -> 升级为下一等级（+1）",
+        "消耗：交付订单/解锁区域/升级建筑，回收格子并获得奖励",
+        "成长：用奖励提升产出速度、格子数量、合成效率或解锁新链条"
+      ]
+    },
+    {
+      "title": "合成规则（关键点）",
+      "bullets": [
+        "匹配条件：同 type 同 level 才能合成（或允许同稀有度合成）",
+        "结果：生成 level+1 的新物品；原物品被消耗",
+        "失败/禁止：不同等级不可合成；目标格子占用或锁定时禁止",
+        "保护：拖拽过程中实时预览合成结果，松手确认；撤销可作为付费点"
+      ]
+    },
+    {
+      "title": "产出与生成（Spawn）",
+      "bullets": [
+        "产出点（Generator）按冷却生成基础物品，或点击消耗体力生成",
+        "掉落可配置权重：常见物品/稀有物品/事件物品",
+        "产出受升级影响：冷却减少、产量增加、解锁更高初始等级"
+      ]
+    },
+    {
+      "title": "经济系统（订单/货币）",
+      "bullets": [
+        "订单需求：提交指定物品（可跨多个合成链）",
+        "奖励结构：基础货币 + 经验 + 里程碑奖励（箱子/钥匙）",
+        "订单刷新：定时刷新/手动刷新（付费点），保持目标感"
+      ]
+    },
+    {
+      "title": "卡点与节奏（平衡）",
+      "bullets": [
+        "格子压力：前期格子少导致必须交付/整理；后期通过扩容缓解",
+        "冷却压力：产出点冷却迫使玩家规划合成路线",
+        "链条深度：越高等级所需合成次数指数增长，配合加速/倍增道具"
+      ]
+    },
+    {
+      "title": "UI/交互细节",
+      "bullets": [
+        "拖拽：命中同类同级显示“可合成”高亮；否则显示“交换/放置”",
+        "提示：长按查看物品信息、合成链预览与下一等级产物",
+        "防误触：合成确认阈值（拖拽距离/停留时间）或撤销一步"
+      ]
+    },
+    {
+      "title": "可扩展点（内容生产）",
+      "bullets": [
+        "多条合成链：食物链/工具链/装饰链，订单跨链组合",
+        "事件与Buff：限时双倍产出、合成暴击（跳级）、稀有掉落周",
+        "地图区域：解锁新区域开启新合成链与新订单池"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "数据结构：物品与格子",
+      "language": "ts",
+      "code": "export type ItemType = 'seed' | 'sprout' | 'plant' | 'flower' | 'bouquet';\n\nexport type Item = {\n  id: string;\n  type: ItemType;\n  level: number;\n};\n\nexport type Cell = {\n  id: string;\n  item: Item | null;\n  locked?: boolean;\n};\n"
+    },
+    {
+      "title": "合成判定与结果生成",
+      "language": "ts",
+      "code": "export function canMerge(a: Item, b: Item) {\n  return a.type === b.type && a.level === b.level;\n}\n\nexport function mergeResult(a: Item, b: Item): Item {\n  if (!canMerge(a, b)) throw new Error('cannot merge');\n  return {\n    id: crypto.randomUUID(),\n    type: a.type,\n    level: a.level + 1,\n  };\n}\n"
+    },
+    {
+      "title": "拖拽落点处理（合成 / 交换 / 放置）",
+      "language": "ts",
+      "code": "export function onDrop(from: Cell, to: Cell) {\n  if (to.locked) return { ok: false, reason: 'locked' };\n  if (!from.item) return { ok: false, reason: 'empty' };\n\n  // 放置到空格\n  if (!to.item) {\n    return { ok: true, action: 'move' };\n  }\n\n  // 合成\n  if (canMerge(from.item, to.item)) {\n    const merged = mergeResult(from.item, to.item);\n    return { ok: true, action: 'merge', merged };\n  }\n\n  // 交换\n  return { ok: true, action: 'swap' };\n}\n"
+    },
+    {
+      "title": "生成器：冷却产出基础物品",
+      "language": "ts",
+      "code": "export type Generator = {\n  id: string;\n  cooldownMs: number;\n  lastSpawnAt: number;\n  spawnType: ItemType;\n  spawnLevel: number;\n};\n\nexport function canSpawn(g: Generator, now = Date.now()) {\n  return now - g.lastSpawnAt >= g.cooldownMs;\n}\n\nexport function spawnItem(g: Generator): Item {\n  return {\n    id: crypto.randomUUID(),\n    type: g.spawnType,\n    level: g.spawnLevel,\n  };\n}\n"
+    }
+  ],
+  "demo": {
+    "note": "MVP：Demo 先留 iframe 占位。"
+  },
+  "cover": {
+    "src": "/plays/play-1677a241/cover.jpg",
+    "alt": "小游戏玩法知识分享---之---合成"
+  }
+}
