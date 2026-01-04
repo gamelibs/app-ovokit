@@ -22,6 +22,19 @@ function toggleDir(current: SortDir) {
   return current === "asc" ? "desc" : "asc";
 }
 
+function sortIndicator(sort: SortKey, dir: SortDir, key: SortKey) {
+  if (sort !== key) return null;
+  return dir === "asc" ? "↑" : "↓";
+}
+
+function formatDateTime(ms: number) {
+  const d = new Date(ms);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(
+    d.getHours(),
+  )}:${pad(d.getMinutes())}`;
+}
+
 export default async function ModHomePage({
   searchParams,
 }: {
@@ -30,7 +43,7 @@ export default async function ModHomePage({
   const ok = await isModerator();
   if (!ok) {
     return (
-      <main className="mx-auto w-full max-w-3xl px-4 pb-24 pt-6">
+      <main className="mx-auto w-full max-w-3xl px-4 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6">
         <h1 className="text-xl font-semibold">内容管理</h1>
         <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300">
           你还没有进入版主模式。请点击右上角菜单，使用口令登录后再访问。
@@ -67,26 +80,13 @@ export default async function ModHomePage({
     return { pathname: "/mod", query: { sort: key, dir: nextDir } };
   }
 
-function sortIndicator(key: SortKey) {
-  if (sort !== key) return null;
-  return dir === "asc" ? "↑" : "↓";
-}
-
-function formatDateTime(ms: number) {
-  const d = new Date(ms);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(
-    d.getHours(),
-  )}:${pad(d.getMinutes())}`;
-}
-
   return (
-    <main className="mx-auto w-full max-w-4xl px-4 pb-24 pt-6">
-      <div className="flex items-center justify-between gap-3">
+    <main className="mx-auto w-full max-w-4xl px-4 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-xl font-semibold">内容管理</h1>
         <Link
           href="/mod/new"
-          className="inline-flex h-10 items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white"
+          className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white sm:h-10 sm:w-auto"
         >
           新建玩法
         </Link>
@@ -98,36 +98,50 @@ function formatDateTime(ms: number) {
           <div>玩法</div>
           <div className="text-right">
             <Link href={sortHref("created")} className="hover:underline">
-              发布时间{sortIndicator("created") ? ` ${sortIndicator("created")}` : ""}
+              发布时间
+              {sortIndicator(sort, dir, "created")
+                ? ` ${sortIndicator(sort, dir, "created")}`
+                : ""}
             </Link>
           </div>
           <div className="text-right">
             <Link href={sortHref("views")} className="hover:underline">
-              浏览{sortIndicator("views") ? ` ${sortIndicator("views")}` : ""}
+              浏览
+              {sortIndicator(sort, dir, "views") ? ` ${sortIndicator(sort, dir, "views")}` : ""}
             </Link>
           </div>
           <div className="text-right">
             <Link href={sortHref("likes")} className="hover:underline">
-              喜欢{sortIndicator("likes") ? ` ${sortIndicator("likes")}` : ""}
+              喜欢
+              {sortIndicator(sort, dir, "likes") ? ` ${sortIndicator(sort, dir, "likes")}` : ""}
             </Link>
           </div>
           <div className="text-right">操作</div>
         </div>
 
         <div className="divide-y divide-zinc-200 dark:divide-white/10">
-          {/* Mobile list */}
+          {/* Mobile header */}
           <div className="px-4 py-3 sm:hidden">
             <div className="grid grid-cols-[64px_1fr] items-center gap-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
               <span>排序</span>
               <div className="grid grid-cols-3 gap-2 text-right">
                 <Link href={sortHref("created")} className="hover:underline">
-                  时间{sortIndicator("created") ? ` ${sortIndicator("created")}` : ""}
+                  时间
+                  {sortIndicator(sort, dir, "created")
+                    ? ` ${sortIndicator(sort, dir, "created")}`
+                    : ""}
                 </Link>
                 <Link href={sortHref("views")} className="hover:underline">
-                  浏览{sortIndicator("views") ? ` ${sortIndicator("views")}` : ""}
+                  浏览
+                  {sortIndicator(sort, dir, "views")
+                    ? ` ${sortIndicator(sort, dir, "views")}`
+                    : ""}
                 </Link>
                 <Link href={sortHref("likes")} className="hover:underline">
-                  喜欢{sortIndicator("likes") ? ` ${sortIndicator("likes")}` : ""}
+                  喜欢
+                  {sortIndicator(sort, dir, "likes")
+                    ? ` ${sortIndicator(sort, dir, "likes")}`
+                    : ""}
                 </Link>
               </div>
             </div>

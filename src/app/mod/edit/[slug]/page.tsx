@@ -35,11 +35,13 @@ export default async function ModEditPlayPage({
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 pb-24 pt-6">
-      <h1 className="text-xl font-semibold">编辑玩法</h1>
-      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-        将覆盖写入 <code className="font-mono">content/plays/{slug}</code>{" "}
-        的内容。
-      </p>
+      <div className="sticky top-14 z-30 -mx-4 border-b border-zinc-200/70 bg-zinc-50/85 px-4 py-3 backdrop-blur dark:border-white/10 dark:bg-black/55">
+        <h1 className="text-lg font-semibold sm:text-xl">编辑玩法</h1>
+        <p className="mt-1 truncate text-xs text-zinc-600 dark:text-zinc-300 sm:text-sm">
+          将覆盖写入 <code className="font-mono">content/plays/{slug}</code>{" "}
+          的内容。
+        </p>
+      </div>
       <div className="mt-6">
         <NewPlayForm
           mode="edit"
@@ -52,4 +54,3 @@ export default async function ModEditPlayPage({
     </main>
   );
 }
-

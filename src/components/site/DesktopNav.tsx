@@ -7,7 +7,7 @@ export function DesktopNav({ isModerator }: { isModerator: boolean }) {
   return (
     <nav
       aria-label="Primary"
-      className="hidden items-center gap-1 lg:flex"
+      className="hidden shrink-0 items-center gap-1 lg:flex"
     >
       {navItems
         .filter((it) => (it.requiresModerator ? isModerator : true))
@@ -24,7 +24,7 @@ export function DesktopNav({ isModerator }: { isModerator: boolean }) {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className="sr-only xl:not-sr-only xl:whitespace-nowrap">
+              <span className="hidden whitespace-nowrap xl:inline">
                 {it.label}
               </span>
               {it.badge ? (

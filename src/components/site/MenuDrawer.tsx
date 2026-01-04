@@ -89,12 +89,12 @@ export function MenuDrawer({
         aria-label="Close drawer"
         onClick={onClose}
       />
-      <div className="absolute right-0 top-0 h-full w-[320px] max-w-[88vw] overflow-y-auto bg-white text-zinc-900 shadow-2xl dark:bg-zinc-950 dark:text-zinc-50">
-        <div className="flex items-center justify-between border-b border-zinc-200 px-4 py-3 dark:border-white/10">
+      <div className="absolute right-0 top-0 h-full w-[320px] max-w-[88vw] overflow-y-auto bg-white pb-[env(safe-area-inset-bottom)] text-zinc-900 shadow-2xl dark:bg-zinc-950 dark:text-zinc-50">
+        <div className="flex items-center justify-between border-b border-zinc-200 px-4 pb-3 pt-[calc(env(safe-area-inset-top)+0.75rem)] dark:border-white/10">
           <div className="text-sm font-semibold">菜单</div>
           <button
             type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full hover:bg-black/5 sm:h-9 sm:w-9 dark:hover:bg-white/10"
             aria-label="Close"
             onClick={onClose}
           >
@@ -153,7 +153,7 @@ export function MenuDrawer({
                   type="button"
                   onClick={logout}
                   disabled={busy}
-                  className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-sm font-semibold hover:bg-zinc-50 disabled:opacity-50 dark:border-white/10 dark:bg-black/30 dark:hover:bg-white/10"
+                  className="rounded-full border border-zinc-200 bg-white px-3 py-2 text-sm font-semibold hover:bg-zinc-50 disabled:opacity-50 dark:border-white/10 dark:bg-black/30 dark:hover:bg-white/10"
                 >
                   退出
                 </button>

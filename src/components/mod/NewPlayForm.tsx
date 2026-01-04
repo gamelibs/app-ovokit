@@ -19,7 +19,7 @@ function ImagePreview({
   aspectClassName: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
+    <div className="w-full max-w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
       <div className={`relative w-full ${aspectClassName}`}>
         {src ? (
           <>
@@ -178,8 +178,9 @@ export function NewPlayForm({
     try {
       const raw = window.localStorage.getItem(draftKey);
       if (!raw) return;
-      const d = JSON.parse(raw) as any;
-      if (!d || typeof d !== "object") return;
+      const parsed = JSON.parse(raw) as unknown;
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return;
+      const d = parsed as Record<string, unknown>;
       setTitle(String(d.title ?? ""));
       setSubtitle(String(d.subtitle ?? ""));
       setSlug(String(d.slug ?? ""));
@@ -192,7 +193,7 @@ export function NewPlayForm({
       setDemoNote(String(d.demoNote ?? "MVP：Demo 先留 iframe 占位。"));
       setIframeSrc(String(d.iframeSrc ?? ""));
       setCoverAlt(String(d.coverAlt ?? ""));
-      setArticleMdx(String(d.articleMdx ?? `# ${d.title || "标题"}\n\n`));
+      setArticleMdx(String(d.articleMdx ?? `# ${String(d.title || "标题")}\n\n`));
       setOverwrite(Boolean(d.overwrite ?? false));
       if (typeof d.updatedAt === "number") setDraftRestoredAt(d.updatedAt);
     } catch {
@@ -246,6 +247,7 @@ export function NewPlayForm({
     iframeSrc,
     coverAlt,
     articleMdx,
+    draftKey,
   ]);
 
   function clearDraft() {
@@ -559,13 +561,13 @@ export function NewPlayForm({
               className="block w-full text-sm text-zinc-600 file:mr-3 file:rounded-xl file:border-0 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-900 hover:file:bg-zinc-200 dark:text-zinc-300 dark:file:bg-white/10 dark:file:text-zinc-50 dark:hover:file:bg-white/20"
             />
             {existingCover && !coverFile ? (
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
-                <span className="truncate">
+              <div className="flex min-w-0 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
+                <span className="min-w-0 flex-1 truncate">
                   已有封面：<code className="font-mono">{existingCover.src}</code>
                 </span>
                 <button
                   type="button"
-                  className="rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                  className="ml-auto shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
                   onClick={() => {
                     setExistingCover(null);
                     if (!coverFile) setCoverPreviewUrl("");
@@ -627,13 +629,13 @@ export function NewPlayForm({
               className="block w-full text-sm text-zinc-600 file:mr-3 file:rounded-xl file:border-0 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-900 hover:file:bg-zinc-200 dark:text-zinc-300 dark:file:bg-white/10 dark:file:text-zinc-50 dark:hover:file:bg-white/20"
             />
             {existingCoverWide && !coverWideFile ? (
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
-                <span className="truncate">
+              <div className="flex min-w-0 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
+                <span className="min-w-0 flex-1 truncate">
                   已有横向封面：<code className="font-mono">{existingCoverWide.src}</code>
                 </span>
                 <button
                   type="button"
-                  className="rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                  className="ml-auto shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
                   onClick={() => {
                     setExistingCoverWide(null);
                     if (!coverWideFile) setCoverWidePreviewUrl("");
@@ -719,13 +721,13 @@ export function NewPlayForm({
               或上传视频（可选）
             </div>
             {existingVideoSrc ? (
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
-                <span className="truncate">
+              <div className="flex min-w-0 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
+                <span className="min-w-0 flex-1 truncate">
                   已有视频：<code className="font-mono">{existingVideoSrc}</code>
                 </span>
                 <button
                   type="button"
-                  className="rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                  className="ml-auto shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
                   onClick={() => setExistingVideoSrc(null)}
                 >
                   移除
@@ -821,4 +823,3 @@ export function NewPlayForm({
     </div>
   );
 }
-
