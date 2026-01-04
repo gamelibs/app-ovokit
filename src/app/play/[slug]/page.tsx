@@ -34,11 +34,11 @@ export default async function PlayDetailPage({
   if (!play) notFound();
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 pb-24 pt-4">
+    <main className="mx-auto w-full max-w-6xl px-4 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4">
       <div className="flex items-center gap-3">
         <Link
           href="/"
-          className="inline-flex h-9 items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
+          className="inline-flex h-11 items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 sm:h-9 sm:px-3 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
         >
           <span aria-hidden="true">←</span>
           返回

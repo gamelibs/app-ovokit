@@ -22,7 +22,7 @@ export function PlayCard({ play }: { play: PlayMeta }) {
         <button
           type="button"
           aria-label="收藏"
-          className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-zinc-800 shadow-sm backdrop-blur hover:bg-white dark:bg-black/50 dark:text-zinc-100 dark:hover:bg-black/70"
+          className="absolute right-3 top-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/80 text-zinc-800 shadow-sm backdrop-blur hover:bg-white sm:h-9 sm:w-9 dark:bg-black/50 dark:text-zinc-100 dark:hover:bg-black/70"
         >
           <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
             <path
@@ -69,22 +69,22 @@ export function PlayCard({ play }: { play: PlayMeta }) {
           </div>
         </dl>
 
-        <div className="mt-4 flex items-center gap-3">
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
           <button
             type="button"
             disabled
-            className="inline-flex h-10 items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white opacity-60"
+            className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white opacity-60 sm:h-10 sm:w-auto"
             aria-label="立即试玩（即将支持）"
           >
             立即试玩
           </button>
           <Link
             href={`/play/${play.slug}`}
-            className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
+            className="inline-flex h-11 w-full items-center justify-center rounded-xl border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 sm:h-10 sm:w-auto dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
           >
             查看实现
           </Link>
-          <div className="ml-auto flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
+          <div className="flex w-full items-center justify-between gap-4 text-sm text-zinc-500 sm:ml-auto sm:w-auto sm:justify-start dark:text-zinc-400">
             <span className="inline-flex items-center gap-1">
               <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4">
                 <path

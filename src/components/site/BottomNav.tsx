@@ -29,7 +29,7 @@ const items: NavItem[] = [
 
 export function BottomNav() {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-200 bg-white/90 backdrop-blur lg:hidden dark:border-white/10 dark:bg-black/60">
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-200 bg-white/90 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden dark:border-white/10 dark:bg-black/60">
       <div className="mx-auto grid h-14 max-w-6xl grid-cols-4 px-2">
         {items.map((it) => (
           <button
@@ -60,4 +60,3 @@ export function BottomNav() {
     </nav>
   );
 }
-
