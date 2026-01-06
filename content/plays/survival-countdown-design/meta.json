@@ -1,0 +1,53 @@
+{
+  "slug": "survival-countdown-design",
+  "title": "生存倒计时：时间压力设计与“最后 10 秒”效应",
+  "subtitle": "紧迫感来自曲线与容错：倒计时不是越短越难，而是让玩家在最后阶段做出更冒险的决策。",
+  "cover": {
+    "src": "/plays/survival-countdown-design/cover.png",
+    "alt": "生存倒计时：时间压力设计与“最后 10 秒”效应"
+  },
+  "coverWide": {
+    "src": "/plays/survival-countdown-design/cover-wide.png",
+    "alt": "生存倒计时：时间压力设计与“最后 10 秒”效应"
+  },
+  "tags": ["关卡", "动作", "躲避"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript", "Unity/UE(可迁移)"],
+  "corePoints": ["时间压力曲线", "容错窗口", "最后 10 秒"],
+  "stats": { "views": 6730, "likes": 870 },
+  "breakdown": [
+    {
+      "title": "时间压力怎么做才不“恶意”",
+      "bullets": [
+        "倒计时是“决策压力”，不是“操作刁难”",
+        "给玩家可规划的资源：加时道具、捷径、风险路线",
+        "失败原因要可读：差 1 秒 vs 完全无望，体验差很多"
+      ]
+    },
+    {
+      "title": "最后 10 秒效应",
+      "bullets": [
+        "把音效/视觉强化做成仪式：心跳、闪烁、提示语",
+        "在最后 10 秒提高收益或给爆发道具，促使冒险决策",
+        "允许“宽容判定”：终点判定略放宽，降低挫败感"
+      ]
+    },
+    {
+      "title": "曲线建议",
+      "bullets": [
+        "前 60% 时间给探索与学习",
+        "后 30% 逐步加压（敌人/障碍/路径变化）",
+        "最后 10% 只做一件事：制造高潮"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "时间剩余驱动的难度系数（示例）",
+      "language": "ts",
+      "code": "export function pressureMul(timeLeft: number, total: number) {\n  const p = 1 - timeLeft / total; // 0 -> 1\n  if (p < 0.6) return 1; // 学习/探索期\n  if (p < 0.9) return 1 + (p - 0.6) / 0.3 * 0.6; // 1 -> 1.6\n  return 1.6 + (p - 0.9) / 0.1 * 0.4; // 1.6 -> 2.0（最后 10%）\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：同一关卡仅调整“最后 10 秒的收益/宽容判定”，观察玩家是否更愿意冲刺。"} 
+}
+

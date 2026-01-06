@@ -1,0 +1,53 @@
+{
+  "slug": "gacha-pity-and-psychology",
+  "title": "抽卡模拟：保底机制与概率心理学",
+  "subtitle": "争议高=评论高。把保底写清楚、把体感做舒服，才能减少“被坑感”。",
+  "cover": {
+    "src": "/plays/gacha-pity-and-psychology/cover.png",
+    "alt": "抽卡模拟：保底机制与概率心理学"
+  },
+  "coverWide": {
+    "src": "/plays/gacha-pity-and-psychology/cover-wide.png",
+    "alt": "抽卡模拟：保底机制与概率心理学"
+  },
+  "tags": ["数值", "生成"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript"],
+  "corePoints": ["硬保底/软保底", "体感概率", "情绪阈值"],
+  "stats": { "views": 12300, "likes": 2410 },
+  "breakdown": [
+    {
+      "title": "保底结构（最常用）",
+      "bullets": [
+        "硬保底：N 抽必出目标稀有度",
+        "软保底：越接近 N，概率越上升（体感更好）",
+        "定向机制：大保底/歪了下次必中，降低“被背刺感”"
+      ]
+    },
+    {
+      "title": "概率心理学",
+      "bullets": [
+        "玩家记住的是“连非”，而不是均值",
+        "软保底能显著降低连续失败长度的尾部概率",
+        "把规则写清楚反而能降低争议（玩家怕的是黑箱）"
+      ]
+    },
+    {
+      "title": "模拟与验证",
+      "bullets": [
+        "看分布而不是只看期望：P50/P90/P99 需要多少抽",
+        "对比“纯随机 vs 软保底”，观察极端非酋比例",
+        "监控退坑点：连续失败次数超过阈值时的留存"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "软保底概率曲线（示例）",
+      "language": "ts",
+      "code": "export function rareProb(pity: number) {\n  // pity: 连续未出稀有的次数\n  const base = 0.02; // 2%\n  const hard = 80; // 80 抽硬保底\n  if (pity >= hard - 1) return 1;\n\n  // 60 抽后开始“软保底”线性爬升（示例）\n  const softStart = 60;\n  if (pity < softStart) return base;\n\n  const t = (pity - softStart) / (hard - softStart);\n  return base + t * (0.25 - base); // 最终爬到 25%\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：做一个小模拟器，展示“抽到目标所需抽数”的分布曲线与极端非酋比例。"} 
+}
+

@@ -1,0 +1,53 @@
+{
+  "slug": "roguelike-horde-density-and-readability",
+  "title": "肉鸽割草：敌人密度公式与屏幕可读性",
+  "subtitle": "短视频表现力强，但最难的是“越爽越清楚”：密度、速度与特效都要有上限。",
+  "cover": {
+    "src": "/plays/roguelike-horde-density-and-readability/cover.png",
+    "alt": "肉鸽割草：敌人密度公式与屏幕可读性"
+  },
+  "coverWide": {
+    "src": "/plays/roguelike-horde-density-and-readability/cover-wide.png",
+    "alt": "肉鸽割草：敌人密度公式与屏幕可读性"
+  },
+  "tags": ["Roguelike", "动作", "躲避", "战斗", "数值"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript", "Unity/UE(可迁移)"],
+  "corePoints": ["密度曲线", "导演系统", "可读性约束"],
+  "stats": { "views": 10420, "likes": 1860 },
+  "breakdown": [
+    {
+      "title": "敌人密度曲线",
+      "bullets": [
+        "用“单位时间刷怪预算”而不是固定刷新间隔",
+        "曲线建议分段：起步快给爽点→中段稳定→后段爆发",
+        "密度=数量×速度×体型，三者不能同时拉满"
+      ]
+    },
+    {
+      "title": "屏幕可读性（硬规则）",
+      "bullets": [
+        "子弹/特效数量上限：超过就降采样或合并表现",
+        "玩家轮廓必须清晰：高对比描边、镜头中心留白",
+        "危险信息优先级：伤害区/弹道/敌人冲刺必须最显眼"
+      ]
+    },
+    {
+      "title": "爽感来源",
+      "bullets": [
+        "清怪效率的阶梯式跃迁：每 1~2 分钟一次明显变强",
+        "“差一点要死”窗口：留给玩家反应的容错帧",
+        "把数值增长映射到视觉：范围更大、连锁更长、击退更强"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "刷怪预算（分段曲线）+ 上限裁剪（示例）",
+      "language": "ts",
+      "code": "export function spawnBudgetPerSecond(t: number) {\n  // t: 秒，分段曲线：前期快、中期稳、后期爆\n  if (t < 60) return 6 + t * 0.06; // 6 -> 9.6\n  if (t < 240) return 10 + (t - 60) * 0.03; // 10 -> 15.4\n  return 16 + Math.pow((t - 240) / 60, 1.2) * 6; // 16 -> ...\n}\n\nexport function clampVisualCount(count: number, max: number) {\n  // 超过上限时，做降采样/合并表现\n  if (count <= max) return { draw: count, merge: 0 };\n  return { draw: max, merge: count - max };\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：同一套武器 Build，用不同密度曲线与特效上限，对比“爽但看不清”的临界点。"} 
+}
+

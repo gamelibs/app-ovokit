@@ -2,16 +2,20 @@ import Link from "next/link";
 import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "./TagPill";
 
-const hotTags = [
-  "战斗系统",
-  "合成玩法",
-  "塔防",
-  "放置游戏",
-  "随机玩法",
-  "随机与生成",
-  "弱化与成长",
-  "网格系统",
-];
+function listHotTags(plays: PlayMeta[]) {
+  const counts = new Map<string, number>();
+  for (const play of plays) {
+    for (const tag of play.tags) {
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    }
+  }
+
+  return [...counts.entries()]
+    .filter(([tag]) => tag !== "推荐")
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 12)
+    .map(([tag]) => tag);
+}
 
 function formatCompactNumber(n: number) {
   if (n >= 10000) return `${(n / 10000).toFixed(1).replace(/\.0$/, "")}w`;
@@ -20,6 +24,7 @@ function formatCompactNumber(n: number) {
 }
 
 export function RightSidebar({ plays }: { plays: PlayMeta[] }) {
+  const hotTags = listHotTags(plays);
   return (
     <aside className="hidden lg:block">
       <div className="space-y-4">

@@ -784,7 +784,7 @@ export function NewPlayForm({
         />
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <button
           type="button"
           onClick={submit}
@@ -794,13 +794,13 @@ export function NewPlayForm({
             subtitle.trim().length === 0 ||
             effectiveSlug.length === 0
           }
-          className="inline-flex h-11 items-center justify-center rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white disabled:opacity-50"
+          className="inline-flex h-11 w-full shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white disabled:opacity-50 sm:w-auto sm:min-w-[140px]"
         >
           {busy ? "提交中..." : "写入本地内容"}
         </button>
         <Link
           href="/mod"
-          className="inline-flex h-11 items-center justify-center rounded-xl border border-zinc-200 bg-white px-5 text-sm font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+          className="inline-flex h-11 w-full shrink-0 items-center justify-center whitespace-nowrap rounded-xl border border-zinc-200 bg-white px-5 text-sm font-semibold hover:bg-zinc-50 sm:w-auto sm:min-w-[120px] dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
         >
           返回管理
         </Link>

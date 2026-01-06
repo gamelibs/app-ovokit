@@ -161,19 +161,26 @@ export function MenuDrawer({
             </div>
 
             {!status.isModerator ? (
-              <div className="mt-3 space-y-2">
+              <form
+                className="mt-3 space-y-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void login();
+                }}
+              >
                 <input
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="输入版主口令"
                   type="password"
+                  name="password"
+                  autoComplete="current-password"
                   className="h-10 w-full rounded-xl border border-zinc-200 bg-white px-3 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:ring-white/10"
                 />
                 <button
-                  type="button"
-                  onClick={login}
+                  type="submit"
                   disabled={busy || password.trim().length === 0}
-                  className="h-10 w-full rounded-xl bg-blue-600 text-sm font-semibold text-white disabled:opacity-50"
+                  className="h-10 w-full whitespace-nowrap rounded-xl bg-blue-600 text-sm font-semibold text-white disabled:opacity-50"
                 >
                   {busy ? "登录中..." : "进入版主模式"}
                 </button>
@@ -186,7 +193,7 @@ export function MenuDrawer({
                   MVP：使用环境变量 <code className="font-mono">MOD_PASSWORD</code>{" "}
                   作为口令。
                 </div>
-              </div>
+              </form>
             ) : (
               <div className="mt-3 grid gap-2">
                 <Link
@@ -215,4 +222,3 @@ export function MenuDrawer({
     ? null
     : createPortal(drawer, document.body);
 }
-

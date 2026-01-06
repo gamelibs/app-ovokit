@@ -1,0 +1,22 @@
+{
+  "slug": "one-stroke-generation-and-grading",
+  "title": "一笔画：图形生成算法与难度分级",
+  "subtitle": "把关卡当图：用欧拉路径保证可解，用分叉/回路/误导边做难度分级。",
+  "tags": ["推荐", "解谜", "生成", "关卡"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "图论(通用)"],
+  "corePoints": ["欧拉路径", "关卡生成", "难度分级"],
+  "stats": { "views": 4760, "likes": 520 },
+  "breakdown": [
+    { "title": "可解性", "bullets": ["把点当节点、线当边", "欧拉通路条件：奇度节点数量"] },
+    { "title": "难度", "bullets": ["分叉越多越难", "误导回路越多越难", "可视化交叉增加负担"] }
+  ],
+  "codeSnippets": [
+    {
+      "title": "欧拉通路可解性检查（简化）",
+      "language": "ts",
+      "code": "export function hasEulerTrail(deg: number[]) {\n  const odd = deg.filter((d) => d % 2 === 1).length;\n  return odd === 0 || odd === 2;\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：生成不同分叉度的图，并自动标注为“入门/进阶/硬核”。"} 
+}

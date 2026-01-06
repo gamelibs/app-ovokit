@@ -1,0 +1,53 @@
+{
+  "slug": "multiple-endings-triggers-and-guidance",
+  "title": "多结局：结局触发条件与玩家路径引导",
+  "subtitle": "内容讨论度高，但要避免“错过即重开”：用条件可视化与提示强度分级引导玩家走到想要的结局。",
+  "cover": {
+    "src": "/plays/multiple-endings-triggers-and-guidance/cover.png",
+    "alt": "多结局：结局触发条件与玩家路径引导"
+  },
+  "coverWide": {
+    "src": "/plays/multiple-endings-triggers-and-guidance/cover-wide.png",
+    "alt": "多结局：结局触发条件与玩家路径引导"
+  },
+  "tags": ["关卡", "解谜"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript"],
+  "corePoints": ["触发条件", "提示分级", "路径引导"],
+  "stats": { "views": 8120, "likes": 1100 },
+  "breakdown": [
+    {
+      "title": "结局触发条件怎么写",
+      "bullets": [
+        "把条件拆成：主线进度 + 关键选择 + 收集/成就阈值",
+        "避免过度隐藏：至少保证“正常玩”能到 1~2 个结局",
+        "让条件可解释：玩家知道自己缺什么，而不是纯碰运气"
+      ]
+    },
+    {
+      "title": "提示强度分级（很关键）",
+      "bullets": [
+        "弱提示：环境细节/台词暗示（适合硬核探索）",
+        "中提示：任务日志/图鉴进度（适合大众）",
+        "强提示：明确“你将错过某条线”提示（保护体验）"
+      ]
+    },
+    {
+      "title": "玩家路径引导",
+      "bullets": [
+        "用“里程碑”告诉玩家：这条线还差几步",
+        "给重试成本：章节回溯/存档点，而不是全程重开",
+        "结局差异要明显：玩法机制/关卡/奖励至少变一项"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "结局判定（优先级 + 条件）",
+      "language": "ts",
+      "code": "type Flags = Record<string, boolean>;\n\ntype Ending = { id: string; priority: number; when: (f: Flags) => boolean };\n\nexport const endings: Ending[] = [\n  { id: \"true\", priority: 100, when: (f) => f.coreDone && f.secretKey && f.mercy },\n  { id: \"good\", priority: 50, when: (f) => f.coreDone && f.mercy },\n  { id: \"bad\", priority: 10, when: (f) => f.coreDone },\n];\n\nexport function pickEnding(flags: Flags) {\n  return endings\n    .filter((e) => e.when(flags))\n    .sort((a, b) => b.priority - a.priority)[0]?.id;\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：把结局条件做成可视化进度（勾选/进度条），观察玩家是否更愿意二周目。"} 
+}
+

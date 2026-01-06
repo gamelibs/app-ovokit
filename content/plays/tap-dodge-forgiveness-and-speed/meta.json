@@ -1,0 +1,22 @@
+{
+  "slug": "tap-dodge-forgiveness-and-speed",
+  "title": "点击躲避：失败宽容度与子弹速度曲线",
+  "subtitle": "紧张感来自压迫，但留存来自宽容。如何设计判定、容错与速度爬坡？",
+  "tags": ["动作", "躲避"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "Canvas(占位)"],
+  "corePoints": ["判定宽容度", "近失反馈", "速度曲线"],
+  "stats": { "views": 4920, "likes": 540 },
+  "breakdown": [
+    { "title": "宽容度", "bullets": ["命中判定比视觉更宽/更窄？", "重生保护与近失机制", "让失败像“我失误了”"] },
+    { "title": "速度曲线", "bullets": ["前 10 秒爬坡", "中段平台期", "末段短促冲刺制造高光"] }
+  ],
+  "codeSnippets": [
+    {
+      "title": "子弹速度曲线（爬坡→平台→冲刺）",
+      "language": "ts",
+      "code": "export function bulletSpeed(tSec: number) {\n  const ramp = 0.08 * Math.min(tSec, 10);\n  const plateau = 1.0;\n  const sprint = tSec > 35 ? 0.04 * Math.min(10, tSec - 35) : 0;\n  return plateau + ramp + sprint;\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：给出“近失减速/无近失”两版，比较平均存活时长与复玩率。"} 
+}

@@ -6,7 +6,7 @@ export default async function ModNewPlayPage() {
   const ok = await isModerator();
   if (!ok) {
     return (
-      <main className="mx-auto w-full max-w-3xl px-4 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6">
+      <main className="mx-auto w-full max-w-3xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
         <h1 className="text-xl font-semibold">新建玩法</h1>
         <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300">
           你还没有进入版主模式。请点击右上角菜单登录后再访问。
@@ -24,7 +24,7 @@ export default async function ModNewPlayPage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6">
+    <main className="mx-auto w-full max-w-3xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
       <h1 className="text-xl font-semibold">新建玩法（本地 JSON/MDX）</h1>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
         MVP：提交后写入 <code className="font-mono">content/plays/&lt;slug&gt;</code>

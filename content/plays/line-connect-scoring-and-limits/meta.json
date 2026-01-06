@@ -1,0 +1,25 @@
+{
+  "slug": "line-connect-scoring-and-limits",
+  "title": "连线消除：爽点来自分数曲线与限制策略",
+  "subtitle": "连线长度如何映射到分数/反馈？如何限制“无限连线”而不破坏爽感？",
+  "tags": ["消除", "关卡", "数值", "生成"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "配置表(通用)"],
+  "corePoints": ["长度→分数曲线", "限制无限连线", "反馈节拍"],
+  "stats": { "views": 7310, "likes": 940 },
+  "breakdown": [
+    { "title": "分数曲线", "bullets": ["线越长越爽，但不能线性增长", "要让 6~9 长度成为主战场"] },
+    {
+      "title": "限制策略",
+      "bullets": ["时间/步数/能量", "路径规则（不可回头/不可交叉）", "局内熵：动态刷新/变色/障碍"]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "长度→分数（幂曲线 + 封顶）",
+      "language": "ts",
+      "code": "export function scoreForLen(len: number) {\n  const base = 10;\n  const alpha = 1.35; // 让长线更值钱\n  const raw = base * Math.pow(Math.max(0, len - 2), alpha);\n  return Math.min(9999, Math.floor(raw));\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：同一局内分别用“交叉限制/能量限制/衰减收益”对比手感。"} 
+}

@@ -1,0 +1,22 @@
+{
+  "slug": "drag-idle-manual-vs-offline",
+  "title": "拖拽放置：手动收益差与离线奖励公式",
+  "subtitle": "放置玩家想轻松，但也想“动一下有意义”。如何设计手动收益差与离线结算？",
+  "tags": ["放置", "数值"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "配置表(通用)"],
+  "corePoints": ["手动 vs 放置", "离线结算", "上限与防刷"],
+  "stats": { "views": 6430, "likes": 720 },
+  "breakdown": [
+    { "title": "收益差", "bullets": ["手动有提升但不强迫", "把手动做成“短促冲刺”而非长时间劳动"] },
+    { "title": "离线奖励", "bullets": ["线性结算 + 上限", "离线期间模拟事件次数", "避免离线>在线体验"] }
+  ],
+  "codeSnippets": [
+    {
+      "title": "离线奖励（线性 + 上限 + 事件步进）",
+      "language": "ts",
+      "code": "export function offlineReward(ratePerSec: number, offlineSec: number) {\n  const capSec = 8 * 60 * 60; // 8 小时上限\n  const t = Math.min(offlineSec, capSec);\n  const base = ratePerSec * t;\n  const bonus = 1 + Math.min(0.5, Math.log10(1 + t / 60) * 0.2); // 温和加成\n  return Math.floor(base * bonus);\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：同一套产出，用不同 capSec 与 bonus 曲线，观察回流率与在线时长。"} 
+}

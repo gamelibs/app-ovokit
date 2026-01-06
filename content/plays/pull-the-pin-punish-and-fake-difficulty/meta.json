@@ -1,0 +1,22 @@
+{
+  "slug": "pull-the-pin-punish-and-fake-difficulty",
+  "title": "拉针（Pull the Pin）：顺序惩罚与“假难度”",
+  "subtitle": "爆款广告模型背后的两个关键：顺序错误如何惩罚？如何用低成本做出“看起来很难”？",
+  "tags": ["解谜", "物理", "关卡"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "2D 物理(占位)"],
+  "corePoints": ["顺序惩罚", "假难度", "快速重开"],
+  "stats": { "views": 8040, "likes": 1020 },
+  "breakdown": [
+    { "title": "惩罚设计", "bullets": ["错误立即可见", "失败快速结算", "给一次“我懂了”的学习"] },
+    { "title": "假难度", "bullets": ["视觉误导", "隐藏约束", "时序压力", "局面分段（先易后难）"] }
+  ],
+  "codeSnippets": [
+    {
+      "title": "顺序判定（用状态机描述关卡阶段）",
+      "language": "ts",
+      "code": "type Phase = \"setup\" | \"mix\" | \"resolve\" | \"success\" | \"fail\";\n\nexport function nextPhase(phase: Phase, action: string): Phase {\n  if (phase === \"setup\" && action === \"pull\" ) return \"mix\";\n  if (phase === \"mix\" && action === \"pull\" ) return \"resolve\";\n  if (phase === \"resolve\" && action === \"tick\") return \"success\";\n  return phase;\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：做 10 关同模板，分别用“视觉误导/时序压力/隐藏约束”做假难度。"} 
+}

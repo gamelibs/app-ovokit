@@ -1,0 +1,22 @@
+{
+  "slug": "clicker-feedback-and-inflation",
+  "title": "点点乐 / 点击升级：反馈闭环与数值膨胀阈值",
+  "subtitle": "点击→反馈→成长的最小闭环怎么做？数值膨胀到哪里会让玩家失去感知？",
+  "tags": ["推荐", "点击", "数值"],
+  "difficulty": "入门",
+  "techStack": ["TypeScript", "配置表(通用)"],
+  "corePoints": ["点击反馈闭环", "升级节拍", "数值可读性"],
+  "stats": { "views": 9540, "likes": 1580 },
+  "breakdown": [
+    { "title": "最小闭环", "bullets": ["点击立刻给强反馈", "几秒内可买到一次升级", "升级立刻改变手感/效率"] },
+    { "title": "膨胀阈值", "bullets": ["数字要可读：K/M/B 分段", "变化要可感：倍率要跨过感知阈值"] }
+  ],
+  "codeSnippets": [
+    {
+      "title": "升级成本曲线（几何增长 + 节拍点）",
+      "language": "ts",
+      "code": "export function upgradeCost(level: number) {\n  const base = 25;\n  const growth = 1.18;\n  const beat = level % 10 === 0 ? 0.85 : 1; // 每 10 级给一次“更容易买到”的节拍\n  return Math.floor(base * Math.pow(growth, level) * beat);\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：只做 3 个升级，验证“3 秒一次购买”的节拍是否成立。"} 
+}

@@ -8,9 +8,15 @@ export function BottomNav({ isModerator }: { isModerator: boolean }) {
   const cols = Math.max(visibleItems.length, 1);
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-200 bg-white/90 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden dark:border-white/10 dark:bg-black/60">
+    <nav
+      className="fixed inset-x-0 bottom-0 z-40 min-w-[360px] border-t border-zinc-200 bg-white/90 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden dark:border-white/10 dark:bg-black/60"
+      style={{
+        transform: "translateX(calc(var(--ovokit-scroll-x, 0px) * -1))",
+        willChange: "transform",
+      }}
+    >
       <div
-        className="mx-auto grid h-14 max-w-6xl px-2"
+        className="mx-auto grid h-14 max-w-6xl px-1.5 min-[360px]:px-2"
         style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
       >
         {visibleItems.map((it) => {
@@ -36,7 +42,7 @@ export function BottomNav({ isModerator }: { isModerator: boolean }) {
           );
 
           const className =
-            "relative flex flex-col items-center justify-center gap-1 text-xs text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-50";
+            "relative flex flex-col items-center justify-center gap-1 text-[11px] text-zinc-600 hover:text-zinc-900 min-[360px]:text-xs dark:text-zinc-300 dark:hover:text-zinc-50";
 
           return it.href ? (
             <Link key={it.label} href={it.href} className={className}>
@@ -58,4 +64,3 @@ export function BottomNav({ isModerator }: { isModerator: boolean }) {
     </nav>
   );
 }
-

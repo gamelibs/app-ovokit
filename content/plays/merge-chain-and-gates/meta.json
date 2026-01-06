@@ -1,0 +1,22 @@
+{
+  "slug": "merge-chain-and-gates",
+  "title": "合成进化（Merge）：合成链与卡关点怎么设计",
+  "subtitle": "拆解合成链的层级、视觉爽点与“人为制造卡点”的可控手段。",
+  "tags": ["合成", "放置", "关卡", "数值"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "配置表(通用)"],
+  "corePoints": ["合成链层级", "稀有产出", "卡点/解锁门槛"],
+  "stats": { "views": 11040, "likes": 2140 },
+  "breakdown": [
+    { "title": "合成链", "bullets": ["层级要少而清晰", "关键层给独特外观/音效", "让玩家记住“下一级长什么样”"] },
+    { "title": "卡点制造", "bullets": ["空间压力", "产出冷却", "目标任务锁", "稀有材料插入"] }
+  ],
+  "codeSnippets": [
+    {
+      "title": "合成链（表驱动）+ 卡点（稀有材料）",
+      "language": "ts",
+      "code": "type ItemId = string;\n\ntype MergeRule = {\n  from: ItemId;\n  to: ItemId;\n  need?: { id: ItemId; count: number }; // 稀有材料作为“门”\n};\n\nexport const rules: MergeRule[] = [\n  { from: \"seed\", to: \"sprout\" },\n  { from: \"sprout\", to: \"tree\", need: { id: \"water\", count: 1 } },\n];\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：同一条合成链，分别用“空间压力”和“稀有材料门”做卡点对比。"} 
+}

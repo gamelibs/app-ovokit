@@ -60,7 +60,7 @@ export function PlayCard({ play }: { play: PlayMeta }) {
         </button>
       </div>
 
-      <div className="p-4">
+      <div className="p-3 min-[360px]:p-4">
         <div className="flex flex-wrap items-center gap-2">
           {play.tags.slice(0, 6).map((t) => (
             <TagPill key={t} tone={t === "推荐" ? "primary" : "neutral"}>
@@ -103,22 +103,25 @@ export function PlayCard({ play }: { play: PlayMeta }) {
           </div>
         </dl>
 
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <button
-            type="button"
-            disabled
-            className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white opacity-60 sm:h-10 sm:w-auto"
-            aria-label="立即试玩（即将支持）"
-          >
-            立即试玩
-          </button>
-          <Link
-            href={`/play/${play.slug}`}
-            className="inline-flex h-11 w-full items-center justify-center rounded-xl border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 sm:h-10 sm:w-auto dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
-          >
-            查看实现
-          </Link>
-          <div className="flex w-full items-center justify-between gap-4 text-sm text-zinc-500 sm:ml-auto sm:w-auto sm:justify-start dark:text-zinc-400">
+        <div className="mt-4 grid gap-3">
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              disabled
+              className="inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white opacity-60 sm:h-10 sm:px-4"
+              aria-label="立即调试（即将支持）"
+            >
+              立即调试
+            </button>
+            <Link
+              href={`/play/${play.slug}`}
+              className="inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 sm:h-10 sm:px-4 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
+            >
+              查看实现
+            </Link>
+          </div>
+
+          <div className="flex items-center justify-between gap-4 text-sm text-zinc-500 dark:text-zinc-400">
             <span className="inline-flex items-center gap-1">
               <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4">
                 <path
@@ -154,4 +157,3 @@ export function PlayCard({ play }: { play: PlayMeta }) {
     </article>
   );
 }
-

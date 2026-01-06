@@ -1,0 +1,53 @@
+{
+  "slug": "random-affixes-pool-and-scaling",
+  "title": "装备随机词条：词条池设计与防止数值崩坏",
+  "subtitle": "赌性机制最怕叠乘失控：用词条分组、稀有度与软上限把随机做成可控系统。",
+  "cover": {
+    "src": "/plays/random-affixes-pool-and-scaling/cover.png",
+    "alt": "装备随机词条：词条池设计与防止数值崩坏"
+  },
+  "coverWide": {
+    "src": "/plays/random-affixes-pool-and-scaling/cover-wide.png",
+    "alt": "装备随机词条：词条池设计与防止数值崩坏"
+  },
+  "tags": ["战斗", "数值", "生成"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript", "Unity/UE(可迁移)"],
+  "corePoints": ["词条池分组", "叠乘控制", "软上限/保底"],
+  "stats": { "views": 7720, "likes": 960 },
+  "breakdown": [
+    {
+      "title": "词条池怎么拆",
+      "bullets": [
+        "按部位/武器类型分池：避免“法杖出近战词条”",
+        "按词条组分池：伤害组/生存组/功能组，每件装备限制同组数量",
+        "用稀有度决定“能出多少条 + 上限是多少”"
+      ]
+    },
+    {
+      "title": "防止数值崩坏",
+      "bullets": [
+        "同组加法、跨组乘法：不要让同一维度无限叠乘",
+        "对关键叠乘词条加软上限：收益递减而不是硬砍",
+        "给“保底上限”：最差也能用，最好也不会离谱"
+      ]
+    },
+    {
+      "title": "赌性体验",
+      "bullets": [
+        "可预期：显示词条池与稀有概率（至少给范围）",
+        "可改造：洗词条/锁词条/重铸作为长期目标",
+        "可讲故事：词条名与视觉反馈让玩家愿意晒图"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "同组加法 + 递减收益（示例）",
+      "language": "ts",
+      "code": "export function diminishing(x: number, k = 0.7) {\n  // x: 叠加值（例如暴击伤害 +0.2 +0.2 ...）\n  // k 越小递减越强\n  return 1 - Math.exp(-x * k);\n}\n\nexport function finalDamageMultiplier(opts: {\n  base: number;\n  sameGroupBonus: number; // 同组加法汇总\n  otherGroupMul: number; // 跨组乘法（已控制上限）\n}) {\n  const same = 1 + diminishing(opts.sameGroupBonus);\n  return opts.base * same * opts.otherGroupMul;\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：给同一武器随机 10 万次词条，统计伤害分布与 P99，验证是否存在“离谱尾巴”。"} 
+}
+

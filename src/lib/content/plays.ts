@@ -5,18 +5,23 @@ export type PlayDifficulty = "入门" | "进阶" | "硬核";
 
 export type PlayTag =
   | "推荐"
-  | "移动与空间"
-  | "交互与碰撞"
-  | "战斗"
-  | "战斗与对抗"
+  | "消除"
+  | "解谜"
   | "合成"
   | "放置"
-  | "Roguelike"
+  | "点击"
+  | "动作"
+  | "躲避"
+  | "战斗"
   | "塔防"
-  | "数值与成长"
-  | "规则与状态"
+  | "物理"
+  | "网格"
+  | "关卡"
+  | "数值"
+  | "生成"
+  | "Roguelike"
   | "状态机"
-  | "随机与生成";
+  ;
 
 export type PlayCodeSnippet = {
   title: string;
@@ -63,14 +68,22 @@ export type Play = PlayMeta & {
   articleMdx?: string;
 };
 
-export const playCategories: { key: string; label: string }[] = [
+export type PlayCategory = {
+  key: string;
+  label: string;
+  filterTags?: PlayTag[];
+};
+
+export const playCategories: PlayCategory[] = [
   { key: "for-you", label: "推荐" },
-  { key: "movement", label: "移动与空间" },
-  { key: "interaction", label: "交互与碰撞" },
-  { key: "combat", label: "战斗与对抗" },
-  { key: "numbers", label: "数值与成长" },
-  { key: "rules", label: "规则与状态" },
-  { key: "random", label: "随机与生成" },
+  { key: "eliminate", label: "消除", filterTags: ["消除"] },
+  { key: "merge", label: "合成", filterTags: ["合成"] },
+  { key: "idle", label: "放置", filterTags: ["放置"] },
+  { key: "click", label: "点击", filterTags: ["点击"] },
+  { key: "puzzle", label: "解谜", filterTags: ["解谜"] },
+  { key: "action", label: "动作", filterTags: ["动作", "躲避"] },
+  { key: "defense", label: "塔防", filterTags: ["塔防"] },
+  { key: "combat", label: "战斗", filterTags: ["战斗"] },
 ];
 
 function playsRootDir() {
@@ -133,4 +146,3 @@ export async function getPlayBySlug(slug: string): Promise<Play | null> {
   const articleMdx = await readPlayArticleMdx(slug);
   return { ...meta, articleMdx: articleMdx ?? undefined };
 }
-

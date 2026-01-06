@@ -1,0 +1,53 @@
+{
+  "slug": "talent-tree-real-choice-and-respec",
+  "title": "天赋树：假选择 vs 真选择，重置成本怎么定",
+  "subtitle": "策略+成长的经典组合：让选择有代价、有分歧，同时保证新手不被一次点错毁掉。",
+  "cover": {
+    "src": "/plays/talent-tree-real-choice-and-respec/cover.png",
+    "alt": "天赋树：假选择 vs 真选择，重置成本怎么定"
+  },
+  "coverWide": {
+    "src": "/plays/talent-tree-real-choice-and-respec/cover-wide.png",
+    "alt": "天赋树：假选择 vs 真选择，重置成本怎么定"
+  },
+  "tags": ["数值", "战斗"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript"],
+  "corePoints": ["分支差异", "关键节点", "洗点经济"],
+  "stats": { "views": 6880, "likes": 980 },
+  "breakdown": [
+    {
+      "title": "真选择长什么样",
+      "bullets": [
+        "两条路径的玩法不同，而不是“同样+5%”",
+        "有取舍：更强输出 vs 更高生存，或更快节奏 vs 更稳",
+        "关键节点能改变操作方式（例如从点射变连锁）"
+      ]
+    },
+    {
+      "title": "假选择的典型症状",
+      "bullets": [
+        "所有节点都是“线性加数值”，玩家只会无脑点最优解",
+        "分支最后又合流，导致中途选择没有意义",
+        "点错一次就废号，没有重置或重置太贵"
+      ]
+    },
+    {
+      "title": "重置成本设计",
+      "bullets": [
+        "早期免费/低成本，鼓励试错；中后期提高成本做货币回收",
+        "允许“部分重置”：只退某一分支，降低挫败感",
+        "把重置和玩法绑定：例如重置消耗一种稀有材料/任务奖励"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "天赋树解锁校验（简化）",
+      "language": "ts",
+      "code": "type NodeId = string;\n\ntype TalentNode = {\n  id: NodeId;\n  cost: number;\n  prereq?: NodeId[];\n  exclusive?: NodeId[];\n};\n\nexport function canUnlock(node: TalentNode, owned: Set<NodeId>, points: number) {\n  if (points < node.cost) return false;\n  if (node.prereq && node.prereq.some((id) => !owned.has(id))) return false;\n  if (node.exclusive && node.exclusive.some((id) => owned.has(id))) return false;\n  return true;\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：做两套“真分支”天赋树，让玩家选择后操作手感明显不同，并提供早期免费洗点。"} 
+}
+

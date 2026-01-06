@@ -2,7 +2,7 @@
   "slug": "td-waves-and-ai-scaling",
   "title": "塔防波次生成与敌人调度",
   "subtitle": "用简单的波次 DSL + 调度器，控制压力曲线与变体组合。",
-  "tags": ["塔防", "随机与生成", "数值与成长"],
+  "tags": ["塔防", "生成", "数值"],
   "difficulty": "进阶",
   "techStack": ["TypeScript", "状态机(占位)", "Pixi.js(占位)"],
   "corePoints": ["波次 DSL", "压力曲线", "刷怪调度"],
@@ -26,4 +26,3 @@
   ],
   "demo": { "note": "MVP：Demo 区先留占位。" }
 }
-

@@ -1,0 +1,53 @@
+{
+  "slug": "roguelike-level-pools-and-builds",
+  "title": "Roguelike 关卡：随机池设计与 Build 强度控制",
+  "subtitle": "从房间池/权重/约束出发，做出“可无限扩展但不崩坏”的关卡生成。",
+  "cover": {
+    "src": "/plays/roguelike-level-pools-and-builds/cover.png",
+    "alt": "Roguelike 关卡：随机池设计与 Build 强度控制"
+  },
+  "coverWide": {
+    "src": "/plays/roguelike-level-pools-and-builds/cover-wide.png",
+    "alt": "Roguelike 关卡：随机池设计与 Build 强度控制"
+  },
+  "tags": ["Roguelike", "战斗", "关卡", "生成", "数值"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript", "Unity/UE(可迁移)"],
+  "corePoints": ["房间/事件池", "权重与约束", "Build 强度曲线"],
+  "stats": { "views": 9280, "likes": 1320 },
+  "breakdown": [
+    {
+      "title": "随机池怎么搭",
+      "bullets": [
+        "把关卡拆成“房间模板池”：普通/精英/商店/事件/补给等",
+        "每个模板带标签与约束：biome、难度档、前置/互斥、冷却(避免连出)",
+        "用“预算”而不是纯权重：每层/每段给定事件与战斗的配比目标"
+      ]
+    },
+    {
+      "title": "Build 强度怎么控",
+      "bullets": [
+        "定义目标强度曲线：每层期望 DPS/生存/机动的增长幅度",
+        "奖励投放表驱动：升级/稀有度/资源三者的比例随层数变化",
+        "做“软纠偏”：落后给补偿，领先提高风险而不是直接削弱"
+      ]
+    },
+    {
+      "title": "避免“看似随机”",
+      "bullets": [
+        "避免连出同类房间：最近 N 次的类别进入冷却",
+        "关键节点保证出现：例如每 3 层至少 1 次商店/补给",
+        "把随机结果可解释化：用 UI 告诉玩家“本层偏战斗/偏资源”"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "带冷却与硬约束的加权抽取（简化）",
+      "language": "ts",
+      "code": "type RoomType = \"fight\" | \"elite\" | \"shop\" | \"event\" | \"heal\";\n\ntype RoomDef = {\n  id: string;\n  type: RoomType;\n  weight: number;\n  minFloor?: number;\n  maxFloor?: number;\n  tags?: string[];\n};\n\nexport function pickRoom(\n  pool: RoomDef[],\n  floor: number,\n  recentTypes: RoomType[],\n  ensure?: RoomType,\n) {\n  const cooldown = new Set(recentTypes.slice(-2)); // 最近 2 次不重复（示例）\n\n  const candidates = pool.filter((r) => {\n    if (r.minFloor && floor < r.minFloor) return false;\n    if (r.maxFloor && floor > r.maxFloor) return false;\n    if (cooldown.has(r.type)) return false;\n    return true;\n  });\n\n  const forced = ensure ? candidates.filter((r) => r.type === ensure) : [];\n  const list = forced.length > 0 ? forced : candidates;\n\n  const total = list.reduce((s, r) => s + r.weight, 0);\n  let roll = Math.random() * total;\n  for (const r of list) {\n    roll -= r.weight;\n    if (roll <= 0) return r;\n  }\n  return list[list.length - 1];\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：同一套房间池，分别开启/关闭冷却与保底，观察“连坏房间”概率与通关率。"} 
+}
+

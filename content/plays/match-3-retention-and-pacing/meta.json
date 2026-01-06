@@ -1,0 +1,32 @@
+{
+  "slug": "match-3-retention-and-pacing",
+  "title": "Match-3：用消除规则驱动留存与节奏",
+  "subtitle": "从 3/4/5 消的强度分层出发，拆解关卡节奏、爽点投放与卡点控制。",
+  "tags": ["消除", "关卡", "数值", "生成"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "配置表(通用)", "Unity/UE(可迁移)"],
+  "corePoints": ["3/4/5 消分层", "关卡节奏", "卡点与破局"],
+  "stats": { "views": 8620, "likes": 1190 },
+  "breakdown": [
+    {
+      "title": "为什么 3/4/5 消很关键",
+      "bullets": ["它决定“每一步的期望收益”", "它决定玩家是否理解“我要找更大匹配”"]
+    },
+    {
+      "title": "节奏怎么做",
+      "bullets": ["前 10 步给稳定正反馈", "中段引入阻塞/目标", "末段制造 1 次大反转或强道具"]
+    },
+    {
+      "title": "可控随机",
+      "bullets": ["对“补牌/掉落”做软约束", "把失败变成“差一点”，而不是“没希望”"]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "3/4/5 消收益分层（简化）",
+      "language": "ts",
+      "code": "export function rewardForMatch(len: number) {\n  if (len >= 5) return { score: 300, spawn: \"colorBomb\" };\n  if (len === 4) return { score: 120, spawn: \"lineBomb\" };\n  return { score: 60, spawn: null };\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：同一关卡仅改 4/5 消规则，对比留存与通关率。"} 
+}

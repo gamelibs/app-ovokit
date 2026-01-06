@@ -1,0 +1,22 @@
+{
+  "slug": "physics-cut-hit-test-and-performance",
+  "title": "物理切割：切割判定方式与性能/精度平衡",
+  "subtitle": "切割爽感来自稳定的判定与足够的物理反馈：如何做命中检测、切割分片与性能控制？",
+  "tags": ["推荐", "动作", "物理"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "2D 物理(占位)"],
+  "corePoints": ["切割判定", "分片策略", "性能预算"],
+  "stats": { "views": 4120, "likes": 480 },
+  "breakdown": [
+    { "title": "判定方式", "bullets": ["线段 vs 多边形相交", "采样点 vs 连续碰撞", "先粗后细（AABB→精确）"] },
+    { "title": "性能平衡", "bullets": ["分片数量上限", "简化多边形", "空间索引减少检测次数"] }
+  ],
+  "codeSnippets": [
+    {
+      "title": "先粗后细：AABB 快筛（示例）",
+      "language": "ts",
+      "code": "export type Aabb = { minX: number; minY: number; maxX: number; maxY: number };\n\nexport function aabbIntersects(a: Aabb, b: Aabb) {\n  return !(a.maxX < b.minX || a.minX > b.maxX || a.maxY < b.minY || a.minY > b.maxY);\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：同一切割效果，用“分片上限/多边形简化阈值”对比帧率与手感。"} 
+}

@@ -2,7 +2,7 @@
   "slug": "finite-state-machine-for-combat",
   "title": "用状态机组织战斗单位行为",
   "subtitle": "把单位行为拆成可测试、可组合的状态，减少 if-else 爆炸。",
-  "tags": ["战斗", "状态机", "规则与状态"],
+  "tags": ["战斗", "状态机"],
   "difficulty": "进阶",
   "techStack": ["TypeScript", "XState(占位)"],
   "corePoints": ["行为解耦", "可视化调试", "可扩展性"],
@@ -26,4 +26,3 @@
   ],
   "demo": { "note": "MVP：后续接入可视化状态机调试器。" }
 }
-

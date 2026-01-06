@@ -1,0 +1,53 @@
+{
+  "slug": "wave-defense-difficulty-curve",
+  "title": "波次防守：波次强度曲线与中场缓冲设计",
+  "subtitle": "节奏清晰才会上头：用波次预算、刷怪模板与喘息期奖励把防守做成可预测的爽感循环。",
+  "cover": {
+    "src": "/plays/wave-defense-difficulty-curve/cover.png",
+    "alt": "波次防守：波次强度曲线与中场缓冲设计"
+  },
+  "coverWide": {
+    "src": "/plays/wave-defense-difficulty-curve/cover-wide.png",
+    "alt": "波次防守：波次强度曲线与中场缓冲设计"
+  },
+  "tags": ["塔防", "关卡", "数值", "生成"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript", "Unity/UE(可迁移)"],
+  "corePoints": ["波次预算", "强度曲线", "中场缓冲"],
+  "stats": { "views": 9240, "likes": 1330 },
+  "breakdown": [
+    {
+      "title": "波次强度曲线",
+      "bullets": [
+        "每波给一个“预算”：数量/血量/速度/特殊怪占比",
+        "曲线分段：起步教学→稳定增长→波峰挑战→喘息奖励",
+        "波峰波谷必须存在，否则玩家会疲劳"
+      ]
+    },
+    {
+      "title": "中场缓冲（喘息期）",
+      "bullets": [
+        "提供建造/升级时间：让策略发生，而不是一直在手忙脚乱",
+        "给奖励但也给选择：加钱/回血/抽卡三选一",
+        "缓冲也能做风险：提前开下一波换额外收益"
+      ]
+    },
+    {
+      "title": "模板化刷怪",
+      "bullets": [
+        "把波次拆成模板：小怪海/快怪/重甲/飞行/精英",
+        "同一模板重复要变体：路径/出怪点/混入特殊怪",
+        "为每条路径做“火力门槛”估算，避免无解波次"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "波次预算生成（示例）",
+      "language": "ts",
+      "code": "type Wave = { id: number; budget: number; elite: boolean; pattern: string };\n\nexport function waveBudget(wave: number) {\n  // 预算增长：线性 + 小指数，让后期有加速\n  return Math.floor(40 + wave * 12 + Math.pow(wave, 1.25) * 6);\n}\n\nexport function makeWave(wave: number): Wave {\n  const elite = wave % 5 === 0;\n  const budget = waveBudget(wave) * (elite ? 1.35 : 1);\n  const pattern = elite ? \"elite_mix\" : wave % 3 === 0 ? \"fast\" : \"swarm\";\n  return { id: wave, budget, elite, pattern };\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：同一地图跑 20 波，输出每波预算、怪种构成与玩家损失曲线，调出“波峰波谷”。"} 
+}
+

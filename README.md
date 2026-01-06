@@ -49,7 +49,51 @@ OVOKIT：游戏玩法技术实现分享站（MVP）
 
 - `PlayMeta`：首页与详情展示用的结构化字段（`tags`/`difficulty`/`techStack`/`corePoints`/`breakdown`/`codeSnippets`/`demo` 等）
 - `cover`：可选封面（`src`/`alt`），发布时会写入 `public/plays/<slug>/cover.*`
+- `coverWide`：可选横向封面（`src`/`alt`），用于详情页头图；未提供时会回退使用 `cover`
 - `Play`：在 `PlayMeta` 基础上可选包含 `articleMdx`
+
+## 封面尺寸与适配（制作建议）
+
+封面最终显示像素会随布局变化，但展示区域有固定比例（更适合按比例来做图）。
+
+### 信息流封面（`cover`）
+
+- 展示比例：
+  - 视口 `<420px`：`4:3`
+  - 视口 `≥420px`：`3:4`
+- 推荐源尺寸（3:4）：`1080×1440`（或 `1200×1600`）
+- ComfyUI/SD 出图（推荐，`64` 倍数，3:4）：`960×1280`
+- 渲染方式：前景 `object-contain`（不裁切）+ 背景模糊填充（比例不一致会留边/补边）
+
+### 详情页头图（`coverWide`，可选）
+
+- 展示比例：`4:3`，并限制最大高度 `420px`
+- 推荐源尺寸（4:3）：`1600×1200`（最低 `1200×900`）
+- ComfyUI/SD 出图（推荐，`64` 倍数，4:3）：`1280×960`
+- 渲染方式同上：前景 `object-contain` + 背景模糊填充
+
+### ComfyUI 工作流（可选）
+
+- 生成竖版 `960×1280` + 横版 `1280×960`：`comfyui/workflows/minigame_concepts_3x4_and_4x3.json`
+- 如颜色总偏同一色系：去掉提示词里的 `pastel/soft gradients`，并补充 `diverse color palette, varied dominant hue` 或直接写明 `color palette: ...`
+
+### 把生成图用于帖子
+
+- 图片放置目录：`public/plays/<slug>/`
+- 建议命名（与站内发布逻辑一致）：
+  - 竖版封面（信息流）：`public/plays/<slug>/cover.webp`（或 `cover.png/jpg`）
+  - 横版封面（详情头图）：`public/plays/<slug>/cover-wide.webp`（或 `cover-wide.png/jpg`）
+- 对应字段：在 `content/plays/<slug>/meta.json` 里填写 `cover.src` / `coverWide.src`（例如：`/plays/<slug>/cover.webp`）
+
+### 典型显示尺寸（约，CSS 像素）
+
+- 信息流卡片封面：
+  - 375px 宽手机：约 `343×257`（4:3）
+  - 768px 平板：约 `360×480`（3:4）
+  - 1024px 桌面：约 `300×400`（3:4，含右侧栏布局）
+  - 1280px 桌面：约 `364×485`（3:4）
+  - 2xl 大屏三列：约 `237×316`（3:4）
+- 详情页头图：常见宽度约 `616~991`，高度固定在 `420` 附近（4:3 区域内自适应）
 
 ## 目录结构（核心）
 
@@ -73,6 +117,12 @@ pnpm dev
 
 ```bash
 export MOD_PASSWORD="your-password"
+```
+
+或在项目根目录创建 `.env.local`：
+
+```bash
+MOD_PASSWORD=your-password
 ```
 
 注：当前默认使用 `--webpack` 运行/构建以避免受限环境下 Turbopack 的问题。

@@ -34,7 +34,7 @@ export default async function PlayDetailPage({
   if (!play) notFound();
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4">
+    <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
       <div className="flex items-center gap-3">
         <Link
           href="/"

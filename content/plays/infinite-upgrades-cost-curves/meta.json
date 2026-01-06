@@ -1,0 +1,53 @@
+{
+  "slug": "infinite-upgrades-cost-curves",
+  "title": "无限升级：成本指数曲线与“假无限”设计",
+  "subtitle": "数值爽感要持续，关键在成本曲线与阶段重置：让玩家永远有下一步但不失控。",
+  "cover": {
+    "src": "/plays/infinite-upgrades-cost-curves/cover.png",
+    "alt": "无限升级：成本指数曲线与“假无限”设计"
+  },
+  "coverWide": {
+    "src": "/plays/infinite-upgrades-cost-curves/cover-wide.png",
+    "alt": "无限升级：成本指数曲线与“假无限”设计"
+  },
+  "tags": ["点击", "放置", "数值"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript"],
+  "corePoints": ["成本曲线", "阶段阈值", "伪无限循环"],
+  "stats": { "views": 9020, "likes": 1450 },
+  "breakdown": [
+    {
+      "title": "成本曲线怎么写",
+      "bullets": [
+        "指数是默认解：cost = base × r^level（r 通常 1.07~1.15）",
+        "分段调 r：前期低 r 保证爽，后期高 r 拉长目标",
+        "别让收益也指数：收益尽量亚指数/分段，避免一夜崩盘"
+      ]
+    },
+    {
+      "title": "假无限（更好做运营）",
+      "bullets": [
+        "用里程碑把无限切成阶段：到达阈值后“解锁新系统/新维度”",
+        "Prestige/转生：重置部分进度换永久加成，让增长重新变快",
+        "排行榜/赛季：把无限目标变成可比较的短周期"
+      ]
+    },
+    {
+      "title": "心理阈值",
+      "bullets": [
+        "玩家能接受等待，但不能接受“看不到变强”",
+        "每 30~90 秒一次可见提升（数字/特效/解锁）",
+        "大数显示要做单位体系，不要让 UI 变成乱码"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "分段指数成本 + 里程碑阈值（示例）",
+      "language": "ts",
+      "code": "export function costFor(level: number) {\n  const base = 50;\n  const r = level < 20 ? 1.08 : level < 80 ? 1.11 : 1.14;\n  return Math.floor(base * Math.pow(r, level));\n}\n\nexport function milestoneFor(level: number) {\n  // 把“无限”切成阶段，解锁新系统\n  if (level === 10) return \"解锁自动点击\";\n  if (level === 30) return \"解锁转生\";\n  if (level === 60) return \"解锁新资源\";\n  return null;\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：做一条升级曲线可视化（成本/收益/回本时间），用滑块模拟不同 r 值对留存的影响。"} 
+}
+

@@ -2,7 +2,7 @@
   "slug": "merge-level-core-loop",
   "title": "合成 & 升级玩法核心逻辑",
   "subtitle": "拆解“合成升级”的节奏、产出与反馈，并给出可复用的数据结构。",
-  "tags": ["推荐", "合成", "放置", "数值与成长"],
+  "tags": ["推荐", "合成", "放置", "数值"],
   "difficulty": "入门",
   "techStack": ["TypeScript", "Next.js", "Canvas(占位)"],
   "corePoints": ["合并规则", "产出节奏", "局内反馈"],
@@ -34,4 +34,3 @@
   ],
   "demo": { "note": "MVP 阶段：后续通过 iframe 嵌入可试玩 Demo。" }
 }
-

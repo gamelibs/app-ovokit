@@ -1,0 +1,53 @@
+{
+  "slug": "meta-progression-permanent-growth",
+  "title": "失败即成长：永久成长比例与防止“刷失败”",
+  "subtitle": "降低挫败感的关键：让失败也能推进，但不能让最优策略变成“故意送”。",
+  "cover": {
+    "src": "/plays/meta-progression-permanent-growth/cover.png",
+    "alt": "失败即成长：永久成长比例与防止“刷失败”"
+  },
+  "coverWide": {
+    "src": "/plays/meta-progression-permanent-growth/cover-wide.png",
+    "alt": "失败即成长：永久成长比例与防止“刷失败”"
+  },
+  "tags": ["Roguelike", "关卡", "数值"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript"],
+  "corePoints": ["永久成长比例", "节奏解锁", "反刷机制"],
+  "stats": { "views": 10860, "likes": 2010 },
+  "breakdown": [
+    {
+      "title": "永久成长比例怎么定",
+      "bullets": [
+        "永久成长太强 → 一周目碾压，太弱 → 失败没意义",
+        "常见做法：把成长拆成“数值 + 功能解锁 + 内容解锁”三条线",
+        "永久数值建议只占总强度的 20~35%，其余靠玩法理解与构筑"
+      ]
+    },
+    {
+      "title": "防止刷失败",
+      "bullets": [
+        "奖励与“表现”挂钩：存活时间、击杀数、层数、任务完成度",
+        "对早期失败做递减：前 2 分钟退出几乎不给或很少给",
+        "设置每日/每局上限与里程碑加成，鼓励打得更远"
+      ]
+    },
+    {
+      "title": "把挫败感变成目标感",
+      "bullets": [
+        "失败结算明确告诉玩家：这次推进了什么",
+        "下一次开局给一个小变化（新天赋/新武器/新事件）",
+        "把“差一点”做成可解释（差一把钥匙、差一层）"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "失败奖励：与表现挂钩 + 早退惩罚（示例）",
+      "language": "ts",
+      "code": "export function metaCurrencyGain(opts: {\n  seconds: number;\n  floors: number;\n  kills: number;\n}) {\n  const earlyQuitPenalty = opts.seconds < 120 ? 0.2 : 1;\n  const base = Math.sqrt(opts.kills) + opts.floors * 3;\n  return Math.floor(base * earlyQuitPenalty);\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：做一张“永久成长占比 vs 首次通关率”的对照表，找 20~35% 的舒适区。"} 
+}
+

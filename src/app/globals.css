@@ -30,8 +30,19 @@
 body {
   margin: 0;
   font-family: var(--font-sans);
+  min-width: 360px;
   overflow-x: hidden;
   text-rendering: optimizeLegibility;
+}
+
+@media (max-width: 359px) {
+  html {
+    overflow-x: auto;
+  }
+
+  body {
+    overflow-x: auto;
+  }
 }
 
 html {

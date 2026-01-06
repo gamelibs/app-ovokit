@@ -1,0 +1,22 @@
+{
+  "slug": "2048-variant-probability-control",
+  "title": "数字合成（2048 变体）：失败概率控制与“看起来随机”",
+  "subtitle": "在不露痕迹的前提下控制难度：既能避免必死局，又能让玩家相信“是我水平问题”。",
+  "tags": ["消除", "生成", "数值"],
+  "difficulty": "进阶",
+  "techStack": ["TypeScript", "配置表(通用)"],
+  "corePoints": ["失败概率", "软控难度", "伪随机"],
+  "stats": { "views": 5870, "likes": 610 },
+  "breakdown": [
+    { "title": "失败概率", "bullets": ["不是“随机害我”，是“下一步有没有空间”", "控制的是局面熵，而不是单次产出"] },
+    { "title": "看起来随机", "bullets": ["洗牌袋/配额保证", "基于局面的权重微调", "绝不做反直觉的硬控"] }
+  ],
+  "codeSnippets": [
+    {
+      "title": "洗牌袋：既随机又可控（示例）",
+      "language": "ts",
+      "code": "export class ShuffleBag<T> {\n  private bag: T[] = [];\n  constructor(private seed: T[]) {}\n  next(rand: () => number) {\n    if (this.bag.length === 0) this.bag = [...this.seed];\n    const i = Math.floor(rand() * this.bag.length);\n    return this.bag.splice(i, 1)[0]!;\n  }\n}\n\n// 例如：2 的配额远高于 4，但不会连续出 10 次 4\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：对比纯随机 vs 洗牌袋 + 状态权重微调的“平均可玩步数”。"} 
+}

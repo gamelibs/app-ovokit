@@ -1,0 +1,53 @@
+{
+  "slug": "skill-draft-weights-and-protection",
+  "title": "随机技能选择：技能权重与新手保护机制",
+  "subtitle": "把“选择焦虑”做成爽点：三选一如何既多样又不坑人。",
+  "cover": {
+    "src": "/plays/skill-draft-weights-and-protection/cover.png",
+    "alt": "随机技能选择：技能权重与新手保护机制"
+  },
+  "coverWide": {
+    "src": "/plays/skill-draft-weights-and-protection/cover-wide.png",
+    "alt": "随机技能选择：技能权重与新手保护机制"
+  },
+  "tags": ["Roguelike", "战斗", "生成", "数值"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript"],
+  "corePoints": ["技能权重", "协同加权", "新手保护"],
+  "stats": { "views": 8350, "likes": 1180 },
+  "breakdown": [
+    {
+      "title": "技能池的基本结构",
+      "bullets": [
+        "技能分层：核心(构筑骨架)/强化(数值)/功能(位移、穿透、控制)",
+        "前置与互斥：某些技能必须先拿到 A，某些技能不能同场出现",
+        "重复策略：同技能升级、或同系技能替换，避免“抽到没用的重复”"
+      ]
+    },
+    {
+      "title": "权重怎么写才像“懂你”",
+      "bullets": [
+        "基础权重是“流派强度”基线，不要让强流派还更容易出",
+        "协同权重：根据玩家已选技能标签，提高“能立刻变强”的选项",
+        "反协同：对已过强组合降低概率，但用“风险/代价”来平衡更自然"
+      ]
+    },
+    {
+      "title": "新手保护（不等于保姆）",
+      "bullets": [
+        "前 2~3 次必出功能件（位移/清杂/保命）之一",
+        "连续 N 次未出现核心件时触发保底池",
+        "把“陷阱技能”放到后期或改成可解释的高上限玩法"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "三选一：协同加权 + 新手保底（示例）",
+      "language": "ts",
+      "code": "type Skill = { id: string; tags: string[]; baseWeight: number; tier: 1 | 2 | 3 };\n\ntype PlayerBuild = { tags: string[]; picks: string[]; newbieUntil: number; coreMissing: number };\n\nfunction synergyMul(skill: Skill, build: PlayerBuild) {\n  const hit = skill.tags.filter((t) => build.tags.includes(t)).length;\n  return 1 + Math.min(0.6, hit * 0.2);\n}\n\nexport function weightFor(skill: Skill, build: PlayerBuild, floor: number) {\n  let w = skill.baseWeight * synergyMul(skill, build);\n\n  // 新手保护：前期更偏向 tier1（直接变强/功能件）\n  if (floor <= build.newbieUntil) {\n    w *= skill.tier === 1 ? 1.6 : 0.9;\n  }\n\n  // 保底：核心件长期没出就加权\n  if (build.coreMissing >= 3 && skill.tags.includes(\"core\")) {\n    w *= 2.0;\n  }\n\n  return w;\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：对比“纯随机/协同加权/加权+保底”，看新手首局通关率与中后期多样性。"} 
+}
+

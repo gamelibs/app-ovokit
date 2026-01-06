@@ -1,0 +1,53 @@
+{
+  "slug": "random-events-balance-and-pity",
+  "title": "随机事件：好坏事件比例与连续负反馈修正",
+  "subtitle": "不可预测才有故事，但不能把玩家打进“死亡螺旋”：用事件池与保底修复情绪。",
+  "cover": {
+    "src": "/plays/random-events-balance-and-pity/cover.png",
+    "alt": "随机事件：好坏事件比例与连续负反馈修正"
+  },
+  "coverWide": {
+    "src": "/plays/random-events-balance-and-pity/cover-wide.png",
+    "alt": "随机事件：好坏事件比例与连续负反馈修正"
+  },
+  "tags": ["Roguelike", "生成", "关卡"],
+  "difficulty": "进阶",
+  "techStack": ["配置表(通用)", "TypeScript"],
+  "corePoints": ["好坏比例", "情绪修复", "事件保底"],
+  "stats": { "views": 7560, "likes": 1020 },
+  "breakdown": [
+    {
+      "title": "好坏比例的基本盘",
+      "bullets": [
+        "不要追求 50/50：通常更像 60%中性/25%好/15%坏",
+        "坏事件要给“可解释的收益”：高风险高回报，而不是纯惩罚",
+        "事件的价值是“改变路线”，而不是单纯给钱/扣血"
+      ]
+    },
+    {
+      "title": "连续负反馈修正（反连坐）",
+      "bullets": [
+        "记录连续坏事件计数：badStreak",
+        "badStreak 越高，好事件权重越高（软保底）",
+        "对关键资源（回血/修理）做硬保底，避免死局"
+      ]
+    },
+    {
+      "title": "让随机看起来合理",
+      "bullets": [
+        "按 biome/章节分事件主题池（故事一致性）",
+        "最近 N 次事件类型进入冷却（避免重复）",
+        "给玩家选择权：事件至少给 2 个选项而不是单一结果"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "事件权重：坏连坐保护（示例）",
+      "language": "ts",
+      "code": "type Event = { id: string; kind: \"good\" | \"neutral\" | \"bad\"; weight: number };\n\ntype State = { badStreak: number };\n\nexport function eventWeight(e: Event, s: State) {\n  if (e.kind === \"good\") return e.weight * (1 + Math.min(1.5, s.badStreak * 0.3));\n  if (e.kind === \"bad\") return e.weight * (1 - Math.min(0.6, s.badStreak * 0.15));\n  return e.weight;\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：统计“连续坏事件长度”分布，对比开启/关闭 badStreak 保护后的差异。"} 
+}
+

@@ -1,0 +1,22 @@
+{
+  "slug": "spot-the-difference-design-and-anti-skip",
+  "title": "找不同：差异点套路与防止“秒通关”",
+  "subtitle": "老少通吃的经典玩法：如何设计差异点、控制节奏，并避免被一眼扫完？",
+  "tags": ["推荐", "解谜", "关卡"],
+  "difficulty": "入门",
+  "techStack": ["TypeScript", "图片标注(通用)"],
+  "corePoints": ["差异点类型", "节奏控制", "提示系统"],
+  "stats": { "views": 6900, "likes": 860 },
+  "breakdown": [
+    { "title": "差异点设计", "bullets": ["形状/缺失/颜色/镜像/数量", "把差异分成“快发现”和“慢发现”两档"] },
+    { "title": "防秒通关", "bullets": ["分布策略", "引导视线", "提示冷却与代价", "确认机制"] }
+  ],
+  "codeSnippets": [
+    {
+      "title": "差异点注册 + 提示冷却（示例）",
+      "language": "ts",
+      "code": "type Diff = { id: string; x: number; y: number; r: number; found: boolean };\n\nexport function canUseHint(lastHintAtMs: number, nowMs: number) {\n  const cooldownMs = 20_000;\n  return nowMs - lastHintAtMs >= cooldownMs;\n}\n"
+    }
+  ],
+  "demo": { "note": "建议 Demo：同一张图，做“快差异/慢差异”分档，测试不同年龄段的完成时长分布。"} 
+}
