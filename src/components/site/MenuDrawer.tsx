@@ -204,6 +204,13 @@ export function MenuDrawer({
                   内容管理
                 </Link>
                 <Link
+                  href="/mod/cases"
+                  onClick={onClose}
+                  className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                >
+                  案例演示
+                </Link>
+                <Link
                   href="/mod/new"
                   onClick={onClose}
                   className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"

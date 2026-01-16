@@ -104,6 +104,7 @@ OVOKIT：游戏玩法技术实现分享站（MVP）
 - `src/components/site/*`：站点框架（TopNav/BottomNav/MenuDrawer/响应式导航）
 - `src/lib/content/plays.ts`：本地内容读取（fs）与类型定义
 - `src/lib/mod/auth.ts`：版主 cookie 判定
+- `server/*`：玩法算法后端（Fastify，提供示例算法接口）
 
 ## 本地开发
 
@@ -133,3 +134,43 @@ MOD_PASSWORD=your-password
 - 首页：搜索/分类筛选已可用（`?q=` / `?cat=`），下一步补充更完整的排序/组合筛选/高亮体验
 - 互动：浏览/喜欢统计的真实埋点与持久化（目前是内容字段）
 - Demo：iframe 白名单、安全策略与尺寸/加载体验优化
+
+## 玩法算法后端（Demo 用）
+
+- 位置：`server`（Fastify + Zod）。提供基础算法示例：网格 BFS 寻路、三消消除校验、伪随机高度图。
+- 运行（需要先 `pnpm install` 安装依赖）：
+  ```bash
+  pnpm algo:dev          # 默认监听 0.0.0.0:4000，可用 ALGO_PORT / ALGO_HOST 覆盖
+  ```
+- 主要路由：
+  - `GET /health`：存活检查
+  - `GET /api/algos`：算法列表，返回名称/说明/输入示例
+  - `GET /api/algos/:id`：单个算法元信息
+  - `POST /api/algos/:id/run`：运行算法，body 为 JSON，返回 `{ output, durationMs }`
+- 本地跨域已开启（`@fastify/cors`），可在 Demo 页直接调用。正式环境请按需收紧 CORS 与鉴权。可以在玩法 `meta.demo` 中挂接 `/api/algos/<id>` 作为示例数据来源。
+
+## 玩法算法后端部署（服务器）
+
+- 依赖：Node 18+、pnpm、pm2（`pnpm add -g pm2`）。需要 `pnpm install --prod`（已包含运行所需的 `tsx`）。
+- 环境变量：
+  - `ALGO_PORT`（默认 4000）
+  - `ALGO_HOST`（默认 `0.0.0.0`）
+- 一次性安装：
+  ```bash
+  pnpm install --prod
+  ```
+- 启动（pm2）：
+  ```bash
+  pnpm algo:pm2
+  pm2 logs ovokit-algo-api   # 查看日志
+  pm2 stop ovokit-algo-api   # 停止
+  ```
+- 进程配置：`ecosystem.algo.config.js` 使用 `pnpm algo:dev` 启动 `server/index.ts`。需要长期运行可用 `pm2 save && pm2 startup` 写入系统服务。
+- 反向代理（示例 Nginx）：
+  ```
+  location /algo-api/ {
+    proxy_pass http://127.0.0.1:4000/;
+    proxy_set_header Host $host;
+  }
+  ```
+  前端即可通过 `https://your-domain/algo-api/api/algos/:id/run` 调用。生产务必收紧 CORS/鉴权与限流。
