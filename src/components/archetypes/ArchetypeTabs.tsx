@@ -1,4 +1,4 @@
-import { getPlayCategoriesForGroup, type PlayBrowseGroupKey } from "@/lib/content/plays";
+import type { PlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import Link from "next/link";
 
 function pillClass(active: boolean) {
@@ -8,38 +8,23 @@ function pillClass(active: boolean) {
   return "inline-flex h-9 flex-none items-center justify-center rounded-full px-3 text-[13px] font-semibold text-zinc-600 hover:bg-black/5 hover:text-zinc-900 min-[360px]:h-10 min-[360px]:px-4 min-[360px]:text-sm dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-zinc-50";
 }
 
-export function CategoryTabs({
-  group,
+export function ArchetypeTabs({
   selectedKey,
-  q,
-  showAll,
+  items,
 }: {
-  group: PlayBrowseGroupKey;
-  selectedKey?: string;
-  q?: string;
-  showAll?: boolean;
+  selectedKey: PlayArchetypeKey;
+  items: Array<{ key: PlayArchetypeKey; label: string }>;
 }) {
-  const categories = getPlayCategoriesForGroup(group);
   return (
     <div className="flex items-center gap-2 overflow-x-auto py-1.5 min-[360px]:gap-3 min-[360px]:py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      {categories.map((c, idx) => (
+      {items.map((a) => (
         <Link
-          key={c.key}
-          href={{
-            pathname: "/",
-            query: {
-              ...(q ? { q } : {}),
-              group,
-              ...(showAll ? { all: "1" } : {}),
-              ...(c.key === "for-you" ? {} : { cat: c.key }),
-            },
-          }}
-          className={pillClass(
-            (selectedKey ?? "for-you") === c.key || (idx === 0 && !selectedKey),
-          )}
-          aria-current={(selectedKey ?? "for-you") === c.key ? "page" : undefined}
+          key={a.key}
+          href={{ pathname: "/archetypes", query: { key: a.key } }}
+          className={pillClass(selectedKey === a.key)}
+          aria-current={selectedKey === a.key ? "page" : undefined}
         >
-          <span className="whitespace-nowrap">{c.label}</span>
+          <span className="whitespace-nowrap">{a.label}</span>
         </Link>
       ))}
     </div>

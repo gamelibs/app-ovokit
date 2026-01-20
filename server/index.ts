@@ -2,9 +2,10 @@ import Fastify from "fastify";
 import cors from "@fastify/cors";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
-import { z } from "zod";
 import { algoDefinitions } from "./algos/registry";
 import type { AlgoDefinition, AlgoMeta, AlgoRunResult } from "./algos/types";
+import { demoDefinitions } from "./demos/registry";
+import type { DemoDefinition, DemoMeta, DemoInitResult, DemoStepResult } from "./demos/types";
 
 const app = Fastify({
   logger: true,
@@ -32,6 +33,17 @@ const metaFromDefinition = (def: AlgoDefinition<unknown, unknown>): AlgoMeta => 
   tags: def.tags,
   inputHelp: def.inputHelp,
   inputExample: def.inputExample,
+});
+
+const demoMetaFromDefinition = (def: DemoDefinition<any, any, any, any>): DemoMeta => ({
+  id: def.id,
+  name: def.name,
+  description: def.description,
+  tags: def.tags,
+  initHelp: def.initHelp,
+  initExample: def.initExample,
+  actionHelp: def.actionHelp,
+  actionExample: def.actionExample,
 });
 
 app.get("/health", async () => ({ ok: true }));
@@ -69,6 +81,57 @@ app.post("/api/algos/:id/run", async (req, reply) => {
     durationMs,
   };
 
+  return reply.send(result);
+});
+
+app.get("/api/demos", async () => {
+  return demoDefinitions.map(demoMetaFromDefinition);
+});
+
+app.get("/api/demos/:id", async (req, reply) => {
+  const id = (req.params as { id: string }).id;
+  const def = demoDefinitions.find((d) => d.id === id);
+  if (!def) return reply.status(404).send({ error: "Not found" });
+  return demoMetaFromDefinition(def as DemoDefinition<any, any, any, any>);
+});
+
+app.post("/api/demos/:id/init", async (req, reply) => {
+  const id = (req.params as { id: string }).id;
+  const def = demoDefinitions.find((d) => d.id === id);
+  if (!def) return reply.status(404).send({ error: "Not found" });
+
+  const parseResult = (def as DemoDefinition<any, any, any, any>).initSchema.safeParse(req.body);
+  if (!parseResult.success) {
+    const issues = parseResult.error.issues.map((i) => ({
+      path: i.path.join("."),
+      message: i.message,
+    }));
+    return reply.status(400).send({ error: "Invalid input", issues });
+  }
+
+  const result = await (def as DemoDefinition<any, any, any, any>).init(parseResult.data) as DemoInitResult<unknown, unknown>;
+  return reply.send(result);
+});
+
+app.post("/api/demos/:id/step", async (req, reply) => {
+  const id = (req.params as { id: string }).id;
+  const def = demoDefinitions.find((d) => d.id === id);
+  if (!def) return reply.status(404).send({ error: "Not found" });
+
+  const raw = req.body as { state?: unknown; action?: unknown };
+  const actionParse = (def as DemoDefinition<any, any, any, any>).actionSchema.safeParse(raw?.action);
+  if (!actionParse.success) {
+    const issues = actionParse.error.issues.map((i) => ({
+      path: i.path.join("."),
+      message: i.message,
+    }));
+    return reply.status(400).send({ error: "Invalid action", issues });
+  }
+
+  const result = await (def as DemoDefinition<any, any, any, any>).step({
+    state: raw?.state,
+    action: actionParse.data,
+  }) as DemoStepResult<unknown, unknown>;
   return reply.send(result);
 });
 

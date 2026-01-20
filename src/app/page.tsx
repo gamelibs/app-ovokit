@@ -1,7 +1,8 @@
+import { BrowseGroupTabs } from "@/components/plays/BrowseGroupTabs";
 import { CategoryTabs } from "@/components/plays/CategoryTabs";
 import { PlayCard } from "@/components/plays/PlayCard";
 import { RightSidebar } from "@/components/plays/RightSidebar";
-import { listPlays, playCategories, type PlayTag } from "@/lib/content/plays";
+import { getPlayCategory, listPlays, resolvePlayBrowseState, type PlayBrowseGroupKey, type PlayTag } from "@/lib/content/plays";
 import Link from "next/link";
 import { InteractiveHero } from "@/components/home/InteractiveHero";
 import { isModerator } from "@/lib/mod/auth";
@@ -16,29 +17,39 @@ export default async function Home({
   searchParams?: Promise<{
     q?: string | string[];
     cat?: string | string[];
+    group?: string | string[];
     page?: string | string[];
     all?: string | string[];
   }>;
 }) {
   const sp = searchParams ? await searchParams : {};
   const q = normalizeQueryParam(sp.q)?.trim() ?? "";
-  const catKey = normalizeQueryParam(sp.cat) ?? "for-you";
+  const rawCatKey = normalizeQueryParam(sp.cat);
+  const rawGroupKey = normalizeQueryParam(sp.group);
   const page = Math.max(1, Number.parseInt(normalizeQueryParam(sp.page) ?? "1", 10) || 1);
   const showAll = normalizeQueryParam(sp.all) === "1";
   const pageSize = 12;
 
   const plays = await listPlays();
 
-  const selectedTags =
-    catKey === "for-you"
-      ? null
-      : playCategories.find((c) => c.key === catKey)?.filterTags ?? null;
+  const isDefaultLanding =
+    !showAll && !rawGroupKey && (!rawCatKey || rawCatKey === "for-you") && !q;
+
+  const browseState = resolvePlayBrowseState({
+    group: rawGroupKey ?? undefined,
+    cat: rawCatKey ?? undefined,
+  });
+  const browseGroup: PlayBrowseGroupKey = browseState.group;
+  const catKey = browseState.cat;
+  const selectedCategory = getPlayCategory(browseGroup, catKey);
+  const selectedTags = selectedCategory?.filterTags ?? null;
+  const selectedDifficulty = selectedCategory?.filterDifficulty ?? null;
 
   const filtered = plays.filter((p) => {
-    if (
-      selectedTags &&
-      !selectedTags.some((t) => p.tags.includes(t as PlayTag))
-    ) {
+    if (selectedTags && !selectedTags.some((t) => p.tags.includes(t as PlayTag))) {
+      return false;
+    }
+    if (selectedDifficulty && p.difficulty !== selectedDifficulty) {
       return false;
     }
     if (!q) return true;
@@ -65,14 +76,14 @@ export default async function Home({
       pathname: "/",
       query: {
         ...(q ? { q } : {}),
+        ...(browseGroup ? { group: browseGroup } : {}),
         ...(catKey === "for-you" ? {} : { cat: catKey }),
-        ...(showAll ? { all: "1" } : {}),
+        all: "1",
         ...(nextPage <= 1 ? {} : { page: String(nextPage) }),
       },
     };
   }
 
-  const isDefaultLanding = !showAll && catKey === "for-you" && !q;
   const featured = plays.slice(0, 8);
   const heroPlay = featured[0] ?? plays[0];
   const canEdit = await isModerator();
@@ -80,6 +91,7 @@ export default async function Home({
   if (isDefaultLanding) {
     return (
       <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
+        <BrowseGroupTabs q={q || undefined} />
         {heroPlay && (
           <InteractiveHero playSlug={heroPlay.slug} playTitle={heroPlay.title} showEditorCta={canEdit} />
         )}
@@ -91,7 +103,7 @@ export default async function Home({
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">上手最快的 8 个 Demo</h2>
             </div>
             <Link
-              href={{ pathname: "/", query: { all: "1" } }}
+              href={{ pathname: "/", query: { all: "1", group: "archetype" } }}
               className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
             >
               查看全部玩法
@@ -110,7 +122,8 @@ export default async function Home({
 
   return (
     <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
-      <CategoryTabs selectedKey={catKey} q={q || undefined} />
+      <BrowseGroupTabs selectedGroup={browseGroup} q={q || undefined} />
+      <CategoryTabs group={browseGroup} selectedKey={catKey} q={q || undefined} showAll />
 
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_360px] lg:items-start">
         <section className="columns-1 gap-4 min-[420px]:columns-2 lg:columns-2 2xl:columns-3">
