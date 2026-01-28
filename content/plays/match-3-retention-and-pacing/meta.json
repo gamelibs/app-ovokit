@@ -28,5 +28,8 @@
       "code": "export function rewardForMatch(len: number) {\n  if (len >= 5) return { score: 300, spawn: \"colorBomb\" };\n  if (len === 4) return { score: 120, spawn: \"lineBomb\" };\n  return { score: 60, spawn: null };\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：同一关卡仅改 4/5 消规则，对比留存与通关率。"} 
+  "demo": {
+    "note": "可试玩 Demo：最小三消核心（相邻交换→成消判定→消除→下落→补齐→连锁）。后续可在此基础上扩展 4/5 消、特殊块与关卡目标。",
+    "iframeSrc": "/embed/demos/match3"
+  }
 }

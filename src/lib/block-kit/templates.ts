@@ -9,7 +9,9 @@ const block = (id: string, shape: Block["shape"]): Block => ({
   behaviors: baseBehaviors(),
 });
 
-export const templates: { id: string; name: string; description: string; blocks: Block[] }[] = [
+export type BlockTemplate = { id: string; name: string; description: string; blocks: Block[] };
+
+export const blockTemplates: BlockTemplate[] = [
   {
     id: "drag-pairs",
     name: "拖拽配对",
@@ -43,3 +45,8 @@ export const templates: { id: string; name: string; description: string; blocks:
     ],
   },
 ];
+
+export function getBlockTemplate(id: string): BlockTemplate | null {
+  return blockTemplates.find((t) => t.id === id) ?? null;
+}
+

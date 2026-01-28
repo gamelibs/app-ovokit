@@ -7,4 +7,3 @@ export async function GET() {
   const isModerator = isModeratorCookieValue(c.get(MOD_COOKIE)?.value);
   return NextResponse.json({ isModerator });
 }
-

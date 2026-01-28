@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { BlockCanvas } from "@/components/block-kit/BlockCanvas";
 import type { Block } from "@/lib/block-kit/types";
-import { templates } from "./templates";
+import { blockTemplates as templates } from "@/lib/block-kit/templates";
 import { Tool, useBlockEditor } from "./useBlockEditor";
 
 const toolLabels: Record<Tool, string> = {

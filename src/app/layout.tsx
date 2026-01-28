@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { SiteFrame } from "@/components/site/SiteFrame";
 
 export const metadata: Metadata = {
   title: "OVOKIT - 游戏玩法技术分享",
@@ -20,9 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className="antialiased">
-        <SiteFrame>{children}</SiteFrame>
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

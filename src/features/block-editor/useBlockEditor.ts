@@ -3,7 +3,7 @@ import { makeClickable, makeDraggable, makeHoverable } from "@/lib/block-kit/beh
 import { createEngine } from "@/lib/block-kit/engine";
 import { hitTest } from "@/lib/block-kit/hit-test";
 import type { Block, EngineEvent } from "@/lib/block-kit/types";
-import { templates } from "./templates";
+import { blockTemplates as templates } from "@/lib/block-kit/templates";
 
 export type Tool = "select" | "rect" | "circle" | "pan";
 

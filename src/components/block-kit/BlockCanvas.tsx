@@ -12,6 +12,9 @@ type Props = {
   blocks: Block[];
   width: number;
   height: number;
+  fit?: "fixed" | "responsive";
+  className?: string;
+  touchAction?: React.CSSProperties["touchAction"];
   onPointerDown: (info: PointerInfo) => void;
   onPointerMove: (info: PointerInfo) => void;
   onPointerUp: (info: PointerInfo) => void;
@@ -29,6 +32,9 @@ export function BlockCanvas({
   blocks,
   width,
   height,
+  fit = "fixed",
+  className,
+  touchAction = "none",
   onPointerDown,
   onPointerMove,
   onPointerUp,
@@ -49,8 +55,6 @@ export function BlockCanvas({
     const dpr = window.devicePixelRatio || 1;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -191,16 +195,42 @@ export function BlockCanvas({
       return { x, y, button: e.button, raw: e };
     };
     const down = (e: PointerEvent) => {
+      if (e.pointerType === "touch") e.preventDefault();
+      try {
+        canvas.setPointerCapture(e.pointerId);
+      } catch {
+        // noop
+      }
       const p = toWorld(e);
       onPointerDown(p);
     };
     const move = (e: PointerEvent) => {
+      if (!canvas.hasPointerCapture(e.pointerId)) return;
+      if (e.pointerType === "touch") e.preventDefault();
       const p = toWorld(e);
       onPointerMove(p);
     };
     const up = (e: PointerEvent) => {
+      if (!canvas.hasPointerCapture(e.pointerId)) return;
+      if (e.pointerType === "touch") e.preventDefault();
       const p = toWorld(e);
       onPointerUp(p);
+      try {
+        canvas.releasePointerCapture(e.pointerId);
+      } catch {
+        // noop
+      }
+    };
+    const cancel = (e: PointerEvent) => {
+      if (!canvas.hasPointerCapture(e.pointerId)) return;
+      if (e.pointerType === "touch") e.preventDefault();
+      const p = toWorld(e);
+      onPointerUp(p);
+      try {
+        canvas.releasePointerCapture(e.pointerId);
+      } catch {
+        // noop
+      }
     };
     const wheel = (e: WheelEvent) => {
       if (!onWheel) return;
@@ -214,23 +244,35 @@ export function BlockCanvas({
       const y = (localY * scaleY - offset.y) / scale;
       onWheel(e.deltaY, { x, y });
     };
-    canvas.addEventListener("pointerdown", down);
-    window.addEventListener("pointermove", move);
-    window.addEventListener("pointerup", up);
+    canvas.addEventListener("pointerdown", down, { passive: false });
+    canvas.addEventListener("pointermove", move, { passive: false });
+    canvas.addEventListener("pointerup", up, { passive: false });
+    canvas.addEventListener("pointercancel", cancel, { passive: false });
     canvas.addEventListener("wheel", wheel, { passive: false });
     return () => {
       canvas.removeEventListener("pointerdown", down);
-      window.removeEventListener("pointermove", move);
-      window.removeEventListener("pointerup", up);
+      canvas.removeEventListener("pointermove", move);
+      canvas.removeEventListener("pointerup", up);
+      canvas.removeEventListener("pointercancel", cancel);
       canvas.removeEventListener("wheel", wheel);
     };
-  }, [offset.x, offset.y, onPointerDown, onPointerMove, onPointerUp, onWheel, scale]);
+  }, [height, offset.x, offset.y, onPointerDown, onPointerMove, onPointerUp, onWheel, scale, width]);
 
   return (
     <canvas
       ref={ref}
-      className="flex-none rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-white/10 dark:bg-white/5"
-      style={{ width, height, minWidth: width, minHeight: height }}
+      className={[
+        "rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-white/10 dark:bg-white/5",
+        fit === "fixed" ? "flex-none" : "",
+        className ?? "",
+      ]
+        .join(" ")
+        .trim()}
+      style={
+        fit === "fixed"
+          ? { width, height, minWidth: width, minHeight: height, touchAction }
+          : { width: "100%", height: "100%", touchAction }
+      }
     />
   );
 }
