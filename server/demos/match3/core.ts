@@ -170,6 +170,8 @@ function makeBoardNoMatches(init: Match3InitInput, nextU32: () => number) {
 export function initMatch3(input: Match3InitInput): { state: Match3State; events: Match3Event[] } {
   const nextU32 = xorshift32(input.seed);
   const board = makeBoardNoMatches(input, nextU32);
+  const maxMoves = input.maxMoves ?? 20;
+  const targetScore = input.targetScore ?? 1200;
   const state: Match3State = {
     width: input.width,
     height: input.height,
@@ -177,6 +179,10 @@ export function initMatch3(input: Match3InitInput): { state: Match3State; events
     seed: input.seed,
     rng: nextU32(),
     board,
+    maxMoves,
+    movesLeft: maxMoves,
+    targetScore,
+    score: 0,
   };
   return { state, events: [] };
 }
@@ -190,8 +196,14 @@ export function stepMatch3(state: Match3State, action: { type: "swap"; from: Vec
       height: state.height,
       types: state.types,
       seed: state.seed,
+      maxMoves: state.maxMoves,
+      targetScore: state.targetScore,
     });
     return { state: next.state, events: [{ type: "reset" } satisfies Match3Event, ...next.events] };
+  }
+
+  if (state.movesLeft <= 0) {
+    return { state, events, hint: "步数已用尽" };
   }
 
   if (!inBounds(state, action.from) || !inBounds(state, action.to) || !adjacent(action.from, action.to)) {
@@ -201,12 +213,15 @@ export function stepMatch3(state: Match3State, action: { type: "swap"; from: Vec
   const board = cloneBoard(state.board);
   swapInPlace(board, action.from, action.to);
   events.push({ type: "swap", payload: { from: action.from, to: action.to } });
+  let movesLeft = Math.max(0, state.movesLeft - 1);
+  let score = state.score;
 
   const matchesAfterSwap = findMatches(board);
   if (matchesAfterSwap.length === 0) {
     swapInPlace(board, action.from, action.to);
     events.push({ type: "swap-revert", payload: { from: action.from, to: action.to } });
-    return { state: { ...state, board }, events, hint: "未形成消除，交换回退" };
+    const nextState: Match3State = { ...state, board, movesLeft, score };
+    return { state: nextState, events, hint: "未形成消除，交换回退" };
   }
 
   let safety = 0;
@@ -217,13 +232,14 @@ export function stepMatch3(state: Match3State, action: { type: "swap"; from: Vec
     events.push({ type: "match", payload: { cells } });
     events.push({ type: "clear", payload: { cells } });
     clearCells(board, cells);
+    score += cells.length * 10;
     const drop = applyGravity(board);
     if (drop.moves.length > 0) events.push({ type: "drop", payload: drop });
-    const nextState: Match3State = { ...state, board, rng: state.rng };
+    const nextState: Match3State = { ...state, board, rng: state.rng, movesLeft, score };
     const spawn = spawnEmpties(nextState);
     if (spawn.spawns.length > 0) events.push({ type: "spawn", payload: spawn });
     state = nextState;
   }
 
-  return { state: { ...state, board }, events, hint: undefined };
+  return { state: { ...state, board, movesLeft, score }, events, hint: undefined };
 }

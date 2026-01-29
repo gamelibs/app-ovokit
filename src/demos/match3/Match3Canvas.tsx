@@ -153,7 +153,7 @@ export function Match3Canvas({ board, selected, onCellTap, className }: Props) {
       ]
         .join(" ")
         .trim()}
-      style={{ touchAction: "none" }}
+      style={{ touchAction: "none", width: "100%", height: "100%" }}
     />
   );
 }

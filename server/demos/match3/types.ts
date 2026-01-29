@@ -5,6 +5,8 @@ export type Match3InitInput = {
   height: number;
   types: number;
   seed: number;
+  maxMoves?: number;
+  targetScore?: number;
 };
 
 export type Match3State = {
@@ -14,6 +16,10 @@ export type Match3State = {
   seed: number;
   rng: number;
   board: number[][];
+  maxMoves: number;
+  movesLeft: number;
+  targetScore: number;
+  score: number;
 };
 
 export type Match3Action =
@@ -31,6 +37,10 @@ export type Match3Event =
 
 export type Match3View = {
   board: number[][];
+  movesLeft: number;
+  maxMoves: number;
+  score: number;
+  targetScore: number;
+  phase: "playing" | "won" | "lost";
   hint?: string;
 };
-

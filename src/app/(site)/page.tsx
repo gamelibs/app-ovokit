@@ -85,7 +85,10 @@ export default async function Home({
   }
 
   const featured = plays.slice(0, 8);
-  const heroPlay = featured[0] ?? plays[0];
+  const heroPlay =
+    plays.find((p) => p.slug === "match-3-retention-and-pacing") ??
+    featured[0] ??
+    plays[0];
   const canEdit = await isModerator();
 
   if (isDefaultLanding) {

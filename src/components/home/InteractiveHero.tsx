@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { DemoEmbed } from "@/components/demos/DemoEmbed";
 
 type Props = {
   playSlug: string;
@@ -50,12 +51,13 @@ export function InteractiveHero({ playSlug, playTitle, showEditorCta }: Props) {
           </div>
           <div className="rounded-xl border border-zinc-800 bg-black/60 p-3">
             <div className="aspect-[12/7] w-full max-w-[720px]">
-              <iframe
+              <DemoEmbed
                 title="BlockKit Demo"
                 src="/embed/blocks/drag-pairs"
-                className="h-full w-full rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-white/10 dark:bg-white/5"
+                wrapperClassName="h-full w-full"
+                controls="overlay"
+                iframeClassName="rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-white/10 dark:bg-white/5"
                 allow="fullscreen; gamepad"
-                loading="lazy"
               />
             </div>
           </div>

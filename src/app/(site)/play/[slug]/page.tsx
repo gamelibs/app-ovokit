@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { CodeBlock } from "@/components/plays/CodeBlock";
 import { TagPill } from "@/components/plays/TagPill";
+import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { getPlayBySlug, listPlaySlugs } from "@/lib/content/plays";
 
 export async function generateStaticParams() {
@@ -133,29 +134,45 @@ export default async function PlayDetailPage({
             <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
               {play.demo.note ?? "后续将通过 iframe 嵌入可试玩 Demo。"}
             </p>
-            <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
-              <div className="aspect-video w-full">
-                {play.demo.videoSrc ? (
+            {play.demo.videoSrc ? (
+              <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
+                <div className="h-[68vh] w-full sm:h-auto sm:aspect-video">
                   <video
                     src={play.demo.videoSrc}
                     className="h-full w-full object-cover"
                     controls
                     playsInline
                   />
-                ) : play.demo.iframeSrc ? (
-                  <iframe
-                    title={`${play.title} Demo`}
-                    src={play.demo.iframeSrc}
-                    className="h-full w-full"
-                    allow="fullscreen; gamepad; autoplay"
-                  />
-                ) : (
+                </div>
+              </div>
+            ) : play.demo.iframeSrc ? (
+              <div className="mt-4">
+                {/** Static HTML demos (e.g. ReferenceCase) can't receive postMessage reliably; reload is the safest restart. */}
+                {(() => {
+                  const isStaticDemo =
+                    play.demo.iframeSrc?.startsWith("/embed/demos/sliding-puzzle-3d") ||
+                    play.demo.iframeSrc?.startsWith("/referencecase") ||
+                    (play.demo.iframeSrc?.endsWith(".html") ?? false);
+                  return (
+                <DemoEmbed
+                  title={`${play.title} Demo`}
+                  src={play.demo.iframeSrc}
+                  controls="toolbar"
+                  showRestart
+                  restartStrategy={isStaticDemo ? "reload" : "postMessage"}
+                />
+                  );
+                })()}
+              </div>
+            ) : (
+              <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
+                <div className="h-[46vh] w-full sm:h-auto sm:aspect-video">
                   <div className="grid h-full place-items-center text-sm text-zinc-500 dark:text-zinc-400">
                     Demo 占位（MVP）
                   </div>
-                )}
+                </div>
               </div>
-            </div>
+            )}
           </section>
 
           {play.articleMdx ? (

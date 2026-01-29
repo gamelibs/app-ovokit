@@ -1,0 +1,63 @@
+{
+  "slug": "sliding-puzzle-3d-photo",
+  "title": "滑块拼图：用 3D 切片与手感做“可玩展示”",
+  "subtitle": "经典滑块拼图（15-puzzle）的最小可试玩：打乱 → 滑动 → 复原判定；用 3D 透视与动效强化手感。",
+  "tags": [
+    "推荐",
+    "解谜",
+    "关卡",
+    "物理"
+  ],
+  "difficulty": "入门",
+  "techStack": [
+    "Three.js(静态脚本)",
+    "anime.js(静态脚本)",
+    "iframe/embed"
+  ],
+  "corePoints": [
+    "滑块拼图规则",
+    "打乱与可解性",
+    "3D 透视与动效手感"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "最小可试玩要素",
+      "bullets": [
+        "单张图切片成网格并留空格",
+        "可交互移动：仅允许与空格相邻的块滑动",
+        "判定复原并结算"
+      ]
+    },
+    {
+      "title": "为什么 3D 与动效有价值",
+      "bullets": [
+        "透视与光照让“块”更像物体",
+        "滑动/回弹/高亮把可移动性说清楚",
+        "动效成本低但显著提升“手感”"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "判定相邻可移动（示意）",
+      "language": "ts",
+      "code": "type Vec2 = [number, number];\n\nexport function isAdjacent(a: Vec2, b: Vec2) {\n  const dx = Math.abs(a[0] - b[0]);\n  const dy = Math.abs(a[1] - b[1]);\n  return dx + dy === 1;\n}\n"
+    }
+  ],
+  "demo": {
+    "iframeSrc": "/embed/games/ReferenceCase/sliding-puzzle-3d",
+    "note": "展示 Demo：3D 滑块拼图（单局可玩），用于演示“规则 + 3D 手感 + 动效”的组合。"
+  },
+  "cover": {
+    "src": "/plays/sliding-puzzle-3d-photo/cover.png",
+    "alt": "滑块拼图：用 3D 切片与手感做“可玩展示”"
+  },
+  "coverWide": {
+    "src": "/plays/sliding-puzzle-3d-photo/cover-wide.png",
+    "alt": "滑块拼图：用 3D 切片与手感做“可玩展示”"
+  }
+}

@@ -5,6 +5,8 @@ export const match3InitSchema = z.object({
   height: z.number().int().min(4).max(16).default(8),
   types: z.number().int().min(3).max(8).default(5),
   seed: z.number().int().default(1),
+  maxMoves: z.number().int().min(1).max(200).default(20),
+  targetScore: z.number().int().min(1).max(100000).default(1200),
 });
 
 export const match3ActionSchema = z.discriminatedUnion("type", [
@@ -17,4 +19,3 @@ export const match3ActionSchema = z.discriminatedUnion("type", [
     type: z.literal("reset"),
   }),
 ]);
-

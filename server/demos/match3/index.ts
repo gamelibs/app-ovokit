@@ -19,16 +19,39 @@ export const match3Demo: DemoDefinition<Match3InitInput, Match3State, Match3Acti
 
   init: (input) => {
     const { state } = initMatch3(input);
-    return { state, view: { board: state.board } };
+    return {
+      state,
+      view: {
+        board: state.board,
+        movesLeft: state.movesLeft,
+        maxMoves: state.maxMoves,
+        score: state.score,
+        targetScore: state.targetScore,
+        phase: "playing",
+      },
+    };
   },
 
   step: ({ state, action }) => {
     const result = stepMatch3(state, action);
+    const phase: Match3View["phase"] =
+      result.state.score >= result.state.targetScore
+        ? "won"
+        : result.state.movesLeft <= 0
+          ? "lost"
+          : "playing";
     return {
       state: result.state,
-      view: { board: result.state.board, hint: result.hint },
+      view: {
+        board: result.state.board,
+        hint: result.hint,
+        movesLeft: result.state.movesLeft,
+        maxMoves: result.state.maxMoves,
+        score: result.state.score,
+        targetScore: result.state.targetScore,
+        phase,
+      },
       events: result.events,
     };
   },
 };
-

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { isModerator } from "@/lib/mod/auth";
+import { listPlaysWithMtime } from "@/lib/content/plays";
 
 export const revalidate = 0;
 
@@ -26,8 +27,18 @@ export default async function ModCasesPage() {
     );
   }
 
-  // TODO: 接入真实存储。当前示例为空列表。
-  const cases: CaseItem[] = [];
+  const entries = await listPlaysWithMtime();
+  const cases: CaseItem[] = entries
+    .filter(({ meta }) => Boolean(meta.demo?.iframeSrc))
+    .map(({ meta, mtimeMs }, idx) => ({
+      id: idx + 1,
+      title: meta.title,
+      slug: meta.slug,
+      createdAt: new Date(mtimeMs).toLocaleDateString("zh-CN"),
+      views: meta.stats?.views ?? 0,
+      likes: meta.stats?.likes ?? 0,
+      demoUrl: meta.demo?.iframeSrc,
+    }));
   const hasCases = cases.length > 0;
 
   return (
@@ -36,13 +47,15 @@ export default async function ModCasesPage() {
         <h1 className="min-w-0 truncate text-xl font-semibold">案例演示（交互积木）</h1>
         <Link
           href="/demo/blocks"
+          target="_blank"
+          rel="noreferrer"
           className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white hover:bg-blue-500 min-[360px]:min-w-[120px]"
         >
           创建案例
         </Link>
       </div>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-        用积木式交互快速搭建玩法案例，可绑定点击/拖动等行为，生成 Demo 后挂载到帖子给访客体验。
+        此处展示“已在玩法 meta.json 中配置了 demo.iframeSrc”的帖子，便于快速复制 Demo 链接/嵌入地址。
       </p>
 
       <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/5">
@@ -58,7 +71,9 @@ export default async function ModCasesPage() {
         <div className="divide-y divide-zinc-200 dark:divide-white/10">
           {!hasCases ? (
             <div className="px-4 py-10 text-center text-sm text-zinc-500 dark:text-zinc-300">
-              暂无案例，请先点击右上角“创建案例”进入积木编辑器搭建 Demo。
+              暂无案例：请先在内容管理里为玩法配置 <code className="font-mono">demo.iframeSrc</code>（例如
+              <code className="font-mono">/embed/demos/match3</code> 或{" "}
+              <code className="font-mono">/embed/blocks/&lt;templateId&gt;</code>）。
             </div>
           ) : (
             cases.map((c) => (
@@ -72,7 +87,18 @@ export default async function ModCasesPage() {
                       {c.title}
                     </div>
                     <div className="truncate text-xs text-zinc-500 dark:text-zinc-400">
-                      {c.demoUrl ?? "/demo/blocks"}
+                      {c.demoUrl ? (
+                        <a
+                          href={c.demoUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="hover:underline"
+                        >
+                          {c.demoUrl}
+                        </a>
+                      ) : (
+                        "/demo/blocks"
+                      )}
                     </div>
                   </div>
                   <div className="text-right text-sm tabular-nums text-zinc-700 dark:text-zinc-200">
@@ -86,7 +112,7 @@ export default async function ModCasesPage() {
                   </div>
                   <div className="text-right">
                     <Link
-                      href={c.demoUrl ?? "/demo/blocks"}
+                      href={`/mod/edit/${c.slug}`}
                       className="inline-flex items-center justify-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
                     >
                       编辑
@@ -106,7 +132,18 @@ export default async function ModCasesPage() {
                         </div>
                       </div>
                       <div className="mt-0.5 truncate text-xs text-zinc-500 dark:text-zinc-400">
-                        {c.demoUrl ?? "/demo/blocks"}
+                        {c.demoUrl ? (
+                          <a
+                            href={c.demoUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="hover:underline"
+                          >
+                            {c.demoUrl}
+                          </a>
+                        ) : (
+                          "/demo/blocks"
+                        )}
                       </div>
                       <div className="mt-1 grid grid-cols-2 gap-2 text-[11px] text-zinc-500 dark:text-zinc-400">
                         <span>创建：{c.createdAt}</span>
@@ -115,7 +152,7 @@ export default async function ModCasesPage() {
                       </div>
                     </div>
                     <Link
-                      href={c.demoUrl ?? "/demo/blocks"}
+                      href={`/mod/edit/${c.slug}`}
                       className="shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
                     >
                       编辑
