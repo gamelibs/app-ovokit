@@ -18,5 +18,6 @@
       "code": "type ItemId = string;\n\ntype MergeRule = {\n  from: ItemId;\n  to: ItemId;\n  need?: { id: ItemId; count: number }; // 稀有材料作为“门”\n};\n\nexport const rules: MergeRule[] = [\n  { from: \"seed\", to: \"sprout\" },\n  { from: \"sprout\", to: \"tree\", need: { id: \"water\", count: 1 } },\n];\n"
     }
   ],
-  "demo": { "note": "建议 Demo：同一条合成链，分别用“空间压力”和“稀有材料门”做卡点对比。"} 
+  "demo": { "note": "建议 Demo：同一条合成链，分别用“空间压力”和“稀有材料门”做卡点对比。" },
+  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "合成进化（Merge）：合成链与卡关点怎么设计" }
 }

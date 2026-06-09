@@ -38,26 +38,11 @@ export function PlayCard({ play }: { play: PlayMeta }) {
           ) : (
             <div className="absolute inset-0 grid place-items-center">
               <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
-                封面占位
+                暂无封面
               </div>
             </div>
           )}
         </div>
-        <button
-          type="button"
-          aria-label="收藏"
-          className="absolute right-3 top-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/80 text-zinc-800 shadow-sm backdrop-blur hover:bg-white sm:h-9 sm:w-9 dark:bg-black/50 dark:text-zinc-100 dark:hover:bg-black/70"
-        >
-          <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
-            <path
-              d="M12 5v14M5 12h14"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
       </div>
 
       <div className="p-3 min-[360px]:p-4">
@@ -104,22 +89,12 @@ export function PlayCard({ play }: { play: PlayMeta }) {
         </dl>
 
         <div className="mt-4 grid gap-3">
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              disabled
-              className="inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white opacity-60 sm:h-10 sm:px-4"
-              aria-label="立即调试（即将支持）"
-            >
-              立即调试
-            </button>
-            <Link
-              href={`/play/${play.slug}`}
-              className="inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 sm:h-10 sm:px-4 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
-            >
-              查看实现
-            </Link>
-          </div>
+          <Link
+            href={`/play/${play.slug}`}
+            className="inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white hover:bg-blue-500 sm:h-10 sm:px-4"
+          >
+            查看实现
+          </Link>
 
           <div className="flex items-center justify-between gap-4 text-sm text-zinc-500 dark:text-zinc-400">
             <span className="inline-flex items-center gap-1">

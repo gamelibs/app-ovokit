@@ -16,9 +16,11 @@ async function fetchModStatus(): Promise<ModStatus> {
 export function MenuDrawer({
   open,
   onClose,
+  showModeratorTools,
 }: {
   open: boolean;
   onClose: () => void;
+  showModeratorTools?: boolean;
 }) {
   const router = useRouter();
   const [status, setStatus] = useState<ModStatus>({ isModerator: false });
@@ -81,6 +83,8 @@ export function MenuDrawer({
 
   if (!open) return null;
 
+  const canShowModTools = Boolean(showModeratorTools || status.isModerator);
+
   const drawer = (
     <div className="fixed inset-0 z-50">
       <button
@@ -124,102 +128,125 @@ export function MenuDrawer({
                 首页信息流
               </Link>
               <Link
-                href="/#tags"
+                href="/archetypes"
                 onClick={onClose}
                 className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
               >
-                标签（占位）
+                母型玩法
               </Link>
               <Link
-                href="/#about"
+                href="/about"
                 onClick={onClose}
                 className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
               >
-                关于（占位）
+                关于
+              </Link>
+              <Link
+                href="/contact"
+                onClick={onClose}
+                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+              >
+                联系
+              </Link>
+              <Link
+                href="/privacy"
+                onClick={onClose}
+                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+              >
+                隐私政策
+              </Link>
+              <Link
+                href="/terms"
+                onClick={onClose}
+                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+              >
+                使用条款
               </Link>
             </div>
           </section>
 
-          <section className="rounded-2xl border border-zinc-200 bg-zinc-50 p-3 dark:border-white/10 dark:bg-white/5">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                  版主模式
-                </div>
-                <div className="mt-1 text-sm font-semibold">{modLabel}</div>
-              </div>
-              {status.isModerator ? (
-                <button
-                  type="button"
-                  onClick={logout}
-                  disabled={busy}
-                  className="rounded-full border border-zinc-200 bg-white px-3 py-2 text-sm font-semibold hover:bg-zinc-50 disabled:opacity-50 dark:border-white/10 dark:bg-black/30 dark:hover:bg-white/10"
-                >
-                  退出
-                </button>
-              ) : null}
-            </div>
-
-            {!status.isModerator ? (
-              <form
-                className="mt-3 space-y-2"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  void login();
-                }}
-              >
-                <input
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="输入版主口令"
-                  type="password"
-                  name="password"
-                  autoComplete="current-password"
-                  className="h-10 w-full rounded-xl border border-zinc-200 bg-white px-3 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:ring-white/10"
-                />
-                <button
-                  type="submit"
-                  disabled={busy || password.trim().length === 0}
-                  className="h-10 w-full whitespace-nowrap rounded-xl bg-blue-600 text-sm font-semibold text-white disabled:opacity-50"
-                >
-                  {busy ? "登录中..." : "进入版主模式"}
-                </button>
-                {error ? (
-                  <div className="text-xs text-red-600 dark:text-red-400">
-                    {error}
+          {canShowModTools ? (
+            <section className="rounded-2xl border border-zinc-200 bg-zinc-50 p-3 dark:border-white/10 dark:bg-white/5">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                    版主模式
                   </div>
-                ) : null}
-                <div className="text-xs text-zinc-500 dark:text-zinc-400">
-                  MVP：使用环境变量 <code className="font-mono">MOD_PASSWORD</code>{" "}
-                  作为口令。
+                  <div className="mt-1 text-sm font-semibold">{modLabel}</div>
                 </div>
-              </form>
-            ) : (
-              <div className="mt-3 grid gap-2">
-                <Link
-                  href="/mod"
-                  onClick={onClose}
-                  className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
-                >
-                  内容管理
-                </Link>
-                <Link
-                  href="/mod/cases"
-                  onClick={onClose}
-                  className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
-                >
-                  案例演示
-                </Link>
-                <Link
-                  href="/mod/new"
-                  onClick={onClose}
-                  className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
-                >
-                  新建玩法
-                </Link>
+                {status.isModerator ? (
+                  <button
+                    type="button"
+                    onClick={logout}
+                    disabled={busy}
+                    className="rounded-full border border-zinc-200 bg-white px-3 py-2 text-sm font-semibold hover:bg-zinc-50 disabled:opacity-50 dark:border-white/10 dark:bg-black/30 dark:hover:bg-white/10"
+                  >
+                    退出
+                  </button>
+                ) : null}
               </div>
-            )}
-          </section>
+
+              {!status.isModerator ? (
+                <form
+                  className="mt-3 space-y-2"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void login();
+                  }}
+                >
+                  <input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="输入版主口令"
+                    type="password"
+                    name="password"
+                    autoComplete="current-password"
+                    className="h-10 w-full rounded-xl border border-zinc-200 bg-white px-3 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:ring-white/10"
+                  />
+                  <button
+                    type="submit"
+                    disabled={busy || password.trim().length === 0}
+                    className="h-10 w-full whitespace-nowrap rounded-xl bg-blue-600 text-sm font-semibold text-white disabled:opacity-50"
+                  >
+                    {busy ? "登录中..." : "进入版主模式"}
+                  </button>
+                  {error ? (
+                    <div className="text-xs text-red-600 dark:text-red-400">
+                      {error}
+                    </div>
+                  ) : null}
+                  <div className="text-xs text-zinc-500 dark:text-zinc-400">
+                    提示：使用环境变量 <code className="font-mono">MOD_PASSWORD</code>{" "}
+                    作为口令。
+                  </div>
+                </form>
+              ) : (
+                <div className="mt-3 grid gap-2">
+                  <Link
+                    href="/mod"
+                    onClick={onClose}
+                    className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                  >
+                    内容管理
+                  </Link>
+                  <Link
+                    href="/mod/cases"
+                    onClick={onClose}
+                    className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                  >
+                    案例演示
+                  </Link>
+                  <Link
+                    href="/mod/new"
+                    onClick={onClose}
+                    className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                  >
+                    新建玩法
+                  </Link>
+                </div>
+              )}
+            </section>
+          ) : null}
         </div>
       </div>
     </div>

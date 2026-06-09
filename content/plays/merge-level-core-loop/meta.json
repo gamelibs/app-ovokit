@@ -32,5 +32,9 @@
       "code": "type UnitId = string;\n\ntype MergeRule = { from: UnitId; to: UnitId; cost: number };\n\nexport const mergeRules: MergeRule[] = [\n  { from: \"u_1\", to: \"u_2\", cost: 2 },\n  { from: \"u_2\", to: \"u_3\", cost: 2 },\n];\n"
     }
   ],
-  "demo": { "note": "MVP 阶段：后续通过 iframe 嵌入可试玩 Demo。" }
+  "demo": {
+    "iframeSrc": "/embed/plays/merge-level-core-loop",
+    "note": "最小可交互：2 合 1 合成链（用于演示表驱动规则与合成节奏）。"
+  },
+  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "合成 & 升级玩法核心逻辑" }
 }

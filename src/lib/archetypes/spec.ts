@@ -16,6 +16,7 @@ export type ArchetypeSpec = {
   features: string[];
   difficulty: string;
   demoRuleHint: string;
+  problemsSolved: string[];
   learningGoals: string[];
   minimalRules: string[];
   systemLoopHint: string;
@@ -42,4 +43,3 @@ export async function listArchetypeSpecs(): Promise<ArchetypeSpec[]> {
   const entries = await Promise.all(playArchetypeKeys.map((key) => readArchetypeSpec(key)));
   return entries.filter((e): e is NonNullable<typeof e> => Boolean(e));
 }
-

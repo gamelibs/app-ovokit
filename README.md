@@ -2,12 +2,17 @@ OVOKIT：游戏玩法技术实现分享站（MVP）
 
 目标是把「玩法」拆成可复用的结构化信息（拆解/关键代码/Demo/文章），并提供一个轻量的本地内容发布流程。
 
+## 协作与约定（建议先读）
+
+- 开发与架构说明：`doc/开发说明.md`
+- AI/自动化最小上下文（减少重复扫描）：`doc/AGENT_CONTEXT.md`
+
 ## 当前是否“够用”
 
 作为“玩法技术实现分享站”的 MVP，目前前端信息架构已经具备基本形态：
 
 - 首页信息流：卡片流展示玩法（标签、难度、技术栈、核心点、浏览/喜欢计数占位）
-- 详情页：结构化拆解 + 关键代码片段 + Demo 区（iframe 占位）+ 文章（MDX 原文占位）
+- 详情页：结构化拆解 + 关键代码片段 + Demo 区（可嵌入/母型回退）+ 文章（Markdown/MDX 文本子集渲染）
 - 响应式导航：移动端底部导航、桌面端顶栏导航、右上角菜单抽屉
 - 内容管理（MVP）：口令登录后可在站内创建玩法，写入本地 `content/plays/<slug>`
 
@@ -20,8 +25,8 @@ OVOKIT：游戏玩法技术实现分享站（MVP）
 - 详情 `/play/[slug]`：
   - `breakdown` 结构化拆解展示
   - `codeSnippets` 代码高亮展示（当前为简单代码块组件）
-  - `demo.iframeSrc` 存在时渲染 iframe，否则显示占位
-  - `article.mdx` 当前不解析，仅展示原文（占位）
+  - `demo.iframeSrc` / `demo.videoSrc` 存在时渲染；否则回退嵌入对应母型玩法的最小可试玩示例
+  - `article.mdx` 以 Markdown/MDX 文本子集渲染（不支持自定义组件）
 - 版主模式（本地发布）：
   - 右上角菜单 -> 输入口令（环境变量 `MOD_PASSWORD`）登录
   - `/mod`：内容管理列表
@@ -33,6 +38,8 @@ OVOKIT：游戏玩法技术实现分享站（MVP）
 
 - `/`：`src/app/page.tsx`
 - `/play/[slug]`：`src/app/play/[slug]/page.tsx`
+- `/archetypes`：母型玩法目录
+- `/about`、`/contact`、`/privacy`、`/terms`：合规静态页
 - `/mod`：`src/app/mod/page.tsx`
 - `/mod/new`：`src/app/mod/new/page.tsx`
 
@@ -113,6 +120,11 @@ pnpm dev
 ```
 
 打开 `http://localhost:3000`。
+
+## 部署时建议配置的环境变量（SEO/合规）
+
+- `NEXT_PUBLIC_SITE_URL`：站点公开域名（用于 `sitemap.xml` / `robots.txt` 生成）
+- `NEXT_PUBLIC_CONTACT_EMAIL`：联系页与页脚展示的公开邮箱
 
 设置版主口令（可选，用于本地发布）：
 

@@ -18,5 +18,6 @@
       "code": "export function offlineReward(ratePerSec: number, offlineSec: number) {\n  const capSec = 8 * 60 * 60; // 8 小时上限\n  const t = Math.min(offlineSec, capSec);\n  const base = ratePerSec * t;\n  const bonus = 1 + Math.min(0.5, Math.log10(1 + t / 60) * 0.2); // 温和加成\n  return Math.floor(base * bonus);\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：同一套产出，用不同 capSec 与 bonus 曲线，观察回流率与在线时长。"} 
+  "demo": { "note": "建议 Demo：同一套产出，用不同 capSec 与 bonus 曲线，观察回流率与在线时长。" },
+  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "拖拽放置：手动收益差与离线奖励公式" }
 }

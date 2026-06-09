@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DesktopNav } from "./DesktopNav";
 import { MenuDrawer } from "./MenuDrawer";
@@ -8,16 +8,51 @@ import { MenuDrawer } from "./MenuDrawer";
 export function TopNav({ isModerator }: { isModerator: boolean }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const [showModeratorTools, setShowModeratorTools] = useState(false);
+  const tapCountRef = useRef(0);
+  const lastTapAtRef = useRef<number | null>(null);
   const [q, setQ] = useState(() => {
     if (typeof window === "undefined") return "";
     const sp = new URLSearchParams(window.location.search);
     return sp.get("q") ?? "";
   });
 
+  useEffect(() => {
+    try {
+      setShowModeratorTools(localStorage.getItem("ovokit_mod_tools") === "1");
+    } catch {
+      // ignore
+    }
+  }, []);
+
   function goSearch() {
     const trimmed = q.trim();
     const target = trimmed.length > 0 ? `/?q=${encodeURIComponent(trimmed)}` : "/";
     router.push(target);
+  }
+
+  function onLogoTap() {
+    const now = Date.now();
+    const last = lastTapAtRef.current;
+    lastTapAtRef.current = now;
+
+    if (!last || now - last > 1500) tapCountRef.current = 0;
+    tapCountRef.current += 1;
+
+    if (tapCountRef.current >= 8) {
+      tapCountRef.current = 0;
+      try {
+        localStorage.setItem("ovokit_mod_tools", "1");
+      } catch {
+        // ignore
+      }
+      setShowModeratorTools(true);
+      if (isModerator) {
+        router.push("/mod");
+      } else {
+        setOpen(true);
+      }
+    }
   }
 
   return (
@@ -26,9 +61,14 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
         <div className="flex h-14 items-center gap-3">
           <div className="flex min-w-0 flex-1 items-center gap-3">
             <div className="flex items-center gap-2">
-              <div className="rounded-full bg-lime-300 px-2.5 py-1 text-[13px] font-bold tracking-tight text-black min-[360px]:px-3 min-[360px]:text-sm">
+              <button
+                type="button"
+                onClick={onLogoTap}
+                aria-label="OVOKIT"
+                className="rounded-full bg-lime-300 px-2.5 py-1 text-[13px] font-bold tracking-tight text-black min-[360px]:px-3 min-[360px]:text-sm"
+              >
                 OVOKIT
-              </div>
+              </button>
             </div>
 
             <div className="relative min-w-0 flex-1 max-w-xl lg:max-w-md xl:max-w-xl">
@@ -92,7 +132,11 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
         </div>
       </div>
 
-      <MenuDrawer open={open} onClose={() => setOpen(false)} />
+      <MenuDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        showModeratorTools={showModeratorTools}
+      />
     </header>
   );
 }

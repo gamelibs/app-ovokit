@@ -18,5 +18,6 @@
       "code": "export function hasEulerTrail(deg: number[]) {\n  const odd = deg.filter((d) => d % 2 === 1).length;\n  return odd === 0 || odd === 2;\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：生成不同分叉度的图，并自动标注为“入门/进阶/硬核”。"} 
+  "demo": { "note": "建议 Demo：生成不同分叉度的图，并自动标注为“入门/进阶/硬核”。" },
+  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "一笔画：图形生成算法与难度分级" }
 }

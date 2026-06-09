@@ -50,7 +50,7 @@ export default async function ModHomePage({
       <main className="mx-auto w-full max-w-3xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
         <h1 className="text-xl font-semibold">内容管理</h1>
         <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300">
-          你还没有进入版主模式。请点击右上角菜单，使用口令登录后再访问。
+          你还没有进入版主模式。请连续点击顶部「OVOKIT」8 次打开版主入口，再输入口令登录。
         </p>
       </main>
     );

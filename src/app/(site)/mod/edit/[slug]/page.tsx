@@ -15,7 +15,7 @@ export default async function ModEditPlayPage({
       <main className="mx-auto w-full max-w-3xl px-3 pb-24 pt-6 min-[360px]:px-4">
         <h1 className="text-xl font-semibold">编辑玩法</h1>
         <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300">
-          你还没有进入版主模式。请点击右上角菜单登录后再访问。
+          你还没有进入版主模式。请连续点击顶部「OVOKIT」8 次打开版主入口，再登录后访问。
         </p>
         <div className="mt-4">
           <Link

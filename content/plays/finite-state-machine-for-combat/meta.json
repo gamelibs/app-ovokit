@@ -24,5 +24,9 @@
       "code": "type State = \"idle\" | \"move\" | \"attack\";\ntype Event =\n  | { type: \"SEE_TARGET\" }\n  | { type: \"IN_RANGE\" }\n  | { type: \"LOST_TARGET\" };\n\nexport function transition(state: State, event: Event): State {\n  if (state === \"idle\" && event.type === \"SEE_TARGET\") return \"move\";\n  if (state === \"move\" && event.type === \"IN_RANGE\") return \"attack\";\n  if (state === \"attack\" && event.type === \"LOST_TARGET\") return \"idle\";\n  return state;\n}\n"
     }
   ],
-  "demo": { "note": "MVP：后续接入可视化状态机调试器。" }
+  "demo": {
+    "iframeSrc": "/embed/plays/finite-state-machine-for-combat",
+    "note": "最小可交互：事件驱动的战斗 FSM（用于演示状态切换与可测试转移）。"
+  },
+  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "用状态机组织战斗单位行为" }
 }

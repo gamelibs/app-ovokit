@@ -18,5 +18,6 @@
       "code": "export type Aabb = { minX: number; minY: number; maxX: number; maxY: number };\n\nexport function aabbIntersects(a: Aabb, b: Aabb) {\n  return !(a.maxX < b.minX || a.minX > b.maxX || a.maxY < b.minY || a.minY > b.maxY);\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：同一切割效果，用“分片上限/多边形简化阈值”对比帧率与手感。"} 
+  "demo": { "note": "建议 Demo：同一切割效果，用“分片上限/多边形简化阈值”对比帧率与手感。" },
+  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "物理切割：切割判定方式与性能/精度平衡" }
 }

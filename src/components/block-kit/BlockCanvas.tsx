@@ -59,8 +59,12 @@ export function BlockCanvas({
     if (!ctx) return;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Paint the background in CSS-pixel coordinates (scaled by DPR) so it always fills the whole canvas.
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = background;
     ctx.fillRect(0, 0, width, height);
+
     ctx.setTransform(dpr * scale, 0, 0, dpr * scale, dpr * offset.x, dpr * offset.y);
 
     if (showGrid && gridSize > 0) {
@@ -262,7 +266,7 @@ export function BlockCanvas({
     <canvas
       ref={ref}
       className={[
-        "rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-white/10 dark:bg-white/5",
+        "rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/5",
         fit === "fixed" ? "flex-none" : "",
         className ?? "",
       ]

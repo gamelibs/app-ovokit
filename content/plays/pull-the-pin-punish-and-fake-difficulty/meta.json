@@ -18,5 +18,6 @@
       "code": "type Phase = \"setup\" | \"mix\" | \"resolve\" | \"success\" | \"fail\";\n\nexport function nextPhase(phase: Phase, action: string): Phase {\n  if (phase === \"setup\" && action === \"pull\" ) return \"mix\";\n  if (phase === \"mix\" && action === \"pull\" ) return \"resolve\";\n  if (phase === \"resolve\" && action === \"tick\") return \"success\";\n  return phase;\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：做 10 关同模板，分别用“视觉误导/时序压力/隐藏约束”做假难度。"} 
+  "demo": { "note": "建议 Demo：做 10 关同模板，分别用“视觉误导/时序压力/隐藏约束”做假难度。" },
+  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "拉针（Pull the Pin）：顺序惩罚与“假难度”" }
 }

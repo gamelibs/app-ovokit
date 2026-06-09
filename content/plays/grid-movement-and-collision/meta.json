@@ -24,5 +24,9 @@
       "code": "export type Pos = { x: number; y: number };\n\nexport class Occupancy {\n  private map = new Map<string, string>();\n  private key(p: Pos) {\n    return `${p.x},${p.y}`;\n  }\n  get(p: Pos) {\n    return this.map.get(this.key(p));\n  }\n  set(p: Pos, id: string) {\n    this.map.set(this.key(p), id);\n  }\n  clear(p: Pos) {\n    this.map.delete(this.key(p));\n  }\n}\n"
     }
   ],
-  "demo": { "note": "MVP：Demo 先留 iframe 容器。" }
+  "demo": {
+    "iframeSrc": "/embed/plays/grid-movement-and-collision",
+    "note": "最小可试玩：网格移动 + 墙体阻挡（用于演示占用/阻挡模型）。"
+  },
+  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "格子移动与碰撞：从规则到实现" }
 }

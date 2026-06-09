@@ -15,6 +15,7 @@ export type ArchetypePageModel = {
   subtitle: string;
   features: string[];
   difficulty: string;
+  problemsSolved: string[];
   learningGoals: string[];
   demoRuleHint: string;
   minimalRules: string[];
@@ -35,6 +36,7 @@ export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<Arch
       subtitle: "",
       features: [],
       difficulty: "",
+      problemsSolved: [],
       learningGoals: [],
       demoRuleHint: "",
       minimalRules: [],
@@ -52,6 +54,7 @@ export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<Arch
     subtitle: spec.subtitle,
     features: spec.features,
     difficulty: spec.difficulty,
+    problemsSolved: spec.problemsSolved,
     learningGoals: spec.learningGoals,
     demoRuleHint: spec.demoRuleHint,
     minimalRules: spec.minimalRules,

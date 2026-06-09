@@ -21,5 +21,6 @@
       "code": "export function scoreForLen(len: number) {\n  const base = 10;\n  const alpha = 1.35; // 让长线更值钱\n  const raw = base * Math.pow(Math.max(0, len - 2), alpha);\n  return Math.min(9999, Math.floor(raw));\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：同一局内分别用“交叉限制/能量限制/衰减收益”对比手感。"} 
+  "demo": { "note": "建议 Demo：同一局内分别用“交叉限制/能量限制/衰减收益”对比手感。" },
+  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "连线消除：爽点来自分数曲线与限制策略" }
 }

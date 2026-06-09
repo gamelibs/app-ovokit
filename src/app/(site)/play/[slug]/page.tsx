@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { CodeBlock } from "@/components/plays/CodeBlock";
 import { TagPill } from "@/components/plays/TagPill";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
+import { ArticleMarkdown } from "@/components/content/ArticleMarkdown";
 import { getPlayBySlug, listPlaySlugs } from "@/lib/content/plays";
 
 export async function generateStaticParams() {
@@ -33,6 +34,27 @@ export default async function PlayDetailPage({
   const { slug } = await params;
   const play = await getPlayBySlug(slug);
   if (!play) notFound();
+
+  const inferredArchetypeKey = (() => {
+    const tags = new Set(play.tags);
+    if (tags.has("消除")) return "match-clear";
+    if (tags.has("躲避")) return "dodge-avoid";
+    if (tags.has("行进 / 跑酷")) return "runner";
+    if (tags.has("射击")) return "shoot-aim";
+    if (tags.has("战斗对抗") || tags.has("战斗")) return "combat";
+    if (tags.has("放置 / 建造") || tags.has("放置")) return "placement";
+    if (tags.has("策略决策") || tags.has("塔防") || tags.has("状态机")) return "choice-strategy";
+    if (tags.has("物理")) return "physics";
+    if (tags.has("解谜")) return "puzzle";
+    if (tags.has("成长 / 数值") || tags.has("数值")) return "progression";
+    if (tags.has("模拟")) return "simulation";
+    if (tags.has("时机 / 反应") || tags.has("点击")) return "timing";
+    return null;
+  })();
+
+  const fallbackArchetypeDemoSrc = inferredArchetypeKey
+    ? `/embed/demos/archetype/${inferredArchetypeKey}`
+    : null;
 
   return (
     <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
@@ -90,7 +112,7 @@ export default async function PlayDetailPage({
               ) : (
                 <div className="grid h-full place-items-center">
                   <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
-                    封面占位（后续可接图片/视频）
+                    暂无封面
                   </div>
                 </div>
               )}
@@ -132,7 +154,10 @@ export default async function PlayDetailPage({
           <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
             <h2 className="text-base font-semibold">Demo</h2>
             <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-              {play.demo.note ?? "后续将通过 iframe 嵌入可试玩 Demo。"}
+              {play.demo.note ??
+                (fallbackArchetypeDemoSrc
+                  ? "暂未提供专用 Demo，已嵌入对应母型玩法的最小可试玩示例。"
+                  : "暂未提供可试玩 Demo。")}
             </p>
             {play.demo.videoSrc ? (
               <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
@@ -151,6 +176,7 @@ export default async function PlayDetailPage({
                 {(() => {
                   const isStaticDemo =
                     play.demo.iframeSrc?.startsWith("/embed/demos/sliding-puzzle-3d") ||
+                    play.demo.iframeSrc?.startsWith("/embed/games/ReferenceCase/") ||
                     play.demo.iframeSrc?.startsWith("/referencecase") ||
                     (play.demo.iframeSrc?.endsWith(".html") ?? false);
                   return (
@@ -164,11 +190,21 @@ export default async function PlayDetailPage({
                   );
                 })()}
               </div>
+            ) : fallbackArchetypeDemoSrc ? (
+              <div className="mt-4">
+                <DemoEmbed
+                  title={`${play.title} Archetype Demo`}
+                  src={fallbackArchetypeDemoSrc}
+                  controls="toolbar"
+                  showRestart
+                  restartStrategy="postMessage"
+                />
+              </div>
             ) : (
               <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
                 <div className="h-[46vh] w-full sm:h-auto sm:aspect-video">
                   <div className="grid h-full place-items-center text-sm text-zinc-500 dark:text-zinc-400">
-                    Demo 占位（MVP）
+                    暂无可试玩 Demo
                   </div>
                 </div>
               </div>
@@ -177,12 +213,12 @@ export default async function PlayDetailPage({
 
           {play.articleMdx ? (
             <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
-              <h2 className="text-base font-semibold">文章（MDX 占位）</h2>
+              <h2 className="text-base font-semibold">文章</h2>
               <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-                MVP 阶段暂不解析 MDX，仅展示原文内容（后续接入 MDX 渲染）。
+                文章以 Markdown/MDX 文本子集渲染（不支持自定义组件）。
               </p>
               <div className="mt-4">
-                <CodeBlock language="mdx" code={play.articleMdx} />
+                <ArticleMarkdown source={play.articleMdx} />
               </div>
             </section>
           ) : null}
@@ -212,11 +248,11 @@ export default async function PlayDetailPage({
           </section>
 
           <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
-            <h3 className="text-sm font-semibold">下一步</h3>
+            <h3 className="text-sm font-semibold">阅读建议</h3>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-700 dark:text-zinc-200">
-              <li>把玩法拆解变成可复用的结构（字段 + 组件）。</li>
-              <li>接入 MDX 渲染与编辑流程。</li>
-              <li>为 Demo 区增加 iframe 白名单与尺寸适配。</li>
+              <li>先看「玩法拆解」抓住规则与爽点。</li>
+              <li>再看「关键代码」定位实现入口。</li>
+              <li>最后试玩 Demo，体会参数与手感。</li>
             </ul>
           </section>
         </aside>

@@ -76,6 +76,51 @@ export type Play = PlayMeta & {
   articleMdx?: string;
 };
 
+const PLACEHOLDER_COVER_SRC = "/plays/_placeholders/cover.svg";
+const PLACEHOLDER_COVER_WIDE_SRC = "/plays/_placeholders/cover-wide.svg";
+
+async function findPublicPlayAsset(
+  slug: string,
+  baseName: "cover" | "cover-wide",
+): Promise<{ url: string } | null> {
+  const exts = ["webp", "png", "jpg", "jpeg", "svg"] as const;
+  for (const ext of exts) {
+    const rel = path.join("plays", slug, `${baseName}.${ext}`);
+    const abs = path.join(process.cwd(), "public", rel);
+    const ok = await fs
+      .stat(abs)
+      .then((s) => s.isFile())
+      .catch(() => false);
+    if (ok) return { url: `/${rel.replace(/\\/g, "/")}` };
+  }
+  return null;
+}
+
+async function hydratePlayMedia(meta: PlayMeta): Promise<PlayMeta> {
+  const coverSrc = meta.cover?.src;
+  const needsCover = !coverSrc || coverSrc === PLACEHOLDER_COVER_SRC;
+  const needsWide =
+    !meta.coverWide?.src || meta.coverWide?.src === PLACEHOLDER_COVER_WIDE_SRC;
+
+  const out: PlayMeta = { ...meta };
+
+  if (needsCover) {
+    const found = await findPublicPlayAsset(meta.slug, "cover");
+    if (found) {
+      out.cover = { src: found.url, alt: meta.cover?.alt ?? meta.title };
+    }
+  }
+
+  if (needsWide) {
+    const found = await findPublicPlayAsset(meta.slug, "cover-wide");
+    if (found) {
+      out.coverWide = { src: found.url, alt: meta.coverWide?.alt ?? meta.title };
+    }
+  }
+
+  return out;
+}
+
 export type PlayCategory = {
   key: string;
   label: string;
@@ -204,7 +249,8 @@ export async function readPlayMeta(slug: string): Promise<PlayMeta | null> {
   try {
     const metaPath = path.join(playDir(slug), "meta.json");
     const raw = await fs.readFile(metaPath, "utf8");
-    return JSON.parse(raw) as PlayMeta;
+    const meta = JSON.parse(raw) as PlayMeta;
+    return await hydratePlayMedia(meta);
   } catch {
     return null;
   }

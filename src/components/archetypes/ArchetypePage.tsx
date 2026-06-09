@@ -1,6 +1,7 @@
 import type { ArchetypePageModel } from "@/features/archetypes/pageModel";
 import Link from "next/link";
 import Image from "next/image";
+import { DemoEmbed } from "@/components/demos/DemoEmbed";
 
 function ArchetypeImage({
   src,
@@ -120,28 +121,10 @@ export function ArchetypePage({
 
       <SectionShell
         id="demo"
-        title="② 即时试玩 Demo（占位）"
-        actions={
-          <>
-            <button
-              type="button"
-              disabled
-              className="inline-flex h-9 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-400 dark:border-white/10 dark:bg-white/5"
-            >
-              重置
-            </button>
-            <button
-              type="button"
-              disabled
-              className="inline-flex h-9 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-400 dark:border-white/10 dark:bg-white/5"
-            >
-              自动演示
-            </button>
-          </>
-        }
+        title="② 即时试玩 Demo"
       >
         <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-sm text-zinc-700 dark:border-white/10 dark:bg-black/30 dark:text-zinc-200">
-          <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">规则提示条（占位）</div>
+          <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">规则提示</div>
           <div className="mt-1 font-medium">{model.demoRuleHint}</div>
         </div>
         <div className="mt-3">
@@ -151,8 +134,14 @@ export function ArchetypePage({
             heightClass="h-[220px] sm:h-[260px] lg:h-[320px]"
           />
         </div>
-        <div className="mt-3 flex h-[280px] items-center justify-center rounded-xl border border-dashed border-zinc-300 bg-white text-sm text-zinc-500 dark:border-white/15 dark:bg-black/20 dark:text-zinc-400">
-          Demo Canvas（待接入最小规则试玩）
+        <div className="mt-3 overflow-hidden rounded-xl border border-zinc-200 bg-white p-3 dark:border-white/10 dark:bg-black/20">
+          <DemoEmbed
+            title={`${model.title} Demo`}
+            src={`/embed/demos/archetype/${model.key}`}
+            controls="toolbar"
+            showRestart
+            restartStrategy="postMessage"
+          />
         </div>
         <div className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
           约束：30 秒内自然理解；不做复杂 UI / 弹窗引导。
@@ -169,8 +158,9 @@ export function ArchetypePage({
           <div className="rounded-xl border border-zinc-200 bg-white p-3 text-sm dark:border-white/10 dark:bg-black/30">
             <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">3.1 解决了什么问题？</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-zinc-700 dark:text-zinc-200">
-              <li>（待补充）玩家爽点来源</li>
-              <li>（待补充）决策密度与信息呈现</li>
+              {model.problemsSolved.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
             </ul>
           </div>
           <div className="rounded-xl border border-zinc-200 bg-white p-3 text-sm dark:border-white/10 dark:bg-black/30">
@@ -202,9 +192,7 @@ export function ArchetypePage({
             </div>
           ))}
         </div>
-        <div className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
-          交互：卡片可点击，后续可跳转到中级玩法页（待接入）。
-        </div>
+        <div className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">交互：卡片可点击；若有链接将跳转到对应的中级玩法页。</div>
       </SectionShell>
 
       <section id="advanced" className="scroll-mt-24 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
