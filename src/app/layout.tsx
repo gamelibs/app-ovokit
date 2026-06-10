@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { inter, kalam } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className="antialiased">{children}</body>
+      <body
+        className={`${inter.variable} ${kalam.variable} bg-paper text-ink antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
