@@ -4,7 +4,11 @@ import { PlayCard } from "@/components/plays/PlayCard";
 import { RightSidebar } from "@/components/plays/RightSidebar";
 import { getPlayCategory, listPlays, resolvePlayBrowseState, type PlayBrowseGroupKey, type PlayTag } from "@/lib/content/plays";
 import Link from "next/link";
-import { InteractiveHero } from "@/components/home/InteractiveHero";
+import { HandDrawnHero } from "@/components/home/HandDrawnHero";
+import { HotPlaysSection } from "@/components/home/HotPlaysSection";
+import { ArchetypeQuickNav } from "@/components/home/ArchetypeQuickNav";
+import { PlayListItem } from "@/components/home/PlayListItem";
+import { DevToolsPanel } from "@/components/home/DevToolsPanel";
 import { isModerator } from "@/lib/mod/auth";
 
 function normalizeQueryParam(v: string | string[] | undefined) {
@@ -94,31 +98,40 @@ export default async function Home({
   if (isDefaultLanding) {
     return (
       <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
-        <BrowseGroupTabs q={q || undefined} />
-        {heroPlay && (
-          <InteractiveHero playSlug={heroPlay.slug} playTitle={heroPlay.title} showEditorCta={canEdit} />
-        )}
+        <HandDrawnHero />
+        <HotPlaysSection />
+        <ArchetypeQuickNav />
 
-        <section id="featured-plays" className="mt-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">精选玩法</p>
-              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">上手最快的 8 个 Demo</h2>
+        <div className="sketch-divider-wavy mt-8" />
+
+        {/* 更多玩法 + 开发者工具箱 */}
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
+          <section className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-kalam text-xs font-semibold uppercase tracking-wide text-highlight-blue">精选玩法</p>
+                <h2 className="font-kalam text-xl font-semibold text-ink">更多玩法技术拆解</h2>
+              </div>
+              <Link
+                href={{ pathname: "/", query: { all: "1", group: "archetype" } }}
+                className="sketch-button sketch-button-secondary"
+              >
+                查看全部
+              </Link>
             </div>
-            <Link
-              href={{ pathname: "/", query: { all: "1", group: "archetype" } }}
-              className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
-            >
-              查看全部玩法
-            </Link>
-          </div>
+            <div className="sketch-card p-3">
+              <div className="divide-y divide-ink-light/10">
+                {featured.slice(0, 6).map((p) => (
+                  <PlayListItem key={p.slug} play={p} />
+                ))}
+              </div>
+            </div>
+          </section>
 
-          <div className="columns-1 gap-4 min-[420px]:columns-2 lg:columns-2 2xl:columns-3">
-            {featured.map((p) => (
-              <PlayCard key={p.slug} play={p} />
-            ))}
-          </div>
-        </section>
+          <aside className="space-y-6">
+            <DevToolsPanel />
+          </aside>
+        </div>
       </main>
     );
   }
@@ -133,7 +146,7 @@ export default async function Home({
           {pageItems.length > 0 ? (
             pageItems.map((p) => <PlayCard key={p.slug} play={p} />)
           ) : (
-            <div className="mb-4 break-inside-avoid rounded-2xl border border-zinc-200 bg-white p-5 text-sm text-zinc-600 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300">
+            <div className="mb-4 break-inside-avoid sketch-card p-5 text-sm text-ink-light">
               暂无匹配结果{q ? `：${q}` : ""}
             </div>
           )}
@@ -144,31 +157,31 @@ export default async function Home({
 
       {total > 0 ? (
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-sm text-zinc-500 dark:text-zinc-400">
+          <div className="text-sm text-ink-muted">
             第 {currentPage} / {totalPages} 页 · 共 {total} 条
           </div>
           <div className="grid grid-cols-2 gap-3 sm:flex sm:gap-2">
             {currentPage > 1 ? (
               <Link
                 href={pageHref(currentPage - 1)}
-                className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 min-[360px]:px-4 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
+                className="sketch-button sketch-button-secondary min-[360px]:px-4"
               >
                 上一页
               </Link>
             ) : (
-              <span className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-400 opacity-60 min-[360px]:px-4 dark:border-white/10 dark:bg-white/5 dark:text-white/40">
+              <span className="sketch-button sketch-button-secondary opacity-60 min-[360px]:px-4">
                 上一页
               </span>
             )}
             {currentPage < totalPages ? (
               <Link
                 href={pageHref(currentPage + 1)}
-                className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 min-[360px]:px-4 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
+                className="sketch-button sketch-button-secondary min-[360px]:px-4"
               >
                 下一页
               </Link>
             ) : (
-              <span className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-400 opacity-60 min-[360px]:px-4 dark:border-white/10 dark:bg-white/5 dark:text-white/40">
+              <span className="sketch-button sketch-button-secondary opacity-60 min-[360px]:px-4">
                 下一页
               </span>
             )}

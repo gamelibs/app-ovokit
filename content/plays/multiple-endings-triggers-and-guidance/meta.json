@@ -3,11 +3,11 @@
   "title": "多结局：结局触发条件与玩家路径引导",
   "subtitle": "内容讨论度高，但要避免“错过即重开”：用条件可视化与提示强度分级引导玩家走到想要的结局。",
   "cover": {
-    "src": "/plays/multiple-endings-triggers-and-guidance/cover.png",
+    "src": "/plays/_placeholders/cover.svg",
     "alt": "多结局：结局触发条件与玩家路径引导"
   },
   "coverWide": {
-    "src": "/plays/multiple-endings-triggers-and-guidance/cover-wide.png",
+    "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "多结局：结局触发条件与玩家路径引导"
   },
   "tags": ["关卡", "解谜"],

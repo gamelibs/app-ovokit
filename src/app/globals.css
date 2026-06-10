@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css");
 
 :root {
   --paper-bg: #faf7ef;
@@ -26,8 +27,9 @@
   --color-highlight-orange: var(--highlight-orange);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-kalam: var(--font-kalam), cursive;
+    "Segoe UI", Roboto, Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-kalam: var(--font-kalam), "LXGW WenKai", cursive;
+  --font-wenkai: "LXGW WenKai", var(--font-kalam), cursive;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 }
@@ -69,4 +71,183 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+/* ============================================================
+   手绘风格工具类（纯 CSS，SSR 友好）
+   ============================================================ */
+
+/* 基础手绘边框：不规则圆角 + 粗实线 */
+.sketch-border {
+  border: 2.5px solid var(--ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+/* 手绘边框（细线版） */
+.sketch-border-thin {
+  border: 1.5px solid var(--ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+/* 手绘边框（粗线版） */
+.sketch-border-thick {
+  border: 3px solid var(--ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+/* 手绘边框（虚线） */
+.sketch-border-dashed {
+  border: 2px dashed var(--ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+/* 手绘投影：偏移 + 无模糊（马克笔阴影感） */
+.sketch-shadow {
+  box-shadow: 3px 4px 0px rgba(32, 32, 32, 0.12);
+}
+
+.sketch-shadow-sm {
+  box-shadow: 2px 2px 0px rgba(32, 32, 32, 0.1);
+}
+
+.sketch-shadow-lg {
+  box-shadow: 4px 5px 0px rgba(32, 32, 32, 0.15);
+}
+
+/* 手绘卡片：边框 + 投影 + 微旋转 */
+.sketch-card {
+  border: 2.5px solid var(--ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  box-shadow: 3px 4px 0px rgba(32, 32, 32, 0.12);
+  background-color: var(--paper-bg);
+}
+
+/* 手绘按钮 */
+.sketch-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid var(--ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  box-shadow: 2px 3px 0px rgba(32, 32, 32, 0.12);
+  background-color: var(--highlight-yellow);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-kalam), cursive;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.sketch-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 3px 5px 0px rgba(32, 32, 32, 0.15);
+}
+
+.sketch-button:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px rgba(32, 32, 32, 0.1);
+}
+
+.sketch-button-secondary {
+  background-color: var(--paper-bg);
+}
+
+.sketch-button-ghost {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* 手绘输入框 */
+.sketch-input {
+  border: 2px solid var(--ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  background-color: var(--paper-bg);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: var(--ink);
+  outline: none;
+}
+
+.sketch-input::placeholder {
+  color: var(--ink-muted);
+}
+
+.sketch-input:focus {
+  border-color: var(--ink-light);
+  box-shadow: 2px 3px 0px rgba(32, 32, 32, 0.08);
+}
+
+/* 手绘标签 pill */
+.sketch-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid var(--ink);
+  border-radius: 9999px;
+  padding: 0.125rem 0.75rem;
+  font-family: var(--font-kalam), cursive;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.sketch-pill-primary {
+  background-color: var(--highlight-blue);
+  color: var(--ink);
+}
+
+.sketch-pill-neutral {
+  background-color: var(--paper-bg);
+  color: var(--ink-light);
+}
+
+/* 手绘分割线 */
+.sketch-divider {
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0px,
+    var(--ink) 6px,
+    transparent 6px,
+    transparent 10px
+  );
+  border: none;
+  opacity: 0.6;
+}
+
+.sketch-divider-wavy {
+  height: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 8'%3E%3Cpath d='M0 4 Q2.5 0,5 4 T10 4 T15 4 T20 4' fill='none' stroke='%23202020' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 20px 8px;
+  border: none;
+}
+
+/* 手绘容器（section/区块） */
+.sketch-section {
+  border: 2px solid var(--ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  box-shadow: 3px 4px 0px rgba(32, 32, 32, 0.12);
+  background-color: var(--paper-bg);
+  padding: 1.25rem;
+}
+
+/* 微旋转：给卡片增加手绘随意感 */
+.sketch-rotate-left {
+  transform: rotate(-0.6deg);
+}
+
+.sketch-rotate-right {
+  transform: rotate(0.6deg);
+}
+
+/* 马克笔高亮下划线 */
+.sketch-underline {
+  background: linear-gradient(
+    180deg,
+    transparent 60%,
+    var(--highlight-yellow) 60%,
+    var(--highlight-yellow) 90%,
+    transparent 90%
+  );
 }

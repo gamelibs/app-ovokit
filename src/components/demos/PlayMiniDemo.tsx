@@ -25,11 +25,11 @@ function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <section className="h-full w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
-      <div className="border-b border-zinc-200 px-4 py-3 dark:border-white/10">
+    <section className="h-full w-full overflow-hidden rounded-2xl sketch-border bg-paper-warm">
+      <div className="border-b border-zinc-200 px-4 py-3">
         <div className="text-sm font-semibold">{title}</div>
         {description ? (
-          <div className="mt-1 text-xs text-zinc-600 dark:text-zinc-300">
+          <div className="mt-1 text-xs text-ink-light">
             {description}
           </div>
         ) : null}
@@ -93,7 +93,7 @@ function GridMoveDemo() {
     >
       <div className="grid h-full grid-rows-[1fr_auto] gap-4">
         <div
-          className="grid aspect-square w-full max-w-[420px] grid-cols-9 overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-black/20"
+          className="grid aspect-square w-full max-w-[420px] grid-cols-9 overflow-hidden rounded-xl sketch-border bg-paper"
           style={{ justifySelf: "start" }}
         >
           {Array.from({ length: width * height }).map((_, i) => {
@@ -105,13 +105,13 @@ function GridMoveDemo() {
               <div
                 key={i}
                 className={[
-                  "relative border border-zinc-100 dark:border-white/5",
-                  isWall ? "bg-zinc-900/70 dark:bg-white/10" : "bg-white dark:bg-black/10",
+                  "relative border border-zinc-100",
+                  isWall ? "bg-zinc-900/70" : "bg-paper",
                 ].join(" ")}
               >
                 {isPlayer ? (
                   <div className="absolute inset-0 grid place-items-center">
-                    <div className="h-4 w-4 rounded bg-blue-600" />
+                    <div className="h-4 w-4 rounded bg-highlight-blue" />
                   </div>
                 ) : null}
               </div>
@@ -123,32 +123,32 @@ function GridMoveDemo() {
           <button
             type="button"
             onClick={() => tryMove(0, -1)}
-            className="h-10 rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white"
+            className="h-10 rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink"
           >
             ↑
           </button>
           <button
             type="button"
             onClick={() => tryMove(-1, 0)}
-            className="h-10 rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white"
+            className="h-10 rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink"
           >
             ←
           </button>
           <button
             type="button"
             onClick={() => tryMove(1, 0)}
-            className="h-10 rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white"
+            className="h-10 rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink"
           >
             →
           </button>
           <button
             type="button"
             onClick={() => tryMove(0, 1)}
-            className="h-10 rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white"
+            className="h-10 rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink"
           >
             ↓
           </button>
-          <div className="ml-auto text-xs text-zinc-600 dark:text-zinc-300">
+          <div className="ml-auto text-xs text-ink-light">
             pos=({pos.x},{pos.y})
           </div>
         </div>
@@ -200,13 +200,13 @@ function FsmDemo() {
     >
       <div className="grid h-full grid-rows-[auto_auto_1fr] gap-4">
         <div className="flex flex-wrap items-center gap-2">
-          <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
+          <div className="rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold text-ink-light">
             state: {state}
           </div>
-          <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
+          <div className="rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold text-ink-light">
             hp: {hp}
           </div>
-          <label className="ml-auto flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-300">
+          <label className="ml-auto flex items-center gap-2 text-xs text-ink-light">
             <input
               type="checkbox"
               checked={hasTarget}
@@ -214,7 +214,7 @@ function FsmDemo() {
             />
             有目标
           </label>
-          <label className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-300">
+          <label className="flex items-center gap-2 text-xs text-ink-light">
             <input
               type="checkbox"
               checked={inRange}
@@ -281,14 +281,14 @@ function FsmDemo() {
               key={label}
               type="button"
               onClick={onClick}
-              className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-black/20 dark:text-zinc-50 dark:hover:bg-white/10"
+              className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
             >
               {label}
             </button>
           ))}
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white p-3 text-xs text-zinc-700 dark:border-white/10 dark:bg-black/20 dark:text-zinc-200">
+        <div className="overflow-hidden rounded-xl sketch-border bg-paper p-3 text-xs text-ink-light">
           <div className="mb-2 font-semibold">最近事件</div>
           <ul className="space-y-1">
             {log.length ? log.map((e, i) => <li key={`${e}-${i}`}>- {e}</li>) : <li>- （无）</li>}
@@ -351,7 +351,7 @@ function TdWaveDemo() {
     >
       <div className="grid h-full grid-rows-[auto_auto_1fr] gap-4">
         <div className="flex flex-wrap items-center gap-3">
-          <label className="text-xs text-zinc-600 dark:text-zinc-300">
+          <label className="text-xs text-ink-light">
             波次：{wave}
             <input
               type="range"
@@ -362,7 +362,7 @@ function TdWaveDemo() {
               className="ml-3 align-middle"
             />
           </label>
-          <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
+          <div className="rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold text-ink-light">
             budget: {budget}
           </div>
           <div className="ml-auto flex items-center gap-2">
@@ -374,8 +374,8 @@ function TdWaveDemo() {
                 className={[
                   "h-9 rounded-full px-3 text-xs font-semibold",
                   variant === k
-                    ? "bg-blue-600 text-white"
-                    : "border border-zinc-200 bg-white text-zinc-900 dark:border-white/10 dark:bg-black/20 dark:text-zinc-50",
+                    ? "bg-highlight-blue text-ink"
+                    : "sketch-border bg-paper text-ink",
                 ].join(" ")}
               >
                 {k === "swarm" ? "群怪" : "精英"}
@@ -385,35 +385,35 @@ function TdWaveDemo() {
         </div>
 
         <div className="grid grid-cols-2 gap-3 text-sm">
-          <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-white/10 dark:bg-black/20">
-            <div className="text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+          <div className="rounded-xl sketch-border bg-paper p-3">
+            <div className="text-xs font-semibold text-ink-light">
               组合统计
             </div>
             <ul className="mt-2 space-y-1">
               {counts.map(([id, c]) => (
                 <li key={id} className="flex items-center justify-between gap-2">
                   <span className="font-semibold">{id}</span>
-                  <span className="tabular-nums text-zinc-600 dark:text-zinc-300">
+                  <span className="tabular-nums text-ink-light">
                     ×{c}
                   </span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-white/10 dark:bg-black/20">
-            <div className="text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+          <div className="rounded-xl sketch-border bg-paper p-3">
+            <div className="text-xs font-semibold text-ink-light">
               预算余量
             </div>
             <div className="mt-2 text-2xl font-semibold tabular-nums">
               {picked.remaining}
             </div>
-            <div className="mt-2 text-xs text-zinc-600 dark:text-zinc-300">
+            <div className="mt-2 text-xs text-ink-light">
               余量越大表示“生成规则不够充分”，需要更合理的池/权重/约束。
             </div>
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white p-3 text-xs text-zinc-700 dark:border-white/10 dark:bg-black/20 dark:text-zinc-200">
+        <div className="overflow-hidden rounded-xl sketch-border bg-paper p-3 text-xs text-ink-light">
           <div className="mb-2 font-semibold">示例调参建议</div>
           <ul className="space-y-1">
             <li>- 用预算控制“总体强度”，用节拍控制“瞬时压力”。</li>
@@ -464,9 +464,9 @@ function MergeDemo() {
           ].map(([id, n]) => (
             <div
               key={id}
-              className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-white/10 dark:bg-black/20"
+              className="rounded-xl sketch-border bg-paper p-3"
             >
-              <div className="text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+              <div className="text-xs font-semibold text-ink-light">
                 {id}
               </div>
               <div className="mt-1 text-2xl font-semibold tabular-nums">
@@ -480,35 +480,35 @@ function MergeDemo() {
           <button
             type="button"
             onClick={() => setTier1((v) => v + 1)}
-            className="h-10 rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white"
+            className="h-10 rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink"
           >
             产出 u_1
           </button>
           <button
             type="button"
             onClick={() => merge(1)}
-            className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-black/20 dark:text-zinc-50 dark:hover:bg-white/10"
+            className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
           >
             u_1 ×2 → u_2
           </button>
           <button
             type="button"
             onClick={() => merge(2)}
-            className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-black/20 dark:text-zinc-50 dark:hover:bg-white/10"
+            className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
           >
             u_2 ×2 → u_3
           </button>
           <button
             type="button"
             onClick={() => merge(3)}
-            className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-black/20 dark:text-zinc-50 dark:hover:bg-white/10"
+            className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
           >
             u_3 ×2 → u_4
           </button>
           <button
             type="button"
             onClick={() => (setTier1(6), setTier2(1), setTier3(0), setTier4(0))}
-            className="ml-auto h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-black/20 dark:text-zinc-50 dark:hover:bg-white/10"
+            className="ml-auto h-10 rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
           >
             重置
           </button>
@@ -524,12 +524,12 @@ function GenericDemo({ slug }: { slug: string }) {
       title="Demo（文本版）"
       description="该玩法暂无专用可试玩 Demo；先提供文本化结构信息。"
     >
-      <div className="text-sm text-zinc-700 dark:text-zinc-200">
+      <div className="text-sm text-ink-light">
         <div className="font-semibold">slug</div>
-        <div className="mt-2 rounded-xl border border-zinc-200 bg-white p-3 font-mono text-xs dark:border-white/10 dark:bg-black/20">
+        <div className="mt-2 rounded-xl sketch-border bg-paper p-3 font-mono text-xs">
           {slug}
         </div>
-        <div className="mt-4 text-xs text-zinc-600 dark:text-zinc-300">
+        <div className="mt-4 text-xs text-ink-light">
           建议做法：先把规则与状态机/生成器做成可复用模块，再接入真实试玩。
         </div>
       </div>

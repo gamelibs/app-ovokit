@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
+import { X } from "lucide-react";
 
 type ModStatus = { isModerator: boolean };
 
@@ -89,76 +90,68 @@ export function MenuDrawer({
     <div className="fixed inset-0 z-50">
       <button
         type="button"
-        className="absolute inset-0 bg-black/30"
+        className="absolute inset-0 bg-ink/30"
         aria-label="Close drawer"
         onClick={onClose}
       />
-      <div className="absolute right-0 top-0 h-full w-[320px] max-w-[88vw] overflow-y-auto bg-white pb-[env(safe-area-inset-bottom)] text-zinc-900 shadow-2xl dark:bg-zinc-950 dark:text-zinc-50">
-        <div className="flex items-center justify-between border-b border-zinc-200 px-4 pb-3 pt-[calc(env(safe-area-inset-top)+0.75rem)] dark:border-white/10">
-          <div className="text-sm font-semibold">菜单</div>
+      <div className="absolute right-0 top-0 h-full w-[320px] max-w-[88vw] overflow-y-auto bg-paper pb-[env(safe-area-inset-bottom)] text-ink shadow-2xl">
+        <div className="flex items-center justify-between border-b-2 border-ink sketch-border-thin px-4 pb-3 pt-[calc(env(safe-area-inset-top)+0.75rem)]">
+          <div className="font-kalam text-sm font-semibold">菜单</div>
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full hover:bg-black/5 sm:h-9 sm:w-9 dark:hover:bg-white/10"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl hover:bg-ink/5 sm:h-9 sm:w-9"
             aria-label="Close"
             onClick={onClose}
           >
-            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
-              <path
-                d="M6 6l12 12M18 6 6 18"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
+            <X size={20} strokeWidth={2} />
           </button>
         </div>
 
         <div className="space-y-4 p-4">
-          <section className="rounded-2xl border border-zinc-200 bg-zinc-50 p-3 dark:border-white/10 dark:bg-white/5">
-            <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          <section className="rounded-2xl sketch-border bg-paper-warm p-3">
+            <div className="font-kalam text-xs font-semibold text-ink-muted">
               导航
             </div>
             <div className="mt-2 grid gap-2">
               <Link
                 href="/"
                 onClick={onClose}
-                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
                 首页信息流
               </Link>
               <Link
                 href="/archetypes"
                 onClick={onClose}
-                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
                 母型玩法
               </Link>
               <Link
                 href="/about"
                 onClick={onClose}
-                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
                 关于
               </Link>
               <Link
                 href="/contact"
                 onClick={onClose}
-                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
                 联系
               </Link>
               <Link
                 href="/privacy"
                 onClick={onClose}
-                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
                 隐私政策
               </Link>
               <Link
                 href="/terms"
                 onClick={onClose}
-                className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
                 使用条款
               </Link>
@@ -166,20 +159,22 @@ export function MenuDrawer({
           </section>
 
           {canShowModTools ? (
-            <section className="rounded-2xl border border-zinc-200 bg-zinc-50 p-3 dark:border-white/10 dark:bg-white/5">
+            <section className="rounded-2xl sketch-border bg-paper-warm p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                  <div className="font-kalam text-xs font-semibold text-ink-muted">
                     版主模式
                   </div>
-                  <div className="mt-1 text-sm font-semibold">{modLabel}</div>
+                  <div className="font-kalam mt-1 text-sm font-semibold">
+                    {modLabel}
+                  </div>
                 </div>
                 {status.isModerator ? (
                   <button
                     type="button"
                     onClick={logout}
                     disabled={busy}
-                    className="rounded-full border border-zinc-200 bg-white px-3 py-2 text-sm font-semibold hover:bg-zinc-50 disabled:opacity-50 dark:border-white/10 dark:bg-black/30 dark:hover:bg-white/10"
+                    className="font-kalam sketch-border bg-paper px-3 py-2 text-sm font-semibold hover:bg-paper-warm disabled:opacity-50"
                   >
                     退出
                   </button>
@@ -201,23 +196,21 @@ export function MenuDrawer({
                     type="password"
                     name="password"
                     autoComplete="current-password"
-                    className="h-10 w-full rounded-xl border border-zinc-200 bg-white px-3 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:ring-white/10"
+                    className="sketch-input w-full"
                   />
                   <button
                     type="submit"
                     disabled={busy || password.trim().length === 0}
-                    className="h-10 w-full whitespace-nowrap rounded-xl bg-blue-600 text-sm font-semibold text-white disabled:opacity-50"
+                    className="sketch-button w-full"
                   >
                     {busy ? "登录中..." : "进入版主模式"}
                   </button>
                   {error ? (
-                    <div className="text-xs text-red-600 dark:text-red-400">
-                      {error}
-                    </div>
+                    <div className="text-xs text-highlight-red">{error}</div>
                   ) : null}
-                  <div className="text-xs text-zinc-500 dark:text-zinc-400">
-                    提示：使用环境变量 <code className="font-mono">MOD_PASSWORD</code>{" "}
-                    作为口令。
+                  <div className="text-xs text-ink-muted">
+                    提示：使用环境变量{" "}
+                    <code className="font-mono">MOD_PASSWORD</code> 作为口令。
                   </div>
                 </form>
               ) : (
@@ -225,23 +218,30 @@ export function MenuDrawer({
                   <Link
                     href="/mod"
                     onClick={onClose}
-                    className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                    className="sketch-button sketch-button-secondary text-left"
                   >
                     内容管理
                   </Link>
                   <Link
                     href="/mod/cases"
                     onClick={onClose}
-                    className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                    className="sketch-button sketch-button-secondary text-left"
                   >
                     案例演示
                   </Link>
                   <Link
                     href="/mod/new"
                     onClick={onClose}
-                    className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:bg-black/30 dark:text-zinc-50 dark:hover:bg-white/10"
+                    className="sketch-button sketch-button-secondary text-left"
                   >
                     新建玩法
+                  </Link>
+                  <Link
+                    href="/mod/tools"
+                    onClick={onClose}
+                    className="sketch-button sketch-button-secondary text-left"
+                  >
+                    开发者工具箱
                   </Link>
                 </div>
               )}

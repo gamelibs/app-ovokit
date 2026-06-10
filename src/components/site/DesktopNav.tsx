@@ -24,11 +24,11 @@ export function DesktopNav({ isModerator }: { isModerator: boolean }) {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className="hidden whitespace-nowrap xl:inline">
+              <span className="font-kalam hidden whitespace-nowrap xl:inline">
                 {it.label}
               </span>
               {it.badge ? (
-                <span className="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[11px] font-semibold leading-none text-white">
+                <span className="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-highlight-red px-1 text-[11px] font-semibold leading-none text-ink">
                   {it.badge}
                 </span>
               ) : null}
@@ -36,7 +36,7 @@ export function DesktopNav({ isModerator }: { isModerator: boolean }) {
           );
 
           const className =
-            "relative inline-flex items-center gap-2 rounded-full px-2 py-2 text-sm font-semibold text-zinc-700 hover:bg-black/5 hover:text-zinc-900 xl:px-3 dark:text-zinc-200 dark:hover:bg-white/10 dark:hover:text-zinc-50";
+            "font-kalam relative inline-flex items-center gap-2 rounded-xl px-2 py-2 text-sm font-semibold text-ink-light hover:bg-ink/5 hover:text-ink xl:px-3";
 
           return it.href ? (
             <Link

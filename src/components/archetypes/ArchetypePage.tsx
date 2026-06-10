@@ -19,7 +19,7 @@ function ArchetypeImage({
   return (
     <div className={`mx-auto ${widthClass}`}>
       <div
-        className={`relative overflow-hidden rounded-2xl border border-zinc-200 bg-black/10 dark:border-white/10 dark:bg-black/30 ${heightClass}`}
+        className={`relative overflow-hidden sketch-card bg-ink/10 ${heightClass}`}
       >
         <Image src={src} alt="" fill sizes="(max-width: 1024px) 100vw, 960px" priority={priority} className="object-cover" />
       </div>
@@ -39,9 +39,9 @@ function SectionShell({
   actions?: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
+    <section id={id} className="scroll-mt-24 sketch-card p-4 shadow-sm">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">{title}</h2>
+        <h2 className="text-base font-semibold text-ink">{title}</h2>
         {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
       </div>
       <div className="mt-3">{children}</div>
@@ -65,32 +65,32 @@ export function ArchetypePage({
 }) {
   const content = (
     <div className="space-y-4">
-      <section className="rounded-3xl border border-zinc-200 bg-white/70 p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
+      <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
         <div className="flex flex-col gap-3">
           <ArchetypeImage
             src={images.hero}
             priority
           />
           <div>
-            <h1 className="text-2xl font-semibold text-zinc-900 dark:text-white">{model.title}</h1>
-            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">{model.subtitle}</p>
+            <h1 className="text-2xl font-semibold text-ink">{model.title}</h1>
+            <p className="mt-2 text-sm text-ink-light">{model.subtitle}</p>
           </div>
-          <div className="grid gap-2 rounded-2xl border border-zinc-200 bg-white p-3 text-sm text-zinc-700 dark:border-white/10 dark:bg-black/30 dark:text-zinc-200">
+          <div className="grid gap-2 sketch-card p-3 text-sm text-ink-light">
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">母型玩法</div>
+              <div className="text-xs font-semibold text-ink-muted">母型玩法</div>
               <div className="font-medium">{model.title}</div>
             </div>
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">玩法特征</div>
-              <div className="text-zinc-600 dark:text-zinc-300">{model.features.join(" · ")}</div>
+              <div className="text-xs font-semibold text-ink-muted">玩法特征</div>
+              <div className="text-ink-light">{model.features.join(" · ")}</div>
             </div>
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">难度层级</div>
-              <div className="text-zinc-600 dark:text-zinc-300">{model.difficulty}</div>
+              <div className="text-xs font-semibold text-ink-muted">难度层级</div>
+              <div className="text-ink-light">{model.difficulty}</div>
             </div>
           </div>
-          <div className="rounded-2xl border border-zinc-200 bg-white p-3 text-sm text-zinc-700 dark:border-white/10 dark:bg-black/30 dark:text-zinc-200">
-            <div className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          <div className="sketch-card p-3 text-sm text-ink-light">
+            <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
               学习目标
             </div>
             <ul className="mt-2 list-disc space-y-1 pl-5">
@@ -112,7 +112,7 @@ export function ArchetypePage({
           <a
             key={item.id}
             href={`#${item.id}`}
-            className="inline-flex h-9 flex-none items-center justify-center rounded-full border border-zinc-200 bg-white px-3 font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-200 dark:hover:bg-white/10"
+            className="inline-flex h-9 flex-none items-center justify-center rounded-full sketch-border bg-paper px-3 font-semibold text-ink-light hover:bg-paper-warm"
           >
             {item.label}
           </a>
@@ -123,8 +123,8 @@ export function ArchetypePage({
         id="demo"
         title="② 即时试玩 Demo"
       >
-        <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-sm text-zinc-700 dark:border-white/10 dark:bg-black/30 dark:text-zinc-200">
-          <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">规则提示</div>
+        <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
+          <div className="text-xs font-semibold text-ink-muted">规则提示</div>
           <div className="mt-1 font-medium">{model.demoRuleHint}</div>
         </div>
         <div className="mt-3">
@@ -134,7 +134,7 @@ export function ArchetypePage({
             heightClass="h-[220px] sm:h-[260px] lg:h-[320px]"
           />
         </div>
-        <div className="mt-3 overflow-hidden rounded-xl border border-zinc-200 bg-white p-3 dark:border-white/10 dark:bg-black/20">
+        <div className="mt-3 overflow-hidden sketch-border bg-paper sketch-shadow-sm p-3">
           <DemoEmbed
             title={`${model.title} Demo`}
             src={`/embed/demos/archetype/${model.key}`}
@@ -143,7 +143,7 @@ export function ArchetypePage({
             restartStrategy="postMessage"
           />
         </div>
-        <div className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="mt-3 text-xs text-ink-muted">
           约束：30 秒内自然理解；不做复杂 UI / 弹窗引导。
         </div>
       </SectionShell>
@@ -155,25 +155,25 @@ export function ArchetypePage({
           heightClass="h-[220px] sm:h-[260px] lg:h-[320px]"
         />
         <div className="grid gap-3 lg:grid-cols-3">
-          <div className="rounded-xl border border-zinc-200 bg-white p-3 text-sm dark:border-white/10 dark:bg-black/30">
-            <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">3.1 解决了什么问题？</div>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-zinc-700 dark:text-zinc-200">
+          <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+            <div className="text-xs font-semibold text-ink-muted">3.1 解决了什么问题？</div>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
               {model.problemsSolved.map((t) => (
                 <li key={t}>{t}</li>
               ))}
             </ul>
           </div>
-          <div className="rounded-xl border border-zinc-200 bg-white p-3 text-sm dark:border-white/10 dark:bg-black/30">
-            <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">3.2 最小规则集</div>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-zinc-700 dark:text-zinc-200">
+          <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+            <div className="text-xs font-semibold text-ink-muted">3.2 最小规则集</div>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
               {model.minimalRules.map((t) => (
                 <li key={t}>{t}</li>
               ))}
             </ul>
           </div>
-          <div className="rounded-xl border border-zinc-200 bg-white p-3 text-sm dark:border-white/10 dark:bg-black/30">
-            <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">3.3 系统循环图（可选）</div>
-            <div className="mt-2 text-zinc-700 dark:text-zinc-200">{model.systemLoopHint}</div>
+          <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+            <div className="text-xs font-semibold text-ink-muted">3.3 系统循环图（可选）</div>
+            <div className="mt-2 text-ink-light">{model.systemLoopHint}</div>
           </div>
         </div>
       </SectionShell>
@@ -181,25 +181,25 @@ export function ArchetypePage({
       <SectionShell id="combos" title="④ 常见组合与变体">
         <div className="grid gap-3 lg:grid-cols-3">
           {model.combos.map((c) => (
-            <div key={c.formula} className="rounded-xl border border-zinc-200 bg-white p-3 text-sm dark:border-white/10 dark:bg-black/30">
-              <div className="font-semibold text-zinc-900 dark:text-zinc-50">{c.formula}</div>
-              <div className="mt-1 text-zinc-600 dark:text-zinc-300">{c.effect}</div>
+            <div key={c.formula} className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+              <div className="font-semibold text-ink">{c.formula}</div>
+              <div className="mt-1 text-ink-light">{c.effect}</div>
               {c.href ? (
-                <Link href={c.href} className="mt-2 inline-flex text-xs font-semibold text-blue-600 hover:underline dark:text-blue-300">
+                <Link href={c.href} className="mt-2 inline-flex text-xs font-semibold text-ink hover:underline">
                   查看中级玩法页 →
                 </Link>
               ) : null}
             </div>
           ))}
         </div>
-        <div className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">交互：卡片可点击；若有链接将跳转到对应的中级玩法页。</div>
+        <div className="mt-3 text-xs text-ink-muted">交互：卡片可点击；若有链接将跳转到对应的中级玩法页。</div>
       </SectionShell>
 
-      <section id="advanced" className="scroll-mt-24 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
+      <section id="advanced" className="scroll-mt-24 sketch-card p-4 shadow-sm">
         <details className="group">
-          <summary className="cursor-pointer list-none text-base font-semibold text-zinc-900 dark:text-zinc-50">
+          <summary className="cursor-pointer list-none text-base font-semibold text-ink">
             ⑤ 高级设计与算法（默认折叠）
-            <span className="ml-2 text-xs font-semibold text-zinc-500 group-open:hidden dark:text-zinc-400">点击展开</span>
+            <span className="ml-2 text-xs font-semibold text-ink-muted group-open:hidden">点击展开</span>
           </summary>
           <div className="mt-3 grid gap-3 lg:grid-cols-2">
             <div className="lg:col-span-2">
@@ -209,17 +209,17 @@ export function ArchetypePage({
                 heightClass="h-[200px] sm:h-[240px] lg:h-[300px]"
               />
             </div>
-            <div className="rounded-xl border border-zinc-200 bg-white p-3 text-sm dark:border-white/10 dark:bg-black/30">
-              <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">设计警告</div>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-zinc-700 dark:text-zinc-200">
+            <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+              <div className="text-xs font-semibold text-ink-muted">设计警告</div>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                 {model.advancedWarnings.map((t) => (
                   <li key={t}>{t}</li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-xl border border-zinc-200 bg-white p-3 text-sm dark:border-white/10 dark:bg-black/30">
-              <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">算法示例</div>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-zinc-700 dark:text-zinc-200">
+            <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+              <div className="text-xs font-semibold text-ink-muted">算法示例</div>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                 {model.advancedAlgoRefs.map((t) => (
                   <li key={t}>{t}</li>
                 ))}

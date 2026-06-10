@@ -114,7 +114,7 @@ export function ServerDemoPlayer({
   return (
     <div className="h-full w-full">
       {error ? (
-        <div className="mb-3 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-200">
+        <div className="mb-3 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">
           {error}
         </div>
       ) : null}
@@ -123,31 +123,31 @@ export function ServerDemoPlayer({
         <div className="grid h-full grid-rows-[auto_auto_1fr_auto] gap-3">
           <div>
             <div className="text-base font-semibold">{view.title}</div>
-            <div className="mt-1 text-xs text-zinc-600 dark:text-zinc-300">
+            <div className="mt-1 text-xs text-ink-light">
               {view.goal}
             </div>
           </div>
 
           <div className="grid gap-2 sm:grid-cols-2">
-            <div className="rounded-xl border border-zinc-200 bg-white p-3 text-sm dark:border-white/10 dark:bg-black/20">
-              <div className="text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+            <div className="rounded-xl sketch-border bg-paper p-3 text-sm">
+              <div className="text-xs font-semibold text-ink-light">
                 状态
               </div>
-              <ul className="mt-2 space-y-1 text-xs text-zinc-700 dark:text-zinc-200">
+              <ul className="mt-2 space-y-1 text-xs text-ink-light">
                 {view.status.map((s) => (
                   <li key={s}>- {s}</li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-xl border border-zinc-200 bg-white p-3 text-sm dark:border-white/10 dark:bg-black/20">
-              <div className="text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+            <div className="rounded-xl sketch-border bg-paper p-3 text-sm">
+              <div className="text-xs font-semibold text-ink-light">
                 指标
               </div>
               <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
                 {view.metrics.map((m) => (
                   <div key={m.label} className="flex items-center justify-between gap-2">
-                    <dt className="text-zinc-600 dark:text-zinc-300">{m.label}</dt>
-                    <dd className="font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
+                    <dt className="text-ink-light">{m.label}</dt>
+                    <dd className="font-semibold tabular-nums text-ink">
                       {m.value}
                     </dd>
                   </div>
@@ -156,7 +156,7 @@ export function ServerDemoPlayer({
             </div>
           </div>
 
-          <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-white/10 dark:bg-black/20">
+          <div className="rounded-xl sketch-border bg-paper p-3">
             <div className="flex flex-wrap gap-2">
               {view.controls.map((c, idx) => {
                 if (c.kind === "button") {
@@ -166,7 +166,7 @@ export function ServerDemoPlayer({
                       type="button"
                       disabled={busy}
                       onClick={() => void step(c.action)}
-                      className="h-10 rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white disabled:opacity-60"
+                      className="h-10 rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink disabled:opacity-60"
                     >
                       {c.label}
                     </button>
@@ -178,7 +178,7 @@ export function ServerDemoPlayer({
                       key={`${c.label}-${idx}`}
                       className="flex flex-wrap items-center gap-2"
                     >
-                      <div className="text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+                      <div className="text-xs font-semibold text-ink-light">
                         {c.label}：
                       </div>
                       {c.options.slice(0, 3).map((opt, i) => (
@@ -187,7 +187,7 @@ export function ServerDemoPlayer({
                           type="button"
                           disabled={busy}
                           onClick={() => void step({ type: "choice", option: i })}
-                          className="h-9 rounded-full border border-zinc-200 bg-white px-3 text-xs font-semibold text-zinc-900 hover:bg-zinc-50 disabled:opacity-60 dark:border-white/10 dark:bg-black/20 dark:text-zinc-50 dark:hover:bg-white/10"
+                          className="h-9 rounded-full sketch-border bg-paper px-3 text-xs font-semibold text-ink hover:bg-paper-warm disabled:opacity-60"
                         >
                           {opt}
                         </button>
@@ -199,7 +199,7 @@ export function ServerDemoPlayer({
                   return (
                     <label
                       key={`${c.label}-${idx}`}
-                      className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-300"
+                      className="flex items-center gap-2 text-xs text-ink-light"
                     >
                       {c.label}
                       <input
@@ -226,7 +226,7 @@ export function ServerDemoPlayer({
             </div>
           </div>
 
-          <div className="rounded-xl border border-zinc-200 bg-white p-3 text-xs text-zinc-700 dark:border-white/10 dark:bg-black/20 dark:text-zinc-200">
+          <div className="rounded-xl sketch-border bg-paper p-3 text-xs text-ink-light">
             <div className="mb-2 font-semibold">事件</div>
             {events.length ? (
               <ul className="space-y-1">
@@ -235,12 +235,12 @@ export function ServerDemoPlayer({
                 ))}
               </ul>
             ) : (
-              <div className="text-zinc-500 dark:text-zinc-400">（暂无）</div>
+              <div className="text-ink-muted">（暂无）</div>
             )}
           </div>
         </div>
       ) : (
-        <div className="rounded-xl border border-zinc-200 bg-white p-4 text-sm text-zinc-600 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300">
+        <div className="rounded-xl sketch-border bg-paper p-4 text-sm text-ink-light">
           {busy ? "加载中…" : "初始化…"}
         </div>
       )}

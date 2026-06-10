@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { siteConfig } from "@/lib/site/config";
 import { CodeBlock } from "@/components/plays/CodeBlock";
 import { TagPill } from "@/components/plays/TagPill";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { ArticleMarkdown } from "@/components/content/ArticleMarkdown";
-import { getPlayBySlug, listPlaySlugs } from "@/lib/content/plays";
+import { PlayDetailStats } from "@/components/plays/PlayStats";
+import { RelatedPlays } from "@/components/plays/RelatedPlays";
+import { getPlayBySlug, listPlaySlugs, listPlays } from "@/lib/content/plays";
+
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const slugs = await listPlaySlugs();
@@ -20,9 +25,27 @@ export async function generateMetadata({
   const { slug } = await params;
   const play = await getPlayBySlug(slug);
   if (!play) return { title: "玩法不存在 - OVOKIT" };
+
+  const coverImage = play.coverWide?.src ?? play.cover?.src ?? null;
+  const ogImage = coverImage ? `${siteConfig.url}${coverImage}` : undefined;
+
   return {
     title: `${play.title} - OVOKIT`,
     description: play.subtitle,
+    openGraph: {
+      title: play.title,
+      description: play.subtitle,
+      type: "article",
+      locale: "zh_CN",
+      siteName: "OVOKIT",
+      images: ogImage ? [{ url: ogImage }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: play.title,
+      description: play.subtitle,
+      images: ogImage ? [ogImage] : undefined,
+    },
   };
 }
 
@@ -34,6 +57,18 @@ export default async function PlayDetailPage({
   const { slug } = await params;
   const play = await getPlayBySlug(slug);
   if (!play) notFound();
+
+  // Related plays: sort by tag overlap
+  const allPlays = await listPlays();
+  const currentTags = new Set(play.tags);
+  const relatedPlays = allPlays
+    .filter((p) => p.slug !== slug)
+    .map((p) => ({
+      ...p,
+      overlap: p.tags.filter((t) => currentTags.has(t)).length,
+    }))
+    .sort((a, b) => b.overlap - a.overlap)
+    .slice(0, 6);
 
   const inferredArchetypeKey = (() => {
     const tags = new Set(play.tags);
@@ -61,19 +96,19 @@ export default async function PlayDetailPage({
       <div className="flex items-center gap-3">
         <Link
           href="/"
-          className="inline-flex h-11 items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 sm:h-9 sm:px-3 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
+          className="inline-flex h-11 items-center gap-2 rounded-full sketch-border bg-paper px-4 text-sm font-semibold text-ink hover:bg-paper-warm sm:h-9 sm:px-3"
         >
           <span aria-hidden="true">←</span>
           返回
         </Link>
-        <div className="text-sm text-zinc-500 dark:text-zinc-400">
+        <div className="text-sm text-ink-muted">
           玩法拆解 · 代码 · Demo
         </div>
       </div>
 
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_360px] lg:items-start">
         <article className="space-y-4">
-          <header className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
+          <header className="sketch-card p-5 shadow-sm">
             <div className="flex flex-wrap items-center gap-2">
               {play.tags.map((t) => (
                 <TagPill key={t} tone={t === "推荐" ? "primary" : "neutral"}>
@@ -84,11 +119,19 @@ export default async function PlayDetailPage({
             <h1 className="mt-3 text-2xl font-semibold tracking-tight">
               {play.title}
             </h1>
-            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+            <p className="mt-2 text-sm leading-6 text-ink-light">
               {play.subtitle}
             </p>
 
-            <div className="mt-4 aspect-[4/3] w-full max-h-[420px] overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-200 to-zinc-50 dark:from-white/10 dark:to-black">
+            <div className="mt-3">
+              <PlayDetailStats
+                slug={play.slug}
+                initialViews={play.stats.views}
+                initialLikes={play.stats.likes}
+              />
+            </div>
+
+            <div className="mt-4 aspect-[4/3] w-full max-h-[420px] overflow-hidden rounded-2xl bg-gradient-to-br from-paper-warm to-paper">
               {play.coverWide?.src || play.cover?.src ? (
                 <div className="relative h-full w-full">
                   {/* Background fill (blurred) */}
@@ -99,7 +142,7 @@ export default async function PlayDetailPage({
                     aria-hidden="true"
                     className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-55"
                   />
-                  <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
+                  <div className="absolute inset-0 bg-ink/20" aria-hidden="true" />
 
                   {/* Foreground (full image) */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -111,7 +154,7 @@ export default async function PlayDetailPage({
                 </div>
               ) : (
                 <div className="grid h-full place-items-center">
-                  <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
+                  <div className="rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold text-ink-light">
                     暂无封面
                   </div>
                 </div>
@@ -119,15 +162,15 @@ export default async function PlayDetailPage({
             </div>
           </header>
 
-          <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
+          <section className="sketch-card p-5 shadow-sm">
             <h2 className="text-base font-semibold">玩法拆解</h2>
             <div className="mt-4 space-y-4">
               {play.breakdown.map((b) => (
-                <div key={b.title} className="rounded-xl bg-zinc-50 p-4 dark:bg-white/5">
-                  <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                <div key={b.title} className="rounded-xl bg-paper-warm p-4">
+                  <div className="text-sm font-semibold text-ink">
                     {b.title}
                   </div>
-                  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-700 dark:text-zinc-200">
+                  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-ink-light">
                     {b.bullets.map((it) => (
                       <li key={it}>{it}</li>
                     ))}
@@ -137,12 +180,12 @@ export default async function PlayDetailPage({
             </div>
           </section>
 
-          <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
+          <section className="sketch-card p-5 shadow-sm">
             <h2 className="text-base font-semibold">关键代码</h2>
             <div className="mt-4 space-y-3">
               {play.codeSnippets.map((s) => (
                 <div key={s.title}>
-                  <div className="mb-2 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                  <div className="mb-2 text-sm font-semibold text-ink">
                     {s.title}
                   </div>
                   <CodeBlock language={s.language} code={s.code} />
@@ -151,16 +194,16 @@ export default async function PlayDetailPage({
             </div>
           </section>
 
-          <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
+          <section className="sketch-card p-5 shadow-sm">
             <h2 className="text-base font-semibold">Demo</h2>
-            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+            <p className="mt-2 text-sm text-ink-light">
               {play.demo.note ??
                 (fallbackArchetypeDemoSrc
                   ? "暂未提供专用 Demo，已嵌入对应母型玩法的最小可试玩示例。"
                   : "暂未提供可试玩 Demo。")}
             </p>
             {play.demo.videoSrc ? (
-              <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
+              <div className="mt-4 overflow-hidden sketch-card-warm">
                 <div className="h-[68vh] w-full sm:h-auto sm:aspect-video">
                   <video
                     src={play.demo.videoSrc}
@@ -201,9 +244,9 @@ export default async function PlayDetailPage({
                 />
               </div>
             ) : (
-              <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
+              <div className="mt-4 overflow-hidden sketch-card-warm">
                 <div className="h-[46vh] w-full sm:h-auto sm:aspect-video">
-                  <div className="grid h-full place-items-center text-sm text-zinc-500 dark:text-zinc-400">
+                  <div className="grid h-full place-items-center text-sm text-ink-muted">
                     暂无可试玩 Demo
                   </div>
                 </div>
@@ -212,9 +255,9 @@ export default async function PlayDetailPage({
           </section>
 
           {play.articleMdx ? (
-            <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
+            <section className="sketch-card p-5 shadow-sm">
               <h2 className="text-base font-semibold">文章</h2>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+              <p className="mt-2 text-sm text-ink-light">
                 文章以 Markdown/MDX 文本子集渲染（不支持自定义组件）。
               </p>
               <div className="mt-4">
@@ -222,24 +265,26 @@ export default async function PlayDetailPage({
               </div>
             </section>
           ) : null}
+
+          <RelatedPlays currentSlug={slug} plays={relatedPlays} />
         </article>
 
         <aside className="hidden lg:block space-y-4">
-          <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
+          <section className="sketch-card p-4 shadow-sm">
             <h3 className="text-sm font-semibold">信息</h3>
             <dl className="mt-3 space-y-2 text-sm">
               <div className="flex items-center justify-between gap-3">
-                <dt className="text-zinc-500 dark:text-zinc-400">难度</dt>
+                <dt className="text-ink-muted">难度</dt>
                 <dd className="font-semibold">{play.difficulty}</dd>
               </div>
               <div className="flex items-start justify-between gap-3">
-                <dt className="text-zinc-500 dark:text-zinc-400">技术栈</dt>
+                <dt className="text-ink-muted">技术栈</dt>
                 <dd className="text-right font-semibold">
                   {play.techStack.join(" / ")}
                 </dd>
               </div>
               <div className="flex items-start justify-between gap-3">
-                <dt className="text-zinc-500 dark:text-zinc-400">核心点</dt>
+                <dt className="text-ink-muted">核心点</dt>
                 <dd className="text-right font-semibold">
                   {play.corePoints.join(" / ")}
                 </dd>
@@ -247,9 +292,9 @@ export default async function PlayDetailPage({
             </dl>
           </section>
 
-          <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
+          <section className="sketch-card p-4 shadow-sm">
             <h3 className="text-sm font-semibold">阅读建议</h3>
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-700 dark:text-zinc-200">
+            <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-ink-light">
               <li>先看「玩法拆解」抓住规则与爽点。</li>
               <li>再看「关键代码」定位实现入口。</li>
               <li>最后试玩 Demo，体会参数与手感。</li>

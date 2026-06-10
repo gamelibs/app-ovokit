@@ -3,11 +3,11 @@
   "title": "天赋树：假选择 vs 真选择，重置成本怎么定",
   "subtitle": "策略+成长的经典组合：让选择有代价、有分歧，同时保证新手不被一次点错毁掉。",
   "cover": {
-    "src": "/plays/talent-tree-real-choice-and-respec/cover.png",
+    "src": "/plays/_placeholders/cover.svg",
     "alt": "天赋树：假选择 vs 真选择，重置成本怎么定"
   },
   "coverWide": {
-    "src": "/plays/talent-tree-real-choice-and-respec/cover-wide.png",
+    "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "天赋树：假选择 vs 真选择，重置成本怎么定"
   },
   "tags": ["数值", "战斗"],

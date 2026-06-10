@@ -3,11 +3,11 @@
   "title": "波次防守：波次强度曲线与中场缓冲设计",
   "subtitle": "节奏清晰才会上头：用波次预算、刷怪模板与喘息期奖励把防守做成可预测的爽感循环。",
   "cover": {
-    "src": "/plays/wave-defense-difficulty-curve/cover.png",
+    "src": "/plays/_placeholders/cover.svg",
     "alt": "波次防守：波次强度曲线与中场缓冲设计"
   },
   "coverWide": {
-    "src": "/plays/wave-defense-difficulty-curve/cover-wide.png",
+    "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "波次防守：波次强度曲线与中场缓冲设计"
   },
   "tags": ["塔防", "关卡", "数值", "生成"],

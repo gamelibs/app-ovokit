@@ -4,7 +4,7 @@ import type { PlayArchetypeKey } from "@/lib/archetypes/archetypes";
 
 export type ArchetypeImageKind = "hero" | "interaction" | "rule" | "advanced";
 
-const extensions = ["webp", "png", "jpg", "jpeg"] as const;
+const extensions = ["svg", "webp", "png", "jpg", "jpeg"] as const;
 
 async function firstExistingPublicAssetPath(relativePaths: string[]) {
   for (const rel of relativePaths) {

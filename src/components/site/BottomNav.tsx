@@ -9,7 +9,7 @@ export function BottomNav({ isModerator }: { isModerator: boolean }) {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-40 min-w-[360px] border-t border-zinc-200 bg-white/90 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden dark:border-white/10 dark:bg-black/60"
+      className="fixed inset-x-0 bottom-0 z-40 min-w-[360px] border-t-2 border-ink sketch-border-thin bg-paper/90 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
       style={{
         transform: "translateX(calc(var(--ovokit-scroll-x, 0px) * -1))",
         willChange: "transform",
@@ -32,9 +32,9 @@ export function BottomNav({ isModerator }: { isModerator: boolean }) {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span>{it.label}</span>
+              <span className="font-kalam">{it.label}</span>
               {it.badge ? (
-                <span className="absolute right-6 top-2 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white">
+                <span className="absolute right-6 top-2 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-highlight-red px-1 text-[10px] font-semibold text-ink">
                   {it.badge}
                 </span>
               ) : null}
@@ -42,7 +42,7 @@ export function BottomNav({ isModerator }: { isModerator: boolean }) {
           );
 
           const className =
-            "relative flex flex-col items-center justify-center gap-1 text-[11px] text-zinc-600 hover:text-zinc-900 min-[360px]:text-xs dark:text-zinc-300 dark:hover:text-zinc-50";
+            "relative flex flex-col items-center justify-center gap-1 text-[11px] text-ink-light hover:text-ink min-[360px]:text-xs";
 
           return it.href ? (
             <Link key={it.label} href={it.href} className={className}>

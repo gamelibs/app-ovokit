@@ -3,11 +3,11 @@
   "title": "随机技能选择：技能权重与新手保护机制",
   "subtitle": "把“选择焦虑”做成爽点：三选一如何既多样又不坑人。",
   "cover": {
-    "src": "/plays/skill-draft-weights-and-protection/cover.png",
+    "src": "/plays/_placeholders/cover.svg",
     "alt": "随机技能选择：技能权重与新手保护机制"
   },
   "coverWide": {
-    "src": "/plays/skill-draft-weights-and-protection/cover-wide.png",
+    "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "随机技能选择：技能权重与新手保护机制"
   },
   "tags": ["Roguelike", "战斗", "生成", "数值"],

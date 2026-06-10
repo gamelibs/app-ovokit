@@ -266,7 +266,7 @@ export function BlockCanvas({
     <canvas
       ref={ref}
       className={[
-        "rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/5",
+        "rounded-xl sketch-border bg-paper",
         fit === "fixed" ? "flex-none" : "",
         className ?? "",
       ]

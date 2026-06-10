@@ -3,11 +3,11 @@
   "title": "随机事件：好坏事件比例与连续负反馈修正",
   "subtitle": "不可预测才有故事，但不能把玩家打进“死亡螺旋”：用事件池与保底修复情绪。",
   "cover": {
-    "src": "/plays/random-events-balance-and-pity/cover.png",
+    "src": "/plays/_placeholders/cover.svg",
     "alt": "随机事件：好坏事件比例与连续负反馈修正"
   },
   "coverWide": {
-    "src": "/plays/random-events-balance-and-pity/cover-wide.png",
+    "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "随机事件：好坏事件比例与连续负反馈修正"
   },
   "tags": ["Roguelike", "生成", "关卡"],

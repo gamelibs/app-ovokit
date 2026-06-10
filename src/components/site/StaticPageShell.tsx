@@ -11,19 +11,19 @@ export function StaticPageShell({
 }) {
   return (
     <main className="mx-auto w-full max-w-4xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
-      <header className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white">
+      <header className="rounded-2xl sketch-border-thin bg-paper p-5 shadow-sm">
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">
           {title}
         </h1>
         {subtitle ? (
-          <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+          <p className="mt-2 text-sm leading-6 text-ink-light">
             {subtitle}
           </p>
         ) : null}
       </header>
 
-      <section className="mt-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/5">
-        <div className="space-y-6 text-sm leading-6 text-zinc-700 dark:text-zinc-200">
+      <section className="mt-4 rounded-2xl sketch-border-thin bg-paper p-5 shadow-sm">
+        <div className="space-y-6 text-sm leading-6 text-ink-light">
           {children}
         </div>
       </section>

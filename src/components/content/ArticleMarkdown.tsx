@@ -51,7 +51,7 @@ function parseInline(text: string): InlineNode[] {
         out.push(
           <code
             key={`code-${i}`}
-            className="rounded bg-black/5 px-1 py-0.5 font-mono text-[0.92em] text-zinc-900 dark:bg-white/10 dark:text-zinc-50"
+            className="rounded bg-ink/5 px-1 py-0.5 font-mono text-[0.92em] text-ink"
           >
             {code}
           </code>,
@@ -79,7 +79,7 @@ function parseInline(text: string): InlineNode[] {
                   href={href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                  className="font-semibold text-ink hover:underline"
                 >
                   {label || href}
                 </a>
@@ -87,7 +87,7 @@ function parseInline(text: string): InlineNode[] {
                 <Link
                   key={`l-${i}`}
                   href={href}
-                  className="font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                  className="font-semibold text-ink hover:underline"
                 >
                   {label || href}
                 </Link>
@@ -106,7 +106,7 @@ function parseInline(text: string): InlineNode[] {
       if (end > i + 2) {
         const inner = text.slice(i + 2, end);
         out.push(
-          <strong key={`b-${i}`} className="font-semibold text-zinc-900 dark:text-zinc-50">
+          <strong key={`b-${i}`} className="font-semibold text-ink">
             {inner}
           </strong>,
         );
@@ -121,7 +121,7 @@ function parseInline(text: string): InlineNode[] {
       if (end > i + 1) {
         const inner = text.slice(i + 1, end);
         out.push(
-          <em key={`i-${i}`} className="italic text-zinc-900 dark:text-zinc-50">
+          <em key={`i-${i}`} className="italic text-ink">
             {inner}
           </em>,
         );
@@ -261,7 +261,7 @@ export function ArticleMarkdown({ source }: { source: string }) {
   const blocks = parseBlocks(source);
 
   return (
-    <div className="space-y-4 text-sm leading-7 text-zinc-800 dark:text-zinc-200">
+    <div className="space-y-4 text-sm leading-7 text-ink">
       {blocks.map((b, idx) => {
         if (b.type === "h") {
           return (

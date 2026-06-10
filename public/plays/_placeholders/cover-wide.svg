@@ -1,37 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#22c55e"/>
-      <stop offset="0.55" stop-color="#0ea5e9"/>
-      <stop offset="1" stop-color="#111827"/>
-    </linearGradient>
-    <linearGradient id="glow" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#faf7ef"/>
 
-  <rect width="1600" height="1200" fill="url(#bg)"/>
-  <circle cx="360" cy="360" r="480" fill="url(#glow)"/>
-  <circle cx="1240" cy="900" r="560" fill="url(#glow)"/>
+  <!-- Rough sketch border -->
+  <rect x="40" y="40" width="1120" height="820" rx="14" ry="11"
+    fill="none" stroke="#202020" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+    stroke-dasharray="10 4 4 4"/>
 
-  <g fill="#ffffff" opacity="0.92">
-    <text x="96" y="150" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="40" font-weight="700" letter-spacing="2">
-      OVOKIT
-    </text>
-    <text x="96" y="206" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="20" font-weight="600" opacity="0.9">
-      游戏玩法技术实现分享站
-    </text>
-  </g>
+  <!-- Hand-drawn circle for face -->
+  <ellipse cx="600" cy="380" rx="200" ry="210"
+    fill="none" stroke="#202020" stroke-width="4" stroke-linecap="round"/>
 
-  <g opacity="0.92">
-    <rect x="96" y="930" width="1408" height="174" rx="26" fill="#0b1220" opacity="0.55"/>
-    <text x="132" y="1000" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="20" font-weight="700" fill="#e5e7eb">
-      Wide cover placeholder
-    </text>
-    <text x="132" y="1050" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="16" font-weight="500" fill="#cbd5e1">
-      Replace with a real cover-wide image when available.
-    </text>
-  </g>
+  <!-- Left eye -->
+  <ellipse cx="520" cy="330" rx="24" ry="32"
+    fill="none" stroke="#202020" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="524" cy="326" r="5" fill="#202020"/>
+
+  <!-- Right eye -->
+  <ellipse cx="680" cy="330" rx="24" ry="32"
+    fill="none" stroke="#202020" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="676" cy="326" r="5" fill="#202020"/>
+
+  <!-- Smile -->
+  <path d="M 500 430 Q 600 510 700 430"
+    fill="none" stroke="#202020" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Rosy cheeks -->
+  <ellipse cx="470" cy="395" rx="30" ry="18"
+    fill="#ff8b8b" opacity="0.35"/>
+  <ellipse cx="730" cy="395" rx="30" ry="18"
+    fill="#ff8b8b" opacity="0.35"/>
+
+  <!-- Title area -->
+  <text x="600" y="680" text-anchor="middle"
+    font-family="'LXGW WenKai', 'Kalam', cursive, sans-serif"
+    font-size="42" font-weight="700" fill="#202020">
+    OVOKIT
+  </text>
+
+  <text x="600" y="740" text-anchor="middle"
+    font-family="'LXGW WenKai', 'Kalam', cursive, sans-serif"
+    font-size="22" fill="#777">
+    游戏玩法知识库
+  </text>
+
+  <!-- Decorative doodles -->
+  <path d="M 140 160 Q 160 140 180 160 Q 160 180 140 160"
+    fill="none" stroke="#ffda6a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 1000 200 Q 1020 180 1040 200 Q 1020 220 1000 200"
+    fill="none" stroke="#7dcfff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 120 620 Q 140 600 160 620 Q 140 640 120 620"
+    fill="none" stroke="#7dd87d" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 1040 580 Q 1060 560 1080 580 Q 1060 600 1040 580"
+    fill="none" stroke="#ff8b8b" stroke-width="3" stroke-linecap="round"/>
 </svg>
-

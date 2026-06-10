@@ -3,9 +3,9 @@ import Link from "next/link";
 
 function pillClass(active: boolean) {
   if (active) {
-    return "inline-flex h-9 flex-none items-center justify-center rounded-full bg-zinc-900 px-3 text-[13px] font-semibold text-white shadow-sm min-[360px]:h-10 min-[360px]:px-4 min-[360px]:text-sm dark:bg-white/10 dark:text-zinc-50";
+    return "font-kalam inline-flex h-9 flex-none items-center justify-center sketch-border bg-ink px-3 text-[13px] font-semibold text-paper shadow-sm min-[360px]:h-10 min-[360px]:px-4 min-[360px]:text-sm";
   }
-  return "inline-flex h-9 flex-none items-center justify-center rounded-full px-3 text-[13px] font-semibold text-zinc-600 hover:bg-black/5 hover:text-zinc-900 min-[360px]:h-10 min-[360px]:px-4 min-[360px]:text-sm dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-zinc-50";
+  return "font-kalam inline-flex h-9 flex-none items-center justify-center rounded-full px-3 text-[13px] font-semibold text-ink-light hover:bg-ink/5 hover:text-ink min-[360px]:h-10 min-[360px]:px-4 min-[360px]:text-sm";
 }
 
 export function CategoryTabs({

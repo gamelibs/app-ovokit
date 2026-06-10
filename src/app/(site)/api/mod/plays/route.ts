@@ -38,7 +38,9 @@ function parseImageDataUrl(dataUrl: string) {
         ? "jpg"
         : mime === "image/webp"
           ? "webp"
-          : null;
+          : mime === "image/svg+xml"
+            ? "svg"
+            : null;
   if (!ext) return null;
   const buf = Buffer.from(base64, "base64");
   return { mime, ext, buf };
@@ -53,6 +55,7 @@ function extFromFile(file: File) {
   if (mime === "image/png") return "png";
   if (mime === "image/jpeg") return "jpg";
   if (mime === "image/webp") return "webp";
+  if (mime === "image/svg+xml") return "svg";
   if (mime === "video/mp4") return "mp4";
   if (mime === "video/webm") return "webm";
 

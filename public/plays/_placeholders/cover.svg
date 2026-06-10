@@ -1,37 +1,61 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0ea5e9"/>
-      <stop offset="0.6" stop-color="#6366f1"/>
-      <stop offset="1" stop-color="#111827"/>
-    </linearGradient>
-    <linearGradient id="glow" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.18"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200">
+  <rect width="900" height="1200" fill="#faf7ef"/>
 
-  <rect width="1200" height="1600" fill="url(#bg)"/>
-  <circle cx="260" cy="420" r="420" fill="url(#glow)"/>
-  <circle cx="980" cy="1180" r="520" fill="url(#glow)"/>
+  <!-- Rough sketch border -->
+  <rect x="40" y="40" width="820" height="1120" rx="12" ry="10"
+    fill="none" stroke="#202020" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+    stroke-dasharray="8 4 3 4"/>
 
-  <g fill="#ffffff" opacity="0.92">
-    <text x="96" y="180" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="44" font-weight="700" letter-spacing="2">
-      OVOKIT
-    </text>
-    <text x="96" y="248" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="22" font-weight="600" opacity="0.9">
-      游戏玩法技术实现分享站
-    </text>
-  </g>
+  <!-- Hand-drawn circle for face -->
+  <ellipse cx="450" cy="520" rx="220" ry="230"
+    fill="none" stroke="#202020" stroke-width="4" stroke-linecap="round"/>
 
-  <g opacity="0.92">
-    <rect x="96" y="1240" width="1008" height="220" rx="28" fill="#0b1220" opacity="0.55"/>
-    <text x="132" y="1326" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="22" font-weight="700" fill="#e5e7eb">
-      Cover placeholder
-    </text>
-    <text x="132" y="1386" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="18" font-weight="500" fill="#cbd5e1">
-      Replace with a real cover when available.
-    </text>
-  </g>
+  <!-- Left eye -->
+  <ellipse cx="360" cy="460" rx="28" ry="38"
+    fill="none" stroke="#202020" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="365" cy="455" r="6" fill="#202020"/>
+
+  <!-- Right eye -->
+  <ellipse cx="540" cy="460" rx="28" ry="38"
+    fill="none" stroke="#202020" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="535" cy="455" r="6" fill="#202020"/>
+
+  <!-- Smile -->
+  <path d="M 340 580 Q 450 680 560 580"
+    fill="none" stroke="#202020" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Rosy cheeks -->
+  <ellipse cx="300" cy="540" rx="35" ry="22"
+    fill="#ff8b8b" opacity="0.35"/>
+  <ellipse cx="600" cy="540" rx="35" ry="22"
+    fill="#ff8b8b" opacity="0.35"/>
+
+  <!-- Title area -->
+  <text x="450" y="880" text-anchor="middle"
+    font-family="'LXGW WenKai', 'Kalam', cursive, sans-serif"
+    font-size="52" font-weight="700" fill="#202020">
+    OVOKIT
+  </text>
+
+  <text x="450" y="960" text-anchor="middle"
+    font-family="'LXGW WenKai', 'Kalam', cursive, sans-serif"
+    font-size="28" fill="#777">
+    游戏玩法知识库
+  </text>
+
+  <!-- Decorative doodles -->
+  <path d="M 120 200 Q 140 180 160 200 Q 140 220 120 200"
+    fill="none" stroke="#ffda6a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 740 280 Q 760 260 780 280 Q 760 300 740 280"
+    fill="none" stroke="#7dcfff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 180 750 Q 200 730 220 750 Q 200 770 180 750"
+    fill="none" stroke="#7dd87d" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 680 820 Q 700 800 720 820 Q 700 840 680 820"
+    fill="none" stroke="#ff8b8b" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Star sparkles -->
+  <path d="M 160 350 L 165 365 L 180 370 L 165 375 L 160 390 L 155 375 L 140 370 L 155 365 Z"
+    fill="#ffda6a" opacity="0.6"/>
+  <path d="M 720 420 L 724 432 L 736 436 L 724 440 L 720 452 L 716 440 L 704 436 L 716 432 Z"
+    fill="#7dcfff" opacity="0.5"/>
 </svg>
-

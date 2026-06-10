@@ -3,11 +3,11 @@
   "title": "失败即成长：永久成长比例与防止“刷失败”",
   "subtitle": "降低挫败感的关键：让失败也能推进，但不能让最优策略变成“故意送”。",
   "cover": {
-    "src": "/plays/meta-progression-permanent-growth/cover.png",
+    "src": "/plays/_placeholders/cover.svg",
     "alt": "失败即成长：永久成长比例与防止“刷失败”"
   },
   "coverWide": {
-    "src": "/plays/meta-progression-permanent-growth/cover-wide.png",
+    "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "失败即成长：永久成长比例与防止“刷失败”"
   },
   "tags": ["Roguelike", "关卡", "数值"],

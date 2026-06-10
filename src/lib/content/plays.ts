@@ -1,35 +1,12 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { getPlayStats } from "./views";
+import { availablePlayTags } from "./play-tags";
+import type { PlayTag } from "./play-tags";
 
 export type PlayDifficulty = "入门" | "进阶" | "硬核";
-
-export type PlayTag =
-  | "推荐"
-  | "消除"
-  | "解谜"
-  | "合成"
-  | "放置"
-  | "放置 / 建造"
-  | "点击"
-  | "动作"
-  | "躲避"
-  | "战斗"
-  | "战斗对抗"
-  | "塔防"
-  | "物理"
-  | "网格"
-  | "关卡"
-  | "数值"
-  | "成长 / 数值"
-  | "生成"
-  | "策略决策"
-  | "行进 / 跑酷"
-  | "射击"
-  | "模拟"
-  | "时机 / 反应"
-  | "Roguelike"
-  | "状态机"
-  ;
+export { availablePlayTags };
+export type { PlayTag };
 
 export type PlayCodeSnippet = {
   title: string;
@@ -70,6 +47,7 @@ export type PlayMeta = {
   breakdown: PlayBreakdownSection[];
   codeSnippets: PlayCodeSnippet[];
   demo: PlayDemo;
+  published?: boolean;
 };
 
 export type Play = PlayMeta & {
@@ -250,6 +228,15 @@ export async function readPlayMeta(slug: string): Promise<PlayMeta | null> {
     const metaPath = path.join(playDir(slug), "meta.json");
     const raw = await fs.readFile(metaPath, "utf8");
     const meta = JSON.parse(raw) as PlayMeta;
+    // Default to published for backward compatibility
+    if (meta.published === undefined) meta.published = true;
+    const realStats = await getPlayStats(slug);
+    // Merge real-time stats: use real values if they exist and are higher,
+    // otherwise keep the baseline from meta.json (for initial seeding)
+    meta.stats = {
+      views: Math.max(meta.stats?.views ?? 0, realStats.views),
+      likes: Math.max(meta.stats?.likes ?? 0, realStats.likes),
+    };
     return await hydratePlayMedia(meta);
   } catch {
     return null;
@@ -278,7 +265,7 @@ export async function listPlays(): Promise<PlayMeta[]> {
   );
 
   return entries
-    .filter((e): e is NonNullable<typeof e> => Boolean(e))
+    .filter((e): e is NonNullable<typeof e> => e !== null && e.meta.published !== false)
     .sort((a, b) => b.mtimeMs - a.mtimeMs)
     .map((e) => e.meta);
 }

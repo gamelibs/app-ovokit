@@ -3,11 +3,11 @@
   "title": "生存倒计时：时间压力设计与“最后 10 秒”效应",
   "subtitle": "紧迫感来自曲线与容错：倒计时不是越短越难，而是让玩家在最后阶段做出更冒险的决策。",
   "cover": {
-    "src": "/plays/survival-countdown-design/cover.png",
+    "src": "/plays/_placeholders/cover.svg",
     "alt": "生存倒计时：时间压力设计与“最后 10 秒”效应"
   },
   "coverWide": {
-    "src": "/plays/survival-countdown-design/cover-wide.png",
+    "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "生存倒计时：时间压力设计与“最后 10 秒”效应"
   },
   "tags": ["关卡", "动作", "躲避"],

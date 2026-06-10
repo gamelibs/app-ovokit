@@ -1,32 +1,27 @@
 import Link from "next/link";
 import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "./TagPill";
+import { PlayStats } from "./PlayStats";
 
-function formatCompactNumber(n: number) {
-  if (n >= 10000) return `${(n / 10000).toFixed(1).replace(/\.0$/, "")}w`;
-  if (n >= 1000) return `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k`;
-  return String(n);
-}
+
 
 export function PlayCard({ play }: { play: PlayMeta }) {
   return (
-    <article className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-white/5">
+    <article className="mb-4 break-inside-avoid overflow-hidden sketch-card sketch-shadow-sm transition hover:shadow-md">
       <div className="relative">
-        <div className="aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-zinc-200 to-zinc-50 dark:from-white/10 dark:to-black min-[420px]:aspect-[3/4]">
+        <div className="aspect-[4/3] w-full max-h-[180px] overflow-hidden bg-paper-warm min-[420px]:aspect-[3/4] min-[420px]:max-h-[220px]">
           {play.cover?.src ? (
             <div className="relative h-full w-full">
-              {/* Background fill (blurred) */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={play.cover.src}
                 alt=""
                 aria-hidden="true"
-                className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-60"
+                className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-40"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-black/15" aria-hidden="true" />
+              <div className="absolute inset-0 bg-ink/10" aria-hidden="true" />
 
-              {/* Foreground (full image) */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={play.cover.src}
@@ -37,7 +32,7 @@ export function PlayCard({ play }: { play: PlayMeta }) {
             </div>
           ) : (
             <div className="absolute inset-0 grid place-items-center">
-              <div className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
+              <div className="font-kalam rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold text-ink-light">
                 暂无封面
               </div>
             </div>
@@ -54,24 +49,24 @@ export function PlayCard({ play }: { play: PlayMeta }) {
           ))}
         </div>
 
-        <h2 className="mt-3 text-lg font-semibold tracking-tight">
+        <h2 className="font-kalam mt-3 text-lg font-semibold tracking-tight">
           <Link href={`/play/${play.slug}`} className="hover:underline">
             {play.title}
           </Link>
         </h2>
-        <p className="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+        <p className="mt-1 text-sm leading-6 text-ink-light">
           {play.subtitle}
         </p>
 
         <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
           <div className="flex min-w-0 items-center gap-2">
-            <dt className="shrink-0 whitespace-nowrap text-zinc-500 dark:text-zinc-400">
+            <dt className="shrink-0 whitespace-nowrap text-ink-muted">
               玩法难度
             </dt>
             <dd className="min-w-0 font-medium">{play.difficulty}</dd>
           </div>
           <div className="flex min-w-0 items-center gap-2">
-            <dt className="shrink-0 whitespace-nowrap text-zinc-500 dark:text-zinc-400">
+            <dt className="shrink-0 whitespace-nowrap text-ink-muted">
               技术栈
             </dt>
             <dd className="min-w-0 truncate font-medium">
@@ -79,7 +74,7 @@ export function PlayCard({ play }: { play: PlayMeta }) {
             </dd>
           </div>
           <div className="col-span-2 flex min-w-0 items-center gap-2">
-            <dt className="shrink-0 whitespace-nowrap text-zinc-500 dark:text-zinc-400">
+            <dt className="shrink-0 whitespace-nowrap text-ink-muted">
               核心点
             </dt>
             <dd className="min-w-0 truncate font-medium">
@@ -91,42 +86,16 @@ export function PlayCard({ play }: { play: PlayMeta }) {
         <div className="mt-4 grid gap-3">
           <Link
             href={`/play/${play.slug}`}
-            className="inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white hover:bg-blue-500 sm:h-10 sm:px-4"
+            className="font-kalam inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-xl bg-highlight-yellow px-3 text-sm font-semibold text-ink hover:bg-highlight-yellow/90 sm:h-10 sm:px-4"
           >
             查看实现
           </Link>
 
-          <div className="flex items-center justify-between gap-4 text-sm text-zinc-500 dark:text-zinc-400">
-            <span className="inline-flex items-center gap-1">
-              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4">
-                <path
-                  d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7Z"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M12 15a3 3 0 1 0-3-3 3 3 0 0 0 3 3Z"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-              </svg>
-              {formatCompactNumber(play.stats.views)}
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4">
-                <path
-                  d="M12 21s-7-4.4-9.5-8.4C.8 9.4 2.2 6.5 5 5.7c1.7-.5 3.5.1 4.6 1.5C10.5 5.8 12.3 5.2 14 5.7c2.8.8 4.2 3.7 2.5 6.9C19 16.6 12 21 12 21Z"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              {formatCompactNumber(play.stats.likes)}
-            </span>
-          </div>
+          <PlayStats
+            slug={play.slug}
+            initialViews={play.stats.views}
+            initialLikes={play.stats.likes}
+          />
         </div>
       </div>
     </article>

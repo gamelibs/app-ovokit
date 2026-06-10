@@ -12,17 +12,17 @@ export default function PrivacyPage() {
         本政策适用于 {siteConfig.name}（下称“本站”）。本站以内容浏览与试玩为主，不提供公开账号体系。
       </p>
 
-      <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+      <h2 className="text-base font-semibold text-ink">
         我们收集哪些信息
       </h2>
-      <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+      <h3 className="text-sm font-semibold text-ink">
         访问日志（服务器侧）
       </h3>
       <p>
         当你访问本站时，服务器可能会记录基础访问日志（例如请求时间、请求路径、浏览器信息、来源页面等），用于安全与故障排查。
       </p>
 
-      <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+      <h3 className="text-sm font-semibold text-ink">
         Cookie
       </h3>
       <ul className="list-disc pl-5">
@@ -31,7 +31,7 @@ export default function PrivacyPage() {
         </li>
       </ul>
 
-      <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+      <h3 className="text-sm font-semibold text-ink">
         本地存储（localStorage）
       </h3>
       <ul className="list-disc pl-5">
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
         </li>
       </ul>
 
-      <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+      <h2 className="text-base font-semibold text-ink">
         我们如何使用这些信息
       </h2>
       <ul className="list-disc pl-5">
@@ -51,14 +51,14 @@ export default function PrivacyPage() {
         <li>提供版主内容管理功能所需的最小鉴权与编辑体验。</li>
       </ul>
 
-      <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+      <h2 className="text-base font-semibold text-ink">
         第三方内容
       </h2>
       <p>
         本站部分页面可能通过 iframe 嵌入演示内容。嵌入内容的行为与数据处理以对应页面/服务为准。
       </p>
 
-      <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+      <h2 className="text-base font-semibold text-ink">
         联系我们
       </h2>
       <p>

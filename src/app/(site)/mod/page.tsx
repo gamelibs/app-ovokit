@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { isModerator } from "@/lib/mod/auth";
 import { listPlaySlugs, readPlayMeta } from "@/lib/content/plays";
+import { DeletePlayButton } from "@/components/mod/DeletePlayButton";
+import { TogglePublishButton } from "@/components/mod/TogglePublishButton";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -49,7 +52,7 @@ export default async function ModHomePage({
     return (
       <main className="mx-auto w-full max-w-3xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
         <h1 className="text-xl font-semibold">内容管理</h1>
-        <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300">
+        <p className="mt-3 text-sm text-ink-light">
           你还没有进入版主模式。请连续点击顶部「OVOKIT」8 次打开版主入口，再输入口令登录。
         </p>
       </main>
@@ -112,17 +115,18 @@ export default async function ModHomePage({
         <h1 className="min-w-0 truncate text-xl font-semibold">内容管理</h1>
         <Link
           href="/mod/new"
-          className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white hover:bg-blue-500 min-[360px]:min-w-[120px]"
+          className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-highlight-blue px-4 text-sm font-semibold text-ink hover:bg-highlight-blue/90 min-[360px]:min-w-[120px]"
         >
           新建玩法
         </Link>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/5">
+      <div className="mt-4 overflow-hidden rounded-2xl sketch-border bg-paper">
         {/* Desktop header */}
-        <div className="hidden sm:grid sm:grid-cols-[56px_1fr_160px_120px_120px_96px] sm:gap-3 sm:border-b sm:border-zinc-200 sm:px-4 sm:py-3 sm:text-xs sm:font-semibold sm:text-zinc-500 dark:sm:border-white/10 dark:sm:text-zinc-400">
+        <div className="hidden sm:grid sm:grid-cols-[56px_1fr_100px_120px_120px_120px_140px] sm:gap-3 sm:border-b sm:border-ink-light/20 sm:px-4 sm:py-3 sm:text-xs sm:font-semibold sm:text-ink-muted">
           <div>ID</div>
           <div>玩法</div>
+          <div className="text-center">状态</div>
           <div className="text-right">
             <Link href={sortHref("created")} className="hover:underline">
               发布时间
@@ -146,10 +150,10 @@ export default async function ModHomePage({
           <div className="text-right">操作</div>
         </div>
 
-        <div className="divide-y divide-zinc-200 dark:divide-white/10">
+        <div className="divide-y divide-ink-light/20">
           {/* Mobile header */}
           <div className="px-3 py-3 sm:hidden min-[360px]:px-4">
-            <div className="grid grid-cols-[64px_1fr] items-center gap-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <div className="grid grid-cols-[64px_1fr] items-center gap-3 text-xs font-semibold text-ink-muted">
               <span>排序</span>
               <div className="grid grid-cols-3 gap-2 text-right">
                 <Link href={sortHref("created")} className="hover:underline">
@@ -181,26 +185,32 @@ export default async function ModHomePage({
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex min-w-0 items-center gap-2">
-                      <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold tabular-nums text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
+                      <span className="shrink-0 rounded-full bg-paper-warm px-2 py-0.5 text-xs font-semibold tabular-nums text-ink-light">
                         #{id}
                       </span>
                       <div className="min-w-0 truncate text-sm font-semibold">
                         {p.title}
                       </div>
                     </div>
-                    <div className="mt-0.5 truncate text-xs text-zinc-500 dark:text-zinc-400">
+                    <div className="mt-0.5 truncate text-xs text-ink-muted">
                       /play/{p.slug}
                     </div>
+                    <div className="mt-1.5">
+                      <TogglePublishButton slug={p.slug} published={p.published !== false} />
+                    </div>
                   </div>
-                  <Link
-                    href={`/mod/edit/${p.slug}`}
-                    className="shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
-                  >
-                    编辑
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/mod/edit/${p.slug}`}
+                      className="shrink-0 rounded-full sketch-border bg-paper px-3 py-1 text-xs font-semibold hover:bg-paper-warm"
+                    >
+                      编辑
+                    </Link>
+                    <DeletePlayButton slug={p.slug} />
+                  </div>
                 </div>
-                <div className="mt-2 grid grid-cols-[64px_1fr] items-center gap-3 text-xs text-zinc-600 dark:text-zinc-300">
-                  <span className="font-semibold text-zinc-500 dark:text-zinc-400">
+                <div className="mt-2 grid grid-cols-[64px_1fr] items-center gap-3 text-xs text-ink-light">
+                  <span className="font-semibold text-ink-muted">
                     数据
                   </span>
                   <div className="grid grid-cols-3 gap-2 text-right tabular-nums">
@@ -214,32 +224,36 @@ export default async function ModHomePage({
               </div>
 
               {/* Desktop table */}
-              <div className="hidden sm:grid sm:grid-cols-[56px_1fr_160px_120px_120px_96px] sm:items-center sm:gap-3 sm:px-4 sm:py-3">
-                <div className="text-xs font-semibold tabular-nums text-zinc-500 dark:text-zinc-400">
+              <div className="hidden sm:grid sm:grid-cols-[56px_1fr_100px_120px_120px_120px_140px] sm:items-center sm:gap-3 sm:px-4 sm:py-3">
+                <div className="text-xs font-semibold tabular-nums text-ink-muted">
                   #{id}
                 </div>
                 <div className="min-w-0">
                   <div className="truncate text-sm font-semibold">{p.title}</div>
-                  <div className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+                  <div className="truncate text-xs text-ink-muted">
                     /play/{p.slug}
                   </div>
                 </div>
-                <div className="text-right text-sm text-zinc-700 dark:text-zinc-200">
+                <div className="flex justify-center">
+                  <TogglePublishButton slug={p.slug} published={p.published !== false} />
+                </div>
+                <div className="text-right text-sm text-ink-light">
                   {createdAt ? formatDateTime(createdAt) : "-"}
                 </div>
-                <div className="text-right text-sm text-zinc-700 dark:text-zinc-200">
+                <div className="text-right text-sm text-ink-light">
                   {p.stats.views}
                 </div>
-                <div className="text-right text-sm text-zinc-700 dark:text-zinc-200">
+                <div className="text-right text-sm text-ink-light">
                   {p.stats.likes}
                 </div>
-                <div className="text-right">
+                <div className="flex items-center justify-end gap-2">
                   <Link
                     href={`/mod/edit/${p.slug}`}
-                    className="inline-flex h-9 items-center justify-center rounded-full border border-zinc-200 bg-white px-4 text-xs font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                    className="inline-flex h-9 items-center justify-center rounded-full sketch-border bg-paper px-4 text-xs font-semibold hover:bg-paper-warm"
                   >
                     编辑
                   </Link>
+                  <DeletePlayButton slug={p.slug} />
                 </div>
               </div>
             </div>
@@ -250,31 +264,31 @@ export default async function ModHomePage({
 
       {total > 0 ? (
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-sm text-zinc-500 dark:text-zinc-400">
+          <div className="text-sm text-ink-muted">
             第 {currentPage} / {totalPages} 页 · 共 {total} 条
           </div>
           <div className="grid grid-cols-2 gap-3 sm:flex sm:gap-2">
             {currentPage > 1 ? (
               <Link
                 href={pageHref(currentPage - 1)}
-                className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 min-[360px]:px-4 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
+                className="inline-flex h-10 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm min-[360px]:px-4"
               >
                 上一页
               </Link>
             ) : (
-              <span className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-400 opacity-60 min-[360px]:px-4 dark:border-white/10 dark:bg-white/5 dark:text-white/40">
+              <span className="inline-flex h-10 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink-muted opacity-60 min-[360px]:px-4">
                 上一页
               </span>
             )}
             {currentPage < totalPages ? (
               <Link
                 href={pageHref(currentPage + 1)}
-                className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 min-[360px]:px-4 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50 dark:hover:bg-white/10"
+                className="inline-flex h-10 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm min-[360px]:px-4"
               >
                 下一页
               </Link>
             ) : (
-              <span className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-400 opacity-60 min-[360px]:px-4 dark:border-white/10 dark:bg-white/5 dark:text-white/40">
+              <span className="inline-flex h-10 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink-muted opacity-60 min-[360px]:px-4">
                 下一页
               </span>
             )}

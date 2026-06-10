@@ -59,7 +59,7 @@ export function BlockViewer({
   if (!template) {
     return (
       <div className={className}>
-        <div className="grid h-full w-full place-items-center rounded-xl border border-zinc-200 bg-white text-sm text-zinc-500 dark:border-white/10 dark:bg-white/5 dark:text-zinc-400">
+        <div className="grid h-full w-full place-items-center rounded-xl sketch-border bg-paper text-sm text-ink-muted">
           未找到模板：{templateId}
         </div>
       </div>
@@ -86,12 +86,12 @@ export function BlockViewer({
       </div>
 
       {showEvents ? (
-        <div className="mt-2 grid grid-cols-2 gap-2 text-[11px] text-zinc-400 sm:grid-cols-3">
+        <div className="mt-2 grid grid-cols-2 gap-2 text-[11px] text-ink-muted sm:grid-cols-3">
           {events.length === 0 ? (
-            <span className="rounded-lg bg-white/5 px-2 py-1 text-center text-zinc-500">拖拽后这里会显示事件</span>
+            <span className="rounded-lg bg-paper/5 px-2 py-1 text-center text-ink-muted">拖拽后这里会显示事件</span>
           ) : (
             events.map((e, idx) => (
-              <span key={`${e.blockId}-${idx}`} className="rounded-lg bg-white/5 px-2 py-1 font-mono">
+              <span key={`${e.blockId}-${idx}`} className="rounded-lg bg-paper/5 px-2 py-1 font-mono">
                 {e.type} · {e.blockId}
               </span>
             ))

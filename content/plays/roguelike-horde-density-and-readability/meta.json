@@ -3,11 +3,11 @@
   "title": "肉鸽割草：敌人密度公式与屏幕可读性",
   "subtitle": "短视频表现力强，但最难的是“越爽越清楚”：密度、速度与特效都要有上限。",
   "cover": {
-    "src": "/plays/roguelike-horde-density-and-readability/cover.png",
+    "src": "/plays/_placeholders/cover.svg",
     "alt": "肉鸽割草：敌人密度公式与屏幕可读性"
   },
   "coverWide": {
-    "src": "/plays/roguelike-horde-density-and-readability/cover-wide.png",
+    "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "肉鸽割草：敌人密度公式与屏幕可读性"
   },
   "tags": ["Roguelike", "动作", "躲避", "战斗", "数值"],

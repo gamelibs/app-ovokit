@@ -12,7 +12,7 @@ export default function AboutPage() {
         你可以把它当作一个偏技术向的玩法目录与知识库。
       </p>
 
-      <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+      <h2 className="text-base font-semibold text-ink">
         站点内容
       </h2>
       <ul className="list-disc pl-5">
@@ -27,14 +27,14 @@ export default function AboutPage() {
         </li>
       </ul>
 
-      <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+      <h2 className="text-base font-semibold text-ink">
         P0 上线说明
       </h2>
       <p>
         当前阶段以“只读公开站”为主：面向访问者提供浏览、阅读与试玩；站内发布与编辑仅对版主开放。
       </p>
 
-      <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+      <h2 className="text-base font-semibold text-ink">
         联系
       </h2>
       <p>

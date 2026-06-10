@@ -9,7 +9,7 @@ import { SiteFooter } from "./SiteFooter";
 export async function SiteFrame({ children }: { children: ReactNode }) {
   const moderator = await isModerator();
   return (
-    <div className="min-h-dvh min-w-[360px] bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-50">
+    <div className="min-h-dvh min-w-[360px] bg-paper text-ink">
       <DisableNextDevIndicator />
       <SyncFixedToScrollX />
       <TopNav isModerator={moderator} />

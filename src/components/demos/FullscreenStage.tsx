@@ -99,7 +99,7 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
         else if (forwardedRef) forwardedRef.current = node;
       }}
       className={[
-        "relative overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5",
+        "relative overflow-hidden rounded-2xl sketch-border bg-paper-warm",
         "h-full w-full",
         "overscroll-contain",
         className ?? "",
@@ -114,7 +114,7 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
             <button
               type="button"
               onClick={() => void enterFullscreen()}
-              className="inline-flex h-9 items-center justify-center rounded-xl bg-black/50 px-3 text-xs font-semibold text-white ring-1 ring-white/10 backdrop-blur hover:bg-black/60"
+              className="inline-flex h-9 items-center justify-center rounded-xl bg-ink/50 px-3 text-xs font-semibold text-ink ring-1 ring-white/10 backdrop-blur hover:bg-ink/60"
             >
               全屏
             </button>
@@ -122,7 +122,7 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
             <button
               type="button"
               onClick={() => void exitFullscreen()}
-              className="inline-flex h-9 items-center justify-center rounded-xl bg-black/50 px-3 text-xs font-semibold text-white ring-1 ring-white/10 backdrop-blur hover:bg-black/60"
+              className="inline-flex h-9 items-center justify-center rounded-xl bg-ink/50 px-3 text-xs font-semibold text-ink ring-1 ring-white/10 backdrop-blur hover:bg-ink/60"
             >
               退出全屏
             </button>

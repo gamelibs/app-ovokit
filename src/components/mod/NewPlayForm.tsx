@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { PlayCover, PlayMeta } from "@/lib/content/plays";
+import { TagInput } from "./TagInput";
+import { BreakdownEditor } from "./BreakdownEditor";
+import type { BreakdownItem } from "./BreakdownEditor";
+import { CodeSnippetEditor } from "./CodeSnippetEditor";
+import type { CodeSnippetItem } from "./CodeSnippetEditor";
+import { CoverGenerator } from "./CoverGenerator";
 
 type Difficulty = "入门" | "进阶" | "硬核";
 
@@ -19,7 +25,7 @@ function ImagePreview({
   aspectClassName: string;
 }) {
   return (
-    <div className="w-full max-w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/5">
+    <div className="w-full max-w-full overflow-hidden rounded-2xl sketch-border bg-paper-warm">
       <div className={`relative w-full ${aspectClassName}`}>
         {src ? (
           <>
@@ -38,7 +44,7 @@ function ImagePreview({
             />
           </>
         ) : (
-          <div className="grid h-full place-items-center text-sm text-zinc-500 dark:text-zinc-400">
+          <div className="grid h-full place-items-center text-sm text-ink-muted">
             {label}
           </div>
         )}
@@ -72,14 +78,14 @@ function parseCsv(v: string) {
     .filter(Boolean);
 }
 
-const breakdownTemplate = `[
-  { "title": "玩法目标", "bullets": ["...", "..."] },
-  { "title": "核心循环", "bullets": ["..."] }
-]`;
+const defaultBreakdown: BreakdownItem[] = [
+  { title: "玩法目标", bullets: ["...", "..."] },
+  { title: "核心循环", bullets: ["..."] },
+];
 
-const codeTemplate = `[
-  { "title": "关键函数", "language": "ts", "code": "export function foo() {}\\n" }
-]`;
+const defaultCodeSnippets: CodeSnippetItem[] = [
+  { title: "关键函数", language: "ts", code: "export function foo() {}\n" },
+];
 
 type NewPlayFormInitial = {
   meta: PlayMeta;
@@ -101,17 +107,18 @@ export function NewPlayForm({
       : "ovokit:new-play:draft:v1";
   const coverMaxBytes = 5 * 1024 * 1024;
   const demoVideoMaxBytes = 50 * 1024 * 1024;
+
   const [overwrite, setOverwrite] = useState(mode === "edit");
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [slug, setSlug] = useState("");
   const [fallbackSlug, setFallbackSlug] = useState("play-draft");
   const [difficulty, setDifficulty] = useState<Difficulty>("入门");
-  const [tags, setTags] = useState("推荐, 合成");
-  const [techStack, setTechStack] = useState("TypeScript, Next.js");
-  const [corePoints, setCorePoints] = useState("核心点1, 核心点2");
-  const [breakdownJson, setBreakdownJson] = useState(breakdownTemplate);
-  const [codeJson, setCodeJson] = useState(codeTemplate);
+  const [tags, setTags] = useState<string[]>(["推荐", "合成"]);
+  const [techStack, setTechStack] = useState<string[]>(["TypeScript", "Next.js"]);
+  const [corePoints, setCorePoints] = useState<string[]>(["核心点1", "核心点2"]);
+  const [breakdown, setBreakdown] = useState<BreakdownItem[]>(defaultBreakdown);
+  const [codeSnippets, setCodeSnippets] = useState<CodeSnippetItem[]>(defaultCodeSnippets);
   const [demoNote, setDemoNote] = useState("MVP：Demo 先留 iframe 占位。");
   const [iframeSrc, setIframeSrc] = useState("");
   const [coverFile, setCoverFile] = useState<File | null>(null);
@@ -132,6 +139,8 @@ export function NewPlayForm({
   const [articleMdx, setArticleMdx] = useState(
     `# ${title || "标题"}\n\n这篇是 **MVP 占位**：后续将补充完整内容。\n`,
   );
+  const [coverSvgDataUrl, setCoverSvgDataUrl] = useState<string>("");
+  const [generatingArticle, setGeneratingArticle] = useState(false);
 
   const suggestedSlug = useMemo(() => slugify(title), [title]);
   const effectiveSlug =
@@ -155,11 +164,11 @@ export function NewPlayForm({
     setSubtitle(initial.meta.subtitle ?? "");
     setSlug(initial.meta.slug ?? "");
     setDifficulty((initial.meta.difficulty as Difficulty) ?? "入门");
-    setTags((initial.meta.tags ?? []).join(", "));
-    setTechStack((initial.meta.techStack ?? []).join(", "));
-    setCorePoints((initial.meta.corePoints ?? []).join(", "));
-    setBreakdownJson(JSON.stringify(initial.meta.breakdown ?? [], null, 2));
-    setCodeJson(JSON.stringify(initial.meta.codeSnippets ?? [], null, 2));
+    setTags((initial.meta.tags ?? []) as string[]);
+    setTechStack(initial.meta.techStack ?? []);
+    setCorePoints(initial.meta.corePoints ?? []);
+    setBreakdown((initial.meta.breakdown ?? []) as BreakdownItem[]);
+    setCodeSnippets((initial.meta.codeSnippets ?? []) as CodeSnippetItem[]);
     setDemoNote(initial.meta.demo?.note ?? "");
     setIframeSrc(initial.meta.demo?.iframeSrc ?? "");
     setExistingVideoSrc(initial.meta.demo?.videoSrc ?? null);
@@ -185,11 +194,42 @@ export function NewPlayForm({
       setSubtitle(String(d.subtitle ?? ""));
       setSlug(String(d.slug ?? ""));
       setDifficulty((d.difficulty as Difficulty) ?? "入门");
-      setTags(String(d.tags ?? "推荐, 合成"));
-      setTechStack(String(d.techStack ?? "TypeScript, Next.js"));
-      setCorePoints(String(d.corePoints ?? "核心点1, 核心点2"));
-      setBreakdownJson(String(d.breakdownJson ?? breakdownTemplate));
-      setCodeJson(String(d.codeJson ?? codeTemplate));
+
+      // tags
+      if (Array.isArray(d.tags) && d.tags.every((t) => typeof t === "string")) {
+        setTags(d.tags as string[]);
+      } else {
+        setTags(parseCsv(String(d.tags ?? "推荐, 合成")));
+      }
+
+      // techStack
+      if (Array.isArray(d.techStack) && d.techStack.every((t) => typeof t === "string")) {
+        setTechStack(d.techStack as string[]);
+      } else {
+        setTechStack(parseCsv(String(d.techStack ?? "TypeScript, Next.js")));
+      }
+
+      // corePoints
+      if (Array.isArray(d.corePoints) && d.corePoints.every((t) => typeof t === "string")) {
+        setCorePoints(d.corePoints as string[]);
+      } else {
+        setCorePoints(parseCsv(String(d.corePoints ?? "核心点1, 核心点2")));
+      }
+
+      // breakdown
+      if (Array.isArray(d.breakdown)) {
+        setBreakdown(d.breakdown as BreakdownItem[]);
+      } else {
+        setBreakdown(JSON.parse(String(d.breakdownJson ?? JSON.stringify(defaultBreakdown))) as BreakdownItem[]);
+      }
+
+      // codeSnippets
+      if (Array.isArray(d.codeSnippets)) {
+        setCodeSnippets(d.codeSnippets as CodeSnippetItem[]);
+      } else {
+        setCodeSnippets(JSON.parse(String(d.codeJson ?? JSON.stringify(defaultCodeSnippets))) as CodeSnippetItem[]);
+      }
+
       setDemoNote(String(d.demoNote ?? "MVP：Demo 先留 iframe 占位。"));
       setIframeSrc(String(d.iframeSrc ?? ""));
       setCoverAlt(String(d.coverAlt ?? ""));
@@ -214,8 +254,8 @@ export function NewPlayForm({
           tags,
           techStack,
           corePoints,
-          breakdownJson,
-          codeJson,
+          breakdown,
+          codeSnippets,
           demoNote,
           iframeSrc,
           coverAlt,
@@ -241,8 +281,8 @@ export function NewPlayForm({
     tags,
     techStack,
     corePoints,
-    breakdownJson,
-    codeJson,
+    breakdown,
+    codeSnippets,
     demoNote,
     iframeSrc,
     coverAlt,
@@ -263,6 +303,7 @@ export function NewPlayForm({
   async function onPickCover(file: File | null) {
     setError(null);
     setCoverError(null);
+    setCoverSvgDataUrl("");
     if (!file) {
       setCoverFile(null);
       setCoverPreviewUrl("");
@@ -343,9 +384,6 @@ export function NewPlayForm({
     setError(null);
     setOkSlug(null);
     try {
-      const breakdown = JSON.parse(breakdownJson) as unknown;
-      const codeSnippets = JSON.parse(codeJson) as unknown;
-
       const fd = new FormData();
       fd.append(
         "payload",
@@ -353,7 +391,9 @@ export function NewPlayForm({
           overwrite,
           cover: coverFile
             ? { alt: coverAlt || title || undefined }
-            : undefined,
+            : coverSvgDataUrl
+              ? { dataUrl: coverSvgDataUrl, alt: coverAlt || title || undefined }
+              : undefined,
           coverWide: coverWideFile
             ? { alt: coverWideAlt || title || undefined }
             : undefined,
@@ -363,11 +403,12 @@ export function NewPlayForm({
             subtitle,
             cover: existingCover ?? undefined,
             coverWide: existingCoverWide ?? undefined,
-            tags: parseCsv(tags),
+            tags,
             difficulty,
-            techStack: parseCsv(techStack),
-            corePoints: parseCsv(corePoints),
-            stats: { views: 0, likes: 0 },
+            techStack,
+            corePoints,
+            stats: initial?.meta.stats ?? { views: 0, likes: 0 },
+            published: mode === "edit" ? initial?.meta.published : false,
             breakdown,
             codeSnippets,
             demo: {
@@ -397,9 +438,36 @@ export function NewPlayForm({
     }
   }
 
+  async function generateArticle() {
+    setGeneratingArticle(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/generate-article", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          subtitle,
+          tags,
+          techStack,
+          corePoints,
+          breakdown,
+          codeSnippets,
+        }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = (await res.json()) as { article: string };
+      setArticleMdx(data.article);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "文章生成失败");
+    } finally {
+      setGeneratingArticle(false);
+    }
+  }
+
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-muted">
         <div>
           {draftRestoredAt ? (
             <span>
@@ -418,16 +486,16 @@ export function NewPlayForm({
         </div>
         <button
           type="button"
-          className="rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+          className="rounded-full sketch-border bg-paper px-3 py-1 font-semibold hover:bg-paper-warm"
           onClick={clearDraft}
         >
           清除草稿
         </button>
       </div>
 
-      <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-white/5">
+      <div className="rounded-2xl sketch-border bg-paper p-4">
         <div className="grid gap-3">
-          <label className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-white/10 dark:bg-black/30">
+          <label className="flex items-center justify-between gap-3 rounded-xl sketch-border bg-paper px-3 py-2 text-sm">
             <span className="font-semibold">覆盖写入（同 slug 允许更新）</span>
             <input
               type="checkbox"
@@ -438,42 +506,42 @@ export function NewPlayForm({
           </label>
 
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs font-semibold text-ink-muted">
               标题
             </span>
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+              className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
               placeholder="例如：合成&升级玩法核心逻辑"
             />
           </label>
 
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs font-semibold text-ink-muted">
               副标题
             </span>
             <input
               value={subtitle}
               onChange={(e) => setSubtitle(e.target.value)}
-              className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+              className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
               placeholder="一句话概括玩法 + 技术价值"
             />
           </label>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs font-semibold text-ink-muted">
                 Slug（用于 URL）
               </span>
               <input
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
                 disabled={mode === "edit"}
-                className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 disabled:opacity-60 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+                className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60 disabled:opacity-60"
                 placeholder={suggestedSlug || fallbackSlug}
               />
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs text-ink-muted">
                 {mode === "edit" ? (
                   <>编辑模式下不允许修改 slug（避免资源与链接错位）。 </>
                 ) : null}
@@ -485,13 +553,13 @@ export function NewPlayForm({
             </label>
 
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs font-semibold text-ink-muted">
                 难度
               </span>
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value as Difficulty)}
-                className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+                className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
               >
                 <option value="入门">入门</option>
                 <option value="进阶">进阶</option>
@@ -500,77 +568,66 @@ export function NewPlayForm({
             </label>
           </div>
 
-          <label className="grid gap-1">
-            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-              标签（逗号分隔）
-            </span>
-            <input
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
-            />
-          </label>
+          <TagInput
+            label="标签"
+            value={tags}
+            onChange={setTags}
+            placeholder="输入标签，回车或逗号添加"
+          />
 
-          <label className="grid gap-1">
-            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-              技术栈（逗号分隔）
-            </span>
-            <input
-              value={techStack}
-              onChange={(e) => setTechStack(e.target.value)}
-              className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
-            />
-          </label>
+          <TagInput
+            label="技术栈"
+            value={techStack}
+            onChange={setTechStack}
+            placeholder="输入技术，回车或逗号添加"
+          />
 
-          <label className="grid gap-1">
-            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-              核心点（逗号分隔）
-            </span>
-            <input
-              value={corePoints}
-              onChange={(e) => setCorePoints(e.target.value)}
-              className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
-            />
-          </label>
+          <TagInput
+            label="核心点"
+            value={corePoints}
+            onChange={setCorePoints}
+            placeholder="输入核心点，回车或逗号添加"
+          />
         </div>
       </div>
 
-      <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-white/5">
+      <div className="rounded-2xl sketch-border bg-paper p-4">
         <div className="text-sm font-semibold">封面（可选）</div>
-        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          MVP：封面会写入 <code className="font-mono">public/plays/&lt;slug&gt;/cover.*</code>{" "}
+        <p className="mt-1 text-xs text-ink-muted">
+          封面会写入 <code className="font-mono">public/plays/&lt;slug&gt;/cover.*</code>{" "}
           并在首页/详情展示。
         </p>
-        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1 text-xs text-ink-muted">
           建议比例：<code className="font-mono">3:4</code>（例如{" "}
           <code className="font-mono">900×1200</code> /{" "}
           <code className="font-mono">1080×1440</code>）。将以中心裁切适配展示区域；支持{" "}
-          <code className="font-mono">png/jpg/webp</code>，最大{" "}
+          <code className="font-mono">png/jpg/webp/svg</code>，最大{" "}
           <code className="font-mono">5MB</code>。
         </p>
-        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1 text-xs text-ink-muted">
           说明：信息流会按比例裁切展示；详情页头图会以{" "}
           <code className="font-mono">4:3</code> 区域自适应（完整展示 + 模糊背景填充，不会占满屏）。
         </p>
         <div className="mt-3 grid gap-4 lg:grid-cols-2">
-          <div className="grid gap-2">
+          <div className="grid gap-3">
+            <div className="text-xs font-semibold text-ink-muted">竖向封面</div>
             <input
               type="file"
               accept="image/*"
               onChange={(e) => void onPickCover(e.target.files?.[0] ?? null)}
-              className="block w-full text-sm text-zinc-600 file:mr-3 file:rounded-xl file:border-0 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-900 hover:file:bg-zinc-200 dark:text-zinc-300 dark:file:bg-white/10 dark:file:text-zinc-50 dark:hover:file:bg-white/20"
+              className="block w-full text-sm text-ink-light file:mr-3 file:rounded-xl file:border-0 file:bg-paper-warm file:px-3 file:py-2 file:text-sm file:font-semibold file:text-ink hover:file:bg-paper-warm"
             />
-            {existingCover && !coverFile ? (
-              <div className="flex min-w-0 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
+            {existingCover && !coverFile && !coverSvgDataUrl ? (
+              <div className="flex min-w-0 items-center gap-2 rounded-xl sketch-border bg-paper px-3 py-2 text-xs text-ink-light">
                 <span className="min-w-0 flex-1 truncate">
                   已有封面：<code className="font-mono">{existingCover.src}</code>
                 </span>
                 <button
                   type="button"
-                  className="ml-auto shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                  className="ml-auto shrink-0 rounded-full sketch-border bg-paper px-3 py-1 font-semibold hover:bg-paper-warm"
                   onClick={() => {
                     setExistingCover(null);
-                    if (!coverFile) setCoverPreviewUrl("");
+                    if (!coverFile && !coverSvgDataUrl) setCoverPreviewUrl("");
                   }}
                 >
                   移除
@@ -578,36 +635,54 @@ export function NewPlayForm({
               </div>
             ) : null}
             {coverFile ? (
-              <div className="text-xs text-zinc-500 dark:text-zinc-400">
+              <div className="text-xs text-ink-muted">
                 已选择：<code className="font-mono">{coverFile.name}</code>（
                 {Math.ceil(coverFile.size / 1024)} KB）
               </div>
             ) : null}
+            {coverSvgDataUrl ? (
+              <div className="text-xs text-ink-muted">
+                已生成手绘封面（SVG）
+              </div>
+            ) : null}
             {coverError ? (
-              <div className="text-xs font-semibold text-red-600 dark:text-red-400">
+              <div className="text-xs font-semibold text-red-600">
                 {coverError}
               </div>
             ) : null}
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs font-semibold text-ink-muted">
                 封面描述（alt，可选）
               </span>
               <input
                 value={coverAlt}
                 onChange={(e) => setCoverAlt(e.target.value)}
-                className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+                className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
                 placeholder="默认使用标题"
               />
             </label>
-            {coverFile ? (
+            {(coverFile || coverSvgDataUrl) ? (
               <button
                 type="button"
-                className="h-10 w-full rounded-xl border border-zinc-200 bg-white text-sm font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-black/30 dark:hover:bg-white/10"
-                onClick={() => setCoverFile(null)}
+                className="h-10 w-full rounded-xl sketch-border bg-paper text-sm font-semibold hover:bg-paper-warm"
+                onClick={() => {
+                  setCoverFile(null);
+                  setCoverSvgDataUrl("");
+                  setCoverPreviewUrl("");
+                }}
               >
                 移除封面
               </button>
             ) : null}
+
+            <CoverGenerator
+              onGenerated={(dataUrl) => {
+                setCoverSvgDataUrl(dataUrl);
+                setCoverPreviewUrl(dataUrl);
+                setCoverFile(null);
+                setExistingCover(null);
+              }}
+            />
           </div>
 
           <ImagePreview
@@ -619,23 +694,23 @@ export function NewPlayForm({
 
           <div className="grid gap-2">
             <div className="text-sm font-semibold">详情横向封面（可选）</div>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-ink-muted">
               建议尺寸：<code className="font-mono">1200×900</code>（横向）。不上传则详情页使用竖向封面。
             </p>
             <input
               type="file"
               accept="image/*"
               onChange={(e) => void onPickCoverWide(e.target.files?.[0] ?? null)}
-              className="block w-full text-sm text-zinc-600 file:mr-3 file:rounded-xl file:border-0 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-900 hover:file:bg-zinc-200 dark:text-zinc-300 dark:file:bg-white/10 dark:file:text-zinc-50 dark:hover:file:bg-white/20"
+              className="block w-full text-sm text-ink-light file:mr-3 file:rounded-xl file:border-0 file:bg-paper-warm file:px-3 file:py-2 file:text-sm file:font-semibold file:text-ink hover:file:bg-paper-warm"
             />
             {existingCoverWide && !coverWideFile ? (
-              <div className="flex min-w-0 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
+              <div className="flex min-w-0 items-center gap-2 rounded-xl sketch-border bg-paper px-3 py-2 text-xs text-ink-light">
                 <span className="min-w-0 flex-1 truncate">
                   已有横向封面：<code className="font-mono">{existingCoverWide.src}</code>
                 </span>
                 <button
                   type="button"
-                  className="ml-auto shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                  className="ml-auto shrink-0 rounded-full sketch-border bg-paper px-3 py-1 font-semibold hover:bg-paper-warm"
                   onClick={() => {
                     setExistingCoverWide(null);
                     if (!coverWideFile) setCoverWidePreviewUrl("");
@@ -646,25 +721,25 @@ export function NewPlayForm({
               </div>
             ) : null}
             {coverWideError ? (
-              <div className="text-xs font-semibold text-red-600 dark:text-red-400">
+              <div className="text-xs font-semibold text-red-600">
                 {coverWideError}
               </div>
             ) : null}
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs font-semibold text-ink-muted">
                 横向封面描述（alt，可选）
               </span>
               <input
                 value={coverWideAlt}
                 onChange={(e) => setCoverWideAlt(e.target.value)}
-                className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+                className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
                 placeholder="默认使用标题"
               />
             </label>
             {coverWideFile ? (
               <button
                 type="button"
-                className="h-10 w-full rounded-xl border border-zinc-200 bg-white text-sm font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-black/30 dark:hover:bg-white/10"
+                className="h-10 w-full rounded-xl sketch-border bg-paper text-sm font-semibold hover:bg-paper-warm"
                 onClick={() => setCoverWideFile(null)}
               >
                 移除横向封面
@@ -681,53 +756,52 @@ export function NewPlayForm({
         </div>
       </div>
 
-      <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-white/5">
-        <div className="text-sm font-semibold">结构化拆解（JSON）</div>
-        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          MVP：先用 JSON 直接编辑，后续再做可视化编辑器。
+      <div className="rounded-2xl sketch-border bg-paper p-4">
+        <div className="text-sm font-semibold">玩法拆解</div>
+        <p className="mt-1 text-xs text-ink-muted">
+          按章节拆解玩法逻辑，每个章节包含标题和要点。
         </p>
-        <textarea
-          value={breakdownJson}
-          onChange={(e) => setBreakdownJson(e.target.value)}
-          className="mt-3 h-44 w-full rounded-xl border border-zinc-200 bg-white p-3 font-mono text-xs outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
-        />
+        <div className="mt-3">
+          <BreakdownEditor value={breakdown} onChange={setBreakdown} />
+        </div>
       </div>
 
-      <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-white/5">
-        <div className="text-sm font-semibold">代码片段（JSON）</div>
-        <textarea
-          value={codeJson}
-          onChange={(e) => setCodeJson(e.target.value)}
-          className="mt-3 h-44 w-full rounded-xl border border-zinc-200 bg-white p-3 font-mono text-xs outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
-        />
+      <div className="rounded-2xl sketch-border bg-paper p-4">
+        <div className="text-sm font-semibold">代码片段</div>
+        <p className="mt-1 text-xs text-ink-muted">
+          添加关键代码片段，支持 TypeScript / TSX / JavaScript / GLSL / JSON / MDX。
+        </p>
+        <div className="mt-3">
+          <CodeSnippetEditor value={codeSnippets} onChange={setCodeSnippets} />
+        </div>
       </div>
 
-      <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-white/5">
+      <div className="rounded-2xl sketch-border bg-paper p-4">
         <div className="text-sm font-semibold">Demo（iframe）</div>
         <div className="mt-3 grid gap-3">
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs font-semibold text-ink-muted">
               iframeSrc（可选）
             </span>
             <input
               value={iframeSrc}
               onChange={(e) => setIframeSrc(e.target.value)}
-              className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+              className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
               placeholder="https://demo.example.com/..."
             />
           </label>
           <div className="grid gap-2">
-            <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <div className="text-xs font-semibold text-ink-muted">
               或上传视频（可选）
             </div>
             {existingVideoSrc ? (
-              <div className="flex min-w-0 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
+              <div className="flex min-w-0 items-center gap-2 rounded-xl sketch-border bg-paper px-3 py-2 text-xs text-ink-light">
                 <span className="min-w-0 flex-1 truncate">
                   已有视频：<code className="font-mono">{existingVideoSrc}</code>
                 </span>
                 <button
                   type="button"
-                  className="ml-auto shrink-0 rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                  className="ml-auto shrink-0 rounded-full sketch-border bg-paper px-3 py-1 font-semibold hover:bg-paper-warm"
                   onClick={() => setExistingVideoSrc(null)}
                 >
                   移除
@@ -738,23 +812,23 @@ export function NewPlayForm({
               type="file"
               accept="video/mp4,video/webm"
               onChange={(e) => void onPickDemoVideo(e.target.files?.[0] ?? null)}
-              className="block w-full text-sm text-zinc-600 file:mr-3 file:rounded-xl file:border-0 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-zinc-900 hover:file:bg-zinc-200 dark:text-zinc-300 dark:file:bg-white/10 dark:file:text-zinc-50 dark:hover:file:bg-white/20"
+              className="block w-full text-sm text-ink-light file:mr-3 file:rounded-xl file:border-0 file:bg-paper-warm file:px-3 file:py-2 file:text-sm file:font-semibold file:text-ink hover:file:bg-paper-warm"
             />
-            <div className="text-xs text-zinc-500 dark:text-zinc-400">
+            <div className="text-xs text-ink-muted">
               支持 <code className="font-mono">mp4/webm</code>，最大{" "}
               <code className="font-mono">50MB</code>。上传视频后将优先展示视频，并忽略 iframe。
             </div>
             {demoVideoError ? (
-              <div className="text-xs font-semibold text-red-600 dark:text-red-400">
+              <div className="text-xs font-semibold text-red-600">
                 {demoVideoError}
               </div>
             ) : null}
             {demoVideoFile ? (
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 dark:border-white/10 dark:bg-black/30 dark:text-zinc-300">
+              <div className="flex items-center justify-between gap-3 rounded-xl sketch-border bg-paper px-3 py-2 text-xs text-ink-light">
                 <span className="truncate">{demoVideoFile.name}</span>
                 <button
                   type="button"
-                  className="rounded-full border border-zinc-200 bg-white px-3 py-1 font-semibold hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+                  className="rounded-full sketch-border bg-paper px-3 py-1 font-semibold hover:bg-paper-warm"
                   onClick={() => setDemoVideoFile(null)}
                 >
                   移除
@@ -763,24 +837,34 @@ export function NewPlayForm({
             ) : null}
           </div>
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs font-semibold text-ink-muted">
               说明（note）
             </span>
             <input
               value={demoNote}
               onChange={(e) => setDemoNote(e.target.value)}
-              className="h-10 rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+              className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
             />
           </label>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-white/5">
-        <div className="text-sm font-semibold">文章（MDX）</div>
+      <div className="rounded-2xl sketch-border bg-paper p-4">
+        <div className="flex items-center justify-between">
+          <div className="text-sm font-semibold">文章（MDX）</div>
+          <button
+            type="button"
+            onClick={generateArticle}
+            disabled={generatingArticle || title.trim().length === 0}
+            className="inline-flex h-8 items-center gap-1 rounded-lg sketch-border bg-paper px-3 text-xs font-semibold hover:bg-paper-warm disabled:opacity-50"
+          >
+            {generatingArticle ? "生成中..." : "🤖 AI 生成文章"}
+          </button>
+        </div>
         <textarea
           value={articleMdx}
           onChange={(e) => setArticleMdx(e.target.value)}
-          className="mt-3 h-56 w-full rounded-xl border border-zinc-200 bg-white p-3 font-mono text-xs outline-none focus:ring-2 focus:ring-zinc-200 dark:border-white/10 dark:bg-black/30 dark:focus:ring-white/10"
+          className="mt-3 h-56 w-full rounded-xl sketch-border bg-paper p-3 font-mono text-xs outline-none focus:ring-2 focus:ring-highlight-blue/60"
         />
       </div>
 
@@ -794,32 +878,25 @@ export function NewPlayForm({
             subtitle.trim().length === 0 ||
             effectiveSlug.length === 0
           }
-          className="inline-flex h-11 w-full shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white disabled:opacity-50 sm:w-auto sm:min-w-[140px]"
+          className="inline-flex h-11 w-full shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-highlight-blue px-5 text-sm font-semibold text-ink disabled:opacity-50 sm:w-auto sm:min-w-[140px]"
         >
-          {busy ? "提交中..." : "写入本地内容"}
+          {busy ? "提交中…" : okSlug ? "已发布" : mode === "edit" ? "保存修改" : "发布玩法"}
         </button>
-        <Link
-          href="/mod"
-          className="inline-flex h-11 w-full shrink-0 items-center justify-center whitespace-nowrap rounded-xl border border-zinc-200 bg-white px-5 text-sm font-semibold hover:bg-zinc-50 sm:w-auto sm:min-w-[120px] dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
-        >
-          返回管理
-        </Link>
+        {error ? (
+          <div className="text-sm font-semibold text-red-600">{error}</div>
+        ) : null}
+        {okSlug ? (
+          <div className="text-sm">
+            发布成功！
+            <Link
+              href={`/plays/${okSlug}`}
+              className="ml-1 underline underline-offset-2"
+            >
+              查看页面
+            </Link>
+          </div>
+        ) : null}
       </div>
-
-      {error ? (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300">
-          {error}
-        </div>
-      ) : null}
-
-      {okSlug ? (
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-200">
-          已写入：<code className="font-mono">content/plays/{okSlug}</code>{" "}
-          <Link href={`/play/${okSlug}`} className="ml-2 underline">
-            打开详情页
-          </Link>
-        </div>
-      ) : null}
     </div>
   );
 }

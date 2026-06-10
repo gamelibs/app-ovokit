@@ -124,14 +124,14 @@ export function GameShell({
     <div className="flex flex-wrap items-start justify-between gap-2">
       <div className="min-w-0">
         <div className="text-sm font-semibold text-zinc-100">{title}</div>
-        {subtitle ? <div className="mt-0.5 text-xs text-zinc-400">{subtitle}</div> : null}
+        {subtitle ? <div className="mt-0.5 text-xs text-ink-muted">{subtitle}</div> : null}
       </div>
       <div className="flex items-center gap-2">
         {canFullscreen ? (
           !isFullscreen ? (
             <button
               type="button"
-              className="h-9 rounded-xl bg-white/5 px-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 disabled:opacity-60"
+              className="h-9 rounded-xl bg-paper/5 px-3 text-sm font-semibold text-ink ring-1 ring-white/10 hover:bg-paper/10 disabled:opacity-60"
               onClick={() => void enterFullscreen()}
               disabled={Boolean(loading)}
             >
@@ -140,7 +140,7 @@ export function GameShell({
           ) : (
             <button
               type="button"
-              className="h-9 rounded-xl bg-white/5 px-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 disabled:opacity-60"
+              className="h-9 rounded-xl bg-paper/5 px-3 text-sm font-semibold text-ink ring-1 ring-white/10 hover:bg-paper/10 disabled:opacity-60"
               onClick={() => void exitFullscreen()}
               disabled={Boolean(loading)}
             >
@@ -149,19 +149,19 @@ export function GameShell({
           )
         ) : null}
         {secondaryHud ? (
-          <div className="rounded-xl bg-black/40 px-3 py-2 text-[11px] text-zinc-300 ring-1 ring-white/10">
+          <div className="rounded-xl bg-ink/40 px-3 py-2 text-[11px] text-ink-muted ring-1 ring-white/10">
             {secondaryHud}
           </div>
         ) : null}
         {primaryHud ? (
-          <div className="rounded-xl bg-black/40 px-3 py-2 text-[11px] text-zinc-300 ring-1 ring-white/10">
+          <div className="rounded-xl bg-ink/40 px-3 py-2 text-[11px] text-ink-muted ring-1 ring-white/10">
             {primaryHud}
           </div>
         ) : null}
         {showRestart ? (
           <button
             type="button"
-            className="h-9 rounded-xl bg-white/5 px-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 disabled:opacity-60"
+            className="h-9 rounded-xl bg-paper/5 px-3 text-sm font-semibold text-ink ring-1 ring-white/10 hover:bg-paper/10 disabled:opacity-60"
             onClick={onRestart}
             disabled={Boolean(loading)}
           >
@@ -179,7 +179,7 @@ export function GameShell({
       <div
         ref={stageRef}
         className={[
-          "relative overflow-hidden rounded-2xl border border-zinc-800 bg-black/60 shadow-inner ring-1 ring-zinc-900",
+          "relative overflow-hidden rounded-2xl border border-zinc-800 bg-ink/60 shadow-inner ring-1 ring-zinc-900",
           layout === "fill" ? "min-h-0 flex-1" : "",
         ]
           .join(" ")
@@ -196,13 +196,13 @@ export function GameShell({
 
         {overlay ? (
           <div className="absolute inset-0 grid place-items-center bg-black/65 p-4">
-            <div className="w-full max-w-[420px] rounded-2xl border border-white/10 bg-zinc-950/90 p-4 text-white shadow-2xl">
+            <div className="w-full max-w-[420px] rounded-2xl border border-white/10 bg-zinc-950/90 p-4 text-ink shadow-2xl">
               <div className="text-base font-semibold">{overlay.title}</div>
-              <div className="mt-1 text-sm text-zinc-300">{overlay.desc}</div>
+              <div className="mt-1 text-sm text-ink-muted">{overlay.desc}</div>
               <div className="mt-4 flex gap-2">
                 <button
                   type="button"
-                  className="inline-flex h-10 flex-1 items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-60"
+                  className="inline-flex h-10 flex-1 items-center justify-center rounded-xl bg-highlight-blue px-4 text-sm font-semibold text-ink hover:bg-highlight-blue/90 disabled:opacity-60"
                   onClick={overlay.primary.onClick}
                   disabled={Boolean(loading)}
                 >
@@ -211,7 +211,7 @@ export function GameShell({
                 {overlay.secondary ? (
                   <button
                     type="button"
-                    className="inline-flex h-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 text-sm font-semibold text-white hover:bg-white/10 disabled:opacity-60"
+                    className="inline-flex h-10 items-center justify-center rounded-xl border border-white/10 bg-paper/5 px-4 text-sm font-semibold text-ink hover:bg-paper/10 disabled:opacity-60"
                     onClick={overlay.secondary.onClick}
                     disabled={Boolean(loading)}
                   >
@@ -221,7 +221,7 @@ export function GameShell({
               </div>
 
               {error ? (
-                <div className="mt-3 rounded-xl bg-red-500/10 px-3 py-2 text-xs text-red-200 ring-1 ring-red-500/20">
+                <div className="mt-3 rounded-xl bg-highlight-red/10 px-3 py-2 text-xs text-red-200 ring-1 ring-red-500/20">
                   {error}
                 </div>
               ) : null}
@@ -230,7 +230,7 @@ export function GameShell({
         ) : null}
 
         {!overlay && error ? (
-          <div className="absolute bottom-3 left-3 right-3 rounded-xl bg-red-500/10 px-3 py-2 text-xs text-red-200 ring-1 ring-red-500/20">
+          <div className="absolute bottom-3 left-3 right-3 rounded-xl bg-highlight-red/10 px-3 py-2 text-xs text-red-200 ring-1 ring-red-500/20">
             {error}
           </div>
         ) : null}

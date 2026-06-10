@@ -3,11 +3,11 @@
   "title": "抽卡模拟：保底机制与概率心理学",
   "subtitle": "争议高=评论高。把保底写清楚、把体感做舒服，才能减少“被坑感”。",
   "cover": {
-    "src": "/plays/gacha-pity-and-psychology/cover.png",
+    "src": "/plays/_placeholders/cover.svg",
     "alt": "抽卡模拟：保底机制与概率心理学"
   },
   "coverWide": {
-    "src": "/plays/gacha-pity-and-psychology/cover-wide.png",
+    "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "抽卡模拟：保底机制与概率心理学"
   },
   "tags": ["数值", "生成"],

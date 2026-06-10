@@ -95,7 +95,7 @@ export function DemoEmbed({
             <button
               type="button"
               onClick={sendRestart}
-              className="inline-flex h-9 items-center justify-center rounded-xl border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
+              className="inline-flex h-9 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
             >
               重开
             </button>
@@ -105,7 +105,7 @@ export function DemoEmbed({
               <button
                 type="button"
                 onClick={() => void enterFullscreen()}
-                className="inline-flex h-9 items-center justify-center rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white hover:bg-blue-500"
+                className="inline-flex h-9 items-center justify-center rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink hover:bg-highlight-blue/90"
               >
                 全屏
               </button>
@@ -113,7 +113,7 @@ export function DemoEmbed({
               <button
                 type="button"
                 onClick={() => void exitFullscreen()}
-                className="inline-flex h-9 items-center justify-center rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white hover:bg-blue-500"
+                className="inline-flex h-9 items-center justify-center rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink hover:bg-highlight-blue/90"
               >
                 退出全屏
               </button>

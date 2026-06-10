@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Search, Menu } from "lucide-react";
 import { DesktopNav } from "./DesktopNav";
 import { MenuDrawer } from "./MenuDrawer";
 
@@ -27,7 +28,8 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
 
   function goSearch() {
     const trimmed = q.trim();
-    const target = trimmed.length > 0 ? `/?q=${encodeURIComponent(trimmed)}` : "/";
+    const target =
+      trimmed.length > 0 ? `/?q=${encodeURIComponent(trimmed)}` : "/";
     router.push(target);
   }
 
@@ -36,7 +38,14 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
     const last = lastTapAtRef.current;
     lastTapAtRef.current = now;
 
-    if (!last || now - last > 1500) tapCountRef.current = 0;
+    if (!last || now - last > 1500) {
+      // Single tap or tap after a long pause → go home
+      tapCountRef.current = 1;
+      router.push("/");
+      return;
+    }
+
+    // Rapid taps → count toward moderator unlock
     tapCountRef.current += 1;
 
     if (tapCountRef.current >= 8) {
@@ -56,7 +65,7 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-200/70 bg-zinc-50/80 pt-[env(safe-area-inset-top)] backdrop-blur dark:border-white/10 dark:bg-black/40">
+    <header className="sticky top-0 z-40 border-b border-ink-light/20 bg-paper/80 pt-[env(safe-area-inset-top)] backdrop-blur">
       <div className="mx-auto w-full max-w-6xl px-3 min-[360px]:px-4">
         <div className="flex h-14 items-center gap-3">
           <div className="flex min-w-0 flex-1 items-center gap-3">
@@ -65,7 +74,7 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
                 type="button"
                 onClick={onLogoTap}
                 aria-label="OVOKIT"
-                className="rounded-full bg-lime-300 px-2.5 py-1 text-[13px] font-bold tracking-tight text-black min-[360px]:px-3 min-[360px]:text-sm"
+                className="font-kalam rounded-xl bg-highlight-yellow px-3 py-1 text-sm font-bold tracking-tight text-ink"
               >
                 OVOKIT
               </button>
@@ -80,29 +89,15 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
                   if (e.key === "Enter") goSearch();
                 }}
                 inputMode="search"
-                className="h-9 w-full rounded-full border border-zinc-200 bg-white pl-3 pr-10 text-sm text-zinc-900 shadow-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-zinc-300 focus:ring-2 focus:ring-zinc-200 min-[360px]:h-10 min-[360px]:pl-4 min-[360px]:pr-11 dark:border-white/10 dark:bg-black/40 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:ring-white/10"
+                className="sketch-input h-9 w-full pl-3 pr-10 min-[360px]:h-10 min-[360px]:pl-4 min-[360px]:pr-11"
               />
               <button
                 type="button"
                 onClick={goSearch}
                 aria-label="Search"
-                className="absolute right-1.5 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-zinc-500 hover:bg-black/5 hover:text-zinc-800 min-[360px]:right-2 dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-zinc-100"
+                className="absolute right-1.5 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center sketch-border bg-paper text-ink-muted hover:bg-paper-warm hover:text-ink min-[360px]:right-2"
               >
-                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
-                  <path
-                    d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M16.5 16.5 21 21"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
+                <Search size={18} strokeWidth={2} />
               </button>
             </div>
 
@@ -111,22 +106,14 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-1 text-zinc-700 dark:text-zinc-200">
+          <div className="flex items-center gap-1 text-ink-light">
             <button
               type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full hover:bg-black/5 sm:h-9 sm:w-9 dark:hover:bg-white/10"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl hover:bg-ink/5 sm:h-9 sm:w-9"
               aria-label="Menu"
               onClick={() => setOpen(true)}
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
-                <path
-                  d="M4 7h16M4 12h16M4 17h16"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <Menu size={20} strokeWidth={2} />
             </button>
           </div>
         </div>
