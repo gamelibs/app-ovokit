@@ -7,12 +7,11 @@
 
 ## In Progress
 
-- [ ] **新增 5 种核心玩法原型数据层与筛选**
-  - 目标：让用户能按核心原型筛选，让版主发帖能选原型
-  - 文件：`src/lib/patterns/patterns.ts`、`src/lib/content/plays.ts`、首页筛选、`NewPlayForm`、mod API
+- [ ] **母型与核心原型的映射 + 母型详情页展示**
+  - 目标：在母型详情页展示每个母型所属的核心原型
+  - 文件：`src/lib/archetypes/archetypes.ts`、`src/features/archetypes/pageModel.ts`、`src/components/archetypes/ArchetypePage.tsx`
   - 负责人：Kimi Code CLI
-  - 开始时间：2026-06-14
-  - 阻塞：git 工作区 35 个未提交文件待处理
+  - 开始时间：待定
 
 ---
 
@@ -20,6 +19,7 @@
 
 ### 核心原型架构
 
+- [x] 新增 5 种核心玩法原型数据层与筛选（2026-06-14 完成）
 - [ ] 建立母型与核心原型的映射（`archetypeToPatterns`）
 - [ ] 母型详情页展示所属核心原型
 - [ ] 为 5 种核心原型各实现一个最小服务端 Demo
@@ -46,6 +46,7 @@
 ## Done
 
 - [x] 建立 Agent 工作流记忆系统（`memory/`、`doc/AGENT_WORKFLOW.md`）
+- [x] 新增 5 种核心玩法原型数据层与筛选（2026-06-14）
 - [x] 手绘风格化基本完成
 - [x] 30 篇玩法内容填充
 - [x] 12 种母型文案填充

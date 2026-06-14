@@ -48,8 +48,12 @@ export default async function Home({
   const selectedCategory = getPlayCategory(browseGroup, catKey);
   const selectedTags = selectedCategory?.filterTags ?? null;
   const selectedDifficulty = selectedCategory?.filterDifficulty ?? null;
+  const selectedPattern = selectedCategory?.filterPattern ?? null;
 
   const filtered = plays.filter((p) => {
+    if (selectedPattern && p.pattern !== selectedPattern) {
+      return false;
+    }
     if (selectedTags && !selectedTags.some((t) => p.tags.includes(t as PlayTag))) {
       return false;
     }

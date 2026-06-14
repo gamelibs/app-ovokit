@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { PlayCover, PlayMeta } from "@/lib/content/plays";
+import type { CorePatternKey } from "@/lib/patterns/patterns";
+import { corePatterns } from "@/lib/patterns/patterns";
 import { TagInput } from "./TagInput";
 import { BreakdownEditor } from "./BreakdownEditor";
 import type { BreakdownItem } from "./BreakdownEditor";
@@ -114,6 +116,7 @@ export function NewPlayForm({
   const [slug, setSlug] = useState("");
   const [fallbackSlug, setFallbackSlug] = useState("play-draft");
   const [difficulty, setDifficulty] = useState<Difficulty>("入门");
+  const [pattern, setPattern] = useState<CorePatternKey | "">("");
   const [tags, setTags] = useState<string[]>(["推荐", "合成"]);
   const [techStack, setTechStack] = useState<string[]>(["TypeScript", "Next.js"]);
   const [corePoints, setCorePoints] = useState<string[]>(["核心点1", "核心点2"]);
@@ -164,6 +167,7 @@ export function NewPlayForm({
     setSubtitle(initial.meta.subtitle ?? "");
     setSlug(initial.meta.slug ?? "");
     setDifficulty((initial.meta.difficulty as Difficulty) ?? "入门");
+    setPattern((initial.meta.pattern as CorePatternKey) ?? "");
     setTags((initial.meta.tags ?? []) as string[]);
     setTechStack(initial.meta.techStack ?? []);
     setCorePoints(initial.meta.corePoints ?? []);
@@ -196,6 +200,7 @@ export function NewPlayForm({
       setSubtitle(String(d.subtitle ?? ""));
       setSlug(String(d.slug ?? ""));
       setDifficulty((d.difficulty as Difficulty) ?? "入门");
+      setPattern((d.pattern as CorePatternKey) ?? "");
 
       if (Array.isArray(d.tags) && d.tags.every((t) => typeof t === "string")) {
         setTags(d.tags as string[]);
@@ -247,6 +252,7 @@ export function NewPlayForm({
       setSubtitle(String(d.subtitle ?? ""));
       setSlug(String(d.slug ?? ""));
       setDifficulty((d.difficulty as Difficulty) ?? "入门");
+      setPattern((d.pattern as CorePatternKey) ?? "");
 
       // tags
       if (Array.isArray(d.tags) && d.tags.every((t) => typeof t === "string")) {
@@ -304,6 +310,7 @@ export function NewPlayForm({
           subtitle,
           slug,
           difficulty,
+          pattern,
           tags,
           techStack,
           corePoints,
@@ -331,6 +338,7 @@ export function NewPlayForm({
     subtitle,
     slug,
     difficulty,
+    pattern,
     tags,
     techStack,
     corePoints,
@@ -458,6 +466,7 @@ export function NewPlayForm({
             coverWide: existingCoverWide ?? undefined,
             tags,
             difficulty,
+            pattern: pattern || undefined,
             techStack,
             corePoints,
             stats: initial?.meta.stats ?? { views: 0, likes: 0 },
@@ -620,6 +629,29 @@ export function NewPlayForm({
               </select>
             </label>
           </div>
+
+          <label className="grid gap-1">
+            <span className="text-xs font-semibold text-ink-muted">
+              核心原型（编辑器架构）
+            </span>
+            <select
+              value={pattern}
+              onChange={(e) => setPattern(e.target.value as CorePatternKey | "")}
+              className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
+            >
+              <option value="">不指定</option>
+              {corePatterns.map((p) => (
+                <option key={p.key} value={p.key}>
+                  {p.name} — {p.loop}
+                </option>
+              ))}
+            </select>
+            {pattern ? (
+              <span className="text-xs text-ink-muted">
+                {corePatterns.find((p) => p.key === pattern)?.subtitle}
+              </span>
+            ) : null}
+          </label>
 
           <TagInput
             label="标签"

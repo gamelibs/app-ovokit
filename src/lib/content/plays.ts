@@ -3,6 +3,7 @@ import path from "node:path";
 import { getPlayStats } from "./views";
 import { availablePlayTags } from "./play-tags";
 import type { PlayTag } from "./play-tags";
+import type { CorePatternKey } from "@/lib/patterns/patterns";
 
 export type PlayDifficulty = "入门" | "进阶" | "硬核";
 export { availablePlayTags };
@@ -40,6 +41,11 @@ export type PlayMeta = {
   difficulty: PlayDifficulty;
   techStack: string[];
   corePoints: string[];
+  /**
+   * 核心玩法原型（Core Gameplay Pattern）。
+   * 从编辑器架构角度对玩法进行归纳，与 tags/archetype 形成互补。
+   */
+  pattern?: CorePatternKey;
   stats: {
     views: number;
     likes: number;
@@ -104,12 +110,17 @@ export type PlayCategory = {
   label: string;
   filterTags?: PlayTag[];
   filterDifficulty?: PlayDifficulty;
+  /**
+   * 当 group === "pattern" 时使用，直接按 PlayMeta.pattern 过滤。
+   */
+  filterPattern?: CorePatternKey;
 };
 
-export type PlayBrowseGroupKey = "archetype" | "feature" | "difficulty";
+export type PlayBrowseGroupKey = "archetype" | "pattern" | "feature" | "difficulty";
 
 export const playBrowseGroups: ReadonlyArray<{ key: PlayBrowseGroupKey; label: string }> = [
   { key: "archetype", label: "母型玩法" },
+  { key: "pattern", label: "核心原型" },
   { key: "feature", label: "玩法特征" },
   { key: "difficulty", label: "难度层级" },
 ];
@@ -149,8 +160,17 @@ const difficultyCategories: PlayCategory[] = [
   { key: "hardcore", label: "硬核", filterDifficulty: "硬核" },
 ];
 
+const patternCategories: PlayCategory[] = [
+  { key: "action", label: "动作敏捷", filterPattern: "action" },
+  { key: "spatial", label: "空间布局", filterPattern: "spatial" },
+  { key: "merge", label: "合成成长", filterPattern: "merge" },
+  { key: "management", label: "经营模拟", filterPattern: "management" },
+  { key: "strategy", label: "数值策略", filterPattern: "strategy" },
+];
+
 const categoriesByGroup: Record<PlayBrowseGroupKey, PlayCategory[]> = {
   archetype: archetypeCategories,
+  pattern: patternCategories,
   feature: featureCategories,
   difficulty: difficultyCategories,
 };
