@@ -85,7 +85,7 @@ export function DemoEmbed({
   }, [restartMessage, restartStrategy]);
 
   const stageWrapperClass =
-    wrapperClassName ?? "h-[68vh] w-full sm:h-auto sm:aspect-video";
+    wrapperClassName ?? "min-h-[360px] h-[60vh] w-full sm:h-auto sm:aspect-[4/3] lg:aspect-[16/10]";
 
   return (
     <div className="w-full">

@@ -33,7 +33,7 @@
 - [x] `pnpm typecheck` 通过
 - [x] `pnpm build` 通过
 - [x] **迭代 1：5 种核心玩法原型数据层 + 首页筛选 + 版主表单**（含修复 `isPlayBrowseGroupKey`）
-- [x] **迭代 3：5 种核心原型最小 Demo + 嵌入页面 + 详情页回退逻辑**（含根据 tags 自动推断 pattern 的兼容逻辑）
+- [x] **迭代 3：5 种核心原型最小 Demo + 嵌入页面 + 详情页回退逻辑**（含根据 tags 自动推断 pattern 的兼容逻辑、ServerDemoPlayer 自适应布局与交互优化）
 
 ---
 

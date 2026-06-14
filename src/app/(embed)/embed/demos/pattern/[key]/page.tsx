@@ -11,11 +11,9 @@ export default async function EmbedPatternDemoPage({
   if (!isCorePatternKey(key)) notFound();
 
   return (
-    <main className="h-full w-full">
-      <div className="h-full w-full overflow-hidden bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
-        <div className="h-full p-4">
-          <ServerDemoPlayer demoId={`pattern-${key}`} initInput={{ difficulty: "normal" }} />
-        </div>
+    <main className="h-dvh w-full overflow-hidden bg-paper p-0">
+      <div className="h-full w-full p-2 sm:p-3">
+        <ServerDemoPlayer demoId={`pattern-${key}`} initInput={{ difficulty: "normal" }} />
       </div>
     </main>
   );
