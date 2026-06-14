@@ -10,11 +10,24 @@
     "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "多结局：结局触发条件与玩家路径引导"
   },
-  "tags": ["关卡", "解谜"],
+  "tags": [
+    "关卡",
+    "解谜"
+  ],
   "difficulty": "进阶",
-  "techStack": ["配置表(通用)", "TypeScript"],
-  "corePoints": ["触发条件", "提示分级", "路径引导"],
-  "stats": { "views": 8120, "likes": 1100 },
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "触发条件",
+    "提示分级",
+    "路径引导"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
   "breakdown": [
     {
       "title": "结局触发条件怎么写",
@@ -48,6 +61,7 @@
       "code": "type Flags = Record<string, boolean>;\n\ntype Ending = { id: string; priority: number; when: (f: Flags) => boolean };\n\nexport const endings: Ending[] = [\n  { id: \"true\", priority: 100, when: (f) => f.coreDone && f.secretKey && f.mercy },\n  { id: \"good\", priority: 50, when: (f) => f.coreDone && f.mercy },\n  { id: \"bad\", priority: 10, when: (f) => f.coreDone },\n];\n\nexport function pickEnding(flags: Flags) {\n  return endings\n    .filter((e) => e.when(flags))\n    .sort((a, b) => b.priority - a.priority)[0]?.id;\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：把结局条件做成可视化进度（勾选/进度条），观察玩家是否更愿意二周目。"} 
+  "demo": {
+    "note": "建议 Demo：把结局条件做成可视化进度（勾选/进度条），观察玩家是否更愿意二周目。"
+  }
 }
-

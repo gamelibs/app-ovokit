@@ -42,6 +42,7 @@ OVOKIT 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱
 - 约定与地图：`doc/AGENT_CONTEXT.md`
 - 开发/架构细节：`doc/开发说明.md`
 - 面向使用者：`README.md`
+- Kimi SVG 生成实现：`doc/Kimi_SVG_接入实现说明.md`
 
 ## 常用命令（本地）
 

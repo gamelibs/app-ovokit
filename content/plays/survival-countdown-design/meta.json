@@ -10,11 +10,26 @@
     "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "生存倒计时：时间压力设计与“最后 10 秒”效应"
   },
-  "tags": ["关卡", "动作", "躲避"],
+  "tags": [
+    "关卡",
+    "动作",
+    "躲避"
+  ],
   "difficulty": "进阶",
-  "techStack": ["配置表(通用)", "TypeScript", "Unity/UE(可迁移)"],
-  "corePoints": ["时间压力曲线", "容错窗口", "最后 10 秒"],
-  "stats": { "views": 6730, "likes": 870 },
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript",
+    "Unity/UE(可迁移)"
+  ],
+  "corePoints": [
+    "时间压力曲线",
+    "容错窗口",
+    "最后 10 秒"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
   "breakdown": [
     {
       "title": "时间压力怎么做才不“恶意”",
@@ -48,6 +63,7 @@
       "code": "export function pressureMul(timeLeft: number, total: number) {\n  const p = 1 - timeLeft / total; // 0 -> 1\n  if (p < 0.6) return 1; // 学习/探索期\n  if (p < 0.9) return 1 + (p - 0.6) / 0.3 * 0.6; // 1 -> 1.6\n  return 1.6 + (p - 0.9) / 0.1 * 0.4; // 1.6 -> 2.0（最后 10%）\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：同一关卡仅调整“最后 10 秒的收益/宽容判定”，观察玩家是否更愿意冲刺。"} 
+  "demo": {
+    "note": "建议 Demo：同一关卡仅调整“最后 10 秒的收益/宽容判定”，观察玩家是否更愿意冲刺。"
+  }
 }
-

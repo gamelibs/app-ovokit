@@ -10,11 +10,27 @@
     "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "波次防守：波次强度曲线与中场缓冲设计"
   },
-  "tags": ["塔防", "关卡", "数值", "生成"],
+  "tags": [
+    "塔防",
+    "关卡",
+    "数值",
+    "生成"
+  ],
   "difficulty": "进阶",
-  "techStack": ["配置表(通用)", "TypeScript", "Unity/UE(可迁移)"],
-  "corePoints": ["波次预算", "强度曲线", "中场缓冲"],
-  "stats": { "views": 9240, "likes": 1330 },
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript",
+    "Unity/UE(可迁移)"
+  ],
+  "corePoints": [
+    "波次预算",
+    "强度曲线",
+    "中场缓冲"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
   "breakdown": [
     {
       "title": "波次强度曲线",
@@ -48,6 +64,8 @@
       "code": "type Wave = { id: number; budget: number; elite: boolean; pattern: string };\n\nexport function waveBudget(wave: number) {\n  // 预算增长：线性 + 小指数，让后期有加速\n  return Math.floor(40 + wave * 12 + Math.pow(wave, 1.25) * 6);\n}\n\nexport function makeWave(wave: number): Wave {\n  const elite = wave % 5 === 0;\n  const budget = waveBudget(wave) * (elite ? 1.35 : 1);\n  const pattern = elite ? \"elite_mix\" : wave % 3 === 0 ? \"fast\" : \"swarm\";\n  return { id: wave, budget, elite, pattern };\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：同一地图跑 20 波，输出每波预算、怪种构成与玩家损失曲线，调出“波峰波谷”。"} 
+  "demo": {
+    "note": "建议 Demo：同一地图跑 20 波，输出每波预算、怪种构成与玩家损失曲线，调出“波峰波谷”。"
+  },
+  "published": true
 }
-

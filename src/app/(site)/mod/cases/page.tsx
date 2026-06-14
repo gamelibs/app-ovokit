@@ -46,14 +46,22 @@ export default async function ModCasesPage() {
     <main className="mx-auto w-full max-w-5xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
       <div className="flex items-center justify-between gap-3">
         <h1 className="min-w-0 truncate text-xl font-semibold">案例演示（交互积木）</h1>
-        <Link
-          href="/demo/blocks"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-highlight-blue px-4 text-sm font-semibold text-ink hover:bg-highlight-blue/90 min-[360px]:min-w-[120px]"
-        >
-          创建案例
-        </Link>
+        <div className="flex shrink-0 items-center gap-2">
+          <Link
+            href="/mod"
+            className="sketch-button sketch-button-secondary text-sm"
+          >
+            ← 返回内容管理
+          </Link>
+          <Link
+            href="/demo/blocks"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-highlight-blue px-4 text-sm font-semibold text-ink hover:bg-highlight-blue/90 min-[360px]:min-w-[120px]"
+          >
+            创建案例
+          </Link>
+        </div>
       </div>
       <p className="mt-2 text-sm text-ink-light">
         此处展示“已在玩法 meta.json 中配置了 demo.iframeSrc”的帖子，便于快速复制 Demo 链接/嵌入地址。

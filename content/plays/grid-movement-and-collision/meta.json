@@ -2,19 +2,39 @@
   "slug": "grid-movement-and-collision",
   "title": "格子移动与碰撞：从规则到实现",
   "subtitle": "用统一的“占用/可达”模型，处理推箱子、位移技能与阻挡。",
-  "tags": ["网格", "物理", "关卡"],
+  "tags": [
+    "网格",
+    "物理",
+    "关卡"
+  ],
   "difficulty": "入门",
-  "techStack": ["TypeScript", "Canvas(占位)"],
-  "corePoints": ["占用表", "可达性", "碰撞分层"],
-  "stats": { "views": 3810, "likes": 612 },
+  "techStack": [
+    "TypeScript",
+    "Canvas(占位)"
+  ],
+  "corePoints": [
+    "占用表",
+    "可达性",
+    "碰撞分层"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
   "breakdown": [
     {
       "title": "数据模型",
-      "bullets": ["占用表 occupancy[x,y] → entityId", "层级：地形/单位/投射物"]
+      "bullets": [
+        "占用表 occupancy[x,y] → entityId",
+        "层级：地形/单位/投射物"
+      ]
     },
     {
       "title": "移动判定",
-      "bullets": ["先算意图，再做 resolve", "支持链式推动（可选）"]
+      "bullets": [
+        "先算意图，再做 resolve",
+        "支持链式推动（可选）"
+      ]
     }
   ],
   "codeSnippets": [
@@ -28,5 +48,8 @@
     "iframeSrc": "/embed/plays/grid-movement-and-collision",
     "note": "最小可试玩：网格移动 + 墙体阻挡（用于演示占用/阻挡模型）。"
   },
-  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "格子移动与碰撞：从规则到实现" }
+  "cover": {
+    "src": "/plays/_placeholders/cover.svg",
+    "alt": "格子移动与碰撞：从规则到实现"
+  }
 }

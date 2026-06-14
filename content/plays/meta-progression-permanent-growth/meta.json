@@ -10,11 +10,25 @@
     "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "失败即成长：永久成长比例与防止“刷失败”"
   },
-  "tags": ["Roguelike", "关卡", "数值"],
+  "tags": [
+    "Roguelike",
+    "关卡",
+    "数值"
+  ],
   "difficulty": "进阶",
-  "techStack": ["配置表(通用)", "TypeScript"],
-  "corePoints": ["永久成长比例", "节奏解锁", "反刷机制"],
-  "stats": { "views": 10860, "likes": 2010 },
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "永久成长比例",
+    "节奏解锁",
+    "反刷机制"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
   "breakdown": [
     {
       "title": "永久成长比例怎么定",
@@ -48,6 +62,7 @@
       "code": "export function metaCurrencyGain(opts: {\n  seconds: number;\n  floors: number;\n  kills: number;\n}) {\n  const earlyQuitPenalty = opts.seconds < 120 ? 0.2 : 1;\n  const base = Math.sqrt(opts.kills) + opts.floors * 3;\n  return Math.floor(base * earlyQuitPenalty);\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：做一张“永久成长占比 vs 首次通关率”的对照表，找 20~35% 的舒适区。"} 
+  "demo": {
+    "note": "建议 Demo：做一张“永久成长占比 vs 首次通关率”的对照表，找 20~35% 的舒适区。"
+  }
 }
-

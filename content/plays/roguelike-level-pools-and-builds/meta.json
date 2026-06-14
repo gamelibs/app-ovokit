@@ -10,11 +10,28 @@
     "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "Roguelike 关卡：随机池设计与 Build 强度控制"
   },
-  "tags": ["Roguelike", "战斗", "关卡", "生成", "数值"],
+  "tags": [
+    "Roguelike",
+    "战斗",
+    "关卡",
+    "生成",
+    "数值"
+  ],
   "difficulty": "进阶",
-  "techStack": ["配置表(通用)", "TypeScript", "Unity/UE(可迁移)"],
-  "corePoints": ["房间/事件池", "权重与约束", "Build 强度曲线"],
-  "stats": { "views": 9280, "likes": 1320 },
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript",
+    "Unity/UE(可迁移)"
+  ],
+  "corePoints": [
+    "房间/事件池",
+    "权重与约束",
+    "Build 强度曲线"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
   "breakdown": [
     {
       "title": "随机池怎么搭",
@@ -48,6 +65,7 @@
       "code": "type RoomType = \"fight\" | \"elite\" | \"shop\" | \"event\" | \"heal\";\n\ntype RoomDef = {\n  id: string;\n  type: RoomType;\n  weight: number;\n  minFloor?: number;\n  maxFloor?: number;\n  tags?: string[];\n};\n\nexport function pickRoom(\n  pool: RoomDef[],\n  floor: number,\n  recentTypes: RoomType[],\n  ensure?: RoomType,\n) {\n  const cooldown = new Set(recentTypes.slice(-2)); // 最近 2 次不重复（示例）\n\n  const candidates = pool.filter((r) => {\n    if (r.minFloor && floor < r.minFloor) return false;\n    if (r.maxFloor && floor > r.maxFloor) return false;\n    if (cooldown.has(r.type)) return false;\n    return true;\n  });\n\n  const forced = ensure ? candidates.filter((r) => r.type === ensure) : [];\n  const list = forced.length > 0 ? forced : candidates;\n\n  const total = list.reduce((s, r) => s + r.weight, 0);\n  let roll = Math.random() * total;\n  for (const r of list) {\n    roll -= r.weight;\n    if (roll <= 0) return r;\n  }\n  return list[list.length - 1];\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：同一套房间池，分别开启/关闭冷却与保底，观察“连坏房间”概率与通关率。"} 
+  "demo": {
+    "note": "建议 Demo：同一套房间池，分别开启/关闭冷却与保底，观察“连坏房间”概率与通关率。"
+  }
 }
-

@@ -183,6 +183,59 @@ export function NewPlayForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, initialSlug]);
 
+  // 从 AI Analyzer 草稿恢复（优先级高于本地草稿）
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem("ovokit:analyzer-draft");
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as unknown;
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return;
+      const d = parsed as Record<string, unknown>;
+
+      setTitle(String(d.title ?? ""));
+      setSubtitle(String(d.subtitle ?? ""));
+      setSlug(String(d.slug ?? ""));
+      setDifficulty((d.difficulty as Difficulty) ?? "入门");
+
+      if (Array.isArray(d.tags) && d.tags.every((t) => typeof t === "string")) {
+        setTags(d.tags as string[]);
+      }
+      if (Array.isArray(d.techStack) && d.techStack.every((t) => typeof t === "string")) {
+        setTechStack(d.techStack as string[]);
+      }
+      if (Array.isArray(d.corePoints) && d.corePoints.every((t) => typeof t === "string")) {
+        setCorePoints(d.corePoints as string[]);
+      }
+      if (Array.isArray(d.breakdown)) {
+        setBreakdown(d.breakdown as BreakdownItem[]);
+      }
+      if (Array.isArray(d.codeSnippets)) {
+        setCodeSnippets(d.codeSnippets as CodeSnippetItem[]);
+      }
+      if (typeof d.articleMdx === "string") {
+        setArticleMdx(d.articleMdx);
+      }
+      // 封面 SVG dataUrl
+      if (typeof d.coverSvgDataUrl === "string") {
+        setCoverSvgDataUrl(d.coverSvgDataUrl);
+        setCoverPreviewUrl(d.coverSvgDataUrl);
+      }
+      // Demo iframe
+      if (typeof d.iframeSrc === "string") {
+        setIframeSrc(d.iframeSrc);
+      }
+      if (typeof d.demoNote === "string") {
+        setDemoNote(d.demoNote);
+      }
+
+      // 清除 analyzer draft，避免重复填充
+      window.localStorage.removeItem("ovokit:analyzer-draft");
+    } catch {
+      // ignore
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(draftKey);

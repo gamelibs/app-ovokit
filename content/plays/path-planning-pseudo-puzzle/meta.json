@@ -2,14 +2,42 @@
   "slug": "path-planning-pseudo-puzzle",
   "title": "路径规划：伪解谜设计与多解/单解取舍",
   "subtitle": "看起来很聪明的玩法怎么做？如何用“可验证的生成”制造既合理又可控的关卡？",
-  "tags": ["推荐", "解谜", "关卡", "生成"],
+  "tags": [
+    "推荐",
+    "解谜",
+    "关卡",
+    "生成"
+  ],
   "difficulty": "进阶",
-  "techStack": ["TypeScript", "生成/校验(通用)"],
-  "corePoints": ["伪解谜", "多解/单解", "生成与校验"],
-  "stats": { "views": 5280, "likes": 680 },
+  "techStack": [
+    "TypeScript",
+    "生成/校验(通用)"
+  ],
+  "corePoints": [
+    "伪解谜",
+    "多解/单解",
+    "生成与校验"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
   "breakdown": [
-    { "title": "伪解谜", "bullets": ["让玩家做“看起来聪明”的决策", "把复杂性藏在校验/生成里"] },
-    { "title": "解空间", "bullets": ["单解：更像题目", "多解：更像沙盒", "用“最短路差值”控难度"] }
+    {
+      "title": "伪解谜",
+      "bullets": [
+        "让玩家做“看起来聪明”的决策",
+        "把复杂性藏在校验/生成里"
+      ]
+    },
+    {
+      "title": "解空间",
+      "bullets": [
+        "单解：更像题目",
+        "多解：更像沙盒",
+        "用“最短路差值”控难度"
+      ]
+    }
   ],
   "codeSnippets": [
     {
@@ -18,6 +46,11 @@
       "code": "type NodeId = string;\n\ntype Graph = Record<NodeId, NodeId[]>;\n\nexport function countPaths(g: Graph, start: NodeId, goal: NodeId, limit = 3) {\n  let count = 0;\n  const stack: NodeId[] = [start];\n  const visited = new Set<string>();\n\n  function dfs(node: NodeId, path: NodeId[]) {\n    if (count >= limit) return;\n    if (node === goal) {\n      count++;\n      return;\n    }\n    for (const next of g[node] ?? []) {\n      const key = `${node}->${next}|${path.length}`;\n      if (visited.has(key)) continue;\n      visited.add(key);\n      dfs(next, [...path, next]);\n    }\n  }\n\n  dfs(start, stack);\n  return count;\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：生成 1000 个关卡，按“解数量/最短路差值”自动分桶为难度。" },
-  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "路径规划：伪解谜设计与多解/单解取舍" }
+  "demo": {
+    "note": "建议 Demo：生成 1000 个关卡，按“解数量/最短路差值”自动分桶为难度。"
+  },
+  "cover": {
+    "src": "/plays/_placeholders/cover.svg",
+    "alt": "路径规划：伪解谜设计与多解/单解取舍"
+  }
 }

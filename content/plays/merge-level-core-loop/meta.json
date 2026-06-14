@@ -2,19 +2,40 @@
   "slug": "merge-level-core-loop",
   "title": "合成 & 升级玩法核心逻辑",
   "subtitle": "拆解“合成升级”的节奏、产出与反馈，并给出可复用的数据结构。",
-  "tags": ["推荐", "合成", "放置", "数值"],
+  "tags": [
+    "推荐",
+    "合成",
+    "放置",
+    "数值"
+  ],
   "difficulty": "入门",
-  "techStack": ["TypeScript", "Next.js", "Canvas(占位)"],
-  "corePoints": ["合并规则", "产出节奏", "局内反馈"],
-  "stats": { "views": 6780, "likes": 5238 },
+  "techStack": [
+    "TypeScript",
+    "Next.js",
+    "Canvas(占位)"
+  ],
+  "corePoints": [
+    "合并规则",
+    "产出节奏",
+    "局内反馈"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
   "breakdown": [
     {
       "title": "玩法目标",
-      "bullets": ["让玩家持续做“更优选择”", "用可视化反馈放大小收益"]
+      "bullets": [
+        "让玩家持续做“更优选择”",
+        "用可视化反馈放大小收益"
+      ]
     },
     {
       "title": "核心循环",
-      "bullets": ["产出资源 → 合成升级 → 解锁新单位 → 提升产出"]
+      "bullets": [
+        "产出资源 → 合成升级 → 解锁新单位 → 提升产出"
+      ]
     },
     {
       "title": "实现要点",
@@ -36,5 +57,8 @@
     "iframeSrc": "/embed/plays/merge-level-core-loop",
     "note": "最小可交互：2 合 1 合成链（用于演示表驱动规则与合成节奏）。"
   },
-  "cover": { "src": "/plays/_placeholders/cover.svg", "alt": "合成 & 升级玩法核心逻辑" }
+  "cover": {
+    "src": "/plays/_placeholders/cover.svg",
+    "alt": "合成 & 升级玩法核心逻辑"
+  }
 }

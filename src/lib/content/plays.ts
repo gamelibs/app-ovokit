@@ -230,13 +230,9 @@ export async function readPlayMeta(slug: string): Promise<PlayMeta | null> {
     const meta = JSON.parse(raw) as PlayMeta;
     // Default to published for backward compatibility
     if (meta.published === undefined) meta.published = true;
-    const realStats = await getPlayStats(slug);
-    // Merge real-time stats: use real values if they exist and are higher,
-    // otherwise keep the baseline from meta.json (for initial seeding)
-    meta.stats = {
-      views: Math.max(meta.stats?.views ?? 0, realStats.views),
-      likes: Math.max(meta.stats?.likes ?? 0, realStats.likes),
-    };
+    // Always use real-time stats from data/plays-views.json
+    // Ignore any hardcoded stats in meta.json (they are fake/seeding data)
+    meta.stats = await getPlayStats(slug);
     return await hydratePlayMedia(meta);
   } catch {
     return null;

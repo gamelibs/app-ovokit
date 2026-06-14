@@ -10,11 +10,24 @@
     "src": "/plays/_placeholders/cover-wide.svg",
     "alt": "抽卡模拟：保底机制与概率心理学"
   },
-  "tags": ["数值", "生成"],
+  "tags": [
+    "数值",
+    "生成"
+  ],
   "difficulty": "进阶",
-  "techStack": ["配置表(通用)", "TypeScript"],
-  "corePoints": ["硬保底/软保底", "体感概率", "情绪阈值"],
-  "stats": { "views": 12300, "likes": 2410 },
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "硬保底/软保底",
+    "体感概率",
+    "情绪阈值"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
   "breakdown": [
     {
       "title": "保底结构（最常用）",
@@ -48,6 +61,7 @@
       "code": "export function rareProb(pity: number) {\n  // pity: 连续未出稀有的次数\n  const base = 0.02; // 2%\n  const hard = 80; // 80 抽硬保底\n  if (pity >= hard - 1) return 1;\n\n  // 60 抽后开始“软保底”线性爬升（示例）\n  const softStart = 60;\n  if (pity < softStart) return base;\n\n  const t = (pity - softStart) / (hard - softStart);\n  return base + t * (0.25 - base); // 最终爬到 25%\n}\n"
     }
   ],
-  "demo": { "note": "建议 Demo：做一个小模拟器，展示“抽到目标所需抽数”的分布曲线与极端非酋比例。"} 
+  "demo": {
+    "note": "建议 Demo：做一个小模拟器，展示“抽到目标所需抽数”的分布曲线与极端非酋比例。"
+  }
 }
-

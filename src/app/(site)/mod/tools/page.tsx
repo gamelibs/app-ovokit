@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { isModerator } from "@/lib/mod/auth";
 import { DevToolsPanel } from "@/components/mod/DevToolsPanel";
+import { GameAnalyzerButton } from "@/components/mod/GameAnalyzer";
 
 export default async function ModToolsPage() {
   const ok = await isModerator();
@@ -25,6 +26,10 @@ export default async function ModToolsPage() {
         >
           返回版主中心
         </Link>
+      </div>
+
+      <div className="mt-4 flex items-center gap-3">
+        <GameAnalyzerButton />
       </div>
 
       <div className="mt-4">
