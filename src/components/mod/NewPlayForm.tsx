@@ -636,7 +636,13 @@ export function NewPlayForm({
             </span>
             <select
               value={pattern}
-              onChange={(e) => setPattern(e.target.value as CorePatternKey | "")}
+              onChange={(e) => {
+                const next = e.target.value as CorePatternKey | "";
+                setPattern(next);
+                if (next && !iframeSrc) {
+                  setIframeSrc(`/embed/demos/pattern/${next}`);
+                }
+              }}
               className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
             >
               <option value="">不指定</option>

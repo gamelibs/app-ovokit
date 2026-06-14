@@ -87,6 +87,10 @@ export default async function PlayDetailPage({
     return null;
   })();
 
+  const fallbackPatternDemoSrc = play.pattern
+    ? `/embed/demos/pattern/${play.pattern}`
+    : null;
+
   const fallbackArchetypeDemoSrc = inferredArchetypeKey
     ? `/embed/demos/archetype/${inferredArchetypeKey}`
     : null;
@@ -232,6 +236,16 @@ export default async function PlayDetailPage({
                 />
                   );
                 })()}
+              </div>
+            ) : fallbackPatternDemoSrc ? (
+              <div className="mt-4">
+                <DemoEmbed
+                  title={`${play.title} Pattern Demo`}
+                  src={fallbackPatternDemoSrc}
+                  controls="toolbar"
+                  showRestart
+                  restartStrategy="postMessage"
+                />
               </div>
             ) : fallbackArchetypeDemoSrc ? (
               <div className="mt-4">

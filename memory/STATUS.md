@@ -32,7 +32,8 @@
 - [x] 联系表单（本地落盘到 `content/contact-messages/`）
 - [x] `pnpm typecheck` 通过
 - [x] `pnpm build` 通过
-- [x] **迭代 1：5 种核心玩法原型数据层 + 首页筛选 + 版主表单**（含修复 `isPlayBrowseGroupKey` 对 `"pattern"` 的判定）
+- [x] **迭代 1：5 种核心玩法原型数据层 + 首页筛选 + 版主表单**（含修复 `isPlayBrowseGroupKey`）
+- [x] **迭代 3：5 种核心原型最小 Demo + 嵌入页面 + 详情页回退逻辑**
 
 ---
 
@@ -47,8 +48,7 @@
 
 ## 待办（Todo）
 
-- [ ] 5 种核心原型的最小可玩 Demo（迭代 3）
-- [ ] 把核心原型接入详情页 Demo 回退逻辑
+- [ ] 把核心原型接入详情页 Demo 回退逻辑（✅ 已完成，但保留以确认稳定性）
 - [ ] 版主发帖表单：选择原型后自动生成 breakdown / code 骨架
 - [ ] 治理 Lint errors（至少 115 个 errors，尤其是 `useBlockEditor.ts` 的 `commit` 提前访问 bug）
 - [ ] 统计持久化：把文件系统 views/likes 迁到 Redis/DB（serverless 环境下会丢数据）
@@ -78,4 +78,4 @@ git status --short  # ✅ 工作区已清理（2026-06-14）
 ## 下一次会话应优先处理
 
 1. 开始实施 `memory/GOALS.md` 中的迭代 2：母型与核心原型的映射 + 母型详情页展示
-2. 或继续实施迭代 3：5 种核心原型的最小 Demo
+2. 或修复 Lint errors 中的 block-editor bug
