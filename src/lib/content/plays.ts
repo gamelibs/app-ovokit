@@ -3,7 +3,7 @@ import path from "node:path";
 import { getPlayStats } from "./views";
 import { availablePlayTags } from "./play-tags";
 import type { PlayTag } from "./play-tags";
-import type { CorePatternKey } from "@/lib/patterns/patterns";
+import { isCorePatternKey, type CorePatternKey } from "@/lib/patterns/patterns";
 
 export type PlayDifficulty = "入门" | "进阶" | "硬核";
 export { availablePlayTags };
@@ -80,6 +80,62 @@ async function findPublicPlayAsset(
   return null;
 }
 
+function inferPatternFromTags(tags: PlayTag[]): CorePatternKey | undefined {
+  const tagSet = new Set(tags);
+
+  // Spatial: board/cell/rule/state change
+  if (tagSet.has("消除") || tagSet.has("解谜") || tagSet.has("网格")) return "spatial";
+
+  // Merge: resource/merge/level up/production
+  if (tagSet.has("合成")) return "merge";
+
+  // Action: input/avatar/physics/score
+  if (
+    tagSet.has("动作") ||
+    tagSet.has("点击") ||
+    tagSet.has("时机 / 反应") ||
+    tagSet.has("躲避") ||
+    tagSet.has("行进 / 跑酷") ||
+    tagSet.has("射击") ||
+    tagSet.has("物理")
+  )
+    return "action";
+
+  // Management: building/production/economy/growth
+  if (tagSet.has("放置 / 建造") || tagSet.has("模拟")) return "management";
+
+  // Strategy: unit/stats/combat/reward
+  if (
+    tagSet.has("塔防") ||
+    tagSet.has("策略决策") ||
+    tagSet.has("Roguelike") ||
+    tagSet.has("状态机") ||
+    tagSet.has("战斗") ||
+    tagSet.has("战斗对抗")
+  )
+    return "strategy";
+
+  // Numeric tags are ambiguous: use co-occurring tags to disambiguate
+  if (tagSet.has("数值") || tagSet.has("成长 / 数值")) {
+    if (tagSet.has("合成") || tagSet.has("放置")) return "merge";
+    if (
+      tagSet.has("塔防") ||
+      tagSet.has("策略决策") ||
+      tagSet.has("Roguelike") ||
+      tagSet.has("状态机") ||
+      tagSet.has("战斗") ||
+      tagSet.has("战斗对抗")
+    )
+      return "strategy";
+    return "merge";
+  }
+
+  // Standalone "放置" leans toward management
+  if (tagSet.has("放置")) return "management";
+
+  return undefined;
+}
+
 async function hydratePlayMedia(meta: PlayMeta): Promise<PlayMeta> {
   const coverSrc = meta.cover?.src;
   const needsCover = !coverSrc || coverSrc === PLACEHOLDER_COVER_SRC;
@@ -87,6 +143,12 @@ async function hydratePlayMedia(meta: PlayMeta): Promise<PlayMeta> {
     !meta.coverWide?.src || meta.coverWide?.src === PLACEHOLDER_COVER_WIDE_SRC;
 
   const out: PlayMeta = { ...meta };
+
+  // Infer pattern from tags if not explicitly set (backward compatible)
+  if (!out.pattern || !isCorePatternKey(out.pattern)) {
+    const inferred = inferPatternFromTags(out.tags);
+    if (inferred) out.pattern = inferred;
+  }
 
   if (needsCover) {
     const found = await findPublicPlayAsset(meta.slug, "cover");
