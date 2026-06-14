@@ -176,7 +176,7 @@ const categoriesByGroup: Record<PlayBrowseGroupKey, PlayCategory[]> = {
 };
 
 export function isPlayBrowseGroupKey(v: string | undefined): v is PlayBrowseGroupKey {
-  return v === "archetype" || v === "feature" || v === "difficulty";
+  return v === "archetype" || v === "pattern" || v === "feature" || v === "difficulty";
 }
 
 export function getPlayCategoriesForGroup(group: PlayBrowseGroupKey): PlayCategory[] {

@@ -11,7 +11,7 @@
 
 ## 当前目标
 
-把站点从"12 种母型玩法目录"扩展为"12 母型 + 5 种核心编辑器原型"的双层分类体系。
+把站点从"12 种母型玩法目录"扩展为 **"12 母型 + 5 种核心编辑器原型"的双层分类体系**。
 
 详见 `memory/GOALS.md`。
 
@@ -32,27 +32,26 @@
 - [x] 联系表单（本地落盘到 `content/contact-messages/`）
 - [x] `pnpm typecheck` 通过
 - [x] `pnpm build` 通过
+- [x] **迭代 1：5 种核心玩法原型数据层 + 首页筛选 + 版主表单**（含修复 `isPlayBrowseGroupKey` 对 `"pattern"` 的判定）
 
 ---
 
 ## 进行中（In Progress）
 
-- [ ] **新增 5 种核心玩法原型数据层与筛选**
+- [ ] **母型与核心原型的映射 + 母型详情页展示**（迭代 2）
+  - 文件：`src/lib/archetypes/archetypes.ts`、`src/features/archetypes/pageModel.ts`、`src/components/archetypes/ArchetypePage.tsx`
   - 负责人：Kimi Code CLI
-  - 范围：`src/lib/patterns/`、`src/lib/content/plays.ts`、首页筛选、版主表单
-  - 阻塞：当前 git 工作区有 35 个未提交文件，需要先 commit 或确认如何处理
+  - 状态：待开始
 
 ---
 
 ## 待办（Todo）
 
-- [ ] 母型与核心原型的映射 + 母型详情页展示
-- [ ] 5 种核心原型的最小可玩 Demo
+- [ ] 5 种核心原型的最小可玩 Demo（迭代 3）
 - [ ] 把核心原型接入详情页 Demo 回退逻辑
 - [ ] 版主发帖表单：选择原型后自动生成 breakdown / code 骨架
 - [ ] 治理 Lint errors（至少 115 个 errors，尤其是 `useBlockEditor.ts` 的 `commit` 提前访问 bug）
 - [ ] 统计持久化：把文件系统 views/likes 迁到 Redis/DB（serverless 环境下会丢数据）
-- [ ] 提交并整理当前 git 工作区的 35 个未提交文件
 
 ---
 
@@ -71,7 +70,7 @@
 pnpm -s typecheck   # ✅ 通过（2026-06-14）
 pnpm -s build       # ✅ 通过（2026-06-14）
 pnpm -s lint        # ❌ 115 errors / 1749 warnings（2026-06-14）
-git status --short  # ⚠️ 35 个未提交文件（2026-06-14）
+git status --short  # ✅ 工作区已清理（2026-06-14）
 ```
 
 ---
