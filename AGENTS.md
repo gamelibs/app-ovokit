@@ -2,6 +2,27 @@
 
 本仓库包含较多内容与资源文件。为减少“重复扫描/重复读文件”带来的上下文流量消耗，请优先遵循下面的阅读顺序与范围约定。
 
+### Agent 工作流入口（新增，必读）
+
+本仓库已建立 Agent 工作流记忆系统，用于跨会话自动接续项目目标与任务状态。
+
+**每次新会话启动时，先读这些文件（按顺序）**：
+
+1. `memory/STATUS.md` —— 项目当前快照、健康检查、阻塞
+2. `memory/GOALS.md` —— 当前阶段目标与里程碑
+3. `memory/BACKLOG.md` —— 任务看板（In Progress / Todo / Done）
+4. `memory/DECISIONS.md` —— 关键架构/产品决策
+5. `doc/AGENT_WORKFLOW.md` —— 工作流规范
+
+然后再读下面的默认文档。禁止在没读记忆文件前做全仓库扫描。
+
+**每次工作结束时，必须更新**：
+
+- `memory/STATUS.md`
+- `memory/BACKLOG.md`
+- `memory/daily/YYYY-MM-DD.md`
+- 如果做了重大决策，更新 `memory/DECISIONS.md`
+
 ### 先读什么（默认顺序）
 
 1. `doc/AGENT_CONTEXT.md`（给 AI/协作者的最小上下文与忽略目录约定）

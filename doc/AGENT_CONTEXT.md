@@ -8,11 +8,25 @@ OVOKIT 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱
 
 ## 新会话的推荐阅读顺序（高性价比）
 
-1. `README.md`：MVP 能力、核心路由、运行方式
-2. `doc/开发说明.md`：更细的目录分层约定、Route Group、Demo/Viewer 架构
-3. `package.json`：脚本入口（`pnpm dev` / `pnpm typecheck` / `pnpm algo:dev`）
+1. `memory/STATUS.md`：项目当前状态、阻塞、健康检查
+2. `memory/GOALS.md`：当前阶段目标与里程碑
+3. `memory/BACKLOG.md`：任务看板与下一步
+4. `memory/DECISIONS.md`：关键架构/产品决策
+5. `doc/AGENT_WORKFLOW.md`：Agent 协作规范
+6. `README.md`：MVP 能力、核心路由、运行方式
+7. `doc/开发说明.md`：更细的目录分层约定、Route Group、Demo/Viewer 架构
+8. `package.json`：脚本入口（`pnpm dev` / `pnpm typecheck` / `pnpm algo:dev`）
 
 除非问题明确需要，不建议从 `src/`、`server/` 开始“全量扫读”。
+
+## Agent 工作流记忆（新）
+
+- 项目状态：`memory/STATUS.md`
+- 阶段目标：`memory/GOALS.md`
+- 任务看板：`memory/BACKLOG.md`
+- 决策记录：`memory/DECISIONS.md`
+- 工作规范：`doc/AGENT_WORKFLOW.md`
+- 每日笔记：`memory/daily/YYYY-MM-DD.md`
 
 ## 仓库地图（只列高频入口）
 
@@ -40,6 +54,8 @@ OVOKIT 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱
 ### 保持“权威入口文件”稳定
 
 - 约定与地图：`doc/AGENT_CONTEXT.md`
+- Agent 工作流规范：`doc/AGENT_WORKFLOW.md`
+- 项目状态/目标/任务：`memory/`（STATUS.md / GOALS.md / BACKLOG.md / DECISIONS.md）
 - 开发/架构细节：`doc/开发说明.md`
 - 面向使用者：`README.md`
 - Kimi SVG 生成实现：`doc/Kimi_SVG_接入实现说明.md`
