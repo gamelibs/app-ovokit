@@ -53,11 +53,12 @@
     "note": "展示 Demo：3D 滑块拼图（单局可玩），用于演示“规则 + 3D 手感 + 动效”的组合。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/sliding-puzzle-3d-photo/cover.svg",
     "alt": "滑块拼图：用 3D 切片与手感做“可玩展示”"
   },
   "coverWide": {
-    "src": "/plays/_placeholders/cover-wide.svg",
+    "src": "/plays/sliding-puzzle-3d-photo/cover-wide.svg",
     "alt": "滑块拼图：用 3D 切片与手感做“可玩展示”"
-  }
+  },
+  "published": true
 }

@@ -44,7 +44,7 @@ export function TagInput({
 
   return (
     <div className="space-y-2">
-      <div className="text-xs font-semibold text-ink-muted">{label}</div>
+      <div className="text-xs font-semibold text-ink-muted font-kalam">{label}</div>
 
       <div
         className="min-h-[40px] rounded-xl sketch-border bg-paper px-2 py-1.5 outline-none focus-within:ring-2 focus-within:ring-highlight-blue/60"

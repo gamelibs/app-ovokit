@@ -1,4 +1,4 @@
-OVOKIT：游戏玩法技术实现分享站（MVP）
+OVO：游戏玩法技术实现分享站（MVP）
 
 目标是把「玩法」拆成可复用的结构化信息（拆解/关键代码/Demo/文章），并提供一个轻量的本地内容发布流程。
 
@@ -119,7 +119,7 @@ OVOKIT：游戏玩法技术实现分享站（MVP）
 pnpm dev
 ```
 
-打开 `http://localhost:3000`。
+打开 `http://localhost:13100`。
 
 ## 部署时建议配置的环境变量（SEO/合规）
 
@@ -152,7 +152,7 @@ MOD_PASSWORD=your-password
 - 位置：`server`（Fastify + Zod）。提供基础算法示例：网格 BFS 寻路、三消消除校验、伪随机高度图。
 - 运行（需要先 `pnpm install` 安装依赖）：
   ```bash
-  pnpm algo:dev          # 默认监听 0.0.0.0:4000，可用 ALGO_PORT / ALGO_HOST 覆盖
+  pnpm algo:dev          # 默认监听 0.0.0.0:14100，可用 ALGO_PORT / ALGO_HOST 覆盖
   ```
 - 主要路由：
   - `GET /health`：存活检查
@@ -165,7 +165,7 @@ MOD_PASSWORD=your-password
 
 - 依赖：Node 18+、pnpm、pm2（`pnpm add -g pm2`）。需要 `pnpm install --prod`（已包含运行所需的 `tsx`）。
 - 环境变量：
-  - `ALGO_PORT`（默认 4000）
+  - `ALGO_PORT`（默认 14100）
   - `ALGO_HOST`（默认 `0.0.0.0`）
 - 一次性安装：
   ```bash
@@ -174,8 +174,8 @@ MOD_PASSWORD=your-password
 - 启动（pm2）：
   ```bash
   pnpm algo:pm2
-  pm2 logs ovokit-algo-api   # 查看日志
-  pm2 stop ovokit-algo-api   # 停止
+  pm2 logs ovofroge-algo-api   # 查看日志
+  pm2 stop ovofroge-algo-api   # 停止
   ```
 - 进程配置：`ecosystem.algo.config.js` 使用 `pnpm algo:dev` 启动 `server/index.ts`。需要长期运行可用 `pm2 save && pm2 startup` 写入系统服务。
 - 反向代理（示例 Nginx）：

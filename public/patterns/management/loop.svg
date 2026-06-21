@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#202020"/>
+    </marker>
+  </defs>
+  <rect width="800" height="300" fill="#faf7ef" rx="12"/>
+
+  <text x="400" y="36" text-anchor="middle" font-family="Kalam, cursive" font-size="18" font-weight="700" fill="#202020">经营模拟：建造 → 生产 → 扩张循环</text>
+
+  <g transform="translate(40, 70)">
+    <rect x="0" y="0" width="100" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="50" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">建造设施</text>
+  </g>
+  <g transform="translate(170, 70)">
+    <rect x="0" y="0" width="100" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="50" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">投入资源</text>
+  </g>
+  <g transform="translate(300, 70)">
+    <rect x="0" y="0" width="100" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="50" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">等待/加速</text>
+  </g>
+  <g transform="translate(430, 70)">
+    <rect x="0" y="0" width="100" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="50" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">获得产出</text>
+  </g>
+  <g transform="translate(560, 70)">
+    <rect x="0" y="0" width="100" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="50" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">出售/消耗</text>
+  </g>
+  <g transform="translate(690, 70)">
+    <rect x="0" y="0" width="100" height="48" rx="8" fill="#ffda6a" stroke="#202020" stroke-width="2"/>
+    <text x="50" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">投资扩张</text>
+  </g>
+
+  <path d="M140,94 Q155,94 170,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M270,94 Q285,94 300,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M400,94 Q415,94 430,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M530,94 Q545,94 560,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M660,94 Q675,94 690,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- loop back -->
+  <path d="M740,118 L740,200 Q740,220 710,220 L80,220 Q50,220 50,200 L50,118" fill="none" stroke="#202020" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+  <text x="400" y="250" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#888">扩张解锁新设施，形成更复杂的生产链</text>
+
+  <g transform="translate(80, 160)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：生产链设计</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">资源流与瓶颈分析</text>
+  </g>
+  <g transform="translate(300, 160)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：经济平衡</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">成本、产出与 sinks</text>
+  </g>
+  <g transform="translate(520, 160)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：长期目标</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">任务/订单驱动生产</text>
+  </g>
+</svg>

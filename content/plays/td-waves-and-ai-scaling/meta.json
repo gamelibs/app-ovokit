@@ -5,7 +5,8 @@
   "tags": [
     "塔防",
     "生成",
-    "数值"
+    "数值",
+    "热门"
   ],
   "difficulty": "进阶",
   "techStack": [
@@ -50,11 +51,12 @@
     "note": "最小可交互：预算函数生成波次怪物组合（用于解释压力曲线与变体）。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/td-waves-and-ai-scaling/cover.svg",
     "alt": "塔防波次生成与敌人调度"
   },
   "coverWide": {
-    "src": "/plays/_placeholders/cover-wide.svg",
+    "src": "/plays/td-waves-and-ai-scaling/cover-wide.svg",
     "alt": "塔防波次生成与敌人调度"
-  }
+  },
+  "published": true
 }

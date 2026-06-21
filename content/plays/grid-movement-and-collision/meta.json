@@ -49,7 +49,12 @@
     "note": "最小可试玩：网格移动 + 墙体阻挡（用于演示占用/阻挡模型）。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/grid-movement-and-collision/cover.svg",
+    "alt": "格子移动与碰撞：从规则到实现"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/grid-movement-and-collision/cover-wide.svg",
     "alt": "格子移动与碰撞：从规则到实现"
   }
 }

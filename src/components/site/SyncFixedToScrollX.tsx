@@ -15,7 +15,7 @@ export function SyncFixedToScrollX() {
 
     const update = () => {
       raf = 0;
-      root.style.setProperty("--ovokit-scroll-x", `${readScrollLeft()}px`);
+      root.style.setProperty("--ovofroge-scroll-x", `${readScrollLeft()}px`);
     };
 
     const onScroll = () => {

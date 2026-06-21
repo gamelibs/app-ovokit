@@ -3,11 +3,11 @@
   "title": "装备随机词条：词条池设计与防止数值崩坏",
   "subtitle": "赌性机制最怕叠乘失控：用词条分组、稀有度与软上限把随机做成可控系统。",
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/random-affixes-pool-and-scaling/cover.svg",
     "alt": "装备随机词条：词条池设计与防止数值崩坏"
   },
   "coverWide": {
-    "src": "/plays/_placeholders/cover-wide.svg",
+    "src": "/plays/random-affixes-pool-and-scaling/cover-wide.svg",
     "alt": "装备随机词条：词条池设计与防止数值崩坏"
   },
   "tags": [
@@ -65,5 +65,6 @@
   ],
   "demo": {
     "note": "建议 Demo：给同一武器随机 10 万次词条，统计伤害分布与 P99，验证是否存在“离谱尾巴”。"
-  }
+  },
+  "published": true
 }

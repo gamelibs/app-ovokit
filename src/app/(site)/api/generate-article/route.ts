@@ -102,7 +102,7 @@ export async function POST(req: Request) {
   sections.push("");
   sections.push(`${title || "本玩法"} 通过 ${techStack.slice(0, 2).join("、") || "核心技术"} 实现了 ${subtitle || "目标体验"}。`);
   sections.push("");
-  sections.push("> 本文由 OVOKIT 编辑器根据结构化数据自动生成，可根据需要自由修改。");
+  sections.push("> 本文由 OVO 编辑器根据结构化数据自动生成，可根据需要自由修改。");
 
   return NextResponse.json({ article: sections.join("\n") });
 }

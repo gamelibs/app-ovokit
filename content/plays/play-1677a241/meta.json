@@ -3,7 +3,7 @@
   "title": "小游戏玩法知识分享---之---合成",
   "subtitle": "撑握此知识，可实现任何合成小游戏",
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/play-1677a241/cover.svg",
     "alt": "小游戏玩法知识分享---之---合成"
   },
   "tags": [
@@ -115,7 +115,8 @@
     "note": "MVP：Demo 先留 iframe 占位。"
   },
   "coverWide": {
-    "src": "/plays/_placeholders/cover-wide.svg",
+    "src": "/plays/play-1677a241/cover-wide.svg",
     "alt": "小游戏玩法知识分享---之---合成"
-  }
+  },
+  "published": true
 }

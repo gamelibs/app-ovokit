@@ -2,6 +2,7 @@ import type { ArchetypePageModel } from "@/features/archetypes/pageModel";
 import Link from "next/link";
 import Image from "next/image";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
+import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 
 function ArchetypeImage({
   src,
@@ -41,7 +42,7 @@ function SectionShell({
   return (
     <section id={id} className="scroll-mt-24 sketch-card p-4 shadow-sm">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-base font-semibold text-ink">{title}</h2>
+        <h2 className="text-base font-semibold text-ink font-kalam">{title}</h2>
         {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
       </div>
       <div className="mt-3">{children}</div>
@@ -72,25 +73,33 @@ export function ArchetypePage({
             priority
           />
           <div>
-            <h1 className="text-2xl font-semibold text-ink">{model.title}</h1>
+            <div className="flex items-start justify-between gap-3">
+              <h1 className="text-2xl font-semibold text-ink font-kalam">{model.title}</h1>
+              <FavoriteButton
+                type="archetype"
+                itemKey={model.key}
+                title={model.title}
+                iconOnly
+              />
+            </div>
             <p className="mt-2 text-sm text-ink-light">{model.subtitle}</p>
           </div>
           <div className="grid gap-2 sketch-card p-3 text-sm text-ink-light">
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink-muted">母型玩法</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">母型玩法</div>
               <div className="font-medium">{model.title}</div>
             </div>
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink-muted">玩法特征</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">玩法特征</div>
               <div className="text-ink-light">{model.features.join(" · ")}</div>
             </div>
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink-muted">难度层级</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">难度层级</div>
               <div className="text-ink-light">{model.difficulty}</div>
             </div>
           </div>
           <div className="sketch-card p-3 text-sm text-ink-light">
-            <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+            <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted font-kalam">
               学习目标
             </div>
             <ul className="mt-2 list-disc space-y-1 pl-5">
@@ -124,7 +133,7 @@ export function ArchetypePage({
         title="② 即时试玩 Demo"
       >
         <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
-          <div className="text-xs font-semibold text-ink-muted">规则提示</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">规则提示</div>
           <div className="mt-1 font-medium">{model.demoRuleHint}</div>
         </div>
         <div className="mt-3">
@@ -156,7 +165,7 @@ export function ArchetypePage({
         />
         <div className="grid gap-3 lg:grid-cols-3">
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted">3.1 解决了什么问题？</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">3.1 解决了什么问题？</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
               {model.problemsSolved.map((t) => (
                 <li key={t}>{t}</li>
@@ -164,7 +173,7 @@ export function ArchetypePage({
             </ul>
           </div>
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted">3.2 最小规则集</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">3.2 最小规则集</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
               {model.minimalRules.map((t) => (
                 <li key={t}>{t}</li>
@@ -172,7 +181,7 @@ export function ArchetypePage({
             </ul>
           </div>
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted">3.3 系统循环图（可选）</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">3.3 系统循环图（可选）</div>
             <div className="mt-2 text-ink-light">{model.systemLoopHint}</div>
           </div>
         </div>
@@ -197,9 +206,9 @@ export function ArchetypePage({
 
       <section id="advanced" className="scroll-mt-24 sketch-card p-4 shadow-sm">
         <details className="group">
-          <summary className="cursor-pointer list-none text-base font-semibold text-ink">
+          <summary className="cursor-pointer list-none text-base font-semibold text-ink font-kalam">
             ⑤ 高级设计与算法（默认折叠）
-            <span className="ml-2 text-xs font-semibold text-ink-muted group-open:hidden">点击展开</span>
+            <span className="ml-2 text-xs font-semibold text-ink-muted group-open:hidden font-kalam">点击展开</span>
           </summary>
           <div className="mt-3 grid gap-3 lg:grid-cols-2">
             <div className="lg:col-span-2">
@@ -210,7 +219,7 @@ export function ArchetypePage({
               />
             </div>
             <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-              <div className="text-xs font-semibold text-ink-muted">设计警告</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">设计警告</div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                 {model.advancedWarnings.map((t) => (
                   <li key={t}>{t}</li>
@@ -218,7 +227,7 @@ export function ArchetypePage({
               </ul>
             </div>
             <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-              <div className="text-xs font-semibold text-ink-muted">算法示例</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">算法示例</div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                 {model.advancedAlgoRefs.map((t) => (
                   <li key={t}>{t}</li>

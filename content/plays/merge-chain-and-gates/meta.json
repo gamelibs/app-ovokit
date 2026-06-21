@@ -6,7 +6,8 @@
     "合成",
     "放置",
     "关卡",
-    "数值"
+    "数值",
+    "热门"
   ],
   "difficulty": "进阶",
   "techStack": [
@@ -52,7 +53,12 @@
     "note": "建议 Demo：同一条合成链，分别用“空间压力”和“稀有材料门”做卡点对比。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/merge-chain-and-gates/cover.svg",
+    "alt": "合成进化（Merge）：合成链与卡关点怎么设计"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/merge-chain-and-gates/cover-wide.svg",
     "alt": "合成进化（Merge）：合成链与卡关点怎么设计"
   }
 }

@@ -25,6 +25,11 @@ export type SketchSvgType =
   | "skull"
   | "blocks"
   | "flipped-cards"
+  // 场景/交互元素
+  | "grid"
+  | "dice"
+  | "clock"
+  | "tap"
   // 装饰元素（概念图 Hero 区）
   | "note"
   | "lightbulb"
@@ -151,6 +156,14 @@ function getDefaultSize(type: SketchSvgType): { width: number; height: number } 
       return { width: 140, height: 120 };
     case "flipped-cards":
       return { width: 140, height: 120 };
+    case "grid":
+      return { width: 120, height: 120 };
+    case "dice":
+      return { width: 100, height: 100 };
+    case "clock":
+      return { width: 120, height: 120 };
+    case "tap":
+      return { width: 100, height: 120 };
     case "note":
       return { width: 120, height: 100 };
     case "lightbulb":
@@ -186,8 +199,38 @@ function createDrawable(
 
   switch (type) {
     case "rectangle":
-    case "flow-process":
       return gen.rectangle(0, 0, width, height, common) as unknown as Drawable;
+    case "flow-process": {
+      // 流程图处理框：外框 + 内部文本横线，避免大面积填充导致小尺寸糊成一团
+      const sets: DrawableSet[] = [];
+      const padding = 14;
+      const left = padding;
+      const top = padding;
+      const right = width - padding;
+      const bottom = height - padding;
+      // 用线性路径画外框，避免 rectangle 自动填充
+      const frame = gen.linearPath(
+        [
+          [left, top],
+          [right, top],
+          [right, bottom],
+          [left, bottom],
+          [left, top],
+        ],
+        { ...common, fill: "none" },
+      );
+      sets.push(...(frame as unknown as Drawable).sets);
+      const lineCount = 4;
+      const lineYStart = top + 18;
+      const lineYEnd = bottom - 18;
+      const lineGap = (lineYEnd - lineYStart) / (lineCount - 1);
+      for (let i = 0; i < lineCount; i++) {
+        const y = lineYStart + i * lineGap;
+        const line = gen.line(left + 14, y, right - 14, y, { ...common, strokeWidth: Math.max(1, (strokeWidth ?? 2) - 1) });
+        sets.push(...(line as unknown as Drawable).sets);
+      }
+      return { shape: "flow-process", sets, options: common };
+    }
     case "circle":
       return gen.circle(width / 2, height / 2, Math.min(width, height), common) as unknown as Drawable;
     case "ellipse":
@@ -251,8 +294,7 @@ function createDrawable(
       );
       return path as unknown as Drawable;
     }
-    case "diamond":
-    case "flow-decision": {
+    case "diamond": {
       const cx = width / 2;
       const cy = height / 2;
       return gen.polygon(
@@ -264,6 +306,40 @@ function createDrawable(
         ],
         common,
       ) as unknown as Drawable;
+    }
+    case "flow-decision": {
+      // 流程图判断框：空心菱形 + 左右两个分支箭头，避免小尺寸填充糊掉
+      const sets: DrawableSet[] = [];
+      const cx = width / 2;
+      const cy = height / 2;
+      const inset = 16;
+      const points: [number, number][] = [
+        [cx, inset],
+        [width - inset, cy],
+        [cx, height - inset],
+        [inset, cy],
+        [cx, inset],
+      ];
+      const frame = gen.linearPath(points, { ...common, fill: "none" });
+      sets.push(...(frame as unknown as Drawable).sets);
+      // 左右分支箭头
+      const arrowY = cy;
+      const leftArrow = gen.line(inset + 10, arrowY, inset + 35, arrowY, { ...common, strokeWidth: Math.max(1, (strokeWidth ?? 2) - 1) });
+      const rightArrow = gen.line(width - inset - 35, arrowY, width - inset - 10, arrowY, { ...common, strokeWidth: Math.max(1, (strokeWidth ?? 2) - 1) });
+      sets.push(...(leftArrow as unknown as Drawable).sets);
+      sets.push(...(rightArrow as unknown as Drawable).sets);
+      // 箭头头部
+      const leftHead = gen.linearPath(
+        [[inset + 28, arrowY - 5], [inset + 35, arrowY], [inset + 28, arrowY + 5]],
+        { ...common, fill: stroke },
+      );
+      const rightHead = gen.linearPath(
+        [[width - inset - 28, arrowY - 5], [width - inset - 35, arrowY], [width - inset - 28, arrowY + 5]],
+        { ...common, fill: stroke },
+      );
+      sets.push(...(leftHead as unknown as Drawable).sets);
+      sets.push(...(rightHead as unknown as Drawable).sets);
+      return { shape: "flow-decision", sets, options: common };
     }
     // ===== 游戏元素 =====
     case "gamepad": {
@@ -511,6 +587,119 @@ function createDrawable(
       sets.push(...(star as unknown as Drawable).sets);
       return { shape: "flipped-cards", sets, options: common };
     }
+    case "grid": {
+      // 网格 + 移动方块
+      const sets: DrawableSet[] = [];
+      const cols = 5;
+      const rows = 4;
+      const padX = 20;
+      const padY = 15;
+      const cellW = (width - padX * 2) / cols;
+      const cellH = (height - padY * 2) / rows;
+      // 网格线
+      for (let i = 0; i <= cols; i++) {
+        const x = padX + i * cellW;
+        const line = gen.line(x, padY, x, height - padY, { ...common, strokeWidth: 1 });
+        sets.push(...(line as unknown as Drawable).sets);
+      }
+      for (let i = 0; i <= rows; i++) {
+        const y = padY + i * cellH;
+        const line = gen.line(padX, y, width - padX, y, { ...common, strokeWidth: 1 });
+        sets.push(...(line as unknown as Drawable).sets);
+      }
+      // 高亮方块
+      const block = gen.rectangle(padX + cellW * 1.5, padY + cellH * 1.5, cellW, cellH, solid("#7dcfff"));
+      sets.push(...(block as unknown as Drawable).sets);
+      // 移动箭头
+      const arrow = gen.line(padX + cellW * 2.2, padY + cellH * 2, padX + cellW * 3.3, padY + cellH * 2, common);
+      sets.push(...(arrow as unknown as Drawable).sets);
+      const head = gen.linearPath(
+        [[padX + cellW * 3.1, padY + cellH * 1.8], [padX + cellW * 3.4, padY + cellH * 2], [padX + cellW * 3.1, padY + cellH * 2.2]],
+        { ...common, fill: stroke },
+      );
+      sets.push(...(head as unknown as Drawable).sets);
+      return { shape: "grid", sets, options: common };
+    }
+    case "dice": {
+      // 骰子（随机）
+      const sets: DrawableSet[] = [];
+      const cx = width / 2;
+      const cy = height / 2;
+      const size = Math.min(width, height) * 0.7;
+      const x = cx - size / 2;
+      const y = cy - size / 2;
+      const body = gen.rectangle(x, y, size, size, solid("#faf7ef"));
+      sets.push(...(body as unknown as Drawable).sets);
+      // 点数
+      const dotR = size * 0.1;
+      const positions = [
+        [cx - size * 0.25, cy - size * 0.25],
+        [cx + size * 0.25, cy + size * 0.25],
+        [cx, cy],
+      ];
+      for (const [px, py] of positions) {
+        const dot = gen.circle(px, py, dotR * 2, solid("#202020"));
+        sets.push(...(dot as unknown as Drawable).sets);
+      }
+      return { shape: "dice", sets, options: common };
+    }
+    case "clock": {
+      // 时钟（倒计时/时间压力）
+      const sets: DrawableSet[] = [];
+      const cx = width / 2;
+      const cy = height / 2;
+      const r = Math.min(width, height) * 0.35;
+      const body = gen.circle(cx, cy, r * 2, solid("#faf7ef"));
+      sets.push(...(body as unknown as Drawable).sets);
+      // 刻度
+      for (let i = 0; i < 12; i++) {
+        const angle = (Math.PI * 2 * i) / 12 - Math.PI / 2;
+        const innerR = r - 6;
+        const outerR = r - 2;
+        const tick = gen.line(
+          cx + innerR * Math.cos(angle),
+          cy + innerR * Math.sin(angle),
+          cx + outerR * Math.cos(angle),
+          cy + outerR * Math.sin(angle),
+          { ...common, strokeWidth: 1 },
+        );
+        sets.push(...(tick as unknown as Drawable).sets);
+      }
+      // 指针（指向快结束）
+      const hand = gen.line(cx, cy, cx + r * 0.6 * Math.cos(Math.PI * 0.3), cy + r * 0.6 * Math.sin(Math.PI * 0.3), common);
+      sets.push(...(hand as unknown as Drawable).sets);
+      return { shape: "clock", sets, options: common };
+    }
+    case "tap": {
+      // 点击/触摸手势
+      const sets: DrawableSet[] = [];
+      const cx = width / 2;
+      const cy = height * 0.55;
+      const r = width * 0.18;
+      // 波纹
+      const ripple1 = gen.circle(cx, cy, r * 2, { ...common, strokeWidth: 1 });
+      const ripple2 = gen.circle(cx, cy, r * 2.8, { ...common, strokeWidth: 1 });
+      sets.push(...(ripple1 as unknown as Drawable).sets);
+      sets.push(...(ripple2 as unknown as Drawable).sets);
+      // 指尖（圆）
+      const finger = gen.circle(cx, cy, r * 1.3, solid("#ffda6a"));
+      sets.push(...(finger as unknown as Drawable).sets);
+      // 射线
+      for (let i = 0; i < 4; i++) {
+        const angle = (Math.PI / 2) * i - Math.PI / 4;
+        const innerR = r * 1.8;
+        const outerR = r * 2.5;
+        const ray = gen.line(
+          cx + innerR * Math.cos(angle),
+          cy + innerR * Math.sin(angle),
+          cx + outerR * Math.cos(angle),
+          cy + outerR * Math.sin(angle),
+          common,
+        );
+        sets.push(...(ray as unknown as Drawable).sets);
+      }
+      return { shape: "tap", sets, options: common };
+    }
     // ===== 装饰元素 =====
     case "note": {
       // 便签
@@ -667,6 +856,10 @@ export const sketchSvgPresets: { key: SketchSvgType; label: string; category: st
   { key: "skull", label: "骷髅", category: "游戏" },
   { key: "blocks", label: "堆叠方块", category: "游戏" },
   { key: "flipped-cards", label: "翻牌", category: "游戏" },
+  { key: "grid", label: "网格移动", category: "游戏" },
+  { key: "dice", label: "骰子", category: "游戏" },
+  { key: "clock", label: "时钟", category: "游戏" },
+  { key: "tap", label: "点击", category: "游戏" },
   // 装饰元素
   { key: "note", label: "便签", category: "装饰" },
   { key: "lightbulb", label: "灯泡", category: "装饰" },

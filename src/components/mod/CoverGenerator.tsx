@@ -53,7 +53,7 @@ export function CoverGenerator({
 
   return (
     <div className="rounded-xl sketch-border bg-paper p-3 space-y-3">
-      <div className="text-xs font-semibold text-ink-muted">快速生成手绘封面</div>
+      <div className="text-xs font-semibold text-ink-muted font-kalam">快速生成手绘封面</div>
 
       <div className="grid grid-cols-5 gap-1.5">
         {COVER_TEMPLATES.map((t) => (

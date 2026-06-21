@@ -3,11 +3,11 @@
   "title": "无限升级：成本指数曲线与“假无限”设计",
   "subtitle": "数值爽感要持续，关键在成本曲线与阶段重置：让玩家永远有下一步但不失控。",
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/infinite-upgrades-cost-curves/cover.svg",
     "alt": "无限升级：成本指数曲线与“假无限”设计"
   },
   "coverWide": {
-    "src": "/plays/_placeholders/cover-wide.svg",
+    "src": "/plays/infinite-upgrades-cost-curves/cover-wide.svg",
     "alt": "无限升级：成本指数曲线与“假无限”设计"
   },
   "tags": [
@@ -64,5 +64,6 @@
   ],
   "demo": {
     "note": "建议 Demo：做一条升级曲线可视化（成本/收益/回本时间），用滑块模拟不同 r 值对留存的影响。"
-  }
+  },
+  "published": true
 }

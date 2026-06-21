@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#202020"/>
+    </marker>
+  </defs>
+  <rect width="800" height="300" fill="#faf7ef" rx="12"/>
+
+  <text x="400" y="36" text-anchor="middle" font-family="Kalam, cursive" font-size="18" font-weight="700" fill="#202020">策略成长：配置 → 对抗 → 成长循环</text>
+
+  <g transform="translate(60, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">配置队伍</text>
+  </g>
+  <g transform="translate(200, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">进入战斗</text>
+  </g>
+  <g transform="translate(340, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">选择行动</text>
+  </g>
+  <g transform="translate(480, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">结算属性</text>
+  </g>
+  <g transform="translate(620, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#ff8b8b" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">判定胜负</text>
+  </g>
+
+  <path d="M170,94 Q185,94 200,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M310,94 Q325,94 340,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M450,94 Q465,94 480,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M590,94 Q605,94 620,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- branches -->
+  <path d="M675,118 L675,155 Q675,170 655,170 L520,170 Q500,170 500,155 L500,118" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="587" y="145" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#888">失败 → 调整配置</text>
+
+  <path d="M675,118 L675,200 Q675,220 700,220 L730,220" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="730" y="200" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#888">胜利 → 获得奖励</text>
+
+  <g transform="translate(620, 230)">
+    <rect x="0" y="0" width="110" height="40" rx="8" fill="#ffda6a" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="25" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">成长升级</text>
+  </g>
+
+  <g transform="translate(80, 160)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：属性模型</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">生命/攻击/防御/速度</text>
+  </g>
+  <g transform="translate(300, 160)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：战斗公式</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">期望伤害与平衡</text>
+  </g>
+  <g transform="translate(520, 160)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：克制关系</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">职业/属性/技能循环</text>
+  </g>
+</svg>

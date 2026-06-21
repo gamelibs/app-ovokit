@@ -1,5 +1,6 @@
 export const availablePlayTags = [
   "推荐",
+  "热门",
   "消除",
   "解谜",
   "合成",

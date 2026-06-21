@@ -3,11 +3,11 @@
   "title": "随机技能选择：技能权重与新手保护机制",
   "subtitle": "把“选择焦虑”做成爽点：三选一如何既多样又不坑人。",
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/skill-draft-weights-and-protection/cover.svg",
     "alt": "随机技能选择：技能权重与新手保护机制"
   },
   "coverWide": {
-    "src": "/plays/_placeholders/cover-wide.svg",
+    "src": "/plays/skill-draft-weights-and-protection/cover-wide.svg",
     "alt": "随机技能选择：技能权重与新手保护机制"
   },
   "tags": [
@@ -65,5 +65,6 @@
   ],
   "demo": {
     "note": "建议 Demo：对比“纯随机/协同加权/加权+保底”，看新手首局通关率与中后期多样性。"
-  }
+  },
+  "published": true
 }

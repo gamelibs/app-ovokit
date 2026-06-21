@@ -4,7 +4,7 @@
 
 ## 一句话定位
 
-OVOKIT 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动的“玩法技术实现分享站”MVP，并带一个 Fastify 算法/Demo 后端（`server/*`）。
+OVO 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动的“玩法技术实现分享站”MVP，并带一个 Fastify 算法/Demo 后端（`server/*`）。
 
 ## 新会话的推荐阅读顺序（高性价比）
 
@@ -58,6 +58,10 @@ OVOKIT 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱
 - 项目状态/目标/任务：`memory/`（STATUS.md / GOALS.md / BACKLOG.md / DECISIONS.md）
 - 开发/架构细节：`doc/开发说明.md`
 - 面向使用者：`README.md`
+- 邮件功能配置：`doc/邮件功能说明.md`
+- 文章发布规范：`doc/文章发布规范.md`
+- 图片压缩脚本：`doc/图片压缩脚本说明.md`
+- 玩法封面批量生成：`doc/玩法封面生成脚本说明.md`
 - Kimi SVG 生成实现：`doc/Kimi_SVG_接入实现说明.md`
 
 ## 常用命令（本地）

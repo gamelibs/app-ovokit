@@ -31,13 +31,13 @@ export function RelatedPlays({
                 <img
                   src={p.cover.src}
                   alt={p.title}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                   loading="lazy"
                 />
               ) : null}
             </div>
             <div className="min-w-0 flex-1">
-              <div className="line-clamp-1 text-sm font-semibold text-ink group-hover:underline">
+              <div className="text-sm font-semibold text-ink group-hover:underline">
                 {p.title}
               </div>
               <p className="mt-0.5 line-clamp-1 text-xs text-ink-light">

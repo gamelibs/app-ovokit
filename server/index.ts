@@ -16,7 +16,7 @@ app.register(cors, { origin: true });
 app.register(swagger, {
   openapi: {
     info: {
-      title: "OVOKIT Algo API",
+      title: "OVO Algo API",
       description: "玩法示例算法接口（demo 用）",
       version: "0.1.0",
     },
@@ -135,7 +135,7 @@ app.post("/api/demos/:id/step", async (req, reply) => {
   return reply.send(result);
 });
 
-const port = Number(process.env.ALGO_PORT || 4000);
+const port = Number(process.env.ALGO_PORT || 14100);
 const host = process.env.ALGO_HOST || "0.0.0.0";
 
 async function start() {

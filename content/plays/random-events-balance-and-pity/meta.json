@@ -3,11 +3,11 @@
   "title": "随机事件：好坏事件比例与连续负反馈修正",
   "subtitle": "不可预测才有故事，但不能把玩家打进“死亡螺旋”：用事件池与保底修复情绪。",
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/random-events-balance-and-pity/cover.svg",
     "alt": "随机事件：好坏事件比例与连续负反馈修正"
   },
   "coverWide": {
-    "src": "/plays/_placeholders/cover-wide.svg",
+    "src": "/plays/random-events-balance-and-pity/cover-wide.svg",
     "alt": "随机事件：好坏事件比例与连续负反馈修正"
   },
   "tags": [
@@ -64,5 +64,6 @@
   ],
   "demo": {
     "note": "建议 Demo：统计“连续坏事件长度”分布，对比开启/关闭 badStreak 保护后的差异。"
-  }
+  },
+  "published": true
 }

@@ -6,7 +6,8 @@
     "消除",
     "关卡",
     "数值",
-    "生成"
+    "生成",
+    "热门"
   ],
   "difficulty": "进阶",
   "techStack": [
@@ -59,11 +60,12 @@
     "note": "可试玩 Demo：最小三消核心（相邻交换→成消判定→消除→下落→补齐→连锁）。后续可在此基础上扩展 4/5 消、特殊块与关卡目标。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/match-3-retention-and-pacing/cover.svg",
     "alt": "Match-3：用消除规则驱动留存与节奏"
   },
   "coverWide": {
-    "src": "/plays/_placeholders/cover-wide.svg",
+    "src": "/plays/match-3-retention-and-pacing/cover-wide.svg",
     "alt": "Match-3：用消除规则驱动留存与节奏"
-  }
+  },
+  "published": true
 }

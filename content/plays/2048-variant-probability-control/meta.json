@@ -49,7 +49,12 @@
     "note": "建议 Demo：对比纯随机 vs 洗牌袋 + 状态权重微调的“平均可玩步数”。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/2048-variant-probability-control/cover.svg",
+    "alt": "数字合成（2048 变体）：失败概率控制与“看起来随机”"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/2048-variant-probability-control/cover-wide.svg",
     "alt": "数字合成（2048 变体）：失败概率控制与“看起来随机”"
   }
 }

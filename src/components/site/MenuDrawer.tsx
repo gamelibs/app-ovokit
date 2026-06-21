@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
+import { useFavorites } from "@/components/favorites/FavoritesProvider";
 
 type ModStatus = { isModerator: boolean };
 
@@ -24,13 +25,14 @@ export function MenuDrawer({
   showModeratorTools?: boolean;
 }) {
   const router = useRouter();
+  const { count } = useFavorites();
   const [status, setStatus] = useState<ModStatus>({ isModerator: false });
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const modLabel = useMemo(
-    () => (status.isModerator ? "版主已登录" : "版主未登录"),
+    () => (status.isModerator ? "已登录" : "未登录"),
     [status.isModerator],
   );
 
@@ -121,6 +123,18 @@ export function MenuDrawer({
                 首页信息流
               </Link>
               <Link
+                href="/favorites"
+                onClick={onClose}
+                className="font-kalam flex items-center justify-between rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
+              >
+                <span>我的收藏</span>
+                {count > 0 ? (
+                  <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-highlight-red px-1.5 text-[11px] font-semibold text-ink">
+                    {count}
+                  </span>
+                ) : null}
+              </Link>
+              <Link
                 href="/archetypes"
                 onClick={onClose}
                 className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
@@ -163,7 +177,7 @@ export function MenuDrawer({
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-kalam text-xs font-semibold text-ink-muted">
-                    版主模式
+                    管理后台
                   </div>
                   <div className="font-kalam mt-1 text-sm font-semibold">
                     {modLabel}
@@ -192,7 +206,7 @@ export function MenuDrawer({
                   <input
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="输入版主口令"
+                    placeholder="输入口令"
                     type="password"
                     name="password"
                     autoComplete="current-password"
@@ -203,7 +217,7 @@ export function MenuDrawer({
                     disabled={busy || password.trim().length === 0}
                     className="sketch-button w-full"
                   >
-                    {busy ? "登录中..." : "进入版主模式"}
+                    {busy ? "登录中..." : "进入管理后台"}
                   </button>
                   {error ? (
                     <div className="text-xs text-highlight-red">{error}</div>

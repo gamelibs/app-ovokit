@@ -4,7 +4,8 @@
   "subtitle": "紧张感来自压迫，但留存来自宽容。如何设计判定、容错与速度爬坡？",
   "tags": [
     "动作",
-    "躲避"
+    "躲避",
+    "热门"
   ],
   "difficulty": "进阶",
   "techStack": [
@@ -49,7 +50,12 @@
     "note": "建议 Demo：给出“近失减速/无近失”两版，比较平均存活时长与复玩率。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/tap-dodge-forgiveness-and-speed/cover.svg",
+    "alt": "点击躲避：失败宽容度与子弹速度曲线"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/tap-dodge-forgiveness-and-speed/cover-wide.svg",
     "alt": "点击躲避：失败宽容度与子弹速度曲线"
   }
 }

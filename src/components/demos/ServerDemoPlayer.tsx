@@ -178,14 +178,14 @@ export function ServerDemoPlayer({
     <div className="flex h-full flex-col gap-3 overflow-auto bg-paper p-3 text-ink sm:p-4">
       {/* Header */}
       <div className="shrink-0">
-        <h1 className="text-base font-semibold text-ink sm:text-lg">{view.title}</h1>
+        <h1 className="text-base font-semibold text-ink sm:text-lg font-kalam">{view.title}</h1>
         <p className="mt-0.5 text-xs leading-relaxed text-ink-light sm:text-sm">{view.goal}</p>
       </div>
 
       {/* Status + Metrics */}
       <div className="grid shrink-0 gap-3 sm:grid-cols-2">
         <div className="rounded-xl sketch-border bg-paper p-3">
-          <div className="text-xs font-semibold text-ink-muted">状态</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">状态</div>
           <ul className="mt-2 space-y-1 text-xs text-ink-light sm:text-sm">
             {view.status.map((s, i) => (
               <li key={i} className="whitespace-pre-wrap leading-relaxed">
@@ -195,7 +195,7 @@ export function ServerDemoPlayer({
           </ul>
         </div>
         <div className="rounded-xl sketch-border bg-paper p-3">
-          <div className="text-xs font-semibold text-ink-muted">指标</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">指标</div>
           <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs sm:text-sm">
             {view.metrics.map((m) => (
               <div key={m.label} className="flex items-center justify-between gap-2">
@@ -275,7 +275,7 @@ export function ServerDemoPlayer({
 
       {/* Events */}
       <div className="min-h-0 flex-1 rounded-xl sketch-border bg-paper p-3">
-        <div className="mb-2 text-xs font-semibold text-ink-muted">事件</div>
+        <div className="mb-2 text-xs font-semibold text-ink-muted font-kalam">事件</div>
         {events.length ? (
           <ul className="max-h-28 space-y-1 overflow-auto text-xs text-ink-light sm:max-h-36 sm:text-sm">
             {events.slice(0, 20).map((e, i) => (

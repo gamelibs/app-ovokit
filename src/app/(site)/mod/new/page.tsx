@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { NewPlayForm } from "@/components/mod/NewPlayForm";
 import { isModerator } from "@/lib/mod/auth";
+import { listPatternSpecs } from "@/lib/patterns/spec";
 
 export default async function ModNewPlayPage() {
   const ok = await isModerator();
   if (!ok) {
     return (
       <main className="mx-auto w-full max-w-3xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
-        <h1 className="text-xl font-semibold">新建玩法</h1>
+        <h1 className="text-xl font-semibold font-kalam">新建玩法</h1>
         <p className="mt-3 text-sm text-ink-light">
-          你还没有进入版主模式。请连续点击顶部「OVOKIT」8 次打开版主入口，再登录后访问。
+          你还没有权限访问此页面。请登录后再试。
         </p>
         <div className="mt-4">
           <Link
@@ -26,7 +27,7 @@ export default async function ModNewPlayPage() {
   return (
     <main className="mx-auto w-full max-w-3xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
       <div className="flex items-center justify-between gap-3">
-        <h1 className="text-xl font-semibold">新建玩法（本地 JSON/MDX）</h1>
+        <h1 className="text-xl font-semibold font-kalam">新建玩法（本地 JSON/MDX）</h1>
         <Link
           href="/mod"
           className="sketch-button sketch-button-secondary text-sm"
@@ -40,7 +41,7 @@ export default async function ModNewPlayPage() {
         <code className="font-mono">article.mdx</code>。
       </p>
       <div className="mt-6">
-        <NewPlayForm />
+        <NewPlayForm patternSpecs={await listPatternSpecs()} />
       </div>
     </main>
   );

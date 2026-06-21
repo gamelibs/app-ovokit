@@ -12,7 +12,7 @@ export function StaticPageShell({
   return (
     <main className="mx-auto w-full max-w-4xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
       <header className="rounded-2xl sketch-border-thin bg-paper p-5 shadow-sm">
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">
+        <h1 className="text-2xl font-semibold tracking-tight text-ink font-kalam">
           {title}
         </h1>
         {subtitle ? (

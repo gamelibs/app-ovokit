@@ -23,14 +23,18 @@ export function BrowseGroupTabs({
           href={
             g.key === "archetype"
               ? { pathname: "/archetypes" }
-              : {
-                  pathname: "/",
-                  query: {
-                    ...(q ? { q } : {}),
-                    group: g.key,
-                    all: "1",
-                  },
-                }
+              : g.key === "pattern"
+                ? { pathname: "/patterns" }
+                : g.key === "feature"
+                  ? { pathname: "/features" }
+                  : {
+                      pathname: "/",
+                      query: {
+                        ...(q ? { q } : {}),
+                        group: g.key,
+                        all: "1",
+                      },
+                    }
           }
           className={tabClass(selectedGroup === g.key)}
           aria-current={selectedGroup === g.key ? "page" : undefined}

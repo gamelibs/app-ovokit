@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#202020"/>
+    </marker>
+  </defs>
+  <rect width="800" height="300" fill="#faf7ef" rx="12"/>
+
+  <text x="400" y="36" text-anchor="middle" font-family="Kalam, cursive" font-size="18" font-weight="700" fill="#202020">合成成长：获得 → 合并 → 升级循环</text>
+
+  <g transform="translate(60, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">获得资源</text>
+  </g>
+  <g transform="translate(200, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">选择合并</text>
+  </g>
+  <g transform="translate(340, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#7dd87d" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">触发升级</text>
+  </g>
+  <g transform="translate(480, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">提升产出</text>
+  </g>
+  <g transform="translate(620, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">回收资源</text>
+  </g>
+
+  <path d="M170,94 Q185,94 200,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M310,94 Q325,94 340,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M450,94 Q465,94 480,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M590,94 Q605,94 620,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- loop back -->
+  <path d="M730,118 L730,200 Q730,220 700,220 L100,220 Q70,220 70,200 L70,118" fill="none" stroke="#202020" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+  <text x="400" y="250" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#888">循环往复，等级提升带来更高产出</text>
+
+  <g transform="translate(80, 160)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：合成配方表</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">等级 × 产出曲线</text>
+  </g>
+  <g transform="translate(300, 160)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：随机掉落</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">保底机制防负体验</text>
+  </g>
+  <g transform="translate(520, 160)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：离线收益</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">进度保存与上限</text>
+  </g>
+</svg>

@@ -51,9 +51,9 @@ export default async function ModHomePage({
   if (!ok) {
     return (
       <main className="mx-auto w-full max-w-3xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
-        <h1 className="text-xl font-semibold">内容管理</h1>
+        <h1 className="text-xl font-semibold font-kalam">内容管理</h1>
         <p className="mt-3 text-sm text-ink-light">
-          你还没有进入版主模式。请连续点击顶部「OVOKIT」8 次打开版主入口，再输入口令登录。
+          你还没有权限访问此页面。请登录后再试。
         </p>
       </main>
     );
@@ -112,12 +112,33 @@ export default async function ModHomePage({
   return (
     <main className="mx-auto w-full max-w-4xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
       <div className="flex items-center justify-between gap-3">
-        <h1 className="min-w-0 truncate text-xl font-semibold">内容管理</h1>
+        <h1 className="min-w-0 truncate text-xl font-semibold font-kalam">内容管理</h1>
         <Link
           href="/mod/new"
           className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-highlight-blue px-4 text-sm font-semibold text-ink hover:bg-highlight-blue/90 min-[360px]:min-w-[120px]"
         >
           新建玩法
+        </Link>
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        <Link
+          href="/mod/archetypes"
+          className="inline-flex h-9 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
+        >
+          母型玩法管理
+        </Link>
+        <Link
+          href="/mod/patterns"
+          className="inline-flex h-9 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
+        >
+          核心玩法管理
+        </Link>
+        <Link
+          href="/mod/features"
+          className="inline-flex h-9 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
+        >
+          玩法特征管理
         </Link>
       </div>
 
@@ -153,7 +174,7 @@ export default async function ModHomePage({
         <div className="divide-y divide-ink-light/20">
           {/* Mobile header */}
           <div className="px-3 py-3 sm:hidden min-[360px]:px-4">
-            <div className="grid grid-cols-[64px_1fr] items-center gap-3 text-xs font-semibold text-ink-muted">
+            <div className="grid grid-cols-[64px_1fr] items-center gap-3 text-xs font-semibold text-ink-muted font-kalam">
               <span>排序</span>
               <div className="grid grid-cols-3 gap-2 text-right">
                 <Link href={sortHref("created")} className="hover:underline">

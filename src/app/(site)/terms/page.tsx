@@ -12,7 +12,7 @@ export default function TermsPage() {
         欢迎访问 {siteConfig.name}（下称“本站”）。使用本站即表示你同意遵守本条款。
       </p>
 
-      <h2 className="text-base font-semibold text-ink">
+      <h2 className="text-base font-semibold text-ink font-kalam">
         内容与免责声明
       </h2>
       <ul className="list-disc pl-5">
@@ -20,7 +20,7 @@ export default function TermsPage() {
         <li>本站可能包含实验性 Demo/示例代码，请在生产环境使用前自行评估与测试。</li>
       </ul>
 
-      <h2 className="text-base font-semibold text-ink">
+      <h2 className="text-base font-semibold text-ink font-kalam">
         知识产权
       </h2>
       <ul className="list-disc pl-5">
@@ -28,15 +28,15 @@ export default function TermsPage() {
         <li>如你认为本站内容侵犯了你的权益，请通过 <Link href="/contact">联系页面</Link> 反馈，我们会尽快处理。</li>
       </ul>
 
-      <h2 className="text-base font-semibold text-ink">
+      <h2 className="text-base font-semibold text-ink font-kalam">
         禁止行为
       </h2>
       <ul className="list-disc pl-5">
         <li>恶意请求、刷量、攻击、探测漏洞等影响站点稳定与安全的行为。</li>
-        <li>未经授权尝试访问或修改版主内容管理功能。</li>
+        <li>未经授权尝试访问或修改内容管理功能。</li>
       </ul>
 
-      <h2 className="text-base font-semibold text-ink">
+      <h2 className="text-base font-semibold text-ink font-kalam">
         条款更新
       </h2>
       <p>

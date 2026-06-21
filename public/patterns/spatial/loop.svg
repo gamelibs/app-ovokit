@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#202020"/>
+    </marker>
+  </defs>
+  <rect width="800" height="300" fill="#faf7ef" rx="12"/>
+
+  <text x="400" y="36" text-anchor="middle" font-family="Kalam, cursive" font-size="18" font-weight="700" fill="#202020">空间规划：观察 → 操作 → 验证循环</text>
+
+  <g transform="translate(60, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">观察局面</text>
+  </g>
+  <g transform="translate(200, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">选择操作</text>
+  </g>
+  <g transform="translate(340, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">应用规则</text>
+  </g>
+  <g transform="translate(480, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#fff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">更新空间</text>
+  </g>
+  <g transform="translate(620, 70)">
+    <rect x="0" y="0" width="110" height="48" rx="8" fill="#7dcfff" stroke="#202020" stroke-width="2"/>
+    <text x="55" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#202020">判定目标</text>
+  </g>
+
+  <path d="M170,94 Q185,94 200,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M310,94 Q325,94 340,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M450,94 Q465,94 480,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M590,94 Q605,94 620,94" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- branch -->
+  <path d="M675,118 L675,155 Q675,170 655,170 L240,170 Q220,170 220,155 L220,118" fill="none" stroke="#202020" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="675" y="145" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#888">未达成目标</text>
+  <text x="220" y="145" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#888">达成目标 → 新局/下一关</text>
+
+  <g transform="translate(120, 190)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：网格/图数据结构</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">二维数组 + BFS/DFS</text>
+  </g>
+  <g transform="translate(340, 190)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：规则判定</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">匹配、连通块、形态</text>
+  </g>
+  <g transform="translate(560, 190)">
+    <rect x="0" y="0" width="170" height="44" rx="8" fill="#fff" stroke="#202020" stroke-width="1.5"/>
+    <text x="85" y="20" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">关键：死局检测</text>
+    <text x="85" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#555">提示 + 洗牌机制</text>
+  </g>
+</svg>

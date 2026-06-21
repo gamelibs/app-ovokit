@@ -1,0 +1,56 @@
+{
+  "key": "roguelike",
+  "name": "Roguelike",
+  "nameEn": "Roguelike",
+  "subtitle": "随机地图、永久死亡、逐局成长",
+  "concept": "Roguelike 特征以“随机生成的关卡/遗物/敌人 + 单局内成长 + 失败或通关后重置”为核心。每局游戏都是一次新的冒险，玩家在不断尝试中积累经验与解锁。",
+  "role": "Roguelike 用于制造高重玩价值和“再来一局”的冲动。它把失败重新定义为学习机会，并通过随机组合创造无限策略空间。",
+  "significance": "掌握 Roguelike 特征，有助于理解随机组合、风险回报和 Meta 成长。它是设计高粘性、高重玩价值游戏的重要范式。",
+  "filterTags": [
+    "Roguelike"
+  ],
+  "cases": [
+    "Hades",
+    "Slay the Spire",
+    "以撒的结合"
+  ],
+  "problemsSolved": [
+    "通过随机组合延长游戏生命周期",
+    "把失败转化为学习而非惩罚",
+    "用单局内成长制造紧张与成就感"
+  ],
+  "learningGoals": [
+    "设计随机遗物/卡牌/敌人组合",
+    "掌握单局成长与永久解锁的平衡",
+    "控制随机性以避免玩家失控"
+  ],
+  "minimalRules": [
+    "每局地图/敌人/奖励随机生成",
+    "单局内角色会成长，但失败/通关后重置",
+    "存在 Meta 解锁让玩家保留部分进度"
+  ],
+  "combos": [
+    {
+      "formula": "Roguelike + 卡牌",
+      "effect": "用牌组构建创造策略多样性"
+    },
+    {
+      "formula": "Roguelike + 动作",
+      "effect": "把操作技巧与随机构建结合"
+    },
+    {
+      "formula": "Roguelike + 生成",
+      "effect": "用程序生成创造无限地图"
+    }
+  ],
+  "advancedWarnings": [
+    "随机性过强会让玩家感觉无力",
+    "Meta 解锁过慢会降低再开动力",
+    "需要防止某些组合过强破坏平衡"
+  ],
+  "advancedAlgoRefs": [
+    "Roguelike 地牢生成与房间图",
+    "遗物/卡牌池设计与保底机制",
+    "难度曲线与玩家胜率平衡"
+  ]
+}

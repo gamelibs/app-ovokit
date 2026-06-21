@@ -7,6 +7,8 @@ import Link from "next/link";
 import { HandDrawnHero } from "@/components/home/HandDrawnHero";
 import { HotPlaysSection } from "@/components/home/HotPlaysSection";
 import { ArchetypeQuickNav } from "@/components/home/ArchetypeQuickNav";
+import { PatternQuickNav } from "@/components/home/PatternQuickNav";
+import { FeatureQuickNav } from "@/components/home/FeatureQuickNav";
 import { PlayListItem } from "@/components/home/PlayListItem";
 import { DevToolsPanel } from "@/components/home/DevToolsPanel";
 import { isModerator } from "@/lib/mod/auth";
@@ -105,6 +107,8 @@ export default async function Home({
         <HandDrawnHero />
         <HotPlaysSection />
         <ArchetypeQuickNav />
+        <PatternQuickNav />
+        <FeatureQuickNav />
 
         <div className="sketch-divider-wavy mt-8" />
 
@@ -133,7 +137,7 @@ export default async function Home({
           </section>
 
           <aside className="space-y-6">
-            <DevToolsPanel />
+            {canEdit ? <DevToolsPanel /> : null}
           </aside>
         </div>
       </main>
@@ -146,7 +150,7 @@ export default async function Home({
       <CategoryTabs group={browseGroup} selectedKey={catKey} q={q || undefined} showAll />
 
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_360px] lg:items-start">
-        <section className="columns-1 gap-4 min-[420px]:columns-2 lg:columns-2 2xl:columns-3">
+        <section className="grid grid-cols-2 gap-4 2xl:grid-cols-3">
           {pageItems.length > 0 ? (
             pageItems.map((p) => <PlayCard key={p.slug} play={p} />)
           ) : (

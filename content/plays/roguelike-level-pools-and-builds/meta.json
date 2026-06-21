@@ -3,11 +3,11 @@
   "title": "Roguelike 关卡：随机池设计与 Build 强度控制",
   "subtitle": "从房间池/权重/约束出发，做出“可无限扩展但不崩坏”的关卡生成。",
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/roguelike-level-pools-and-builds/cover.svg",
     "alt": "Roguelike 关卡：随机池设计与 Build 强度控制"
   },
   "coverWide": {
-    "src": "/plays/_placeholders/cover-wide.svg",
+    "src": "/plays/roguelike-level-pools-and-builds/cover-wide.svg",
     "alt": "Roguelike 关卡：随机池设计与 Build 强度控制"
   },
   "tags": [
@@ -67,5 +67,6 @@
   ],
   "demo": {
     "note": "建议 Demo：同一套房间池，分别开启/关闭冷却与保底，观察“连坏房间”概率与通关率。"
-  }
+  },
+  "published": true
 }

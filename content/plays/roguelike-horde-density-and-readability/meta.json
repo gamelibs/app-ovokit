@@ -3,11 +3,11 @@
   "title": "肉鸽割草：敌人密度公式与屏幕可读性",
   "subtitle": "短视频表现力强，但最难的是“越爽越清楚”：密度、速度与特效都要有上限。",
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/roguelike-horde-density-and-readability/cover.svg",
     "alt": "肉鸽割草：敌人密度公式与屏幕可读性"
   },
   "coverWide": {
-    "src": "/plays/_placeholders/cover-wide.svg",
+    "src": "/plays/roguelike-horde-density-and-readability/cover-wide.svg",
     "alt": "肉鸽割草：敌人密度公式与屏幕可读性"
   },
   "tags": [
@@ -67,5 +67,6 @@
   ],
   "demo": {
     "note": "建议 Demo：同一套武器 Build，用不同密度曲线与特效上限，对比“爽但看不清”的临界点。"
-  }
+  },
+  "published": true
 }

@@ -21,7 +21,7 @@ export default function ErrorPage({
         <p className="mt-4 text-sm text-ink-muted">
           页面遇到了一点小麻烦，可能是临时波动。
           <br />
-          如果刷新后仍然出现，请联系版主。
+          如果刷新后仍然出现，请通过联系页面反馈给我们。
         </p>
 
         {process.env.NODE_ENV === "development" && error?.message ? (

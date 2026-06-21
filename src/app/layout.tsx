@@ -1,21 +1,23 @@
 import type { Metadata, Viewport } from "next";
 import { inter, kalam } from "@/lib/fonts";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { CookieConsent } from "@/components/cookie/CookieConsent";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OVOKIT - 游戏玩法技术分享",
-  description: "结构化拆解游戏玩法 + 技术实现 + 可试玩 Demo",
+  title: "OVO - 游戏玩法分享与学习",
+  description: "面向所有游戏爱好者的玩法分享站点：拆解经典机制、理解规则循环、试玩最小 Demo、发现设计乐趣。",
   openGraph: {
-    title: "OVOKIT - 游戏玩法技术分享",
-    description: "结构化拆解游戏玩法 + 技术实现 + 可试玩 Demo",
+    title: "OVO - 游戏玩法分享与学习",
+    description: "面向所有游戏爱好者的玩法分享站点：拆解经典机制、理解规则循环、试玩最小 Demo、发现设计乐趣。",
     type: "website",
     locale: "zh_CN",
-    siteName: "OVOKIT",
+    siteName: "OVO",
   },
   twitter: {
     card: "summary_large_image",
-    title: "OVOKIT - 游戏玩法技术分享",
-    description: "结构化拆解游戏玩法 + 技术实现 + 可试玩 Demo",
+    title: "OVO - 游戏玩法分享与学习",
+    description: "面向所有游戏爱好者的玩法分享站点：拆解经典机制、理解规则循环、试玩最小 Demo、发现设计乐趣。",
   },
 };
 
@@ -30,12 +32,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css"
+        />
+      </head>
       <body
         className={`${inter.variable} ${kalam.variable} bg-paper text-ink antialiased`}
       >
+        <GoogleAnalytics gaId={gaId} />
         {children}
+        <CookieConsent />
       </body>
     </html>
   );

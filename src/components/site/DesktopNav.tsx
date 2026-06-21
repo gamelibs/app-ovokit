@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import { navItems } from "./navItems";
+import { useFavorites } from "@/components/favorites/FavoritesProvider";
 
 export function DesktopNav({ isModerator }: { isModerator: boolean }) {
+  const { count } = useFavorites();
+
   return (
     <nav
       aria-label="Primary"
@@ -12,6 +15,8 @@ export function DesktopNav({ isModerator }: { isModerator: boolean }) {
       {navItems
         .filter((it) => (it.requiresModerator ? isModerator : true))
         .map((it) => {
+          const badge = it.label === "收藏" && count > 0 ? String(count) : it.badge;
+
           const inner = (
             <>
               <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
@@ -27,9 +32,9 @@ export function DesktopNav({ isModerator }: { isModerator: boolean }) {
               <span className="font-kalam hidden whitespace-nowrap xl:inline">
                 {it.label}
               </span>
-              {it.badge ? (
+              {badge ? (
                 <span className="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-highlight-red px-1 text-[11px] font-semibold leading-none text-ink">
-                  {it.badge}
+                  {badge}
                 </span>
               ) : null}
             </>

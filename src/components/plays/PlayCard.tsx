@@ -2,91 +2,96 @@ import Link from "next/link";
 import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "./TagPill";
 import { PlayStats } from "./PlayStats";
-
-
+import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 
 export function PlayCard({ play }: { play: PlayMeta }) {
   return (
-    <article className="mb-4 break-inside-avoid overflow-hidden sketch-card sketch-shadow-sm transition hover:shadow-md">
-      <div className="relative">
-        <div className="aspect-[4/3] w-full max-h-[180px] overflow-hidden bg-paper-warm min-[420px]:aspect-[3/4] min-[420px]:max-h-[220px]">
-          {play.cover?.src ? (
-            <div className="relative h-full w-full">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={play.cover.src}
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-40"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-ink/10" aria-hidden="true" />
+    <article className="sketch-card sketch-shadow-sm flex h-full flex-col overflow-hidden transition hover:shadow-md">
+      {/* 封面：移动端更小，大屏正常 */}
+      <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-paper-warm max-h-[100px] sm:max-h-none">
+        {play.cover?.src ? (
+          <div className="relative h-full w-full">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={play.cover.src}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-40"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-ink/10" aria-hidden="true" />
 
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={play.cover.src}
-                alt={play.cover.alt ?? play.title}
-                className="relative z-10 h-full w-full object-contain"
-                loading="lazy"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={play.cover.src}
+              alt={play.cover.alt ?? play.title}
+              className="relative z-10 h-full w-full object-contain p-1.5 sm:p-4"
+              loading="lazy"
+            />
+
+            {/* 收藏按钮：图片右下角，小巧 */}
+            <div className="absolute bottom-1.5 right-1.5 z-20 sm:bottom-3 sm:right-3">
+              <FavoriteButton
+                type="play"
+                itemKey={play.slug}
+                title={play.title}
+                iconOnly
               />
             </div>
-          ) : (
-            <div className="absolute inset-0 grid place-items-center">
-              <div className="font-kalam rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold text-ink-light">
-                暂无封面
-              </div>
+          </div>
+        ) : (
+          <div className="absolute inset-0 grid place-items-center">
+            <div className="font-kalam rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold text-ink-light">
+              暂无封面
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
-      <div className="p-3 min-[360px]:p-4">
-        <div className="flex flex-wrap items-center gap-2">
-          {play.tags.slice(0, 6).map((t) => (
-            <TagPill key={t} tone={t === "推荐" ? "primary" : "neutral"}>
+      {/* 内容区：移动端紧凑 */}
+      <div className="flex flex-1 flex-col p-2 sm:p-4">
+        {/* 标签 */}
+        <div className="flex flex-nowrap items-center gap-1 overflow-hidden">
+          {play.tags.slice(0, 2).map((t) => (
+            <TagPill key={t} tone={t === "推荐" ? "primary" : "neutral"} size="sm">
               {t}
             </TagPill>
           ))}
         </div>
 
-        <h2 className="font-kalam mt-3 text-lg font-semibold tracking-tight">
+        {/* 标题：移动端单行，大屏最多 2 行 */}
+        <h2 className="font-kalam mt-1.5 line-clamp-1 text-sm font-semibold leading-snug tracking-tight sm:line-clamp-2 sm:text-base">
           <Link href={`/play/${play.slug}`} className="hover:underline">
             {play.title}
           </Link>
         </h2>
-        <p className="mt-1 text-sm leading-6 text-ink-light">
+
+        {/* 副标题：移动端单行 */}
+        <p className="mt-0.5 line-clamp-1 text-xs leading-5 text-ink-light sm:line-clamp-2 sm:text-sm sm:leading-6">
           {play.subtitle}
         </p>
 
-        <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
+        {/* 元信息：大屏显示，移动端隐藏 */}
+        <dl className="mt-2 hidden text-xs text-ink-light sm:block">
           <div className="flex min-w-0 items-center gap-2">
-            <dt className="shrink-0 whitespace-nowrap text-ink-muted">
-              玩法难度
-            </dt>
-            <dd className="min-w-0 font-medium">{play.difficulty}</dd>
+            <dt className="shrink-0 whitespace-nowrap text-ink-muted">玩法难度</dt>
+            <dd className="min-w-0 font-medium text-ink">{play.difficulty}</dd>
           </div>
           <div className="flex min-w-0 items-center gap-2">
-            <dt className="shrink-0 whitespace-nowrap text-ink-muted">
-              技术栈
-            </dt>
-            <dd className="min-w-0 truncate font-medium">
-              {play.techStack.join(" / ")}
-            </dd>
+            <dt className="shrink-0 whitespace-nowrap text-ink-muted">技术栈</dt>
+            <dd className="min-w-0 truncate font-medium text-ink">{play.techStack.join(" / ")}</dd>
           </div>
-          <div className="col-span-2 flex min-w-0 items-center gap-2">
-            <dt className="shrink-0 whitespace-nowrap text-ink-muted">
-              核心点
-            </dt>
-            <dd className="min-w-0 truncate font-medium">
-              {play.corePoints.join(" / ")}
-            </dd>
+          <div className="flex min-w-0 items-center gap-2">
+            <dt className="shrink-0 whitespace-nowrap text-ink-muted">核心点</dt>
+            <dd className="min-w-0 truncate font-medium text-ink">{play.corePoints.join(" / ")}</dd>
           </div>
         </dl>
 
-        <div className="mt-4 grid gap-3">
+        {/* 底部操作 */}
+        <div className="mt-auto grid gap-1.5 pt-2 sm:gap-3 sm:pt-4">
           <Link
             href={`/play/${play.slug}`}
-            className="font-kalam inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-xl bg-highlight-yellow px-3 text-sm font-semibold text-ink hover:bg-highlight-yellow/90 sm:h-10 sm:px-4"
+            className="font-kalam inline-flex h-8 w-full items-center justify-center whitespace-nowrap rounded-lg bg-highlight-yellow px-2 text-xs font-semibold text-ink hover:bg-highlight-yellow/90 sm:h-10 sm:rounded-xl sm:text-sm"
           >
             查看实现
           </Link>

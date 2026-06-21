@@ -1,14 +1,17 @@
-import { getPlayCategoriesForGroup, type PlayBrowseGroupKey } from "@/lib/content/plays";
+import {
+  getPlayCategoriesForGroupAsync,
+  type PlayBrowseGroupKey,
+} from "@/lib/content/plays";
 import Link from "next/link";
 
 function pillClass(active: boolean) {
   if (active) {
-    return "font-kalam inline-flex h-9 flex-none items-center justify-center sketch-border bg-ink px-3 text-[13px] font-semibold text-paper shadow-sm min-[360px]:h-10 min-[360px]:px-4 min-[360px]:text-sm";
+    return "font-kalam inline-flex h-9 flex-none items-center justify-center rounded-full bg-ink px-3 text-[13px] font-semibold text-paper shadow-sm min-[360px]:h-10 min-[360px]:px-4 min-[360px]:text-sm";
   }
   return "font-kalam inline-flex h-9 flex-none items-center justify-center rounded-full px-3 text-[13px] font-semibold text-ink-light hover:bg-ink/5 hover:text-ink min-[360px]:h-10 min-[360px]:px-4 min-[360px]:text-sm";
 }
 
-export function CategoryTabs({
+export async function CategoryTabs({
   group,
   selectedKey,
   q,
@@ -19,7 +22,7 @@ export function CategoryTabs({
   q?: string;
   showAll?: boolean;
 }) {
-  const categories = getPlayCategoriesForGroup(group);
+  const categories = await getPlayCategoriesForGroupAsync(group);
   return (
     <div className="flex items-center gap-2 overflow-x-auto py-1.5 min-[360px]:gap-3 min-[360px]:py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {categories.map((c, idx) => (

@@ -3,8 +3,9 @@ import { listPlays } from "@/lib/content/plays";
 
 export async function HotPlaysSection() {
   const plays = await listPlays();
-  const topPlays = [...plays]
-    .sort((a, b) => b.stats.views - a.stats.views)
+  // 首页「热门玩法」由「热门」标签控制，避免按浏览量排序导致重复/不可控
+  const topPlays = plays
+    .filter((p) => p.tags.includes("热门"))
     .slice(0, 5);
 
   if (topPlays.length === 0) return null;
@@ -28,18 +29,18 @@ export async function HotPlaysSection() {
             href={`/play/${play.slug}`}
             className={`sketch-card sketch-rotate-${idx % 2 === 0 ? "left" : "right"} block overflow-hidden transition hover:scale-[1.02]`}
           >
-            {/* 封面 */}
-            <div className="aspect-[4/3] w-full max-h-[140px] overflow-hidden bg-paper-warm p-2">
+            {/* 封面：完整展示，不截断，四周留呼吸边距 */}
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-paper-warm">
               <img
                 src={play.cover?.src ?? "/plays/_placeholders/cover.svg"}
                 alt={play.title}
-                className="h-full w-full object-contain"
+                className="h-full w-full object-contain p-4"
                 loading="lazy"
               />
             </div>
             {/* 信息 */}
             <div className="p-3 pt-2">
-              <h3 className="font-kalam text-sm font-semibold text-ink line-clamp-1">
+              <h3 className="font-kalam text-sm font-semibold text-ink">
                 {play.title}
               </h3>
               <div className="mt-2 flex items-center justify-between gap-2">

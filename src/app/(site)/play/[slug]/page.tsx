@@ -8,7 +8,9 @@ import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { ArticleMarkdown } from "@/components/content/ArticleMarkdown";
 import { PlayDetailStats } from "@/components/plays/PlayStats";
 import { RelatedPlays } from "@/components/plays/RelatedPlays";
+import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { getPlayBySlug, listPlaySlugs, listPlays } from "@/lib/content/plays";
+import { loadGlossary } from "@/lib/content/glossary";
 
 export const revalidate = 60;
 
@@ -24,20 +26,20 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const play = await getPlayBySlug(slug);
-  if (!play) return { title: "玩法不存在 - OVOKIT" };
+  if (!play) return { title: "玩法不存在 - OVO" };
 
   const coverImage = play.coverWide?.src ?? play.cover?.src ?? null;
   const ogImage = coverImage ? `${siteConfig.url}${coverImage}` : undefined;
 
   return {
-    title: `${play.title} - OVOKIT`,
+    title: `${play.title} - OVO`,
     description: play.subtitle,
     openGraph: {
       title: play.title,
       description: play.subtitle,
       type: "article",
       locale: "zh_CN",
-      siteName: "OVOKIT",
+      siteName: "OVO",
       images: ogImage ? [{ url: ogImage }] : undefined,
     },
     twitter: {
@@ -55,7 +57,10 @@ export default async function PlayDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const play = await getPlayBySlug(slug);
+  const [play, glossary] = await Promise.all([
+    getPlayBySlug(slug),
+    loadGlossary(),
+  ]);
   if (!play) notFound();
 
   // Related plays: sort by tag overlap
@@ -100,7 +105,7 @@ export default async function PlayDetailPage({
       <div className="flex items-center gap-3">
         <Link
           href="/"
-          className="inline-flex h-11 items-center gap-2 rounded-full sketch-border bg-paper px-4 text-sm font-semibold text-ink hover:bg-paper-warm sm:h-9 sm:px-3"
+          className="font-kalam inline-flex h-11 items-center gap-2 rounded-full sketch-border bg-paper px-4 text-sm font-semibold text-ink hover:bg-paper-warm sm:h-9 sm:px-3"
         >
           <span aria-hidden="true">←</span>
           返回
@@ -120,9 +125,17 @@ export default async function PlayDetailPage({
                 </TagPill>
               ))}
             </div>
-            <h1 className="mt-3 text-2xl font-semibold tracking-tight">
-              {play.title}
-            </h1>
+            <div className="mt-3 flex items-start justify-between gap-3">
+              <h1 className="text-2xl font-semibold tracking-tight font-kalam">
+                {play.title}
+              </h1>
+              <FavoriteButton
+                type="play"
+                itemKey={play.slug}
+                title={play.title}
+                iconOnly
+              />
+            </div>
             <p className="mt-2 text-sm leading-6 text-ink-light">
               {play.subtitle}
             </p>
@@ -134,40 +147,26 @@ export default async function PlayDetailPage({
                 initialLikes={play.stats.likes}
               />
             </div>
+          </header>
 
-            <div className="mt-4 aspect-[4/3] w-full max-h-[420px] overflow-hidden rounded-2xl bg-gradient-to-br from-paper-warm to-paper">
-              {play.coverWide?.src || play.cover?.src ? (
-                <div className="relative h-full w-full">
-                  {/* Background fill (blurred) */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={(play.coverWide?.src ?? play.cover?.src) as string}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-55"
-                  />
-                  <div className="absolute inset-0 bg-ink/20" aria-hidden="true" />
-
-                  {/* Foreground (full image) */}
+          {/* 移动端封面：小尺寸辅助识别，不抢夺内容焦点 */}
+          {(play.coverWide?.src || play.cover?.src) && (
+            <div className="lg:hidden">
+              <div className="mx-auto aspect-[4/3] w-full max-w-sm max-h-[180px] overflow-hidden rounded-2xl bg-gradient-to-br from-paper-warm to-paper">
+                <div className="relative flex h-full w-full items-center justify-center p-4">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={(play.coverWide?.src ?? play.cover?.src) as string}
                     alt={(play.coverWide?.alt ?? play.cover?.alt ?? play.title) as string}
-                    className="relative z-10 h-full w-full object-contain"
+                    className="h-full w-full object-contain"
                   />
                 </div>
-              ) : (
-                <div className="grid h-full place-items-center">
-                  <div className="rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold text-ink-light">
-                    暂无封面
-                  </div>
-                </div>
-              )}
+              </div>
             </div>
-          </header>
+          )}
 
           <section className="sketch-card p-5 shadow-sm">
-            <h2 className="text-base font-semibold">玩法拆解</h2>
+            <h2 className="text-base font-semibold font-kalam">玩法拆解</h2>
             <div className="mt-4 space-y-4">
               {play.breakdown.map((b) => (
                 <div key={b.title} className="rounded-xl bg-paper-warm p-4">
@@ -185,7 +184,7 @@ export default async function PlayDetailPage({
           </section>
 
           <section className="sketch-card p-5 shadow-sm">
-            <h2 className="text-base font-semibold">关键代码</h2>
+            <h2 className="text-base font-semibold font-kalam">关键代码</h2>
             <div className="mt-4 space-y-3">
               {play.codeSnippets.map((s) => (
                 <div key={s.title}>
@@ -199,7 +198,7 @@ export default async function PlayDetailPage({
           </section>
 
           <section className="sketch-card p-5 shadow-sm">
-            <h2 className="text-base font-semibold">Demo</h2>
+            <h2 className="text-base font-semibold font-kalam">Demo</h2>
             <p className="mt-2 text-sm text-ink-light">
               {play.demo.note ??
                 (fallbackArchetypeDemoSrc
@@ -270,12 +269,12 @@ export default async function PlayDetailPage({
 
           {play.articleMdx ? (
             <section className="sketch-card p-5 shadow-sm">
-              <h2 className="text-base font-semibold">文章</h2>
+              <h2 className="text-base font-semibold font-kalam">文章</h2>
               <p className="mt-2 text-sm text-ink-light">
                 文章以 Markdown/MDX 文本子集渲染（不支持自定义组件）。
               </p>
               <div className="mt-4">
-                <ArticleMarkdown source={play.articleMdx} />
+                <ArticleMarkdown source={play.articleMdx} glossary={glossary} />
               </div>
             </section>
           ) : null}
@@ -284,21 +283,37 @@ export default async function PlayDetailPage({
         </article>
 
         <aside className="hidden lg:block space-y-4">
+          {/* 桌面端封面：作为侧边信息卡片，帮助快速识别主题 */}
+          {(play.coverWide?.src || play.cover?.src) && (
+            <section className="sketch-card p-4 shadow-sm">
+              <div className="aspect-[4/3] w-full max-h-[180px] overflow-hidden rounded-xl bg-gradient-to-br from-paper-warm to-paper">
+                <div className="relative flex h-full w-full items-center justify-center p-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={(play.coverWide?.src ?? play.cover?.src) as string}
+                    alt={(play.coverWide?.alt ?? play.cover?.alt ?? play.title) as string}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              </div>
+            </section>
+          )}
+
           <section className="sketch-card p-4 shadow-sm">
-            <h3 className="text-sm font-semibold">信息</h3>
+            <h3 className="text-sm font-semibold font-kalam">信息</h3>
             <dl className="mt-3 space-y-2 text-sm">
               <div className="flex items-center justify-between gap-3">
-                <dt className="text-ink-muted">难度</dt>
+                <dt className="text-ink-muted font-kalam">难度</dt>
                 <dd className="font-semibold">{play.difficulty}</dd>
               </div>
               <div className="flex items-start justify-between gap-3">
-                <dt className="text-ink-muted">技术栈</dt>
+                <dt className="text-ink-muted font-kalam">技术栈</dt>
                 <dd className="text-right font-semibold">
                   {play.techStack.join(" / ")}
                 </dd>
               </div>
               <div className="flex items-start justify-between gap-3">
-                <dt className="text-ink-muted">核心点</dt>
+                <dt className="text-ink-muted font-kalam">核心点</dt>
                 <dd className="text-right font-semibold">
                   {play.corePoints.join(" / ")}
                 </dd>
@@ -307,7 +322,7 @@ export default async function PlayDetailPage({
           </section>
 
           <section className="sketch-card p-4 shadow-sm">
-            <h3 className="text-sm font-semibold">阅读建议</h3>
+            <h3 className="text-sm font-semibold font-kalam">阅读建议</h3>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-ink-light">
               <li>先看「玩法拆解」抓住规则与爽点。</li>
               <li>再看「关键代码」定位实现入口。</li>

@@ -50,7 +50,12 @@
     "note": "建议 Demo：同一局内分别用“交叉限制/能量限制/衰减收益”对比手感。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/line-connect-scoring-and-limits/cover.svg",
+    "alt": "连线消除：爽点来自分数曲线与限制策略"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/line-connect-scoring-and-limits/cover-wide.svg",
     "alt": "连线消除：爽点来自分数曲线与限制策略"
   }
 }

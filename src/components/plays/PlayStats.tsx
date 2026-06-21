@@ -66,7 +66,7 @@ export function PlayDetailStats({
 
   useEffect(() => {
     // Track view on page load (with localStorage debounce)
-    const key = `ovokit:viewed:${slug}`;
+    const key = `ovofroge:viewed:${slug}`;
     const lastViewed = (() => {
       try {
         return Number(localStorage.getItem(key)) || 0;
@@ -107,7 +107,7 @@ export function PlayDetailStats({
 
     // Check if already liked
     try {
-      setLiked(localStorage.getItem(`ovokit:liked:${slug}`) === "1");
+      setLiked(localStorage.getItem(`ovofroge:liked:${slug}`) === "1");
     } catch {
       // ignore
     }
@@ -121,7 +121,7 @@ export function PlayDetailStats({
         setLikes(data.likes);
         setLiked(true);
         try {
-          localStorage.setItem(`ovokit:liked:${slug}`, "1");
+          localStorage.setItem(`ovofroge:liked:${slug}`, "1");
         } catch {
           // ignore
         }

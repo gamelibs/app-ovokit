@@ -60,7 +60,7 @@ export function BlockEditor() {
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-[280px_1fr_360px]">
       {/* 左侧：工具栏与模板 */}
       <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
-        <h2 className="text-sm font-semibold text-zinc-800 dark:text-white">积木工具</h2>
+        <h2 className="text-sm font-semibold text-zinc-800 dark:text-white font-kalam">积木工具</h2>
         <div className="mt-3 grid grid-cols-2 gap-2">
           {(["select", "rect", "circle", "pan"] as Tool[]).map((t) => (
             <button
@@ -135,7 +135,7 @@ export function BlockEditor() {
         </div>
 
         <div className="mt-5">
-          <h3 className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">场景模板</h3>
+          <h3 className="text-xs font-semibold text-zinc-700 dark:text-zinc-200 font-kalam">场景模板</h3>
           <div className="mt-2 space-y-2">
             {templates.map((tpl) => (
               <div key={tpl.id} className="rounded-lg border border-zinc-200 p-3 text-xs dark:border-white/10">
@@ -154,7 +154,7 @@ export function BlockEditor() {
         </div>
 
         <div className="mt-5">
-          <h3 className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">导入 / 导出</h3>
+          <h3 className="text-xs font-semibold text-zinc-700 dark:text-zinc-200 font-kalam">导入 / 导出</h3>
           <div className="mt-2 flex gap-2">
             <button
               type="button"
@@ -251,7 +251,7 @@ export function BlockEditor() {
         </div>
 
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/80 p-3">
-          <h3 className="text-xs font-semibold text-zinc-200">事件 / 调试</h3>
+          <h3 className="text-xs font-semibold text-zinc-200 font-kalam">事件 / 调试</h3>
           <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {editor.events.length === 0 && <p className="text-xs text-zinc-500">暂无事件</p>}
             {editor.events.map((e, idx) => (
@@ -267,7 +267,7 @@ export function BlockEditor() {
       {/* 右侧：属性面板 */}
       <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-zinc-800 dark:text-white">属性面板</h2>
+          <h2 className="text-sm font-semibold text-zinc-800 dark:text-white font-kalam">属性面板</h2>
           {selectedBlock && <span className="rounded-full bg-blue-50 px-2 py-1 text-[11px] font-semibold text-blue-700 dark:bg-blue-500/10 dark:text-blue-200">{selectedBlock.id}</span>}
         </div>
 

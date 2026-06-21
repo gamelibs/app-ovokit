@@ -51,7 +51,12 @@
     "note": "建议 Demo：做 10 关同模板，分别用“视觉误导/时序压力/隐藏约束”做假难度。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/pull-the-pin-punish-and-fake-difficulty/cover.svg",
+    "alt": "拉针（Pull the Pin）：顺序惩罚与“假难度”"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/pull-the-pin-punish-and-fake-difficulty/cover-wide.svg",
     "alt": "拉针（Pull the Pin）：顺序惩罚与“假难度”"
   }
 }

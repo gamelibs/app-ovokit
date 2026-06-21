@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { PlayCover, PlayMeta } from "@/lib/content/plays";
 import type { CorePatternKey } from "@/lib/patterns/patterns";
-import { corePatterns } from "@/lib/patterns/patterns";
+import type { CorePatternSpec } from "@/lib/patterns/spec";
 import { TagInput } from "./TagInput";
 import { BreakdownEditor } from "./BreakdownEditor";
 import type { BreakdownItem } from "./BreakdownEditor";
@@ -97,16 +97,19 @@ type NewPlayFormInitial = {
 export function NewPlayForm({
   mode = "create",
   initial,
+  patternSpecs = [],
 }: {
   mode?: "create" | "edit";
   initial?: NewPlayFormInitial;
+  patternSpecs?: CorePatternSpec[];
 }) {
+  const availablePatterns = patternSpecs.length > 0 ? patternSpecs : [];
   const router = useRouter();
   const initialSlug = initial?.meta.slug ?? "";
   const draftKey =
     mode === "edit" && initialSlug
-      ? `ovokit:edit-play:${initialSlug}:draft:v1`
-      : "ovokit:new-play:draft:v1";
+      ? `ovofroge:edit-play:${initialSlug}:draft:v1`
+      : "ovofroge:new-play:draft:v1";
   const coverMaxBytes = 5 * 1024 * 1024;
   const demoVideoMaxBytes = 50 * 1024 * 1024;
 
@@ -190,7 +193,7 @@ export function NewPlayForm({
   // 从 AI Analyzer 草稿恢复（优先级高于本地草稿）
   useEffect(() => {
     try {
-      const raw = window.localStorage.getItem("ovokit:analyzer-draft");
+      const raw = window.localStorage.getItem("ovofroge:analyzer-draft");
       if (!raw) return;
       const parsed = JSON.parse(raw) as unknown;
       if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return;
@@ -234,7 +237,7 @@ export function NewPlayForm({
       }
 
       // 清除 analyzer draft，避免重复填充
-      window.localStorage.removeItem("ovokit:analyzer-draft");
+      window.localStorage.removeItem("ovofroge:analyzer-draft");
     } catch {
       // ignore
     }
@@ -568,7 +571,7 @@ export function NewPlayForm({
           </label>
 
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-ink-muted">
+            <span className="text-xs font-semibold text-ink-muted font-kalam">
               标题
             </span>
             <input
@@ -580,7 +583,7 @@ export function NewPlayForm({
           </label>
 
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-ink-muted">
+            <span className="text-xs font-semibold text-ink-muted font-kalam">
               副标题
             </span>
             <input
@@ -593,7 +596,7 @@ export function NewPlayForm({
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-ink-muted">
+              <span className="text-xs font-semibold text-ink-muted font-kalam">
                 Slug（用于 URL）
               </span>
               <input
@@ -615,7 +618,7 @@ export function NewPlayForm({
             </label>
 
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-ink-muted">
+              <span className="text-xs font-semibold text-ink-muted font-kalam">
                 难度
               </span>
               <select
@@ -631,7 +634,7 @@ export function NewPlayForm({
           </div>
 
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-ink-muted">
+            <span className="text-xs font-semibold text-ink-muted font-kalam">
               核心原型（编辑器架构）
             </span>
             <select
@@ -646,7 +649,7 @@ export function NewPlayForm({
               className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
             >
               <option value="">不指定</option>
-              {corePatterns.map((p) => (
+              {availablePatterns.map((p) => (
                 <option key={p.key} value={p.key}>
                   {p.name} — {p.loop}
                 </option>
@@ -654,7 +657,7 @@ export function NewPlayForm({
             </select>
             {pattern ? (
               <span className="text-xs text-ink-muted">
-                {corePatterns.find((p) => p.key === pattern)?.subtitle}
+                {availablePatterns.find((p) => p.key === pattern)?.subtitle}
               </span>
             ) : null}
           </label>
@@ -701,7 +704,7 @@ export function NewPlayForm({
         </p>
         <div className="mt-3 grid gap-4 lg:grid-cols-2">
           <div className="grid gap-3">
-            <div className="text-xs font-semibold text-ink-muted">竖向封面</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">竖向封面</div>
             <input
               type="file"
               accept="image/*"
@@ -742,7 +745,7 @@ export function NewPlayForm({
               </div>
             ) : null}
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-ink-muted">
+              <span className="text-xs font-semibold text-ink-muted font-kalam">
                 封面描述（alt，可选）
               </span>
               <input
@@ -817,7 +820,7 @@ export function NewPlayForm({
               </div>
             ) : null}
             <label className="grid gap-1">
-              <span className="text-xs font-semibold text-ink-muted">
+              <span className="text-xs font-semibold text-ink-muted font-kalam">
                 横向封面描述（alt，可选）
               </span>
               <input
@@ -871,7 +874,7 @@ export function NewPlayForm({
         <div className="text-sm font-semibold">Demo（iframe）</div>
         <div className="mt-3 grid gap-3">
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-ink-muted">
+            <span className="text-xs font-semibold text-ink-muted font-kalam">
               iframeSrc（可选）
             </span>
             <input
@@ -882,7 +885,7 @@ export function NewPlayForm({
             />
           </label>
           <div className="grid gap-2">
-            <div className="text-xs font-semibold text-ink-muted">
+            <div className="text-xs font-semibold text-ink-muted font-kalam">
               或上传视频（可选）
             </div>
             {existingVideoSrc ? (
@@ -928,7 +931,7 @@ export function NewPlayForm({
             ) : null}
           </div>
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-ink-muted">
+            <span className="text-xs font-semibold text-ink-muted font-kalam">
               说明（note）
             </span>
             <input
@@ -957,6 +960,14 @@ export function NewPlayForm({
           onChange={(e) => setArticleMdx(e.target.value)}
           className="mt-3 h-56 w-full rounded-xl sketch-border bg-paper p-3 font-mono text-xs outline-none focus:ring-2 focus:ring-highlight-blue/60"
         />
+        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-ink-muted">
+          <span># 标题 / ## 小节</span>
+          <span>**加粗**</span>
+          <span>==高亮==</span>
+          <span>`代码`</span>
+          <span>[术语](glossary:术语)</span>
+          <span>- 列表</span>
+        </div>
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">

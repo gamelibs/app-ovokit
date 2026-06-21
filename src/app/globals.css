@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css");
 
 :root {
   --paper-bg: #faf7ef;
@@ -12,6 +11,8 @@
   --highlight-red: #ff8b8b;
   --highlight-green: #7dd87d;
   --highlight-orange: #ffb366;
+  --logo-purple: #a66ecf;
+  --logo-cyan: #3dd4d4;
 }
 
 @theme inline {
@@ -25,6 +26,8 @@
   --color-highlight-red: var(--highlight-red);
   --color-highlight-green: var(--highlight-green);
   --color-highlight-orange: var(--highlight-orange);
+  --color-logo-purple: var(--logo-purple);
+  --color-logo-cyan: var(--logo-cyan);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;

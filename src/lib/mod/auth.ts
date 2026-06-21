@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export const MOD_COOKIE = "ovokit_mod";
+export const MOD_COOKIE = "ovofroge_mod";
 
 export function isModeratorCookieValue(v: string | undefined) {
   return v === "1";

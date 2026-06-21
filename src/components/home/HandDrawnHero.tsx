@@ -2,41 +2,57 @@
 
 import Link from "next/link";
 
+const valuePoints = [
+  "拆解经典游戏的玩法机制",
+  "理解让游戏好玩的核心规则循环",
+  "试玩最小可玩 Demo，感受设计差异",
+  "从零学习一个玩法如何被实现"
+];
+
 export function HandDrawnHero() {
   return (
     <section className="relative overflow-hidden rounded-3xl sketch-border bg-paper/70 p-6 shadow-sm">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.1fr] lg:items-center">
         {/* 左侧文字 */}
-        <div className="min-w-0 space-y-4">
+        <div className="min-w-0 space-y-5">
           <div className="relative">
             <h1 className="font-kalam text-3xl font-bold leading-tight text-ink sm:text-4xl">
-              游戏玩法技术
+              探索游戏玩法
               <br />
-              实现分享站
+              发现设计乐趣
             </h1>
             {/* 标题下划线高亮 */}
             <div className="mt-1 h-2 w-48 sketch-divider" />
           </div>
 
           <p className="text-sm leading-relaxed text-ink-light">
-            探索游戏玩法设计与技术实现
-            <br />
-            拆解核心机制，学习实现思路
-            <br />
-            提升你的游戏开发能力
+            这是一个面向所有游戏爱好者的玩法分享站点。无论你是想弄懂游戏为什么好玩，还是想亲手设计一个玩法，都可以在这里找到灵感。
           </p>
 
+          <ul className="space-y-2">
+            {valuePoints.map((text) => (
+              <li key={text} className="flex items-start gap-2 text-sm text-ink-light">
+                <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-highlight-yellow text-xs font-bold text-ink">
+                  ✓
+                </span>
+                <span>{text}</span>
+              </li>
+            ))}
+          </ul>
+
           <div className="flex flex-wrap gap-3">
-            <Link href="/?all=1" className="sketch-button">
+            <Link href="/patterns" className="sketch-button">
               浏览玩法
             </Link>
             <Link
               href="/about"
               className="sketch-button sketch-button-secondary"
             >
-              阅读文章
+              了解更多
             </Link>
           </div>
+
+
         </div>
 
         {/* 右侧手绘插图组合 */}

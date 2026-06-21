@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Menu } from "lucide-react";
+import { OvoLogo } from "./OvoLogo";
 import { DesktopNav } from "./DesktopNav";
 import { MenuDrawer } from "./MenuDrawer";
 
@@ -20,7 +21,13 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
 
   useEffect(() => {
     try {
-      setShowModeratorTools(localStorage.getItem("ovokit_mod_tools") === "1");
+      // 兼容旧 key：若存在 ovofroge_mod_tools 则迁移到 ovo_mod_tools
+      const legacy = localStorage.getItem("ovofroge_mod_tools");
+      if (legacy === "1") {
+        localStorage.setItem("ovo_mod_tools", "1");
+        localStorage.removeItem("ovofroge_mod_tools");
+      }
+      setShowModeratorTools(localStorage.getItem("ovo_mod_tools") === "1");
     } catch {
       // ignore
     }
@@ -51,7 +58,7 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
     if (tapCountRef.current >= 8) {
       tapCountRef.current = 0;
       try {
-        localStorage.setItem("ovokit_mod_tools", "1");
+        localStorage.setItem("ovo_mod_tools", "1");
       } catch {
         // ignore
       }
@@ -73,10 +80,10 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
               <button
                 type="button"
                 onClick={onLogoTap}
-                aria-label="OVOKIT"
-                className="font-kalam rounded-xl bg-highlight-yellow px-3 py-1 text-sm font-bold tracking-tight text-ink"
+                aria-label="OVO"
+                className="inline-flex items-center justify-center rounded-2xl p-0 hover:opacity-90 transition-opacity"
               >
-                OVOKIT
+                <OvoLogo width={60} height={28} />
               </button>
             </div>
 

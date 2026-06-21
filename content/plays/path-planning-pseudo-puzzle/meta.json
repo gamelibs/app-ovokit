@@ -50,7 +50,12 @@
     "note": "建议 Demo：生成 1000 个关卡，按“解数量/最短路差值”自动分桶为难度。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/path-planning-pseudo-puzzle/cover.svg",
+    "alt": "路径规划：伪解谜设计与多解/单解取舍"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/path-planning-pseudo-puzzle/cover-wide.svg",
     "alt": "路径规划：伪解谜设计与多解/单解取舍"
   }
 }

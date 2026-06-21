@@ -21,7 +21,7 @@ export function PlayListItem({ play }: { play: PlayMeta }) {
           <img
             src={play.cover.src}
             alt={play.cover.alt ?? play.title}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
             loading="lazy"
           />
         ) : (
@@ -33,7 +33,7 @@ export function PlayListItem({ play }: { play: PlayMeta }) {
 
       {/* Content */}
       <div className="min-w-0 flex-1">
-        <h3 className="line-clamp-1 text-sm font-semibold text-ink group-hover:underline sm:text-base">
+        <h3 className="text-sm font-semibold text-ink group-hover:underline sm:text-base font-kalam">
           {play.title}
         </h3>
         <p className="mt-0.5 line-clamp-1 text-xs text-ink-light sm:text-sm">

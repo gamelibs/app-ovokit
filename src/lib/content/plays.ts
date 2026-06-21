@@ -3,7 +3,9 @@ import path from "node:path";
 import { getPlayStats } from "./views";
 import { availablePlayTags } from "./play-tags";
 import type { PlayTag } from "./play-tags";
-import { isCorePatternKey, type CorePatternKey } from "@/lib/patterns/patterns";
+import { corePatternKeys, fallbackCorePatternByKey, isCorePatternKey, type CorePatternKey } from "@/lib/patterns/patterns";
+import { featureKeys, fallbackFeatureByKey } from "@/lib/features/features";
+import { listFeatureSpecs } from "@/lib/features/spec";
 
 export type PlayDifficulty = "入门" | "进阶" | "硬核";
 export { availablePlayTags };
@@ -204,17 +206,11 @@ const archetypeCategories: PlayCategory[] = [
   { key: "timing", label: "时机 / 反应", filterTags: ["时机 / 反应", "点击"] },
 ];
 
-const featureCategories: PlayCategory[] = [
-  { key: "merge", label: "合成", filterTags: ["合成"] },
-  { key: "idle", label: "放置", filterTags: ["放置", "放置 / 建造"] },
-  { key: "click", label: "点击", filterTags: ["点击", "时机 / 反应"] },
-  { key: "grid", label: "网格", filterTags: ["网格"] },
-  { key: "levels", label: "关卡", filterTags: ["关卡"] },
-  { key: "numbers", label: "数值", filterTags: ["数值", "成长 / 数值"] },
-  { key: "generation", label: "生成", filterTags: ["生成"] },
-  { key: "roguelike", label: "Roguelike", filterTags: ["Roguelike"] },
-  { key: "state-machine", label: "状态机", filterTags: ["状态机"] },
-];
+const featureCategories: PlayCategory[] = featureKeys.map((key) => ({
+  key,
+  label: fallbackFeatureByKey[key].name,
+  filterTags: fallbackFeatureByKey[key].filterTags as PlayTag[],
+}));
 
 const difficultyCategories: PlayCategory[] = [
   { key: "beginner", label: "入门", filterDifficulty: "入门" },
@@ -222,13 +218,11 @@ const difficultyCategories: PlayCategory[] = [
   { key: "hardcore", label: "硬核", filterDifficulty: "硬核" },
 ];
 
-const patternCategories: PlayCategory[] = [
-  { key: "action", label: "动作敏捷", filterPattern: "action" },
-  { key: "spatial", label: "空间布局", filterPattern: "spatial" },
-  { key: "merge", label: "合成成长", filterPattern: "merge" },
-  { key: "management", label: "经营模拟", filterPattern: "management" },
-  { key: "strategy", label: "数值策略", filterPattern: "strategy" },
-];
+const patternCategories: PlayCategory[] = corePatternKeys.map((key) => ({
+  key,
+  label: fallbackCorePatternByKey[key].name,
+  filterPattern: key,
+}));
 
 const categoriesByGroup: Record<PlayBrowseGroupKey, PlayCategory[]> = {
   archetype: archetypeCategories,
@@ -248,6 +242,16 @@ export function getPlayCategoriesForGroup(group: PlayBrowseGroupKey): PlayCatego
 export function getPlayCategory(group: PlayBrowseGroupKey, key: string): PlayCategory | null {
   if (key === forYouCategory.key) return forYouCategory;
   return categoriesByGroup[group].find((c) => c.key === key) ?? null;
+}
+
+export async function getPlayCategoriesForGroupAsync(
+  group: PlayBrowseGroupKey,
+): Promise<PlayCategory[]> {
+  if (group === "feature") {
+    const specs = await listFeatureSpecs();
+    return [forYouCategory, ...specs.map((s) => ({ key: s.key, label: s.name, filterTags: s.filterTags as PlayTag[] }))];
+  }
+  return getPlayCategoriesForGroup(group);
 }
 
 const legacyCatKeyMap: Record<string, { group: PlayBrowseGroupKey; cat: string }> = {

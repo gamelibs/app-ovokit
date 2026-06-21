@@ -58,7 +58,12 @@
     "note": "最小可交互：2 合 1 合成链（用于演示表驱动规则与合成节奏）。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/merge-level-core-loop/cover.svg",
+    "alt": "合成 & 升级玩法核心逻辑"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/merge-level-core-loop/cover-wide.svg",
     "alt": "合成 & 升级玩法核心逻辑"
   }
 }

@@ -4,7 +4,8 @@
   "subtitle": "把单位行为拆成可测试、可组合的状态，减少 if-else 爆炸。",
   "tags": [
     "战斗",
-    "状态机"
+    "状态机",
+    "热门"
   ],
   "difficulty": "进阶",
   "techStack": [
@@ -48,7 +49,12 @@
     "note": "最小可交互：事件驱动的战斗 FSM（用于演示状态切换与可测试转移）。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/finite-state-machine-for-combat/cover.svg",
+    "alt": "用状态机组织战斗单位行为"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/finite-state-machine-for-combat/cover-wide.svg",
     "alt": "用状态机组织战斗单位行为"
   }
 }

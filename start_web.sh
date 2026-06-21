@@ -2,12 +2,12 @@
 set -euo pipefail
 
 # =============================================================================
-# OVOKIT - 一键启动前后端开发服务
+# OVO - 一键启动前后端开发服务
 # =============================================================================
 # 用法: ./start_web.sh
 # 环境变量:
-#   WEB_PORT   - 前端端口 (默认: 3000)
-#   ALGO_PORT  - 后端端口 (默认: 4000)
+#   WEB_PORT   - 前端端口 (默认: 13100)
+#   ALGO_PORT  - 后端端口 (默认: 14100)
 #   ALGO_HOST  - 后端监听地址 (默认: 0.0.0.0)
 # =============================================================================
 
@@ -23,8 +23,8 @@ CLR_OK="\033[32m"    # 绿色 - 成功
 CLR_INFO="\033[35m"  # 紫色 - 信息
 
 # --- 配置 --------------------------------------------------------------------
-WEB_PORT="${WEB_PORT:-3000}"
-ALGO_PORT="${ALGO_PORT:-4000}"
+WEB_PORT="${WEB_PORT:-13100}"
+ALGO_PORT="${ALGO_PORT:-14100}"
 ALGO_HOST="${ALGO_HOST:-0.0.0.0}"
 
 export ALGO_PORT
@@ -32,7 +32,7 @@ export ALGO_HOST
 
 # --- 工具函数 ----------------------------------------------------------------
 log_info() {
-  echo -e "${CLR_INFO}[OVOKIT]${CLR_RESET} $1"
+  echo -e "${CLR_INFO}[OVO]${CLR_RESET} $1"
 }
 
 log_web() {
@@ -110,7 +110,7 @@ trap cleanup SIGINT SIGTERM EXIT
 log_info "正在启动前端服务 (Next.js)..."
 (
   cd "$ROOT_DIR"
-  pnpm dev 2>&1 | while IFS= read -r line; do
+  PORT=$WEB_PORT pnpm dev 2>&1 | while IFS= read -r line; do
     log_web "$line"
   done
 ) &

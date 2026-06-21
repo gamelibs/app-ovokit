@@ -391,7 +391,7 @@ function GameAnalyzerModal({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
       <div className="relative max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-2xl sketch-border bg-paper p-5 shadow-xl">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">🤖 AI 分析游戏</h2>
+          <h2 className="text-lg font-semibold font-kalam">🤖 AI 分析游戏</h2>
           <button
             type="button"
             onClick={onClose}
@@ -477,7 +477,7 @@ function saveFullAnalysisToDraft(data: FullAnalysisData) {
     codeSnippets: data.codeSnippets,
     articleMdx: data.article,
   };
-  window.localStorage.setItem("ovokit:analyzer-draft", JSON.stringify(payload));
+  window.localStorage.setItem("ovofroge:analyzer-draft", JSON.stringify(payload));
 }
 
 function InputStep({
@@ -628,7 +628,7 @@ function InputStep({
         <input
           value={gameUrl}
           onChange={(e) => onGameUrlChange(e.target.value)}
-          placeholder="https://demo.example.com 或 http://localhost:3000"
+          placeholder="https://demo.example.com 或 http://localhost:13100"
           className="mt-2 h-10 w-full rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
         />
       </div>
@@ -815,7 +815,7 @@ function FullResultView({
         <div className="text-sm font-semibold">基础信息</div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-ink-muted">标题</span>
+            <span className="text-xs font-semibold text-ink-muted font-kalam">标题</span>
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -823,7 +823,7 @@ function FullResultView({
             />
           </label>
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-ink-muted">Slug</span>
+            <span className="text-xs font-semibold text-ink-muted font-kalam">Slug</span>
             <input
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
@@ -832,7 +832,7 @@ function FullResultView({
           </label>
         </div>
         <label className="grid gap-1">
-          <span className="text-xs font-semibold text-ink-muted">副标题</span>
+          <span className="text-xs font-semibold text-ink-muted font-kalam">副标题</span>
           <input
             value={subtitle}
             onChange={(e) => setSubtitle(e.target.value)}
@@ -841,7 +841,7 @@ function FullResultView({
         </label>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-ink-muted">难度</span>
+            <span className="text-xs font-semibold text-ink-muted font-kalam">难度</span>
             <select
               value={difficulty}
               onChange={(e) =>
@@ -855,7 +855,7 @@ function FullResultView({
             </select>
           </label>
           <label className="grid gap-1">
-            <span className="text-xs font-semibold text-ink-muted">
+            <span className="text-xs font-semibold text-ink-muted font-kalam">
               标签（逗号分隔）
             </span>
             <input
@@ -866,7 +866,7 @@ function FullResultView({
           </label>
         </div>
         <label className="grid gap-1">
-          <span className="text-xs font-semibold text-ink-muted">
+          <span className="text-xs font-semibold text-ink-muted font-kalam">
             技术栈（逗号分隔）
           </span>
           <input
@@ -876,7 +876,7 @@ function FullResultView({
           />
         </label>
         <label className="grid gap-1">
-          <span className="text-xs font-semibold text-ink-muted">
+          <span className="text-xs font-semibold text-ink-muted font-kalam">
             核心点（逗号分隔）
           </span>
           <input
@@ -1025,7 +1025,7 @@ function CoverResultView({ data }: { data: CoverResult }) {
 
       {data.description ? (
         <div className="rounded-xl sketch-border bg-paper-warm p-3">
-          <div className="text-xs font-semibold text-ink-muted">设计说明</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">设计说明</div>
           <p className="mt-1 text-sm">{data.description}</p>
         </div>
       ) : null}
@@ -1051,7 +1051,7 @@ function CoverResultView({ data }: { data: CoverResult }) {
       </div>
 
       <div className="rounded-xl sketch-border bg-paper-warm p-3">
-        <div className="text-xs font-semibold text-ink-muted mb-2">
+        <div className="text-xs font-semibold text-ink-muted mb-2 font-kalam">
           导出为位图格式
         </div>
         <div className="grid grid-cols-3 gap-2">
@@ -1100,21 +1100,21 @@ function FlowchartResultView({ data }: { data: FlowchartResult }) {
 
       {data.description ? (
         <div className="rounded-xl sketch-border bg-paper-warm p-3">
-          <div className="text-xs font-semibold text-ink-muted">流程说明</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">流程说明</div>
           <p className="mt-1 text-sm">{data.description}</p>
         </div>
       ) : null}
 
       {data.keyLogic ? (
         <div className="rounded-xl sketch-border bg-paper-warm p-3">
-          <div className="text-xs font-semibold text-ink-muted">核心逻辑</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">核心逻辑</div>
           <p className="mt-1 text-sm">{data.keyLogic}</p>
         </div>
       ) : null}
 
       {data.nodes.length > 0 ? (
         <div className="rounded-xl sketch-border bg-paper-warm p-3">
-          <div className="text-xs font-semibold text-ink-muted">流程节点</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">流程节点</div>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {data.nodes.map((n, i) => (
               <span
@@ -1202,14 +1202,14 @@ function SketchResultView({ data }: { data: SketchResult }) {
 
       {data.description ? (
         <div className="rounded-xl sketch-border bg-paper-warm p-3">
-          <div className="text-xs font-semibold text-ink-muted">设计说明</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">设计说明</div>
           <p className="mt-1 text-sm">{data.description}</p>
         </div>
       ) : null}
 
       {data.uiElements.length > 0 ? (
         <div className="rounded-xl sketch-border bg-paper-warm p-3">
-          <div className="text-xs font-semibold text-ink-muted">
+          <div className="text-xs font-semibold text-ink-muted font-kalam">
             识别到的 UI 元素
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5">
@@ -1246,7 +1246,7 @@ function SketchResultView({ data }: { data: SketchResult }) {
       </div>
 
       <div className="rounded-xl sketch-border bg-paper-warm p-3">
-        <div className="text-xs font-semibold text-ink-muted mb-2">
+        <div className="text-xs font-semibold text-ink-muted mb-2 font-kalam">
           导出为位图格式
         </div>
         <div className="grid grid-cols-3 gap-2">

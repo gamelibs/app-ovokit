@@ -50,7 +50,12 @@
     "note": "建议 Demo：同一切割效果，用“分片上限/多边形简化阈值”对比帧率与手感。"
   },
   "cover": {
-    "src": "/plays/_placeholders/cover.svg",
+    "src": "/plays/physics-cut-hit-test-and-performance/cover.svg",
+    "alt": "物理切割：切割判定方式与性能/精度平衡"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/physics-cut-hit-test-and-performance/cover-wide.svg",
     "alt": "物理切割：切割判定方式与性能/精度平衡"
   }
 }

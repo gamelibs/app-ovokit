@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CodeBlock } from "@/components/plays/CodeBlock";
+import { Term } from "./Term";
 
 type InlineNode = ReactNode;
 
@@ -8,7 +9,7 @@ function isExternalUrl(href: string) {
   return /^https?:\/\//i.test(href);
 }
 
-function parseInline(text: string): InlineNode[] {
+function parseInline(text: string, glossary?: Record<string, string>): InlineNode[] {
   const out: InlineNode[] = [];
   let i = 0;
 
@@ -23,12 +24,14 @@ function parseInline(text: string): InlineNode[] {
     const linkStart = rest.indexOf("[");
     const boldStart = rest.indexOf("**");
     const italicStart = rest.indexOf("*");
+    const highlightStart = rest.indexOf("==");
 
     const candidates = [
       codeStart >= 0 ? i + codeStart : Infinity,
       linkStart >= 0 ? i + linkStart : Infinity,
       boldStart >= 0 ? i + boldStart : Infinity,
       italicStart >= 0 ? i + italicStart : Infinity,
+      highlightStart >= 0 ? i + highlightStart : Infinity,
     ];
     const next = Math.min(...candidates);
 
@@ -61,7 +64,7 @@ function parseInline(text: string): InlineNode[] {
       }
     }
 
-    // Link: [text](href)
+    // Link: [text](href) — supports glossary:[term] for hover definitions
     if (text[i] === "[") {
       const closeBracket = text.indexOf("]", i + 1);
       const openParen = closeBracket >= 0 ? text[closeBracket + 1] : "";
@@ -71,8 +74,20 @@ function parseInline(text: string): InlineNode[] {
           const label = text.slice(i + 1, closeBracket);
           const href = text.slice(closeBracket + 2, closeParen).trim();
           if (href) {
-            out.push(
-              isExternalUrl(href) ? (
+            if (href.startsWith("glossary:")) {
+              const term = href.slice("glossary:".length).trim();
+              const definition = glossary?.[term];
+              if (definition) {
+                out.push(
+                  <Term key={`term-${i}`} term={term} definition={definition}>
+                    {label || term}
+                  </Term>,
+                );
+              } else {
+                out.push(<span key={`term-${i}`}>{label || term}</span>);
+              }
+            } else if (isExternalUrl(href)) {
+              out.push(
                 // eslint-disable-next-line @next/next/no-html-link-for-pages
                 <a
                   key={`a-${i}`}
@@ -82,21 +97,41 @@ function parseInline(text: string): InlineNode[] {
                   className="font-semibold text-ink hover:underline"
                 >
                   {label || href}
-                </a>
-              ) : (
+                </a>,
+              );
+            } else {
+              out.push(
                 <Link
                   key={`l-${i}`}
                   href={href}
                   className="font-semibold text-ink hover:underline"
                 >
                   {label || href}
-                </Link>
-              ),
-            );
+                </Link>,
+              );
+            }
             i = closeParen + 1;
             continue;
           }
         }
+      }
+    }
+
+    // Highlight: ==text==
+    if (text.slice(i, i + 2) === "==") {
+      const end = text.indexOf("==", i + 2);
+      if (end > i + 2) {
+        const inner = text.slice(i + 2, end);
+        out.push(
+          <mark
+            key={`mark-${i}`}
+            className="rounded-sm bg-highlight-yellow/50 px-1 font-semibold text-ink"
+          >
+            {inner}
+          </mark>,
+        );
+        i = end + 2;
+        continue;
       }
     }
 
@@ -106,7 +141,7 @@ function parseInline(text: string): InlineNode[] {
       if (end > i + 2) {
         const inner = text.slice(i + 2, end);
         out.push(
-          <strong key={`b-${i}`} className="font-semibold text-ink">
+          <strong key={`b-${i}`} className="font-bold text-ink">
             {inner}
           </strong>,
         );
@@ -248,25 +283,31 @@ function Heading({
   const Tag = (`h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6");
   const className =
     level === 1
-      ? "text-xl font-semibold tracking-tight"
+      ? "mt-6 text-2xl font-bold tracking-tight font-kalam"
       : level === 2
-        ? "text-lg font-semibold tracking-tight"
+        ? "mt-5 text-xl font-bold tracking-tight font-kalam"
         : level === 3
-          ? "text-base font-semibold tracking-tight"
-          : "text-sm font-semibold tracking-tight";
+          ? "mt-4 text-lg font-bold tracking-tight font-kalam"
+          : "mt-3 text-base font-bold tracking-tight font-kalam";
   return <Tag className={className}>{children}</Tag>;
 }
 
-export function ArticleMarkdown({ source }: { source: string }) {
+export function ArticleMarkdown({
+  source,
+  glossary,
+}: {
+  source: string;
+  glossary?: Record<string, string>;
+}) {
   const blocks = parseBlocks(source);
 
   return (
-    <div className="space-y-4 text-sm leading-7 text-ink">
+    <div className="space-y-3 text-sm leading-7 text-ink">
       {blocks.map((b, idx) => {
         if (b.type === "h") {
           return (
             <Heading key={`h-${idx}`} level={b.level}>
-              {parseInline(b.text)}
+              {parseInline(b.text, glossary)}
             </Heading>
           );
         }
@@ -283,7 +324,7 @@ export function ArticleMarkdown({ source }: { source: string }) {
           return (
             <ul key={`ul-${idx}`} className="list-disc space-y-1 pl-5">
               {b.items.map((it, i) => (
-                <li key={`uli-${idx}-${i}`}>{parseInline(it)}</li>
+                <li key={`uli-${idx}-${i}`}>{parseInline(it, glossary)}</li>
               ))}
             </ul>
           );
@@ -293,7 +334,7 @@ export function ArticleMarkdown({ source }: { source: string }) {
           return (
             <ol key={`ol-${idx}`} className="list-decimal space-y-1 pl-5">
               {b.items.map((it, i) => (
-                <li key={`oli-${idx}-${i}`}>{parseInline(it)}</li>
+                <li key={`oli-${idx}-${i}`}>{parseInline(it, glossary)}</li>
               ))}
             </ol>
           );
@@ -301,7 +342,7 @@ export function ArticleMarkdown({ source }: { source: string }) {
 
         return (
           <p key={`p-${idx}`} className="whitespace-pre-wrap">
-            {parseInline(b.lines.join(" "))}
+            {parseInline(b.lines.join(" "), glossary)}
           </p>
         );
       })}

@@ -20,9 +20,9 @@ export default async function ModCasesPage() {
   if (!ok) {
     return (
       <main className="mx-auto w-full max-w-4xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
-        <h1 className="text-xl font-semibold">案例演示</h1>
+        <h1 className="text-xl font-semibold font-kalam">案例演示</h1>
         <p className="mt-3 text-sm text-ink-light">
-          你还没有进入版主模式。请连续点击顶部「OVOKIT」8 次打开版主入口，再登录后访问。
+          你还没有权限访问此页面。请登录后再试。
         </p>
       </main>
     );
@@ -45,7 +45,7 @@ export default async function ModCasesPage() {
   return (
     <main className="mx-auto w-full max-w-5xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
       <div className="flex items-center justify-between gap-3">
-        <h1 className="min-w-0 truncate text-xl font-semibold">案例演示（交互积木）</h1>
+        <h1 className="min-w-0 truncate text-xl font-semibold font-kalam">案例演示（交互积木）</h1>
         <div className="flex shrink-0 items-center gap-2">
           <Link
             href="/mod"
@@ -179,7 +179,7 @@ export default async function ModCasesPage() {
       </div>
 
       <section className="mt-6 rounded-2xl border border-dashed border-ink-light/20 bg-paper-warm/70 p-4 text-sm text-ink-light">
-        <h3 className="text-sm font-semibold text-ink">挂载到帖子</h3>
+        <h3 className="text-sm font-semibold text-ink font-kalam">挂载到帖子</h3>
         <ol className="mt-2 list-decimal space-y-1 pl-5">
           <li>在右上角“创建案例”进入交互编辑器，搭好 Demo，复制页面链接或 iframe 地址。</li>
           <li>

@@ -10,7 +10,7 @@ export default function Match3DevDemoPage() {
       <div className="rounded-2xl sketch-border bg-paper p-5 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="min-w-0">
-            <h1 className="text-lg font-semibold">三消 Demo 开发页</h1>
+            <h1 className="text-lg font-semibold font-kalam">三消 Demo 开发页</h1>
             <p className="mt-1 text-sm text-ink-light">
               用于开发/调试 Match-3 的 state/action/events。展示实例建议用 iframe：`/embed/demos/match3`。
             </p>
