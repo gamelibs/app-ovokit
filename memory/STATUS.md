@@ -11,14 +11,18 @@
 
 ## 当前目标
 
-1. **修复上线阻塞项**：✅ 已完成（鉴权、block-editor bug、lint、统计持久化）。
-2. **补齐内容缺口**：✅ 已完成（图片、映射）。
+1. **修复上线阻塞项**：✅ 已完成。
+2. **补齐内容缺口**：✅ 已完成。
 3. **体验与性能优化**：✅ 已完成 API 限流与 CDN 字体移除；`<img>` 迁移保留为 P1。
 4. **工作流升级**：✅ 已完成自动任务推进脚本。
 5. **整理 Git 工作区**：✅ 已分批提交，形成可追溯上线版本。
 6. **部署准备**：✅ 已完成服务器部署清单、检查脚本、PM2 配置与 GitHub Actions 部署工作流。
-7. **资源清理**：✅ 已删除 `imgs/` 目录、`comfyui/` 目录、未使用的默认 public SVG、`.DS_Store`，并更新相关脚本、文档与 Agent 忽略目录约定。
-8. **运行时稳定性**：✅ 已修复多处 hydration mismatch（DemoEmbed、FullscreenStage、GameShell、TopNav、CookieConsent、GoogleAnalytics），新增 `pnpm test:smoke` 全站页面 smoke test，68 个页面全部通过。
+7. **资源清理**：✅ 已完成。
+8. **运行时稳定性**：✅ 已完成 hydration mismatch 修复与全站 smoke test。
+9. **文档整理**：✅ 已完成过时文档清理与关键文档刷新。
+
+**下一步**：执行生产服务器实际部署（按 `doc/server-deployment-checklist.md`）。
+9. **文档整理**：✅ 已归档过时文档、刷新 V1/V2/开发说明/手绘风格契约/版主工作流/AGENT_CONTEXT/AGENT_WORKFLOW，新增 `doc/README.md` 文档索引。
 
 ---
 
@@ -57,12 +61,20 @@
 - [x] 删除 `comfyui/` 工作流目录并更新 README / `AGENTS.md` / `doc/AGENT_CONTEXT.md`（2026-06-21）
 - [x] 修复 hydration mismatch：全屏按钮、Cookie 横幅、搜索框、GA 加载等客户端 API 改为 hydration 安全初始化（2026-06-21）
 - [x] 新增全站 smoke test `scripts/smoke-test.ts`，68 个页面全部通过（2026-06-21）
+- [x] 归档过时文档 `doc/站点风格说明.md` 到 `doc/archive/`（2026-06-21）
+- [x] 刷新 `OVOKIT_V1_生产级实施方案.md` 为上线总结（2026-06-21）
+- [x] 刷新 `OVOKIT_V2_战略白皮书_2026.md` 当前基线与四层内容模型（2026-06-21）
+- [x] 刷新 `开发说明.md` 内容模型与路由描述（2026-06-21）
+- [x] 刷新 `手绘风格契约.md` 待决策项为已决策项（2026-06-21）
+- [x] 刷新 `版主工作流.md` 鉴权描述为 HMAC 签名 Cookie（2026-06-21）
+- [x] 刷新 `AGENT_CONTEXT.md` 与 `AGENT_WORKFLOW.md` 当前阶段重点（2026-06-21）
+- [x] 新增 `doc/README.md` 文档索引（2026-06-21）
 
 ---
 
 ## 进行中（In Progress）
 
-无。基础一期（P0）已完成，等待部署上线。
+- 生产服务器实际部署（按 `doc/server-deployment-checklist.md` 执行）
 
 ---
 
@@ -89,6 +101,7 @@
 | 图片缺失 | ✅ 已补齐 | 104 张 SVG |
 | Git 工作区 | ✅ 已整理 | 8 个功能提交 |
 | `<img>` 未优化 | 🟡 P1 | 不影响功能，上线后继续 |
+| 生产服务器未实际部署 | 🟡 P0 | 清单/脚本/工作流已就绪，等待执行 |
 
 ---
 

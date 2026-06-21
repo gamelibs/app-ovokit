@@ -15,7 +15,8 @@ OVO 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动
 5. `doc/AGENT_WORKFLOW.md`：Agent 协作规范
 6. `README.md`：MVP 能力、核心路由、运行方式
 7. `doc/开发说明.md`：更细的目录分层约定、Route Group、Demo/Viewer 架构
-8. `package.json`：脚本入口（`pnpm dev` / `pnpm typecheck` / `pnpm algo:dev`）
+8. `doc/server-deployment-checklist.md`：生产服务器部署、安全加固、CI/CD
+9. `package.json`：脚本入口（`pnpm dev` / `pnpm typecheck` / `pnpm algo:dev` / `pnpm test:smoke`）
 
 除非问题明确需要，不建议从 `src/`、`server/` 开始“全量扫读”。
 
@@ -34,7 +35,7 @@ OVO 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动
 - UI 组件：`src/components/*`
 - 页面模型/业务聚合：`src/features/*`
 - 内容读取与类型：`src/lib/content/*`、`src/lib/archetypes/*`
-- 内容数据（按需读取）：`content/plays/<slug>/*`、`content/archetypes/<key>/*`
+- 内容数据（按需读取）：`content/plays/<slug>/*`、`content/archetypes/<key>/*`、`content/patterns/<key>/*`、`content/features/<key>/*`
 - 算法/Demo 后端：`server/*`
 - 静态资源（按需读取）：`public/*`
 
@@ -57,9 +58,12 @@ OVO 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动
 - Agent 工作流规范：`doc/AGENT_WORKFLOW.md`
 - 项目状态/目标/任务：`memory/`（STATUS.md / GOALS.md / BACKLOG.md / DECISIONS.md）
 - 开发/架构细节：`doc/开发说明.md`
+- 文档索引：`doc/README.md`
 - 面向使用者：`README.md`
+- 生产部署：`doc/server-deployment-checklist.md`
 - 邮件功能配置：`doc/邮件功能说明.md`
 - 文章发布规范：`doc/文章发布规范.md`
+- 版主工作流：`doc/版主工作流.md`
 - 图片压缩脚本：`doc/图片压缩脚本说明.md`
 - 玩法封面批量生成：`doc/玩法封面生成脚本说明.md`
 - Kimi SVG 生成实现：`doc/Kimi_SVG_接入实现说明.md`
@@ -70,6 +74,7 @@ OVO 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动
 - 类型检查：`pnpm typecheck`
 - Lint：`pnpm lint`
 - 算法/Demo 后端：`pnpm algo:dev`
+- 全站 smoke test：`pnpm test:smoke`
 
 ## 需要你提供的信息（当任务不明确时再问）
 

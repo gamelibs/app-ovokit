@@ -12,6 +12,11 @@
 
 ### 阻塞项（P0 必须）
 
+- [ ] **生产服务器实际部署** <!-- task:id=deploy-001 priority:P0 category:engineering -->
+  - 文件：`doc/server-deployment-checklist.md`、`scripts/deploy-check.sh`、`.github/workflows/deploy.yml`
+  - 目标：在目标 VPS 上完成 Nginx/SSL/Node/PM2 配置，并通过 GitHub Actions 完成首次自动部署
+  - 验收：`curl https://your-domain.com` 返回 200，前后端服务正常运行
+
 ### 内容补齐
 
 - [x] **补齐 12 个母型说明图** <!-- task:id=images-001 priority:P0 category:content -->
@@ -45,6 +50,8 @@
 - [ ] **AI 分析工具识别并输出 `pattern` 字段** <!-- task:id=future-002 priority:P2 category:future -->
 - [ ] **优化联系表单通知（邮件/webhook）** <!-- task:id=future-003 priority:P2 category:future -->
 - [ ] **完善搜索高亮与空状态** <!-- task:id=future-004 priority:P2 category:future -->
+- [ ] **文档持续维护** <!-- task:id=doc-001 priority:P2 category:future -->
+  - 目标：每次重大功能变更后同步更新 `doc/` 与 `memory/`
 
 ---
 
@@ -83,6 +90,7 @@
 - [x] 删除 `comfyui/` 工作流目录并更新 README / `AGENTS.md` / `doc/AGENT_CONTEXT.md`（2026-06-21）
 - [x] 修复 hydration mismatch：全屏按钮、Cookie 横幅、搜索框、GA 加载等客户端 API 改为 hydration 安全初始化（2026-06-21）
 - [x] 新增全站 smoke test `scripts/smoke-test.ts`，68 个页面全部通过（2026-06-21）
+- [x] 整理 `doc/` 目录：归档过时文档、刷新 V1/V2/开发说明/手绘风格契约/版主工作流/AGENT 文档、新增 `doc/README.md`（2026-06-21）
 
 ---
 
