@@ -31,7 +31,11 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env
+.env.local
+.env.*.local
+# .env.example 保留为模板，允许提交
+!.env.example
 
 # vercel
 .vercel

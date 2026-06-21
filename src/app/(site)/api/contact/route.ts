@@ -3,6 +3,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { google } from "googleapis";
 import { siteConfig } from "@/lib/site/config";
+import { rateLimitByIp, RATE_LIMITS } from "@/lib/rate-limit";
 
 const CONTACT_DIR = path.join(process.cwd(), "content", "contact-messages");
 const MAX_SUBJECT = 100;
@@ -129,6 +130,19 @@ async function sendContactEmail(body: {
 }
 
 export async function POST(req: Request) {
+  const { allowed, resetAt } = rateLimitByIp(req, RATE_LIMITS.contact);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "请求过于频繁，请稍后再试" },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((resetAt - Date.now()) / 1000)),
+        },
+      },
+    );
+  }
+
   const body = (await req.json().catch(() => ({}))) as {
     name?: string;
     email?: string;
