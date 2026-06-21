@@ -1,6 +1,7 @@
 "use client";
 
 import { FullscreenStage } from "@/components/demos/FullscreenStage";
+import { useCanFullscreen } from "@/lib/hooks/useCanFullscreen";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type Props = {
@@ -31,7 +32,7 @@ export function DemoEmbed({
   const stageRef = useRef<HTMLDivElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const canFullscreen = typeof document !== "undefined" && Boolean(document.fullscreenEnabled);
+  const canFullscreen = useCanFullscreen();
   const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {

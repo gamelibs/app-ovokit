@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SketchBorder } from "@/components/sketch/SketchBorder";
 import { SketchButton } from "@/components/sketch/SketchButton";
 import { getCookieConsent, setCookieConsent } from "@/lib/cookies/consent";
+import { useClientValue } from "@/lib/hooks/useClientValue";
 
 /**
  * Cookie 同意横幅。
@@ -14,21 +15,21 @@ import { getCookieConsent, setCookieConsent } from "@/lib/cookies/consent";
  * - 同意分析 Cookie 后，Google Analytics 才会加载。
  */
 export function CookieConsent() {
-  const [visible, setVisible] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return !getCookieConsent();
-  });
+  const [dismissed, setDismissed] = useState(false);
+  const needsConsent = useClientValue(() => !getCookieConsent(), false);
+
+  const visible = !dismissed && needsConsent;
 
   const handleAccept = () => {
     setCookieConsent({ analytics: true });
-    setVisible(false);
+    setDismissed(true);
     // 如果 GA 已经因为拒绝而未加载，刷新页面让 GA 重新评估。
     window.location.reload();
   };
 
   const handleNecessaryOnly = () => {
     setCookieConsent({ analytics: false });
-    setVisible(false);
+    setDismissed(true);
   };
 
   if (!visible) return null;

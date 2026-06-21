@@ -1,5 +1,6 @@
 "use client";
 
+import { useCanFullscreen } from "@/lib/hooks/useCanFullscreen";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export type GamePhase = "idle" | "playing" | "won" | "lost";
@@ -44,9 +45,8 @@ export function GameShell({
 }: Props) {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const canFullscreen = Boolean(
-    fullscreen && typeof document !== "undefined" && document.fullscreenEnabled,
-  );
+  const canFullscreen = useCanFullscreen();
+  const showFullscreenButton = fullscreen && canFullscreen;
 
   useEffect(() => {
     const onChange = () => {
@@ -125,7 +125,7 @@ export function GameShell({
         {subtitle ? <div className="mt-0.5 text-xs text-ink-muted">{subtitle}</div> : null}
       </div>
       <div className="flex items-center gap-2">
-        {canFullscreen ? (
+        {showFullscreenButton ? (
           !isFullscreen ? (
             <button
               type="button"

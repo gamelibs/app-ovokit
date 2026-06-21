@@ -23,7 +23,8 @@
     "generate:entity-assets": "tsx scripts/generate-entity-assets.ts",
     "agent:next": "tsx scripts/agent-task-runner.ts",
     "agent:dry": "tsx scripts/agent-task-runner.ts --dry-run",
-    "agent:run": "tsx scripts/agent-task-runner.ts --mode=auto --execute"
+    "agent:run": "tsx scripts/agent-task-runner.ts --mode=auto --execute",
+    "test:smoke": "tsx scripts/smoke-test.ts"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",
@@ -49,6 +50,7 @@
     "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "puppeteer-core": "^25.1.0",
     "sharp": "^0.35.2",
     "tailwindcss": "^4",
     "typescript": "^5"

@@ -7,6 +7,7 @@ import { OvoLogo } from "./OvoLogo";
 import { DesktopNav } from "./DesktopNav";
 import { MenuDrawer } from "./MenuDrawer";
 import { useLocalStorageBoolean, useSetLocalStorage } from "@/lib/hooks/useLocalStorage";
+import { useClientValue } from "@/lib/hooks/useClientValue";
 
 export function TopNav({ isModerator }: { isModerator: boolean }) {
   const [open, setOpen] = useState(false);
@@ -15,11 +16,11 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
   const setModTools = useSetLocalStorage("ovo_mod_tools");
   const tapCountRef = useRef(0);
   const lastTapAtRef = useRef<number | null>(null);
-  const [q, setQ] = useState(() => {
-    if (typeof window === "undefined") return "";
-    const sp = new URLSearchParams(window.location.search);
-    return sp.get("q") ?? "";
-  });
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const initialQuery = useClientValue(
+    () => new URLSearchParams(window.location.search).get("q") ?? "",
+    "",
+  );
 
   useEffect(() => {
     try {
@@ -36,7 +37,8 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
   }, []);
 
   function goSearch() {
-    const trimmed = q.trim();
+    const value = searchInputRef.current?.value ?? "";
+    const trimmed = value.trim();
     const target =
       trimmed.length > 0 ? `/?q=${encodeURIComponent(trimmed)}` : "/";
     router.push(target);
@@ -86,9 +88,9 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
 
             <div className="relative min-w-0 flex-1 max-w-xl lg:max-w-md xl:max-w-xl">
               <input
+                ref={searchInputRef}
                 placeholder="搜索玩法"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
+                defaultValue={initialQuery}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") goSearch();
                 }}

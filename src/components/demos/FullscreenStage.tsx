@@ -1,5 +1,6 @@
 "use client";
 
+import { useCanFullscreen } from "@/lib/hooks/useCanFullscreen";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 
 type Props = {
@@ -20,7 +21,7 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
   const localRef = useRef<HTMLDivElement | null>(null);
   const containerRef = localRef;
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const canFullscreen = typeof document !== "undefined" && Boolean(document.fullscreenEnabled);
+  const canFullscreen = useCanFullscreen();
 
   useEffect(() => {
     const onChange = () => {

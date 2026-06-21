@@ -7,7 +7,7 @@
 
 ## 当前阶段
 
-**基础一期（P0）上线交付完成**。所有 P0 阻塞项已修复，Git 工作区已清理，站点通过最终验证；已完成服务器部署清单、检查脚本、GitHub Actions 工作流，并清理了 `imgs/` 等无用资源，具备公开上线条件。
+**基础一期（P0）上线交付完成**。所有 P0 阻塞项已修复，Git 工作区已清理，站点通过最终验证；已完成服务器部署清单、检查脚本、GitHub Actions 工作流，清理了无用资源，并修复了 hydration mismatch 问题，新增全站 smoke test，具备公开上线条件。
 
 ## 当前目标
 
@@ -18,6 +18,7 @@
 5. **整理 Git 工作区**：✅ 已分批提交，形成可追溯上线版本。
 6. **部署准备**：✅ 已完成服务器部署清单、检查脚本、PM2 配置与 GitHub Actions 部署工作流。
 7. **资源清理**：✅ 已删除 `imgs/` 目录、`comfyui/` 目录、未使用的默认 public SVG、`.DS_Store`，并更新相关脚本、文档与 Agent 忽略目录约定。
+8. **运行时稳定性**：✅ 已修复多处 hydration mismatch（DemoEmbed、FullscreenStage、GameShell、TopNav、CookieConsent、GoogleAnalytics），新增 `pnpm test:smoke` 全站页面 smoke test，68 个页面全部通过。
 
 ---
 
@@ -54,6 +55,8 @@
 - [x] 删除无用资源 `imgs/`、默认 public SVG、`.DS_Store`（2026-06-21）
 - [x] 更新 `compress-images` / `generate-play-covers` 脚本与文档，移除 `imgs/` 引用（2026-06-21）
 - [x] 删除 `comfyui/` 工作流目录并更新 README / `AGENTS.md` / `doc/AGENT_CONTEXT.md`（2026-06-21）
+- [x] 修复 hydration mismatch：全屏按钮、Cookie 横幅、搜索框、GA 加载等客户端 API 改为 hydration 安全初始化（2026-06-21）
+- [x] 新增全站 smoke test `scripts/smoke-test.ts`，68 个页面全部通过（2026-06-21）
 
 ---
 

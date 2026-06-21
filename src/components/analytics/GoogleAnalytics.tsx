@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Script from "next/script";
 import { hasAnalyticsConsent } from "@/lib/cookies/consent";
+import { useClientValue } from "@/lib/hooks/useClientValue";
 
 /**
  * Google Analytics 4 (gtag) 集成组件。
@@ -12,10 +12,10 @@ import { hasAnalyticsConsent } from "@/lib/cookies/consent";
  * - 建议生产环境在 .env 中配置 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX。
  */
 export function GoogleAnalytics({ gaId }: { gaId?: string }) {
-  const [canLoad] = useState(() => {
-    if (!gaId || typeof window === "undefined") return false;
-    return hasAnalyticsConsent();
-  });
+  const canLoad = useClientValue(
+    () => Boolean(gaId) && hasAnalyticsConsent(),
+    false,
+  );
 
   if (!gaId || !canLoad) return null;
 
