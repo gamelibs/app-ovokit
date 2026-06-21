@@ -29,10 +29,10 @@ const FavoritesContext = createContext<FavoritesContextValue | null>(null);
 
 function subscribe(callback: () => void) {
   if (typeof window === "undefined") return () => {};
-  window.addEventListener("ovofroge:favorites:change", callback);
+  window.addEventListener("ovoforge:favorites:change", callback);
   window.addEventListener("storage", callback);
   return () => {
-    window.removeEventListener("ovofroge:favorites:change", callback);
+    window.removeEventListener("ovoforge:favorites:change", callback);
     window.removeEventListener("storage", callback);
   };
 }

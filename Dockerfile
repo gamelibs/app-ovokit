@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-# OVOFROGE 生产容器镜像
+# OVOFORGE 生产容器镜像
 # 包含 Next.js 前端构建产物与 Fastify 算法 Demo 后端运行时
 
 FROM node:20-slim AS base

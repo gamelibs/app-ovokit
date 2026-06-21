@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "ovofroge-web",
+      name: "ovoforge-web",
       script: "pnpm",
       args: "start",
       interpreter: "bash",

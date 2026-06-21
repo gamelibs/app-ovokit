@@ -167,8 +167,8 @@ MOD_PASSWORD=your-password
 - 启动（pm2）：
   ```bash
   pnpm algo:pm2
-  pm2 logs ovofroge-algo-api   # 查看日志
-  pm2 stop ovofroge-algo-api   # 停止
+  pm2 logs ovoforge-algo-api   # 查看日志
+  pm2 stop ovoforge-algo-api   # 停止
   ```
 - 进程配置：`ecosystem.algo.config.js` 使用 `pnpm algo:dev` 启动 `server/index.ts`。需要长期运行可用 `pm2 save && pm2 startup` 写入系统服务。
 - 反向代理（示例 Nginx）：

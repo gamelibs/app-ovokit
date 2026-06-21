@@ -3,7 +3,7 @@ import path from "node:path";
 import { redis } from "@/lib/redis";
 
 const VIEWS_FILE = path.join(process.cwd(), "data", "plays-views.json");
-const REDIS_STATS_PREFIX = "ovofroge:stats";
+const REDIS_STATS_PREFIX = "ovoforge:stats";
 
 type ViewsMap = Record<string, { views: number; likes: number }>;
 

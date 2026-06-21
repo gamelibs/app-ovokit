@@ -67,10 +67,10 @@ export function PlayDetailStats({
 }) {
   const [views, setViews] = useState(initialViews);
   const [likes, setLikes] = useState(initialLikes);
-  const liked = useLocalStorageBoolean(`ovofroge:liked:${slug}`);
-  const setLikedStorage = useSetLocalStorage(`ovofroge:liked:${slug}`);
-  const lastViewedRaw = useLocalStorage(`ovofroge:viewed:${slug}`);
-  const setLastViewed = useSetLocalStorage(`ovofroge:viewed:${slug}`);
+  const liked = useLocalStorageBoolean(`ovoforge:liked:${slug}`);
+  const setLikedStorage = useSetLocalStorage(`ovoforge:liked:${slug}`);
+  const lastViewedRaw = useLocalStorage(`ovoforge:viewed:${slug}`);
+  const setLastViewed = useSetLocalStorage(`ovoforge:viewed:${slug}`);
 
   useEffect(() => {
     // Track view on page load (with localStorage debounce)

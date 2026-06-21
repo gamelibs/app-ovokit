@@ -1,6 +1,6 @@
-# OVOFROGE 服务器部署清单
+# OVOFORGE 服务器部署清单
 
-> 目标：将 OVOFROGE（Next.js 16 + Fastify Demo 后端）部署到生产服务器（CentOS / RHEL / Rocky Linux）。
+> 目标：将 OVOFORGE（Next.js 16 + Fastify Demo 后端）部署到生产服务器（CentOS / RHEL / Rocky Linux）。
 > 配套脚本：`scripts/deploy-check.sh`（拉取代码后运行，检查环境、配置、安全）。
 > 配套 CI/CD：`.github/workflows/deploy.yml`（push 到 `main` 后自动部署）。
 
@@ -52,9 +52,9 @@
 
 ```bash
 # 不要在 root 下运行 Node 应用
-sudo useradd -m -s /bin/bash ovofroge
-sudo usermod -aG wheel ovofroge
-sudo su - ovofroge
+sudo useradd -m -s /bin/bash ovoforge
+sudo usermod -aG wheel ovoforge
+sudo su - ovoforge
 ```
 
 ### 3.2 安装 Node.js 与 pnpm
@@ -115,7 +115,7 @@ sudo firewall-cmd --reload
 ### 4.1 服务器目录结构
 
 ```
-/var/www/ovofroge/
+/var/www/ovoforge/
 ├── .env.local          # 生产环境变量（600 权限）
 ├── .git/
 ├── .next/              # 构建产物
@@ -134,10 +134,10 @@ sudo firewall-cmd --reload
 ### 4.2 首次拉取代码
 
 ```bash
-sudo mkdir -p /var/www/ovofroge
-sudo chown -R ovofroge:ovofroge /var/www/ovofroge
-sudo su - ovofroge
-cd /var/www/ovofroge
+sudo mkdir -p /var/www/ovoforge
+sudo chown -R ovoforge:ovoforge /var/www/ovoforge
+sudo su - ovoforge
+cd /var/www/ovoforge
 git clone git@github.com:<你的仓库>.git .
 ```
 
@@ -195,12 +195,12 @@ pnpm algo:pm2
 
 # 保存 PM2 进程列表，开机自启
 pm2 save
-sudo env PATH=$PATH:$(dirname $(which node)) pm2 startup systemd -u ovofroge --hp /home/ovofroge
+sudo env PATH=$PATH:$(dirname $(which node)) pm2 startup systemd -u ovoforge --hp /home/ovoforge
 ```
 
 ### 4.7 Nginx 反向代理配置
 
-创建 `/etc/nginx/conf.d/ovofroge.conf`：
+创建 `/etc/nginx/conf.d/ovoforge.conf`：
 
 ```nginx
 server {
@@ -255,8 +255,8 @@ sudo certbot --nginx -d ovoforge.com -d www.ovoforge.com
 
 | 项目 | 操作 |
 |---|---|
-| 禁止 root 运行应用 | 使用 `ovofroge` 用户运行 PM2 进程 |
-| 环境变量文件权限 | `chmod 600 /var/www/ovofroge/.env.local` |
+| 禁止 root 运行应用 | 使用 `ovoforge` 用户运行 PM2 进程 |
+| 环境变量文件权限 | `chmod 600 /var/www/ovoforge/.env.local` |
 | 禁止外部访问 13100/14100 | 仅通过 Nginx 80/443 暴露；防火墙不开放应用端口 |
 | 禁止访问 `.git` | Nginx 配置 `location ~ /\.git { deny all; }` |
 | 版主密码强度 | 使用 `openssl rand -hex 32` 生成，不要复用开发密码 |
@@ -272,9 +272,9 @@ sudo certbot --nginx -d ovoforge.com -d www.ovoforge.com
 
 1. 在 GitHub 仓库 Settings → Secrets and variables → Actions 中添加：
    - `DEPLOY_HOST`：服务器 IP 或域名
-   - `DEPLOY_USER`：`ovofroge`
+   - `DEPLOY_USER`：`ovoforge`
    - `DEPLOY_SSH_KEY`：服务器私钥（建议单独生成 deploy key）
-   - `DEPLOY_PATH`：`/var/www/ovofroge`
+   - `DEPLOY_PATH`：`/var/www/ovoforge`
 2. 确保服务器已配置好 `.env.local` 和 Nginx。
 3. 每次 push 到 `main`，GitHub Actions 会：
    - SSH 到服务器
@@ -310,8 +310,8 @@ curl http://127.0.0.1:14100/health
 ## 八、回滚方案
 
 ```bash
-sudo su - ovofroge
-cd /var/www/ovofroge
+sudo su - ovoforge
+cd /var/www/ovoforge
 
 # 回滚到上一个稳定 commit
 git log --oneline -5
@@ -328,8 +328,8 @@ pm2 reload ecosystem.algo.config.js
 
 | 操作 | 命令 |
 |---|---|
-| 查看日志 | `pm2 logs ovofroge-web` / `pm2 logs ovofroge-algo-api` |
-| 重启服务 | `pm2 reload ovofroge-web` / `pm2 reload ovofroge-algo-api` |
+| 查看日志 | `pm2 logs ovoforge-web` / `pm2 logs ovoforge-algo-api` |
+| 重启服务 | `pm2 reload ovoforge-web` / `pm2 reload ovoforge-algo-api` |
 | 监控 | `pm2 monit` |
 | 检查 SSL 到期 | `sudo certbot renew --dry-run` |
 | 更新依赖 | 先在本地测试，再 push 到 `main` 触发自动部署 |

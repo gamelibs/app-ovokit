@@ -37,20 +37,15 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            echo "▶ 安装依赖..."
-            pnpm install --frozen-lockfile
+            echo "▶ 加载环境变量并重新构建容器..."
+            set -a
+            source .env.local
+            set +a
+            docker compose down
+            docker compose build --no-cache
+            docker compose up -d
 
-            echo "▶ 部署环境检查..."
-            bash scripts/deploy-check.sh
-
-            echo "▶ 构建前端..."
-            NODE_OPTIONS=--max-old-space-size=4096 pnpm build
-
-            echo "▶ 重启服务..."
-            pm2 startOrRestart ecosystem.web.config.js --update-env
-            pm2 startOrRestart ecosystem.algo.config.js --update-env
-
-            echo "▶ 保存 PM2 进程列表..."
-            pm2 save
+            echo "▶ 清理旧镜像..."
+            docker image prune -f
 
             echo "✅ 部署完成"

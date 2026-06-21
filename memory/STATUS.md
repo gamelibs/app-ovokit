@@ -1,4 +1,4 @@
-# OVOFROGE 项目状态
+# OVOFORGE 项目状态
 
 > 最后更新：2026-06-21
 > 更新者：Kimi Code CLI
@@ -43,7 +43,7 @@
 - [x] 联系表单（本地落盘 + 可选 Gmail 发送）
 - [x] `pnpm typecheck` 通过 / `pnpm build` 通过
 - [x] `pnpm lint` 0 errors / 33 warnings
-- [x] 全站品牌名从 `OVOKIT` 改为 `OVOFROGE`
+- [x] 全站品牌名从 `OVOKIT` 改为 `OVOFORGE`
 - [x] 上线前综合评估完成
 - [x] 自动优化推进任务模式工作流（`scripts/agent-task-runner.ts`）
 - [x] 母型↔核心原型映射与详情页展示

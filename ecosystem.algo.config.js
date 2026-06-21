@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "ovofroge-algo-api",
+      name: "ovoforge-algo-api",
       script: "pnpm",
       args: "algo:start",
       interpreter: "bash",

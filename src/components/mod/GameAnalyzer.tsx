@@ -477,7 +477,7 @@ function saveFullAnalysisToDraft(data: FullAnalysisData) {
     codeSnippets: data.codeSnippets,
     articleMdx: data.article,
   };
-  window.localStorage.setItem("ovofroge:analyzer-draft", JSON.stringify(payload));
+  window.localStorage.setItem("ovoforge:analyzer-draft", JSON.stringify(payload));
 }
 
 function InputStep({

@@ -1,11 +1,11 @@
 import { cookies } from "next/headers";
 import { createHmac, timingSafeEqual } from "node:crypto";
 
-export const MOD_COOKIE = "ovofroge_mod";
+export const MOD_COOKIE = "ovoforge_mod";
 
 function deriveSigningSecret(password: string): string {
   // 从 MOD_PASSWORD 派生一个固定长度的签名密钥
-  return createHmac("sha256", password).update("ovofroge-mod-signer").digest("hex");
+  return createHmac("sha256", password).update("ovoforge-mod-signer").digest("hex");
 }
 
 function computeCookieValue(password: string): string {

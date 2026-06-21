@@ -24,11 +24,11 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
 
   useEffect(() => {
     try {
-      // 兼容旧 key：若存在 ovofroge_mod_tools 则迁移到 ovo_mod_tools
-      const legacy = localStorage.getItem("ovofroge_mod_tools");
+      // 兼容旧 key：若存在 ovoforge_mod_tools 则迁移到 ovo_mod_tools
+      const legacy = localStorage.getItem("ovoforge_mod_tools");
       if (legacy === "1") {
         localStorage.setItem("ovo_mod_tools", "1");
-        localStorage.removeItem("ovofroge_mod_tools");
+        localStorage.removeItem("ovoforge_mod_tools");
         window.dispatchEvent(new StorageEvent("storage", { key: "ovo_mod_tools" }));
       }
     } catch {

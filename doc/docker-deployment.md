@@ -1,4 +1,4 @@
-# OVOFROGE Docker 生产部署指南
+# OVOFORGE Docker 生产部署指南
 
 适用于服务器系统较旧、想用容器隔离环境的场景。镜像基于官方 `node:20-slim`，前后端共用一份镜像，通过 `docker-compose.yml` 分别启动 `web` 与 `algo` 容器。
 
@@ -7,9 +7,9 @@
 ## 架构
 
 ```
-用户 → Nginx (80/443) → 127.0.0.1:13100 → ovofroge-web 容器
+用户 → Nginx (80/443) → 127.0.0.1:13100 → ovoforge-web 容器
                                     ↓
-                           127.0.0.1:14100 → ovofroge-algo 容器（本地-only）
+                           127.0.0.1:14100 → ovoforge-algo 容器（本地-only）
 ```
 
 - 应用端口 **13100/14100 只绑定到宿主机回环**，不直接暴露到公网。
@@ -49,8 +49,8 @@ sudo systemctl enable --now docker
 ### 2. 克隆代码
 
 ```bash
-sudo mkdir -p /var/www/ovofroge
-sudo chown -R $USER:$USER /var/www/ovofroge
+sudo mkdir -p /var/www/ovoforge
+sudo chown -R $USER:$USER /var/www/ovoforge
 cd /www/ovoforge
 git clone git@github.com:<你的仓库>.git .
 ```
@@ -187,9 +187,9 @@ docker image prune -f
 | 操作 | 命令 |
 |------|------|
 | 查看日志 | `docker compose logs -f` |
-| 只看 web 日志 | `docker compose logs -f ovofroge-web` |
-| 重启 web | `docker compose restart ovofroge-web` |
-| 进入 web 容器 | `docker compose exec ovofroge-web bash` |
+| 只看 web 日志 | `docker compose logs -f ovoforge-web` |
+| 重启 web | `docker compose restart ovoforge-web` |
+| 进入 web 容器 | `docker compose exec ovoforge-web bash` |
 | 停止所有服务 | `docker compose down` |
 | 查看容器资源占用 | `docker stats` |
 
@@ -234,12 +234,12 @@ NODE_OPTIONS=--max-old-space-size=4096 docker compose up --build -d
 A：可以只跑前端：
 
 ```bash
-docker build -t ovofroge:latest .
-docker run -d --name ovofroge-web \
+docker build -t ovoforge:latest .
+docker run -d --name ovoforge-web \
   --env-file .env.local \
   -p 127.0.0.1:13100:13100 \
-  ovofroge:latest
+  ovoforge:latest
 ```
 
 **Q：算法后端没有用到，可以不启动吗？**  
-A：可以。站点内的 Demo 目前由 Next.js `/api/demos/*` 路由直接处理，`ovofroge-algo` 主要保留给未来扩展和本地健康检查。不需要时可以注释掉 `docker-compose.yml` 中的 `ovofroge-algo` 服务。
+A：可以。站点内的 Demo 目前由 Next.js `/api/demos/*` 路由直接处理，`ovoforge-algo` 主要保留给未来扩展和本地健康检查。不需要时可以注释掉 `docker-compose.yml` 中的 `ovoforge-algo` 服务。

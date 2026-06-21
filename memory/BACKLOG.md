@@ -1,4 +1,4 @@
-# OVOFROGE 任务看板
+# OVOFORGE 任务看板
 
 > 本文件记录当前阶段任务状态。每次会话开始前/结束后更新。
 > 当前阶段目标见 `memory/GOALS.md`。
@@ -14,7 +14,7 @@
 
 - [ ] **生产服务器 Docker 部署** <!-- task:id=deploy-001 priority:P0 category:engineering -->
   - 文件：`doc/docker-deployment.md`、`Dockerfile`、`docker-compose.yml`
-  - 目标：在目标服务器上通过 Docker Compose 拉起 `ovofroge-web` 与 `ovofroge-algo` 容器，宿主 Nginx 反向代理到 127.0.0.1:13100
+  - 目标：在目标服务器上通过 Docker Compose 拉起 `ovoforge-web` 与 `ovoforge-algo` 容器，宿主 Nginx 反向代理到 127.0.0.1:13100
   - 验收：`curl https://ovoforge.com/` 返回 200，`curl http://127.0.0.1:14100/health` 返回 OK
 
 ### 内容补齐

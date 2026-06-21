@@ -15,7 +15,7 @@ export function BottomNav({ isModerator }: { isModerator: boolean }) {
     <nav
       className="fixed inset-x-0 bottom-0 z-40 min-w-[360px] border-t-2 border-ink sketch-border-thin bg-paper/90 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
       style={{
-        transform: "translateX(calc(var(--ovofroge-scroll-x, 0px) * -1))",
+        transform: "translateX(calc(var(--ovoforge-scroll-x, 0px) * -1))",
         willChange: "transform",
       }}
     >
