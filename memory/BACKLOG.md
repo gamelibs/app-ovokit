@@ -2,66 +2,59 @@
 
 > 本文件记录当前阶段任务状态。每次会话开始前/结束后更新。
 > 当前阶段目标见 `memory/GOALS.md`。
+> 机器可读元数据：任务标题后的 `<!-- task:id=... priority:P0|P1|P2 category:... -->` 供 `scripts/agent-task-runner.ts` 解析。
 
 ---
 
 ## In Progress
 
-- [ ] **母型与核心原型的映射 + 母型详情页展示**
-  - 目标：在母型详情页展示每个母型所属的核心原型
-  - 文件：`src/lib/archetypes/archetypes.ts`、`src/features/archetypes/pageModel.ts`、`src/components/archetypes/ArchetypePage.tsx`
-  - 负责人：Kimi Code CLI
-  - 开始时间：待定
-
-- [ ] **母型图片资源填充**
-  - 说明：管理后台 `/mod/archetypes/[key]/edit` 已支持上传/删除，等待用户上传素材
-  - 状态：阻塞（等待用户素材）
-
-- [ ] **核心玩法图片资源填充**
-  - 说明：管理后台 `/mod/patterns/[key]/edit` 已支持上传/删除，等待用户上传素材
-  - 状态：阻塞（等待用户素材）
+- [ ] **整理 Git 工作区** <!-- task:id=git-001 priority:P0 category:blocker -->
+  - 目标：提交所有未跟踪/修改文件，形成可追溯版本；更新 `.gitignore` 若需要
+  - 验收：`git status --short` 无未跟踪的业务代码文件
 
 ---
 
 ## Todo
 
-### 核心原型架构
+### 阻塞项（P0 必须）
 
-- [x] 新增 5 种核心玩法原型数据层与筛选（2026-06-14 完成）
-- [x] 5 种核心原型最小 Demo + 嵌入页面 + 详情页回退（2026-06-14 完成）
-- [x] 5 种核心玩法原型内容文件化（`content/patterns/<key>/meta.json` + `src/lib/patterns/spec.ts`）（2026-06-20 完成）
-- [x] 版主母型管理后台：`/mod/archetypes` 列表、`/mod/archetypes/[key]/edit` 编辑、保存 API（2026-06-20 完成）
-- [x] 母型图片上传 API：`/api/mod/archetypes/[key]/images`（2026-06-20 完成）
-- [x] 扩展核心玩法 schema 并生成 5 种详细内容（2026-06-20 完成）
-- [x] 版主核心玩法管理后台：`/mod/patterns` 列表、`/mod/patterns/[key]/edit` 编辑、保存 API（2026-06-20 完成）
-- [x] 核心玩法图片上传 API：`/api/mod/patterns/[key]/images`（2026-06-20 完成）
-- [x] 核心玩法预览页 `/patterns` + `/patterns/[key]`（2026-06-20 完成）
-- [x] 首页「核心玩法原型」快捷入口与顶部分组链接（2026-06-20 完成）
-- [x] 玩法特征内容文件化：`content/features/<key>/meta.json`（2026-06-20 完成）
-- [x] 玩法特征管理后台 `/mod/features` + 编辑保存 API（2026-06-20 完成）
-- [x] 玩法特征图片上传 API `/api/mod/features/[key]/images`（2026-06-20 完成）
-- [x] 玩法特征预览页 `/features` + 首页入口（2026-06-20 完成）
-- [x] 首页 Hero 价值主张优化（2026-06-20 完成）
-- [x] 核心玩法流程图 SVG 与页面展示（2026-06-20 完成）
-- [x] 图片上传自动压缩到常用显示尺寸（2026-06-20 完成）
-- [x] 全站品牌名从 OVOKIT 改为 OVOFROGE（2026-06-20 完成）
-- [x] ServerDemoPlayer 自适应布局、自动 tick、手绘风格统一（2026-06-14 完成）
-- [ ] 建立母型与核心原型的映射（`archetypeToPatterns`）
-- [ ] 母型详情页展示所属核心原型
-- [ ] 版主发帖表单：选择原型后自动生成 breakdown / code 骨架
-- [ ] AI 分析工具识别并输出 `pattern` 字段
+- [ ] **整理 Git 工作区** <!-- task:id=git-001 priority:P0 category:blocker blockedBy:mapping-001,images-001,images-002,images-003 -->
+  - 目标：提交所有未跟踪/修改文件，形成可追溯版本；更新 `.gitignore` 若需要
+  - 验收：`git status --short` 无未跟踪的业务代码文件
 
-### 工程化
+### 内容补齐
 
-- [ ] 修复 `useBlockEditor.ts` 中 `commit` 提前访问 bug
-- [ ] 分批治理 Lint errors（优先 errors）
-- [ ] 考虑把统计持久化从文件系统迁到 Redis/DB
+- [x] **补齐 12 个母型说明图** <!-- task:id=images-001 priority:P0 category:content -->
+  - 验收：✅ 已生成 48 张 SVG 到 `public/archetypes/<key>/`
+- [x] **补齐 5 种核心玩法说明图** <!-- task:id=images-002 priority:P0 category:content -->
+  - 验收：✅ 已生成 20 张 SVG 到 `public/patterns/<key>/`（含已有 loop.svg）
+- [x] **补齐 9 个玩法特征说明图** <!-- task:id=images-003 priority:P0 category:content -->
+  - 验收：✅ 已生成 36 张 SVG 到 `public/features/<key>/`
+- [ ] **独立详情页（P1 预留，P0 不实施）** <!-- task:id=detail-001 priority:P1 category:future -->
+  - 目标：未来把 `/archetypes/[key]`、`/patterns/[key]` 重定向改为独立页面
+  - 验收：P0 不验收
 
-### 体验
+### 工程化与体验优化
 
-- [x] 补齐玩法帖子封面 SVG（程序化 RoughJS 批量生成 30 个帖子的 cover/coverWide，AI 模式可选）
-- [ ] 优化联系表单通知（邮件/webhook）
-- [ ] 完善搜索高亮与空状态
+- [ ] **关键路径 `<img>` 迁移到 `next/image`** <!-- task:id=perf-001 priority:P1 category:engineering -->
+  - 文件：`src/components/plays/PlayStats.tsx`、`src/components/plays/RelatedPlays.tsx`、`src/app/(site)/play/[slug]/page.tsx`
+  - 目标：替换原生 img 为 next/image，提升 LCP
+  - 验收：`pnpm lint` 无 `@next/next/no-img-element` error
+- [x] **处理外部 CDN 字体依赖** <!-- task:id=perf-002 priority:P1 category:engineering -->
+  - 文件：`src/app/layout.tsx`、`src/app/globals.css`
+  - 目标：评估并移除或内联 `lxgw-wenkai-webfont` jsDelivr 链接
+  - 验收：✅ 已移除 jsDelivr CDN 链接和未使用的 `--font-wenkai` 变量
+- [ ] **实现自动优化推进任务模式工作流** <!-- task:id=workflow-001 priority:P0 category:engineering -->
+  - 文件：`scripts/agent-task-runner.ts`、`package.json`、`doc/agent-task-runner.md`
+  - 目标：Agent 启动时可运行 `pnpm agent:next` 获取下一任务 prompt
+  - 验收：`pnpm agent:dry` 能正确输出最高优先级任务；`pnpm agent:next` 将其标记为 In Progress 并输出 prompt
+
+### 后续（P1/P2）
+
+- [ ] **版主发帖表单：选择原型后自动生成 breakdown / code 骨架** <!-- task:id=future-001 priority:P2 category:future -->
+- [ ] **AI 分析工具识别并输出 `pattern` 字段** <!-- task:id=future-002 priority:P2 category:future -->
+- [ ] **优化联系表单通知（邮件/webhook）** <!-- task:id=future-003 priority:P2 category:future -->
+- [ ] **完善搜索高亮与空状态** <!-- task:id=future-004 priority:P2 category:future -->
 
 ---
 
@@ -79,6 +72,16 @@
 - [x] 新增 5 种核心玩法原型数据层与筛选（2026-06-14）
 - [x] 5 种核心原型最小 Demo + 嵌入页面 + 详情页回退（2026-06-14）
 - [x] 补齐玩法帖子封面 SVG（程序化 RoughJS 批量生成 30 个帖子的 cover/coverWide，AI 模式可选）（2026-06-21）
+- [x] 上线前综合评估（正确性/稳定性/内容/交互/安全/合规/性能/运维）（2026-06-21）
+- [x] 治理 lint errors（122 → 0）（2026-06-21）
+- [x] 建立母型与核心原型的映射并在详情页展示（2026-06-21）
+- [x] 程序化生成母型/原型/特征说明图 104 张（2026-06-21）
+- [x] API 频率限制（view/like/contact/login）（2026-06-21）
+- [x] 移除外部 CDN 字体依赖（2026-06-21）
+- [x] 版主鉴权安全加固（HMAC-SHA256 签名 cookie）（2026-06-21）
+- [x] 修复 block-editor `commit` 提前访问运行时 bug（2026-06-21）
+- [x] 统计持久化迁移到 Upstash Redis（保留文件系统 fallback）（2026-06-21）
+- [x] 实现自动优化推进任务模式工作流（`scripts/agent-task-runner.ts`）（2026-06-21）
 
 ---
 
