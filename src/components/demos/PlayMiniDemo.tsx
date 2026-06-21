@@ -189,10 +189,6 @@ function FsmDemo() {
     pushLog(event);
   };
 
-  useEffect(() => {
-    if (hp <= 0) setState("dead");
-  }, [hp]);
-
   return (
     <Panel
       title="战斗 FSM（最小版）"
@@ -260,7 +256,9 @@ function FsmDemo() {
               {
                 label: "HIT",
                 onClick: () => {
-                  setHp((v) => Math.max(0, v - 1));
+                  const nextHp = Math.max(0, hp - 1);
+                  setHp(nextHp);
+                  if (nextHp <= 0) setState("dead");
                   step("HIT");
                 },
               },

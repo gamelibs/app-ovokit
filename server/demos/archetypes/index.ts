@@ -105,7 +105,7 @@ function def(
   };
 }
 
-export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
+export const archetypeDemoDefinitions = [
   // 1) Match/Clear
   def(
     "arch-match-clear",
@@ -135,7 +135,7 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
       const entropy = Number(state.data.entropy ?? 0.4);
       const chain = Number(state.data.chain ?? 0);
 
-      let next = bumpStep(state);
+      const next = bumpStep(state);
       let events: Array<{ type: string; payload?: unknown }> = [];
 
       if (action.type === "primary") {
@@ -197,8 +197,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
       const danger = Number(state.data.danger ?? 0.35);
       const nearMiss = Number(state.data.nearMiss ?? 0);
 
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       const difficultyMul = state.difficulty === "easy" ? 0.85 : state.difficulty === "hard" ? 1.15 : 1;
 
@@ -277,8 +277,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
 
       const difficultyMul = state.difficulty === "easy" ? 0.9 : state.difficulty === "hard" ? 1.15 : 1;
 
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       if (action.type === "tick") {
         const obstacle = rng() < 0.22 * difficultyMul;
@@ -357,8 +357,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
       const accuracy = Number(state.data.accuracy ?? 0.6);
 
       const difficultyMul = state.difficulty === "easy" ? 0.9 : state.difficulty === "hard" ? 1.1 : 1;
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       if (action.type === "primary") {
         if (ammo <= 0) {
@@ -432,8 +432,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
       const guard = Number(state.data.guard ?? 0);
 
       const difficultyMul = state.difficulty === "easy" ? 0.9 : state.difficulty === "hard" ? 1.15 : 1;
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       if (action.type === "primary") {
         const cost = 1;
@@ -515,8 +515,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
       const income = Number(state.data.income ?? 1);
       const difficultyMul = state.difficulty === "easy" ? 1.1 : state.difficulty === "hard" ? 0.9 : 1;
 
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       if (action.type === "primary") {
         if (placed >= slots) {
@@ -594,8 +594,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
       const offered = (state.data.offered as string[] | undefined) ?? ["加钱", "加伤", "回血"];
       const difficultyMul = state.difficulty === "easy" ? 0.9 : state.difficulty === "hard" ? 1.2 : 1;
 
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       const makeOffer = (t: number) => {
         const pool = ["加钱", "加伤", "回血", "减风险", "抽牌", "加速"];
@@ -667,8 +667,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
       const wobble = Number(state.data.wobble ?? 0);
       const difficultyMul = state.difficulty === "easy" ? 1.15 : state.difficulty === "hard" ? 0.9 : 1;
 
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       if (action.type === "primary") {
         if (budget <= 0) {
@@ -745,8 +745,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
       const difficultyScore = Number(state.data.difficultyScore ?? 1);
       const difficultyMul = state.difficulty === "easy" ? 0.85 : state.difficulty === "hard" ? 1.2 : 1;
 
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       if (action.type === "primary") {
         const pOk = Math.max(0.2, 0.62 - difficultyScore * 0.12) / difficultyMul;
@@ -821,8 +821,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
 
       const difficultyMul = state.difficulty === "easy" ? 0.9 : state.difficulty === "hard" ? 1.2 : 1;
 
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       if (action.type === "primary") {
         const pFail = Math.max(0.12, 0.35 + runDepth * 0.05) * difficultyMul / Math.max(1, metaPower);
@@ -902,8 +902,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
 
       const difficultyMul = state.difficulty === "easy" ? 1.05 : state.difficulty === "hard" ? 0.95 : 1;
 
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       let nextTax = tax;
       if (action.type === "primary") nextTax = Math.min(0.6, tax + 0.05);
@@ -988,8 +988,8 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
       const streak = Number(state.data.streak ?? 0);
 
       const difficultyMul = state.difficulty === "easy" ? 1.1 : state.difficulty === "hard" ? 0.9 : 1;
-      let next = bumpStep(state);
-      let events: Array<{ type: string; payload?: unknown }> = [];
+      const next = bumpStep(state);
+      const events: Array<{ type: string; payload?: unknown }> = [];
 
       if (action.type === "tick") {
         next.data = { beat: beat + 1, window: Math.max(0.08, Math.min(0.35, window - 0.01 * (difficultyMul - 1))), score, streak };
@@ -1025,6 +1025,6 @@ export const archetypeDemoDefinitions: DemoDefinition<any, any, any, any>[] = [
       return { state: next, view: withCommonControls(next, view), events };
     },
   ),
-];
+] as DemoDefinition<unknown, unknown, unknown, unknown>[];
 
 // Note: these are intentionally minimal, server-driven demos intended for P0 “可试玩/可解释”。

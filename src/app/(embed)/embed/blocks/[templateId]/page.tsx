@@ -10,6 +10,7 @@ export default async function EmbedBlocksPage({
     <main className="h-dvh w-full overflow-hidden bg-transparent p-0">
       <div className="h-full w-full p-0">
         <BlockViewer
+          key={templateId}
           templateId={templateId}
           layout="fill"
           className="h-full w-full"

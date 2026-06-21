@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { makeClickable, makeDraggable, makeHoverable } from "@/lib/block-kit/behaviors";
 import { createEngine } from "@/lib/block-kit/engine";
 import { hitTest } from "@/lib/block-kit/hit-test";
@@ -79,6 +79,20 @@ export function useBlockEditor(initialBlocks?: Block[]) {
   const [future, setFuture] = useState<Block[][]>([]);
   const [panStart, setPanStart] = useState<{ x: number; y: number; origin: { x: number; y: number } } | null>(null);
 
+  const commit = useCallback(
+    (nextBlocks: Block[]) => {
+      const snapshot = cloneBlocks(nextBlocks);
+      setBlocks(snapshot);
+      engine.setBlocks(snapshot);
+      setHistory((prev) => {
+        const arr = [...prev, snapshot];
+        return arr.slice(-40);
+      });
+      setFuture([]);
+    },
+    [engine],
+  );
+
   useEffect(() => {
     const unsubscribe = engine.onEvent((evt) => {
       setEvents((prev) => [evt, ...prev].slice(0, 10));
@@ -93,18 +107,7 @@ export function useBlockEditor(initialBlocks?: Block[]) {
       }
     });
     return unsubscribe;
-  }, [engine]);
-
-  const commit = (nextBlocks: Block[]) => {
-    const snapshot = cloneBlocks(nextBlocks);
-    setBlocks(snapshot);
-    engine.setBlocks(snapshot);
-    setHistory((prev) => {
-      const arr = [...prev, snapshot];
-      return arr.slice(-40);
-    });
-    setFuture([]);
-  };
+  }, [engine, commit]);
 
   const findTopBlock = (x: number, y: number) => [...blocks].reverse().find((b) => hitTest(b.shape, x, y));
 
@@ -316,11 +319,10 @@ export function useBlockEditor(initialBlocks?: Block[]) {
           }
         | { id: string; shape: Block["shape"]; data?: Record<string, unknown> }[];
 
-      const blockList = Array.isArray(parsed)
-        ? parsed
-        : Array.isArray((parsed as any).blocks)
-          ? (parsed as any).blocks
-          : [];
+      const hasBlocks = (v: unknown): v is { blocks: unknown[] } =>
+        typeof v === "object" && v !== null && Array.isArray((v as { blocks?: unknown }).blocks);
+
+      const blockList = Array.isArray(parsed) ? parsed : hasBlocks(parsed) ? parsed.blocks : [];
 
       const hydrated: Block[] = blockList.map((item: { id: string; shape: Block["shape"]; data?: Record<string, unknown> }) => ({
         id: item.id,

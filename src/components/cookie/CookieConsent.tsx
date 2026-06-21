@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { SketchBorder } from "@/components/sketch/SketchBorder";
 import { SketchButton } from "@/components/sketch/SketchButton";
@@ -14,14 +14,10 @@ import { getCookieConsent, setCookieConsent } from "@/lib/cookies/consent";
  * - 同意分析 Cookie 后，Google Analytics 才会加载。
  */
 export function CookieConsent() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const consent = getCookieConsent();
-    if (!consent) {
-      setVisible(true);
-    }
-  }, []);
+  const [visible, setVisible] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !getCookieConsent();
+  });
 
   const handleAccept = () => {
     setCookieConsent({ analytics: true });

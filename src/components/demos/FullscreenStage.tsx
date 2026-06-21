@@ -9,7 +9,7 @@ type Props = {
   iframeClassName?: string;
   allow?: string;
   controls?: "overlay" | "none";
-  iframeRef?: ((node: HTMLIFrameElement | null) => void) | { current: HTMLIFrameElement | null } | null;
+  iframeRef?: ((node: HTMLIFrameElement | null) => void) | null;
   preventScroll?: boolean;
 };
 
@@ -19,9 +19,8 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
 ) {
   const localRef = useRef<HTMLDivElement | null>(null);
   const containerRef = localRef;
-  const localIframeRef = useRef<HTMLIFrameElement | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [canFullscreen, setCanFullscreen] = useState(false);
+  const canFullscreen = typeof document !== "undefined" && Boolean(document.fullscreenEnabled);
 
   useEffect(() => {
     const onChange = () => {
@@ -30,10 +29,6 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
     };
     document.addEventListener("fullscreenchange", onChange);
     return () => document.removeEventListener("fullscreenchange", onChange);
-  }, []);
-
-  useEffect(() => {
-    setCanFullscreen(Boolean(document.fullscreenEnabled));
   }, []);
 
   const enterFullscreen = useCallback(async () => {
@@ -69,9 +64,11 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
     };
   }, [preventScroll]);
 
+  const [iframeNode, setIframeNode] = useState<HTMLIFrameElement | null>(null);
+
   useEffect(() => {
     if (!preventScroll) return;
-    const iframe = localIframeRef.current;
+    const iframe = iframeNode;
     if (!iframe) return;
 
     const onTouchMove = (e: TouchEvent) => {
@@ -89,7 +86,7 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
       iframe.removeEventListener("touchmove", onTouchMove);
       iframe.removeEventListener("wheel", onWheel);
     };
-  }, [preventScroll, src]);
+  }, [preventScroll, iframeNode]);
 
   return (
     <div
@@ -134,9 +131,8 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
         title={title}
         src={src}
         ref={(node) => {
-          localIframeRef.current = node;
-          if (typeof iframeRef === "function") iframeRef(node);
-          else if (iframeRef) iframeRef.current = node;
+          setIframeNode(node);
+          iframeRef?.(node);
         }}
         className={["h-full w-full", "overscroll-contain", iframeClassName ?? ""].join(" ").trim()}
         style={preventScroll ? { touchAction: "none" } : undefined}

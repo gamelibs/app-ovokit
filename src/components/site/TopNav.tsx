@@ -6,11 +6,13 @@ import { Search, Menu } from "lucide-react";
 import { OvoLogo } from "./OvoLogo";
 import { DesktopNav } from "./DesktopNav";
 import { MenuDrawer } from "./MenuDrawer";
+import { useLocalStorageBoolean, useSetLocalStorage } from "@/lib/hooks/useLocalStorage";
 
 export function TopNav({ isModerator }: { isModerator: boolean }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const [showModeratorTools, setShowModeratorTools] = useState(false);
+  const showModeratorTools = useLocalStorageBoolean("ovo_mod_tools");
+  const setModTools = useSetLocalStorage("ovo_mod_tools");
   const tapCountRef = useRef(0);
   const lastTapAtRef = useRef<number | null>(null);
   const [q, setQ] = useState(() => {
@@ -26,8 +28,8 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
       if (legacy === "1") {
         localStorage.setItem("ovo_mod_tools", "1");
         localStorage.removeItem("ovofroge_mod_tools");
+        window.dispatchEvent(new StorageEvent("storage", { key: "ovo_mod_tools" }));
       }
-      setShowModeratorTools(localStorage.getItem("ovo_mod_tools") === "1");
     } catch {
       // ignore
     }
@@ -57,12 +59,7 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
 
     if (tapCountRef.current >= 8) {
       tapCountRef.current = 0;
-      try {
-        localStorage.setItem("ovo_mod_tools", "1");
-      } catch {
-        // ignore
-      }
-      setShowModeratorTools(true);
+      setModTools("1");
       if (isModerator) {
         router.push("/mod");
       } else {

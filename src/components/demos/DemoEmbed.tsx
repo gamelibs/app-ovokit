@@ -31,7 +31,7 @@ export function DemoEmbed({
   const stageRef = useRef<HTMLDivElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [canFullscreen, setCanFullscreen] = useState(false);
+  const canFullscreen = typeof document !== "undefined" && Boolean(document.fullscreenEnabled);
   const [reloadToken, setReloadToken] = useState(0);
 
   useEffect(() => {
@@ -41,10 +41,6 @@ export function DemoEmbed({
     };
     document.addEventListener("fullscreenchange", onChange);
     return () => document.removeEventListener("fullscreenchange", onChange);
-  }, []);
-
-  useEffect(() => {
-    setCanFullscreen(Boolean(document.fullscreenEnabled));
   }, []);
 
   const enterFullscreen = useCallback(async () => {
@@ -129,7 +125,9 @@ export function DemoEmbed({
           className={stageClassName}
           iframeClassName={iframeClassName}
           allow={allow}
-          iframeRef={iframeRef}
+          iframeRef={(node) => {
+            iframeRef.current = node;
+          }}
           controls={controls === "overlay" ? "overlay" : "none"}
         />
       </div>

@@ -70,7 +70,7 @@ export const mergePatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Arc
     let slots = Array.isArray(state.data.slots) ? [...state.data.slots] : new Array(MAX_SLOTS).fill(0);
     let production = Number(state.data.production ?? 0);
     let maxLevel = Number(state.data.maxLevel ?? 1);
-    let events: Array<{ type: string; payload?: unknown }> = [];
+    const events: Array<{ type: string; payload?: unknown }> = [];
 
     if (action.type === "reset") {
       slots = [1, 1, 0, 0, 0, 0, 0, 0];

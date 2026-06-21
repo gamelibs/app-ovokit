@@ -88,7 +88,7 @@ function parseInline(text: string, glossary?: Record<string, string>): InlineNod
               }
             } else if (isExternalUrl(href)) {
               out.push(
-                // eslint-disable-next-line @next/next/no-html-link-for-pages
+                 
                 <a
                   key={`a-${i}`}
                   href={href}

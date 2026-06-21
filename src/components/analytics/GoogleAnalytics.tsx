@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Script from "next/script";
 import { hasAnalyticsConsent } from "@/lib/cookies/consent";
 
@@ -12,12 +12,10 @@ import { hasAnalyticsConsent } from "@/lib/cookies/consent";
  * - 建议生产环境在 .env 中配置 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX。
  */
 export function GoogleAnalytics({ gaId }: { gaId?: string }) {
-  const [canLoad, setCanLoad] = useState(false);
-
-  useEffect(() => {
-    if (!gaId) return;
-    setCanLoad(hasAnalyticsConsent());
-  }, [gaId]);
+  const [canLoad] = useState(() => {
+    if (!gaId || typeof window === "undefined") return false;
+    return hasAnalyticsConsent();
+  });
 
   if (!gaId || !canLoad) return null;
 

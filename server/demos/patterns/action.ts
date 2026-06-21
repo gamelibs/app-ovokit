@@ -73,8 +73,8 @@ export const actionPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Ar
     const jumping = Boolean(state.data.jumping ?? false);
 
     const difficultyMul = state.difficulty === "easy" ? 0.8 : state.difficulty === "hard" ? 1.2 : 1;
-    let next = { ...state, step: state.step + 1 };
-    let events: Array<{ type: string; payload?: unknown }> = [];
+    const next = { ...state, step: state.step + 1 };
+    const events: Array<{ type: string; payload?: unknown }> = [];
 
     if (action.type === "reset") {
       next.data = {
@@ -90,7 +90,7 @@ export const actionPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Ar
       let nextObstacle = obstacleDistance - speed;
       let nextLives = lives;
       let nextScore = score;
-      let nextJumping = false;
+      const nextJumping = false;
 
       if (nextObstacle <= 0) {
         // obstacle arrives

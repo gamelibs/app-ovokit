@@ -35,7 +35,7 @@ const metaFromDefinition = (def: AlgoDefinition<unknown, unknown>): AlgoMeta => 
   inputExample: def.inputExample,
 });
 
-const demoMetaFromDefinition = (def: DemoDefinition<any, any, any, any>): DemoMeta => ({
+const demoMetaFromDefinition = (def: DemoDefinition<unknown, unknown, unknown, unknown>): DemoMeta => ({
   id: def.id,
   name: def.name,
   description: def.description,
@@ -92,7 +92,7 @@ app.get("/api/demos/:id", async (req, reply) => {
   const id = (req.params as { id: string }).id;
   const def = demoDefinitions.find((d) => d.id === id);
   if (!def) return reply.status(404).send({ error: "Not found" });
-  return demoMetaFromDefinition(def as DemoDefinition<any, any, any, any>);
+  return demoMetaFromDefinition(def as DemoDefinition<unknown, unknown, unknown, unknown>);
 });
 
 app.post("/api/demos/:id/init", async (req, reply) => {
@@ -100,7 +100,7 @@ app.post("/api/demos/:id/init", async (req, reply) => {
   const def = demoDefinitions.find((d) => d.id === id);
   if (!def) return reply.status(404).send({ error: "Not found" });
 
-  const parseResult = (def as DemoDefinition<any, any, any, any>).initSchema.safeParse(req.body);
+  const parseResult = (def as DemoDefinition<unknown, unknown, unknown, unknown>).initSchema.safeParse(req.body);
   if (!parseResult.success) {
     const issues = parseResult.error.issues.map((i) => ({
       path: i.path.join("."),
@@ -109,7 +109,7 @@ app.post("/api/demos/:id/init", async (req, reply) => {
     return reply.status(400).send({ error: "Invalid input", issues });
   }
 
-  const result = await (def as DemoDefinition<any, any, any, any>).init(parseResult.data) as DemoInitResult<unknown, unknown>;
+  const result = await (def as DemoDefinition<unknown, unknown, unknown, unknown>).init(parseResult.data) as DemoInitResult<unknown, unknown>;
   return reply.send(result);
 });
 
@@ -119,7 +119,7 @@ app.post("/api/demos/:id/step", async (req, reply) => {
   if (!def) return reply.status(404).send({ error: "Not found" });
 
   const raw = req.body as { state?: unknown; action?: unknown };
-  const actionParse = (def as DemoDefinition<any, any, any, any>).actionSchema.safeParse(raw?.action);
+  const actionParse = (def as DemoDefinition<unknown, unknown, unknown, unknown>).actionSchema.safeParse(raw?.action);
   if (!actionParse.success) {
     const issues = actionParse.error.issues.map((i) => ({
       path: i.path.join("."),
@@ -128,7 +128,7 @@ app.post("/api/demos/:id/step", async (req, reply) => {
     return reply.status(400).send({ error: "Invalid action", issues });
   }
 
-  const result = await (def as DemoDefinition<any, any, any, any>).step({
+  const result = await (def as DemoDefinition<unknown, unknown, unknown, unknown>).step({
     state: raw?.state,
     action: actionParse.data,
   }) as DemoStepResult<unknown, unknown>;

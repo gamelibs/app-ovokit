@@ -5,6 +5,8 @@
 
 import { writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
+import rough from "roughjs";
+import type { Drawable, OpSet } from "roughjs/bin/core";
 import {
   generateSketchSvg,
   type SketchSvgType,
@@ -101,7 +103,7 @@ for (const a of archetypeIcons) {
 function generateFlowchartSvg(): string {
   const w = 320;
   const h = 240;
-  const gen = require("roughjs").generator();
+  const gen = rough.generator();
   const stroke = "#202020";
   const strokeWidth = 2;
   const fill = "#faf7ef";
@@ -109,25 +111,25 @@ function generateFlowchartSvg(): string {
 
   const common = { roughness, stroke, strokeWidth, fill, fillStyle: "hachure" };
 
-  function opsToPath(ops: any[]): string {
+  function opsToPath(ops: OpSet["ops"]): string {
     let path = "";
     for (const op of ops) {
       switch (op.op) {
         case "move":
-          path += `M${op.data[0].toFixed(2)} ${op.data[1].toFixed(2)} `;
+          path += `M${op.data[0]?.toFixed(2)} ${op.data[1]?.toFixed(2)} `;
           break;
         case "bcurveTo":
-          path += `C${op.data[0].toFixed(2)} ${op.data[1].toFixed(2)}, ${op.data[2].toFixed(2)} ${op.data[3].toFixed(2)}, ${op.data[4].toFixed(2)} ${op.data[5].toFixed(2)} `;
+          path += `C${op.data[0]?.toFixed(2)} ${op.data[1]?.toFixed(2)}, ${op.data[2]?.toFixed(2)} ${op.data[3]?.toFixed(2)}, ${op.data[4]?.toFixed(2)} ${op.data[5]?.toFixed(2)} `;
           break;
         case "lineTo":
-          path += `L${op.data[0].toFixed(2)} ${op.data[1].toFixed(2)} `;
+          path += `L${op.data[0]?.toFixed(2)} ${op.data[1]?.toFixed(2)} `;
           break;
       }
     }
     return path.trim();
   }
 
-  function drawableToSvg(drawable: any, offsetX = 0, offsetY = 0): string {
+  function drawableToSvg(drawable: Drawable, offsetX = 0, offsetY = 0): string {
     let svg = "";
     for (const set of drawable.sets) {
       const d = opsToPath(set.ops);

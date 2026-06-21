@@ -68,7 +68,7 @@ export const managementPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState
     let money = Number(state.data.money ?? 0);
     let buildings = Array.isArray(state.data.buildings) ? [...state.data.buildings] : [1];
     let income = Number(state.data.income ?? 1);
-    let events: Array<{ type: string; payload?: unknown }> = [];
+    const events: Array<{ type: string; payload?: unknown }> = [];
 
     const difficultyMul = state.difficulty === "easy" ? 0.8 : state.difficulty === "hard" ? 1.3 : 1;
     const buildCost = Math.round(5 * Math.pow(1.5, buildings.length - 1) * difficultyMul);

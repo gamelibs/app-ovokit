@@ -44,7 +44,9 @@ export function GameShell({
 }: Props) {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [canFullscreen, setCanFullscreen] = useState(false);
+  const canFullscreen = Boolean(
+    fullscreen && typeof document !== "undefined" && document.fullscreenEnabled,
+  );
 
   useEffect(() => {
     const onChange = () => {
@@ -69,10 +71,6 @@ export function GameShell({
     ro.observe(el);
     return () => ro.disconnect();
   }, [onStageResize]);
-
-  useEffect(() => {
-    setCanFullscreen(Boolean(fullscreen && document.fullscreenEnabled));
-  }, [fullscreen]);
 
   const enterFullscreen = useCallback(async () => {
     const el = stageRef.current;

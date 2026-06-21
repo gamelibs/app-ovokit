@@ -35,8 +35,6 @@ export function BlockViewer({
   const [events, setEvents] = useState<EngineEvent[]>([]);
 
   useEffect(() => {
-    setBlocks(engine.getBlocks());
-    setEvents([]);
     return engine.onEvent((evt) => {
       if (showEvents) setEvents((prev) => [evt, ...prev].slice(0, 6));
       if (evt.type.startsWith("drag") || evt.type === "click") {

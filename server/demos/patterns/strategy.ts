@@ -77,7 +77,7 @@ export const strategyPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, 
     let enemyHp = Number(state.data.enemyHp ?? 15);
     let enemyAtk = Number(state.data.enemyAtk ?? 3);
     let reward = Number(state.data.reward ?? 0);
-    let events: Array<{ type: string; payload?: unknown }> = [];
+    const events: Array<{ type: string; payload?: unknown }> = [];
 
     if (action.type === "reset") {
       round = 1;

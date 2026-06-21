@@ -99,7 +99,7 @@ export const spatialPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, A
   step: ({ state, action }) => {
     const board = Array.isArray(state.data.board) ? [...state.data.board] : new Array(TOTAL).fill(0);
     let nextBoard = board;
-    let events: Array<{ type: string; payload?: unknown }> = [];
+    const events: Array<{ type: string; payload?: unknown }> = [];
 
     if (action.type === "reset") {
       const rng = makeRng(state.seed);

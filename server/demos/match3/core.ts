@@ -213,7 +213,7 @@ export function stepMatch3(state: Match3State, action: { type: "swap"; from: Vec
   const board = cloneBoard(state.board);
   swapInPlace(board, action.from, action.to);
   events.push({ type: "swap", payload: { from: action.from, to: action.to } });
-  let movesLeft = Math.max(0, state.movesLeft - 1);
+  const movesLeft = Math.max(0, state.movesLeft - 1);
   let score = state.score;
 
   const matchesAfterSwap = findMatches(board);
