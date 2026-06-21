@@ -19,10 +19,10 @@
 6. **部署准备**：✅ 已完成服务器部署清单、检查脚本、PM2 配置与 GitHub Actions 部署工作流。
 7. **资源清理**：✅ 已完成。
 8. **运行时稳定性**：✅ 已完成 hydration mismatch 修复与全站 smoke test。
-9. **文档整理**：✅ 已完成过时文档清理与关键文档刷新。
-
-**下一步**：执行生产服务器实际部署（按 `doc/server-deployment-checklist.md`）。
 9. **文档整理**：✅ 已归档过时文档、刷新 V1/V2/开发说明/手绘风格契约/版主工作流/AGENT_CONTEXT/AGENT_WORKFLOW，新增 `doc/README.md` 文档索引。
+10. **Docker 化部署准备**：✅ 已新增 `Dockerfile`、`docker-compose.yml`、`.dockerignore` 与 `doc/docker-deployment.md`。
+
+**下一步**：在服务器上执行 Docker 部署（按 `doc/docker-deployment.md`）。
 
 ---
 
@@ -69,12 +69,13 @@
 - [x] 刷新 `版主工作流.md` 鉴权描述为 HMAC 签名 Cookie（2026-06-21）
 - [x] 刷新 `AGENT_CONTEXT.md` 与 `AGENT_WORKFLOW.md` 当前阶段重点（2026-06-21）
 - [x] 新增 `doc/README.md` 文档索引（2026-06-21）
+- [x] 新增 Docker 部署方案：`Dockerfile`、`docker-compose.yml`、`.dockerignore`、`doc/docker-deployment.md`（2026-06-21）
 
 ---
 
 ## 进行中（In Progress）
 
-- 生产服务器实际部署（按 `doc/server-deployment-checklist.md` 执行）
+- 生产服务器 Docker 部署（按 `doc/docker-deployment.md` 执行）
 
 ---
 

@@ -1,0 +1,56 @@
+services:
+  ovofroge-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # 这些值只用于构建时打包到客户端，不涉密
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://ovoforge.com}
+        NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:-}
+        NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+    container_name: ovofroge-web
+    image: ovofroge:latest
+    env_file: .env.local
+    ports:
+      # 仅绑定到回环，外部通过宿主 Nginx 反向代理访问
+      - "127.0.0.1:13100:13100"
+    environment:
+      - PORT=13100
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:13100/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  ovofroge-algo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://ovoforge.com}
+        NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:-}
+        NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+    container_name: ovofroge-algo
+    image: ovofroge:latest
+    env_file: .env.local
+    ports:
+      - "127.0.0.1:14100:14100"
+    environment:
+      - ALGO_PORT=14100
+      - ALGO_HOST=0.0.0.0
+      - NODE_ENV=production
+    command: pnpm algo:start
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:14100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  default:
+    name: ovofroge

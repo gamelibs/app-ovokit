@@ -21,6 +21,7 @@
 |------|------|
 | [`开发说明.md`](./开发说明.md) | 当前功能概览、路由、分层目录约定、Demo 架构 |
 | [`server-deployment-checklist.md`](./server-deployment-checklist.md) | 生产服务器部署、Nginx/SSL、PM2、GitHub Actions 完整清单 |
+| [`docker-deployment.md`](./docker-deployment.md) | Docker / Docker Compose 容器化部署指南 |
 | [`手绘风格契约.md`](./手绘风格契约.md) | 手绘风格设计系统：颜色、字体、强制组件、禁止事项 |
 | [`Kimi_SVG_接入实现说明.md`](./Kimi_SVG_接入实现说明.md) | Kimi SVG 生成实现、工具函数与调用方式 |
 | [`agent-task-runner.md`](./agent-task-runner.md) | 自动任务推进工作流（`pnpm agent:next` / `pnpm agent:dry`） |

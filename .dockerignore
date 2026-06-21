@@ -1,0 +1,34 @@
+# 依赖与构建产物
+node_modules
+.pnpm-store
+.next
+out
+dist
+
+# 本地环境文件（运行时挂载，不进入镜像）
+.env.local
+.env.*.local
+.env
+
+# Git
+.git
+.gitignore
+
+# 日志与临时文件
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.DS_Store
+*.swp
+*.swo
+
+# 开发与文档（非运行时必需）
+.vscode
+.idea
+doc/archive
+memory/daily
+
+# 测试与脚本（运行时不需要）
+coverage
+*.test.ts
+*.test.tsx

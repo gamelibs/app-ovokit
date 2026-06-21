@@ -60,7 +60,7 @@ OVO 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动
 - 开发/架构细节：`doc/开发说明.md`
 - 文档索引：`doc/README.md`
 - 面向使用者：`README.md`
-- 生产部署：`doc/server-deployment-checklist.md`
+- 生产部署：`doc/server-deployment-checklist.md`、`doc/docker-deployment.md`
 - 邮件功能配置：`doc/邮件功能说明.md`
 - 文章发布规范：`doc/文章发布规范.md`
 - 版主工作流：`doc/版主工作流.md`
