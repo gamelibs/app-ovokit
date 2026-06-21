@@ -31,8 +31,7 @@
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-kalam: var(--font-kalam), "LXGW WenKai", cursive;
-  --font-wenkai: "LXGW WenKai", var(--font-kalam), cursive;
+  --font-kalam: var(--font-kalam), cursive;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 }
