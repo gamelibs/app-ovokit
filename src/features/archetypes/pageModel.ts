@@ -1,4 +1,5 @@
 import type { PlayArchetypeKey } from "@/lib/archetypes/archetypes";
+import { getPatternsForArchetype } from "@/lib/archetypes/archetypes";
 import { readArchetypeSpec } from "@/lib/archetypes/spec";
 
 export type ArchetypeComboCard = {
@@ -23,6 +24,7 @@ export type ArchetypePageModel = {
   combos: ArchetypeComboCard[];
   advancedWarnings: string[];
   advancedAlgoRefs: string[];
+  patternKeys: string[];
 };
 
 export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<ArchetypePageModel> {
@@ -44,6 +46,7 @@ export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<Arch
       combos: [],
       advancedWarnings: [],
       advancedAlgoRefs: [],
+      patternKeys: getPatternsForArchetype(key),
     };
   }
   return {
@@ -62,5 +65,6 @@ export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<Arch
     combos: spec.combos,
     advancedWarnings: spec.advancedWarnings,
     advancedAlgoRefs: spec.advancedAlgoRefs,
+    patternKeys: getPatternsForArchetype(key),
   };
 }

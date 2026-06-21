@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
+import { fallbackCorePatternByKey, type CorePatternKey } from "@/lib/patterns/patterns";
 
 function ArchetypeImage({
   src,
@@ -108,6 +109,29 @@ export function ArchetypePage({
               ))}
             </ul>
           </div>
+          {model.patternKeys.length > 0 && (
+            <div className="sketch-card p-3 text-sm">
+              <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted font-kalam">
+                所属核心原型
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {model.patternKeys.map((key) => {
+                  const pattern = fallbackCorePatternByKey[key as CorePatternKey];
+                  if (!pattern) return null;
+                  return (
+                    <Link
+                      key={key}
+                      href={`/patterns?key=${encodeURIComponent(key)}`}
+                      className="inline-flex items-center gap-1.5 rounded-full sketch-border bg-paper px-3 py-1.5 font-medium text-ink hover:bg-paper-warm"
+                    >
+                      <span>{pattern.name}</span>
+                      <span className="text-xs text-ink-light">{pattern.nameEn}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
