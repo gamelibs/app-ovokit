@@ -1,15 +1,15 @@
 /**
  * 批量生成玩法帖子封面 SVG
  *
- * 把 imgs/compressed/ 下的概念图转换成手绘风格 SVG，并对应到 30 个玩法帖子。
  * 同时更新每个玩法的 meta.json 中的 cover / coverWide 字段。
  *
  * 用法：
- *   # AI 模式（基于概念图调用 Kimi API，需要本地服务运行并已配置 MOD_PASSWORD）
+ *   # 程序化模式（默认，本地 RoughJS 快速生成抽象封面，不调用 API）
  *   pnpm tsx scripts/generate-play-covers.ts
- *
- *   # 程序化模式（本地 RoughJS 快速生成抽象封面，不调用 API）
  *   pnpm tsx scripts/generate-play-covers.ts --mode=programmatic
+ *
+ *   # AI 模式（基于本地概念图调用 Kimi API，需要本地服务运行并已配置 MOD_PASSWORD）
+ *   pnpm tsx scripts/generate-play-covers.ts --mode=ai --input-dir=./raw
  *
  *   # 仅生成指定玩法
  *   pnpm tsx scripts/generate-play-covers.ts --slug=match-3-retention-and-pacing
@@ -60,13 +60,30 @@ function parseArgs(): Options {
   const has = (key: string) => args.includes(key);
 
   return {
-    mode: (get("--mode", "ai") as "ai") || "ai",
-    inputDir: get("--input-dir", "imgs/compressed"),
+    mode: (get("--mode", "programmatic") as "ai") || "programmatic",
+    inputDir: get("--input-dir", ""),
     outputDir: get("--output-dir", "public/plays"),
     dryRun: has("--dry-run"),
     slug: get("--slug", ""),
     quality: Number.parseInt(get("--quality", "80"), 10),
   };
+}
+
+function printUsage() {
+  console.log(`批量生成玩法帖子封面 SVG
+
+用法：
+  pnpm tsx scripts/generate-play-covers.ts [选项]
+
+选项：
+  --mode=programmatic   使用本地 RoughJS 生成（默认）
+  --mode=ai             基于本地概念图调用 Kimi API，需同时指定 --input-dir
+  --input-dir=<dir>     AI 模式必填，概念图目录
+  --output-dir=<dir>    输出目录（默认 public/plays）
+  --slug=<slug>         仅生成指定玩法
+  --quality=80          AI 模式图片质量（默认 80）
+  --dry-run             预览，不写入文件
+`);
 }
 
 async function loadPlays(): Promise<PlayMeta[]> {
@@ -300,7 +317,17 @@ async function updateMetaJson(slug: string, coverPath: string, coverWidePath?: s
 }
 
 async function main() {
+  if (process.argv.includes("--help")) {
+    printUsage();
+    return;
+  }
+
   const opts = parseArgs();
+  if (opts.mode === "ai" && !opts.inputDir) {
+    printUsage();
+    process.exit(1);
+  }
+
   const plays = await loadPlays();
   const targetPlays = opts.slug ? plays.filter((p) => p.slug === opts.slug) : plays;
 

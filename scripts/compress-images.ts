@@ -1,13 +1,12 @@
 /**
  * 图片压缩脚本
  *
- * 将 `imgs/` 目录下的图片压缩为 WebP 格式，输出到 `imgs/compressed/`。
- * 适合把 AI 生成的大图素材压缩为站点可用的小体积资源。
+ * 将指定目录下的图片压缩为 WebP 格式，适合把 AI 生成的大图素材压缩为站点可用的小体积资源。
  *
  * 用法：
- *   pnpm tsx scripts/compress-images.ts
- *   pnpm tsx scripts/compress-images.ts --quality=75 --max-width=1024
- *   pnpm tsx scripts/compress-images.ts --output-dir=public/imgs
+ *   pnpm tsx scripts/compress-images.ts --input-dir=./raw --output-dir=./public/imgs
+ *   pnpm tsx scripts/compress-images.ts --input-dir=./raw --output-dir=./public/imgs --quality=75 --max-width=1024
+ *   pnpm tsx scripts/compress-images.ts --input-dir=./raw --output-dir=./public/imgs --in-place
  */
 
 import { promises as fs } from "node:fs";
@@ -32,13 +31,29 @@ function parseArgs(): Options {
   const has = (key: string) => args.includes(key);
 
   return {
-    inputDir: get("--input-dir", "imgs"),
-    outputDir: get("--output-dir", "imgs/compressed"),
+    inputDir: get("--input-dir", ""),
+    outputDir: get("--output-dir", ""),
     quality: Number.parseInt(get("--quality", "80"), 10),
     maxWidth: Number.parseInt(get("--max-width", "1200"), 10),
     maxHeight: Number.parseInt(get("--max-height", "1200"), 10),
     inPlace: has("--in-place"),
   };
+}
+
+function printUsage() {
+  console.log(`图片压缩脚本
+
+用法：
+  pnpm tsx scripts/compress-images.ts --input-dir=<输入目录> --output-dir=<输出目录> [选项]
+
+选项：
+  --input-dir=<dir>   原始图片目录（必填）
+  --output-dir=<dir>  压缩后输出目录（必填）
+  --quality=80        WebP 质量（默认 80）
+  --max-width=1200    最大宽度（默认 1200）
+  --max-height=1200   最大高度（默认 1200）
+  --in-place          覆盖原文件（仅对 GIF/非 PNG 有效）
+`);
 }
 
 const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif"]);
@@ -80,7 +95,17 @@ async function compressImage(inputPath: string, outputPath: string, opts: Option
 }
 
 async function main() {
+  if (process.argv.includes("--help")) {
+    printUsage();
+    return;
+  }
+
   const opts = parseArgs();
+  if (!opts.inputDir || (!opts.inPlace && !opts.outputDir)) {
+    printUsage();
+    process.exit(1);
+  }
+
   const cwd = process.cwd();
   const inputDir = path.resolve(cwd, opts.inputDir);
   const outputDir = opts.inPlace ? inputDir : path.resolve(cwd, opts.outputDir);

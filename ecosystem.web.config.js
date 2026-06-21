@@ -1,16 +1,15 @@
 module.exports = {
   apps: [
     {
-      name: "ovofroge-algo-api",
+      name: "ovofroge-web",
       script: "pnpm",
-      args: "algo:start",
+      args: "start",
       interpreter: "bash",
       autorestart: true,
       watch: false,
       env: {
         NODE_ENV: "production",
-        ALGO_PORT: process.env.ALGO_PORT || 14100,
-        ALGO_HOST: process.env.ALGO_HOST || "0.0.0.0",
+        PORT: process.env.PORT || 13100,
       },
     },
   ],

@@ -6,21 +6,11 @@
 
 ---
 
-## In Progress
-
-- [ ] **整理 Git 工作区** <!-- task:id=git-001 priority:P0 category:blocker -->
-  - 目标：提交所有未跟踪/修改文件，形成可追溯版本；更新 `.gitignore` 若需要
-  - 验收：`git status --short` 无未跟踪的业务代码文件
-
 ---
 
 ## Todo
 
 ### 阻塞项（P0 必须）
-
-- [ ] **整理 Git 工作区** <!-- task:id=git-001 priority:P0 category:blocker blockedBy:mapping-001,images-001,images-002,images-003 -->
-  - 目标：提交所有未跟踪/修改文件，形成可追溯版本；更新 `.gitignore` 若需要
-  - 验收：`git status --short` 无未跟踪的业务代码文件
 
 ### 内容补齐
 
@@ -44,10 +34,10 @@
   - 文件：`src/app/layout.tsx`、`src/app/globals.css`
   - 目标：评估并移除或内联 `lxgw-wenkai-webfont` jsDelivr 链接
   - 验收：✅ 已移除 jsDelivr CDN 链接和未使用的 `--font-wenkai` 变量
-- [ ] **实现自动优化推进任务模式工作流** <!-- task:id=workflow-001 priority:P0 category:engineering -->
+- [x] **实现自动优化推进任务模式工作流** <!-- task:id=workflow-001 priority:P0 category:engineering -->
   - 文件：`scripts/agent-task-runner.ts`、`package.json`、`doc/agent-task-runner.md`
   - 目标：Agent 启动时可运行 `pnpm agent:next` 获取下一任务 prompt
-  - 验收：`pnpm agent:dry` 能正确输出最高优先级任务；`pnpm agent:next` 将其标记为 In Progress 并输出 prompt
+  - 验收：✅ `pnpm agent:dry` 能正确输出最高优先级任务；`pnpm agent:next` 将其标记为 In Progress 并输出 prompt
 
 ### 后续（P1/P2）
 
@@ -77,11 +67,19 @@
 - [x] 建立母型与核心原型的映射并在详情页展示（2026-06-21）
 - [x] 程序化生成母型/原型/特征说明图 104 张（2026-06-21）
 - [x] API 频率限制（view/like/contact/login）（2026-06-21）
+- [x] 整理 Git 工作区并提交上线版本（2026-06-21）
+- [x] 最终上线前验证通过（2026-06-21）
 - [x] 移除外部 CDN 字体依赖（2026-06-21）
 - [x] 版主鉴权安全加固（HMAC-SHA256 签名 cookie）（2026-06-21）
 - [x] 修复 block-editor `commit` 提前访问运行时 bug（2026-06-21）
 - [x] 统计持久化迁移到 Upstash Redis（保留文件系统 fallback）（2026-06-21）
 - [x] 实现自动优化推进任务模式工作流（`scripts/agent-task-runner.ts`）（2026-06-21）
+- [x] 编写生产服务器部署清单 `doc/server-deployment-checklist.md`（2026-06-21）
+- [x] 实现服务器部署检查脚本 `scripts/deploy-check.sh`（2026-06-21）
+- [x] 新增 PM2 web 生产配置 `ecosystem.web.config.js`（2026-06-21）
+- [x] 创建 GitHub Actions 自动部署工作流 `.github/workflows/deploy.yml`（2026-06-21）
+- [x] 删除无用资源 `imgs/`、默认 public SVG、`.DS_Store`（2026-06-21）
+- [x] 更新 `compress-images` / `generate-play-covers` 脚本与文档，移除 `imgs/` 引用（2026-06-21）
 
 ---
 
