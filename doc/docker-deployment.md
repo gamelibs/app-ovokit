@@ -51,7 +51,7 @@ sudo systemctl enable --now docker
 ```bash
 sudo mkdir -p /var/www/ovofroge
 sudo chown -R $USER:$USER /var/www/ovofroge
-cd /var/www/ovofroge
+cd /www/ovoforge
 git clone git@github.com:<你的仓库>.git .
 ```
 
@@ -165,7 +165,7 @@ curl -I https://ovoforge.com/
 ## 日常更新
 
 ```bash
-cd /var/www/ovofroge
+cd /www/ovoforge
 
 # 拉最新代码
 git pull origin main
@@ -211,7 +211,7 @@ docker image prune -f
 ```yaml
 script: |
   set -euo pipefail
-  cd /var/www/ovofroge
+  cd /www/ovoforge
   git fetch origin main
   git reset --hard origin/main
   set -a && source .env.local && set +a

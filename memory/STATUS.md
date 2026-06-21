@@ -70,6 +70,7 @@
 - [x] 刷新 `AGENT_CONTEXT.md` 与 `AGENT_WORKFLOW.md` 当前阶段重点（2026-06-21）
 - [x] 新增 `doc/README.md` 文档索引（2026-06-21）
 - [x] 新增 Docker 部署方案：`Dockerfile`、`docker-compose.yml`、`.dockerignore`、`doc/docker-deployment.md`（2026-06-21）
+- [x] 修复 Docker 镜像缺失 `content/`、`games/` 目录导致 500 的问题；`data/` 与 `content/contact-messages/` 改为宿主机卷持久化（2026-06-21）
 
 ---
 

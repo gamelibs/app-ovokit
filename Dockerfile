@@ -48,6 +48,8 @@ WORKDIR /app
 # 只复制运行所需文件；.env.local 在运行时通过卷挂载注入，不会进入镜像
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/content ./content
+COPY --from=builder /app/games ./games
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=builder /app/server ./server
