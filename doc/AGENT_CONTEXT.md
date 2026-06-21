@@ -43,7 +43,7 @@ OVO 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动
 ### 默认不扫描（除非任务明确需要）
 
 - `node_modules/`
-- `public/`、`imgs/`、`games/`、`ReferenceCase/`、`comfyui/`
+- `public/`、`games/`、`ReferenceCase/`
 - `content/`：只读与当前任务相关的 `slug/key` 那一小段目录
 
 ### 先精确定位，再打开文件

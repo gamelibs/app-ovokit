@@ -17,7 +17,7 @@
 4. **工作流升级**：✅ 已完成自动任务推进脚本。
 5. **整理 Git 工作区**：✅ 已分批提交，形成可追溯上线版本。
 6. **部署准备**：✅ 已完成服务器部署清单、检查脚本、PM2 配置与 GitHub Actions 部署工作流。
-7. **资源清理**：✅ 已删除 `imgs/` 目录、未使用的默认 public SVG、`.DS_Store`，并更新相关脚本与文档。
+7. **资源清理**：✅ 已删除 `imgs/` 目录、`comfyui/` 目录、未使用的默认 public SVG、`.DS_Store`，并更新相关脚本、文档与 Agent 忽略目录约定。
 
 ---
 
@@ -53,6 +53,7 @@
 - [x] 创建 GitHub Actions 自动部署工作流 `.github/workflows/deploy.yml`（2026-06-21）
 - [x] 删除无用资源 `imgs/`、默认 public SVG、`.DS_Store`（2026-06-21）
 - [x] 更新 `compress-images` / `generate-play-covers` 脚本与文档，移除 `imgs/` 引用（2026-06-21）
+- [x] 删除 `comfyui/` 工作流目录并更新 README / `AGENTS.md` / `doc/AGENT_CONTEXT.md`（2026-06-21）
 
 ---
 

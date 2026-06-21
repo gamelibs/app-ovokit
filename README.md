@@ -69,20 +69,13 @@ OVO：游戏玩法技术实现分享站（MVP）
   - 视口 `<420px`：`4:3`
   - 视口 `≥420px`：`3:4`
 - 推荐源尺寸（3:4）：`1080×1440`（或 `1200×1600`）
-- ComfyUI/SD 出图（推荐，`64` 倍数，3:4）：`960×1280`
 - 渲染方式：前景 `object-contain`（不裁切）+ 背景模糊填充（比例不一致会留边/补边）
 
 ### 详情页头图（`coverWide`，可选）
 
 - 展示比例：`4:3`，并限制最大高度 `420px`
 - 推荐源尺寸（4:3）：`1600×1200`（最低 `1200×900`）
-- ComfyUI/SD 出图（推荐，`64` 倍数，4:3）：`1280×960`
 - 渲染方式同上：前景 `object-contain` + 背景模糊填充
-
-### ComfyUI 工作流（可选）
-
-- 生成竖版 `960×1280` + 横版 `1280×960`：`comfyui/workflows/minigame_concepts_3x4_and_4x3.json`
-- 如颜色总偏同一色系：去掉提示词里的 `pastel/soft gradients`，并补充 `diverse color palette, varied dominant hue` 或直接写明 `color palette: ...`
 
 ### 把生成图用于帖子
 

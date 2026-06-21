@@ -80,6 +80,7 @@
 - [x] 创建 GitHub Actions 自动部署工作流 `.github/workflows/deploy.yml`（2026-06-21）
 - [x] 删除无用资源 `imgs/`、默认 public SVG、`.DS_Store`（2026-06-21）
 - [x] 更新 `compress-images` / `generate-play-covers` 脚本与文档，移除 `imgs/` 引用（2026-06-21）
+- [x] 删除 `comfyui/` 工作流目录并更新 README / `AGENTS.md` / `doc/AGENT_CONTEXT.md`（2026-06-21）
 
 ---
 

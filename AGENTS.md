@@ -32,7 +32,7 @@
 ### 默认不要全仓库扫描的目录（除非任务明确需要）
 
 - `node_modules/`（依赖体积大）
-- `public/`、`imgs/`、`games/`、`ReferenceCase/`、`comfyui/`（资源/案例为主）
+- `public/`、`games/`、`ReferenceCase/`（资源/案例为主）
 - `content/`（内容数据可能很大；只在需要具体 slug/key 时读取对应小范围文件）
 
 ### 变更原则
