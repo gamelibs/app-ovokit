@@ -11,25 +11,32 @@ const valuePoints = [
 
 export function HandDrawnHero() {
   return (
-    <section className="relative overflow-hidden rounded-3xl sketch-border bg-paper/70 p-6 shadow-sm">
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+    <section className="relative overflow-hidden rounded-2xl sketch-border bg-paper/70 p-3 shadow-sm sm:rounded-3xl sm:p-6">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-6">
         {/* 左侧文字 */}
-        <div className="min-w-0 space-y-5">
+        <div className="min-w-0 space-y-3 lg:space-y-5">
           <div className="relative">
-            <h1 className="font-kalam text-3xl font-bold leading-tight text-ink sm:text-4xl">
+            <h1 className="font-kalam text-xl font-bold leading-tight text-ink sm:text-3xl lg:text-4xl">
               探索游戏玩法
-              <br />
-              发现设计乐趣
+              <span className="hidden lg:inline">
+                <br />
+                发现设计乐趣
+              </span>
+              <span className="lg:hidden">，发现设计乐趣</span>
             </h1>
             {/* 标题下划线高亮 */}
-            <div className="mt-1 h-2 w-48 sketch-divider" />
+            <div className="mt-1 h-1.5 w-32 sketch-divider sm:h-2 sm:w-48" />
           </div>
 
-          <p className="text-sm leading-relaxed text-ink-light">
+          <p className="hidden text-sm leading-relaxed text-ink-light lg:block">
             这是一个面向所有游戏爱好者的玩法分享站点。无论你是想弄懂游戏为什么好玩，还是想亲手设计一个玩法，都可以在这里找到灵感。
           </p>
 
-          <ul className="space-y-2">
+          <p className="text-xs leading-relaxed text-ink-light lg:hidden">
+            面向游戏爱好者的玩法分享站点，拆解机制、试玩 Demo、寻找设计灵感。
+          </p>
+
+          <ul className="hidden space-y-2 lg:block">
             {valuePoints.map((text) => (
               <li key={text} className="flex items-start gap-2 text-sm text-ink-light">
                 <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-highlight-yellow text-xs font-bold text-ink">
@@ -40,7 +47,7 @@ export function HandDrawnHero() {
             ))}
           </ul>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="hidden flex-wrap gap-3 lg:flex">
             <Link href="/patterns" className="sketch-button">
               浏览玩法
             </Link>
@@ -51,12 +58,10 @@ export function HandDrawnHero() {
               了解更多
             </Link>
           </div>
-
-
         </div>
 
         {/* 右侧手绘插图组合 */}
-        <div className="relative flex items-center justify-center">
+        <div className="relative hidden items-center justify-center lg:flex">
           <div className="relative w-full max-w-[360px]">
             {/* 流程图主体 */}
             <img
