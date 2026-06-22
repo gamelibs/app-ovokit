@@ -17,8 +17,10 @@ services:
     volumes:
       # 持久化浏览/点赞统计（Redis 未配置时的 fallback）
       - ./data:/app/data
-      # 持久化联系表单留言，避免重建镜像后丢失
-      - ./content/contact-messages:/app/content/contact-messages
+      # 内容热更新：版主新增/编辑文章无需重建容器
+      - ./content:/app/content
+      # 静态资源热更新：上传封面图等无需重建容器
+      - ./public:/app/public
     environment:
       - PORT=13100
       - NODE_ENV=production

@@ -84,6 +84,8 @@ docker compose --env-file .env.local up --build -d
 
 首次构建会比较慢（需要下载 Node 镜像并安装依赖），后续增量构建会快很多。
 
+> **内容热更新**：`docker-compose.yml` 已将 `content/` 和 `public/` 挂载到宿主机。版主通过后台新增/编辑文章、上传封面图后，**不需要重新构建容器**，刷新页面即可看到更新。
+
 ### 5. 配置 Nginx
 
 编辑 `/etc/nginx/conf.d/ovoforge.com.conf`：
@@ -254,4 +256,7 @@ git pull origin main
 docker compose --env-file .env.local down
 docker compose --env-file .env.local build --no-cache
 docker compose --env-file .env.local up -d
+docker system prune -f
+
+docker compose --env-file .env.local up --build -d
 docker system prune -f
