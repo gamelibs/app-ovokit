@@ -23,7 +23,7 @@ export function PatternTabs({
         return (
           <Link
             key={item.key}
-            href={`/patterns?key=${encodeURIComponent(item.key)}`}
+            href={`/patterns/${encodeURIComponent(item.key)}`}
             className={pillClass(active)}
             aria-current={active ? "page" : undefined}
           >

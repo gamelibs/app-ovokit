@@ -121,7 +121,7 @@ export function ArchetypePage({
                   return (
                     <Link
                       key={key}
-                      href={`/patterns?key=${encodeURIComponent(key)}`}
+                      href={`/patterns/${encodeURIComponent(key)}`}
                       className="inline-flex items-center gap-1.5 rounded-full sketch-border bg-paper px-3 py-1.5 font-medium text-ink hover:bg-paper-warm"
                     >
                       <span>{pattern.name}</span>

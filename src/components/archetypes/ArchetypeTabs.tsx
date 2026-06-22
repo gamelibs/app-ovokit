@@ -20,7 +20,7 @@ export function ArchetypeTabs({
       {items.map((a) => (
         <Link
           key={a.key}
-          href={{ pathname: "/archetypes", query: { key: a.key } }}
+          href={`/archetypes/${encodeURIComponent(a.key)}`}
           className={pillClass(selectedKey === a.key)}
           aria-current={selectedKey === a.key ? "page" : undefined}
         >

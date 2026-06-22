@@ -62,7 +62,7 @@ export default async function ModFeaturesPage() {
             </div>
             <div className="flex shrink-0 items-center gap-2">
               <Link
-                href={`/features?key=${encodeURIComponent(spec.key)}`}
+                href={`/features/${encodeURIComponent(spec.key)}`}
                 target="_blank"
                 className="sketch-button sketch-button-secondary text-sm"
               >

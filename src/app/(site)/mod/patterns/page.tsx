@@ -62,7 +62,7 @@ export default async function ModPatternsPage() {
             </div>
             <div className="flex shrink-0 items-center gap-2">
               <Link
-                href={`/patterns?key=${encodeURIComponent(spec.key)}`}
+                href={`/patterns/${encodeURIComponent(spec.key)}`}
                 target="_blank"
                 className="sketch-button sketch-button-secondary text-sm"
               >

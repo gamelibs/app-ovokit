@@ -23,7 +23,7 @@ export function FeatureTabs({
         return (
           <Link
             key={item.key}
-            href={`/features?key=${encodeURIComponent(item.key)}`}
+            href={`/features/${encodeURIComponent(item.key)}`}
             className={pillClass(active)}
             aria-current={active ? "page" : undefined}
           >

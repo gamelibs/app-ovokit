@@ -45,7 +45,7 @@ export default async function ModArchetypeEditPage({ params }: PageProps) {
         </h1>
         <div className="flex shrink-0 items-center gap-2">
           <Link
-            href={`/archetypes?key=${encodeURIComponent(key)}`}
+            href={`/archetypes/${encodeURIComponent(key)}`}
             target="_blank"
             className="sketch-button sketch-button-secondary text-sm"
           >

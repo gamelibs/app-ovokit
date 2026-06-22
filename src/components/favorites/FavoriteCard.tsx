@@ -23,11 +23,11 @@ function itemHref(item: FavoriteItem) {
     case "play":
       return `/play/${item.key}`;
     case "archetype":
-      return `/archetypes?key=${encodeURIComponent(item.key)}`;
+      return `/archetypes/${encodeURIComponent(item.key)}`;
     case "pattern":
-      return `/patterns?key=${encodeURIComponent(item.key)}`;
+      return `/patterns/${encodeURIComponent(item.key)}`;
     case "feature":
-      return `/features?key=${encodeURIComponent(item.key)}`;
+      return `/features/${encodeURIComponent(item.key)}`;
   }
 }
 

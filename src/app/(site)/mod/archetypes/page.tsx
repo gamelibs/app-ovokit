@@ -62,7 +62,7 @@ export default async function ModArchetypesPage() {
             </div>
             <div className="flex shrink-0 items-center gap-2">
               <Link
-                href={`/archetypes?key=${encodeURIComponent(spec.key)}`}
+                href={`/archetypes/${encodeURIComponent(spec.key)}`}
                 target="_blank"
                 className="sketch-button sketch-button-secondary text-sm"
               >
