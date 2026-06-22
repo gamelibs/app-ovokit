@@ -62,6 +62,13 @@ export type Play = PlayMeta & {
   articleMdx?: string;
 };
 
+export type PlaySearchDoc = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  text: string;
+};
+
 const PLACEHOLDER_COVER_SRC = "/plays/_placeholders/cover.svg";
 const PLACEHOLDER_COVER_WIDE_SRC = "/plays/_placeholders/cover-wide.svg";
 
@@ -332,6 +339,52 @@ export async function readPlayArticleMdx(slug: string): Promise<string | null> {
   } catch {
     return null;
   }
+}
+
+function stripMdx(raw: string): string {
+  return raw
+    .replace(/^---[\s\S]*?---/m, " ") // frontmatter
+    .replace(/!?\[([^\]]*)\]\([^)]+\)/g, " $1 ") // links / images
+    .replace(/`{1,3}([^`]*)`{1,3}/g, " $1 ") // inline / fenced code
+    .replace(/#{1,6}\s+/g, " ") // headings
+    .replace(/[*_~|>{\[\]}]/g, " ") // md markers
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildPlaySearchText(meta: PlayMeta, articleMdx?: string | null): string {
+  const parts: (string | undefined)[] = [
+    meta.title,
+    meta.subtitle,
+    meta.tags.join(" "),
+    meta.techStack.join(" "),
+    meta.corePoints.join(" "),
+    meta.breakdown.map((b) => [b.title, ...b.bullets].join(" ")).join(" "),
+    meta.codeSnippets.map((c) => c.title).join(" "),
+    meta.demo.note,
+  ];
+  if (articleMdx) {
+    parts.push(stripMdx(articleMdx).slice(0, 8192));
+  }
+  return parts.filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+}
+
+export async function listPlaySearchIndex(): Promise<PlaySearchDoc[]> {
+  const slugs = await listPlaySlugs();
+  const entries = await Promise.all(
+    slugs.map(async (slug) => {
+      const meta = await readPlayMeta(slug);
+      if (!meta || meta.published === false) return null;
+      const articleMdx = await readPlayArticleMdx(slug);
+      return {
+        slug,
+        title: meta.title,
+        subtitle: meta.subtitle,
+        text: buildPlaySearchText(meta, articleMdx),
+      };
+    }),
+  );
+  return entries.filter((e): e is NonNullable<typeof e> => e !== null);
 }
 
 export async function listPlays(): Promise<PlayMeta[]> {

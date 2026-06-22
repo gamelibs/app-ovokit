@@ -6,6 +6,7 @@ import { Search, Menu } from "lucide-react";
 import { OvoLogo } from "./OvoLogo";
 import { DesktopNav } from "./DesktopNav";
 import { MenuDrawer } from "./MenuDrawer";
+import { SearchSuggestions } from "@/components/search/SearchSuggestions";
 import { useLocalStorageBoolean, useSetLocalStorage } from "@/lib/hooks/useLocalStorage";
 import { useClientValue } from "@/lib/hooks/useClientValue";
 import { trackEvent } from "@/lib/analytics/events";
@@ -22,6 +23,8 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
     () => new URLSearchParams(window.location.search).get("q") ?? "",
     "",
   );
+  const [query, setQuery] = useState(initialQuery);
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -37,15 +40,24 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
     }
   }, []);
 
-  function goSearch() {
-    const value = searchInputRef.current?.value ?? "";
-    const trimmed = value.trim();
+  useEffect(() => {
+    setQuery(initialQuery);
+  }, [initialQuery]);
+
+  function goSearch(value?: string) {
+    const trimmed = (value ?? query).trim();
+    setSuggestionsOpen(false);
     if (trimmed.length > 0) {
       trackEvent("search", { query: trimmed });
     }
     const target =
       trimmed.length > 0 ? `/?q=${encodeURIComponent(trimmed)}` : "/";
     router.push(target);
+  }
+
+  function selectSuggestion(term: string) {
+    setQuery(term);
+    goSearch(term);
   }
 
   function onLogoTap() {
@@ -94,7 +106,9 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
               <input
                 ref={searchInputRef}
                 placeholder="搜索玩法"
-                defaultValue={initialQuery}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => setSuggestionsOpen(true)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") goSearch();
                 }}
@@ -103,12 +117,19 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
               />
               <button
                 type="button"
-                onClick={goSearch}
+                onClick={() => goSearch()}
                 aria-label="Search"
                 className="absolute right-1.5 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center sketch-border bg-paper text-ink-muted hover:bg-paper-warm hover:text-ink min-[360px]:right-2"
               >
                 <Search size={18} strokeWidth={2} />
               </button>
+              <SearchSuggestions
+                key={query}
+                query={query}
+                onSelect={selectSuggestion}
+                onClose={() => setSuggestionsOpen(false)}
+                visible={suggestionsOpen}
+              />
             </div>
 
             <div className="hidden sm:flex">

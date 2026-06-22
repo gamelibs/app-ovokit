@@ -3,8 +3,15 @@ import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "./TagPill";
 import { PlayStats } from "./PlayStats";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
+import { highlightText } from "@/lib/search/highlight";
 
-export function PlayCard({ play }: { play: PlayMeta }) {
+export function PlayCard({
+  play,
+  highlightQuery,
+}: {
+  play: PlayMeta;
+  highlightQuery?: string;
+}) {
   return (
     <article className="sketch-card sketch-shadow-sm flex h-full flex-col overflow-hidden transition hover:shadow-md">
       {/* 封面：移动端更小，大屏正常 */}
@@ -54,7 +61,7 @@ export function PlayCard({ play }: { play: PlayMeta }) {
         <div className="flex flex-nowrap items-center gap-1 overflow-hidden">
           {play.tags.slice(0, 2).map((t) => (
             <TagPill key={t} tone={t === "推荐" ? "primary" : "neutral"} size="sm">
-              {t}
+              {highlightQuery ? highlightText(t, highlightQuery) : t}
             </TagPill>
           ))}
         </div>
@@ -62,13 +69,13 @@ export function PlayCard({ play }: { play: PlayMeta }) {
         {/* 标题：移动端单行，大屏最多 2 行 */}
         <h2 className="font-kalam mt-1.5 line-clamp-1 text-sm font-semibold leading-snug tracking-tight sm:line-clamp-2 sm:text-base">
           <Link href={`/play/${play.slug}`} className="hover:underline">
-            {play.title}
+            {highlightQuery ? highlightText(play.title, highlightQuery) : play.title}
           </Link>
         </h2>
 
         {/* 副标题：移动端单行 */}
         <p className="mt-0.5 line-clamp-1 text-xs leading-5 text-ink-light sm:line-clamp-2 sm:text-sm sm:leading-6">
-          {play.subtitle}
+          {highlightQuery ? highlightText(play.subtitle, highlightQuery) : play.subtitle}
         </p>
 
         {/* 元信息：大屏显示，移动端隐藏 */}

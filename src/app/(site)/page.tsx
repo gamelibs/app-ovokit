@@ -2,7 +2,8 @@ import { BrowseGroupTabs } from "@/components/plays/BrowseGroupTabs";
 import { CategoryTabs } from "@/components/plays/CategoryTabs";
 import { PlayCard } from "@/components/plays/PlayCard";
 import { RightSidebar } from "@/components/plays/RightSidebar";
-import { getPlayCategory, listPlays, resolvePlayBrowseState, type PlayBrowseGroupKey, type PlayTag } from "@/lib/content/plays";
+import { getPlayCategory, listPlays, listPlaySearchIndex, resolvePlayBrowseState, type PlayBrowseGroupKey, type PlayTag } from "@/lib/content/plays";
+import { filterPlaysBySearchResults, POPULAR_SEARCH_TERMS, searchPlayDocs, sortPlaysBySearchResults } from "@/lib/search/match";
 import Link from "next/link";
 import { HandDrawnHero } from "@/components/home/HandDrawnHero";
 import { HotPlaysSection } from "@/components/home/HotPlaysSection";
@@ -36,7 +37,10 @@ export default async function Home({
   const showAll = normalizeQueryParam(sp.all) === "1";
   const pageSize = 12;
 
-  const plays = await listPlays();
+  const [plays, searchDocs] = await Promise.all([
+    listPlays(),
+    q ? listPlaySearchIndex() : Promise.resolve(null),
+  ]);
 
   const isDefaultLanding =
     !showAll && !rawGroupKey && (!rawCatKey || rawCatKey === "for-you") && !q;
@@ -52,7 +56,7 @@ export default async function Home({
   const selectedDifficulty = selectedCategory?.filterDifficulty ?? null;
   const selectedPattern = selectedCategory?.filterPattern ?? null;
 
-  const filtered = plays.filter((p) => {
+  let filtered = plays.filter((p) => {
     if (selectedPattern && p.pattern !== selectedPattern) {
       return false;
     }
@@ -62,18 +66,16 @@ export default async function Home({
     if (selectedDifficulty && p.difficulty !== selectedDifficulty) {
       return false;
     }
-    if (!q) return true;
-    const haystack = [
-      p.title,
-      p.subtitle,
-      p.tags.join(" "),
-      p.techStack.join(" "),
-      p.corePoints.join(" "),
-    ]
-      .join(" ")
-      .toLowerCase();
-    return haystack.includes(q.toLowerCase());
+    return true;
   });
+
+  if (q && searchDocs) {
+    const results = searchPlayDocs(searchDocs, q);
+    filtered = sortPlaysBySearchResults(
+      filterPlaysBySearchResults(filtered, results),
+      results,
+    );
+  }
 
   const total = filtered.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -152,10 +154,42 @@ export default async function Home({
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_360px] lg:items-start">
         <section className="grid grid-cols-2 gap-4 2xl:grid-cols-3">
           {pageItems.length > 0 ? (
-            pageItems.map((p) => <PlayCard key={p.slug} play={p} />)
+            pageItems.map((p) => <PlayCard key={p.slug} play={p} highlightQuery={q} />)
           ) : (
-            <div className="mb-4 break-inside-avoid sketch-card p-5 text-sm text-ink-light">
-              暂无匹配结果{q ? `：${q}` : ""}
+            <div className="col-span-full">
+              <div className="sketch-card p-5 text-sm text-ink-light">
+                <p className="font-kalam text-base font-semibold text-ink">
+                  暂无匹配结果{q ? `：${q}` : ""}
+                </p>
+                {q ? (
+                  <>
+                    <p className="mt-2">试试这些热门搜索：</p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {POPULAR_SEARCH_TERMS.slice(0, 8).map((term) => (
+                        <Link
+                          key={term}
+                          href={{ pathname: "/", query: { q: term, all: "1" } }}
+                          className="inline-flex rounded-full bg-paper-warm px-3 py-1 text-xs font-medium text-ink hover:bg-highlight-yellow/60"
+                        >
+                          {term}
+                        </Link>
+                      ))}
+                    </div>
+                    <p className="mt-4 text-ink-muted">或者浏览最新文章：</p>
+                    <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                      {plays.slice(0, 4).map((p) => (
+                        <Link
+                          key={p.slug}
+                          href={`/play/${p.slug}`}
+                          className="rounded-lg bg-paper-warm px-3 py-2 text-xs text-ink hover:bg-highlight-yellow/40"
+                        >
+                          {p.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                ) : null}
+              </div>
             </div>
           )}
         </section>
