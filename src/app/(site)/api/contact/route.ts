@@ -42,7 +42,7 @@ async function saveMessage(body: {
   await fs.mkdir(CONTACT_DIR, { recursive: true });
   const filePath = path.join(CONTACT_DIR, `${id}.json`);
   await fs.writeFile(filePath, JSON.stringify(entry, null, 2) + "\n", "utf8");
-  return id;
+  return entry;
 }
 
 function buildRawEmail(payload: {
@@ -66,6 +66,45 @@ function buildRawEmail(payload: {
   const body = payload.html;
   const raw = [...headers, "", body].join("\r\n");
   return Buffer.from(raw).toString("base64url");
+}
+
+async function sendWebhook(payload: {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  createdAt: string;
+}) {
+  const url = process.env.CONTACT_WEBHOOK_URL;
+  if (!url) return { sent: false };
+
+  const secret = process.env.CONTACT_WEBHOOK_SECRET;
+  const body = {
+    ...payload,
+    source: "ovo-contact",
+    site: siteConfig.url ?? "https://ovoforge.com",
+  };
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(secret ? { "X-Contact-Secret": secret } : {}),
+      },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    return { sent: true };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "webhook 发送失败";
+    console.error("[contact] webhook failed:", msg);
+    return { sent: false };
+  }
 }
 
 async function sendContactEmail(body: {
@@ -197,12 +236,20 @@ export async function POST(req: Request) {
     message: trimmedMessage,
   };
 
-  let id: string;
+  let entry: { id: string; createdAt: string };
   try {
-    id = await saveMessage(payload);
+    entry = await saveMessage(payload);
   } catch {
     return NextResponse.json({ error: "保存留言失败" }, { status: 500 });
   }
+  const { id, createdAt } = entry;
+
+  // 异步发送 webhook，失败不影响主流程
+  sendWebhook({ id, ...payload, createdAt }).then((result) => {
+    if (!result.sent) {
+      console.log(`[contact] webhook skipped for message ${id}`);
+    }
+  });
 
   try {
     const { sent } = await sendContactEmail(payload);

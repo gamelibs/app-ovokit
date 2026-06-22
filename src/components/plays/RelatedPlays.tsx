@@ -1,6 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "./TagPill";
+
+function isSvg(src: string) {
+  return src.endsWith(".svg");
+}
 
 export function RelatedPlays({
   currentSlug,
@@ -26,12 +31,15 @@ export function RelatedPlays({
             href={`/play/${p.slug}`}
             className="group flex items-start gap-3 rounded-xl p-2 transition hover:bg-paper-warm"
           >
-            <div className="h-14 w-20 flex-none overflow-hidden rounded-lg bg-paper-warm">
+            <div className="relative h-14 w-20 flex-none overflow-hidden rounded-lg bg-paper-warm">
               {p.cover?.src ? (
-                <img
+                <Image
                   src={p.cover.src}
                   alt={p.title}
-                  className="h-full w-full object-contain"
+                  fill
+                  sizes="80px"
+                  unoptimized={isSvg(p.cover.src)}
+                  className="object-contain"
                   loading="lazy"
                 />
               ) : null}

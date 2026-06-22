@@ -1,7 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "@/components/plays/TagPill";
 import { Eye } from "lucide-react";
+
+function isSvg(src: string) {
+  return src.endsWith(".svg");
+}
 
 function formatCompactNumber(n: number) {
   if (n >= 10000) return `${(n / 10000).toFixed(1).replace(/\.0$/, "")}w`;
@@ -16,12 +21,15 @@ export function PlayListItem({ play }: { play: PlayMeta }) {
       className="group flex items-start gap-3 rounded-xl p-2 transition hover:bg-paper-warm sm:gap-4 sm:p-3"
     >
       {/* Thumbnail */}
-      <div className="h-16 w-16 flex-none overflow-hidden rounded-lg sketch-border bg-paper-warm sm:h-20 sm:w-20">
+      <div className="relative h-16 w-16 flex-none overflow-hidden rounded-lg sketch-border bg-paper-warm sm:h-20 sm:w-20">
         {play.cover?.src ? (
-          <img
+          <Image
             src={play.cover.src}
             alt={play.cover.alt ?? play.title}
-            className="h-full w-full object-contain"
+            fill
+            sizes="80px"
+            unoptimized={isSvg(play.cover.src)}
+            className="object-contain"
             loading="lazy"
           />
         ) : (

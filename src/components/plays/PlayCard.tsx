@@ -1,9 +1,14 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "./TagPill";
 import { PlayStats } from "./PlayStats";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { highlightText } from "@/lib/search/highlight";
+
+function isSvg(src: string) {
+  return src.endsWith(".svg");
+}
 
 export function PlayCard({
   play,
@@ -18,21 +23,25 @@ export function PlayCard({
       <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-paper-warm max-h-[100px] sm:max-h-none">
         {play.cover?.src ? (
           <div className="relative h-full w-full">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={play.cover.src}
               alt=""
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 240px"
+              unoptimized={isSvg(play.cover.src)}
               aria-hidden="true"
-              className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-40"
+              className="absolute inset-0 -z-10 scale-110 object-cover blur-2xl opacity-40"
               loading="lazy"
             />
             <div className="absolute inset-0 bg-ink/10" aria-hidden="true" />
 
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={play.cover.src}
               alt={play.cover.alt ?? play.title}
-              className="relative z-10 h-full w-full object-contain p-1.5 sm:p-4"
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 240px"
+              unoptimized={isSvg(play.cover.src)}
+              className="relative z-10 object-contain p-1.5 sm:p-4"
               loading="lazy"
             />
 

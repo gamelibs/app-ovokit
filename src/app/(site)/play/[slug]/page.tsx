@@ -1,7 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site/config";
+
+function isSvg(src: string) {
+  return src.endsWith(".svg");
+}
 import { CodeBlock } from "@/components/plays/CodeBlock";
 import { TagPill } from "@/components/plays/TagPill";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
@@ -154,11 +159,14 @@ export default async function PlayDetailPage({
             <div className="lg:hidden">
               <div className="mx-auto aspect-[4/3] w-full max-w-sm max-h-[180px] overflow-hidden rounded-2xl bg-gradient-to-br from-paper-warm to-paper">
                 <div className="relative flex h-full w-full items-center justify-center p-4">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={(play.coverWide?.src ?? play.cover?.src) as string}
                     alt={(play.coverWide?.alt ?? play.cover?.alt ?? play.title) as string}
-                    className="h-full w-full object-contain"
+                    fill
+                    sizes="400px"
+                    unoptimized={isSvg((play.coverWide?.src ?? play.cover?.src) as string)}
+                    className="object-contain"
+                    loading="lazy"
                   />
                 </div>
               </div>
@@ -286,15 +294,16 @@ export default async function PlayDetailPage({
           {/* 桌面端封面：作为侧边信息卡片，帮助快速识别主题 */}
           {(play.coverWide?.src || play.cover?.src) && (
             <section className="sketch-card p-4 shadow-sm">
-              <div className="aspect-[4/3] w-full max-h-[180px] overflow-hidden rounded-xl bg-gradient-to-br from-paper-warm to-paper">
-                <div className="relative flex h-full w-full items-center justify-center p-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={(play.coverWide?.src ?? play.cover?.src) as string}
-                    alt={(play.coverWide?.alt ?? play.cover?.alt ?? play.title) as string}
-                    className="h-full w-full object-contain"
-                  />
-                </div>
+              <div className="relative aspect-[4/3] w-full max-h-[180px] overflow-hidden rounded-xl bg-gradient-to-br from-paper-warm to-paper">
+                <Image
+                  src={(play.coverWide?.src ?? play.cover?.src) as string}
+                  alt={(play.coverWide?.alt ?? play.cover?.alt ?? play.title) as string}
+                  fill
+                  sizes="(max-width: 1280px) 33vw, 400px"
+                  unoptimized={isSvg((play.coverWide?.src ?? play.cover?.src) as string)}
+                  className="object-contain p-3"
+                  loading="lazy"
+                />
               </div>
             </section>
           )}

@@ -1,5 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import { listPlays } from "@/lib/content/plays";
+
+function isSvg(src: string) {
+  return src.endsWith(".svg");
+}
 
 export async function HotPlaysSection() {
   const plays = await listPlays();
@@ -31,10 +36,13 @@ export async function HotPlaysSection() {
           >
             {/* 封面：完整展示，不截断，四周留呼吸边距 */}
             <div className="relative aspect-[4/3] w-full overflow-hidden bg-paper-warm">
-              <img
+              <Image
                 src={play.cover?.src ?? "/plays/_placeholders/cover.svg"}
                 alt={play.title}
-                className="h-full w-full object-contain p-4"
+                fill
+                sizes="(max-width: 480px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                unoptimized={isSvg(play.cover?.src ?? "/plays/_placeholders/cover.svg")}
+                className="object-contain p-4"
                 loading="lazy"
               />
             </div>
