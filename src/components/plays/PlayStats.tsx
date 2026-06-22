@@ -7,6 +7,7 @@ import {
   useLocalStorageBoolean,
   useSetLocalStorage,
 } from "@/lib/hooks/useLocalStorage";
+import { trackEvent } from "@/lib/analytics/events";
 
 function formatCompactNumber(n: number) {
   if (n >= 10000) return `${(n / 10000).toFixed(1).replace(/\.0$/, "")}w`;
@@ -105,6 +106,7 @@ export function PlayDetailStats({
 
   function handleLike() {
     if (liked) return;
+    trackEvent("play_like", { slug });
     fetch(`/api/plays/${encodeURIComponent(slug)}/like`, { method: "POST" })
       .then((r) => r.json())
       .then((data: { views: number; likes: number }) => {

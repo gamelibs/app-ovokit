@@ -22,7 +22,7 @@
 9. **文档整理**：✅ 已归档过时文档、刷新 V1/V2/开发说明/手绘风格契约/版主工作流/AGENT_CONTEXT/AGENT_WORKFLOW，新增 `doc/README.md` 文档索引。
 10. **Docker 化部署准备**：✅ 已新增 `Dockerfile`、`docker-compose.yml`、`.dockerignore` 与 `doc/docker-deployment.md`。
 
-**下一步**：在服务器上执行 Docker 部署（按 `doc/docker-deployment.md`）。
+**下一步**：P1 体验优化（`<img>` 迁移 `next/image`、搜索高亮、联系表单通知等）。
 
 ---
 
@@ -71,12 +71,16 @@
 - [x] 新增 `doc/README.md` 文档索引（2026-06-21）
 - [x] 新增 Docker 部署方案：`Dockerfile`、`docker-compose.yml`、`.dockerignore`、`doc/docker-deployment.md`（2026-06-21）
 - [x] 修复 Docker 镜像缺失 `content/`、`games/` 目录导致 500 的问题；`data/` 与 `content/contact-messages/` 改为宿主机卷持久化（2026-06-21）
+- [x] 修复 Cookie 同意横幅在嵌入页（iframe）重复弹出的问题：将 `CookieConsent` 从根布局移到 `(site)` 布局（2026-06-21）
+- [x] 增强 GA4 集成：补发 `<Link>` 路由切换的 `page_view`，新增 `trackEvent` 工具，并在点赞、搜索处埋点（2026-06-21）
+- [x] 新增 Cloudflare Web Analytics 支持：无 Cookie、无需同意横幅，可与 GA4 同时使用（2026-06-21）
 
 ---
 
 ## 进行中（In Progress）
 
-- 生产服务器 Docker 部署（按 `doc/docker-deployment.md` 执行）
+- P1 体验优化：`<img>` 迁移 `next/image`、搜索高亮与空状态、联系表单邮件/webhook
+- 站点正式上线后的监控与反馈收集
 
 ---
 
@@ -103,7 +107,7 @@
 | 图片缺失 | ✅ 已补齐 | 104 张 SVG |
 | Git 工作区 | ✅ 已整理 | 8 个功能提交 |
 | `<img>` 未优化 | 🟡 P1 | 不影响功能，上线后继续 |
-| 生产服务器未实际部署 | 🟡 P0 | 清单/脚本/工作流已就绪，等待执行 |
+| 生产服务器 Docker 部署 | ✅ 已完成 | `https://ovoforge.com/` 返回 200 |
 
 ---
 

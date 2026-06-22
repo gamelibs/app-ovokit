@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { inter, kalam } from "@/lib/fonts";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
-import { CookieConsent } from "@/components/cookie/CookieConsent";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -41,7 +40,6 @@ export default function RootLayout({
       >
         <GoogleAnalytics gaId={gaId} />
         {children}
-        <CookieConsent />
       </body>
     </html>
   );

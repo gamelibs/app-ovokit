@@ -12,10 +12,10 @@
 
 ### 阻塞项（P0 必须）
 
-- [ ] **生产服务器 Docker 部署** <!-- task:id=deploy-001 priority:P0 category:engineering -->
+- [x] **生产服务器 Docker 部署** <!-- task:id=deploy-001 priority:P0 category:engineering -->
   - 文件：`doc/docker-deployment.md`、`Dockerfile`、`docker-compose.yml`
   - 目标：在目标服务器上通过 Docker Compose 拉起 `ovoforge-web` 与 `ovoforge-algo` 容器，宿主 Nginx 反向代理到 127.0.0.1:13100
-  - 验收：`curl https://ovoforge.com/` 返回 200，`curl http://127.0.0.1:14100/health` 返回 OK
+  - 验收：✅ `curl https://ovoforge.com/` 返回 200；`curl http://127.0.0.1:14100/health` 返回 OK
 
 ### 内容补齐
 

@@ -243,3 +243,25 @@ docker run -d --name ovoforge-web \
 
 **Q：算法后端没有用到，可以不启动吗？**  
 A：可以。站点内的 Demo 目前由 Next.js `/api/demos/*` 路由直接处理，`ovoforge-algo` 主要保留给未来扩展和本地健康检查。不需要时可以注释掉 `docker-compose.yml` 中的 `ovoforge-algo` 服务。
+
+日常运维命令
+cd /www/ovoforge
+# 查看容器状态
+docker compose ps
+
+# 查看 web 日志
+docker compose logs -f ovoforge-web
+
+# 查看 algo 日志
+docker compose logs -f ovoforge-algo
+
+# 重启 web
+docker compose restart ovoforge-web
+
+# 更新代码后重新部署
+git pull origin main
+set -a && source .env.local && set +a
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+docker system prune -f

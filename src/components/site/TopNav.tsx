@@ -8,6 +8,7 @@ import { DesktopNav } from "./DesktopNav";
 import { MenuDrawer } from "./MenuDrawer";
 import { useLocalStorageBoolean, useSetLocalStorage } from "@/lib/hooks/useLocalStorage";
 import { useClientValue } from "@/lib/hooks/useClientValue";
+import { trackEvent } from "@/lib/analytics/events";
 
 export function TopNav({ isModerator }: { isModerator: boolean }) {
   const [open, setOpen] = useState(false);
@@ -39,6 +40,9 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
   function goSearch() {
     const value = searchInputRef.current?.value ?? "";
     const trimmed = value.trim();
+    if (trimmed.length > 0) {
+      trackEvent("search", { query: trimmed });
+    }
     const target =
       trimmed.length > 0 ? `/?q=${encodeURIComponent(trimmed)}` : "/";
     router.push(target);
