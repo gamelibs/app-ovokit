@@ -25,16 +25,17 @@
   - 验收：✅ 已生成 20 张 SVG 到 `public/patterns/<key>/`（含已有 loop.svg）
 - [x] **补齐 9 个玩法特征说明图** <!-- task:id=images-003 priority:P0 category:content -->
   - 验收：✅ 已生成 36 张 SVG 到 `public/features/<key>/`
-- [ ] **独立详情页（P1 预留，P0 不实施）** <!-- task:id=detail-001 priority:P1 category:future -->
-  - 目标：未来把 `/archetypes/[key]`、`/patterns/[key]` 重定向改为独立页面
-  - 验收：P0 不验收
+
+  - 文件：`src/app/(site)/archetypes/[key]/page.tsx`、`src/app/(site)/patterns/[key]/page.tsx`、`src/app/(site)/features/[key]/page.tsx` 及相关 Tab/收藏/后台链接
+  - 目标：把重定向改为独立 SSG 详情页，释放 SEO 价值
+  - 验收：✅ `/archetypes/[key]`、`/patterns/[key]`、`/features/[key]` 直接返回 200，有独立 metadata
 
 ### 工程化与体验优化
 
-- [ ] **关键路径 `<img>` 迁移到 `next/image`** <!-- task:id=perf-001 priority:P1 category:engineering -->
-  - 文件：`src/components/plays/PlayStats.tsx`、`src/components/plays/RelatedPlays.tsx`、`src/app/(site)/play/[slug]/page.tsx`
-  - 目标：替换原生 img 为 next/image，提升 LCP
-  - 验收：`pnpm lint` 无 `@next/next/no-img-element` error
+
+  - 文件：`src/components/plays/PlayCard.tsx`、`src/components/home/HotPlaysSection.tsx`、`src/components/home/PlayListItem.tsx`、`src/components/plays/RelatedPlays.tsx`、`src/app/(site)/play/[slug]/page.tsx`
+  - 目标：替换原生 img 为 next/image，提升 LCP/CLS
+  - 验收：✅ `pnpm lint` 0 errors；核心路径 no-img-element warnings 清除
 - [x] **处理外部 CDN 字体依赖** <!-- task:id=perf-002 priority:P1 category:engineering -->
   - 文件：`src/app/layout.tsx`、`src/app/globals.css`
   - 目标：评估并移除或内联 `lxgw-wenkai-webfont` jsDelivr 链接
@@ -48,7 +49,10 @@
 
 - [ ] **版主发帖表单：选择原型后自动生成 breakdown / code 骨架** <!-- task:id=future-001 priority:P2 category:future -->
 - [ ] **AI 分析工具识别并输出 `pattern` 字段** <!-- task:id=future-002 priority:P2 category:future -->
-- [ ] **优化联系表单通知（邮件/webhook）** <!-- task:id=future-003 priority:P2 category:future -->
+
+  - 文件：`src/app/(site)/api/contact/route.ts`、`.env.example`、`doc/邮件功能说明.md`
+  - 目标：保存留言后异步发送 Webhook 到 Slack/Discord/飞书/企业微信等
+  - 验收：✅ 配置 CONTACT_WEBHOOK_URL 后可收到实时通知，未配置时不影响提交
 - [ ] **文档持续维护** <!-- task:id=doc-001 priority:P2 category:future -->
   - 目标：每次重大功能变更后同步更新 `doc/` 与 `memory/`
 
@@ -56,6 +60,18 @@
 
 ## Done
 
+- [x] **关键路径 `<img>` 迁移到 `next/image`** <!-- task:id=perf-001 priority:P1 category:engineering -->
+  - 文件：`src/components/plays/PlayCard.tsx`、`src/components/home/HotPlaysSection.tsx`、`src/components/home/PlayListItem.tsx`、`src/components/plays/RelatedPlays.tsx`、`src/app/(site)/play/[slug]/page.tsx`
+  - 目标：替换原生 img 为 next/image，提升 LCP/CLS
+  - 验收：✅ `pnpm lint` 0 errors；核心路径 no-img-element warnings 清除（2026-06-21）
+- [x] **联系表单 Webhook 实时通知** <!-- task:id=future-003 priority:P1 category:engineering -->
+  - 文件：`src/app/(site)/api/contact/route.ts`、`.env.example`、`doc/邮件功能说明.md`
+  - 目标：保存留言后异步发送 Webhook 到 Slack/Discord/飞书/企业微信等
+  - 验收：✅ 配置 CONTACT_WEBHOOK_URL 后可收到实时通知，未配置时不影响提交（2026-06-21）
+- [x] **独立详情页** <!-- task:id=detail-001 priority:P1 category:engineering -->
+  - 文件：`src/app/(site)/archetypes/[key]/page.tsx`、`src/app/(site)/patterns/[key]/page.tsx`、`src/app/(site)/features/[key]/page.tsx` 及相关 Tab/收藏/后台链接
+  - 目标：把重定向改为独立 SSG 详情页，释放 SEO 价值
+  - 验收：✅ `/archetypes/[key]`、`/patterns/[key]`、`/features/[key]` 直接返回 200，有独立 metadata（2026-06-21）
 - [x] **搜索体验第一层优化** <!-- task:id=future-004 priority:P1 category:engineering -->
   - 文件：`src/lib/content/plays.ts`、`src/lib/search/match.ts`、`src/lib/search/highlight.tsx`、`src/components/search/SearchSuggestions.tsx`、`src/components/site/TopNav.tsx`、`src/components/plays/PlayCard.tsx`、`src/app/(site)/page.tsx`
   - 目标：扩展搜索字段（title/subtitle/tags/techStack/corePoints/breakdown/codeSnippets/demo.note/article.mdx），增加热门搜索建议下拉，搜索结果高亮，无结果时推荐热门词与最新文章
