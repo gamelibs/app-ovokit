@@ -140,15 +140,15 @@ V1 上线后，下一阶段工作按优先级分为：
 
 ### 🟡 P1 — 上线后 1-2 周
 
-| # | 任务 | 说明 |
-|---|------|------|
-| 1 | **生产服务器部署** | 按 `doc/server-deployment-checklist.md` 完成 Nginx/SSL/PM2/GitHub Actions |
-| 2 | **`<img>` 迁移 `next/image`** | 优化图片加载与性能 |
-| 3 | **搜索高亮与空状态** | 关键词高亮、无结果提示 |
-| 4 | **联系表单邮件/webhook** | 从本地文件存储升级为邮件或通知 |
-| 5 | **500 错误页面** | 手绘风格 `error.tsx` |
-| 6 | **版主发帖预览** | 发布前预览效果 |
-| 7 | **移动端首页滚动优化** | 消除水平滚动风险 |
+| # | 任务 | 状态 | 说明 |
+|---|------|------|------|
+| 1 | **生产服务器部署** | ✅ | 按 `doc/server-deployment-checklist.md` 完成 Nginx/SSL/Docker/GitHub Actions |
+| 2 | **`<img>` 迁移 `next/image`** | ✅ | 优化图片加载与性能 |
+| 3 | **搜索高亮与空状态** | ✅ | 关键词高亮、无结果提示、热门搜索建议 |
+| 4 | **联系表单邮件/webhook** | ✅ | 从本地文件存储升级为 Webhook + 可选 Gmail |
+| 5 | **500 错误页面** | ⬜ | 手绘风格 `error.tsx` |
+| 6 | **版主发帖预览** | ⬜ | 发布前预览效果 |
+| 7 | **移动端首页滚动优化** | ✅ | Hero 折叠为精简横幅，首屏直接展示内容 |
 
 ### 🟢 P2 — 体验增强
 
@@ -159,7 +159,7 @@ V1 上线后，下一阶段工作按优先级分为：
 | 3 | **Demo 覆盖率提升** | 新增 5-10 个专用 Demo |
 | 4 | **代码沙盒嵌入** | StackBlitz / CodeSandbox 在线运行 |
 | 5 | **RSS 订阅** | 内容站标准功能 |
-| 6 | **分析工具** | Google Analytics / Plausible |
+| 6 | **分析工具** | ✅ Google Analytics 4 + Cloudflare Web Analytics 已接入 |
 
 ---
 
@@ -185,6 +185,7 @@ V1 上线后，下一阶段工作按优先级分为：
 | Demo 组件 zinc 残留 | P2 | 不影响公开页面 |
 | BlockEditor zinc 残留 | P2 | 仅版主后台工具页 |
 | Embed 页面 dark 残留 | P2 | iframe 嵌入页，不影响主站 |
+| Hero/QuickNav SVG 未迁移 next/image | P2 | 装饰性小图，收益低 |
 
 ---
 
