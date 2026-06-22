@@ -74,12 +74,13 @@
 - [x] 修复 Cookie 同意横幅在嵌入页（iframe）重复弹出的问题：将 `CookieConsent` 从根布局移到 `(site)` 布局（2026-06-21）
 - [x] 增强 GA4 集成：补发 `<Link>` 路由切换的 `page_view`，新增 `trackEvent` 工具，并在点赞、搜索处埋点（2026-06-21）
 - [x] 新增 Cloudflare Web Analytics 支持：无 Cookie、无需同意横幅，可与 GA4 同时使用（2026-06-21）
+- [x] 搜索体验第一层优化：扩展索引字段至 breakdown/code/demo/article，新增热门搜索建议、搜索结果高亮、无结果推荐（2026-06-21）
 
 ---
 
 ## 进行中（In Progress）
 
-- P1 体验优化：`<img>` 迁移 `next/image`、搜索高亮与空状态、联系表单邮件/webhook
+- P1 体验优化：`<img>` 迁移 `next/image`、联系表单邮件/webhook
 - 站点正式上线后的监控与反馈收集
 
 ---
@@ -92,7 +93,7 @@
 - [ ] 版主发帖表单：选择原型后自动生成 breakdown / code 骨架
 - [ ] AI 分析工具识别并输出 `pattern` 字段
 - [ ] 优化联系表单通知（邮件/webhook）
-- [ ] 完善搜索高亮与空状态
+
 - [ ] `/archetypes/[key]` 与 `/patterns/[key]` 独立详情页
 
 ---

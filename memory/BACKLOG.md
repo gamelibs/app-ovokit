@@ -49,7 +49,6 @@
 - [ ] **版主发帖表单：选择原型后自动生成 breakdown / code 骨架** <!-- task:id=future-001 priority:P2 category:future -->
 - [ ] **AI 分析工具识别并输出 `pattern` 字段** <!-- task:id=future-002 priority:P2 category:future -->
 - [ ] **优化联系表单通知（邮件/webhook）** <!-- task:id=future-003 priority:P2 category:future -->
-- [ ] **完善搜索高亮与空状态** <!-- task:id=future-004 priority:P2 category:future -->
 - [ ] **文档持续维护** <!-- task:id=doc-001 priority:P2 category:future -->
   - 目标：每次重大功能变更后同步更新 `doc/` 与 `memory/`
 
@@ -57,6 +56,10 @@
 
 ## Done
 
+- [x] **搜索体验第一层优化** <!-- task:id=future-004 priority:P1 category:engineering -->
+  - 文件：`src/lib/content/plays.ts`、`src/lib/search/match.ts`、`src/lib/search/highlight.tsx`、`src/components/search/SearchSuggestions.tsx`、`src/components/site/TopNav.tsx`、`src/components/plays/PlayCard.tsx`、`src/app/(site)/page.tsx`
+  - 目标：扩展搜索字段（title/subtitle/tags/techStack/corePoints/breakdown/codeSnippets/demo.note/article.mdx），增加热门搜索建议下拉，搜索结果高亮，无结果时推荐热门词与最新文章
+  - 验收：✅ `pnpm typecheck`/`pnpm lint`/`pnpm build` 通过；搜索"三消"可命中 Match-3 文章（2026-06-21）
 - [x] 建立 Agent 工作流记忆系统（`memory/`、`doc/AGENT_WORKFLOW.md`）
 - [x] 手绘风格化基本完成
 - [x] 30 篇玩法内容填充
