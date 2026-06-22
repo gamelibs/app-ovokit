@@ -37,13 +37,10 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            echo "▶ 加载环境变量并重新构建容器..."
-            set -a
-            source .env.local
-            set +a
-            docker compose down
-            docker compose build --no-cache
-            docker compose up -d
+            echo "▶ 重新构建容器..."
+            docker compose --env-file .env.local down
+            docker compose --env-file .env.local build --no-cache
+            docker compose --env-file .env.local up -d
 
             echo "▶ 清理旧镜像..."
             docker image prune -f

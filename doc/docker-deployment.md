@@ -78,13 +78,8 @@ MOONSHOT_API_KEY=your_key             # 可选，版主 AI 工具需要
 ### 4. 构建并启动容器
 
 ```bash
-# 导出 .env.local 中的变量，供 docker-compose build args 使用
-set -a
-source .env.local
-set +a
-
-# 构建镜像并启动服务
-docker compose up --build -d
+# --env-file .env.local 让 docker-compose 在构建时能读取 NEXT_PUBLIC_* 变量
+docker compose --env-file .env.local up --build -d
 ```
 
 首次构建会比较慢（需要下载 Node 镜像并安装依赖），后续增量构建会快很多。
@@ -171,10 +166,7 @@ cd /www/ovoforge
 git pull origin main
 
 # 重新构建并启动（会复用缓存层）
-set -a
-source .env.local
-set +a
-docker compose up --build -d
+docker compose --env-file .env.local up --build -d
 
 # 清理旧镜像（可选）
 docker image prune -f
@@ -214,8 +206,7 @@ script: |
   cd /www/ovoforge
   git fetch origin main
   git reset --hard origin/main
-  set -a && source .env.local && set +a
-  docker compose up --build -d
+  docker compose --env-file .env.local up --build -d
   docker image prune -f
 ```
 
@@ -260,8 +251,7 @@ docker compose restart ovoforge-web
 
 # 更新代码后重新部署
 git pull origin main
-set -a && source .env.local && set +a
-docker compose down
-docker compose build --no-cache
-docker compose up -d
+docker compose --env-file .env.local down
+docker compose --env-file .env.local build --no-cache
+docker compose --env-file .env.local up -d
 docker system prune -f
