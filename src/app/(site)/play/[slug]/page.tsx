@@ -121,7 +121,7 @@ export default async function PlayDetailPage({
       </div>
 
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_360px] lg:items-start">
-        <article className="space-y-4">
+        <article className="flex flex-col gap-4">
           <header className="sketch-card p-5 shadow-sm">
             <div className="flex flex-wrap items-center gap-2">
               {play.tags.map((t) => (
@@ -154,26 +154,7 @@ export default async function PlayDetailPage({
             </div>
           </header>
 
-          {/* 移动端封面：小尺寸辅助识别，不抢夺内容焦点 */}
-          {(play.coverWide?.src || play.cover?.src) && (
-            <div className="lg:hidden">
-              <div className="mx-auto aspect-[4/3] w-full max-w-sm max-h-[180px] overflow-hidden rounded-2xl bg-gradient-to-br from-paper-warm to-paper">
-                <div className="relative flex h-full w-full items-center justify-center p-4">
-                  <Image
-                    src={(play.coverWide?.src ?? play.cover?.src) as string}
-                    alt={(play.coverWide?.alt ?? play.cover?.alt ?? play.title) as string}
-                    fill
-                    sizes="400px"
-                    unoptimized={isSvg((play.coverWide?.src ?? play.cover?.src) as string)}
-                    className="object-contain"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          <section className="sketch-card p-5 shadow-sm">
+          <section className="sketch-card p-5 shadow-sm order-3 lg:order-2">
             <h2 className="text-base font-semibold font-kalam">玩法拆解</h2>
             <div className="mt-4 space-y-4">
               {play.breakdown.map((b) => (
@@ -191,7 +172,7 @@ export default async function PlayDetailPage({
             </div>
           </section>
 
-          <section className="sketch-card p-5 shadow-sm">
+          <section className="sketch-card p-5 shadow-sm order-4 lg:order-3">
             <h2 className="text-base font-semibold font-kalam">关键代码</h2>
             <div className="mt-4 space-y-3">
               {play.codeSnippets.map((s) => (
@@ -205,10 +186,10 @@ export default async function PlayDetailPage({
             </div>
           </section>
 
-          <section className="sketch-card p-5 shadow-sm">
+          <section className="sketch-card p-5 shadow-sm order-2 lg:order-4">
             <h2 className="text-base font-semibold font-kalam">Demo</h2>
             <p className="mt-2 text-sm text-ink-light">
-              {play.demo.note ??
+              {play.demo?.note ??
                 (fallbackArchetypeDemoSrc
                   ? "暂未提供专用 Demo，已嵌入对应母型玩法的最小可试玩示例。"
                   : "暂未提供可试玩 Demo。")}
@@ -276,18 +257,17 @@ export default async function PlayDetailPage({
           </section>
 
           {play.articleMdx ? (
-            <section className="sketch-card p-5 shadow-sm">
+            <section className="sketch-card p-5 shadow-sm order-5">
               <h2 className="text-base font-semibold font-kalam">文章</h2>
-              <p className="mt-2 text-sm text-ink-light">
-                文章以 Markdown/MDX 文本子集渲染（不支持自定义组件）。
-              </p>
               <div className="mt-4">
                 <ArticleMarkdown source={play.articleMdx} glossary={glossary} />
               </div>
             </section>
           ) : null}
 
-          <RelatedPlays currentSlug={slug} plays={relatedPlays} />
+          <div className="order-6">
+            <RelatedPlays currentSlug={slug} plays={relatedPlays} />
+          </div>
         </article>
 
         <aside className="hidden lg:block space-y-4">

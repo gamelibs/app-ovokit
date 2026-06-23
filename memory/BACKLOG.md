@@ -8,6 +8,18 @@
 
 ---
 
+## In Progress
+
+- [ ] **移动端玩法详情页结构优化** <!-- task:id=mobile-detail-001 priority:P1 category:ux -->
+  - 文件：`src/app/(site)/play/[slug]/page.tsx`
+  - 目标：移动端首屏（标题卡）之后直接展示 Demo，移除移动端封面图片占位；PC 端保持「玩法拆解 → 关键代码 → Demo」顺序
+  - 状态：已改待用户确认后提交部署
+
+- [ ] **手绘边框减淡调优** <!-- task:id=ui-border-001 priority:P1 category:ux -->
+  - 文件：`src/components/sketch/SketchBorder.tsx`、`src/components/sketch/SketchCard.tsx`、`src/app/globals.css`
+  - 目标：降低卡片/分隔线边框存在感，避免抢夺内容焦点；顶部导航、底部、主按钮保持重色锚点
+  - 状态：已改待用户确认后提交部署
+
 ## Todo
 
 ### 阻塞项（P0 必须）
@@ -47,6 +59,11 @@
 
 ### 后续（P1/P2）
 
+- [ ] **H5 试玩 Demo 体系重构** <!-- task:id=demo-h5-001 priority:P1 category:product -->
+  - 文件：`doc/h5-demo-development-guide.md`、外部 Demo 仓库
+  - 目标：将 12 母型 + 5 核心原型 Demo 改为外部 H5 实现，按 demoId 映射加载；玩法帖子逐步接入专用 H5 Demo
+  - 状态：规范已输出，待外部工具创作实现
+
 - [ ] **版主发帖表单：选择原型后自动生成 breakdown / code 骨架** <!-- task:id=future-001 priority:P2 category:future -->
 - [ ] **AI 分析工具识别并输出 `pattern` 字段** <!-- task:id=future-002 priority:P2 category:future -->
 
@@ -59,6 +76,11 @@
 ---
 
 ## Done
+
+- [x] **清理全站用户可见的内部占位/提示文案** <!-- task:id=cleanup-internal-hints-001 priority:P0 category:content -->
+  - 文件：`content/plays/*/meta.json`、`src/app/(site)/play/[slug]/page.tsx`、`src/components/demos/PlayMiniDemo.tsx`、`src/components/mod/NewPlayForm.tsx`、`src/lib/content/plays.ts`
+  - 目标：删除玩法详情页 Demo 区"建议 Demo"、"MVP 占位"、文章区"不支持自定义组件"、技术栈 `(占位)`、`PlayMiniDemo` 开发者提示等用户不应看到的内部文案；同时把 `NewPlayForm` 默认占位文本置空，避免新内容继续污染
+  - 验收：✅ `pnpm typecheck` 通过；`pnpm lint` 0 errors / 30 warnings；`pnpm test:smoke` 68/68 通过（2026-06-23）
 
 - [x] **关键路径 `<img>` 迁移到 `next/image`** <!-- task:id=perf-001 priority:P1 category:engineering -->
   - 文件：`src/components/plays/PlayCard.tsx`、`src/components/home/HotPlaysSection.tsx`、`src/components/home/PlayListItem.tsx`、`src/components/plays/RelatedPlays.tsx`、`src/app/(site)/play/[slug]/page.tsx`

@@ -61,8 +61,6 @@
       "code": "type Flags = Record<string, boolean>;\n\ntype Ending = { id: string; priority: number; when: (f: Flags) => boolean };\n\nexport const endings: Ending[] = [\n  { id: \"true\", priority: 100, when: (f) => f.coreDone && f.secretKey && f.mercy },\n  { id: \"good\", priority: 50, when: (f) => f.coreDone && f.mercy },\n  { id: \"bad\", priority: 10, when: (f) => f.coreDone },\n];\n\nexport function pickEnding(flags: Flags) {\n  return endings\n    .filter((e) => e.when(flags))\n    .sort((a, b) => b.priority - a.priority)[0]?.id;\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：把结局条件做成可视化进度（勾选/进度条），观察玩家是否更愿意二周目。"
-  },
-  "published": true
+  "published": true,
+  "demo": {}
 }

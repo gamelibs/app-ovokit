@@ -63,8 +63,6 @@
       "code": "export function diminishing(x: number, k = 0.7) {\n  // x: 叠加值（例如暴击伤害 +0.2 +0.2 ...）\n  // k 越小递减越强\n  return 1 - Math.exp(-x * k);\n}\n\nexport function finalDamageMultiplier(opts: {\n  base: number;\n  sameGroupBonus: number; // 同组加法汇总\n  otherGroupMul: number; // 跨组乘法（已控制上限）\n}) {\n  const same = 1 + diminishing(opts.sameGroupBonus);\n  return opts.base * same * opts.otherGroupMul;\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：给同一武器随机 10 万次词条，统计伤害分布与 P99，验证是否存在“离谱尾巴”。"
-  },
-  "published": true
+  "published": true,
+  "demo": {}
 }

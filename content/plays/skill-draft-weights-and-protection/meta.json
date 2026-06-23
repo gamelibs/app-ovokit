@@ -63,8 +63,6 @@
       "code": "type Skill = { id: string; tags: string[]; baseWeight: number; tier: 1 | 2 | 3 };\n\ntype PlayerBuild = { tags: string[]; picks: string[]; newbieUntil: number; coreMissing: number };\n\nfunction synergyMul(skill: Skill, build: PlayerBuild) {\n  const hit = skill.tags.filter((t) => build.tags.includes(t)).length;\n  return 1 + Math.min(0.6, hit * 0.2);\n}\n\nexport function weightFor(skill: Skill, build: PlayerBuild, floor: number) {\n  let w = skill.baseWeight * synergyMul(skill, build);\n\n  // 新手保护：前期更偏向 tier1（直接变强/功能件）\n  if (floor <= build.newbieUntil) {\n    w *= skill.tier === 1 ? 1.6 : 0.9;\n  }\n\n  // 保底：核心件长期没出就加权\n  if (build.coreMissing >= 3 && skill.tags.includes(\"core\")) {\n    w *= 2.0;\n  }\n\n  return w;\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：对比“纯随机/协同加权/加权+保底”，看新手首局通关率与中后期多样性。"
-  },
-  "published": true
+  "published": true,
+  "demo": {}
 }

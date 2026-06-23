@@ -1,30 +1,122 @@
 {
   "wave-defense-difficulty-curve": {
-    "views": 4,
+    "views": 5,
     "likes": 0
   },
   "merge-chain-and-gates": {
-    "views": 3,
+    "views": 16,
     "likes": 0
   },
   "play-1677a241": {
-    "views": 3,
+    "views": 4,
     "likes": 0
   },
   "spot-the-difference-design-and-anti-skip": {
-    "views": 2,
-    "likes": 0
-  },
-  "tap-dodge-forgiveness-and-speed": {
-    "views": 4,
-    "likes": 0
-  },
-  "finite-state-machine-for-combat": {
     "views": 3,
     "likes": 0
   },
+  "tap-dodge-forgiveness-and-speed": {
+    "views": 5,
+    "likes": 0
+  },
+  "finite-state-machine-for-combat": {
+    "views": 16,
+    "likes": 0
+  },
   "match-3-retention-and-pacing": {
-    "views": 4,
+    "views": 6,
+    "likes": 0
+  },
+  "grid-movement-and-collision": {
+    "views": 2,
+    "likes": 0
+  },
+  "merge-level-core-loop": {
+    "views": 2,
+    "likes": 0
+  },
+  "sliding-puzzle-3d-photo": {
+    "views": 2,
+    "likes": 0
+  },
+  "td-waves-and-ai-scaling": {
+    "views": 2,
+    "likes": 0
+  },
+  "2048-variant-probability-control": {
+    "views": 1,
+    "likes": 0
+  },
+  "clicker-feedback-and-inflation": {
+    "views": 1,
+    "likes": 0
+  },
+  "drag-idle-manual-vs-offline": {
+    "views": 1,
+    "likes": 0
+  },
+  "gacha-pity-and-psychology": {
+    "views": 1,
+    "likes": 0
+  },
+  "infinite-upgrades-cost-curves": {
+    "views": 1,
+    "likes": 0
+  },
+  "line-connect-scoring-and-limits": {
+    "views": 3,
+    "likes": 0
+  },
+  "meta-progression-permanent-growth": {
+    "views": 1,
+    "likes": 0
+  },
+  "multiple-endings-triggers-and-guidance": {
+    "views": 1,
+    "likes": 0
+  },
+  "one-stroke-generation-and-grading": {
+    "views": 1,
+    "likes": 0
+  },
+  "path-planning-pseudo-puzzle": {
+    "views": 1,
+    "likes": 0
+  },
+  "physics-cut-hit-test-and-performance": {
+    "views": 1,
+    "likes": 0
+  },
+  "pull-the-pin-punish-and-fake-difficulty": {
+    "views": 1,
+    "likes": 0
+  },
+  "random-affixes-pool-and-scaling": {
+    "views": 1,
+    "likes": 0
+  },
+  "random-events-balance-and-pity": {
+    "views": 1,
+    "likes": 0
+  },
+  "roguelike-horde-density-and-readability": {
+    "views": 1,
+    "likes": 0
+  },
+  "roguelike-level-pools-and-builds": {
+    "views": 1,
+    "likes": 0
+  },
+  "skill-draft-weights-and-protection": {
+    "views": 1,
+    "likes": 0
+  },
+  "survival-countdown-design": {
+    "views": 1,
+    "likes": 0
+  },
+  "talent-tree-real-choice-and-respec": {
+    "views": 1,
     "likes": 0
   }
 }

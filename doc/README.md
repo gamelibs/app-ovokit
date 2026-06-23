@@ -20,6 +20,7 @@
 | 文件 | 说明 |
 |------|------|
 | [`开发说明.md`](./开发说明.md) | 当前功能概览、路由、分层目录约定、Demo 架构 |
+| [`h5-demo-development-guide.md`](./h5-demo-development-guide.md) | H5 试玩游戏开发规范：目录、通信协议、12+5 Demo 详细说明 |
 | [`server-deployment-checklist.md`](./server-deployment-checklist.md) | 生产服务器部署、Nginx/SSL、PM2、GitHub Actions 完整清单 |
 | [`docker-deployment.md`](./docker-deployment.md) | Docker / Docker Compose 容器化部署指南 |
 | [`手绘风格契约.md`](./手绘风格契约.md) | 手绘风格设计系统：颜色、字体、强制组件、禁止事项 |

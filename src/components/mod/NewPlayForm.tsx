@@ -125,7 +125,7 @@ export function NewPlayForm({
   const [corePoints, setCorePoints] = useState<string[]>(["核心点1", "核心点2"]);
   const [breakdown, setBreakdown] = useState<BreakdownItem[]>(defaultBreakdown);
   const [codeSnippets, setCodeSnippets] = useState<CodeSnippetItem[]>(defaultCodeSnippets);
-  const [demoNote, setDemoNote] = useState("MVP：Demo 先留 iframe 占位。");
+  const [demoNote, setDemoNote] = useState("");
   const [iframeSrc, setIframeSrc] = useState("");
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [coverPreviewUrl, setCoverPreviewUrl] = useState<string>("");
@@ -143,7 +143,7 @@ export function NewPlayForm({
   );
   const [existingVideoSrc, setExistingVideoSrc] = useState<string | null>(null);
   const [articleMdx, setArticleMdx] = useState(
-    `# ${title || "标题"}\n\n这篇是 **MVP 占位**：后续将补充完整内容。\n`,
+    `# ${title || "标题"}\n\n`,
   );
   const [coverSvgDataUrl, setCoverSvgDataUrl] = useState<string>("");
   const [generatingArticle, setGeneratingArticle] = useState(false);
@@ -292,7 +292,7 @@ export function NewPlayForm({
         setCodeSnippets(JSON.parse(String(d.codeJson ?? JSON.stringify(defaultCodeSnippets))) as CodeSnippetItem[]);
       }
 
-      setDemoNote(String(d.demoNote ?? "MVP：Demo 先留 iframe 占位。"));
+      setDemoNote(String(d.demoNote ?? ""));
       setIframeSrc(String(d.iframeSrc ?? ""));
       setCoverAlt(String(d.coverAlt ?? ""));
       setArticleMdx(String(d.articleMdx ?? `# ${String(d.title || "标题")}\n\n`));

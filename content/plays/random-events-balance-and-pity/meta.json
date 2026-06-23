@@ -62,8 +62,6 @@
       "code": "type Event = { id: string; kind: \"good\" | \"neutral\" | \"bad\"; weight: number };\n\ntype State = { badStreak: number };\n\nexport function eventWeight(e: Event, s: State) {\n  if (e.kind === \"good\") return e.weight * (1 + Math.min(1.5, s.badStreak * 0.3));\n  if (e.kind === \"bad\") return e.weight * (1 - Math.min(0.6, s.badStreak * 0.15));\n  return e.weight;\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：统计“连续坏事件长度”分布，对比开启/关闭 badStreak 保护后的差异。"
-  },
-  "published": true
+  "published": true,
+  "demo": {}
 }

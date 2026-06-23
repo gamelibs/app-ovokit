@@ -10,7 +10,7 @@
   "difficulty": "进阶",
   "techStack": [
     "TypeScript",
-    "2D 物理(占位)"
+    "2D 物理"
   ],
   "corePoints": [
     "切割判定",
@@ -46,9 +46,6 @@
       "code": "export type Aabb = { minX: number; minY: number; maxX: number; maxY: number };\n\nexport function aabbIntersects(a: Aabb, b: Aabb) {\n  return !(a.maxX < b.minX || a.minX > b.maxX || a.maxY < b.minY || a.minY > b.maxY);\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：同一切割效果，用“分片上限/多边形简化阈值”对比帧率与手感。"
-  },
   "cover": {
     "src": "/plays/physics-cut-hit-test-and-performance/cover.svg",
     "alt": "物理切割：切割判定方式与性能/精度平衡"
@@ -57,5 +54,6 @@
   "coverWide": {
     "src": "/plays/physics-cut-hit-test-and-performance/cover-wide.svg",
     "alt": "物理切割：切割判定方式与性能/精度平衡"
-  }
+  },
+  "demo": {}
 }

@@ -62,8 +62,6 @@
       "code": "export function costFor(level: number) {\n  const base = 50;\n  const r = level < 20 ? 1.08 : level < 80 ? 1.11 : 1.14;\n  return Math.floor(base * Math.pow(r, level));\n}\n\nexport function milestoneFor(level: number) {\n  // 把“无限”切成阶段，解锁新系统\n  if (level === 10) return \"解锁自动点击\";\n  if (level === 30) return \"解锁转生\";\n  if (level === 60) return \"解锁新资源\";\n  return null;\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：做一条升级曲线可视化（成本/收益/回本时间），用滑块模拟不同 r 值对留存的影响。"
-  },
-  "published": true
+  "published": true,
+  "demo": {}
 }

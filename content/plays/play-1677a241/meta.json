@@ -111,12 +111,10 @@
       "code": "export type Generator = {\n  id: string;\n  cooldownMs: number;\n  lastSpawnAt: number;\n  spawnType: ItemType;\n  spawnLevel: number;\n};\n\nexport function canSpawn(g: Generator, now = Date.now()) {\n  return now - g.lastSpawnAt >= g.cooldownMs;\n}\n\nexport function spawnItem(g: Generator): Item {\n  return {\n    id: crypto.randomUUID(),\n    type: g.spawnType,\n    level: g.spawnLevel,\n  };\n}\n"
     }
   ],
-  "demo": {
-    "note": "MVP：Demo 先留 iframe 占位。"
-  },
   "coverWide": {
     "src": "/plays/play-1677a241/cover-wide.svg",
     "alt": "小游戏玩法知识分享---之---合成"
   },
-  "published": true
+  "published": true,
+  "demo": {}
 }

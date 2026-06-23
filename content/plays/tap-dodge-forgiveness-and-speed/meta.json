@@ -10,7 +10,7 @@
   "difficulty": "进阶",
   "techStack": [
     "TypeScript",
-    "Canvas(占位)"
+    "Canvas"
   ],
   "corePoints": [
     "判定宽容度",
@@ -46,9 +46,6 @@
       "code": "export function bulletSpeed(tSec: number) {\n  const ramp = 0.08 * Math.min(tSec, 10);\n  const plateau = 1.0;\n  const sprint = tSec > 35 ? 0.04 * Math.min(10, tSec - 35) : 0;\n  return plateau + ramp + sprint;\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：给出“近失减速/无近失”两版，比较平均存活时长与复玩率。"
-  },
   "cover": {
     "src": "/plays/tap-dodge-forgiveness-and-speed/cover.svg",
     "alt": "点击躲避：失败宽容度与子弹速度曲线"
@@ -57,5 +54,6 @@
   "coverWide": {
     "src": "/plays/tap-dodge-forgiveness-and-speed/cover-wide.svg",
     "alt": "点击躲避：失败宽容度与子弹速度曲线"
-  }
+  },
+  "demo": {}
 }

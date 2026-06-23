@@ -46,9 +46,6 @@
       "code": "type Diff = { id: string; x: number; y: number; r: number; found: boolean };\n\nexport function canUseHint(lastHintAtMs: number, nowMs: number) {\n  const cooldownMs = 20_000;\n  return nowMs - lastHintAtMs >= cooldownMs;\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：同一张图，做“快差异/慢差异”分档，测试不同年龄段的完成时长分布。"
-  },
   "cover": {
     "src": "/plays/spot-the-difference-design-and-anti-skip/cover.svg",
     "alt": "找不同：差异点套路与防止“秒通关”"
@@ -57,5 +54,6 @@
   "coverWide": {
     "src": "/plays/spot-the-difference-design-and-anti-skip/cover-wide.svg",
     "alt": "找不同：差异点套路与防止“秒通关”"
-  }
+  },
+  "demo": {}
 }

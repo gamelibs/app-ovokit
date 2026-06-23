@@ -62,8 +62,6 @@
       "code": "export function metaCurrencyGain(opts: {\n  seconds: number;\n  floors: number;\n  kills: number;\n}) {\n  const earlyQuitPenalty = opts.seconds < 120 ? 0.2 : 1;\n  const base = Math.sqrt(opts.kills) + opts.floors * 3;\n  return Math.floor(base * earlyQuitPenalty);\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：做一张“永久成长占比 vs 首次通关率”的对照表，找 20~35% 的舒适区。"
-  },
-  "published": true
+  "published": true,
+  "demo": {}
 }

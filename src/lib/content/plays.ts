@@ -321,8 +321,9 @@ export async function readPlayMeta(slug: string): Promise<PlayMeta | null> {
     const metaPath = path.join(playDir(slug), "meta.json");
     const raw = await fs.readFile(metaPath, "utf8");
     const meta = JSON.parse(raw) as PlayMeta;
-    // Default to published for backward compatibility
+    // Default missing fields for backward compatibility
     if (meta.published === undefined) meta.published = true;
+    if (!meta.demo) meta.demo = {};
     // Always use real-time stats from data/plays-views.json
     // Ignore any hardcoded stats in meta.json (they are fake/seeding data)
     meta.stats = await getPlayStats(slug);
@@ -361,7 +362,7 @@ function buildPlaySearchText(meta: PlayMeta, articleMdx?: string | null): string
     meta.corePoints.join(" "),
     meta.breakdown.map((b) => [b.title, ...b.bullets].join(" ")).join(" "),
     meta.codeSnippets.map((c) => c.title).join(" "),
-    meta.demo.note,
+    meta.demo?.note,
   ];
   if (articleMdx) {
     parts.push(stripMdx(articleMdx).slice(0, 8192));

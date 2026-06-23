@@ -65,8 +65,6 @@
       "code": "export function spawnBudgetPerSecond(t: number) {\n  // t: 秒，分段曲线：前期快、中期稳、后期爆\n  if (t < 60) return 6 + t * 0.06; // 6 -> 9.6\n  if (t < 240) return 10 + (t - 60) * 0.03; // 10 -> 15.4\n  return 16 + Math.pow((t - 240) / 60, 1.2) * 6; // 16 -> ...\n}\n\nexport function clampVisualCount(count: number, max: number) {\n  // 超过上限时，做降采样/合并表现\n  if (count <= max) return { draw: count, merge: 0 };\n  return { draw: max, merge: count - max };\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：同一套武器 Build，用不同密度曲线与特效上限，对比“爽但看不清”的临界点。"
-  },
-  "published": true
+  "published": true,
+  "demo": {}
 }

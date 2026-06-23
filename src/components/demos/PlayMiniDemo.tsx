@@ -527,9 +527,7 @@ function GenericDemo({ slug }: { slug: string }) {
         <div className="mt-2 rounded-xl sketch-border bg-paper p-3 font-mono text-xs">
           {slug}
         </div>
-        <div className="mt-4 text-xs text-ink-light">
-          建议做法：先把规则与状态机/生成器做成可复用模块，再接入真实试玩。
-        </div>
+
       </div>
     </Panel>
   );

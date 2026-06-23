@@ -61,8 +61,6 @@
       "code": "type NodeId = string;\n\ntype TalentNode = {\n  id: NodeId;\n  cost: number;\n  prereq?: NodeId[];\n  exclusive?: NodeId[];\n};\n\nexport function canUnlock(node: TalentNode, owned: Set<NodeId>, points: number) {\n  if (points < node.cost) return false;\n  if (node.prereq && node.prereq.some((id) => !owned.has(id))) return false;\n  if (node.exclusive && node.exclusive.some((id) => owned.has(id))) return false;\n  return true;\n}\n"
     }
   ],
-  "demo": {
-    "note": "建议 Demo：做两套“真分支”天赋树，让玩家选择后操作手感明显不同，并提供早期免费洗点。"
-  },
-  "published": true
+  "published": true,
+  "demo": {}
 }

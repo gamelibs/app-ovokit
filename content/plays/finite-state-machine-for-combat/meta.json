@@ -10,7 +10,7 @@
   "difficulty": "进阶",
   "techStack": [
     "TypeScript",
-    "XState(占位)"
+    "XState"
   ],
   "corePoints": [
     "行为解耦",

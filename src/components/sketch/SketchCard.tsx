@@ -8,6 +8,8 @@ interface SketchCardProps {
   className?: string;
   rotate?: "random" | number;
   fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
 }
 
 function hashString(str: string): number {
@@ -22,7 +24,9 @@ export function SketchCard({
   children,
   className = "",
   rotate = "random",
-  fill = "rgba(250, 247, 239, 0.8)",
+  fill = "rgba(250, 247, 239, 0.5)",
+  stroke = "rgba(32, 32, 32, 0.55)",
+  strokeWidth = 1.5,
 }: SketchCardProps) {
   const angle = useMemo(() => {
     if (typeof rotate === "number") {
@@ -40,7 +44,7 @@ export function SketchCard({
       className={`transition-transform duration-200 hover:scale-[1.01] ${className}`}
       style={{ transform: `rotate(${angle}deg)` }}
     >
-      <SketchBorder fill={fill}>
+      <SketchBorder fill={fill} stroke={stroke} strokeWidth={strokeWidth}>
         <div className="p-4">{children}</div>
       </SketchBorder>
     </div>

@@ -4,6 +4,8 @@
   --paper-bg: #faf7ef;
   --paper-bg-warm: #f5f1e6;
   --ink: #202020;
+  --ink-soft: rgba(32, 32, 32, 0.55);
+  --ink-faint: rgba(32, 32, 32, 0.35);
   --ink-light: #555555;
   --ink-muted: #888888;
   --highlight-yellow: #ffda6a;
@@ -19,6 +21,8 @@
   --color-paper: var(--paper-bg);
   --color-paper-warm: var(--paper-bg-warm);
   --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
   --color-ink-light: var(--ink-light);
   --color-ink-muted: var(--ink-muted);
   --color-highlight-yellow: var(--highlight-yellow);
@@ -118,9 +122,9 @@ select {
 
 /* 手绘卡片：边框 + 投影 + 微旋转 */
 .sketch-card {
-  border: 2.5px solid var(--ink);
+  border: 2.5px solid var(--ink-soft);
   border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-  box-shadow: 3px 4px 0px rgba(32, 32, 32, 0.12);
+  box-shadow: 3px 4px 0px var(--ink-faint);
   background-color: var(--paper-bg);
 }
 
@@ -208,21 +212,22 @@ select {
   height: 2px;
   background: repeating-linear-gradient(
     90deg,
-    var(--ink) 0px,
-    var(--ink) 6px,
+    var(--ink-soft) 0px,
+    var(--ink-soft) 6px,
     transparent 6px,
     transparent 10px
   );
   border: none;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 .sketch-divider-wavy {
   height: 8px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 8'%3E%3Cpath d='M0 4 Q2.5 0,5 4 T10 4 T15 4 T20 4' fill='none' stroke='%23202020' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 8'%3E%3Cpath d='M0 4 Q2.5 0,5 4 T10 4 T15 4 T20 4' fill='none' stroke='%23202020' stroke-width='1.5' opacity='0.55'/%3E%3C/svg%3E");
   background-repeat: repeat-x;
   background-size: 20px 8px;
   border: none;
+  opacity: 1;
 }
 
 /* 手绘容器（section/区块） */

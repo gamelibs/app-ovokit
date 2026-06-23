@@ -19,8 +19,8 @@ export function SketchBorder({
   className = "",
   roughness = 2,
   bowing = 1,
-  stroke = "#202020",
-  strokeWidth = 2,
+  stroke = "rgba(32, 32, 32, 0.55)",
+  strokeWidth = 1.5,
   fill = "none",
 }: SketchBorderProps) {
   const svgRef = useRef<SVGSVGElement>(null);

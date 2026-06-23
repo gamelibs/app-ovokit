@@ -11,8 +11,8 @@
   "difficulty": "进阶",
   "techStack": [
     "TypeScript",
-    "状态机(占位)",
-    "Pixi.js(占位)"
+    "状态机",
+    "Pixi.js"
   ],
   "corePoints": [
     "波次 DSL",

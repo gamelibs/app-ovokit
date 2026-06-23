@@ -1,6 +1,6 @@
 # OVOFORGE 项目状态
 
-> 最后更新：2026-06-21
+> 最后更新：2026-06-23
 > 更新者：Kimi Code CLI
 
 ---
@@ -23,6 +23,11 @@
 10. **Docker 化部署准备**：✅ 已新增 `Dockerfile`、`docker-compose.yml`、`.dockerignore` 与 `doc/docker-deployment.md`。
 
 **下一步**：P1 体验优化（`<img>` 迁移 `next/image`、搜索高亮、联系表单通知等）。
+
+## 本轮更新（2026-06-23）
+
+- 清理全站面向终端用户的内部占位/提示文案：删除 24 个玩法 `demo.note` 中的"建议 Demo"与"MVP 占位"文本、详情页文章区"不支持自定义组件"说明、7 处技术栈 `(占位)` 标记、`PlayMiniDemo` 中的开发者提示；`readPlayMeta` 增加 `demo` 字段缺失兜底。
+- 验证：`pnpm typecheck` 通过、`pnpm lint` 0 errors / 30 warnings、`pnpm test:smoke` 68/68 通过。
 
 ---
 
@@ -85,6 +90,8 @@
 
 - P1 体验优化：联系表单邮件/webhook 已补充 webhook 通道；`<img>` 已迁移核心路径
 - 站点正式上线后的监控与反馈收集
+- UI 边框调优与移动端详情页结构优化（待用户确认后提交部署）
+- H5 Demo 体系重构：规范已输出，待外部工具创作实现
 
 ---
 
@@ -96,6 +103,7 @@
 - [ ] 版主发帖表单：选择原型后自动生成 breakdown / code 骨架
 - [ ] AI 分析工具识别并输出 `pattern` 字段
 - [ ] 优化联系表单通知（邮件/webhook）
+- [ ] 移动端玩法详情页结构优化：首屏后直达 Demo，隐藏移动端封面占位
 
 - [ ] `/archetypes/[key]` 与 `/patterns/[key]` 独立详情页
 
@@ -111,6 +119,7 @@
 | 图片缺失 | ✅ 已补齐 | 104 张 SVG |
 | Git 工作区 | ✅ 已整理 | 8 个功能提交 |
 | `<img>` 未优化 | 🟡 P1 | 不影响功能，上线后继续 |
+| 移动端详情页封面占位 | 🟡 P1 | 已改待部署 |
 | 生产服务器 Docker 部署 | ✅ 已完成 | `https://ovoforge.com/` 返回 200 |
 
 ---
@@ -120,8 +129,8 @@
 ```bash
 pnpm -s typecheck   # ✅ 通过
 pnpm -s build       # ✅ 通过
-pnpm -s lint        # ✅ 0 errors / 33 warnings
-git status --short  # ✅ 工作区干净
+pnpm -s lint        # ✅ 0 errors / 30 warnings
+git status --short  # ⚠️ 含本轮内容清理改动，待提交
 ```
 
 ---
