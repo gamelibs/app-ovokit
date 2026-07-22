@@ -22,7 +22,7 @@ export function isPlayArchetypeKey(v: string): v is PlayArchetypeKey {
 }
 
 /**
- * 母型玩法 → 核心编辑器原型的映射。
+ * 玩法行为 → 核心循环的映射。
  * 表示一个母型在实现层面通常依赖哪些核心循环/数据结构。
  */
 export const archetypeToPatterns: Record<PlayArchetypeKey, CorePatternKey[]> = {

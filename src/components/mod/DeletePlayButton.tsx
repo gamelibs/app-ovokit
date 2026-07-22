@@ -2,13 +2,20 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAppDialog } from "@/components/ui/AppDialog";
 
 export function DeletePlayButton({ slug }: { slug: string }) {
   const router = useRouter();
+  const dialog = useAppDialog();
   const [busy, setBusy] = useState(false);
 
   async function handleDelete() {
-    if (!confirm(`确定要删除「${slug}」吗？此操作不可恢复。`)) return;
+    const ok = await dialog.confirm(`确定要删除「${slug}」吗？此操作不可恢复。`, {
+      title: "删除确认",
+      confirmText: "删除",
+      danger: true,
+    });
+    if (!ok) return;
     setBusy(true);
     try {
       const res = await fetch("/api/mod/plays/delete", {
@@ -19,7 +26,7 @@ export function DeletePlayButton({ slug }: { slug: string }) {
       if (!res.ok) throw new Error(await res.text());
       router.refresh();
     } catch (e) {
-      alert(e instanceof Error ? e.message : "删除失败");
+      await dialog.alert(e instanceof Error ? e.message : "删除失败", { title: "删除失败" });
     } finally {
       setBusy(false);
     }
@@ -30,7 +37,8 @@ export function DeletePlayButton({ slug }: { slug: string }) {
       type="button"
       onClick={handleDelete}
       disabled={busy}
-      className="inline-flex h-9 items-center justify-center rounded-full border-2 border-highlight-red bg-paper px-4 text-xs font-semibold text-highlight-red hover:bg-highlight-red/10 disabled:opacity-50"
+      className="inline-flex h-9 items-center justify-center rounded-full sketch-border bg-paper px-4 text-xs font-semibold text-highlight-red hover:bg-highlight-red/10 disabled:opacity-50"
+      style={{ fontFamily: "var(--font-kalam)" }}
     >
       {busy ? "删除中..." : "删除"}
     </button>

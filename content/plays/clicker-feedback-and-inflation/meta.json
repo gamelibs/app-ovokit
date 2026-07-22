@@ -46,12 +46,12 @@
     }
   ],
   "cover": {
-    "src": "/plays/clicker-feedback-and-inflation/cover.svg",
+    "src": "/plays/clicker-feedback-and-inflation/cover.webp",
     "alt": "点点乐 / 点击升级：反馈闭环与数值膨胀阈值"
   },
   "published": true,
   "coverWide": {
-    "src": "/plays/clicker-feedback-and-inflation/cover-wide.svg",
+    "src": "/plays/clicker-feedback-and-inflation/cover.webp",
     "alt": "点点乐 / 点击升级：反馈闭环与数值膨胀阈值"
   },
   "demo": {}

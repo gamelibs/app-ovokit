@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAppDialog } from "@/components/ui/AppDialog";
 
 export function TogglePublishButton({
   slug,
@@ -11,6 +12,7 @@ export function TogglePublishButton({
   published: boolean;
 }) {
   const router = useRouter();
+  const dialog = useAppDialog();
   const [busy, setBusy] = useState(false);
   const [current, setCurrent] = useState(published);
 
@@ -27,7 +29,7 @@ export function TogglePublishButton({
       setCurrent(next);
       router.refresh();
     } catch (e) {
-      alert(e instanceof Error ? e.message : "操作失败");
+      await dialog.alert(e instanceof Error ? e.message : "操作失败", { title: "操作失败" });
     } finally {
       setBusy(false);
     }
@@ -38,11 +40,12 @@ export function TogglePublishButton({
       type="button"
       onClick={toggle}
       disabled={busy}
-      className={`inline-flex h-9 items-center justify-center rounded-full px-4 text-xs font-semibold disabled:opacity-50 ${
+      className={`inline-flex h-9 items-center justify-center rounded-full sketch-border px-4 text-xs font-semibold font-kalam disabled:opacity-50 ${
         current
-          ? "border-2 border-highlight-green bg-paper text-highlight-green hover:bg-highlight-green/10"
-          : "border-2 border-ink-light/30 bg-paper text-ink-light hover:bg-ink/5"
+          ? "bg-paper text-highlight-green hover:bg-highlight-green/10"
+          : "bg-paper text-ink-light hover:bg-ink/5"
       }`}
+      style={{ fontFamily: "var(--font-kalam)" }}
     >
       {busy ? "保存中..." : current ? "已发布" : "草稿"}
     </button>

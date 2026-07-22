@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useAppDialog } from "@/components/ui/AppDialog";
 
 export function PatternImageUpload({
   patternKey,
@@ -12,6 +13,7 @@ export function PatternImageUpload({
   initialImages: string[];
 }) {
   const router = useRouter();
+  const dialog = useAppDialog();
   const inputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<string[]>(initialImages);
   const [busy, setBusy] = useState(false);
@@ -53,7 +55,7 @@ export function PatternImageUpload({
   }
 
   async function remove(filename: string) {
-    if (!confirm(`确定删除 ${filename}？`)) return;
+    if (!(await dialog.confirm(`确定删除 ${filename}？`,{ title: "删除图片", confirmText: "删除", danger: true }))) return;
     setBusy(true);
     setMessage(null);
     try {

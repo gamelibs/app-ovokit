@@ -7,6 +7,7 @@ import { filterPlaysBySearchResults, POPULAR_SEARCH_TERMS, searchPlayDocs, sortP
 import Link from "next/link";
 import { HandDrawnHero } from "@/components/home/HandDrawnHero";
 import { HotPlaysSection } from "@/components/home/HotPlaysSection";
+import { LatestPlaysSection } from "@/components/home/LatestPlaysSection";
 import { ArchetypeQuickNav } from "@/components/home/ArchetypeQuickNav";
 import { PatternQuickNav } from "@/components/home/PatternQuickNav";
 import { FeatureQuickNav } from "@/components/home/FeatureQuickNav";
@@ -107,6 +108,7 @@ export default async function Home({
     return (
       <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
         <HandDrawnHero />
+        <LatestPlaysSection />
         <HotPlaysSection />
         <ArchetypeQuickNav />
         <PatternQuickNav />

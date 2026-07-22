@@ -2,17 +2,21 @@ import Link from "next/link";
 import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "./TagPill";
 import { PlayStats } from "./PlayStats";
+import { TAG_ARCHETYPES, TAG_FEATURES, normalizeTags } from "@/lib/content/play-tags";
+
+const CANONICAL_TAGS = new Set([...TAG_ARCHETYPES, ...TAG_FEATURES]);
 
 function listHotTags(plays: PlayMeta[]) {
   const counts = new Map<string, number>();
   for (const play of plays) {
-    for (const tag of play.tags) {
+    // 统一按新词表计数：旧标签先映射，工程概念/运营标记剔除
+    for (const tag of normalizeTags(play.tags)) {
+      if (!CANONICAL_TAGS.has(tag)) continue;
       counts.set(tag, (counts.get(tag) ?? 0) + 1);
     }
   }
 
   return [...counts.entries()]
-    .filter(([tag]) => tag !== "推荐")
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .slice(0, 12)
     .map(([tag]) => tag);

@@ -10,9 +10,9 @@ function typeLabel(type: FavoriteItem["type"]) {
     case "play":
       return "玩法案例";
     case "archetype":
-      return "母型玩法";
+      return "玩法行为";
     case "pattern":
-      return "核心原型";
+      return "核心循环";
     case "feature":
       return "玩法特征";
   }

@@ -5,6 +5,7 @@ import { SyncFixedToScrollX } from "./SyncFixedToScrollX";
 import { TopNav } from "./TopNav";
 import { isModerator } from "@/lib/mod/auth";
 import { SiteFooter } from "./SiteFooter";
+import { AppDialogProvider } from "@/components/ui/AppDialog";
 
 export async function SiteFrame({ children }: { children: ReactNode }) {
   const moderator = await isModerator();
@@ -13,7 +14,7 @@ export async function SiteFrame({ children }: { children: ReactNode }) {
       <DisableNextDevIndicator />
       <SyncFixedToScrollX />
       <TopNav isModerator={moderator} />
-      {children}
+      <AppDialogProvider>{children}</AppDialogProvider>
       <SiteFooter />
       <BottomNav isModerator={moderator} />
     </div>

@@ -19,9 +19,9 @@ export function PlayCard({
 }) {
   return (
     <article className="sketch-card sketch-shadow-sm flex h-full flex-col overflow-hidden transition hover:shadow-md">
-      {/* 封面：移动端更小，大屏正常 */}
-      <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-paper-warm max-h-[100px] sm:max-h-none">
-        {play.cover?.src ? (
+      {/* 封面：有图才展示；无图时整区收起（紧凑文字卡，不再显示灰盒） */}
+      {play.cover?.src ? (
+        <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-paper-warm max-h-[100px] sm:max-h-none">
           <div className="relative h-full w-full">
             <Image
               src={play.cover.src}
@@ -55,14 +55,8 @@ export function PlayCard({
               />
             </div>
           </div>
-        ) : (
-          <div className="absolute inset-0 grid place-items-center">
-            <div className="font-kalam rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold text-ink-light">
-              暂无封面
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      ) : null}
 
       {/* 内容区：移动端紧凑 */}
       <div className="flex flex-1 flex-col p-2 sm:p-4">

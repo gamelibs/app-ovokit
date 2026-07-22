@@ -139,7 +139,7 @@ export function MenuDrawer({
                 onClick={onClose}
                 className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
-                母型玩法
+                玩法行为
               </Link>
               <Link
                 href="/about"
@@ -237,11 +237,11 @@ export function MenuDrawer({
                     内容管理
                   </Link>
                   <Link
-                    href="/mod/cases"
+                    href="/mod?filter=demo"
                     onClick={onClose}
                     className="sketch-button sketch-button-secondary text-left"
                   >
-                    案例演示
+                    带试玩案例
                   </Link>
                   <Link
                     href="/mod/new"

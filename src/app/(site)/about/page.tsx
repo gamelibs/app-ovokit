@@ -20,7 +20,7 @@ export default function AboutPage() {
           <strong>玩法帖子（Play）</strong>：每篇围绕一个具体玩法，拆解规则循环、关键设计点，并提供可试玩 Demo 与实现思路。
         </li>
         <li>
-          <strong>母型玩法（Archetype）</strong>：固定 12 个母型，用于建立学习路径与“该从哪里入门”的锚点。
+          <strong>玩法行为（Archetype）</strong>：固定 12 个行为母型，用于建立学习路径与“该从哪里入门”的锚点。
         </li>
         <li>
           <strong>嵌入式演示（Embed）</strong>：把试玩隔离在独立页面中，避免滚动与交互互相干扰，便于分享。

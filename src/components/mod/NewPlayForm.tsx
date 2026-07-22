@@ -11,7 +11,7 @@ import { BreakdownEditor } from "./BreakdownEditor";
 import type { BreakdownItem } from "./BreakdownEditor";
 import { CodeSnippetEditor } from "./CodeSnippetEditor";
 import type { CodeSnippetItem } from "./CodeSnippetEditor";
-import { CoverGenerator } from "./CoverGenerator";
+import { RegenCoverPanel } from "./RegenCoverPanel";
 
 type Difficulty = "入门" | "进阶" | "硬核";
 
@@ -147,6 +147,107 @@ export function NewPlayForm({
   );
   const [coverSvgDataUrl, setCoverSvgDataUrl] = useState<string>("");
   const [generatingArticle, setGeneratingArticle] = useState(false);
+
+  // ── 平台游戏导入（阶段 3：从 ovo_system 平台管理 1021 拉取） ──
+  type ImporterItem = {
+    gameId: string;
+    nameEn: string;
+    nameZh: string | null;
+    hasSiteData: boolean;
+    importedSlug: string | null;
+    classification: { archetypeName: string | null } | null;
+  };
+  const [importerOpen, setImporterOpen] = useState(false);
+  const [importerGames, setImporterGames] = useState<ImporterItem[]>([]);
+  const [importerLoading, setImporterLoading] = useState(false);
+  const [importerBusy, setImporterBusy] = useState<string | null>(null);
+  const [importerError, setImporterError] = useState<string | null>(null);
+  const [importedFrom, setImportedFrom] = useState<string | null>(null);
+  const [importSource, setImportSource] = useState<{ platformId: string; gameId: string } | null>(null);
+  // 编辑模式：更新内容可选（默认不覆盖文章，保护手工修改）
+  const [updateSections, setUpdateSections] = useState({
+    base: true, breakdown: true, code: true, demo: true, covers: true, article: false,
+  });
+
+  async function loadImporterGames() {
+    setImporterOpen(true);
+    setImporterLoading(true);
+    setImporterError(null);
+    try {
+      const res = await fetch("/api/mod/import-platform-games?env=beta");
+      if (!res.ok) throw new Error(await res.text());
+      const data = (await res.json()) as { games: ImporterItem[] };
+      setImporterGames(data.games ?? []);
+    } catch (e) {
+      setImporterError(e instanceof Error ? e.message : "拉取失败");
+    } finally {
+      setImporterLoading(false);
+    }
+  }
+
+  type ImportDraftPayload = {
+    draft: {
+      title: string; subtitle: string; slug: string;
+      difficulty: Difficulty; pattern: CorePatternKey | "";
+      tags: string[]; techStack: string[]; corePoints: string[];
+      breakdown: BreakdownItem[]; codeSnippets: CodeSnippetItem[];
+      iframeSrc: string; demoNote: string; articleMdx: string;
+      source: { platformId: string; gameId: string };
+    };
+    cover: { src: string; alt: string } | null;
+    coverWide: { src: string; alt: string } | null;
+  };
+
+  async function importGame(gameId: string) {
+    setImporterBusy(gameId);
+    setImporterError(null);
+    try {
+      const res = await fetch(`/api/mod/import-platform-games/${gameId}`);
+      if (!res.ok) throw new Error(await res.text());
+      const { draft, cover, coverWide } = (await res.json()) as ImportDraftPayload;
+      const isUpdate = mode === "edit";
+      const use = (section: keyof typeof updateSections) => !isUpdate || updateSections[section];
+
+      if (use("base")) {
+        setTitle(draft.title);
+        setSubtitle(draft.subtitle);
+        if (!isUpdate) setSlug(draft.slug);
+        setDifficulty(draft.difficulty);
+        setPattern(draft.pattern);
+        setTags(draft.tags);
+        setTechStack(draft.techStack);
+        setCorePoints(draft.corePoints);
+      }
+      if (use("breakdown")) setBreakdown(draft.breakdown);
+      if (use("code")) setCodeSnippets(draft.codeSnippets);
+      if (use("demo")) {
+        setIframeSrc(draft.iframeSrc);
+        setDemoNote(draft.demoNote);
+      }
+      if (use("covers") && cover) {
+        setExistingCover({ src: cover.src, alt: cover.alt });
+        setCoverPreviewUrl(cover.src);
+        setCoverAlt(cover.alt);
+        setCoverFile(null);
+        setCoverSvgDataUrl("");
+      }
+      if (use("covers") && coverWide) {
+        setExistingCoverWide({ src: coverWide.src, alt: coverWide.alt });
+        setCoverWidePreviewUrl(coverWide.src);
+        setCoverWideAlt(coverWide.alt);
+        setCoverWideFile(null);
+      }
+      if (use("article")) setArticleMdx(draft.articleMdx);
+      setImportSource(draft.source);
+      setOverwrite(true);
+      setImportedFrom(`${draft.slug}（平台游戏 ${gameId}）`);
+      setImporterOpen(false);
+    } catch (e) {
+      setImporterError(e instanceof Error ? e.message : "导入失败");
+    } finally {
+      setImporterBusy(null);
+    }
+  }
 
   const suggestedSlug = useMemo(() => slugify(title), [title]);
   const effectiveSlug =
@@ -474,6 +575,7 @@ export function NewPlayForm({
             corePoints,
             stats: initial?.meta.stats ?? { views: 0, likes: 0 },
             published: mode === "edit" ? initial?.meta.published : false,
+            source: importSource ?? (initial?.meta as { source?: { platformId: string; gameId: string } } | undefined)?.source ?? undefined,
             breakdown,
             codeSnippets,
             demo: {
@@ -558,6 +660,98 @@ export function NewPlayForm({
         </button>
       </div>
 
+      {(
+        <div className="rounded-2xl sketch-border bg-paper p-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <div className="text-sm font-semibold">
+                🎮 从平台导入游戏（ovo_studio 导出）
+              </div>
+              <p className="mt-1 text-xs text-ink-muted">
+                {mode === "edit"
+                  ? "拉取平台最新数据更新本帖；已导入过的游戏只会更新，不会重复建帖。"
+                  : "从平台管理（1021）拉取已导出的游戏数据，自动填充表单与文章骨架。一个游戏只能建一个帖子。"}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={importerOpen ? () => setImporterOpen(false) : loadImporterGames}
+              className="h-9 rounded-xl sketch-border bg-highlight-yellow px-4 text-sm font-semibold hover:opacity-90"
+            >
+              {importerOpen ? "收起" : "选择平台游戏"}
+            </button>
+          </div>
+          {importedFrom ? (
+            <div className="mt-2 text-xs font-semibold text-green-700">
+              ✅ 已导入：{importedFrom}（字段已填充，可继续修改后发布）
+            </div>
+          ) : null}
+          {importerOpen ? (
+            <div className="mt-3 grid gap-2">
+              {mode === "edit" ? (
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-xl bg-paper-warm px-3 py-2 text-xs">
+                  <span className="font-semibold">更新范围：</span>
+                  {([
+                    ["base", "基础信息"], ["breakdown", "玩法拆解"], ["code", "代码片段"],
+                    ["demo", "Demo"], ["covers", "封面/动画"], ["article", "文章骨架"],
+                  ] as const).map(([key, label]) => (
+                    <label key={key} className="inline-flex items-center gap-1">
+                      <input
+                        type="checkbox"
+                        checked={updateSections[key]}
+                        onChange={(e) => setUpdateSections((s) => ({ ...s, [key]: e.target.checked }))}
+                      />
+                      {label}
+                    </label>
+                  ))}
+                </div>
+              ) : null}
+              {importerLoading ? <div className="text-sm text-ink-muted">加载平台游戏列表…</div> : null}
+              {importerError ? <div className="text-sm font-semibold text-red-600">{importerError}</div> : null}
+              {!importerLoading && importerGames.length === 0 && !importerError ? (
+                <div className="text-sm text-ink-muted">平台 1021 下暂无已导出的游戏。</div>
+              ) : null}
+              {importerGames.map((g) => (
+                <div
+                  key={g.gameId}
+                  className="flex flex-wrap items-center justify-between gap-2 rounded-xl sketch-border bg-paper-warm px-3 py-2"
+                >
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-semibold">
+                      {g.nameZh || g.nameEn}
+                      <span className="ml-2 text-xs font-normal text-ink-muted">#{g.gameId}</span>
+                      {g.importedSlug ? (
+                        <span className="ml-2 rounded-full bg-highlight-green/60 px-2 py-0.5 text-[10px] font-semibold">
+                          已导入 → {g.importedSlug}
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="text-xs text-ink-muted">
+                      {g.classification?.archetypeName ?? "未分类"}
+                      {g.hasSiteData ? "" : " · 无玩法数据（需先在 studio 导出）"}
+                    </div>
+                  </div>
+                  {g.importedSlug && g.importedSlug !== initial?.meta.slug ? (
+                    <span className="text-xs text-ink-muted">
+                      已建帖，不可重复导入
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      disabled={!g.hasSiteData || importerBusy !== null}
+                      onClick={() => void importGame(g.gameId)}
+                      className="h-8 rounded-lg sketch-border bg-paper px-3 text-xs font-semibold hover:bg-paper disabled:opacity-40"
+                    >
+                      {importerBusy === g.gameId ? "导入中…" : mode === "edit" ? "拉取更新" : "导入"}
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      )}
+
       <div className="rounded-2xl sketch-border bg-paper p-4">
         <div className="grid gap-3">
           <label className="flex items-center justify-between gap-3 rounded-xl sketch-border bg-paper px-3 py-2 text-sm">
@@ -635,7 +829,7 @@ export function NewPlayForm({
 
           <label className="grid gap-1">
             <span className="text-xs font-semibold text-ink-muted font-kalam">
-              核心原型（编辑器架构）
+              核心循环（编辑器架构）
             </span>
             <select
               value={pattern}
@@ -688,23 +882,12 @@ export function NewPlayForm({
       <div className="rounded-2xl sketch-border bg-paper p-4">
         <div className="text-sm font-semibold">封面（可选）</div>
         <p className="mt-1 text-xs text-ink-muted">
-          封面会写入 <code className="font-mono">public/plays/&lt;slug&gt;/cover.*</code>{" "}
-          并在首页/详情展示。
-        </p>
-        <p className="mt-1 text-xs text-ink-muted">
-          建议比例：<code className="font-mono">3:4</code>（例如{" "}
-          <code className="font-mono">900×1200</code> /{" "}
-          <code className="font-mono">1080×1440</code>）。将以中心裁切适配展示区域；支持{" "}
-          <code className="font-mono">png/jpg/webp/svg</code>，最大{" "}
-          <code className="font-mono">5MB</code>。
-        </p>
-        <p className="mt-1 text-xs text-ink-muted">
-          说明：信息流会按比例裁切展示；详情页头图会以{" "}
-          <code className="font-mono">4:3</code> 区域自适应（完整展示 + 模糊背景填充，不会占满屏）。
+          全站统一为 <b>480×360 webp</b>（4:3，≤15KB）。推荐直接用下方「生成封面」产出；如手工上传，建议 4:3 比例的小图，最大{" "}
+          <code className="font-mono">5MB</code>。封面不再区分横竖版。
         </p>
         <div className="mt-3 grid gap-4 lg:grid-cols-2">
           <div className="grid gap-3">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">竖向封面</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">封面图</div>
             <input
               type="file"
               accept="image/*"
@@ -769,12 +952,18 @@ export function NewPlayForm({
               </button>
             ) : null}
 
-            <CoverGenerator
-              onGenerated={(dataUrl) => {
-                setCoverSvgDataUrl(dataUrl);
-                setCoverPreviewUrl(dataUrl);
+            <RegenCoverPanel
+              slug={effectiveSlug}
+              onApplied={(cover, coverWide) => {
+                setExistingCover(cover);
+                setCoverPreviewUrl(cover.src);
+                setCoverAlt(cover.alt);
                 setCoverFile(null);
-                setExistingCover(null);
+                setCoverSvgDataUrl("");
+                setExistingCoverWide(coverWide);
+                setCoverWidePreviewUrl(coverWide.src);
+                setCoverWideAlt(coverWide.alt);
+                setCoverWideFile(null);
               }}
             />
           </div>
@@ -782,69 +971,7 @@ export function NewPlayForm({
           <ImagePreview
             src={coverPreviewUrl}
             alt={coverAlt || title || "封面"}
-            label="封面预览（信息流 3:4）"
-            aspectClassName="aspect-[4/3] min-[420px]:aspect-[3/4]"
-          />
-
-          <div className="grid gap-2">
-            <div className="text-sm font-semibold">详情横向封面（可选）</div>
-            <p className="text-xs text-ink-muted">
-              建议尺寸：<code className="font-mono">1200×900</code>（横向）。不上传则详情页使用竖向封面。
-            </p>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => void onPickCoverWide(e.target.files?.[0] ?? null)}
-              className="block w-full text-sm text-ink-light file:mr-3 file:rounded-xl file:border-0 file:bg-paper-warm file:px-3 file:py-2 file:text-sm file:font-semibold file:text-ink hover:file:bg-paper-warm"
-            />
-            {existingCoverWide && !coverWideFile ? (
-              <div className="flex min-w-0 items-center gap-2 rounded-xl sketch-border bg-paper px-3 py-2 text-xs text-ink-light">
-                <span className="min-w-0 flex-1 truncate">
-                  已有横向封面：<code className="font-mono">{existingCoverWide.src}</code>
-                </span>
-                <button
-                  type="button"
-                  className="ml-auto shrink-0 rounded-full sketch-border bg-paper px-3 py-1 font-semibold hover:bg-paper-warm"
-                  onClick={() => {
-                    setExistingCoverWide(null);
-                    if (!coverWideFile) setCoverWidePreviewUrl("");
-                  }}
-                >
-                  移除
-                </button>
-              </div>
-            ) : null}
-            {coverWideError ? (
-              <div className="text-xs font-semibold text-red-600">
-                {coverWideError}
-              </div>
-            ) : null}
-            <label className="grid gap-1">
-              <span className="text-xs font-semibold text-ink-muted font-kalam">
-                横向封面描述（alt，可选）
-              </span>
-              <input
-                value={coverWideAlt}
-                onChange={(e) => setCoverWideAlt(e.target.value)}
-                className="h-10 rounded-xl sketch-border bg-paper px-3 text-sm outline-none focus:ring-2 focus:ring-highlight-blue/60"
-                placeholder="默认使用标题"
-              />
-            </label>
-            {coverWideFile ? (
-              <button
-                type="button"
-                className="h-10 w-full rounded-xl sketch-border bg-paper text-sm font-semibold hover:bg-paper-warm"
-                onClick={() => setCoverWideFile(null)}
-              >
-                移除横向封面
-              </button>
-            ) : null}
-          </div>
-
-          <ImagePreview
-            src={coverWidePreviewUrl}
-            alt={coverWideAlt || title || "横向封面"}
-            label="横向封面预览（详情头图 4:3）"
+            label="封面预览（信息流 4:3）"
             aspectClassName="aspect-[4/3]"
           />
         </div>

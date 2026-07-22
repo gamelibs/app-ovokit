@@ -3,6 +3,7 @@ import { isModerator } from "@/lib/mod/auth";
 import { listPlaySlugs, readPlayMeta } from "@/lib/content/plays";
 import { DeletePlayButton } from "@/components/mod/DeletePlayButton";
 import { TogglePublishButton } from "@/components/mod/TogglePublishButton";
+import { CopyDemoLinkButton } from "@/components/mod/CopyDemoLinkButton";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
@@ -45,6 +46,7 @@ export default async function ModHomePage({
     sort?: string | string[];
     dir?: string | string[];
     page?: string | string[];
+    filter?: string | string[];
   }>;
 }) {
   const ok = await isModerator();
@@ -62,6 +64,7 @@ export default async function ModHomePage({
   const sp = searchParams ? await searchParams : {};
   const sort = (normalizeQueryParam(sp.sort) as SortKey | undefined) ?? "created";
   const dir = (normalizeQueryParam(sp.dir) as SortDir | undefined) ?? "desc";
+  const filter = normalizeQueryParam(sp.filter) ?? "all";
   const page = Math.max(
     1,
     Number.parseInt(normalizeQueryParam(sp.page) ?? "1", 10) || 1,
@@ -69,7 +72,7 @@ export default async function ModHomePage({
   const pageSize = 10;
 
   const slugs = await listPlaySlugs();
-  const plays = await Promise.all(
+  const playsAll = await Promise.all(
     slugs.map(async (slug) => {
       const meta = await readPlayMeta(slug);
       if (!meta) return null;
@@ -79,6 +82,12 @@ export default async function ModHomePage({
       return { meta, createdAt };
     }),
   ).then((xs) => xs.filter((x): x is NonNullable<typeof x> => Boolean(x)));
+
+  const demoCount = playsAll.filter((x) => Boolean(x.meta.demo?.iframeSrc)).length;
+  const plays =
+    filter === "demo"
+      ? playsAll.filter((x) => Boolean(x.meta.demo?.iframeSrc))
+      : playsAll;
 
   const sorted = [...plays].sort((a, b) => {
     const mul = dir === "asc" ? 1 : -1;
@@ -95,7 +104,7 @@ export default async function ModHomePage({
 
   function sortHref(key: SortKey) {
     const nextDir = sort === key ? toggleDir(dir) : "desc";
-    return { pathname: "/mod", query: { sort: key, dir: nextDir, page: "1" } };
+    return { pathname: "/mod", query: { sort: key, dir: nextDir, page: "1", filter } };
   }
 
   function pageHref(nextPage: number) {
@@ -105,6 +114,7 @@ export default async function ModHomePage({
         sort,
         dir,
         page: String(nextPage),
+        filter,
       },
     };
   }
@@ -126,13 +136,13 @@ export default async function ModHomePage({
           href="/mod/archetypes"
           className="inline-flex h-9 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
         >
-          母型玩法管理
+          玩法行为管理
         </Link>
         <Link
           href="/mod/patterns"
           className="inline-flex h-9 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
         >
-          核心玩法管理
+          核心循环管理
         </Link>
         <Link
           href="/mod/features"
@@ -142,9 +152,30 @@ export default async function ModHomePage({
         </Link>
       </div>
 
+      {/* 试玩筛选：原「案例演示」已并入本页（筛选 = 仅带试玩 + 行内复制 Demo 地址） */}
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+        <span className="text-ink-muted">筛选：</span>
+        <Link
+          href={{ pathname: "/mod", query: { sort, dir, page: "1", filter: "all" } }}
+          className={`inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold ${
+            filter !== "demo" ? "bg-ink text-paper" : "sketch-border bg-paper hover:bg-paper-warm"
+          }`}
+        >
+          全部（{playsAll.length}）
+        </Link>
+        <Link
+          href={{ pathname: "/mod", query: { sort, dir, page: "1", filter: "demo" } }}
+          className={`inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold ${
+            filter === "demo" ? "bg-ink text-paper" : "sketch-border bg-paper hover:bg-paper-warm"
+          }`}
+        >
+          仅带试玩（{demoCount}）
+        </Link>
+      </div>
+
       <div className="mt-4 overflow-hidden rounded-2xl sketch-border bg-paper">
         {/* Desktop header */}
-        <div className="hidden sm:grid sm:grid-cols-[56px_1fr_100px_120px_120px_120px_140px] sm:gap-3 sm:border-b sm:border-ink-light/20 sm:px-4 sm:py-3 sm:text-xs sm:font-semibold sm:text-ink-muted">
+        <div className="hidden lg:grid lg:grid-cols-[56px_1fr_100px_120px_120px_120px_200px] lg:gap-3 lg:border-b lg:border-ink-light/20 lg:px-4 lg:py-3 lg:text-xs lg:font-semibold lg:text-ink-muted">
           <div>ID</div>
           <div>玩法</div>
           <div className="text-center">状态</div>
@@ -173,7 +204,7 @@ export default async function ModHomePage({
 
         <div className="divide-y divide-ink-light/20">
           {/* Mobile header */}
-          <div className="px-3 py-3 sm:hidden min-[360px]:px-4">
+          <div className="px-3 py-3 lg:hidden min-[360px]:px-4">
             <div className="grid grid-cols-[64px_1fr] items-center gap-3 text-xs font-semibold text-ink-muted font-kalam">
               <span>排序</span>
               <div className="grid grid-cols-3 gap-2 text-right">
@@ -202,7 +233,7 @@ export default async function ModHomePage({
             const id = String(start + idx + 1).padStart(idPad, "0");
             return (
             <div key={p.slug}>
-              <div className="px-3 py-3 sm:hidden min-[360px]:px-4">
+              <div className="px-3 py-3 lg:hidden min-[360px]:px-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex min-w-0 items-center gap-2">
@@ -220,10 +251,14 @@ export default async function ModHomePage({
                       <TogglePublishButton slug={p.slug} published={p.published !== false} />
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center justify-end gap-2">
+                    {p.demo?.iframeSrc ? (
+                      <CopyDemoLinkButton demoUrl={p.demo.iframeSrc} />
+                    ) : null}
                     <Link
                       href={`/mod/edit/${p.slug}`}
-                      className="shrink-0 rounded-full sketch-border bg-paper px-3 py-1 text-xs font-semibold hover:bg-paper-warm"
+                      className="inline-flex h-9 shrink-0 items-center justify-center rounded-full sketch-border bg-paper px-4 text-xs font-semibold hover:bg-paper-warm"
+                      style={{ fontFamily: "var(--font-kalam)" }}
                     >
                       编辑
                     </Link>
@@ -245,7 +280,7 @@ export default async function ModHomePage({
               </div>
 
               {/* Desktop table */}
-              <div className="hidden sm:grid sm:grid-cols-[56px_1fr_100px_120px_120px_120px_140px] sm:items-center sm:gap-3 sm:px-4 sm:py-3">
+              <div className="hidden lg:grid lg:grid-cols-[56px_1fr_100px_120px_120px_120px_200px] lg:items-center lg:gap-3 lg:px-4 lg:py-3">
                 <div className="text-xs font-semibold tabular-nums text-ink-muted">
                   #{id}
                 </div>
@@ -268,9 +303,12 @@ export default async function ModHomePage({
                   {p.stats.likes}
                 </div>
                 <div className="flex items-center justify-end gap-2">
+                  {p.demo?.iframeSrc ? (
+                    <CopyDemoLinkButton demoUrl={p.demo.iframeSrc} />
+                  ) : null}
                   <Link
                     href={`/mod/edit/${p.slug}`}
-                    className="inline-flex h-9 items-center justify-center rounded-full sketch-border bg-paper px-4 text-xs font-semibold hover:bg-paper-warm"
+                    className="inline-flex h-9 items-center justify-center rounded-full sketch-border bg-paper px-4 text-xs font-semibold hover:bg-paper-warm" style={{ fontFamily: "var(--font-kalam)" }}
                   >
                     编辑
                   </Link>

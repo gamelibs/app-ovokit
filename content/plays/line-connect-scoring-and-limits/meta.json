@@ -47,12 +47,12 @@
     }
   ],
   "cover": {
-    "src": "/plays/line-connect-scoring-and-limits/cover.svg",
+    "src": "/plays/line-connect-scoring-and-limits/cover.webp",
     "alt": "连线消除：爽点来自分数曲线与限制策略"
   },
   "published": true,
   "coverWide": {
-    "src": "/plays/line-connect-scoring-and-limits/cover-wide.svg",
+    "src": "/plays/line-connect-scoring-and-limits/cover.webp",
     "alt": "连线消除：爽点来自分数曲线与限制策略"
   },
   "demo": {}

@@ -165,7 +165,7 @@ export function PatternPage({
           <div className="text-xs font-semibold text-ink-muted font-kalam">核心循环流程图</div>
           <div className="relative mt-2 aspect-[800/300] w-full overflow-hidden sketch-border bg-paper">
             <Image
-              src={`/patterns/${spec.key}/loop.svg`}
+              src={`/patterns/${spec.key}/loop.webp`}
               alt="核心循环流程图"
               fill
               sizes="(max-width: 1024px) 100vw, 900px"

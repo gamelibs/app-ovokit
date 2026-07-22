@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SketchBorder } from "@/components/sketch/SketchBorder";
 import { SketchButton } from "@/components/sketch/SketchButton";
 import { getCookieConsent, setCookieConsent } from "@/lib/cookies/consent";
 import { useClientValue } from "@/lib/hooks/useClientValue";
@@ -35,32 +34,23 @@ export function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-3xl sm:bottom-6 sm:left-6 sm:right-6">
-      <SketchBorder fill="transparent">
-        <div className="rounded-xl bg-paper/95 p-4 backdrop-blur-sm">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="space-y-1 text-sm">
-              <p className="font-kalam font-bold">🍪 Cookie 使用说明</p>
-              <p className="text-ink-light">
-                我们使用 Cookie 提供必要功能，并借助 Google Analytics 了解访问情况。
-                更多详情请查看
-                <Link href="/privacy" className="font-kalam underline decoration-dotted hover:text-ink">
-                  隐私政策
-                </Link>
-                。
-              </p>
-            </div>
-            <div className="flex shrink-0 flex-wrap items-center gap-3">
-              <SketchButton variant="secondary" onClick={handleNecessaryOnly}>
-                仅必要
-              </SketchButton>
-              <SketchButton variant="primary" onClick={handleAccept}>
-                同意全部
-              </SketchButton>
-            </div>
-          </div>
+    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-ink-faint bg-paper/95 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-3 py-2 text-xs sm:px-4">
+        <p className="text-ink-light">
+          🍪 我们使用 Cookie 提供必要功能，并借助 Google Analytics 了解访问情况。
+          <Link href="/privacy" className="font-kalam underline decoration-dotted hover:text-ink">
+            隐私政策
+          </Link>
+        </p>
+        <div className="flex shrink-0 items-center gap-2">
+          <SketchButton variant="secondary" onClick={handleNecessaryOnly}>
+            仅必要
+          </SketchButton>
+          <SketchButton variant="primary" onClick={handleAccept}>
+            同意全部
+          </SketchButton>
         </div>
-      </SketchBorder>
+      </div>
     </div>
   );
 }

@@ -17,12 +17,12 @@ export function HandDrawnHero() {
         <div className="min-w-0 space-y-3 lg:space-y-5">
           <div className="relative">
             <h1 className="font-kalam text-xl font-bold leading-tight text-ink sm:text-3xl lg:text-4xl">
-              探索游戏玩法
+              发现游戏玩法
               <span className="hidden lg:inline">
                 <br />
-                发现设计乐趣
+                探索设计乐趣
               </span>
-              <span className="lg:hidden">，发现设计乐趣</span>
+              <span className="lg:hidden">，探索设计乐趣</span>
             </h1>
             {/* 标题下划线高亮 */}
             <div className="mt-1 h-1.5 w-32 sketch-divider sm:h-2 sm:w-48" />
@@ -65,49 +65,49 @@ export function HandDrawnHero() {
           <div className="relative w-full max-w-[360px]">
             {/* 流程图主体 */}
             <img
-              src="/svg/hero/flowchart.svg"
+              src="/hero/flowchart.webp"
               alt=""
               className="w-full"
               loading="eager"
             />
             {/* 游戏手柄 - 左下 */}
             <img
-              src="/svg/hero/gamepad.svg"
+              src="/hero/gamepad.webp"
               alt=""
               className="absolute -left-4 bottom-0 w-20 -rotate-12"
               loading="eager"
             />
             {/* 便签 - 右上 */}
             <img
-              src="/svg/hero/note.svg"
+              src="/hero/note.webp"
               alt=""
               className="absolute -right-2 -top-2 w-14 rotate-6"
               loading="eager"
             />
             {/* 太阳 - 右上远处 */}
             <img
-              src="/svg/hero/sun.svg"
+              src="/hero/sun.webp"
               alt=""
               className="absolute -right-6 top-4 w-10"
               loading="eager"
             />
             {/* 问号 - 右下 */}
             <img
-              src="/svg/hero/question-mark.svg"
+              src="/hero/question-mark.webp"
               alt=""
               className="absolute -right-4 bottom-8 w-10 rotate-12"
               loading="eager"
             />
             {/* 星星装饰 */}
             <img
-              src="/svg/hero/sparkle.svg"
+              src="/hero/sparkle.webp"
               alt=""
               className="absolute left-1/2 top-0 w-8 -translate-x-1/2"
               loading="eager"
             />
             {/* 硬币 - 底部 */}
             <img
-              src="/svg/hero/coin.svg"
+              src="/hero/coin.webp"
               alt=""
               className="absolute bottom-0 left-1/3 w-10 -rotate-6"
               loading="eager"

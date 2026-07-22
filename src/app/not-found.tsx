@@ -23,7 +23,7 @@ export default function NotFoundPage() {
             href="/archetypes"
             className="sketch-button sketch-button-secondary min-[360px]:px-6"
           >
-            浏览母型玩法
+            浏览玩法行为
           </Link>
         </div>
       </div>

@@ -1,0 +1,87 @@
+{
+  "slug": "tic-tac-toe-showdown",
+  "title": "Tic Tac Toe Showdown：轮流落子，先连成线者胜",
+  "subtitle": "你要做的：和对手轮流行动，在棋盘格子里落子/摆放，让相同的连成一线；先把己方棋子连成规定长度的一线",
+  "cover": {
+    "src": "/plays/tic-tac-toe-showdown/cover.webp",
+    "alt": "Tic Tac Toe Showdown：轮流落子，先连成线者胜"
+  },
+  "tags": [
+    "回合博弈",
+    "网格"
+  ],
+  "difficulty": "入门",
+  "pattern": "strategy",
+  "techStack": [
+    "PixiJS",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "轮流行动",
+    "放置落子",
+    "匹配连线",
+    "3×3 小棋盘：状态空间有限，先手策略可穷举"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "published": true,
+  "breakdown": [
+    {
+      "title": "玩法目标",
+      "bullets": [
+        "先把己方棋子连成规定长度的一线"
+      ]
+    },
+    {
+      "title": "核心循环",
+      "bullets": [
+        "状态流：boot → menu → gameplay → result；核心行为：轮流行动 + 放置落子 + 匹配连线 + 比较大小 + 做选择",
+        "你要做的：和对手轮流行动，在棋盘格子里落子/摆放，让相同的连成一线"
+      ]
+    },
+    {
+      "title": "关键参数",
+      "bullets": [
+        "playerCount = 2（可调 1~4）",
+        "gridRows = 3（可调 3~30）",
+        "gridCols = 3（可调 3~30）",
+        "matchSize = 3（可调 3~5）",
+        "directions = hv"
+      ]
+    },
+    {
+      "title": "模块组成",
+      "bullets": [
+        "common-ui：通用 UI 事件绑定模块：自动为 skin 中的 button 节点绑定点击事件，并支持 boot 场景自动推进到 menu。",
+        "core/board-turn：通用回合制棋盘核心：管理网格棋盘状态、落子、胜负判定（连线/连珠）。适用于井字棋、五子棋、四子棋、围棋简化版等棋盘玩法。",
+        "core/board-ai：通用棋盘 AI：为 board-turn 提供落子决策。当前实现 minimax，支持井字棋等小规模零和棋盘游戏。"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "core/board-turn · checkWinner()",
+      "language": "ts",
+      "code": "function checkWinner(cells: CellValue[], r: number, c: number, player: CellValue): CellValue | null {\n  const R = rows();\n  const C = cols();\n  const W = winLength();\n  const directions = [\n    [0, 1],\n    [1, 0],\n    [1, 1],\n    [1, -1],\n  ];\n  const idx = (rr: number, cc: number) => rr * C + cc;\n\n  for (const [dr, dc] of directions) {\n    let count = 1;\n    for (let i = 1; i < W; i++) {\n      const rr = r + dr * i;\n      const cc = c + dc * i;\n      if (rr < 0 || rr >= R || cc < 0 || cc >= C) break;\n      if (cells[idx(rr, cc)] === player) count++;\n      else break;"
+    },
+    {
+      "title": "core/board-ai · checkWinner()",
+      "language": "ts",
+      "code": "function checkWinner(cells: CellValue[], player: CellValue): boolean {\n  const R = rows();\n  const C = cols();\n  const W = winLength();\n  const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];\n  for (let r = 0; r < R; r++) {\n    for (let c = 0; c < C; c++) {\n      if (cells[idx(r, c)] !== player) continue;\n      for (const [dr, dc] of directions) {\n        let count = 1;\n        for (let i = 1; i < W; i++) {\n          const rr = r + dr * i;\n          const cc = c + dc * i;\n          if (rr < 0 || rr >= R || cc < 0 || cc >= C) break;\n          if (cells[idx(rr, cc)] === player) count++;\n          else break;\n        }\n        for (let i = 1; i < W; i++) {\n          const rr = r - dr * i;\n          const cc = c - dc * i;"
+    }
+  ],
+  "demo": {
+    "iframeSrc": "http://127.0.0.1:19527/preview-assets/1021/beta/10001/index.html",
+    "note": "轮流落子，先连成线者胜"
+  },
+  "source": {
+    "platformId": "1021",
+    "gameId": "10001"
+  },
+  "coverWide": {
+    "src": "/plays/tic-tac-toe-showdown/cover.webp",
+    "alt": "Tic Tac Toe Showdown：轮流落子，先连成线者胜"
+  }
+}

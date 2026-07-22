@@ -47,12 +47,12 @@
     }
   ],
   "cover": {
-    "src": "/plays/spot-the-difference-design-and-anti-skip/cover.svg",
+    "src": "/plays/spot-the-difference-design-and-anti-skip/cover.webp",
     "alt": "找不同：差异点套路与防止“秒通关”"
   },
   "published": true,
   "coverWide": {
-    "src": "/plays/spot-the-difference-design-and-anti-skip/cover-wide.svg",
+    "src": "/plays/spot-the-difference-design-and-anti-skip/cover.webp",
     "alt": "找不同：差异点套路与防止“秒通关”"
   },
   "demo": {}

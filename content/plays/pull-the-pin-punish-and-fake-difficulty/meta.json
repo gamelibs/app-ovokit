@@ -48,12 +48,12 @@
     }
   ],
   "cover": {
-    "src": "/plays/pull-the-pin-punish-and-fake-difficulty/cover.svg",
+    "src": "/plays/pull-the-pin-punish-and-fake-difficulty/cover.webp",
     "alt": "拉针（Pull the Pin）：顺序惩罚与“假难度”"
   },
   "published": true,
   "coverWide": {
-    "src": "/plays/pull-the-pin-punish-and-fake-difficulty/cover-wide.svg",
+    "src": "/plays/pull-the-pin-punish-and-fake-difficulty/cover.webp",
     "alt": "拉针（Pull the Pin）：顺序惩罚与“假难度”"
   },
   "demo": {}

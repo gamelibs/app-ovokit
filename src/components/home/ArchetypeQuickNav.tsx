@@ -6,35 +6,35 @@ const featuredArchetypes = [
     key: "match-3",
     route: "/archetypes/match-clear",
     label: "Match-3",
-    icon: "/svg/icons/match-3.svg",
+    icon: "/icons/match-3.webp",
     matchTags: ["消除"],
   },
   {
     key: "deck-builder",
     route: "/archetypes/choice-strategy",
     label: "Deck Builder",
-    icon: "/svg/icons/deck-builder.svg",
+    icon: "/icons/deck-builder.webp",
     matchTags: ["策略决策"],
   },
   {
     key: "roguelike",
     route: "/archetypes/runner",
     label: "Roguelike",
-    icon: "/svg/icons/roguelike.svg",
+    icon: "/icons/roguelike.webp",
     matchTags: ["Roguelike", "行进 / 跑酷"],
   },
   {
     key: "shoot-em-up",
     route: "/archetypes/shoot-aim",
     label: "Shoot 'em up",
-    icon: "/svg/icons/shoot-em-up.svg",
+    icon: "/icons/shoot-em-up.webp",
     matchTags: ["射击"],
   },
   {
     key: "platformer",
     route: "/archetypes/runner",
     label: "Platformer",
-    icon: "/svg/icons/platformer.svg",
+    icon: "/icons/platformer.webp",
     matchTags: ["行进 / 跑酷", "动作"],
   },
 ];
@@ -52,7 +52,7 @@ export async function ArchetypeQuickNav() {
   return (
     <section className="mt-8 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-kalam text-xl font-semibold text-ink">母型玩法</h2>
+        <h2 className="font-kalam text-xl font-semibold text-ink">玩法行为</h2>
         <Link
           href="/archetypes"
           className="font-kalam text-sm font-semibold text-ink-light hover:text-ink hover:underline"

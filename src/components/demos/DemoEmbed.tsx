@@ -15,6 +15,8 @@ type Props = {
   showRestart?: boolean;
   restartMessage?: unknown;
   restartStrategy?: "postMessage" | "reload";
+  /** 游戏画面方向：竖屏游戏用竖版容器（居中限宽），横屏用宽容器 */
+  orientation?: "portrait" | "landscape";
 };
 
 export function DemoEmbed({
@@ -28,6 +30,7 @@ export function DemoEmbed({
   showRestart,
   restartMessage,
   restartStrategy = "postMessage",
+  orientation = "landscape",
 }: Props) {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
@@ -82,7 +85,11 @@ export function DemoEmbed({
   }, [restartMessage, restartStrategy]);
 
   const stageWrapperClass =
-    wrapperClassName ?? "min-h-[360px] h-[60vh] w-full sm:h-auto sm:aspect-[4/3] lg:aspect-[16/10]";
+    wrapperClassName ??
+    (orientation === "portrait"
+      ? // 竖屏游戏（如 750×1334）：限宽居中，比例接近游戏，PC/移动都铺满可视区
+        "mx-auto w-full max-w-[420px] aspect-[3/4] max-h-[72vh]"
+      : "min-h-[360px] h-[60vh] w-full sm:h-auto sm:aspect-[4/3] lg:aspect-[16/10]");
 
   return (
     <div className="w-full">

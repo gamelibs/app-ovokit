@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useAppDialog } from "@/components/ui/AppDialog";
 import { useRouter } from "next/navigation";
 import { svgToBitmap, downloadBlob } from "@/lib/svg-export";
 import type { BitmapFormat } from "@/lib/svg-export";
@@ -182,6 +183,7 @@ export function GameAnalyzerButton() {
 
 function GameAnalyzerModal({ onClose }: { onClose: () => void }) {
   const router = useRouter();
+  const dialog = useAppDialog();
   const [mode, setMode] = useState<Mode>("full");
   const [step, setStep] = useState<"input" | "analyzing" | "result">("input");
   const [file, setFile] = useState<File | null>(null);
@@ -961,6 +963,7 @@ function FullResultView({
 function CoverResultView({ data }: { data: CoverResult }) {
   const [copied, setCopied] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const dialog = useAppDialog();
   const styleLabel =
     COVER_STYLES.find((s) => s.key === (data.style as CoverStyle))?.label || data.style || "手绘风格";
 
@@ -989,7 +992,7 @@ function CoverResultView({ data }: { data: CoverResult }) {
         const ext = format === "jpg" ? "jpg" : format;
         downloadBlob(blob, `cover-${Date.now()}.${ext}`);
       } catch (e) {
-        alert("导出失败: " + (e instanceof Error ? e.message : "未知错误"));
+        dialog.alert("导出失败: " + (e instanceof Error ? e.message : "未知错误"), { title: "导出失败" });
       } finally {
         setExporting(false);
       }
@@ -1143,6 +1146,7 @@ function FlowchartResultView({ data }: { data: FlowchartResult }) {
 function SketchResultView({ data }: { data: SketchResult }) {
   const [copied, setCopied] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const dialog = useAppDialog();
   const styleLabel =
     SKETCH_STYLES.find((s) => s.key === (data.style as SketchStyle))?.label || data.style || "手绘线框";
 
@@ -1171,7 +1175,7 @@ function SketchResultView({ data }: { data: SketchResult }) {
         const ext = format === "jpg" ? "jpg" : format;
         downloadBlob(blob, `sketch-${Date.now()}.${ext}`);
       } catch (e) {
-        alert("导出失败: " + (e instanceof Error ? e.message : "未知错误"));
+        dialog.alert("导出失败: " + (e instanceof Error ? e.message : "未知错误"), { title: "导出失败" });
       } finally {
         setExporting(false);
       }

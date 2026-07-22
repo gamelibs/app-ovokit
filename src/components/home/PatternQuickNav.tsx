@@ -2,7 +2,7 @@ import Link from "next/link";
 import { listPatternSpecs } from "@/lib/patterns/spec";
 
 function patternIcon(key: string) {
-  return `/svg/icons/pattern-${key}.svg`;
+  return `/icons/pattern-${key}.webp`;
 }
 
 export async function PatternQuickNav() {

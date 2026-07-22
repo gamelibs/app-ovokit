@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { availablePlayTags } from "@/lib/content/play-tags";
+import { TAG_GROUPS } from "@/lib/content/play-tags";
 
 export function TagInput({
   value,
@@ -18,11 +18,13 @@ export function TagInput({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const suggestions = availablePlayTags.filter(
-    (t) =>
-      !value.includes(t) &&
-      (input.trim() === "" || t.toLowerCase().includes(input.trim().toLowerCase())),
-  );
+  const keyword = input.trim().toLowerCase();
+  const groups = TAG_GROUPS.map((g) => ({
+    ...g,
+    tags: g.tags.filter(
+      (t) => !value.includes(t) && (keyword === "" || t.toLowerCase().includes(keyword)),
+    ),
+  })).filter((g) => g.tags.length > 0);
 
   const addTag = useCallback(
     (tag: string) => {
@@ -90,18 +92,22 @@ export function TagInput({
         </div>
       </div>
 
-      {showSuggestions && suggestions.length > 0 ? (
-        <div className="flex flex-wrap gap-1.5">
-          <span className="text-[10px] text-ink-muted">可选：</span>
-          {suggestions.slice(0, 12).map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => addTag(t)}
-              className="rounded-full sketch-border bg-paper px-2 py-0.5 text-[11px] text-ink-light hover:bg-paper-warm hover:text-ink"
-            >
-              + {t}
-            </button>
+      {showSuggestions && groups.length > 0 ? (
+        <div className="space-y-1.5">
+          {groups.map((g) => (
+            <div key={g.label} className="flex flex-wrap items-center gap-1.5">
+              <span className="w-14 shrink-0 text-[10px] text-ink-muted">{g.label}：</span>
+              {g.tags.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => addTag(t)}
+                  className="rounded-full sketch-border bg-paper px-2 py-0.5 text-[11px] text-ink-light hover:bg-paper-warm hover:text-ink"
+                >
+                  + {t}
+                </button>
+              ))}
+            </div>
           ))}
         </div>
       ) : null}

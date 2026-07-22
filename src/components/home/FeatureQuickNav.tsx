@@ -2,7 +2,7 @@ import Link from "next/link";
 import { listFeatureSpecs } from "@/lib/features/spec";
 
 function featureIcon(key: string) {
-  return `/svg/icons/feature-${key}.svg`;
+  return `/icons/feature-${key}.webp`;
 }
 
 export async function FeatureQuickNav() {

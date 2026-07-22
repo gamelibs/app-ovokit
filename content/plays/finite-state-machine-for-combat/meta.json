@@ -49,12 +49,12 @@
     "note": "最小可交互：事件驱动的战斗 FSM（用于演示状态切换与可测试转移）。"
   },
   "cover": {
-    "src": "/plays/finite-state-machine-for-combat/cover.svg",
+    "src": "/plays/finite-state-machine-for-combat/cover.webp",
     "alt": "用状态机组织战斗单位行为"
   },
   "published": true,
   "coverWide": {
-    "src": "/plays/finite-state-machine-for-combat/cover-wide.svg",
+    "src": "/plays/finite-state-machine-for-combat/cover.webp",
     "alt": "用状态机组织战斗单位行为"
   }
 }

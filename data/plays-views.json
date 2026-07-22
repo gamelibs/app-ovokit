@@ -1,10 +1,10 @@
 {
   "wave-defense-difficulty-curve": {
-    "views": 5,
+    "views": 17,
     "likes": 0
   },
   "merge-chain-and-gates": {
-    "views": 16,
+    "views": 18,
     "likes": 0
   },
   "play-1677a241": {
@@ -16,7 +16,7 @@
     "likes": 0
   },
   "tap-dodge-forgiveness-and-speed": {
-    "views": 5,
+    "views": 11,
     "likes": 0
   },
   "finite-state-machine-for-combat": {
@@ -24,7 +24,7 @@
     "likes": 0
   },
   "match-3-retention-and-pacing": {
-    "views": 6,
+    "views": 13,
     "likes": 0
   },
   "grid-movement-and-collision": {
@@ -44,7 +44,7 @@
     "likes": 0
   },
   "2048-variant-probability-control": {
-    "views": 1,
+    "views": 3,
     "likes": 0
   },
   "clicker-feedback-and-inflation": {
@@ -64,7 +64,7 @@
     "likes": 0
   },
   "line-connect-scoring-and-limits": {
-    "views": 3,
+    "views": 11,
     "likes": 0
   },
   "meta-progression-permanent-growth": {
@@ -108,7 +108,7 @@
     "likes": 0
   },
   "skill-draft-weights-and-protection": {
-    "views": 1,
+    "views": 3,
     "likes": 0
   },
   "survival-countdown-design": {
@@ -117,6 +117,10 @@
   },
   "talent-tree-real-choice-and-respec": {
     "views": 1,
+    "likes": 0
+  },
+  "tic-tac-toe-showdown": {
+    "views": 28,
     "likes": 0
   }
 }

@@ -190,8 +190,8 @@ export type PlayCategory = {
 export type PlayBrowseGroupKey = "archetype" | "pattern" | "feature" | "difficulty";
 
 export const playBrowseGroups: ReadonlyArray<{ key: PlayBrowseGroupKey; label: string }> = [
-  { key: "archetype", label: "母型玩法" },
-  { key: "pattern", label: "核心原型" },
+  { key: "archetype", label: "玩法行为" },
+  { key: "pattern", label: "核心循环" },
   { key: "feature", label: "玩法特征" },
   { key: "difficulty", label: "难度层级" },
 ];
@@ -200,17 +200,19 @@ const forYouCategory: PlayCategory = { key: "for-you", label: "推荐" };
 
 const archetypeCategories: PlayCategory[] = [
   { key: "match-clear", label: "消除", filterTags: ["消除"] },
-  { key: "dodge-avoid", label: "躲避", filterTags: ["躲避"] },
-  { key: "runner", label: "行进 / 跑酷", filterTags: ["行进 / 跑酷", "动作"] },
+  { key: "merge-unit", label: "合成", filterTags: ["合成", "合成机制"] },
+  { key: "turn-duel", label: "回合博弈", filterTags: ["回合博弈", "棋盘"] },
+  { key: "dodge-avoid", label: "躲避", filterTags: ["躲避", "动作"] },
+  { key: "runner", label: "行进 / 跑酷", filterTags: ["行进 / 跑酷", "行进跑酷", "动作"] },
   { key: "shoot-aim", label: "射击", filterTags: ["射击"] },
   { key: "combat", label: "战斗对抗", filterTags: ["战斗对抗", "战斗"] },
-  { key: "placement", label: "放置 / 建造", filterTags: ["放置 / 建造", "放置"] },
+  { key: "placement", label: "建造布局", filterTags: ["建造布局", "放置 / 建造", "放置", "塔防"] },
   { key: "choice-strategy", label: "策略决策", filterTags: ["策略决策", "塔防", "状态机"] },
   { key: "physics", label: "物理", filterTags: ["物理"] },
   { key: "puzzle", label: "解谜", filterTags: ["解谜"] },
-  { key: "progression", label: "成长 / 数值", filterTags: ["成长 / 数值", "数值"] },
+  { key: "progression", label: "成长 / 数值", filterTags: ["成长 / 数值", "成长数值", "数值", "数值成长"] },
   { key: "simulation", label: "模拟", filterTags: ["模拟"] },
-  { key: "timing", label: "时机 / 反应", filterTags: ["时机 / 反应", "点击"] },
+  { key: "timing", label: "时机 / 反应", filterTags: ["时机 / 反应", "时机反应", "点击"] },
 ];
 
 const featureCategories: PlayCategory[] = featureKeys.map((key) => ({
@@ -243,6 +245,10 @@ export function isPlayBrowseGroupKey(v: string | undefined): v is PlayBrowseGrou
 }
 
 export function getPlayCategoriesForGroup(group: PlayBrowseGroupKey): PlayCategory[] {
+  // 难度层级组不放「推荐」（推荐是策展标记，不是难度）：用「全部」代替
+  if (group === "difficulty") {
+    return [{ key: "for-you", label: "全部" }, ...categoriesByGroup[group]];
+  }
   return [forYouCategory, ...categoriesByGroup[group]];
 }
 

@@ -105,6 +105,14 @@ export default async function PlayDetailPage({
     ? `/embed/demos/archetype/${inferredArchetypeKey}`
     : null;
 
+  // demo 画面方向：竖屏游戏（v2 平台预览 750×1334 / 原子母型 demo 2:3）用竖版容器
+  const demoOrientation = (src?: string | null): "portrait" | "landscape" => {
+    if (!src) return "portrait"; // pattern/archetype 兜底 demo 均为竖屏原子 demo
+    if (src.includes("preview-assets") || src.includes("/demos/atomic/")) return "portrait";
+    if (src.includes("/embed/demos/pattern") || src.includes("/embed/demos/archetype")) return "portrait";
+    return "landscape";
+  };
+
   return (
     <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
       <div className="flex items-center gap-3">
@@ -154,7 +162,7 @@ export default async function PlayDetailPage({
             </div>
           </header>
 
-          <section className="sketch-card p-5 shadow-sm order-3 lg:order-2">
+          <section className="sketch-card p-5 shadow-sm order-3">
             <h2 className="text-base font-semibold font-kalam">玩法拆解</h2>
             <div className="mt-4 space-y-4">
               {play.breakdown.map((b) => (
@@ -172,7 +180,7 @@ export default async function PlayDetailPage({
             </div>
           </section>
 
-          <section className="sketch-card p-5 shadow-sm order-4 lg:order-3">
+          <section className="sketch-card p-5 shadow-sm order-4">
             <h2 className="text-base font-semibold font-kalam">关键代码</h2>
             <div className="mt-4 space-y-3">
               {play.codeSnippets.map((s) => (
@@ -186,12 +194,12 @@ export default async function PlayDetailPage({
             </div>
           </section>
 
-          <section className="sketch-card p-5 shadow-sm order-2 lg:order-4">
+          <section className="sketch-card p-5 shadow-sm order-2">
             <h2 className="text-base font-semibold font-kalam">Demo</h2>
             <p className="mt-2 text-sm text-ink-light">
               {play.demo?.note ??
                 (fallbackArchetypeDemoSrc
-                  ? "暂未提供专用 Demo，已嵌入对应母型玩法的最小可试玩示例。"
+                  ? "暂未提供专用 Demo，已嵌入对应行为母型的最小可试玩示例。"
                   : "暂未提供可试玩 Demo。")}
             </p>
             {play.demo.videoSrc ? (
@@ -221,6 +229,7 @@ export default async function PlayDetailPage({
                   controls="toolbar"
                   showRestart
                   restartStrategy={isStaticDemo ? "reload" : "postMessage"}
+                  orientation={demoOrientation(play.demo.iframeSrc)}
                 />
                   );
                 })()}
@@ -233,6 +242,7 @@ export default async function PlayDetailPage({
                   controls="toolbar"
                   showRestart
                   restartStrategy="postMessage"
+                  orientation="portrait"
                 />
               </div>
             ) : fallbackArchetypeDemoSrc ? (
@@ -243,6 +253,7 @@ export default async function PlayDetailPage({
                   controls="toolbar"
                   showRestart
                   restartStrategy="postMessage"
+                  orientation="portrait"
                 />
               </div>
             ) : (

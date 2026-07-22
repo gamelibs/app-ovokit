@@ -47,12 +47,12 @@
     }
   ],
   "cover": {
-    "src": "/plays/tap-dodge-forgiveness-and-speed/cover.svg",
+    "src": "/plays/tap-dodge-forgiveness-and-speed/cover.webp",
     "alt": "点击躲避：失败宽容度与子弹速度曲线"
   },
   "published": true,
   "coverWide": {
-    "src": "/plays/tap-dodge-forgiveness-and-speed/cover-wide.svg",
+    "src": "/plays/tap-dodge-forgiveness-and-speed/cover.webp",
     "alt": "点击躲避：失败宽容度与子弹速度曲线"
   },
   "demo": {}

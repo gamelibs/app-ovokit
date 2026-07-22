@@ -46,12 +46,12 @@
     }
   ],
   "cover": {
-    "src": "/plays/2048-variant-probability-control/cover.svg",
+    "src": "/plays/2048-variant-probability-control/cover.webp",
     "alt": "数字合成（2048 变体）：失败概率控制与“看起来随机”"
   },
   "published": true,
   "coverWide": {
-    "src": "/plays/2048-variant-probability-control/cover-wide.svg",
+    "src": "/plays/2048-variant-probability-control/cover.webp",
     "alt": "数字合成（2048 变体）：失败概率控制与“看起来随机”"
   },
   "demo": {}

@@ -9,7 +9,7 @@ export default async function ModPatternsPage() {
   if (!ok) {
     return (
       <main className="mx-auto w-full max-w-4xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
-        <h1 className="text-xl font-semibold font-kalam">核心玩法管理</h1>
+        <h1 className="text-xl font-semibold font-kalam">核心循环管理</h1>
         <p className="mt-3 text-sm text-ink-light">
           你还没有权限访问此页面。请登录后再试。
         </p>
@@ -22,7 +22,7 @@ export default async function ModPatternsPage() {
   return (
     <main className="mx-auto w-full max-w-4xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 min-[360px]:px-4">
       <div className="flex items-center justify-between gap-3">
-        <h1 className="min-w-0 truncate text-xl font-semibold font-kalam">核心玩法管理</h1>
+        <h1 className="min-w-0 truncate text-xl font-semibold font-kalam">核心循环管理</h1>
         <Link
           href="/mod"
           className="sketch-button sketch-button-secondary text-sm"

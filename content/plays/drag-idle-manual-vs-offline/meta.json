@@ -45,12 +45,12 @@
     }
   ],
   "cover": {
-    "src": "/plays/drag-idle-manual-vs-offline/cover.svg",
+    "src": "/plays/drag-idle-manual-vs-offline/cover.webp",
     "alt": "拖拽放置：手动收益差与离线奖励公式"
   },
   "published": true,
   "coverWide": {
-    "src": "/plays/drag-idle-manual-vs-offline/cover-wide.svg",
+    "src": "/plays/drag-idle-manual-vs-offline/cover.webp",
     "alt": "拖拽放置：手动收益差与离线奖励公式"
   },
   "demo": {}

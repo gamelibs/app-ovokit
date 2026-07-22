@@ -87,7 +87,7 @@ export function ArchetypePage({
           </div>
           <div className="grid gap-2 sketch-card p-3 text-sm text-ink-light">
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">母型玩法</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">玩法行为</div>
               <div className="font-medium">{model.title}</div>
             </div>
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
@@ -112,7 +112,7 @@ export function ArchetypePage({
           {model.patternKeys.length > 0 && (
             <div className="sketch-card p-3 text-sm">
               <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted font-kalam">
-                所属核心原型
+                所属核心循环
               </div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {model.patternKeys.map((key) => {
@@ -181,7 +181,7 @@ export function ArchetypePage({
         </div>
       </SectionShell>
 
-      <SectionShell id="breakdown" title="③ 母型玩法系统拆解">
+      <SectionShell id="breakdown" title="③ 玩法行为系统拆解">
         <ArchetypeImage
           src={images.rule}
           widthClass="w-full lg:w-[70%]"
