@@ -55,5 +55,6 @@
     "src": "/plays/physics-cut-hit-test-and-performance/cover.webp",
     "alt": "物理切割：切割判定方式与性能/精度平衡"
   },
-  "demo": {}
+  "demo": {},
+  "pattern": "action"
 }

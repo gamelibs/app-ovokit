@@ -63,5 +63,6 @@
     }
   ],
   "published": true,
-  "demo": {}
+  "demo": {},
+  "pattern": "strategy"
 }

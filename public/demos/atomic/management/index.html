@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>经营模拟 · 迷你工厂 | OVO 原子 Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 经营模拟原子 demo：行为循环 = 建造 → 生产 → 经济 → 扩张
+// 教学点：产出曲线、成本递增、库存上限（经济引擎三要素）
+AtomCore.create({
+  title: '经营模拟 · 迷你工厂',
+  objective: '买建筑赚金币，攒够 300 金币解锁「大工厂」就赢。观察成本递增如何逼你做选择。',
+  lives: 0,
+  params: [
+    { key: 'costGrowth', label: '成本递增倍率', min: 1.1, max: 2.0, step: 0.1, default: 1.4, unit: 'x' },
+    { key: 'prodRate', label: '产出速率', min: 0.5, max: 3, step: 0.5, default: 1, unit: 'x' }
+  ],
+  hudExtra: function (g) {
+    var d = g.data;
+    return '金币 <b>' + Math.floor(d.coins) + '</b> · 货物 <b>' + Math.floor(d.goods) + '/' + d.goodsCap + '</b>' + (d.won ? ' · <b>已解锁大工厂！</b>' : '');
+  },
+  setup: function (g) {
+    g.data = {
+      coins: 20, goods: 0, goodsCap: 50,
+      buildings: [
+        { name: '农田', cost: 15, count: 0, out: 1, color: AtomCore.COLORS.GREEN },
+        { name: '工坊', cost: 40, count: 0, out: 3, color: AtomCore.COLORS.BLUE },
+        { name: '大工厂', cost: 300, count: 0, out: 0, color: AtomCore.COLORS.YELLOW }
+      ],
+      won: false, flashT: 0, ticks: 0
+    };
+  },
+  onPointer: function (g, p) {
+    if (p.type !== 'down') return;
+    var d = g.data;
+    d.buildings.forEach(function (b, i) {
+      var y = 120 + i * 130;
+      if (p.x > g.W - 150 && p.x < g.W - 20 && p.y > y && p.y < y + 60) {
+        var cost = Math.floor(b.cost * Math.pow(g.params.costGrowth, b.count));
+        if (b.name === '大工厂' && b.count >= 1) return;
+        if (d.coins >= cost) {
+          d.coins -= cost; b.count++;
+          if (b.name === '大工厂') { d.won = true; g.endGame(true); }
+        } else { d.flashT = 0.4; }
+      }
+    });
+    // 点击货物区卖货
+    if (p.y > g.H - 130 && p.y < g.H - 60) {
+      if (d.goods >= 1) { var earn = Math.floor(d.goods); d.coins += earn; d.goods -= earn; g.setScore(g.score + earn); }
+    }
+  },
+  update: function (g, dt) {
+    var d = g.data;
+    d.ticks += dt;
+    if (d.flashT > 0) d.flashT -= dt;
+    // 生产：每秒产出 = Σ(建筑 × 产出 × 速率)
+    var prod = (d.buildings[0].count * 1 + d.buildings[1].count * 3) * g.params.prodRate;
+    d.goods = Math.min(d.goodsCap, d.goods + prod * dt);
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS, W = g.W;
+    var buildings = d.buildings || [];
+    var coins = d.coins || 0, goods = d.goods || 0, goodsCap = d.goodsCap || 50;
+    gg.text('建造（点右侧按钮购买）', W / 2, 40, 15, '#666');
+    gg.text('金币 ' + Math.floor(coins), 70, 70, 18, C.INK, 'left');
+    gg.text('货物 ' + Math.floor(goods) + '/' + goodsCap, 70, 96, 15, '#888', 'left');
+    // 库存条
+    gg.ctx.fillStyle = '#eee'; gg.ctx.fillRect(70, 104, W - 140, 8);
+    gg.ctx.fillStyle = C.YELLOW; gg.ctx.fillRect(70, 104, (W - 140) * (goods / goodsCap), 8);
+    gg.rect(70, 104, W - 140, 8, null, 1);
+
+    buildings.forEach(function (b, i) {
+      var y = 120 + i * 130;
+      // 建筑卡片
+      gg.rect(30, y, W - 200, 60, b.count > 0 ? b.color : '#f3ede0', 1.5);
+      gg.text(b.name + ' ×' + b.count, 46, y + 24, 17, C.INK, 'left');
+      gg.text(b.out > 0 ? '产出 ' + b.out + '/秒' : '胜利条件', 46, y + 44, 12, '#777', 'left');
+      // 购买按钮
+      var cost = Math.floor(b.cost * Math.pow(g.params.costGrowth, b.count));
+      var afford = d.coins >= cost && !(b.name === '大工厂' && b.count >= 1);
+      gg.rect(W - 150, y, 130, 60, afford ? C.YELLOW : '#ddd', 1.5);
+      gg.text(b.name === '大工厂' && b.count >= 1 ? '已拥有' : '买 ' + cost, W - 85, y + 30, 15, afford ? C.INK : '#999');
+    });
+    // 卖货区
+    gg.rect(30, g.H - 130, W - 60, 70, goods >= 1 ? C.GREEN : '#eee', 1.5);
+    gg.text('点这里卖货（' + Math.floor(goods) + ' 货 → 金币）', W / 2, g.H - 95, 16, C.INK);
+    if ((d.flashT || 0) > 0) gg.text('金币不够！', W / 2, g.H - 40, 16, '#c0392b');
+  }
+});
+</script>
+</body>
+</html>

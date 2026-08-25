@@ -15,6 +15,7 @@ export const corePatternKeys = [
   "merge",
   "management",
   "strategy",
+  "narrative",
 ] as const;
 
 export type CorePatternKey = (typeof corePatternKeys)[number];
@@ -165,7 +166,7 @@ export const fallbackCorePatterns: CorePatternMeta[] = [
   },
   {
     key: "merge",
-    name: "合成成长",
+    name: "合成进化",
     nameEn: "Merge / Incremental",
     subtitle: "获得 → 合并 → 升级 → 更高产出",
     concept:
@@ -261,7 +262,7 @@ export const fallbackCorePatterns: CorePatternMeta[] = [
   },
   {
     key: "strategy",
-    name: "策略成长",
+    name: "策略对抗",
     nameEn: "Strategy",
     subtitle: "配置 → 对抗 → 计算 → 成长",
     concept:
@@ -305,6 +306,52 @@ export const fallbackCorePatterns: CorePatternMeta[] = [
       "属性公式与伤害期望计算",
       "回合制/实时战斗状态机",
       "AI 行为树与难度自适应",
+    ],
+  },
+  {
+    key: "narrative",
+    name: "交互叙事",
+    nameEn: "Interactive Narrative",
+    subtitle: "选择 → 后果 → 分支 → 结局",
+    concept:
+      "交互叙事模式以“玩家的选择真实改变故事走向”为核心循环。玩家在关键节点做选择，每个选择带来可见或可追的后果，故事因此分支成不同路径与结局。它的底层是一棵分支状态树：节点是情节，边是选择，叶子是结局。",
+    role:
+      "这个模式用于满足玩家的代入感与掌控欲——“这是我的故事”。它把“读故事”变成“参与故事”，让玩家为后果负责，从而产生其它玩法难以替代的情感投入。交互叙事是内容驱动循环：成本主要在剧本与分支设计，而非机制复杂度。",
+    significance:
+      "掌握交互叙事模式，意味着理解分支结构、状态变量、后果延迟与多结局设计。它是学习“选择-后果”因果设计的最佳场景，也是把写作与系统设计结合的关键能力——好的分支不是数量多，而是每个选择都“可解释、有代价、被记住”。",
+    loop: "Choice → Consequence → Branch → Ending",
+    abstractions: ["情节节点", "分支选择", "状态变量", "后果延迟", "多结局"],
+    cases: ["橙光游戏", "Life is Strange", "60 Seconds!", "多重结局文字冒险"],
+    problemsSolved: [
+      "让选择有真实后果，避免“选什么都一样”的伪分支",
+      "用状态变量记住玩家做过什么，让后果可以延迟兑现",
+      "用结局收束给玩家“再来一次”的理由",
+    ],
+    learningGoals: [
+      "理解分支树的最小结构（节点/边/叶子）",
+      "掌握状态变量设计：什么该被记住、何时兑现",
+      "能设计 3-5 个结局的最小可玩叙事循环",
+    ],
+    minimalRules: [
+      "选择：每个节点给 2-4 个差异明确的选项",
+      "后果：选择必须改变状态（立即或延迟可见）",
+      "结局：状态汇聚成可区分的终局（最少 2 个）",
+    ],
+    systemLoopHint: "呈现情节 → 玩家选择 → 更新状态变量 → 进入分支节点 → …… → 到达结局 → 可重开",
+    combos: [
+      { formula: "叙事 + 策略对抗", effect: "战斗胜负影响剧情分支（战棋叙事）" },
+      { formula: "叙事 + 经营模拟", effect: "经营结果触发不同剧情线" },
+      { formula: "叙事 + 解谜", effect: "解谜成功解锁隐藏情节" },
+    ],
+    advancedWarnings: [
+      "伪分支（殊途同归且无记录）会立刻摧毁玩家信任",
+      "分支指数爆炸会让剧本不可维护，要用“汇合点”收束",
+      "后果如果全 immediate 就没有悬念，全延迟就没有反馈感，要混排",
+    ],
+    advancedAlgoRefs: [
+      "状态机/有向图：情节节点与分支条件",
+      "变量系统：flags、好感度、线索收集",
+      "结局判定：多条件阈值与优先级",
     ],
   },
 ];

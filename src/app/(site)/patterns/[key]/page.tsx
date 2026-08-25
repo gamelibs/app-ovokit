@@ -6,6 +6,7 @@ import { BrowseGroupTabs } from "@/components/plays/BrowseGroupTabs";
 import { getPatternImageSet } from "@/lib/patterns/assets";
 import { isCorePatternKey, corePatternKeys, type CorePatternKey } from "@/lib/patterns/patterns";
 import { listPatternSpecs, readPatternSpec } from "@/lib/patterns/spec";
+import { listPlays } from "@/lib/content/plays";
 import { siteConfig } from "@/lib/site/config";
 
 export async function generateStaticParams() {
@@ -56,15 +57,20 @@ export default async function PatternDetailPage({
   }
   const key = rawKey as CorePatternKey;
 
-  const [spec, images, specs] = await Promise.all([
+  const [spec, images, specs, allPlays] = await Promise.all([
     readPatternSpec(key),
     getPatternImageSet(key),
     listPatternSpecs(),
+    listPlays(),
   ]);
 
   if (!spec) {
     notFound();
   }
+  const relatedPlays = allPlays
+    .filter((p) => p.pattern === key)
+    .slice(0, 6)
+    .map((p) => ({ slug: p.slug, title: p.title, subtitle: p.subtitle }));
 
   return (
     <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
@@ -74,7 +80,7 @@ export default async function PatternDetailPage({
         items={specs.map((s) => ({ key: s.key, label: s.name }))}
       />
       <div className="mt-4">
-        <PatternPage spec={spec} images={images} />
+        <PatternPage spec={spec} images={images} relatedPlays={relatedPlays} />
       </div>
     </main>
   );

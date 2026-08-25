@@ -116,5 +116,6 @@
     "alt": "小游戏玩法知识分享---之---合成"
   },
   "published": true,
-  "demo": {}
+  "demo": {},
+  "pattern": "merge"
 }

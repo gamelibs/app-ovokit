@@ -26,6 +26,7 @@ const PATTERN_SCENE: Record<string, string> = {
   merge: "merge-unit",
   spatial: "placement",
   strategy: "choice-strategy",
+  narrative: "choice-strategy",
 };
 
 /** feature key → 场景母型 */

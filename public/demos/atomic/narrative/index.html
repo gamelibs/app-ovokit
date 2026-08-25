@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>交互叙事 · 山中小屋 | OVO 原子 Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 交互叙事原子 demo：行为循环 = 选择 → 后果 → 分支 → 结局
+// 教学点：每个选择都改变状态变量并影响结局；开关「后果提示」体验信息披露设计
+var STORY = {
+  start: {
+    text: '深夜，你在山中小屋避雨。壁炉快熄了，门外传来敲门声。',
+    choices: [
+      { t: '开门看看是谁', next: 'door', flags: { courage: 1 } },
+      { t: '先添柴火再说', next: 'fire', flags: { warm: 1 } }
+    ]
+  },
+  door: {
+    text: '门外是个浑身湿透的旅人，他说山里有狼。你让他进来了吗？',
+    choices: [
+      { t: '让他进屋取暖', next: 'end', flags: { kind: 1 } },
+      { t: '给他毯子但不开门', next: 'end', flags: { cautious: 1 } }
+    ]
+  },
+  fire: {
+    text: '火重新旺起来。敲门声停了，窗上却映出一个影子。',
+    choices: [
+      { t: '吹灭灯，躲到墙角', next: 'end', flags: { cautious: 1 } },
+      { t: '提灯走到窗边查看', next: 'end', flags: { courage: 1 } }
+    ]
+  },
+  end: { text: '', choices: [] }
+};
+function endingOf(f) {
+  if (f.kind && f.courage) return { title: '结局 · 篝火夜谈', text: '旅人是老猎人，他教你认狼的脚印。第二天你安然下山。善良 + 勇气 = 最好的夜。' };
+  if (f.kind) return { title: '结局 · 一碗热汤', text: '你们分食了热汤。他临走留下一张地图。善良本身就是回报。' };
+  if (f.courage && !f.warm) return { title: '结局 · 灯下的影子', text: '影子只是迷路的鹿。你笑自己多疑，但炉火救了你们俩。勇气带你回家。' };
+  if (f.cautious) return { title: '结局 · 平安无事', text: '你什么都没做，也什么都没发生。谨慎让你平安，只是故事短了一点。' };
+  return { title: '结局 · 雨停', text: '雨停了你继续赶路。这一夜教会你：每个选择都在写故事。' };
+}
+
+AtomCore.create({
+  title: '交互叙事 · 山中小屋',
+  objective: '做两次选择，看看你的故事走向哪个结局。然后换「后果提示」再玩一次，感受差别。',
+  lives: 0,
+  params: [
+    { key: 'hint', label: '后果提示（0=隐藏 1=显示）', min: 0, max: 1, step: 1, default: 1, unit: '' },
+    { key: 'speed', label: '文字速度', min: 1, max: 3, step: 1, default: 2, unit: 'x' }
+  ],
+  hudExtra: function (g) {
+    var f = g.data.flags || {};
+    var marks = Object.keys(f).map(function (k) { return { courage: '勇气', warm: '温暖', kind: '善良', cautious: '谨慎' }[k]; }).filter(Boolean);
+    return '状态：' + (marks.length ? marks.join(' · ') : '（还没有选择）');
+  },
+  setup: function (g) {
+    g.data = { node: 'start', flags: {}, shown: 0, ending: null };
+  },
+  onPointer: function (g, p) {
+    if (p.type !== 'down') return;
+    var d = g.data;
+    if (d.ending) return;
+    var node = STORY[d.node];
+    node.choices.forEach(function (c, i) {
+      var y = g.H - 150 + i * 62;
+      if (p.x > 40 && p.x < g.W - 40 && p.y > y && p.y < y + 50) {
+        Object.assign(d.flags, c.flags);
+        if (c.next === 'end') d.ending = endingOf(d.flags);
+        d.node = c.next; d.shown = 0;
+        g.setScore(g.score + 1);
+      }
+    });
+  },
+  update: function (g, dt) {
+    g.data.shown += dt * 40 * g.params.speed;
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS, W = g.W;
+    var node = d.ending ? null : (STORY[d.node] || STORY.start);
+    var text = d.ending ? d.ending.text : node.text;
+    var chars = Math.min(text.length, Math.floor(d.shown));
+    gg.rect(30, 30, W - 60, 150, '#f3ede0', 1.5);
+    if (d.ending) gg.text('—— ' + d.ending.title + ' ——', W / 2, 56, 16, C.INK);
+    wrapText(gg, text.slice(0, chars), 46, 76, W - 92, 20, 15);
+    if (!d.ending) {
+      node.choices.forEach(function (c, i) {
+        var y = g.H - 150 + i * 62;
+        gg.rect(40, y, W - 80, 50, C.YELLOW, 1.5);
+        gg.text((i + 1) + '. ' + c.t, W / 2, y + 25, 15, C.INK);
+        if (g.params.hint === 1) {
+          var hint = Object.keys(c.flags).map(function (k) { return { courage: '+勇气', warm: '+温暖', kind: '+善良', cautious: '+谨慎' }[k]; }).join(' ');
+          gg.text(hint, W - 56, y + 25, 11, '#b8860b', 'right');
+        }
+      });
+    } else {
+      gg.text('点「重开」换个选择再试一次', W / 2, g.H - 90, 14, '#888');
+    }
+  }
+});
+function wrapText(gg, text, x, y, maxW, lh, size) {
+  var line = '', yy = y;
+  for (var i = 0; i < text.length; i++) {
+    line += text[i];
+    if (gg.ctx.measureText(line).width > maxW || text[i] === '\n') {
+      gg.text(line, x, yy, size, '#2b2b2b', 'left');
+      line = ''; yy += lh;
+    }
+  }
+  if (line) gg.text(line, x, yy, size, '#2b2b2b', 'left');
+}
+</script>
+</body>
+</html>

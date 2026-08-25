@@ -55,5 +55,6 @@
     "src": "/plays/path-planning-pseudo-puzzle/cover.webp",
     "alt": "路径规划：伪解谜设计与多解/单解取舍"
   },
-  "demo": {}
+  "demo": {},
+  "pattern": "spatial"
 }

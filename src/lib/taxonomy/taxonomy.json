@@ -938,8 +938,9 @@
     },
     {
       "key": "strategy",
-      "name": "策略成长",
-      "loop": "Unit → Stats → Combat → Reward"
+      "name": "策略对抗",
+      "loop": "Unit → Stats → Combat → Reward",
+      "renamedFrom": "策略成长（对抗才是循环本质，成长是外衣）"
     },
     {
       "key": "management",
@@ -948,8 +949,15 @@
     },
     {
       "key": "merge",
-      "name": "合成成长",
-      "loop": "Resource → Merge → Level Up → Production"
+      "name": "合成进化",
+      "loop": "Resource → Merge → Level Up → Production",
+      "renamedFrom": "合成成长（与策略对抗消歧；增长引擎=合并升维）"
+    },
+    {
+      "key": "narrative",
+      "name": "交互叙事",
+      "loop": "Choice → Consequence → Branch → Ending",
+      "addedIn": "1.0.0（内容驱动循环；成本在剧本而非机制）"
     }
   ],
   "features": [

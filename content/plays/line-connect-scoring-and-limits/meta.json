@@ -55,5 +55,6 @@
     "src": "/plays/line-connect-scoring-and-limits/cover.webp",
     "alt": "连线消除：爽点来自分数曲线与限制策略"
   },
-  "demo": {}
+  "demo": {},
+  "pattern": "spatial"
 }

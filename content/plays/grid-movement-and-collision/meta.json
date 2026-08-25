@@ -56,5 +56,6 @@
   "coverWide": {
     "src": "/plays/grid-movement-and-collision/cover.webp",
     "alt": "格子移动与碰撞：从规则到实现"
-  }
+  },
+  "pattern": "spatial"
 }

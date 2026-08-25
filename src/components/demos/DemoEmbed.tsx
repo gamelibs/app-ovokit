@@ -1,8 +1,7 @@
 "use client";
 
 import { FullscreenStage } from "@/components/demos/FullscreenStage";
-import { useCanFullscreen } from "@/lib/hooks/useCanFullscreen";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 type Props = {
   title: string;
@@ -34,36 +33,7 @@ export function DemoEmbed({
 }: Props) {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const canFullscreen = useCanFullscreen();
   const [reloadToken, setReloadToken] = useState(0);
-
-  useEffect(() => {
-    const onChange = () => {
-      const el = document.fullscreenElement;
-      setIsFullscreen(Boolean(el && el === stageRef.current));
-    };
-    document.addEventListener("fullscreenchange", onChange);
-    return () => document.removeEventListener("fullscreenchange", onChange);
-  }, []);
-
-  const enterFullscreen = useCallback(async () => {
-    const el = stageRef.current;
-    if (!el) return;
-    try {
-      await el.requestFullscreen();
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  const exitFullscreen = useCallback(async () => {
-    try {
-      if (document.fullscreenElement) await document.exitFullscreen();
-    } catch {
-      // ignore
-    }
-  }, []);
 
   const effectiveSrc = useMemo(() => {
     if (restartStrategy !== "reload") return src;
@@ -71,7 +41,7 @@ export function DemoEmbed({
     return `${src}${sep}r=${reloadToken}`;
   }, [reloadToken, restartStrategy, src]);
 
-  const sendRestart = useCallback(() => {
+  function sendRestart() {
     if (restartStrategy === "reload") {
       setReloadToken((v) => v + 1);
       return;
@@ -82,13 +52,13 @@ export function DemoEmbed({
     } catch {
       // ignore
     }
-  }, [restartMessage, restartStrategy]);
+  }
 
   const stageWrapperClass =
     wrapperClassName ??
     (orientation === "portrait"
-      ? // 竖屏游戏（如 750×1334）：限宽居中，比例接近游戏，PC/移动都铺满可视区
-        "mx-auto w-full max-w-[420px] aspect-[3/4] max-h-[72vh]"
+      ? // 竖屏 demo：固定高度容器（= 游戏页面自然高度），不自动伸缩
+        "mx-auto w-full max-w-[760px] h-[740px]"
       : "min-h-[360px] h-[60vh] w-full sm:h-auto sm:aspect-[4/3] lg:aspect-[16/10]");
 
   return (
@@ -99,29 +69,10 @@ export function DemoEmbed({
             <button
               type="button"
               onClick={sendRestart}
-              className="inline-flex h-9 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
+              className="inline-flex h-9 items-center justify-center rounded-full sketch-border bg-paper px-4 text-xs font-semibold font-kalam hover:bg-paper-warm"
             >
               重开
             </button>
-          ) : null}
-          {canFullscreen ? (
-            !isFullscreen ? (
-              <button
-                type="button"
-                onClick={() => void enterFullscreen()}
-                className="inline-flex h-9 items-center justify-center rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink hover:bg-highlight-blue/90"
-              >
-                全屏
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => void exitFullscreen()}
-                className="inline-flex h-9 items-center justify-center rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink hover:bg-highlight-blue/90"
-              >
-                退出全屏
-              </button>
-            )
           ) : null}
         </div>
       ) : null}

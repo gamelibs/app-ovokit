@@ -62,5 +62,6 @@
     }
   ],
   "published": true,
-  "demo": {}
+  "demo": {},
+  "pattern": "merge"
 }

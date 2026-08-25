@@ -58,5 +58,6 @@
     "src": "/plays/td-waves-and-ai-scaling/cover.webp",
     "alt": "塔防波次生成与敌人调度"
   },
-  "published": true
+  "published": true,
+  "pattern": "strategy"
 }

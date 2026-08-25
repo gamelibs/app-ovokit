@@ -65,5 +65,6 @@
   "coverWide": {
     "src": "/plays/merge-level-core-loop/cover.webp",
     "alt": "合成 & 升级玩法核心逻辑"
-  }
+  },
+  "pattern": "merge"
 }

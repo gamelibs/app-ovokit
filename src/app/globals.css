@@ -3,11 +3,11 @@
 :root {
   --paper-bg: #faf7ef;
   --paper-bg-warm: #f5f1e6;
-  --ink: #202020;
-  --ink-soft: rgba(32, 32, 32, 0.55);
-  --ink-faint: rgba(32, 32, 32, 0.35);
-  --ink-light: #555555;
-  --ink-muted: #888888;
+  --ink: #1a1a1a;
+  --ink-soft: rgba(26, 26, 26, 0.55);
+  --ink-faint: rgba(26, 26, 26, 0.35);
+  --ink-light: #3f3f3f;
+  --ink-muted: #5c5c5c;
   --highlight-yellow: #ffda6a;
   --highlight-blue: #7dcfff;
   --highlight-red: #ff8b8b;
@@ -33,8 +33,7 @@
   --color-logo-purple: var(--logo-purple);
   --color-logo-cyan: var(--logo-cyan);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-sans: var(--font-kalam), cursive, "Kaiti SC", "KaiTi", "STKaiti", serif;
   --font-kalam: var(--font-kalam), cursive;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
@@ -48,6 +47,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  font-size: 18px;
 }
 
 body {
@@ -57,6 +57,7 @@ body {
   color: var(--ink);
   overflow-x: hidden;
   text-rendering: optimizeLegibility;
+  line-height: 1.75;
 }
 
 img,

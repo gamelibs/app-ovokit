@@ -60,5 +60,6 @@
     "src": "/plays/sliding-puzzle-3d-photo/cover.webp",
     "alt": "滑块拼图：用 3D 切片与手感做“可玩展示”"
   },
-  "published": true
+  "published": true,
+  "pattern": "spatial"
 }

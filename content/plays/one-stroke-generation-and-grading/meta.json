@@ -55,5 +55,6 @@
     "src": "/plays/one-stroke-generation-and-grading/cover.webp",
     "alt": "一笔画：图形生成算法与难度分级"
   },
-  "demo": {}
+  "demo": {},
+  "pattern": "spatial"
 }

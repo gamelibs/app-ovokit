@@ -11,7 +11,7 @@
     "网格"
   ],
   "difficulty": "入门",
-  "pattern": "strategy",
+  "pattern": "spatial",
   "techStack": [
     "PixiJS",
     "TypeScript"

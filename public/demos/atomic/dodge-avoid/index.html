@@ -24,7 +24,8 @@ AtomCore.create({
   ],
   hudExtra: function (g) {
     var phase = g.time < 10 ? '爬坡' : (g.time < 25 ? '平台' : '冲刺');
-    return '存活 <b>' + g.time.toFixed(1) + 's</b> · ' + phase;
+    var ramp = 1 + Math.min(g.time / 18, 2.2);
+    return '存活 <b>' + g.time.toFixed(1) + 's</b> · ' + phase + ' · 压力 <b>x' + ramp.toFixed(1) + '</b>';
   },
   setup: function (g) {
     g.data.player = { x: g.W / 2, y: g.H * 0.75, r: 16 };
@@ -49,17 +50,18 @@ AtomCore.create({
     if (d.invincible > 0) d.invincible -= dt;
     if (d.flash > 0) d.flash -= dt;
 
-    // 速度曲线：爬坡(0-10s) → 平台(10-25s) → 冲刺(25s+)
+    // 压力递进：基础速度曲线 + 时间压力系数（密度/速度都随时间变大）
     var t = g.time, base;
     if (t < 10) base = 80 + t * 12;           // 爬坡
     else if (t < 25) base = 200;              // 平台
     else base = 200 + (t - 25) * 8;           // 冲刺
-    var speed = base;
+    var ramp = 1 + Math.min(t / 18, 2.2);     // 压力系数：每 18s +1，封顶 3.2x
+    var speed = base * (0.7 + ramp * 0.3);    // 子弹速度随压力加快
 
-    // 生成子弹（从顶部往下）
+    // 生成子弹（间隔随压力变短 = 密度变大）
     d.spawnT -= dt;
     if (d.spawnT <= 0) {
-      d.spawnT = 0.7 / g.params.density;
+      d.spawnT = (0.7 / g.params.density) / ramp;
       d.bullets.push({ x: g.rand(20, g.W - 20), y: -20, r: g.rand(8, 14), vy: speed * g.rand(0.8, 1.2), id: Math.random() });
     }
     // 移动 + 判定

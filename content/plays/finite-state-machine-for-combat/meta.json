@@ -56,5 +56,6 @@
   "coverWide": {
     "src": "/plays/finite-state-machine-for-combat/cover.webp",
     "alt": "用状态机组织战斗单位行为"
-  }
+  },
+  "pattern": "strategy"
 }

@@ -53,22 +53,27 @@
   }
 
   function create(cfg) {
-    // ---- DOM 骨架 ----
+    // ---- DOM 骨架（说明/设置侧栏化：宽屏在右，窄屏在上） ----
     var root = document.currentScript ? document.currentScript.parentElement : document.body;
     if (!root || root === document.body) root = document.body;
     root.innerHTML =
       '<div class="ac-wrap">' +
-      '  <div class="ac-head"><span class="ac-title"></span><button class="ac-restart" type="button">重开</button></div>' +
-      '  <div class="ac-obj"></div>' +
-      '  <div class="ac-stage"><canvas></canvas>' +
-      '    <div class="ac-overlay"><div class="ac-overlay-text"></div><button class="ac-start" type="button">开始</button></div>' +
+      '  <div class="ac-main">' +
+      '    <div class="ac-head"><span class="ac-title"></span></div>' +
+      '    <div class="ac-stage"><canvas></canvas>' +
+      '      <div class="ac-overlay"><div class="ac-overlay-text"></div><button class="ac-start" type="button">开始</button></div>' +
+      '    </div>' +
+      '    <div class="ac-hud"></div>' +
       '  </div>' +
-      '  <div class="ac-hud"></div>' +
-      '  <div class="ac-params"></div>' +
+      '  <aside class="ac-side">' +
+      '    <div class="ac-obj"></div>' +
+      '    <div class="ac-params"></div>' +
+      '  </aside>' +
       '</div>';
     injectStyle(root);
 
     var wrap = root.querySelector('.ac-wrap');
+    var side = root.querySelector('.ac-side');
     var canvas = root.querySelector('canvas');
     var overlay = root.querySelector('.ac-overlay');
     var overlayText = root.querySelector('.ac-overlay-text');
@@ -119,10 +124,15 @@
       paramsBox.appendChild(row);
     });
 
-    // ---- 画布尺寸（竖屏优先，自适应容器）----
+    // ---- 画布尺寸（适配窗口，永不出现滚动条）----
     var ctx = canvas.getContext('2d');
     function resize() {
-      var w = Math.min(wrap.clientWidth, 520);
+      var main = root.querySelector('.ac-main');
+      var narrow = wrap.clientWidth < 600;
+      var sideH = narrow ? side.offsetHeight : 0;
+      var chrome = 40 + 34 + 16 + sideH; // 标题 + HUD + padding + （窄屏侧栏高）
+      var fitW = (window.innerHeight - chrome) / 1.5;
+      var w = Math.max(240, Math.min(main.clientWidth, 520, fitW));
       var h = Math.round(w * 1.5); // 2:3 竖屏
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
@@ -191,10 +201,9 @@
     }
     requestAnimationFrame(frame);
 
-    // ---- 开始/重开 ----
+    // ---- 开始 ----
     var startBtn = root.querySelector('.ac-start');
     startBtn.addEventListener('click', function () { game.reset(); });
-    root.querySelector('.ac-restart').addEventListener('click', function () { game.reset(); });
     overlayText.textContent = cfg.objective || '';
     renderHud();
 
@@ -207,22 +216,24 @@
     var s = document.createElement('style');
     s.id = 'ac-style';
     s.textContent =
-      'html,body{margin:0;padding:0;background:' + PAPER + ';font-family:Kalam,cursive,sans-serif;overscroll-behavior:none}' +
-      '.ac-wrap{max-width:520px;margin:0 auto;padding:10px;box-sizing:border-box;user-select:none}' +
+      'html,body{margin:0;padding:0;background:' + PAPER + ';font-family:Kalam,cursive,sans-serif;overscroll-behavior:none;overflow:hidden}' +
+      '.ac-wrap{display:flex;gap:12px;max-width:760px;margin:0 auto;padding:8px;box-sizing:border-box;user-select:none}' +
+      '.ac-main{flex:1 1 auto;min-width:0}' +
+      '.ac-side{flex:0 0 190px;display:flex;flex-direction:column;gap:8px}' +
+      '@media (max-width:600px){.ac-wrap{flex-direction:column}.ac-side{flex:0 0 auto;order:-1;flex-direction:column}}' +
       '.ac-head{display:flex;justify-content:space-between;align-items:center}' +
       '.ac-title{font-size:20px;font-weight:700;color:' + INK + '}' +
-      '.ac-obj{font-size:14px;color:#666;margin:4px 0 8px}' +
+      '.ac-obj{font-size:14px;color:#666;line-height:1.5}' +
       '.ac-stage{position:relative;border:2.5px solid ' + INK + ';border-radius:14px 4px 12px 6px;overflow:hidden;background:' + PAPER + '}' +
       '.ac-stage canvas{display:block;margin:0 auto;touch-action:none}' +
       '.ac-overlay{position:absolute;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:rgba(250,247,239,.92)}' +
       '.ac-overlay-text{font-size:17px;color:' + INK + ';padding:0 24px;text-align:center;line-height:1.5}' +
       'button{font-family:inherit;font-size:16px;background:' + YELLOW + ';border:2.5px solid ' + INK + ';border-radius:10px 4px 10px 4px;padding:8px 22px;cursor:pointer;min-height:44px;min-width:88px}' +
       'button:active{transform:translate(1px,2px)}' +
-      '.ac-restart{font-size:13px;padding:4px 14px;background:#fff}' +
-      '.ac-hud{display:flex;gap:18px;justify-content:center;font-size:15px;padding:8px 0;color:' + INK + '}' +
+      '.ac-hud{display:flex;gap:18px;justify-content:center;font-size:15px;padding:6px 0;color:' + INK + '}' +
       '.ac-hud b{color:#d97706}' +
-      '.ac-params{padding:4px 6px}' +
-      '.ac-param{display:flex;flex-direction:column;margin:6px 0}' +
+      '.ac-params{display:flex;flex-direction:column;gap:4px}' +
+      '.ac-param{display:flex;flex-direction:column;margin:4px 0}' +
       '.ac-param label{font-size:13px;color:#555;display:flex;justify-content:space-between}' +
       '.ac-param input[type=range]{width:100%;height:28px;accent-color:#d97706;cursor:pointer}';
     document.head.appendChild(s);

@@ -67,5 +67,6 @@
     "src": "/plays/match-3-retention-and-pacing/cover.webp",
     "alt": "Match-3：用消除规则驱动留存与节奏"
   },
-  "published": true
+  "published": true,
+  "pattern": "spatial"
 }

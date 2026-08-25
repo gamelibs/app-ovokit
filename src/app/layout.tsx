@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { inter, kalam } from "@/lib/fonts";
+import { inter, kalam, notoSerif } from "@/lib/fonts";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
 
@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${kalam.variable} bg-paper text-ink antialiased`}
+        className={`${inter.variable} ${kalam.variable} ${notoSerif.variable} bg-paper text-ink antialiased`}
       >
         <GoogleAnalytics gaId={gaId} />
         {children}

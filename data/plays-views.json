@@ -1,6 +1,6 @@
 {
   "wave-defense-difficulty-curve": {
-    "views": 17,
+    "views": 19,
     "likes": 0
   },
   "merge-chain-and-gates": {
@@ -16,7 +16,7 @@
     "likes": 0
   },
   "tap-dodge-forgiveness-and-speed": {
-    "views": 11,
+    "views": 17,
     "likes": 0
   },
   "finite-state-machine-for-combat": {
@@ -40,7 +40,7 @@
     "likes": 0
   },
   "td-waves-and-ai-scaling": {
-    "views": 2,
+    "views": 5,
     "likes": 0
   },
   "2048-variant-probability-control": {
@@ -116,11 +116,11 @@
     "likes": 0
   },
   "talent-tree-real-choice-and-respec": {
-    "views": 1,
+    "views": 3,
     "likes": 0
   },
   "tic-tac-toe-showdown": {
-    "views": 28,
+    "views": 38,
     "likes": 0
   }
 }

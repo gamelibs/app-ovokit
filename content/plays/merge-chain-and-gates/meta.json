@@ -58,5 +58,6 @@
     "src": "/plays/merge-chain-and-gates/cover.webp",
     "alt": "合成进化（Merge）：合成链与卡关点怎么设计"
   },
-  "demo": {}
+  "demo": {},
+  "pattern": "merge"
 }

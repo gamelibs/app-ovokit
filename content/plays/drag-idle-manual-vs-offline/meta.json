@@ -53,5 +53,6 @@
     "src": "/plays/drag-idle-manual-vs-offline/cover.webp",
     "alt": "拖拽放置：手动收益差与离线奖励公式"
   },
-  "demo": {}
+  "demo": {},
+  "pattern": "merge"
 }
