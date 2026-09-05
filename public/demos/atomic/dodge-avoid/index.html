@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>躲避 · 宽容度实验室 | OVO 原子 Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 躲避母型原子 demo：行为原语 = move + collision + timing-window(近失) + spawn
+// 教学点（对应文章《点击躲避：失败宽容度与子弹速度曲线》）：
+//   - 判定圈 ≠ 视觉圈：宽容度滑块让你看到"擦到但没死"
+//   - 近失反馈：进入擦边区未命中 → 慢放 + 加分
+//   - 速度曲线：爬坡 → 平台 → 冲刺
+AtomCore.create({
+  title: '躲避 · 宽容度实验室',
+  objective: '拖动小人躲开子弹。调「判定宽容度」，看"擦到但没死"是怎么被设计出来的。',
+  lives: 3,
+  params: [
+    { key: 'forgive', label: '判定宽容度（碰撞圈缩小 px）', min: 0, max: 24, step: 1, default: 10, unit: 'px' },
+    { key: 'density', label: '子弹密度', min: 1, max: 5, step: 1, default: 2, unit: '' },
+    { key: 'grazeBonus', label: '近失奖励分', min: 0, max: 50, step: 5, default: 25, unit: '' }
+  ],
+  hudExtra: function (g) {
+    var phase = g.time < 10 ? '爬坡' : (g.time < 25 ? '平台' : '冲刺');
+    var ramp = 1 + Math.min(g.time / 18, 2.2);
+    return '存活 <b>' + g.time.toFixed(1) + 's</b> · ' + phase + ' · 压力 <b>x' + ramp.toFixed(1) + '</b>';
+  },
+  setup: function (g) {
+    g.data.player = { x: g.W / 2, y: g.H * 0.75, r: 16 };
+    g.data.bullets = [];
+    g.data.spawnT = 0;
+    g.data.slowmo = 0;   // 近失慢放剩余时间
+    g.data.grazes = {};  // 已奖励过的子弹
+    g.data.bonus = 0;    // 近失奖励累计
+    g.data.flash = 0;
+    g.data.invincible = 0; // 重生保护
+  },
+  onPointer: function (g, p) {
+    if (p.type === 'down' || p.type === 'move') {
+      g.data.player.x = Math.max(20, Math.min(g.W - 20, p.x));
+      g.data.player.y = Math.max(20, Math.min(g.H - 20, p.y));
+    }
+  },
+  update: function (g, dt) {
+    var d = g.data;
+    // 近失慢放：时间流速变 0.25
+    if (d.slowmo > 0) { d.slowmo -= dt; dt *= 0.25; }
+    if (d.invincible > 0) d.invincible -= dt;
+    if (d.flash > 0) d.flash -= dt;
+
+    // 压力递进：基础速度曲线 + 时间压力系数（密度/速度都随时间变大）
+    var t = g.time, base;
+    if (t < 10) base = 80 + t * 12;           // 爬坡
+    else if (t < 25) base = 200;              // 平台
+    else base = 200 + (t - 25) * 8;           // 冲刺
+    var ramp = 1 + Math.min(t / 18, 2.2);     // 压力系数：每 18s +1，封顶 3.2x
+    var speed = base * (0.7 + ramp * 0.3);    // 子弹速度随压力加快
+
+    // 生成子弹（间隔随压力变短 = 密度变大）
+    d.spawnT -= dt;
+    if (d.spawnT <= 0) {
+      d.spawnT = (0.7 / g.params.density) / ramp;
+      d.bullets.push({ x: g.rand(20, g.W - 20), y: -20, r: g.rand(8, 14), vy: speed * g.rand(0.8, 1.2), id: Math.random() });
+    }
+    // 移动 + 判定
+    var pl = d.player;
+    var hitR = pl.r + 0;                    // 视觉圈
+    var judgeR = Math.max(4, pl.r - g.params.forgive); // 判定圈（宽容度）
+    var grazeR = hitR + 14;                 // 擦边区
+    for (var i = d.bullets.length - 1; i >= 0; i--) {
+      var b = d.bullets[i];
+      b.y += b.vy * dt;
+      if (b.y > g.H + 30) { d.bullets.splice(i, 1); continue; }
+      var dx = b.x - pl.x, dy = b.y - pl.y, dist = Math.sqrt(dx * dx + dy * dy);
+      // 命中判定：用"判定圈"
+      if (d.invincible <= 0 && dist < judgeR + b.r * 0.6) {
+        d.bullets.splice(i, 1);
+        g.lives -= 1; d.flash = 0.3; d.invincible = 1.0; // 重生保护 1s
+        if (g.lives <= 0) { g.endGame(false); return; }
+        continue;
+      }
+      // 近失判定：进入擦边区但未命中，只奖励一次
+      if (!d.grazes[b.id] && dist < grazeR + b.r && dist >= judgeR + b.r * 0.6) {
+        d.grazes[b.id] = true;
+        d.slowmo = 0.15; // 慢放 150ms
+        d.bonus += g.params.grazeBonus;
+      }
+    }
+    // 得分 = 存活时间分 + 近失奖励
+    g.setScore(Math.floor(g.time * 10) + d.bonus);
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS;
+    var bullets = d.bullets || [];
+    var pl = d.player || { x: g.W / 2, y: g.H * 0.75, r: 16 };
+    // 子弹
+    bullets.forEach(function (b) {
+      gg.circle(b.x, b.y, b.r, C.RED, 2);
+    });
+    // 玩家：视觉圈（实线）+ 判定圈（虚线）+ 擦边区（浅圈）
+    if ((d.invincible || 0) > 0 && (g.time * 10 | 0) % 2 === 0) { /* 无敌闪烁 */ } else {
+      gg.circle(pl.x, pl.y, pl.r, C.BLUE, 2.5);
+      gg.text('我', pl.x, pl.y, 16, C.INK);
+    }
+    // 判定圈（虚线，教学关键：让玩家看到判定≠视觉）
+    var ctx = gg.ctx;
+    ctx.save(); ctx.setLineDash([4, 4]); ctx.strokeStyle = '#d97706'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(pl.x, pl.y, Math.max(4, pl.r - g.params.forgive), 0, Math.PI * 2); ctx.stroke();
+    ctx.restore();
+    // 擦边区
+    ctx.save(); ctx.setLineDash([2, 6]); ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(pl.x, pl.y, pl.r + 14, 0, Math.PI * 2); ctx.stroke();
+    ctx.restore();
+    // 受击闪屏
+    if (d.flash > 0) { ctx.fillStyle = 'rgba(255,139,139,' + (d.flash * 1.5) + ')'; ctx.fillRect(0, 0, g.W, g.H); }
+    // 图例
+    gg.text('— 视觉圈   ┄ 判定圈   ·· 擦边区', g.W / 2, g.H - 18, 13, '#888');
+  }
+});
+</script>
+</body>
+</html>

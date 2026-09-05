@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>时机 · 判定窗实验室 | OVO 原子 Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 时机母型原子 demo：行为原语 = timing-window + compare
+// 教学点（对应文章讲"判定窗口决定手感"）：
+//   - Perfect 窗口 ms：窗口越宽，"高手感"与"低门槛"越难区分，直接体验判定宽严
+//   - BPM：节拍密度决定玩家的预判方式（反应式 vs 节奏式）
+AtomCore.create({
+  title: '时机 · 判定窗实验室',
+  objective: '圆环收缩到判定圈时点击！调「Perfect 窗口」看手感宽严，调「BPM」看节奏密度。',
+  lives: 0,
+  params: [
+    { key: 'perfectMs', label: 'Perfect 窗口', min: 40, max: 150, step: 5, default: 80, unit: 'ms' },
+    { key: 'bpm', label: 'BPM（节拍速度）', min: 60, max: 180, step: 5, default: 100, unit: '' }
+  ],
+  hudExtra: function (g) {
+    var d = g.data;
+    return '连击 <b>' + (d.combo || 0) + '</b> · P <b>' + (d.nP || 0) + '</b> / G <b>' + (d.nG || 0) + '</b> / M <b>' + (d.nM || 0) + '</b> · 剩余 <b>' + (d.total - d.resolved) + '</b>';
+  },
+  setup: function (g) {
+    g.data.total = 20;        // 一局 20 个节拍
+    g.data.notes = [];        // {hitAt, judged, result}
+    g.data.spawned = 0;
+    g.data.resolved = 0;
+    g.data.nextSpawn = 0.8;   // 首个节拍提前量
+    g.data.combo = 0;
+    g.data.nP = 0; g.data.nG = 0; g.data.nM = 0;
+    g.data.judgeText = null;  // {text,t,color}
+    g.data.beatPulse = 0;
+    g.data.lastBeat = -1;
+  },
+  beat: function (g) { return 60 / g.params.bpm; },            // 每拍秒数
+  approach: function (g) { return this.beat(g) * 2; },          // 提前 2 拍出环
+  onPointer: function (g, p) {
+    if (p.type !== 'down') return;
+    var d = g.data;
+    var pw = g.params.perfectMs / 1000, gw = pw * 2.2;
+    // 找离判定点最近的未判定音符
+    var best = null, bestErr = Infinity;
+    d.notes.forEach(function (n) {
+      if (n.judged) return;
+      var err = Math.abs(g.time - n.hitAt);
+      if (err < bestErr) { bestErr = err; best = n; }
+    });
+    if (!best || bestErr > gw) {
+      d.judgeText = { text: '太早/太晚', t: 0.6, color: '#888' };
+      return;
+    }
+    best.judged = true; d.resolved++;
+    if (bestErr <= pw) {
+      best.result = 'P'; d.combo++; d.nP++;
+      g.setScore(g.score + 100 + d.combo * 5);
+      d.judgeText = { text: 'Perfect!', t: 0.7, color: '#d97706' };
+    } else {
+      best.result = 'G'; d.combo++; d.nG++;
+      g.setScore(g.score + 40);
+      d.judgeText = { text: 'Good', t: 0.6, color: '#5a8a5a' };
+    }
+    if (d.resolved >= d.total) this.finish(g);
+  },
+  finish: function (g) {
+    var d = g.data;
+    g.endGame(d.nP + d.nG >= d.total * 0.6);
+  },
+  update: function (g, dt) {
+    var d = g.data, bt = this.beat(g), ap = this.approach(g);
+    // 出音符（提前 approach 时间生成，hitAt 落在拍点上）
+    if (d.spawned < d.total && g.time >= d.nextSpawn - ap) {
+      d.notes.push({ hitAt: d.nextSpawn, judged: false, result: null });
+      d.spawned++;
+      d.nextSpawn += bt;
+    }
+    // 节拍脉冲（视觉上给节奏提示）
+    var beatIdx = Math.floor(g.time / bt);
+    if (beatIdx !== d.lastBeat) { d.lastBeat = beatIdx; d.beatPulse = 0.12; }
+    if (d.beatPulse > 0) d.beatPulse -= dt;
+    // 超时未点 → Miss
+    var gw = (g.params.perfectMs / 1000) * 2.2;
+    for (var i = 0; i < d.notes.length; i++) {
+      var n = d.notes[i];
+      if (!n.judged && g.time - n.hitAt > gw) {
+        n.judged = true; n.result = 'M'; d.resolved++;
+        d.combo = 0; d.nM++;
+        d.judgeText = { text: 'Miss', t: 0.6, color: '#c0392b' };
+        if (d.resolved >= d.total) { this.finish(g); return; }
+      }
+    }
+    if (d.judgeText) { d.judgeText.t -= dt; if (d.judgeText.t <= 0) d.judgeText = null; }
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS;
+    var cx = g.W / 2, cy = g.H * 0.42, Rj = Math.min(g.W, g.H) * 0.16, R0 = g.H * 0.46;
+    var ap = this.approach(g);
+    // 判定圈（固定）
+    gg.circle(cx, cy, Rj, null, 3);
+    // 节拍脉冲：判定圈中心点随拍闪动
+    if (d.beatPulse > 0) gg.circle(cx, cy, 8, C.YELLOW, 1);
+    gg.circle(cx, cy, 4, C.INK, 1);
+    // 收缩环
+    var pw = g.params.perfectMs / 1000, gw = pw * 2.2;
+    (d.notes || []).forEach(function (n) {
+      if (n.judged && n.result !== null) return;
+      var remain = n.hitAt - g.time;                 // >0 未到判定点
+      var progress = 1 - remain / ap;                // 0 → 1
+      var r = R0 + (Rj - R0) * progress;
+      if (r < 6) r = 6;
+      var late = remain < 0;
+      gg.circle(cx, cy, r, late ? 'rgba(255,139,139,0.25)' : 'rgba(124,196,255,0.25)', late ? 3 : 2);
+    });
+    // 判定反馈文字
+    if (d.judgeText) gg.text(d.judgeText.text, cx, cy - Rj - 34, 30, d.judgeText.color);
+    // 判定窗口示意（教学：把不可见的判定窗画出来）
+    gg.text('判定圈 · Perfect ±' + g.params.perfectMs + 'ms / Good ±' + Math.round(g.params.perfectMs * 2.2) + 'ms', cx, g.H * 0.72, 14, '#888');
+    gg.text('圆环与判定圈重合瞬间点击', cx, g.H - 30, 13, '#888');
+  }
+});
+</script>
+</body>
+</html>

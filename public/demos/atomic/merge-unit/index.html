@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>合成 · 压力阀门实验室 | OVO 原子 Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 合成母型原子 demo：行为原语 = merge + accumulate + place
+// 教学点（对应文章讲"自动生成压力"与"成长深度"）：
+//   - 生成间隔：系统自动投喂 1 级单位的速度 = 空间压力阀门，间隔越短越考验规划
+//   - 最高等级上限：合成链的深度 = 一局的时长与目标感，上限即终局
+AtomCore.create({
+  title: '合成 · 压力阀门实验室',
+  objective: '拖动同级单位叠在一起合成升级。系统会持续投喂 1 级单位，格子占满就结束；合出满级单位即胜利。',
+  lives: 0,
+  params: [
+    { key: 'interval', label: '生成间隔（压力阀门）', min: 1, max: 6, step: 0.5, default: 3, unit: 's' },
+    { key: 'maxLevel', label: '最高等级上限', min: 4, max: 7, step: 1, default: 6, unit: '级' }
+  ],
+  hudExtra: function (g) {
+    var d = g.data;
+    var max = 0, empty = 0;
+    (d.cells || []).forEach(function (v) { if (v === 0) empty++; else if (v > max) max = v; });
+    return '空格 <b>' + empty + '</b> · 最高 <b>Lv' + max + '</b> / Lv' + g.params.maxLevel;
+  },
+  setup: function (g) {
+    g.data.cells = [];
+    for (var i = 0; i < 16; i++) g.data.cells.push(0);
+    g.data.spawnT = g.params.interval;
+    g.data.drag = null;      // {from, level, x, y}
+    g.data.tip = null;       // {text,t}
+    g.data.pop = {};         // 合成/生成弹跳动画 {index: t}
+    // 初始 3 个 1 级单位
+    for (var k = 0; k < 3; k++) this.spawnOne(g);
+  },
+  spawnOne: function (g) {
+    var d = g.data, empty = [];
+    d.cells.forEach(function (v, i) { if (v === 0) empty.push(i); });
+    if (!empty.length) return false;
+    var i = empty[Math.floor(g.rand(0, empty.length))];
+    d.cells[i] = 1;
+    d.pop[i] = 0.3;
+    return true;
+  },
+  cellAt: function (g, p) {
+    var L = this.layout(g);
+    var c = Math.floor((p.x - L.x) / L.size), r = Math.floor((p.y - L.y) / L.size);
+    if (r < 0 || r >= 4 || c < 0 || c >= 4) return -1;
+    return r * 4 + c;
+  },
+  layout: function (g) {
+    var size = Math.min(g.W - 48, g.H * 0.62) / 4;
+    return { x: (g.W - size * 4) / 2, y: g.H * 0.14, size: size };
+  },
+  onPointer: function (g, p) {
+    var d = g.data;
+    if (p.type === 'down') {
+      var i = this.cellAt(g, p);
+      if (i >= 0 && d.cells[i] > 0) d.drag = { from: i, level: d.cells[i], x: p.x, y: p.y };
+    } else if (p.type === 'move' && d.drag) {
+      d.drag.x = p.x; d.drag.y = p.y;
+    } else if (p.type === 'up' && d.drag) {
+      var from = d.drag.from, to = this.cellAt(g, p);
+      d.drag = null;
+      if (to < 0 || to === from) return;
+      if (d.cells[to] === 0) {
+        d.cells[to] = d.cells[from]; d.cells[from] = 0;   // 移动到空格
+      } else if (d.cells[to] === d.cells[from]) {
+        if (d.cells[to] >= g.params.maxLevel) { d.tip = { text: '已到满级，不能再合', t: 1.0 }; return; }
+        var nl = d.cells[to] + 1;
+        d.cells[to] = nl; d.cells[from] = 0;
+        d.pop[to] = 0.35;
+        g.setScore(g.score + Math.pow(2, nl) * 5);        // 指数累积：等级越高收益越大
+        if (nl >= g.params.maxLevel) { g.endGame(true); return; }
+      } else {
+        d.tip = { text: '只能合成同级单位', t: 1.0 };
+      }
+    }
+  },
+  update: function (g, dt) {
+    var d = g.data;
+    d.spawnT -= dt;
+    if (d.spawnT <= 0) {
+      d.spawnT = g.params.interval;
+      if (!this.spawnOne(g)) { g.endGame(false); return; } // 格子占满 → 结束
+    }
+    if (d.tip) { d.tip.t -= dt; if (d.tip.t <= 0) d.tip = null; }
+    Object.keys(d.pop).forEach(function (k) { d.pop[k] -= dt; if (d.pop[k] <= 0) delete d.pop[k]; });
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS;
+    if (!d.cells) return;
+    var L = this.layout(g);
+    var COLORS = ['', '#ffda6a', '#9be29b', '#7cc4ff', '#d9b3ff', '#ff8b8b', '#ffc78a', '#8ae0d4'];
+    for (var r = 0; r < 4; r++) for (var c = 0; c < 4; c++) {
+      var i = r * 4 + c, x = L.x + c * L.size, y = L.y + r * L.size;
+      gg.rect(x + 4, y + 4, L.size - 8, L.size - 8, 'rgba(0,0,0,0.03)', 1.5);
+      var lv = d.cells[i];
+      if (lv > 0 && !(d.drag && d.drag.from === i)) {
+        var pop = d.pop[i] ? 1 + d.pop[i] * 0.5 : 1;
+        var s = (L.size - 14) * pop;
+        gg.rect(x + (L.size - s) / 2, y + (L.size - s) / 2, s, s, COLORS[Math.min(lv, 7)], 2.5);
+        gg.text('Lv' + lv, x + L.size / 2, y + L.size / 2, Math.round(L.size * 0.24), C.INK);
+      }
+    }
+    // 拖拽中的幽灵单位
+    if (d.drag) {
+      var dd = d.drag, ds = L.size - 14;
+      gg.rect(dd.x - ds / 2, dd.y - ds / 2, ds, ds, COLORS[Math.min(dd.level, 7)], 3);
+      gg.text('Lv' + dd.level, dd.x, dd.y, Math.round(L.size * 0.24), C.INK);
+    }
+    // 投喂倒计时条（压力可视化）
+    var frac = 1 - d.spawnT / g.params.interval;
+    gg.rect(L.x, L.y + 4 * L.size + 14, 4 * L.size, 10, 'rgba(0,0,0,0.05)', 1);
+    gg.rect(L.x + 2, L.y + 4 * L.size + 16, (4 * L.size - 4) * Math.max(0, Math.min(1, frac)), 6, '#ff8b8b', 0);
+    gg.text('下一个投喂', g.W / 2, L.y + 4 * L.size + 36, 12, '#888');
+    if (d.tip) gg.text(d.tip.text, g.W / 2, L.y - 24, 16, '#d97706');
+    gg.text('拖动一个单位到同级单位上合成', g.W / 2, g.H - 30, 13, '#888');
+  }
+});
+</script>
+</body>
+</html>

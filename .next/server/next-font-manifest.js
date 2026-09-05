@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/Users/zhanghongqin/ovo/app-ovoforge-site/src/app/layout":["static/media/e4af272ccee01ff0-s.p.woff2","static/media/bf273aca3d6b346f-s.p.woff2","static/media/59086a93cebe8094-s.p.woff2","static/media/b20daecae68a588f-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';

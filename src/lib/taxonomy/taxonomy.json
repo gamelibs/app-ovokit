@@ -1,0 +1,1008 @@
+{
+  "protocol": "ovo-taxonomy",
+  "version": "1.0.0",
+  "updated": "2026-07-19",
+  "description": "OVO 游戏玩法分类协议。唯一真相源。核心原则：分类基于【设计/行为/逻辑层】，不关心表象题材与运营标签；游戏 = 行为原语的组合，公共模块 = 行为原语的实现。规则见同目录 README.md。运营层题材标签暂缓（见 deferred-themes.v0.json，不参与分类）。",
+  "layers": {
+    "behaviorPrimitive": {
+      "label": "行为原语层（模块抽离依据）",
+      "definition": "不可再分的物理逻辑行为规则（碰撞/比较/消除/回合…）。每个原语对应一组判定规则、数值参数和公共模块。",
+      "cardinality": "composition"
+    },
+    "archetype": {
+      "label": "行为母型层（游戏分类依据）",
+      "definition": "玩家核心行为的命名组合（行为层概念，非市场主题）。每个游戏有且仅有一个主母型，可有一个次母型。",
+      "cardinality": "one-primary"
+    },
+    "pattern": {
+      "label": "原型层（系统循环结构）",
+      "definition": "主循环的系统结构（输入→什么→反馈）。恰好 1 个，默认由主母型 defaultPattern 推导。",
+      "cardinality": "exactly-one"
+    },
+    "feature": {
+      "label": "特征层（玩家可感知修饰）",
+      "definition": "修饰性机制标签，多选。工程概念（状态机/程序化生成）不在此层。",
+      "cardinality": "zero-to-many"
+    },
+    "outOfScope": {
+      "label": "超纲类型（显式排除）",
+      "definition": "创造/装扮/绘画/沙盒等无输赢判定的表达型玩法：本协议不为其定义母型，样本标记 outOfScope=true，不做拆解 demo。"
+    }
+  },
+  "behaviorPrimitives": [
+    {
+      "key": "collision",
+      "name": "碰撞判定",
+      "definition": "实体间接触/重叠的判定与事件（AABB/圆/胶囊/像素）",
+      "judgmentRules": [
+        "重叠检测",
+        "接触法线",
+        "触发一次 vs 持续",
+        "层/掩码过滤"
+      ],
+      "coreParams": [
+        {
+          "key": "shape",
+          "type": "enum",
+          "values": [
+            "aabb",
+            "circle",
+            "capsule"
+          ],
+          "default": "circle"
+        },
+        {
+          "key": "grazeMargin",
+          "type": "number",
+          "min": 0,
+          "max": 50,
+          "default": 0
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/collision",
+          "status": "planned",
+          "note": "现散落于 physics-game 与各 Drawer 内，需抽离"
+        }
+      ]
+    },
+    {
+      "key": "compare",
+      "name": "比较判定",
+      "definition": "数值/体量/数量的比较并产生结果（大吃小、高胜低、阈值达成）",
+      "judgmentRules": [
+        "大小比较",
+        "阈值判定",
+        "平局处理",
+        "多级梯度（Perfect/Good/Miss 也可复用）"
+      ],
+      "coreParams": [
+        {
+          "key": "threshold",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "key": "tieRule",
+          "type": "enum",
+          "values": [
+            "attacker-win",
+            "defender-win",
+            "draw"
+          ],
+          "default": "draw"
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/compare",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "key": "eliminate",
+      "name": "消除",
+      "definition": "按规则移除实体（匹配消除/吞噬/击毁），并触发结算",
+      "judgmentRules": [
+        "移除条件",
+        "移除结算（得分/能量）",
+        "移除后状态（下落/空缺/重生）"
+      ],
+      "coreParams": [
+        {
+          "key": "scorePerUnit",
+          "type": "int",
+          "min": 0,
+          "max": 10000,
+          "default": 10
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/eliminate",
+          "status": "planned",
+          "note": "现内嵌于 match-3/board-turn，需抽离为通用结算"
+        }
+      ]
+    },
+    {
+      "key": "match",
+      "name": "匹配",
+      "definition": "模式识别：≥N 相同、N 连线、集合同类",
+      "judgmentRules": [
+        "相同定义",
+        "成组形状（直线/L/区域）",
+        "连锁检测",
+        "死局检测"
+      ],
+      "coreParams": [
+        {
+          "key": "matchSize",
+          "type": "int",
+          "min": 3,
+          "max": 5,
+          "default": 3
+        },
+        {
+          "key": "directions",
+          "type": "enum",
+          "values": [
+            "h",
+            "hv",
+            "hvd"
+          ],
+          "default": "hv"
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/match-3",
+          "status": "exists-partial"
+        },
+        {
+          "id": "core/board-turn",
+          "status": "exists",
+          "note": "含 N 连线胜负判定"
+        }
+      ]
+    },
+    {
+      "key": "physics",
+      "name": "物理模拟",
+      "definition": "重力/速度/摩擦/弹性/轨迹的连续演化，同输入同结果",
+      "judgmentRules": [
+        "确定性步进",
+        "碰撞响应（反弹/滑动/停止）",
+        "稳定性（防穿透/抖动）"
+      ],
+      "coreParams": [
+        {
+          "key": "gravity",
+          "type": "number",
+          "min": 0,
+          "max": 30,
+          "default": 9.8
+        },
+        {
+          "key": "friction",
+          "type": "number",
+          "min": 0,
+          "max": 1,
+          "default": 0.3
+        },
+        {
+          "key": "restitution",
+          "type": "number",
+          "min": 0,
+          "max": 1,
+          "default": 0.5
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/physics-game",
+          "status": "exists-partial"
+        }
+      ]
+    },
+    {
+      "key": "turn",
+      "name": "回合",
+      "definition": "回合顺序、阶段机、胜负/平局裁决",
+      "judgmentRules": [
+        "行动权切换",
+        "阶段流转（回合开始/行动/结束）",
+        "胜负与平局裁决"
+      ],
+      "coreParams": [
+        {
+          "key": "playerCount",
+          "type": "int",
+          "min": 1,
+          "max": 4,
+          "default": 2
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/board-turn",
+          "status": "exists"
+        }
+      ]
+    },
+    {
+      "key": "place",
+      "name": "放置",
+      "definition": "网格占位/邻接/连接关系的确立与校验",
+      "judgmentRules": [
+        "占位合法性",
+        "邻接加成",
+        "连通性检查",
+        "预览与撤销"
+      ],
+      "coreParams": [
+        {
+          "key": "gridRows",
+          "type": "int",
+          "min": 3,
+          "max": 30,
+          "default": 10
+        },
+        {
+          "key": "gridCols",
+          "type": "int",
+          "min": 3,
+          "max": 30,
+          "default": 10
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/placement",
+          "status": "planned",
+          "note": "落子逻辑现内嵌于 board-turn"
+        }
+      ]
+    },
+    {
+      "key": "move",
+      "name": "移动导航",
+      "definition": "速度转向/路径/车道的连续位移控制",
+      "judgmentRules": [
+        "速度上限",
+        "边界约束",
+        "路径跟随/车道切换"
+      ],
+      "coreParams": [
+        {
+          "key": "speed",
+          "type": "number",
+          "min": 0.5,
+          "max": 30,
+          "default": 6
+        },
+        {
+          "key": "laneCount",
+          "type": "int",
+          "min": 1,
+          "max": 5,
+          "default": 1
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/movement",
+          "status": "planned",
+          "note": "现由 scene-renderer input-bridge 与各模块自行处理"
+        }
+      ]
+    },
+    {
+      "key": "aim",
+      "name": "瞄准投射",
+      "definition": "角度/力度蓄力与投射物发射",
+      "judgmentRules": [
+        "角度约束",
+        "力度蓄力曲线",
+        "投射物生成与初速度"
+      ],
+      "coreParams": [
+        {
+          "key": "chargeMaxMs",
+          "type": "int",
+          "min": 300,
+          "max": 5000,
+          "default": 2000
+        },
+        {
+          "key": "projectileSpeed",
+          "type": "number",
+          "min": 1,
+          "max": 50,
+          "default": 12
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/aiming",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "key": "timing-window",
+      "name": "时机窗口",
+      "definition": "时间轴上的判定窗口与分级（Perfect/Good/Miss）",
+      "judgmentRules": [
+        "窗口计算",
+        "分级梯度",
+        "延迟补偿"
+      ],
+      "coreParams": [
+        {
+          "key": "perfectWindowMs",
+          "type": "int",
+          "min": 20,
+          "max": 200,
+          "default": 60
+        },
+        {
+          "key": "goodWindowMs",
+          "type": "int",
+          "min": 50,
+          "max": 400,
+          "default": 120
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/timing",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "key": "choose",
+      "name": "选择决策",
+      "definition": "选项呈现与代价/收益结算",
+      "judgmentRules": [
+        "选项差异可对比",
+        "后果可解释",
+        "选择后状态迁移"
+      ],
+      "coreParams": [
+        {
+          "key": "optionCount",
+          "type": "int",
+          "min": 2,
+          "max": 6,
+          "default": 3
+        }
+      ],
+      "modules": [
+        {
+          "id": "common-ui",
+          "status": "exists"
+        }
+      ]
+    },
+    {
+      "key": "accumulate",
+      "name": "累积成长",
+      "definition": "计数器、成本/收益曲线、阶段阈值、保底",
+      "judgmentRules": [
+        "曲线类型（线性/指数/分段）",
+        "阈值解锁",
+        "保底与反刷"
+      ],
+      "coreParams": [
+        {
+          "key": "costCurve",
+          "type": "enum",
+          "values": [
+            "linear",
+            "exp",
+            "piecewise"
+          ],
+          "default": "exp"
+        },
+        {
+          "key": "costGrowth",
+          "type": "number",
+          "min": 1.01,
+          "max": 3,
+          "default": 1.15
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/progression",
+          "status": "planned"
+        },
+        {
+          "id": "core/interaction-progress",
+          "status": "exists",
+          "note": "进度累积的特化实现（工具→进度→完成）"
+        }
+      ]
+    },
+    {
+      "key": "merge",
+      "name": "合并",
+      "definition": "同级单位合并升级为高级单位",
+      "judgmentRules": [
+        "合并配方",
+        "升级结果",
+        "满格/不可合并处理"
+      ],
+      "coreParams": [
+        {
+          "key": "maxLevel",
+          "type": "int",
+          "min": 3,
+          "max": 20,
+          "default": 10
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/merge",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "key": "spawn",
+      "name": "生成补充",
+      "definition": "实体生成规则、补充、难度曲线（行为层，非工程层程序化生成）",
+      "judgmentRules": [
+        "生成频率/位置",
+        "可控随机（保底/去重）",
+        "难度曲线递进"
+      ],
+      "coreParams": [
+        {
+          "key": "spawnIntervalMs",
+          "type": "int",
+          "min": 200,
+          "max": 10000,
+          "default": 1500
+        },
+        {
+          "key": "difficultyRamp",
+          "type": "number",
+          "min": 0,
+          "max": 1,
+          "default": 0.05
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/spawner",
+          "status": "planned"
+        }
+      ]
+    },
+    {
+      "key": "simulate",
+      "name": "系统演化",
+      "definition": "tick 驱动的多变量系统演化与经济循环",
+      "judgmentRules": [
+        "tick 更新",
+        "因果链可观察",
+        "稳态/边界控制"
+      ],
+      "coreParams": [
+        {
+          "key": "varCount",
+          "type": "int",
+          "min": 2,
+          "max": 10,
+          "default": 4
+        },
+        {
+          "key": "tickMs",
+          "type": "int",
+          "min": 100,
+          "max": 10000,
+          "default": 1000
+        }
+      ],
+      "modules": [
+        {
+          "id": "core/simulation",
+          "status": "planned"
+        }
+      ]
+    }
+  ],
+  "archetypes": [
+    {
+      "key": "match-clear",
+      "name": "消除",
+      "nameEn": "Match / Clear",
+      "definition": "匹配→消除→补充的节奏循环",
+      "primitives": [
+        "match",
+        "eliminate",
+        "spawn",
+        "place"
+      ],
+      "defaultPattern": "spatial",
+      "compatibleFeatures": [
+        "levels",
+        "numbers",
+        "grid",
+        "timed"
+      ],
+      "requiredModules": [
+        "common-ui",
+        "core/match-3"
+      ],
+      "deliveryChecklist": [
+        "主循环可跑通",
+        "匹配判定正确",
+        "下落/补充正确",
+        "有死局处理"
+      ],
+      "examples": [
+        "Candy Crush"
+      ]
+    },
+    {
+      "key": "merge-unit",
+      "name": "合成",
+      "nameEn": "Merge Units",
+      "definition": "合并升级驱动指数成长",
+      "primitives": [
+        "merge",
+        "accumulate",
+        "place"
+      ],
+      "defaultPattern": "merge",
+      "compatibleFeatures": [
+        "idle",
+        "numbers",
+        "grid",
+        "levels"
+      ],
+      "requiredModules": [
+        "common-ui",
+        "core/merge"
+      ],
+      "deliveryChecklist": [
+        "合并规则正确",
+        "产出曲线可配置",
+        "满格有处理"
+      ],
+      "examples": [
+        "Merge Dragons!",
+        "合成大西瓜"
+      ]
+    },
+    {
+      "key": "puzzle",
+      "name": "解谜",
+      "nameEn": "Puzzle",
+      "definition": "信息推理形成解法空间（机制按关卡叠加原语）",
+      "primitives": [
+        "choose",
+        "compare"
+      ],
+      "defaultPattern": "spatial",
+      "compatibleFeatures": [
+        "levels",
+        "grid"
+      ],
+      "requiredModules": [
+        "common-ui"
+      ],
+      "deliveryChecklist": [
+        "目标清晰",
+        "每步反馈可验证",
+        "关卡可解"
+      ],
+      "examples": [
+        "一笔画",
+        "滑块拼图"
+      ]
+    },
+    {
+      "key": "runner",
+      "name": "行进 / 跑酷",
+      "nameEn": "Runner",
+      "definition": "持续前进中处理路径与障碍",
+      "primitives": [
+        "move",
+        "collision",
+        "spawn"
+      ],
+      "defaultPattern": "action",
+      "compatibleFeatures": [
+        "levels",
+        "numbers"
+      ],
+      "requiredModules": [
+        "common-ui",
+        "core/scene-renderer"
+      ],
+      "deliveryChecklist": [
+        "障碍可读",
+        "判定与视觉一致",
+        "速度递进"
+      ],
+      "examples": [
+        "Temple Run"
+      ]
+    },
+    {
+      "key": "dodge-avoid",
+      "name": "躲避",
+      "nameEn": "Dodge / Avoid",
+      "definition": "持续压力下保持生存",
+      "primitives": [
+        "move",
+        "collision",
+        "timing-window",
+        "spawn"
+      ],
+      "defaultPattern": "action",
+      "compatibleFeatures": [
+        "numbers",
+        "timed"
+      ],
+      "requiredModules": [
+        "common-ui",
+        "core/scene-renderer"
+      ],
+      "deliveryChecklist": [
+        "预警可读",
+        "失败可归因",
+        "压力曲线递进"
+      ],
+      "examples": [
+        "tap-dodge"
+      ]
+    },
+    {
+      "key": "shoot-aim",
+      "name": "射击",
+      "nameEn": "Shoot / Aim",
+      "definition": "瞄准→发射→命中→资源循环",
+      "primitives": [
+        "aim",
+        "collision",
+        "spawn",
+        "accumulate"
+      ],
+      "defaultPattern": "action",
+      "compatibleFeatures": [
+        "numbers",
+        "levels"
+      ],
+      "requiredModules": [
+        "common-ui",
+        "core/scene-renderer"
+      ],
+      "deliveryChecklist": [
+        "命中反馈明确",
+        "弹道/遮挡一致",
+        "资源约束生效"
+      ],
+      "examples": [
+        "bubble shooter"
+      ]
+    },
+    {
+      "key": "combat",
+      "name": "战斗对抗",
+      "nameEn": "Combat",
+      "definition": "攻防交换的窗口与资源博弈",
+      "primitives": [
+        "compare",
+        "timing-window",
+        "accumulate",
+        "choose"
+      ],
+      "defaultPattern": "strategy",
+      "compatibleFeatures": [
+        "numbers",
+        "roguelike",
+        "timed"
+      ],
+      "requiredModules": [
+        "common-ui",
+        "core/scene-renderer"
+      ],
+      "deliveryChecklist": [
+        "窗口可读",
+        "资源约束刷招",
+        "受击有重量感"
+      ],
+      "examples": [
+        "finite-state-machine-for-combat"
+      ]
+    },
+    {
+      "key": "choice-strategy",
+      "name": "策略决策",
+      "nameEn": "Choice / Strategy",
+      "definition": "信息与资源限制下的关键抉择",
+      "primitives": [
+        "choose",
+        "compare",
+        "accumulate"
+      ],
+      "defaultPattern": "strategy",
+      "compatibleFeatures": [
+        "numbers",
+        "levels",
+        "roguelike"
+      ],
+      "requiredModules": [
+        "common-ui"
+      ],
+      "deliveryChecklist": [
+        "选项可对比",
+        "后果可解释",
+        "非纯猜非纯算"
+      ],
+      "examples": [
+        "skill-draft"
+      ]
+    },
+    {
+      "key": "turn-duel",
+      "name": "回合博弈",
+      "nameEn": "Turn-based Duel",
+      "definition": "回合制棋盘/卡牌对抗：轮流行动、规则推演、胜负裁决（五子棋/井字棋/卡牌）",
+      "primitives": [
+        "turn",
+        "place",
+        "match",
+        "compare",
+        "choose"
+      ],
+      "defaultPattern": "strategy",
+      "compatibleFeatures": [
+        "grid",
+        "numbers"
+      ],
+      "requiredModules": [
+        "common-ui",
+        "core/board-turn",
+        "core/board-ai"
+      ],
+      "deliveryChecklist": [
+        "回合切换正确",
+        "胜负/平局判定正确",
+        "AI 可行动（单人模式）",
+        "行动合法性校验"
+      ],
+      "examples": [
+        "gomoku",
+        "tic-tac-toe",
+        "reversi"
+      ],
+      "addedIn": "1.0.0（补齐回合制棋盘/卡牌的行为锚点）"
+    },
+    {
+      "key": "placement",
+      "name": "建造布局",
+      "nameEn": "Placement / Building",
+      "definition": "布局与约束达成目标（原「放置/建造」，与 idle 消歧）",
+      "primitives": [
+        "place",
+        "compare",
+        "accumulate"
+      ],
+      "defaultPattern": "spatial",
+      "compatibleFeatures": [
+        "grid",
+        "levels",
+        "numbers"
+      ],
+      "requiredModules": [
+        "common-ui"
+      ],
+      "deliveryChecklist": [
+        "放置有预览",
+        "放错可解释",
+        "收益可感知"
+      ],
+      "examples": [
+        "Triple Town"
+      ]
+    },
+    {
+      "key": "physics",
+      "name": "物理",
+      "nameEn": "Physics",
+      "definition": "物理规则与可预期性制造玩法",
+      "primitives": [
+        "physics",
+        "collision",
+        "aim"
+      ],
+      "defaultPattern": "action",
+      "compatibleFeatures": [
+        "levels"
+      ],
+      "requiredModules": [
+        "common-ui",
+        "core/physics-game"
+      ],
+      "deliveryChecklist": [
+        "同输入同结果",
+        "碰撞体与视觉一致",
+        "无穿透抖动"
+      ],
+      "examples": [
+        "cut-the-rope 类"
+      ]
+    },
+    {
+      "key": "timing",
+      "name": "时机 / 反应",
+      "nameEn": "Timing",
+      "definition": "判定窗口与节拍制造挑战",
+      "primitives": [
+        "timing-window",
+        "compare"
+      ],
+      "defaultPattern": "action",
+      "compatibleFeatures": [
+        "numbers",
+        "levels"
+      ],
+      "requiredModules": [
+        "common-ui"
+      ],
+      "deliveryChecklist": [
+        "窗口一致可解释",
+        "音画同步",
+        "渐进宽容度"
+      ],
+      "examples": [
+        "Geometry Dash"
+      ]
+    },
+    {
+      "key": "progression",
+      "name": "成长 / 数值",
+      "nameEn": "Progression",
+      "definition": "累积与曲线塑造长期目标",
+      "primitives": [
+        "accumulate",
+        "choose",
+        "compare"
+      ],
+      "defaultPattern": "merge",
+      "compatibleFeatures": [
+        "click",
+        "idle",
+        "numbers"
+      ],
+      "requiredModules": [
+        "common-ui"
+      ],
+      "deliveryChecklist": [
+        "失败有保底",
+        "阈值有新鲜感",
+        "成本收益可解释"
+      ],
+      "examples": [
+        "Cookie Clicker"
+      ]
+    },
+    {
+      "key": "simulation",
+      "name": "模拟",
+      "nameEn": "Simulation",
+      "definition": "系统规则生成可观察的世界行为",
+      "primitives": [
+        "simulate",
+        "choose",
+        "accumulate"
+      ],
+      "defaultPattern": "management",
+      "compatibleFeatures": [
+        "idle",
+        "numbers"
+      ],
+      "requiredModules": [
+        "common-ui"
+      ],
+      "deliveryChecklist": [
+        "因果可观察",
+        "有干预杠杆",
+        "不失控不停滞"
+      ],
+      "examples": [
+        "经营模拟类"
+      ]
+    }
+  ],
+  "patterns": [
+    {
+      "key": "action",
+      "name": "动作反应",
+      "loop": "Input → Avatar → Physics → Score"
+    },
+    {
+      "key": "spatial",
+      "name": "空间规划",
+      "loop": "Board → Cell → Rule → State Change"
+    },
+    {
+      "key": "strategy",
+      "name": "策略对抗",
+      "loop": "Unit → Stats → Combat → Reward",
+      "renamedFrom": "策略成长（对抗才是循环本质，成长是外衣）"
+    },
+    {
+      "key": "management",
+      "name": "经营模拟",
+      "loop": "Building → Production → Economy → Growth"
+    },
+    {
+      "key": "merge",
+      "name": "合成进化",
+      "loop": "Resource → Merge → Level Up → Production",
+      "renamedFrom": "合成成长（与策略对抗消歧；增长引擎=合并升维）"
+    },
+    {
+      "key": "narrative",
+      "name": "交互叙事",
+      "loop": "Choice → Consequence → Branch → Ending",
+      "addedIn": "1.0.0（内容驱动循环；成本在剧本而非机制）"
+    }
+  ],
+  "features": [
+    {
+      "key": "click",
+      "name": "点击"
+    },
+    {
+      "key": "idle",
+      "name": "放置产出"
+    },
+    {
+      "key": "grid",
+      "name": "网格"
+    },
+    {
+      "key": "levels",
+      "name": "关卡"
+    },
+    {
+      "key": "merge-mechanic",
+      "name": "合成机制",
+      "renamedFrom": "merge（与 pattern merge 消歧）"
+    },
+    {
+      "key": "numbers",
+      "name": "数值成长"
+    },
+    {
+      "key": "roguelike",
+      "name": "Roguelike"
+    },
+    {
+      "key": "timed",
+      "name": "限时"
+    }
+  ],
+  "implementationTraits": [
+    {
+      "key": "state-machine",
+      "note": "工程实现概念，只用于模块元数据"
+    },
+    {
+      "key": "generation",
+      "note": "程序化生成（工程层），区别于行为原语 spawn（生成补充的行为规则）"
+    }
+  ]
+}

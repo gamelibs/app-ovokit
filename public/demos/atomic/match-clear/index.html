@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>消除 · 连锁实验室 | OVO 原子 Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 消除母型原子 demo：行为原语 = match + eliminate + spawn
+// 教学点（对应文章讲"连锁爽感"与"步数经济"）：
+//   - 连锁奖励倍率：连锁得分 = 基础分 × 倍率^(链数-1)，滑块直接改变"二次连锁"的爽感曲线
+//   - 每局限定步数：步数预算决定玩家的规划深度与压力（稀缺性设计）
+AtomCore.create({
+  title: '消除 · 连锁实验室',
+  objective: '点击两个相邻方块交换，凑成 ≥3 连线消除。调「连锁奖励倍率」看爽感，调「限定步数」看资源压力。',
+  lives: 0,
+  params: [
+    { key: 'chainMult', label: '连锁奖励倍率', min: 1, max: 3, step: 0.5, default: 1.5, unit: 'x' },
+    { key: 'moves', label: '每局限定步数', min: 8, max: 30, step: 1, default: 16, unit: '步' }
+  ],
+  hudExtra: function (g) {
+    var d = g.data;
+    var chain = d.lastChain > 1 ? ' · 最大连锁 <b>x' + d.lastChain + '</b>' : '';
+    return '剩余步数 <b>' + (d.movesLeft != null ? d.movesLeft : '-') + '</b>' + chain;
+  },
+  onParam: function (g, key, v) {
+    if (key === 'moves' && g.state === 'playing') g.data.movesLeft = v; // 预算实时调整，直接感受压力变化
+  },
+  setup: function (g) {
+    var N = 6, TYPES = 5;
+    var board = [];
+    for (var r = 0; r < N; r++) {
+      board.push([]);
+      for (var c = 0; c < N; c++) {
+        var t;
+        do { t = Math.floor(g.rand(0, TYPES)); } while (
+          (c >= 2 && board[r][c - 1] === t && board[r][c - 2] === t) ||
+          (r >= 2 && board[r - 1][c] === t && board[r - 2][c] === t)
+        );
+        board[r][c] = t;
+      }
+    }
+    g.data.N = N;
+    g.data.board = board;
+    g.data.sel = null;
+    g.data.movesLeft = g.params.moves;
+    g.data.lastChain = 0;
+    g.data.floats = [];   // 飘字 {x,y,text,t,color}
+    g.data.flash = 0;     // 无效交换红闪
+    g.data.cleared = [];  // 最近一轮被消除的格子（高亮）
+    g.data.clearedT = 0;
+  },
+  // —— 规则核心：找匹配 → 消除 → 下落 → 补充 → 连锁 ——
+  findMatches: function (board, N) {
+    var mark = {};
+    function add(r, c) { mark[r + ',' + c] = true; }
+    var r, c, t;
+    for (r = 0; r < N; r++) for (c = 0; c < N - 2; c++) {
+      t = board[r][c];
+      if (t != null && t === board[r][c + 1] && t === board[r][c + 2]) { add(r, c); add(r, c + 1); add(r, c + 2); }
+    }
+    for (c = 0; c < N; c++) for (r = 0; r < N - 2; r++) {
+      t = board[r][c];
+      if (t != null && t === board[r + 1][c] && t === board[r + 2][c]) { add(r, c); add(r + 1, c); add(r + 2, c); }
+    }
+    return Object.keys(mark).map(function (k) { var p = k.split(','); return { r: +p[0], c: +p[1] }; });
+  },
+  resolve: function (g) {
+    var d = g.data, N = d.N, board = d.board, chain = 0, total = 0;
+    for (;;) {
+      var m = this.findMatches(board, N);
+      if (!m.length) break;
+      chain++;
+      var pts = Math.round(m.length * 10 * Math.pow(g.params.chainMult, chain - 1));
+      total += pts;
+      d.cleared = m; d.clearedT = 0.35;
+      var cx = 0, cy = 0;
+      m.forEach(function (p) { cx += p.c; cy += p.r; board[p.r][p.c] = null; });
+      d.floats.push({ x: cx / m.length, y: cy / m.length, text: '+' + pts + (chain > 1 ? ' 连锁x' + chain : ''), t: 1.0, big: chain > 1 });
+      // 下落 + 顶部补充
+      for (var c = 0; c < N; c++) {
+        var stack = [];
+        for (var r = N - 1; r >= 0; r--) if (board[r][c] != null) stack.push(board[r][c]);
+        for (r = N - 1; r >= 0; r--) board[r][c] = stack.length ? stack.shift() : Math.floor(g.rand(0, 5));
+      }
+    }
+    if (chain > 0) d.lastChain = chain;
+    return total;
+  },
+  onPointer: function (g, p) {
+    if (p.type !== 'down') return;
+    var d = g.data, N = d.N;
+    var cell = this.cellAt(g, p);
+    if (!cell) { d.sel = null; return; }
+    if (!d.sel) { d.sel = cell; return; }
+    if (d.sel.r === cell.r && d.sel.c === cell.c) { d.sel = null; return; }
+    if (Math.abs(d.sel.r - cell.r) + Math.abs(d.sel.c - cell.c) !== 1) { d.sel = cell; return; }
+    // 交换
+    var b = d.board, a = d.sel;
+    var tmp = b[a.r][a.c]; b[a.r][a.c] = b[cell.r][cell.c]; b[cell.r][cell.c] = tmp;
+    if (this.findMatches(b, N).length) {
+      d.movesLeft--;
+      var gained = this.resolve(g);
+      g.setScore(g.score + gained);
+      d.sel = null;
+      if (d.movesLeft <= 0) { g.endGame(true); return; }
+    } else {
+      // 无效交换：换回来 + 提示
+      tmp = b[a.r][a.c]; b[a.r][a.c] = b[cell.r][cell.c]; b[cell.r][cell.c] = tmp;
+      d.flash = 0.25;
+      d.sel = null;
+    }
+  },
+  cellAt: function (g, p) {
+    var L = this.layout(g);
+    var c = Math.floor((p.x - L.x) / L.size), r = Math.floor((p.y - L.y) / L.size);
+    if (r < 0 || r >= g.data.N || c < 0 || c >= g.data.N) return null;
+    return { r: r, c: c };
+  },
+  layout: function (g) {
+    var size = Math.min(g.W - 48, g.H * 0.62) / 6;
+    return { x: (g.W - size * 6) / 2, y: g.H * 0.14, size: size };
+  },
+  update: function (g, dt) {
+    var d = g.data;
+    if (d.flash > 0) d.flash -= dt;
+    if (d.clearedT > 0) d.clearedT -= dt;
+    d.floats = d.floats.filter(function (f) { f.t -= dt * 0.8; f.y -= dt * 1.2; return f.t > 0; });
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS;
+    if (!d.board) return;
+    var L = this.layout(g), N = d.N;
+    var COLORS = ['#ffda6a', '#ff8b8b', '#7cc4ff', '#9be29b', '#d9b3ff'];
+    var GLYPHS = ['●', '▲', '◆', '■', '★'];
+    var clearedSet = {};
+    if (d.clearedT > 0) d.cleared.forEach(function (p) { clearedSet[p.r + ',' + p.c] = true; });
+    for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) {
+      var x = L.x + c * L.size, y = L.y + r * L.size;
+      var isSel = d.sel && d.sel.r === r && d.sel.c === c;
+      var fill = COLORS[d.board[r][c]];
+      if (clearedSet[r + ',' + c]) fill = '#fff';
+      gg.rect(x + 3, y + 3, L.size - 6, L.size - 6, fill, isSel ? 4 : 1.5);
+      gg.text(GLYPHS[d.board[r][c]], x + L.size / 2, y + L.size / 2 + 1, Math.round(L.size * 0.42), isSel ? '#d97706' : C.INK);
+    }
+    // 飘字（连锁加分反馈）
+    d.floats.forEach(function (f) {
+      gg.text(f.text, L.x + (f.x + 0.5) * L.size, L.y + (f.y + 0.5) * L.size, f.big ? 26 : 18, f.big ? '#d97706' : '#888');
+    });
+    if (d.flash > 0) gg.text('凑不出 3 连', g.W / 2, L.y - 22, 16, '#d97706');
+    gg.text('选中一个方块，再点相邻方块交换', g.W / 2, g.H - 30, 13, '#888');
+  }
+});
+</script>
+</body>
+</html>

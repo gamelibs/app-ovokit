@@ -1,0 +1,76 @@
+# 合成玩法（Merge）从 0 到 1：规则、数据结构与可扩展架构
+
+> 本文目标：用“可复用的实现方式”把合成玩法跑通，并给出后续扩展（订单/产出器/付费点/平衡）的落点。
+
+## 1. 玩法概览（玩家视角）
+
+合成玩法的核心体验是：  
+**产出 → 合并升级 → 腾出空间/交付目标 → 获得成长**。
+
+一个最小可玩的循环：
+1) 生成基础物品（点击/产出器）  
+2) 拖拽两个相同物品合成升级  
+3) 用更高级物品完成订单或解锁  
+4) 用奖励升级产出/格子/规则
+
+## 2. 规则设计（MVP 先定死）
+
+本期只做最基础规则（可扩展但先不做）：
+
+- 匹配条件：`type` 相同且 `level` 相同才可合成
+- 合成结果：生成 `level + 1` 的新物品，消耗两件旧物品
+- 落点行为优先级：**合成** > **交换** > **移动到空格**
+- 禁止条件：目标格锁定 / 源格为空 / 目标格不可交互
+
+### 2.1 为什么要“优先级”
+拖拽交互如果不定优先级，玩家会感到随机：  
+同样的操作有时合成、有时交换，有时还移动失败。  
+因此落点规则一定要写成代码层面的明确判断。
+
+## 3. 数据结构（最小但可扩展）
+
+我建议把“玩法数据”拆成三层：
+
+### 3.1 物品 Item
+- `id`：唯一标识（用于动画/追踪）
+- `type`：合成链（比如 flower / weapon / animal）
+- `level`：等级
+- （可选）`rarity`：稀有度（后期扩展）
+
+### 3.2 格子 Cell（棋盘/背包）
+- `id`
+- `item: Item | null`
+- `locked?: boolean`（未来可做区域解锁）
+
+### 3.3 配置 Config
+- 合成链表：每个 `type` 的最大等级、展示名、icon 等
+- 合成规则：是否允许跳级、是否允许“合成暴击”
+- 生成器规则：产出间隔、产出物、初始等级、掉落权重
+
+## 4. 合成核心逻辑（最重要）
+
+下面的逻辑建议做成纯函数，便于测试与复用：
+
+```ts
+export function canMerge(a: Item, b: Item) {
+  return a.type === b.type && a.level === b.level;
+}
+
+export function mergeResult(a: Item): Item {
+  return { id: crypto.randomUUID(), type: a.type, level: a.level + 1 };
+}
+
+export type DropResult =
+  | { ok: false; reason: string }
+  | { ok: true; action: "move" }
+  | { ok: true; action: "swap" }
+  | { ok: true; action: "merge"; merged: Item };
+
+export function onDrop(from: Cell, to: Cell): DropResult {
+  if (!from.item) return { ok: false, reason: "empty" };
+  if (to.locked) return { ok: false, reason: "locked" };
+
+  if (!to.item) return { ok: true, action: "move" };
+  if (canMerge(from.item, to.item)) return { ok: true, action: "merge", merged: mergeResult(from.item) };
+  return { ok: true, action: "swap" };
+}

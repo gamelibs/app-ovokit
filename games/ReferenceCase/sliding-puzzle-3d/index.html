@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="3d, photo, gallery, advanced, javascript">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/kp3d.prod.min.css">
+    <style>
+      html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+    </style>
+    <title>3D Kid Sliding Puzzle</title>
+    <script src="js/three.min.js"></script>
+    <script src="js/anime.min.js"></script>
+    <script src="js/kp3d.min.js"></script>
+
+	<script type="text/javascript">
+	 window.SDK_OPTIONS = {
+      gameId: "r9j8tc1hmo3v4q59qbap0e7jhv3m9smc",
+      onEvent: function (a) {
+         switch (a.name) {
+            case "SDK_GAME_PAUSE":
+               // pause game logic / mute audio
+
+               break;
+            case "SDK_GAME_START":
+               // advertisement done, resume game logic and unmute audio
+
+               break;
+            case "SDK_READY":
+               // when sdk is ready
+               break;
+         }
+      }
+   };
+
+		window.sdk = {
+			showBanner: function() {
+				console.log("[Mock SDK] Banner request blocked.");
+			},
+			showAd: function() {
+				console.log("[Mock SDK] Ad request skipped. Resuming game immediately.");
+				if (window.SDK_OPTIONS && window.SDK_OPTIONS.onEvent) {
+					window.SDK_OPTIONS.onEvent({ name: "SDK_GAME_START" });
+				}
+			}
+		};
+		window.gamemonetize = window.sdk;
+		window.platform = {
+            getInstance: function() {
+                return this;
+            },
+            showReward: function(callback) {
+                console.trace("[wv] 激励")
+                if (callback) {
+                    callback();
+                }
+            },
+            showInterstitial: function(callback) {
+               console.trace("[wv] 插屏");
+                                                           console.log("[wv] playInter");
+if (typeof gdsdk !== 'undefined' && gdsdk.showAd !== 'undefined'){
+    gdsdk.showAd();
+}
+               // var am = (window.kp3d && window.kp3d.assetManager) ? window.kp3d.assetManager : null;
+               // var wasSoundOn = false;
+               // if (am && am.soundOn) {
+               //       wasSoundOn = true;
+               //       var sounds = ['bgSound', 'piecemove', 'btnClick', 'shufflestart', 'shuffleend', 'firework', 'wintune'];
+               //       sounds.forEach(function(key) {
+               //          if (am[key] && typeof am[key].setVolume === 'function') {
+               //             am[key].setVolume(0);
+               //          }
+               //       });
+               // }
+                if(callback) callback();
+            //    if (wasSoundOn && am) {
+            //       if (am.bgSound) am.bgSound.setVolume(0.8);
+            //       if (am.piecemove) am.piecemove.setVolume(1);
+            //       if (am.btnClick) am.btnClick.setVolume(1);
+            //       if (am.shufflestart) am.shufflestart.setVolume(1);
+            //       if (am.shuffleend) am.shuffleend.setVolume(1);
+            //       if (am.firework) am.firework.setVolume(1);
+            //       if (am.wintune) am.wintune.setVolume(1);
+            // }
+            }
+        };
+		setTimeout(function() {
+			if (window.SDK_OPTIONS && window.SDK_OPTIONS.onEvent) {
+				console.log("[Mock SDK] Triggering SDK_READY...");
+				window.SDK_OPTIONS.onEvent({ name: "SDK_READY" });
+			}
+		}, 100);
+		
+	</script>
+	<script type="text/javascript">
+		function StartGame(url) {
+			var s = document.createElement('script');
+			s.src = 'index.js';  
+			s.async = false;
+			document.body.appendChild(s);
+		}
+		function loadLib(url) {
+			var script = document.createElement("script");
+			script.async = false;
+			script.src = url;
+			document.body.appendChild(script);
+		}
+	</script>
+  </head>
+
+  <body>
+    <!-- Main -->
+    <div id="wrapper">
+      <!-- Start gallery-->
+      <div class="rs-container">
+        <div class="rs-kp3d">
+
+        </div>
+      </div>
+      <!-- end gallery-->
+    </div>
+    <!-- end main wrapper-->
+    <script type="text/javascript">
+      document.body.onload = function() {
+      
+        "use strict";
+      
+        var el = document.querySelector('.rs-kp3d');
+        var kp3d = new KidSliding(el);
+        window.kp3d = kp3d;
+      }
+    </script>
+
+
+
+<script type="text/javascript">
+
+
+ window["GD_OPTIONS"] = {
+    "gameId": "ad85d363343e47b5b396d086b9087d82",
+    "onEvent": function(event) {
+        console.log("[wv] ["+event.name+"]");
+         var am = (window.kp3d && window.kp3d.assetManager) ? window.kp3d.assetManager : null;
+        // var wasSoundOn=false;
+        switch (event.name) {
+            case "SDK_GAME_START":
+                // advertisement done, resume game logic and unmute audio
+                console.log("[wv] SDK_GAME_START");
+                //cr_setSuspended(false);//恢复
+
+            //             if (wasSoundOn && am) {
+                  if (am.bgSound) am.bgSound.setVolume(0.8);
+                  if (am.piecemove) am.piecemove.setVolume(1);
+                  if (am.btnClick) am.btnClick.setVolume(1);
+                  if (am.shufflestart) am.shufflestart.setVolume(1);
+                  if (am.shuffleend) am.shuffleend.setVolume(1);
+                  if (am.firework) am.firework.setVolume(1);
+                  if (am.wintune) am.wintune.setVolume(1);
+            // }
+                break;
+            case "SDK_GAME_PAUSE":
+                // pause game logic / mute audio
+                console.log("[wv] SDK_GAME_PAUSE");
+                //cr_setSuspended(true);//暂停
+
+                // var  am = (window.kp3d && window.kp3d.assetManager) ? window.kp3d.assetManager : null;
+                // wasSoundOn = false;
+            //    if (am && am.soundOn) {
+            //          wasSoundOn = true;
+                     var sounds = ['bgSound', 'piecemove', 'btnClick', 'shufflestart', 'shuffleend', 'firework', 'wintune'];
+                     sounds.forEach(function(key) {
+                        if (am[key] && typeof am[key].setVolume === 'function') {
+                           am[key].setVolume(0);
+                        }
+                     });
+            //    }
+
+
+                break;
+            case "SDK_GDPR_TRACKING":
+                // this event is triggered when your user doesn't want to be tracked
+		        console.log("[wv] SDK_GDPR_TARGETING");
+                break;
+            case "SDK_GDPR_TARGETING":
+                // this event is triggered when your user doesn't want personalised targeting of ads and such
+		        console.log("[wv] SDK_GDPR_TARGETING");
+                break;
+            case "SDK_REWARDED_WATCH_COMPLETE":
+                // this event is triggered when your user completely watched rewarded ad
+		        console.log("[wv] SDK_REWARDED_WATCH_COMPLETE");
+                break;
+        }
+    },
+};
+
+
+ </script>
+  </body>
+</html>

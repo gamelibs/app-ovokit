@@ -1,0 +1,9 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /mod/
+Disallow: /embed/
+Disallow: /referencecase/
+
+Host: gameslog.top
+Sitemap: https://gameslog.top/sitemap.xml

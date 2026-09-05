@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>跑酷 · 难度曲线实验室 | OVO 原子 Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 跑酷母型原子 demo：行为原语 = move + collision + spawn
+// 教学点（对应文章讲"难度曲线起手高度 vs 斜率"）：
+//   - 初始速度：起手高度决定新手第一秒的感受（太慢无聊 / 太快劝退）
+//   - 加速曲线：斜率决定心流通道的坡度，0 = 无成长的平坡
+AtomCore.create({
+  title: '跑酷 · 难度曲线实验室',
+  objective: '点左/右半屏换道躲开障碍。调「初始速度」看起手门槛，调「加速曲线」看难度爬坡。',
+  lives: 3,
+  params: [
+    { key: 'v0', label: '初始速度', min: 120, max: 320, step: 10, default: 180, unit: 'px/s' },
+    { key: 'accel', label: '加速曲线', min: 0, max: 30, step: 2, default: 10, unit: 'px/s²' }
+  ],
+  hudExtra: function (g) {
+    var v = g.params.v0 + g.params.accel * g.time;
+    return '速度 <b>' + Math.round(v) + '</b> px/s · 存活 <b>' + g.time.toFixed(1) + 's</b>';
+  },
+  setup: function (g) {
+    g.data.lane = 1;              // 0/1/2
+    g.data.playerX = 0;           // 平滑换道（setup 里先占位，draw 前由 laneX 修正）
+    g.data.obstacles = [];        // {lane, y}
+    g.data.spawnT = 0.9;
+    g.data.distance = 0;
+    g.data.invincible = 0;
+    g.data.flash = 0;
+    g.data.scroll = 0;
+  },
+  laneX: function (g, lane) { return g.W * (0.22 + 0.28 * lane); },
+  onPointer: function (g, p) {
+    if (p.type !== 'down') return;
+    var d = g.data;
+    if (p.x < g.W / 2) d.lane = Math.max(0, d.lane - 1);
+    else d.lane = Math.min(2, d.lane + 1);
+  },
+  update: function (g, dt) {
+    var d = g.data;
+    var speed = g.params.v0 + g.params.accel * g.time;
+    d.distance += speed * dt;
+    d.scroll = (d.scroll + speed * dt) % 120;
+    if (d.invincible > 0) d.invincible -= dt;
+    if (d.flash > 0) d.flash -= dt;
+    // 平滑换道
+    var tx = this.laneX(g, d.lane);
+    if (!d.playerX) d.playerX = tx;
+    d.playerX += (tx - d.playerX) * Math.min(1, dt * 14);
+    // 生成障碍：间距随速度补偿，且永不同时封死 3 条道
+    d.spawnT -= dt;
+    if (d.spawnT <= 0) {
+      d.spawnT = g.rand(0.55, 0.95) * (260 / speed);
+      var blocked = Math.random() < 0.35 ? 2 : 1;      // 最多封 2 条道
+      var lanes = [0, 1, 2].sort(function () { return Math.random() - 0.5; }).slice(0, blocked);
+      lanes.forEach(function (ln) { d.obstacles.push({ lane: ln, y: -30 }); });
+    }
+    // 移动 + 碰撞
+    var py = g.H * 0.78;
+    for (var i = d.obstacles.length - 1; i >= 0; i--) {
+      var o = d.obstacles[i];
+      o.y += speed * dt;
+      if (o.y > g.H + 40) { d.obstacles.splice(i, 1); continue; }
+      if (d.invincible <= 0 && Math.abs(o.y - py) < 34 && Math.abs(this.laneX(g, o.lane) - d.playerX) < 40) {
+        d.obstacles.splice(i, 1);
+        g.lives--; d.flash = 0.3; d.invincible = 1.2;
+        if (g.lives <= 0) { g.endGame(false); return; }
+      }
+    }
+    g.setScore(Math.floor(d.distance / 50));   // 距离分
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS;
+    var py = g.H * 0.78;
+    // 路面边界 + 车道虚线（滚动）
+    gg.line(g.W * 0.08, 0, g.W * 0.08, g.H, 2.5);
+    gg.line(g.W * 0.92, 0, g.W * 0.92, g.H, 2.5);
+    var ctx = gg.ctx;
+    ctx.save(); ctx.setLineDash([26, 34]); ctx.strokeStyle = '#bbb'; ctx.lineWidth = 2; ctx.lineDashOffset = -d.scroll;
+    [0.36, 0.64].forEach(function (fx) {
+      ctx.beginPath(); ctx.moveTo(g.W * fx, -40); ctx.lineTo(g.W * fx, g.H + 40); ctx.stroke();
+    });
+    ctx.restore();
+    // 障碍
+    (d.obstacles || []).forEach(function (o) {
+      var x = g.W * (0.22 + 0.28 * o.lane);
+      gg.rect(x - 26, o.y - 20, 52, 40, C.RED, 2.5);
+      gg.text('✕', x, o.y, 20, C.INK);
+    });
+    // 玩家
+    var px = d.playerX || this.laneX(g, d.lane);
+    if (!((d.invincible || 0) > 0 && (g.time * 12 | 0) % 2 === 0)) {
+      gg.circle(px, py, 20, C.BLUE, 2.5);
+      gg.text('我', px, py, 15, C.INK);
+    }
+    // 速度线（速度越快越密）
+    var speed = g.params.v0 + g.params.accel * g.time;
+    if (speed > 240) {
+      ctx.save(); ctx.strokeStyle = 'rgba(43,43,43,0.12)'; ctx.lineWidth = 2;
+      var off = (d.scroll * 3) % 200;
+      for (var sy = -200 + off; sy < g.H; sy += 200) {
+        ctx.beginPath(); ctx.moveTo(g.W * 0.14, sy); ctx.lineTo(g.W * 0.14, sy + 60);
+        ctx.moveTo(g.W * 0.86, sy + 100); ctx.lineTo(g.W * 0.86, sy + 160); ctx.stroke();
+      }
+      ctx.restore();
+    }
+    // 受击闪屏
+    if (d.flash > 0) { ctx.fillStyle = 'rgba(255,139,139,' + (d.flash * 1.5) + ')'; ctx.fillRect(0, 0, g.W, g.H); }
+    gg.text('点左半屏 ← 换道 · 点右半屏 → 换道', g.W / 2, g.H - 30, 13, '#888');
+  }
+});
+</script>
+</body>
+</html>

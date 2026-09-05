@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>回合博弈 · AI 强度实验室 | OVO 原子 Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 回合博弈母型原子 demo（井字棋）：行为原语 = turn + place + match + compare
+// 教学点（对应文章讲"AI 是体验调节器，不是越强越好"）：
+//   - AI 强度：0=随机（教学沙包）1=堵截（能赢能堵，给新手成就感）2=算杀（minimax，永不输）
+//     同一副规则，换的只是对手模型——这正是"回合博弈"母型的调参空间。
+var STATS = { win: 0, lose: 0, draw: 0 };   // 跨局战绩（reset 不清）
+AtomCore.create({
+  title: '回合博弈 · AI 强度实验室',
+  objective: '你执 X 先手，对战三档 AI。调「AI 强度」体会：对手模型就是难度本身。',
+  lives: 0,
+  params: [
+    { key: 'aiLevel', label: 'AI 强度（0=随机 1=堵截 2=算杀）', min: 0, max: 2, step: 1, default: 1, unit: '' }
+  ],
+  hudExtra: function (g) {
+    var turn = g.data.over ? '—' : (g.data.turn === 1 ? '你（X）' : 'AI（O）');
+    return '回合 <b>' + turn + '</b> · 战绩 <b>' + STATS.win + '胜 ' + STATS.lose + '负 ' + STATS.draw + '平</b>';
+  },
+  setup: function (g) {
+    g.data.board = [0, 0, 0, 0, 0, 0, 0, 0, 0];  // 0空 1=X 2=O
+    g.data.turn = 1;                              // 玩家先手
+    g.data.thinking = false;
+    g.data.over = false;
+    g.data.winLine = null;
+    g.data.token = Math.random();                 // 防"重开后旧 AI 定时器落子"
+  },
+  LINES: [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]],
+  winner: function (b) {
+    for (var i = 0; i < this.LINES.length; i++) {
+      var L = this.LINES[i];
+      if (b[L[0]] && b[L[0]] === b[L[1]] && b[L[1]] === b[L[2]]) return { who: b[L[0]], line: L };
+    }
+    if (b.every(function (v) { return v !== 0; })) return { who: 3, line: null }; // 平局
+    return null;
+  },
+  // —— AI 三档 ——
+  aiMove: function (g) {
+    var d = g.data, b = d.board.slice(), empties = [];
+    b.forEach(function (v, i) { if (v === 0) empties.push(i); });
+    if (!empties.length) return;
+    var lv = g.params.aiLevel, pick = null;
+    var self = this;
+    function winningMove(who) {
+      for (var i = 0; i < empties.length; i++) {
+        var t = b.slice(); t[empties[i]] = who;
+        var w = self.winner(t);
+        if (w && w.who === who) return empties[i];
+      }
+      return null;
+    }
+    if (lv === 0) {
+      pick = empties[Math.floor(g.rand(0, empties.length))];
+    } else if (lv === 1) {
+      pick = winningMove(2);                       // 能赢先赢
+      if (pick == null) pick = winningMove(1);     // 否则堵玩家
+      if (pick == null) pick = empties[Math.floor(g.rand(0, empties.length))];
+    } else {
+      // minimax：永不输；同分时随机，避免每局一模一样
+      var best = -Infinity, bests = [];
+      empties.forEach(function (i) {
+        var t = b.slice(); t[i] = 2;
+        var s = self.minimax(self, t, 1, 0);
+        if (s > best) { best = s; bests = [i]; }
+        else if (s === best) bests.push(i);
+      });
+      pick = bests[Math.floor(g.rand(0, bests.length))];
+    }
+    d.board[pick] = 2;
+    this.afterMove(g, 2);
+  },
+  minimax: function (self, b, who, depth) {
+    var w = self.winner(b);
+    if (w) {
+      if (w.who === 2) return 10 - depth;
+      if (w.who === 1) return depth - 10;
+      return 0;
+    }
+    var best = who === 2 ? -Infinity : Infinity;
+    for (var i = 0; i < 9; i++) {
+      if (b[i] !== 0) continue;
+      b[i] = who;
+      var s = self.minimax(self, b, who === 2 ? 1 : 2, depth + 1);
+      b[i] = 0;
+      if (who === 2) best = Math.max(best, s); else best = Math.min(best, s);
+    }
+    return best;
+  },
+  afterMove: function (g, who) {
+    var d = g.data;
+    var w = this.winner(d.board);
+    if (w) {
+      d.over = true; d.winLine = w.line;
+      if (w.who === 1) { STATS.win++; g.setScore(100); g.endGame(true); }
+      else if (w.who === 2) { STATS.lose++; g.setScore(0); g.endGame(false); }
+      else { STATS.draw++; g.setScore(50); g.endGame(false); }
+      return;
+    }
+    d.turn = who === 1 ? 2 : 1;
+    if (d.turn === 2) {
+      d.thinking = true;
+      var token = d.token, self = this;
+      setTimeout(function () {
+        if (g.state !== 'playing' || g.data.token !== token) return;
+        d.thinking = false;
+        self.aiMove(g);
+      }, 400);   // AI "思考"停顿：给玩家读盘时间
+    }
+  },
+  onPointer: function (g, p) {
+    if (p.type !== 'down') return;
+    var d = g.data;
+    if (d.over || d.thinking || d.turn !== 1) return;
+    var L = this.layout(g);
+    var c = Math.floor((p.x - L.x) / L.size), r = Math.floor((p.y - L.y) / L.size);
+    if (r < 0 || r >= 3 || c < 0 || c >= 3) return;
+    var i = r * 3 + c;
+    if (d.board[i] !== 0) return;
+    d.board[i] = 1;
+    this.afterMove(g, 1);
+  },
+  layout: function (g) {
+    var size = Math.min(g.W - 60, g.H * 0.6) / 3;
+    return { x: (g.W - size * 3) / 2, y: g.H * 0.15, size: size };
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS;
+    if (!d.board) return;
+    var L = this.layout(g), s = L.size;
+    // 棋盘
+    for (var i = 1; i < 3; i++) {
+      gg.line(L.x + s * i, L.y, L.x + s * i, L.y + s * 3, 2.5);
+      gg.line(L.x, L.y + s * i, L.x + s * 3, L.y + s * i, 2.5);
+    }
+    // 棋子：X 两笔交叉，O 手绘圆
+    d.board.forEach(function (v, idx) {
+      if (!v) return;
+      var cx = L.x + (idx % 3) * s + s / 2, cy = L.y + Math.floor(idx / 3) * s + s / 2, m = s * 0.26;
+      if (v === 1) {
+        gg.line(cx - m, cy - m, cx + m, cy + m, 4);
+        gg.line(cx + m, cy - m, cx - m, cy + m, 4);
+      } else {
+        gg.circle(cx, cy, m, null, 4);
+      }
+    });
+    // 胜利连线
+    if (d.winLine) {
+      var a = d.winLine[0], b2 = d.winLine[2];
+      gg.line(L.x + (a % 3) * s + s / 2, L.y + Math.floor(a / 3) * s + s / 2,
+              L.x + (b2 % 3) * s + s / 2, L.y + Math.floor(b2 / 3) * s + s / 2, 5);
+    }
+    // 状态行
+    var status = d.over ? '' : (d.turn === 1 ? '轮到你（X）' : 'AI 思考中…');
+    gg.text(status, g.W / 2, L.y - 26, 18, d.turn === 1 ? C.INK : '#d97706');
+    var aiName = ['随机（沙包）', '堵截（会赢会堵）', '算杀（永不输）'][g.params.aiLevel | 0];
+    gg.text('当前对手：' + aiName, g.W / 2, L.y + s * 3 + 28, 14, '#888');
+  }
+});
+</script>
+</body>
+</html>

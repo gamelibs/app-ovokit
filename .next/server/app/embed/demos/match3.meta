@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(embed)/layout,_N_T_/(embed)/embed/layout,_N_T_/(embed)/embed/demos/layout,_N_T_/(embed)/embed/demos/match3/layout,_N_T_/(embed)/embed/demos/match3/page,_N_T_/embed/demos/match3"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGVtYmVkKQ/embed/demos/match3/__PAGE__",
+    "/!KGVtYmVkKQ/embed/demos/match3",
+    "/!KGVtYmVkKQ/embed/demos",
+    "/!KGVtYmVkKQ/embed",
+    "/!KGVtYmVkKQ",
+    "/_index",
+    "/_head"
+  ]
+}
