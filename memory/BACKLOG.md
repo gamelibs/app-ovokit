@@ -82,10 +82,10 @@
 
 ## Done
 
-- [x] **部署分支 + 服务器一键部署脚本** <!-- task:id=deploy-branch-001 priority:P0 category:engineering -->
-  - 文件：`scripts/deploy.sh`（新增）、`.gitignore`（+`.deploy-meta`）、`package.json`（+`deploy` 脚本）
-  - 目标：创建 `deploy/gameslog.top` 分支收编已确认修复；提供 update/check/build/start/stop/restart/status/version/deploy 子命令的服务器侧部署脚本，复用 deploy-check.sh，check 失败中止上线
-  - 验收：✅ `bash -n` 通过；`version`/`check` 本地真实运行输出正确（2026-09-05）；分支首提交 bf246dc，未 push（待用户决定）
+- [x] **产物型部署分支：release.sh + deploy/gameslog.top orphan 产物分支** <!-- task:id=deploy-branch-001 priority:P0 category:engineering -->
+  - 文件：`scripts/release.sh`（新增）、`deploy/{deploy.sh,ecosystem.config.js,.env.example}`（新增，产物携带）、`next.config.ts`（+`output: 'standalone'`）、`package.json`（`deploy`→`release`）、删除源码模式 `scripts/deploy.sh`
+  - 目标：main 存源码，deploy/gameslog.top 存纯 standalone 产物（orphan 历史）；Mac `pnpm release` 发布产物提交，服务器 `bash deploy.sh deploy` 免构建更新
+  - 验收：✅ 首次 release 成功（产物 104MB，orphan 提交 6c53f5e）；产物独立运行验证全 200（2026-09-05，详见 `memory/daily/2026-09-05.md`）；未 push（待用户决定）
 
 - [x] **上线审查 3 个 failed 节点修复（SEO / 首屏体积 / 移动端触控）** <!-- task:id=launch-review-fix-001 priority:P0 category:engineering -->
   - 文件：`src/app/layout.tsx`、`src/app/(site)/page.tsx`、`src/components/site/TopNav.tsx`、`src/components/cookie/CookieConsent.tsx`、`.env.local`

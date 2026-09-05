@@ -7,7 +7,7 @@
 
 ## 当前阶段
 
-**部署分支与一键部署脚本就绪（2026-09-05）**：`deploy/gameslog.top` 分支已创建并收编全部已确认修复（首提交 bf246dc，未 push——push 留给用户决定）；新增 `scripts/deploy.sh` 服务器侧一键部署（update→check→build→start→健康验证，复用 deploy-check.sh），package.json 增加 `pnpm deploy`。服务器首部署清单见 `memory/daily/2026-09-05.md`。
+**产物型部署分支就绪（2026-09-05 下午，取代上午的源码型方案）**：`deploy/gameslog.top` 重建为 **orphan 纯产物分支**（首提交 6c53f5e，Next.js standalone + 服务器侧 deploy.sh/ecosystem.config.js/.env.example，无源码历史）。Mac 侧用 `pnpm release`（`scripts/release.sh`）构建并发布产物提交；服务器侧 `bash deploy.sh deploy` 免构建更新。产物已通过独立运行验证（裸 node server.js 全链路 200）。**两个分支均未 push——push 留给用户决定。** 上午的源码型 `scripts/deploy.sh` 已删除（deploy-check.sh 与 ecosystem.web.config.js 保留作参考）。注意：next.config.ts 已开 `output: 'standalone'`，本地 `pnpm build` 产物结构随之变化（`.next/standalone/`）。
 
 **域名切换为 gameslog.top，品牌收编为 GamesLog（2026-09-02）**：ovoforge.com 已转给其它站点使用。仓库已完成品牌中性化（siteConfig 单一来源 + 2 处硬编码收编），技术命名空间（storage key/cookie/Redis 前缀等）保持不变。站点尚未部署到 gameslog.top，下一步走 ovo_system 模拟上线流程（合规审查 → 上线清单 → 部署 → 线上复审）。
 
