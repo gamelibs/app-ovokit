@@ -1,22 +1,38 @@
 import type { Metadata, Viewport } from "next";
 import { inter, kalam, notoSerif } from "@/lib/fonts";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { getSiteOrigin, siteConfig } from "@/lib/site/config";
 import "./globals.css";
 
+const metaTitle = `${siteConfig.name} - 游戏玩法分享与学习`;
+const metaDescription =
+  "GamesLog 是面向游戏爱好者的玩法技术分享站：拆解经典游戏的核心机制与规则循环，用手绘流程图讲清设计原理，并提供可直接试玩的最小 Demo，帮你从玩家视角进阶到设计师视角，理解游戏为什么好玩。";
+const metaKeywords = [
+  "游戏玩法",
+  "玩法拆解",
+  "游戏机制",
+  "规则循环",
+  "游戏设计",
+  "玩法 Demo",
+  siteConfig.name,
+];
+
 export const metadata: Metadata = {
-  title: "OVO - 游戏玩法分享与学习",
-  description: "面向所有游戏爱好者的玩法分享站点：拆解经典机制、理解规则循环、试玩最小 Demo、发现设计乐趣。",
+  metadataBase: new URL(getSiteOrigin()),
+  title: metaTitle,
+  description: metaDescription,
+  keywords: metaKeywords,
   openGraph: {
-    title: "OVO - 游戏玩法分享与学习",
-    description: "面向所有游戏爱好者的玩法分享站点：拆解经典机制、理解规则循环、试玩最小 Demo、发现设计乐趣。",
+    title: metaTitle,
+    description: metaDescription,
     type: "website",
     locale: "zh_CN",
-    siteName: "OVO",
+    siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: "OVO - 游戏玩法分享与学习",
-    description: "面向所有游戏爱好者的玩法分享站点：拆解经典机制、理解规则循环、试玩最小 Demo、发现设计乐趣。",
+    title: metaTitle,
+    description: metaDescription,
   },
 };
 

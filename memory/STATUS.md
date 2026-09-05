@@ -1,11 +1,15 @@
-# OVOFORGE 项目状态
+# GamesLog 项目状态（原 OVOFORGE）
 
-> 最后更新：2026-06-23
+> 最后更新：2026-09-03
 > 更新者：Kimi Code CLI
 
 ---
 
 ## 当前阶段
+
+**域名切换为 gameslog.top，品牌收编为 GamesLog（2026-09-02）**：ovoforge.com 已转给其它站点使用。仓库已完成品牌中性化（siteConfig 单一来源 + 2 处硬编码收编），技术命名空间（storage key/cookie/Redis 前缀等）保持不变。站点尚未部署到 gameslog.top，下一步走 ovo_system 模拟上线流程（合规审查 → 上线清单 → 部署 → 线上复审）。
+
+**上线审查 3 个 failed 节点已修复（2026-09-03）**：SEO 元信息（description/keywords/canonical）补齐、站点经 ovo_system 从 dev 模式切换为**生产构建模式**（`pnpm build` + `npm run start`，传输 3.32MB→0.42MB）、移动端触控目标全部 ≥44px。模拟审查总分 81→88（passed=true），剩余 failed 为 AdSense 接入（f-ads-txt/f-adsense-script）与 d-responsive 检查器采样口径问题（站点 CSS 实际含 @media，详见 `memory/daily/2026-09-03.md`）。注意：站点现为生产模式，代码改动需重新 build 后重启生效。
 
 **基础一期（P0）上线交付完成**。所有 P0 阻塞项已修复，Git 工作区已清理，站点通过最终验证；已完成服务器部署清单、检查脚本、GitHub Actions 工作流，清理了无用资源，并修复了 hydration mismatch 问题，新增全站 smoke test，具备公开上线条件。
 

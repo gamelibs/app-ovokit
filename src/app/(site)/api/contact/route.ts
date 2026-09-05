@@ -83,7 +83,7 @@ async function sendWebhook(payload: {
   const body = {
     ...payload,
     source: "ovo-contact",
-    site: siteConfig.url ?? "https://ovoforge.com",
+    site: siteConfig.url,
   };
 
   try {

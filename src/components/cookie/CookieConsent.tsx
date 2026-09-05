@@ -43,10 +43,11 @@ export function CookieConsent() {
           </Link>
         </p>
         <div className="flex shrink-0 items-center gap-2">
-          <SketchButton variant="secondary" onClick={handleNecessaryOnly}>
+          {/* min-h-11 保证触控目标 ≥44px（Apple HIG），视觉尺寸由 SketchBorder 决定不变 */}
+          <SketchButton variant="secondary" onClick={handleNecessaryOnly} className="inline-flex min-h-11 min-w-11 items-center justify-center">
             仅必要
           </SketchButton>
-          <SketchButton variant="primary" onClick={handleAccept}>
+          <SketchButton variant="primary" onClick={handleAccept} className="inline-flex min-h-11 min-w-11 items-center justify-center">
             同意全部
           </SketchButton>
         </div>

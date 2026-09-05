@@ -14,6 +14,13 @@ import { FeatureQuickNav } from "@/components/home/FeatureQuickNav";
 import { PlayListItem } from "@/components/home/PlayListItem";
 import { DevToolsPanel } from "@/components/home/DevToolsPanel";
 import { isModerator } from "@/lib/mod/auth";
+import type { Metadata } from "next";
+
+// 首页自引用 canonical；内页如需 canonical 应在各自 page 中显式声明，
+// 不放在根 layout（否则全站页面都会指向首页，反而伤害收录）
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 function normalizeQueryParam(v: string | string[] | undefined) {
   return Array.isArray(v) ? v[0] : v;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { StaticPageShell } from "@/components/site/StaticPageShell";
-import { siteConfig } from "@/lib/site/config";
+import { siteConfig, getSiteHost } from "@/lib/site/config";
 
 export default function PrivacyPage() {
   return (
@@ -9,7 +9,7 @@ export default function PrivacyPage() {
       subtitle="说明站点如何处理与存储访问过程中产生的数据。"
     >
       <p>
-        本政策适用于 {siteConfig.name}（下称“本站”，域名 ovoforge.com）。本站以内容浏览与试玩为主，不提供公开账号体系。
+        本政策适用于 {siteConfig.name}（下称“本站”，域名 {getSiteHost()}）。本站以内容浏览与试玩为主，不提供公开账号体系。
       </p>
 
       <h2 className="text-base font-semibold text-ink font-kalam">

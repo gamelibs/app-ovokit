@@ -96,7 +96,7 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
                 type="button"
                 onClick={onLogoTap}
                 aria-label="OVO"
-                className="inline-flex items-center justify-center rounded-2xl p-0 hover:opacity-90 transition-opacity"
+                className="inline-flex items-center justify-center rounded-2xl px-0 py-2 hover:opacity-90 transition-opacity"
               >
                 <OvoLogo width={60} height={28} />
               </button>
@@ -113,13 +113,13 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
                   if (e.key === "Enter") goSearch();
                 }}
                 inputMode="search"
-                className="sketch-input h-9 w-full pl-3 pr-10 min-[360px]:h-10 min-[360px]:pl-4 min-[360px]:pr-11"
+                className="sketch-input h-11 w-full pl-3 pr-[52px] min-[360px]:pl-4"
               />
               <button
                 type="button"
                 onClick={() => goSearch()}
                 aria-label="Search"
-                className="absolute right-1.5 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center sketch-border bg-paper text-ink-muted hover:bg-paper-warm hover:text-ink min-[360px]:right-2"
+                className="absolute right-1.5 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center sketch-border bg-paper text-ink-muted hover:bg-paper-warm hover:text-ink min-[360px]:right-2"
               >
                 <Search size={18} strokeWidth={2} />
               </button>

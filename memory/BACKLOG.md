@@ -73,9 +73,19 @@
 - [ ] **文档持续维护** <!-- task:id=doc-001 priority:P2 category:future -->
   - 目标：每次重大功能变更后同步更新 `doc/` 与 `memory/`
 
+- [ ] **SketchButton 全局触控尺寸治理** <!-- task:id=a11y-touch-001 priority:P1 category:ux -->
+  - 文件：`src/components/sketch/SketchButton.tsx`
+  - 目标：SketchButton 默认高度约 41px（内层 `py-2 text-sm`），严格 44px 触控口径下全站按钮均偏小；2026-09-03 已在 CookieConsent 用 className 局部补足（min-h-11），全局治理需调整 SketchButton 内层 padding 并回归视觉
+  - 状态：待立项，需逐页视觉回归
+
 ---
 
 ## Done
+
+- [x] **上线审查 3 个 failed 节点修复（SEO / 首屏体积 / 移动端触控）** <!-- task:id=launch-review-fix-001 priority:P0 category:engineering -->
+  - 文件：`src/app/layout.tsx`、`src/app/(site)/page.tsx`、`src/components/site/TopNav.tsx`、`src/components/cookie/CookieConsent.tsx`、`.env.local`
+  - 目标：d-seo-full（description 50~160 字 + keywords + canonical）、e-load-time（传输 <3MB，切生产构建模式）、e-mobile-viewport（触控目标 ≥44px）
+  - 验收：✅ ovo_system 审查重跑总分 81→88，3 节点全部 passed（2026-09-03，详见 `memory/daily/2026-09-03.md`）
 
 - [x] **清理全站用户可见的内部占位/提示文案** <!-- task:id=cleanup-internal-hints-001 priority:P0 category:content -->
   - 文件：`content/plays/*/meta.json`、`src/app/(site)/play/[slug]/page.tsx`、`src/components/demos/PlayMiniDemo.tsx`、`src/components/mod/NewPlayForm.tsx`、`src/lib/content/plays.ts`
