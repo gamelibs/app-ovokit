@@ -82,6 +82,11 @@
 
 ## Done
 
+- [x] **部署分支 + 服务器一键部署脚本** <!-- task:id=deploy-branch-001 priority:P0 category:engineering -->
+  - 文件：`scripts/deploy.sh`（新增）、`.gitignore`（+`.deploy-meta`）、`package.json`（+`deploy` 脚本）
+  - 目标：创建 `deploy/gameslog.top` 分支收编已确认修复；提供 update/check/build/start/stop/restart/status/version/deploy 子命令的服务器侧部署脚本，复用 deploy-check.sh，check 失败中止上线
+  - 验收：✅ `bash -n` 通过；`version`/`check` 本地真实运行输出正确（2026-09-05）；分支首提交 bf246dc，未 push（待用户决定）
+
 - [x] **上线审查 3 个 failed 节点修复（SEO / 首屏体积 / 移动端触控）** <!-- task:id=launch-review-fix-001 priority:P0 category:engineering -->
   - 文件：`src/app/layout.tsx`、`src/app/(site)/page.tsx`、`src/components/site/TopNav.tsx`、`src/components/cookie/CookieConsent.tsx`、`.env.local`
   - 目标：d-seo-full（description 50~160 字 + keywords + canonical）、e-load-time（传输 <3MB，切生产构建模式）、e-mobile-viewport（触控目标 ≥44px）

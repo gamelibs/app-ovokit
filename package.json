@@ -14,6 +14,7 @@
     "algo:start": "NODE_ENV=production tsx server/index.ts",
     "algo:pm2": "pm2 start ecosystem.algo.config.js",
     "web:pm2": "pm2 start ecosystem.web.config.js",
+    "deploy": "bash scripts/deploy.sh",
     "deploy:check": "bash scripts/deploy-check.sh",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",

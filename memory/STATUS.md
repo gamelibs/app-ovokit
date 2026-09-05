@@ -1,11 +1,13 @@
 # GamesLog 项目状态（原 OVOFORGE）
 
-> 最后更新：2026-09-03
+> 最后更新：2026-09-05
 > 更新者：Kimi Code CLI
 
 ---
 
 ## 当前阶段
+
+**部署分支与一键部署脚本就绪（2026-09-05）**：`deploy/gameslog.top` 分支已创建并收编全部已确认修复（首提交 bf246dc，未 push——push 留给用户决定）；新增 `scripts/deploy.sh` 服务器侧一键部署（update→check→build→start→健康验证，复用 deploy-check.sh），package.json 增加 `pnpm deploy`。服务器首部署清单见 `memory/daily/2026-09-05.md`。
 
 **域名切换为 gameslog.top，品牌收编为 GamesLog（2026-09-02）**：ovoforge.com 已转给其它站点使用。仓库已完成品牌中性化（siteConfig 单一来源 + 2 处硬编码收编），技术命名空间（storage key/cookie/Redis 前缀等）保持不变。站点尚未部署到 gameslog.top，下一步走 ovo_system 模拟上线流程（合规审查 → 上线清单 → 部署 → 线上复审）。
 
