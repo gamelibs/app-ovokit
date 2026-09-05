@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   // Hide Next.js Dev Tools indicator (bottom-left "N" button) in `pnpm dev`.
   devIndicators: false,
 
+  // 产物型部署：构建输出 .next/standalone（含 traced 最小 node_modules + server.js），
+  // 由 scripts/release.sh 组装发布到 deploy/gameslog.top 分支，服务器免构建直接 node server.js 运行。
+  output: "standalone",
+
   async headers() {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
     const isProductionHost =
