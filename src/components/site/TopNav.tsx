@@ -95,7 +95,7 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
               <button
                 type="button"
                 onClick={onLogoTap}
-                aria-label="OVO"
+                aria-label="GamesLog 首页"
                 className="inline-flex items-center justify-center rounded-2xl px-0 py-2 hover:opacity-90 transition-opacity"
               >
                 <OvoLogo width={60} height={28} />

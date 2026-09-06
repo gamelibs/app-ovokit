@@ -26,7 +26,7 @@ export function OvoLogo({
       height={height}
       className={className}
       role="img"
-      aria-label="OVO"
+      aria-label="GamesLog"
     >
       {/* 左侧 O：紫色外圈 + 白色内圈 */}
       <circle cx="50" cy="60" r="40" fill={purple} />
