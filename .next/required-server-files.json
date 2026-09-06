@@ -51,7 +51,7 @@
       "qualities": [
         75
       ],
-      "unoptimized": false
+      "unoptimized": true
     },
     "reactMaxHeadersLength": 6000,
     "cacheLife": {
