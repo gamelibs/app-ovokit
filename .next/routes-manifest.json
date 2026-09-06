@@ -400,6 +400,12 @@
       "namedRegex": "^/api/mod/regen\\-cover(?:/)?$"
     },
     {
+      "page": "/apple-icon.png",
+      "regex": "^/apple\\-icon\\.png(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/apple\\-icon\\.png(?:/)?$"
+    },
+    {
       "page": "/archetypes",
       "regex": "^/archetypes(?:/)?$",
       "routeKeys": {},
@@ -446,6 +452,12 @@
       "regex": "^/features(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/features(?:/)?$"
+    },
+    {
+      "page": "/icon.svg",
+      "regex": "^/icon\\.svg(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/icon\\.svg(?:/)?$"
     },
     {
       "page": "/mod",
