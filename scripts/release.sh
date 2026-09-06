@@ -10,8 +10,10 @@
 #
 # 流程：
 #   1. 校验：当前在 main、工作区干净、.env.local 存在且 NEXT_PUBLIC_SITE_URL 为 https 真实域名
-#   2. pnpm install --frozen-lockfile + pnpm build（next.config.ts 已开启 output: 'standalone'）
+#   2. pnpm install --frozen-lockfile + pnpm build（next.config.ts 已开启 output: 'standalone'
+#      与 images.unoptimized）
 #   3. 组装产物：.next/standalone 全量 + 手动补 .next/static 与 public/（standalone 不自带）
+#      + 剔除 sharp 原生模块（图片优化已禁用，darwin-arm64 二进制在 Linux 无法加载）
 #      额外放入服务器侧文件：deploy.sh / ecosystem.config.js / .env.example / .gitignore
 #   4. git worktree 发布到 deploy/gameslog.top（首次为 orphan 根提交，之后快进追加）
 #
@@ -160,8 +162,43 @@ cp deploy/.env.example "$ARTIFACT_DIR/.env.example"
 # 服务器本地文件（.env.local / .deploy-meta）不入库
 printf '.env.local\n.deploy-meta\n' > "$ARTIFACT_DIR/.gitignore"
 
+# --- 3.5 剔除平台相关原生模块（sharp） -------------------------------------------------
+# next.config.ts 已设 images.unoptimized=true，运行时不再使用 sharp；
+# 但 standalone 的 traced node_modules 仍携带 sharp 的 darwin-arm64 原生二进制，
+# 在 Linux（Ubuntu）服务器上无法加载，必须剔除让产物与平台彻底无关。
+log_section "剔除平台相关原生模块（sharp）"
+
+NM_DIR="$ARTIFACT_DIR/node_modules"
+SIZE_BEFORE=$(du -sh "$NM_DIR" 2>/dev/null | cut -f1)
+
+# 顶层包与 pnpm 虚拟store 条目
+rm -rf "$NM_DIR/sharp" "$NM_DIR/@img"
+for entry in "$NM_DIR/.pnpm/"@img+sharp* "$NM_DIR/.pnpm/"sharp@*; do
+  [[ -e "$entry" || -L "$entry" ]] && rm -rf "$entry"
+done
+
+# 清理指向已删除目录的悬空 symlink
+DANGLING=$(find "$NM_DIR" -type l ! -exec test -e {} \; -print 2>/dev/null)
+if [[ -n "$DANGLING" ]]; then
+  echo "$DANGLING" | while read -r link; do
+    rm -f "$link"
+    log_info "清理悬空 symlink: ${link#"$ARTIFACT_DIR"/}"
+  done
+fi
+
+# 兜底：产物中不应再有任何 sharp 残留与 .node 原生二进制
+SHARP_LEFT=$(find "$NM_DIR" -iname "*sharp*" 2>/dev/null | head -5)
+NODE_LEFT=$(find "$NM_DIR" -name "*.node" 2>/dev/null | head -5)
+if [[ -n "$SHARP_LEFT" || -n "$NODE_LEFT" ]]; then
+  log_err "sharp 剔除不干净：sharp 残留[${SHARP_LEFT:-无}] .node 残留[${NODE_LEFT:-无}]"
+  exit 1
+fi
+
+SIZE_AFTER=$(du -sh "$NM_DIR" 2>/dev/null | cut -f1)
+log_ok "sharp 剔除完成：node_modules ${SIZE_BEFORE} → ${SIZE_AFTER}"
+
 ARTIFACT_SIZE=$(du -sh "$ARTIFACT_DIR" | cut -f1)
-log_ok "产物组装完成（${ARTIFACT_SIZE}）：standalone + .next/static + public + deploy.sh/ecosystem.config.js/.env.example"
+log_ok "产物组装完成（${ARTIFACT_SIZE}）：standalone（无 sharp）+ .next/static + public + deploy.sh/ecosystem.config.js/.env.example"
 
 # --- 4. 发布到 deploy 分支（git worktree） -------------------------------------------
 log_section "发布到 ${DEPLOY_BRANCH}"

@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
   // 由 scripts/release.sh 组装发布到 deploy/gameslog.top 分支，服务器免构建直接 node server.js 运行。
   output: "standalone",
 
+  // 图片全部为内容生产期预生成的 webp，运行时 /_next/image 优化是纯冗余；
+  // 禁用后 next/image 直接输出原始 URL，产物也不再依赖 sharp 原生模块（与服务器平台彻底无关）。
+  images: {
+    unoptimized: true,
+  },
+
   async headers() {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
     const isProductionHost =
