@@ -63,6 +63,7 @@ OVO 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动
 - 生产部署：`doc/server-deployment-checklist.md`、`doc/docker-deployment.md`
 - 邮件功能配置：`doc/邮件功能说明.md`
 - 文章发布规范：`doc/文章发布规范.md`
+- 内容生产线设计（权威版在 ovo_system `docs/site-content-production-line.md`）：`doc/站点内容生产线说明.md`
 - 版主工作流：`doc/版主工作流.md`
 - 图片压缩脚本：`doc/图片压缩脚本说明.md`
 - 玩法封面批量生成：`doc/玩法封面生成脚本说明.md`
