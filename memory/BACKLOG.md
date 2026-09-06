@@ -82,6 +82,11 @@
 
 ## Done
 
+- [x] **产物平台无关化：禁用图片优化 + 剔除 sharp + 推送** <!-- task:id=deploy-platform-001 priority:P0 category:engineering -->
+  - 文件：`next.config.ts`（+`images.unoptimized`）、`scripts/release.sh`（+sharp 剔除步骤）
+  - 目标：产物不含 darwin-arm64 原生二进制，Ubuntu 服务器直接可跑；HTML 不再依赖 `/_next/image`
+  - 验收：✅ node_modules 72M→38M、产物 70M、零 .node 文件；裸 node 验证全 200 且 HTML 零 `/_next/image`；main(6225164) 与 deploy/gameslog.top(efe1327) 已推送并核实两端一致（2026-09-06，详见 `memory/daily/2026-09-06.md`）
+
 - [x] **产物型部署分支：release.sh + deploy/gameslog.top orphan 产物分支** <!-- task:id=deploy-branch-001 priority:P0 category:engineering -->
   - 文件：`scripts/release.sh`（新增）、`deploy/{deploy.sh,ecosystem.config.js,.env.example}`（新增，产物携带）、`next.config.ts`（+`output: 'standalone'`）、`package.json`（`deploy`→`release`）、删除源码模式 `scripts/deploy.sh`
   - 目标：main 存源码，deploy/gameslog.top 存纯 standalone 产物（orphan 历史）；Mac `pnpm release` 发布产物提交，服务器 `bash deploy.sh deploy` 免构建更新

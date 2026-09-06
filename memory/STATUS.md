@@ -1,13 +1,15 @@
 # GamesLog 项目状态（原 OVOFORGE）
 
-> 最后更新：2026-09-05
+> 最后更新：2026-09-06
 > 更新者：Kimi Code CLI
 
 ---
 
 ## 当前阶段
 
-**产物型部署分支就绪（2026-09-05 下午，取代上午的源码型方案）**：`deploy/gameslog.top` 重建为 **orphan 纯产物分支**（首提交 6c53f5e，Next.js standalone + 服务器侧 deploy.sh/ecosystem.config.js/.env.example，无源码历史）。Mac 侧用 `pnpm release`（`scripts/release.sh`）构建并发布产物提交；服务器侧 `bash deploy.sh deploy` 免构建更新。产物已通过独立运行验证（裸 node server.js 全链路 200）。**两个分支均未 push——push 留给用户决定。** 上午的源码型 `scripts/deploy.sh` 已删除（deploy-check.sh 与 ecosystem.web.config.js 保留作参考）。注意：next.config.ts 已开 `output: 'standalone'`，本地 `pnpm build` 产物结构随之变化（`.next/standalone/`）。
+**产物平台无关化完成并已推送（2026-09-06）**：`next.config.ts` 加 `images: { unoptimized: true }`（图片全是预生成 webp，运行时优化纯冗余）；`scripts/release.sh` 新增 sharp 剔除步骤（node_modules 72M→38M，产物 104M→70M，零 `.node` 原生二进制，Ubuntu 直接可跑）。main（6225164）与 deploy/gameslog.top（efe1327）已推送 GitHub（SSH 443 端点），两端哈希一致。产物独立验证通过：HTML 零 `/_next/image`、封面直链 200。
+
+**产物型部署分支就绪（2026-09-05 下午，取代上午的源码型方案）**：`deploy/gameslog.top` 为 **orphan 纯产物分支**（Next.js standalone + 服务器侧 deploy.sh/ecosystem.config.js/.env.example，无源码历史）。Mac 侧用 `pnpm release`（`scripts/release.sh`）构建并发布产物提交；服务器侧 `bash deploy.sh deploy` 免构建更新。源码型 `scripts/deploy.sh` 已删除（deploy-check.sh 与 ecosystem.web.config.js 保留作参考）。注意：next.config.ts 已开 `output: 'standalone'`，本地 `pnpm build` 产物结构随之变化（`.next/standalone/`）。
 
 **域名切换为 gameslog.top，品牌收编为 GamesLog（2026-09-02）**：ovoforge.com 已转给其它站点使用。仓库已完成品牌中性化（siteConfig 单一来源 + 2 处硬编码收编），技术命名空间（storage key/cookie/Redis 前缀等）保持不变。站点尚未部署到 gameslog.top，下一步走 ovo_system 模拟上线流程（合规审查 → 上线清单 → 部署 → 线上复审）。
 
