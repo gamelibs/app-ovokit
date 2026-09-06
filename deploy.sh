@@ -10,8 +10,8 @@
 #   bash deploy.sh update    # git pull --ff-only 更新产物，打印版本变化
 #   bash deploy.sh check     # 环境/配置检查（node/pm2/.env.local/端口）
 #   bash deploy.sh start     # 未运行：pm2 start ecosystem.config.js；运行中：pm2 reload（零停机）
-#   bash deploy.sh stop      # pm2 stop ovoforge-web
-#   bash deploy.sh restart   # pm2 reload ovoforge-web（零停机）+ 健康验证
+#   bash deploy.sh stop      # pm2 stop gameslog-web
+#   bash deploy.sh restart   # pm2 reload gameslog-web（零停机）+ 健康验证
 #   bash deploy.sh status    # PM2 进程摘要 + 端口监听 + 首页 HTTP 状态
 #   bash deploy.sh version   # 当前产物 commit + 上次部署信息（.deploy-meta）
 #
@@ -27,8 +27,11 @@
 # 日常更新：bash deploy.sh deploy
 #
 # 约定：
-#   - PM2 应用名固定 ovoforge-web，端口 PORT（默认 13100）
+#   - PM2 应用名固定 gameslog-web，端口 PORT（默认 13100）
 #   - deploy 成功后写 .deploy-meta（commit/时间/耗时，已被 .gitignore 忽略）
+#   - 防呆：同名 PM2 进程的工作目录不是当前目录时，拒绝 reload/start
+#     （防止误操作其它部署残留的同名旧进程）；pm2 start 前期望端口
+#     已被占用时拒绝启动（提示先排查残留进程）
 # =============================================================================
 
 set -euo pipefail
@@ -70,7 +73,7 @@ log_info() {
 }
 
 # --- 常量 ---------------------------------------------------------------------
-APP_NAME="ovoforge-web"
+APP_NAME="gameslog-web"
 ECOSYSTEM_CONFIG="ecosystem.config.js"
 DEPLOY_META_FILE=".deploy-meta"
 
@@ -116,6 +119,42 @@ require_pm2() {
 
 pm2_app_exists() {
   pm2 describe "$APP_NAME" &>/dev/null
+}
+
+# 取同名 PM2 进程的工作目录（pm_cwd）。取不到时输出空串，由调用方决定跳过或报错。
+pm2_app_cwd() {
+  local json
+  json=$(pm2 jlist 2>/dev/null || echo "[]")
+  echo "$json" | node -e 'let r="";process.stdin.on("data",c=>r+=c).on("end",()=>{try{const l=JSON.parse(r);const p=l.find(x=>x.name===process.argv[1]);console.log(p&&p.pm2_env&&p.pm2_env.pm_cwd||"")}catch(e){console.log("")}})' "$APP_NAME" 2>/dev/null || echo ""
+}
+
+# 防呆：同名进程必须属于当前目录，否则拒绝 reload/start（防止误操作其它部署的残留进程）
+guard_same_name_app() {
+  local cwd
+  cwd=$(pm2_app_cwd)
+  cwd="${cwd%/}"
+  if [[ -z "$cwd" ]]; then
+    log_warn "无法读取同名进程 ${APP_NAME} 的工作目录，跳过目录校验（可用 pm2 describe ${APP_NAME} 人工确认）"
+    return 0
+  fi
+  if [[ "$cwd" != "$ROOT_DIR" ]]; then
+    log_err "PM2 中已存在同名进程 ${APP_NAME}，但其工作目录是 ${cwd}，不是当前目录 ${ROOT_DIR}"
+    log_info "这通常意味着同名进程是其它部署的残留。为防止误操作旧代码，本脚本拒绝对它执行 reload/start。"
+    log_info "请先执行 pm2 describe ${APP_NAME} 确认归属；确认是残留后执行 pm2 delete ${APP_NAME}，再重新运行本命令。"
+    exit 1
+  fi
+}
+
+# 端口是否已被监听（ss 优先，lsof 兜底；无探测工具时视为未占用，不阻塞部署）
+port_in_use() {
+  local port=$1
+  if command -v ss &>/dev/null; then
+    ss -tlnp 2>/dev/null | grep -qE ":${port}\b"
+  elif command -v lsof &>/dev/null; then
+    lsof -Pi :"$port" -sTCP:LISTEN >/dev/null 2>&1
+  else
+    return 1
+  fi
 }
 
 health_check() {
@@ -268,9 +307,18 @@ cmd_start() {
   log_section "启动服务（${APP_NAME}）"
   require_pm2
   if pm2_app_exists; then
+    guard_same_name_app
     log_info "进程已存在，使用 pm2 reload 零停机重启"
     pm2 reload "$APP_NAME"
   else
+    # 防呆：pm2 start 前确认期望端口未被占用（可能是旧进程残留或未走 PM2 的实例）
+    local port
+    port=$(web_port)
+    if port_in_use "$port"; then
+      log_err "端口 ${port} 已被占用（可能旧进程未清理），拒绝启动"
+      log_info "排查命令：ss -tlnp | grep :${port} 或 lsof -Pi :${port} -sTCP:LISTEN"
+      exit 1
+    fi
     pm2 start "$ECOSYSTEM_CONFIG"
   fi
   health_check
@@ -294,6 +342,7 @@ cmd_restart() {
     log_err "${APP_NAME} 未在 PM2 中运行，请先执行：bash deploy.sh start"
     exit 1
   fi
+  guard_same_name_app
   pm2 reload "$APP_NAME"
   health_check
 }

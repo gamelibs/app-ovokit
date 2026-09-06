@@ -3,7 +3,7 @@
 module.exports = {
   apps: [
     {
-      name: "ovoforge-web",
+      name: "gameslog-web",
       script: "server.js",
       autorestart: true,
       watch: false,
