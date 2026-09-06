@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/site/config";
 export default function AboutPage() {
   return (
     <StaticPageShell
-      title="关于 OVO"
+      title={`关于 ${siteConfig.name}`}
       subtitle="一个面向所有游戏爱好者的玩法分享站点：一起拆解、学习与发现让游戏好玩的秘密。"
     >
       <p>
@@ -28,10 +28,10 @@ export default function AboutPage() {
       </ul>
 
       <h2 className="text-base font-semibold text-ink font-kalam">
-        P0 上线说明
+        本站说明
       </h2>
       <p>
-        当前阶段以“只读公开站”为主：面向访问者提供浏览、阅读与试玩；站内发布与编辑功能不对公众开放。
+        本站为只读内容站：所有内容均可自由浏览、阅读与试玩，无需注册；内容由站长策划与发布，暂不开放公众投稿。
       </p>
 
       <h2 className="text-base font-semibold text-ink font-kalam">
