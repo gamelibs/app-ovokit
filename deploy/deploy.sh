@@ -19,7 +19,7 @@
 #   1. git clone -b deploy/gameslog.top git@github.com:gamelibs/app-ovokit.git gameslog
 #      cd gameslog
 #   2. cp .env.example .env.local，填写真实值（NEXT_PUBLIC_SITE_URL=https://gameslog.top、
-#      强 MOD_PASSWORD、UPSTASH_REDIS_*），chmod 600 .env.local
+#      强 MOD_PASSWORD；UPSTASH_REDIS_* 可选，不配则统计走文件系统回退），chmod 600 .env.local
 #   3. bash deploy.sh check      # 确认环境与配置全部通过
 #   4. bash deploy.sh start      # 启动并自动健康验证
 #   5. 配置 Nginx 反代 127.0.0.1:13100 并启用 SSL（443），防火墙不直接暴露 13100
@@ -239,7 +239,9 @@ cmd_check() {
   if [[ "$redis_url" =~ ^https:// && "$redis_url" != *"your"* && -n "$redis_token" && "$redis_token" != "your_"* ]]; then
     log_ok "UPSTASH_REDIS_* 已配置"
   else
-    log_err "UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN 未配置或为占位值（生产统计需要）"
+    # 与站点自身契约对齐：src/lib/redis.ts 未配置时回退文件系统，统计功能可用但重启不持久。
+    # 后续要持久化统计，随时在 .env.local 补 UPSTASH_REDIS_* 后 bash deploy.sh restart 即可。
+    log_warn "UPSTASH_REDIS_* 未配置，站点统计将使用文件系统回退（重启后统计数据丢失）"
   fi
 
   # 端口
