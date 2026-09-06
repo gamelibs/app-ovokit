@@ -10,7 +10,7 @@ export type CookieConsent = {
   timestamp: string;
 };
 
-const STORAGE_KEY = "ovoforge-cookie-consent";
+const STORAGE_KEY = "gameslog-cookie-consent";
 
 export function getCookieConsent(): CookieConsent | null {
   if (typeof window === "undefined") return null;

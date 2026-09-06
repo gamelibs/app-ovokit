@@ -14,8 +14,8 @@ import { trackEvent } from "@/lib/analytics/events";
 export function TopNav({ isModerator }: { isModerator: boolean }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const showModeratorTools = useLocalStorageBoolean("ovo_mod_tools");
-  const setModTools = useSetLocalStorage("ovo_mod_tools");
+  const showModeratorTools = useLocalStorageBoolean("gameslog_mod_tools");
+  const setModTools = useSetLocalStorage("gameslog_mod_tools");
   const tapCountRef = useRef(0);
   const lastTapAtRef = useRef<number | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -28,12 +28,12 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
 
   useEffect(() => {
     try {
-      // 兼容旧 key：若存在 ovoforge_mod_tools 则迁移到 ovo_mod_tools
+      // 兼容旧 key：若存在 ovoforge_mod_tools 则迁移到 gameslog_mod_tools
       const legacy = localStorage.getItem("ovoforge_mod_tools");
       if (legacy === "1") {
-        localStorage.setItem("ovo_mod_tools", "1");
+        localStorage.setItem("gameslog_mod_tools", "1");
         localStorage.removeItem("ovoforge_mod_tools");
-        window.dispatchEvent(new StorageEvent("storage", { key: "ovo_mod_tools" }));
+        window.dispatchEvent(new StorageEvent("storage", { key: "gameslog_mod_tools" }));
       }
     } catch {
       // ignore

@@ -1,5 +1,5 @@
 services:
-  ovoforge-web:
+  gameslog-web:
     build:
       context: .
       dockerfile: Dockerfile
@@ -8,8 +8,8 @@ services:
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://gameslog.top}
         NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:-}
         NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
-    container_name: ovoforge-web
-    image: ovoforge:latest
+    container_name: gameslog-web
+    image: gameslog:latest
     env_file: .env.local
     ports:
       # 仅绑定到回环，外部通过宿主 Nginx 反向代理访问
@@ -32,7 +32,7 @@ services:
       retries: 3
       start_period: 40s
 
-  ovoforge-algo:
+  gameslog-algo:
     build:
       context: .
       dockerfile: Dockerfile
@@ -40,8 +40,8 @@ services:
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://gameslog.top}
         NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:-}
         NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
-    container_name: ovoforge-algo
-    image: ovoforge:latest
+    container_name: gameslog-algo
+    image: gameslog:latest
     env_file: .env.local
     ports:
       - "127.0.0.1:14100:14100"
@@ -62,4 +62,4 @@ services:
 
 networks:
   default:
-    name: ovoforge
+    name: gameslog

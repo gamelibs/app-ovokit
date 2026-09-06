@@ -479,7 +479,7 @@ function saveFullAnalysisToDraft(data: FullAnalysisData) {
     codeSnippets: data.codeSnippets,
     articleMdx: data.article,
   };
-  window.localStorage.setItem("ovoforge:analyzer-draft", JSON.stringify(payload));
+  window.localStorage.setItem("gameslog:analyzer-draft", JSON.stringify(payload));
 }
 
 function InputStep({

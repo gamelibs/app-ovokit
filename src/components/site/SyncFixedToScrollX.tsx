@@ -15,7 +15,7 @@ export function SyncFixedToScrollX() {
 
     const update = () => {
       raf = 0;
-      root.style.setProperty("--ovoforge-scroll-x", `${readScrollLeft()}px`);
+      root.style.setProperty("--gameslog-scroll-x", `${readScrollLeft()}px`);
     };
 
     const onScroll = () => {

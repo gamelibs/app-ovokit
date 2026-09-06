@@ -51,7 +51,7 @@ export default function PrivacyPage() {
           <strong>编辑草稿</strong>：内容编辑页面可能会把草稿临时缓存在本地，以防误刷新丢失。
         </li>
         <li>
-          <strong>Cookie 同意偏好</strong>：记录你对 Cookie 横幅的选择，key 为 <code className="font-mono">ovoforge-cookie-consent</code>。
+          <strong>Cookie 同意偏好</strong>：记录你对 Cookie 横幅的选择，key 为 <code className="font-mono">gameslog-cookie-consent</code>。
         </li>
       </ul>
 

@@ -2,7 +2,7 @@
 
 import type { FavoriteItem, FavoriteType } from "./types";
 
-const STORAGE_KEY = "ovoforge_favorites";
+const STORAGE_KEY = "gameslog_favorites";
 
 export function readFavorites(): FavoriteItem[] {
   if (typeof window === "undefined") return [];
@@ -53,5 +53,5 @@ export function toggleFavorite(
 
 export function notifyFavoritesChanged() {
   if (typeof window === "undefined") return;
-  window.dispatchEvent(new CustomEvent("ovoforge:favorites:change"));
+  window.dispatchEvent(new CustomEvent("gameslog:favorites:change"));
 }

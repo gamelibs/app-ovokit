@@ -108,8 +108,8 @@ export function NewPlayForm({
   const initialSlug = initial?.meta.slug ?? "";
   const draftKey =
     mode === "edit" && initialSlug
-      ? `ovoforge:edit-play:${initialSlug}:draft:v1`
-      : "ovoforge:new-play:draft:v1";
+      ? `gameslog:edit-play:${initialSlug}:draft:v1`
+      : "gameslog:new-play:draft:v1";
   const coverMaxBytes = 5 * 1024 * 1024;
   const demoVideoMaxBytes = 50 * 1024 * 1024;
 
@@ -294,7 +294,7 @@ export function NewPlayForm({
   // 从 AI Analyzer 草稿恢复（优先级高于本地草稿）
   useEffect(() => {
     try {
-      const raw = window.localStorage.getItem("ovoforge:analyzer-draft");
+      const raw = window.localStorage.getItem("gameslog:analyzer-draft");
       if (!raw) return;
       const parsed = JSON.parse(raw) as unknown;
       if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return;
@@ -338,7 +338,7 @@ export function NewPlayForm({
       }
 
       // 清除 analyzer draft，避免重复填充
-      window.localStorage.removeItem("ovoforge:analyzer-draft");
+      window.localStorage.removeItem("gameslog:analyzer-draft");
     } catch {
       // ignore
     }
