@@ -137,8 +137,10 @@ done
 
 # --- 2. 构建 ----------------------------------------------------------------------
 log_section "安装依赖并构建（standalone）"
+APP_VERSION="$(git rev-parse --short HEAD) · $(date +%F)"
+log_info "注入版本号：NEXT_PUBLIC_APP_VERSION=${APP_VERSION}（菜单抽屉底部展示）"
 pnpm install --frozen-lockfile
-pnpm build
+NEXT_PUBLIC_APP_VERSION="${APP_VERSION}" pnpm build
 
 if [[ ! -f .next/standalone/server.js ]]; then
   log_err "未生成 .next/standalone/server.js，请确认 next.config.ts 已配置 output: 'standalone'"

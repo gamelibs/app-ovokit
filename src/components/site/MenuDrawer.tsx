@@ -31,6 +31,10 @@ export function MenuDrawer({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // 版本号：由 release.sh 构建时注入 NEXT_PUBLIC_APP_VERSION（commit · 日期）；
+  // 本地 pnpm dev 未注入时显示 dev。
+  const appVersion = process.env.NEXT_PUBLIC_APP_VERSION || "dev";
+
   const modLabel = useMemo(
     () => (status.isModerator ? "已登录" : "未登录"),
     [status.isModerator],
@@ -261,6 +265,10 @@ export function MenuDrawer({
               )}
             </section>
           ) : null}
+
+          <div className="pb-2 pt-1 text-center text-[11px] text-ink-muted">
+            v {appVersion}
+          </div>
         </div>
       </div>
     </div>
