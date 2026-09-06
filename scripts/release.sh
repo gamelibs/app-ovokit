@@ -16,6 +16,10 @@
 #      + 剔除 sharp 原生模块（图片优化已禁用，darwin-arm64 二进制在 Linux 无法加载）
 #      额外放入服务器侧文件：deploy.sh / ecosystem.config.js / .env.example / .gitignore
 #   4. git worktree 发布到 deploy/gameslog.top（首次为 orphan 根提交，之后快进追加）
+#   5. 本地预览自动重启：若本机 ovo_system 网关（localhost:19527）可达，调用
+#      launch-stop + launch 重启 ovo-site 托管实例，让本地预览（:19600）加载刚构建的
+#      新版本。全程短超时 + 非致命（网关不可达/重启失败只警告不中止发布）；
+#      设 RELEASE_NO_LOCAL_RESTART=1 可跳过此步。
 #
 # 发布后在服务器上执行 bash deploy.sh deploy 即可完成更新（详见 deploy/deploy.sh 头注释）。
 # =============================================================================
@@ -236,6 +240,46 @@ WT_DIR=""
 rm -rf "$ARTIFACT_DIR"
 ARTIFACT_DIR=""
 trap - EXIT
+
+# --- 5. 本地预览自动重启（ovo_system 托管实例） -------------------------------------
+# 背景：本地 :19600 由 ovo_system PM2 以生产模式托管，release 后若不重启，
+# 预览看到的仍是旧版本。这里在发布成功后自动重启托管实例。
+# 非致命设计：网关不可达 / 重启失败只警告，绝不影响发布结果。
+log_section "本地预览自动重启（ovo_system 托管实例）"
+
+if [[ "${RELEASE_NO_LOCAL_RESTART:-0}" == "1" ]]; then
+  log_info "RELEASE_NO_LOCAL_RESTART=1，跳过本地实例重启"
+else
+  # ovo-site.json 是绑定契约（JSON），siteId 由 node 解析（构建依赖 node，必有）
+  SITE_ID=$(node -e 'try{console.log(JSON.parse(require("fs").readFileSync("ovo-site.json","utf8")).siteId||"")}catch(e){console.log("")}' 2>/dev/null || echo "")
+  GW_BASE="http://localhost:19527"
+  LOCAL_PREVIEW="http://localhost:19600"
+  if [[ -z "${SITE_ID}" ]]; then
+    log_warn "ovo-site.json 缺失或无 siteId，跳过本地实例重启"
+  elif ! curl -sf -m 2 -o /dev/null "${GW_BASE}/api/site/${SITE_ID}/launch-status" 2>/dev/null; then
+    log_info "ovo_system 网关 ${GW_BASE} 不可达，跳过本地实例重启（不影响发布）"
+  else
+    log_info "重启 ovo-site 托管实例（launch-stop → launch）"
+    if curl -sf -m 15 -o /dev/null -X POST "${GW_BASE}/api/site/${SITE_ID}/launch-stop" 2>/dev/null \
+      && curl -sf -m 60 -o /dev/null -X POST "${GW_BASE}/api/site/${SITE_ID}/launch" 2>/dev/null; then
+      READY=0
+      for _ in $(seq 1 30); do
+        if curl -sf -m 2 -o /dev/null "${LOCAL_PREVIEW}/" 2>/dev/null; then
+          READY=1
+          break
+        fi
+        sleep 1
+      done
+      if [[ "${READY}" == "1" ]]; then
+        log_ok "本地预览已更新到最新构建（${LOCAL_PREVIEW}）"
+      else
+        log_warn "本地实例已重启，但 ${LOCAL_PREVIEW} 30 秒内未返回 200，请人工检查（管理系统 → 站点管理）"
+      fi
+    else
+      log_warn "本地实例重启 API 调用失败（非致命），请到管理系统手动重启站点"
+    fi
+  fi
+fi
 
 DURATION=$(( $(date +%s) - START_TS ))
 echo
