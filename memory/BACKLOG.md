@@ -82,6 +82,11 @@
 
 ## Done
 
+- [x] **ovoforge → gameslog 命名空间迁移 + deploy.sh 防呆加固** <!-- task:id=deploy-rename-001 priority:P0 category:engineering -->
+  - 文件：`deploy/deploy.sh`、`deploy/ecosystem.config.js`、`ecosystem.web.config.js`、`ecosystem.algo.config.js`、`docker-compose.yml`、`package.json`、`README.md` + src/ 12 个存储键文件（localStorage/cookie/Redis 前缀/CSS 变量/自定义事件）
+  - 目标：消除服务器 PM2 同名进程冲突（残留 ovoforge-web 被误 reload 的事故）；内部存储键统一 gameslog 命名
+  - 验收：✅ typecheck 通过；防呆 helper 本地 5 用例验证；产物独立验证三项 200 且 HTML 零 ovoforge；main(baf2093) 与 deploy/gameslog.top(ac8686f) 已推送并核实两端一致（2026-09-06，详见 `memory/daily/2026-09-06.md`）
+
 - [x] **产物平台无关化：禁用图片优化 + 剔除 sharp + 推送** <!-- task:id=deploy-platform-001 priority:P0 category:engineering -->
   - 文件：`next.config.ts`（+`images.unoptimized`）、`scripts/release.sh`（+sharp 剔除步骤）
   - 目标：产物不含 darwin-arm64 原生二进制，Ubuntu 服务器直接可跑；HTML 不再依赖 `/_next/image`

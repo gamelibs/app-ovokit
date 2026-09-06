@@ -7,6 +7,8 @@
 
 ## 当前阶段
 
+**ovoforge → gameslog 命名空间全量迁移 + deploy.sh 防呆加固（2026-09-06 第二轮）**：PM2 进程名 gameslog-web / gameslog-algo-api、包名 app-gameslog、docker-compose 服务/容器/镜像/网络名全改；localStorage / cookie（gameslog_mod）/ Redis 前缀（gameslog:stats）/ CSS 变量 / 自定义事件全部改 gameslog（TopNav 保留 ovoforge_mod_tools 旧键迁移；platform-import.ts 注释保留 ovo_system 侧真实 profile 名 ovoforge-v1）。deploy.sh 新增防呆：同名 PM2 进程 cwd 校验（guard_same_name_app，防止误 reload 其它部署残留的旧进程）+ pm2 start 前期望端口占用拒绝启动。main（baf2093）与 deploy/gameslog.top（ac8686f）已推送并核实两端一致；产物独立验证三项 200。本决策覆盖 2026-09-02「技术命名空间保持不变」的旧决策（见下段）。
+
 **产物平台无关化完成并已推送（2026-09-06）**：`next.config.ts` 加 `images: { unoptimized: true }`（图片全是预生成 webp，运行时优化纯冗余）；`scripts/release.sh` 新增 sharp 剔除步骤（node_modules 72M→38M，产物 104M→70M，零 `.node` 原生二进制，Ubuntu 直接可跑）。main（6225164）与 deploy/gameslog.top（efe1327）已推送 GitHub（SSH 443 端点），两端哈希一致。产物独立验证通过：HTML 零 `/_next/image`、封面直链 200。
 
 **产物型部署分支就绪（2026-09-05 下午，取代上午的源码型方案）**：`deploy/gameslog.top` 为 **orphan 纯产物分支**（Next.js standalone + 服务器侧 deploy.sh/ecosystem.config.js/.env.example，无源码历史）。Mac 侧用 `pnpm release`（`scripts/release.sh`）构建并发布产物提交；服务器侧 `bash deploy.sh deploy` 免构建更新。源码型 `scripts/deploy.sh` 已删除（deploy-check.sh 与 ecosystem.web.config.js 保留作参考）。注意：next.config.ts 已开 `output: 'standalone'`，本地 `pnpm build` 产物结构随之变化（`.next/standalone/`）。
