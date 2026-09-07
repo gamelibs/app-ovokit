@@ -1,11 +1,13 @@
 # GamesLog 项目状态（原 OVOFORGE）
 
-> 最后更新：2026-09-06
+> 最后更新：2026-09-07
 > 更新者：Kimi Code CLI
 
 ---
 
 ## 当前阶段
+
+**cluster→pillar 回链落地 + 母型补齐 14/14（2026-09-07）**：play 详情页删除硬编码 tag 启发式，收编为 `src/lib/archetypes/tag-map.ts`（site-tags.v1.json 站点侧拷贝，同步口径已注明）；新增「玩法行为」区块（母型名 + `/archetypes/[key]` 可见回链，Sketch 风格令牌）。`playArchetypeKeys`/`archetypeToPatterns` 补齐 merge-unit（→merge）与 turn-duel（→strategy），两篇 meta.json 以 taxonomy.v1.json 为唯一内容依据；配图复用 cover-gen 蚀刻报纸风管线；原子 demo 无需注册（`public/demos/atomic/` 已有）。sitemap 自动含新条目。已知影响：11/31 篇 play 的母型推断变化（feature 级 tag 不再推断母型，如 合成/数值/放置；塔防 resolve→placement）；「回合博弈」tag 未入映射表，tic-tac-toe-showdown 暂无回链（需 ovo_system 侧补映射）。main（f3bae4d）→ 产物 deploy/gameslog.top（cf637fc）。
 
 **内容生产线落地 + 仓库目录改名（2026-09-06 第四轮）**：仓库目录 `app-ovoforge-site` → `gameslog-site`（PM2 cwd、站点注册表 repoPath 已同步，:19600 正常）。ovo_system 侧内容生产线引擎（8 插件 + gameslog-mdx 适配器 + 17 条 `/api/content-pipeline/*`）与 admin-web「内容生产」页上线；全链路验收（选题→草稿→门禁→发布→构建→下线清理）通过，门禁 fail 409 阻断、forge-studio 离线 503 诚实返回。事实修正：taxonomy 实为 **14 母型**，本站仅 12 个母型页，缺 merge-unit / turn-duel。
 

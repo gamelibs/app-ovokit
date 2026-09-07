@@ -20,6 +20,16 @@
   - 目标：降低卡片/分隔线边框存在感，避免抢夺内容焦点；顶部导航、底部、主按钮保持重色锚点
   - 状态：已改待用户确认后提交部署
 
+- [ ] **存量 lint errors 治理（16 个，均为本轮之前引入）** <!-- task:id=lint-debt-001 priority:P2 category:engineering -->
+  - 文件：`scripts/regen-covers.ts`、`api/mod/regen-cover/route.ts`、`components/mod/GameAnalyzer.tsx` 等
+  - 目标：清零 react-hooks/rules-of-hooks 与 no-explicit-any 存量错误，恢复 STATUS 声称的 0 errors 基线
+  - 状态：2026-09-07 发现，未立项
+
+- [ ] **「回合博弈」等缺失 tag 补入 site-tags 映射（ovo_system 侧）** <!-- task:id=tag-map-001 priority:P2 category:content -->
+  - 文件：ovo_system `taxonomy/mappings/site-tags.v1.json`（协议方），站点 `src/lib/archetypes/tag-map.ts` 跟随同步
+  - 目标：补「回合博弈」（=turn-duel 母型名）等条目，让 tic-tac-toe-showdown 等文章获得回链；可考虑「合成且 pattern=merge 则 merge-unit」的主循环规则
+  - 状态：2026-09-07 发现，需协议方 bump version
+
 ## Todo
 
 ### 阻塞项（P0 必须）
@@ -86,6 +96,11 @@
 ---
 
 ## Done
+
+- [x] **cluster→pillar 回链落地 + 母型补齐 14/14（merge-unit / turn-duel）** <!-- task:id=archetype-backlink-001 priority:P1 category:content -->
+  - 文件：`src/lib/archetypes/tag-map.ts`（新增）、`src/app/(site)/play/[slug]/page.tsx`、`src/lib/archetypes/archetypes.ts`、`content/archetypes/{merge-unit,turn-duel}/meta.json`、`public/archetypes/{merge-unit,turn-duel}/*.webp`
+  - 目标：site-tags.v1.json 收编为站点单一映射模块；play 详情页渲染「玩法行为」回链区块；按 taxonomy 补齐 2 个缺失母型 pillar 页
+  - 验收：✅ typecheck 通过；build 通过；smoke 68/69（/demo/blocks 404 为存量，生产实例同样 404）；lint 16 errors 全为存量（见 lint-debt-001）；/archetypes/merge-unit、/archetypes/turn-duel 200；sitemap 含 14 母型；match-3 文章 HTML 含 /archetypes/match-clear 回链（2026-09-07，详见 `memory/daily/2026-09-07.md`）
 
 - [x] **ovoforge → gameslog 命名空间迁移 + deploy.sh 防呆加固** <!-- task:id=deploy-rename-001 priority:P0 category:engineering -->
   - 文件：`deploy/deploy.sh`、`deploy/ecosystem.config.js`、`ecosystem.web.config.js`、`ecosystem.algo.config.js`、`docker-compose.yml`、`package.json`、`README.md` + src/ 12 个存储键文件（localStorage/cookie/Redis 前缀/CSS 变量/自定义事件）
