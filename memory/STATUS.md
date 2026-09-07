@@ -172,6 +172,9 @@ git status --short  # ⚠️ 含本轮内容清理改动，待提交
 ## 提交记录
 
 ```
+2439e4b [content] ContentPack v1.1 站点配合：play meta 支持显式 archetype 字段，回链优先读显式值
+（deploy/gameslog.top：1bd787c 产物：main 2439e4b；两端已推送并核实一致）
+a2ca3f0 [memory] 追加 site-tags v1.0.1 同步记录
 a9a5fa7 [archetypes] 同步 site-tags v1.0.1：新增「回合博弈」tag → turn-duel 映射
 （deploy/gameslog.top：1526247 产物：main a9a5fa7；两端已推送并核实一致）
 2beaf15 [memory] STATUS 提交记录补登 2026-09-07 哈希
