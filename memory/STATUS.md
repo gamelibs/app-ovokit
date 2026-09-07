@@ -172,6 +172,9 @@ git status --short  # ⚠️ 含本轮内容清理改动，待提交
 ## 提交记录
 
 ```
+a9a5fa7 [archetypes] 同步 site-tags v1.0.1：新增「回合博弈」tag → turn-duel 映射
+（deploy/gameslog.top：1526247 产物：main a9a5fa7；两端已推送并核实一致）
+2beaf15 [memory] STATUS 提交记录补登 2026-09-07 哈希
 4afd7b9 [memory] 记录 cluster→pillar 回链与 14 母型补齐（2026-09-07）
 f3bae4d [archetypes] 补齐 merge-unit/turn-duel 母型页并落地 cluster→pillar 回链
 （deploy/gameslog.top：cf637fc 产物：main f3bae4d；main 4afd7b9 / deploy cf637fc 已推送并核实两端一致）

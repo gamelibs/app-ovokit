@@ -28,7 +28,7 @@
 - [ ] **「回合博弈」等缺失 tag 补入 site-tags 映射（ovo_system 侧）** <!-- task:id=tag-map-001 priority:P2 category:content -->
   - 文件：ovo_system `taxonomy/mappings/site-tags.v1.json`（协议方），站点 `src/lib/archetypes/tag-map.ts` 跟随同步
   - 目标：补「回合博弈」（=turn-duel 母型名）等条目，让 tic-tac-toe-showdown 等文章获得回链；可考虑「合成且 pattern=merge 则 merge-unit」的主循环规则
-  - 状态：2026-09-07 发现，需协议方 bump version
+  - 状态：2026-09-07 部分完成——协议方已 bump v1.0.1 补「回合博弈」条目，站点 tag-map.ts 已同步（main a9a5fa7 / deploy 1526247），tic-tac-toe-showdown 回链已验证；「合成主循环规则」仍待协议方决策，条目保留
 
 ## Todo
 
