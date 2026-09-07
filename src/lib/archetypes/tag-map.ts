@@ -1,7 +1,7 @@
 /**
  * 中文 tag ↔ taxonomy key 映射（站点侧唯一消费入口）
  *
- * 来源：ovo_system `taxonomy/mappings/site-tags.v1.json`（ovo-taxonomy-mapping v1.0.0），
+ * 来源：ovo_system `taxonomy/mappings/site-tags.v1.json`（ovo-taxonomy-mapping v1.0.1），
  * 该文件是 taxonomy 分类协议的一部分，description 明确"替代站点 plays.ts 的
  * inferPatternFromTags 启发式"。
  *
@@ -45,6 +45,7 @@ export const siteTagToTaxonomy: Record<string, SiteTagTaxonomy> = {
   "成长 / 数值": { archetype: "progression" },
   回合: { archetype: "turn-duel" },
   棋盘: { archetype: "turn-duel" },
+  回合博弈: { archetype: "turn-duel" },
   网格: { feature: "grid" },
   关卡: { feature: "levels" },
   Roguelike: { feature: "roguelike" },
