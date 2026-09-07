@@ -17,6 +17,7 @@ import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { getPlayBySlug, listPlaySlugs, listPlays } from "@/lib/content/plays";
 import { loadGlossary } from "@/lib/content/glossary";
 import { inferArchetypeFromTags } from "@/lib/archetypes/tag-map";
+import { isPlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import { readArchetypeSpec } from "@/lib/archetypes/spec";
 
 export const revalidate = 60;
@@ -82,8 +83,11 @@ export default async function PlayDetailPage({
     .sort((a, b) => b.overlap - a.overlap)
     .slice(0, 6);
 
-  // 母型归属：tag → taxonomy 映射（site-tags.v1.json），见 src/lib/archetypes/tag-map.ts
-  const inferredArchetypeKey = inferArchetypeFromTags(play.tags);
+  // 母型归属：优先读 meta.archetype（ContentPack v1.1 生产线显式写入）；
+  // 缺失时退回 tag → taxonomy 映射推断（site-tags.v1.json），见 src/lib/archetypes/tag-map.ts
+  const explicitArchetypeKey =
+    play.archetype && isPlayArchetypeKey(play.archetype) ? play.archetype : null;
+  const inferredArchetypeKey = explicitArchetypeKey ?? inferArchetypeFromTags(play.tags);
   const archetypeSpec = inferredArchetypeKey
     ? await readArchetypeSpec(inferredArchetypeKey)
     : null;

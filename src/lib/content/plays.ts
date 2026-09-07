@@ -48,6 +48,15 @@ export type PlayMeta = {
    * 从编辑器架构角度对玩法进行归纳，与 tags/archetype 形成互补。
    */
   pattern?: CorePatternKey;
+  /**
+   * 显式母型归属（taxonomy archetype key，ContentPack v1.1 由生产线适配器写入）。
+   * 存在时 play 详情页回链优先使用，tag 推断（tag-map.ts）退为兜底。
+   */
+  archetype?: string;
+  /** 第二母型（组合玩法场景，archetypeRefs[1]） */
+  archetypeSecondary?: string;
+  /** 内容语言（ContentPack v1.1，缺省视为 zh-CN） */
+  lang?: string;
   stats: {
     views: number;
     likes: number;
