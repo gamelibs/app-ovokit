@@ -2,10 +2,12 @@ import type { CorePatternKey } from "@/lib/patterns/patterns";
 
 export const playArchetypeKeys = [
   "match-clear",
+  "merge-unit",
   "dodge-avoid",
   "runner",
   "shoot-aim",
   "combat",
+  "turn-duel",
   "placement",
   "choice-strategy",
   "physics",
@@ -27,10 +29,14 @@ export function isPlayArchetypeKey(v: string): v is PlayArchetypeKey {
  */
 export const archetypeToPatterns: Record<PlayArchetypeKey, CorePatternKey[]> = {
   "match-clear": ["spatial"],
+  // taxonomy defaultPattern：merge-unit=merge（Resource → Merge → Level Up → Production）
+  "merge-unit": ["merge"],
   "dodge-avoid": ["action"],
   runner: ["action"],
   "shoot-aim": ["action"],
   combat: ["action", "strategy"],
+  // taxonomy defaultPattern：turn-duel=strategy（Unit → Stats → Combat → Reward）
+  "turn-duel": ["strategy"],
   placement: ["management"],
   "choice-strategy": ["strategy"],
   physics: ["spatial", "action"],

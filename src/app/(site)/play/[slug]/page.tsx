@@ -16,6 +16,8 @@ import { RelatedPlays } from "@/components/plays/RelatedPlays";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { getPlayBySlug, listPlaySlugs, listPlays } from "@/lib/content/plays";
 import { loadGlossary } from "@/lib/content/glossary";
+import { inferArchetypeFromTags } from "@/lib/archetypes/tag-map";
+import { readArchetypeSpec } from "@/lib/archetypes/spec";
 
 export const revalidate = 60;
 
@@ -80,22 +82,11 @@ export default async function PlayDetailPage({
     .sort((a, b) => b.overlap - a.overlap)
     .slice(0, 6);
 
-  const inferredArchetypeKey = (() => {
-    const tags = new Set(play.tags);
-    if (tags.has("消除")) return "match-clear";
-    if (tags.has("躲避")) return "dodge-avoid";
-    if (tags.has("行进 / 跑酷")) return "runner";
-    if (tags.has("射击")) return "shoot-aim";
-    if (tags.has("战斗对抗") || tags.has("战斗")) return "combat";
-    if (tags.has("放置 / 建造") || tags.has("放置")) return "placement";
-    if (tags.has("策略决策") || tags.has("塔防") || tags.has("状态机")) return "choice-strategy";
-    if (tags.has("物理")) return "physics";
-    if (tags.has("解谜")) return "puzzle";
-    if (tags.has("成长 / 数值") || tags.has("数值")) return "progression";
-    if (tags.has("模拟")) return "simulation";
-    if (tags.has("时机 / 反应") || tags.has("点击")) return "timing";
-    return null;
-  })();
+  // 母型归属：tag → taxonomy 映射（site-tags.v1.json），见 src/lib/archetypes/tag-map.ts
+  const inferredArchetypeKey = inferArchetypeFromTags(play.tags);
+  const archetypeSpec = inferredArchetypeKey
+    ? await readArchetypeSpec(inferredArchetypeKey)
+    : null;
 
   const fallbackPatternDemoSrc = play.pattern
     ? `/embed/demos/pattern/${play.pattern}`
@@ -193,6 +184,29 @@ export default async function PlayDetailPage({
               ))}
             </div>
           </section>
+
+          {archetypeSpec ? (
+            <section className="sketch-card p-5 shadow-sm order-1">
+              <h2 className="text-base font-semibold font-kalam">玩法行为</h2>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-ink">
+                    本文属于「{archetypeSpec.name}」母型
+                  </div>
+                  <p className="mt-1 text-sm leading-6 text-ink-light">
+                    {archetypeSpec.subtitle}
+                  </p>
+                </div>
+                <Link
+                  href={`/archetypes/${archetypeSpec.key}`}
+                  className="font-kalam inline-flex h-11 items-center gap-2 rounded-full sketch-border bg-highlight-yellow px-4 text-sm font-semibold text-ink hover:bg-paper-warm sm:h-9 sm:px-3"
+                >
+                  查看母型详解
+                  <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </section>
+          ) : null}
 
           <section className="sketch-card p-5 shadow-sm order-2">
             <h2 className="text-base font-semibold font-kalam">Demo</h2>
