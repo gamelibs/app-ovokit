@@ -172,6 +172,9 @@ git status --short  # ⚠️ 含本轮内容清理改动，待提交
 ## 提交记录
 
 ```
+4afd7b9 [memory] 记录 cluster→pillar 回链与 14 母型补齐（2026-09-07）
+f3bae4d [archetypes] 补齐 merge-unit/turn-duel 母型页并落地 cluster→pillar 回链
+（deploy/gameslog.top：cf637fc 产物：main f3bae4d；main 4afd7b9 / deploy cf637fc 已推送并核实两端一致）
 693c434 [memory] 更新 P0 上线交付状态、BACKLOG 任务看板与每日笔记
 55111c3 [workflow] 新增 Agent 自动任务推进脚本 pnpm agent:next/agent:dry
 f9ca732 [auth] 版主鉴权改用 HMAC-SHA256 签名 cookie，禁止伪造 cookie
