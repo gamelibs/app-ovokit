@@ -77,7 +77,7 @@
 - [ ] **站点内容生产线落地（ovo_system 生产端）** <!-- task:id=content-pipeline-001 priority:P1 category:product -->
   - 文件：设计见 `doc/站点内容生产线说明.md`（权威版：ovo_system `docs/site-content-production-line.md`）
   - 目标：按 M0→M3 实施内容生产管线；站点侧仅需保持 `content/*` 契约稳定，待 ovo_system M0 手工通路联调
-  - 状态：M0 手工通路 / M1 选题器 / M2 生成器+门禁 已落地（ovo_system 引擎 + admin-web「内容生产」页，2026-09-06 全链路验收通过）；M3 多站点与真实游戏库接入待启动
+  - 状态：M0/M1/M2 + ContentPack v1.1（多语言/显式母型/translator/i18n 门禁）已落地；2026-09-07 全链路首跑通（Quantum Grid 双语文章 + 嵌入可玩 demo，本地验证）。**待立项：v2 项目静态 demo 导出（当前 demo iframe 只能指 localhost preview，无法上线）**；M3 多站点、plays-en 前端英文路由待启动
 
 - [ ] **版主发帖表单：选择原型后自动生成 breakdown / code 骨架** <!-- task:id=future-001 priority:P2 category:future -->
 - [ ] **AI 分析工具识别并输出 `pattern` 字段** <!-- task:id=future-002 priority:P2 category:future -->

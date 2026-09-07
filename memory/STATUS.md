@@ -7,6 +7,8 @@
 
 ## 当前阶段
 
+**生产线全链路首跑通（2026-09-07 晚）**：ovo_system「远程游戏库 → 20B 分析 → v2-studio 建项目 → 管线双语文章 → 发布 → 本站嵌入可玩 demo」首次真实贯通。文章 `tic-tac-toe-3d-rotation-juice`（zh + en）已物化到 content/plays{,-en}，生产实例验证六项断言全过、demo 竖屏可玩。**工作区当前有未提交改动**：`page.tsx` 竖屏判定（`/api/v2/projects/` → portrait）+ 该文章双语言内容目录——demo iframe 指向 localhost:19527，**禁止带上线**；待静态 demo 导出立项后再发布此类文章。详见 `memory/daily/2026-09-07.md`。
+
 **cluster→pillar 回链落地 + 母型补齐 14/14（2026-09-07）**：play 详情页删除硬编码 tag 启发式，收编为 `src/lib/archetypes/tag-map.ts`（site-tags.v1.json 站点侧拷贝，同步口径已注明）；新增「玩法行为」区块（母型名 + `/archetypes/[key]` 可见回链，Sketch 风格令牌）。`playArchetypeKeys`/`archetypeToPatterns` 补齐 merge-unit（→merge）与 turn-duel（→strategy），两篇 meta.json 以 taxonomy.v1.json 为唯一内容依据；配图复用 cover-gen 蚀刻报纸风管线；原子 demo 无需注册（`public/demos/atomic/` 已有）。sitemap 自动含新条目。已知影响：11/31 篇 play 的母型推断变化（feature 级 tag 不再推断母型，如 合成/数值/放置；塔防 resolve→placement）；「回合博弈」tag 未入映射表，tic-tac-toe-showdown 暂无回链（需 ovo_system 侧补映射）。main（f3bae4d）→ 产物 deploy/gameslog.top（cf637fc）。
 
 **内容生产线落地 + 仓库目录改名（2026-09-06 第四轮）**：仓库目录 `app-ovoforge-site` → `gameslog-site`（PM2 cwd、站点注册表 repoPath 已同步，:19600 正常）。ovo_system 侧内容生产线引擎（8 插件 + gameslog-mdx 适配器 + 17 条 `/api/content-pipeline/*`）与 admin-web「内容生产」页上线；全链路验收（选题→草稿→门禁→发布→构建→下线清理）通过，门禁 fail 409 阻断、forge-studio 离线 503 诚实返回。事实修正：taxonomy 实为 **14 母型**，本站仅 12 个母型页，缺 merge-unit / turn-duel。

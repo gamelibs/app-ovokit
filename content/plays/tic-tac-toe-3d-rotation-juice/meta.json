@@ -1,0 +1,66 @@
+{
+  "slug": "tic-tac-toe-3d-rotation-juice",
+  "title": "已被解决的井字棋，为什么还要做 3D 版？——Quantum Grid 的规则与果汁",
+  "subtitle": "在已被证明为无解的井字棋中，加入 3D 旋转与动态特效，如何改变玩家体验？本文拆解 Quantum Grid 的规则、AI 与表现层，探讨机制与美学的分离。",
+  "archetype": "turn-duel",
+  "tags": [
+    "回合",
+    "棋盘",
+    "回合博弈"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "入门",
+  "techStack": [
+    "Three.js",
+    "Web Audio",
+    "HTML5 Canvas"
+  ],
+  "corePoints": [
+    "规则层与表现层的分离",
+    "minimax 与「已被解决」的游戏",
+    "果汁（juice）不改规则只改感受"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "3×3 棋盘，X 先手，双方轮流落子",
+        "8 条胜利线：横 3、竖 3、斜 2",
+        "满盘无胜即平局，没有失败惩罚"
+      ]
+    },
+    {
+      "title": "回合核心循环",
+      "bullets": [
+        "玩家落子 → AI 应手（minimax）→ 棋盘旋转 → 渲染下一帧",
+        "旋转只改变视角，不改变任何格子的逻辑位置",
+        "状态机：menu → gameplay → result，可重开可回菜单"
+      ]
+    },
+    {
+      "title": "表现层果汁",
+      "bullets": [
+        "Three.js 3D 棋盘与回合后旋转动画",
+        "胜利彩带与 Web Audio 即时音效",
+        "规则一字未改，体验完全不同"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "三连判定：8 条胜利线查表",
+      "language": "ts",
+      "code": "const LINES = [\n  [0, 1, 2], [3, 4, 5], [6, 7, 8], // 横\n  [0, 3, 6], [1, 4, 7], [2, 5, 8], // 竖\n  [0, 4, 8], [2, 4, 6],            // 斜\n];\n\ntype Mark = 'X' | 'O' | null;\n\nexport function judge(cells: Mark[]): 'X' | 'O' | 'draw' | null {\n  for (const [a, b, c] of LINES) {\n    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {\n      return cells[a]; // 有胜者\n    }\n  }\n  return cells.every(Boolean) ? 'draw' : null;\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {
+    "iframeSrc": "http://127.0.0.1:19527/api/v2/projects/cp_1788757022723/preview",
+    "note": "嵌入的是 OVO 产线从原始样本重建的可试玩版本：菜单 → 对局（含 minimax AI）→ 结算完整循环。"
+  },
+  "pattern": "strategy"
+}
