@@ -1,10 +1,10 @@
 {
   "slug": "play-1677a241",
-  "title": "小游戏玩法知识分享---之---合成",
-  "subtitle": "撑握此知识，可实现任何合成小游戏",
+  "title": "合成玩法：位置检索、类型判断与产出生成",
+  "subtitle": "本文深度拆解合成类小游戏机制，涵盖位置检索、类型判断及产出生成等核心逻辑。文章详解从玩法目标到经济系统的完整设计闭环，剖析合成规则卡点平衡与 UI 交互细节，并提供内容生产等可扩展方向，助开发者快速构建稳健合成玩法。",
   "cover": {
     "src": "/plays/play-1677a241/cover.webp",
-    "alt": "小游戏玩法知识分享---之---合成"
+    "alt": "合成玩法：位置检索、类型判断与产出生成"
   },
   "tags": [
     "推荐",
@@ -12,10 +12,11 @@
   ],
   "difficulty": "入门",
   "techStack": [
-    "js"
+    "JavaScript"
   ],
   "corePoints": [
-    "位置检索，类型判断"
+    "位置检索",
+    "类型判断"
   ],
   "stats": {
     "views": 0,
@@ -117,5 +118,6 @@
   },
   "published": true,
   "demo": {},
-  "pattern": "merge"
+  "pattern": "merge",
+  "archetype": "merge-unit"
 }

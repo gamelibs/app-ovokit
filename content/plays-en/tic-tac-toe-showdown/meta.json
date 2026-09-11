@@ -1,0 +1,88 @@
+{
+  "slug": "tic-tac-toe-showdown",
+  "title": "Tic Tac Toe Showdown: Turn-Based Line-Matching Game",
+  "subtitle": "A deep dive into the turn-based mechanics of Tic Tac Toe Showdown, covering alternating moves, line detection, and 3x3 grid win conditions. Readers will master exhaustive first-player strategies within a finite state space, implement line-matching logic through core loops and modular design, and configure key grid parameters.",
+  "cover": {
+    "src": "/plays/tic-tac-toe-showdown/cover.webp",
+    "alt": "Tic Tac Toe Showdown: Turn-Based Line-Matching Game"
+  },
+  "tags": [
+    "回合博弈",
+    "网格"
+  ],
+  "difficulty": "入门",
+  "pattern": "spatial",
+  "techStack": [
+    "PixiJS",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "Alternating Turns",
+    "Piece Placement",
+    "Line Matching",
+    "3x3 Board: Finite State Space, Exhaustive First-Player Strategies"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "published": true,
+  "breakdown": [
+    {
+      "title": "Game Objective",
+      "bullets": [
+        "Connect your pieces into a line of the specified length first"
+      ]
+    },
+    {
+      "title": "Core Loop",
+      "bullets": [
+        "State Flow: boot → menu → gameplay → result; Core Actions: Alternating Turns + Piece Placement + Line Matching + Score Comparison + Decision Making",
+        "Your Task: Take turns with an opponent to place pieces on the grid, aiming to align identical pieces in a row."
+      ]
+    },
+    {
+      "title": "Key Parameters",
+      "bullets": [
+        "playerCount = 2 (Adjustable 1~4)",
+        "gridRows = 3 (Adjustable 3~30)",
+        "gridCols = 3 (Adjustable 3~30)",
+        "matchSize = 3 (Adjustable 3~5)",
+        "directions = hv"
+      ]
+    },
+    {
+      "title": "Module Composition",
+      "bullets": [
+        "common-ui: Generic UI Event Binding Module: Automatically binds click events to button nodes in the skin and supports auto-transition from the boot scene to the menu.",
+        "core/board-turn: Generic Turn-Based Board Core: Manages grid board state, piece placement, and win detection (line/chain). Suitable for Tic Tac Toe, Gomoku, Four-in-a-Row, and simplified Go.",
+        "core/board-ai: Generic Board AI: Provides move decisions for board-turn. Current implementation uses minimax, supporting small-scale zero-sum games like Tic Tac Toe."
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "core/board-turn · checkWinner()",
+      "language": "ts",
+      "code": "function checkWinner(cells: CellValue[], r: number, c: number, player: CellValue): CellValue | null {\n  const R = rows();\n  const C = cols();\n  const W = winLength();\n  const directions = [\n    [0, 1],\n    [1, 0],\n    [1, 1],\n    [1, -1],\n  ];\n  const idx = (rr: number, cc: number) => rr * C + cc;\n\n  for (const [dr, dc] of directions) {\n    let count = 1;\n    for (let i = 1; i < W; i++) {\n      const rr = r + dr * i;\n      const cc = c + dc * i;\n      if (rr < 0 || rr >= R || cc < 0 || cc >= C) break;\n      if (cells[idx(rr, cc)] === player) count++;\n      else break;"
+    },
+    {
+      "title": "core/board-ai · checkWinner()",
+      "language": "ts",
+      "code": "function checkWinner(cells: CellValue[], player: CellValue): boolean {\n  const R = rows();\n  const C = cols();\n  const W = winLength();\n  const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];\n  for (let r = 0; r < R; r++) {\n    for (let c = 0; c < C; c++) {\n      if (cells[idx(r, c)] !== player) continue;\n      for (const [dr, dc] of directions) {\n        let count = 1;\n        for (let i = 1; i < W; i++) {\n          const rr = r + dr * i;\n          const cc = c + dc * i;\n          if (rr < 0 || rr >= R || cc < 0 || cc >= C) break;\n          if (cells[idx(rr, cc)] === player) count++;\n          else break;\n        }\n        for (let i = 1; i < W; i++) {\n          const rr = r - dr * i;\n          const cc = c - dc * i;"
+    }
+  ],
+  "demo": {
+    "iframeSrc": "http://127.0.0.1:19527/preview-assets/1021/beta/10001/index.html",
+    "note": "轮流落子，先连成线者胜"
+  },
+  "source": {
+    "platformId": "1021",
+    "gameId": "10001"
+  },
+  "coverWide": {
+    "src": "/plays/tic-tac-toe-showdown/cover.webp",
+    "alt": "Tic Tac Toe Showdown: Turn-Based Line-Matching Game"
+  },
+  "lang": "en"
+}

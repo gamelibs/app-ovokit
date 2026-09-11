@@ -1,24 +1,24 @@
 {
   "slug": "tic-tac-toe-3d-rotation-juice",
-  "title": "Tic‑Tac‑Toe solved, why still make a 3D version? — Quantum Grid's rules and juice",
-  "subtitle": "In the already proven unsolvable Tic‑Tac‑Toe, how does adding 3D rotation and dynamic effects change the player experience? This article breaks down Quantum Grid's rules, AI, and presentation layer, exploring the separation of mechanics and aesthetics.",
+  "title": "Same Rules, New Feel: A 3D Makeover for Solved Tic-Tac-Toe",
+  "subtitle": "Tic-tac-toe is a solved game — optimal play always ends in a draw. See how 3D rotation, sound and confetti rebuild the feel without changing a single rule.",
   "archetype": "turn-duel",
   "tags": [
-    "回合",
-    "棋盘",
-    "回合博弈"
+    "Turn-Based",
+    "Board",
+    "Strategy"
   ],
   "lang": "en",
-  "difficulty": "入门",
+  "difficulty": "Beginner",
   "techStack": [
     "Three.js",
     "Web Audio",
     "HTML5 Canvas"
   ],
   "corePoints": [
-    "Separation of rule layer and presentation layer",
-    "minimax and solved games",
-    "Juice changes the feel, never the rules"
+    "Separation of rule logic and presentation layer",
+    "Minimax algorithm applied to a 'solved' game",
+    "Juice enhances feel without altering core rules"
   ],
   "stats": {
     "views": 0,
@@ -26,41 +26,46 @@
   },
   "breakdown": [
     {
-      "title": "Rule Framework",
+      "title": "Rule Skeleton",
       "bullets": [
-        "3×3 board, X starts first, players alternate turns",
+        "3×3 grid, X goes first, players take turns",
         "8 winning lines: 3 horizontal, 3 vertical, 2 diagonal",
-        "Full board with no winner results in a draw, no failure penalty"
+        "Draw if full without a winner; no failure penalty"
       ]
     },
     {
       "title": "Turn Core Loop",
       "bullets": [
-        "Player places a piece → AI responds (minimax) → board rotates → render next frame",
-        "Rotation only changes perspective, not the logical positions of any cells",
-        "State machine: menu → gameplay → result, can restart or return to menu"
+        "Player move → AI response (minimax) → Grid rotation → Render next frame",
+        "Rotation changes only camera view, not logical grid positions",
+        "State machine: menu → gameplay → result, supports restart and return to menu"
       ]
     },
     {
       "title": "Presentation Layer Juice",
       "bullets": [
-        "Three.js 3D board with post‑turn rotation animation",
-        "Victory ribbons and Web Audio real‑time sound effects",
-        "Rules unchanged, experience completely different"
+        "Three.js 3D grid with post-turn rotation animation",
+        "Victory confetti and Web Audio real-time sound effects",
+        "Rules remain unchanged, but player experience is completely transformed"
       ]
     }
   ],
   "codeSnippets": [
     {
-      "title": "Three‑in‑a‑row detection: lookup table for 8 winning lines",
+      "title": "Triple Match Check: Lookup Table for 8 Winning Lines",
       "language": "ts",
-      "code": "const LINES = [\n  [0, 1, 2], [3, 4, 5], [6, 7, 8], // 横\n  [0, 3, 6], [1, 4, 7], [2, 5, 8], // 竖\n  [0, 4, 8], [2, 4, 6],            // 斜\n];\n\ntype Mark = 'X' | 'O' | null;\n\nexport function judge(cells: Mark[]): 'X' | 'O' | 'draw' | null {\n  for (const [a, b, c] of LINES) {\n    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {\n      return cells[a]; // 有胜者\n    }\n  }\n  return cells.every(Boolean) ? 'draw' : null;\n}\n"
+      "code": "const LINES = [\n  [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows\n  [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns\n  [0, 4, 8], [2, 4, 6],            // diagonals\n];\n\ntype Mark = 'X' | 'O' | null;\n\nexport function judge(cells: Mark[]): 'X' | 'O' | 'draw' | null {\n  for (const [a, b, c] of LINES) {\n    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {\n      return cells[a]; // we have a winner\n    }\n  }\n  return cells.every(Boolean) ? 'draw' : null;\n}\n"
+    },
+    {
+      "title": "Minimax: Recursive Search for the Best Response (reused from core/board-ai)",
+      "language": "ts",
+      "code": "// Reused from the OVO pipeline's core/board-ai module: the rebuilt Tic-Tac-Toe\n// calls it directly, with zero changes to the rules.\nfunction minimax(cells: Mark[], depth: number, isMaximizing: boolean): number {\n  if (checkWinner(cells, aiPlayer)) return 10 - depth;     // AI wins: faster = higher score\n  if (checkWinner(cells, humanPlayer)) return depth - 10;  // Opponent wins: slower = smaller loss\n  const empty = getEmptyCells(cells);\n  if (empty.length === 0) return 0;                        // Draw\n\n  let best = isMaximizing ? -Infinity : Infinity;\n  for (const e of empty) {\n    cells[e.index] = isMaximizing ? aiPlayer : humanPlayer; // Try the move\n    const score = minimax(cells, depth + 1, !isMaximizing);\n    cells[e.index] = null;                                  // Backtrack\n    best = isMaximizing ? Math.max(best, score) : Math.min(best, score);\n  }\n  return best;\n}\n"
     }
   ],
   "published": true,
   "demo": {
     "iframeSrc": "http://127.0.0.1:19527/api/v2/projects/cp_1788757022723/preview",
-    "note": "嵌入的是 OVO 产线从原始样本重建的可试玩版本：菜单 → 对局（含 minimax AI）→ 结算完整循环。"
+    "note": "A playable version rebuilt by the OVO pipeline from the original sample: full loop of menu → match (with minimax AI) → result."
   },
   "pattern": "strategy"
 }

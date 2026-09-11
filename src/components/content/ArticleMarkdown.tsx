@@ -280,14 +280,16 @@ function Heading({
   level: 1 | 2 | 3 | 4 | 5 | 6;
   children: ReactNode;
 }) {
-  const Tag = (`h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6");
+  // 文档 H1 由外层页面提供（文章标题）；MDX 内标题整体降一级渲染（# → h2），保证每页只有一个 H1
+  const demoted = Math.min(level + 1, 6) as 2 | 3 | 4 | 5 | 6;
+  const Tag = `h${demoted}` as "h2" | "h3" | "h4" | "h5" | "h6";
   const className =
-    level === 1
-      ? "mt-6 text-2xl font-bold tracking-tight font-kalam"
-      : level === 2
-        ? "mt-5 text-xl font-bold tracking-tight font-kalam"
-        : level === 3
-          ? "mt-4 text-lg font-bold tracking-tight font-kalam"
+    demoted === 2
+      ? "mt-6 text-xl font-bold tracking-tight font-kalam"
+      : demoted === 3
+        ? "mt-5 text-lg font-bold tracking-tight font-kalam"
+        : demoted === 4
+          ? "mt-4 text-base font-bold tracking-tight font-kalam"
           : "mt-3 text-base font-bold tracking-tight font-kalam";
   return <Tag className={className}>{children}</Tag>;
 }

@@ -1,11 +1,15 @@
 # GamesLog 项目状态（原 OVOFORGE）
 
-> 最后更新：2026-09-07
+> 最后更新：2026-09-09
 > 更新者：Kimi Code CLI
 
 ---
 
 ## 当前阶段
+
+**存量审查 UI 化 + 指南机检化（D 层）+ 四批修复（2026-09-09）**：存量审查搬进 ovo_system「内容生产」页第五个 Tab（`auditInventory` 适配器能力 + 3 条 API + 报告落库，baseUrl 自动解析）。同日审查器加 **D 指南结构层**（《生产内容注意事项》§四/§七 机检：9 标准章节/正文代码块/重复凑字/demo 存在），全量基线 **377 问题**。已修复四批：① 30 篇 subtitle 本机 omlx 9B 重写至 50~160 字；② 9 篇无归属文章补显式 `meta.archetype` + 母型页补齐 pillar→cluster「相关案例文章」区块；③ 批 2 指南结构补全 32/32——`fix-batch-2-guide-sections.ts` 给每篇补「一句话本质/边界条件/设计取舍」（LLM 只生成正文、插入程序化、反引号标识符防编造护栏、每篇 2 次重试；CRLF 行尾坑已修）；④ **批 5 英文回刷 32/32**——`fix-batch-5-translate-en.ts`（omlx 9B，meta JSON + 第 3 次纯文本分节兜底），en-coverage 清零。**现基线 314 问题**（09-10 新增 3 条机检后 255→320，tic-tac-toe-3d 精修清掉 6 项）：D 层 240（experience/mechanics×32、implementation×31、code×30、loop/data-model/primitives×30、demo×24）+ A/C 余 15（demo-404×6、demo-localhost×2、pillar-empty×5、body×1）+ EN 质量 64（en-meta-cjk×32、en-description-length×32，09-10 新机检）。同日主页「最新发布」同母型去重（含 tag 推断兜底，cover-gen 按母型复用模板是根因）、RightSidebar 新手必读改真封面 + 入门选品、play-1677a241 meta 清洗与未闭合代码栅栏修复。备份 `memory/audit-fix-backups/2026-09-09/`。**重要缺口：英文内容已备齐但站点不可见——`src/` 零引用 plays-en，无英文路由；下一里程碑=英文路由 + UI chrome 英文化 + hreflang（EN subtitle 偏长，上线时统一修剪）。** 详见 `memory/daily/2026-09-09.md`。
+
+**SEO 基础修复完成（2026-09-08）**：双 H1（MDX 标题降级）+ 5 处 OVO 硬编码收编 siteConfig，:19600 生产实例验证通过；hreflang 暂缓（无英文路由，并入英文化任务）。改动已 build 生效于本地生产实例，**未提交、未 release**（demo iframe localhost 阻塞仍在）。详见 `memory/daily/2026-09-08.md`。
 
 **生产线全链路首跑通（2026-09-07 晚）**：ovo_system「远程游戏库 → 20B 分析 → v2-studio 建项目 → 管线双语文章 → 发布 → 本站嵌入可玩 demo」首次真实贯通。文章 `tic-tac-toe-3d-rotation-juice`（zh + en）已物化到 content/plays{,-en}，生产实例验证六项断言全过、demo 竖屏可玩。**工作区当前有未提交改动**：`page.tsx` 竖屏判定（`/api/v2/projects/` → portrait）+ 该文章双语言内容目录——demo iframe 指向 localhost:19527，**禁止带上线**；待静态 demo 导出立项后再发布此类文章。详见 `memory/daily/2026-09-07.md`。
 

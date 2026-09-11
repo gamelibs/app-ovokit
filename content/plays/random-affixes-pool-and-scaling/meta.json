@@ -1,7 +1,7 @@
 {
   "slug": "random-affixes-pool-and-scaling",
   "title": "装备随机词条：词条池设计与防止数值崩坏",
-  "subtitle": "赌性机制最怕叠乘失控：用词条分组、稀有度与软上限把随机做成可控系统。",
+  "subtitle": "文章拆解装备词条池分组与叠乘控制机制，详解软上限与保底策略。通过构建独立词条池规避属性冲突，利用概率衰减公式压制指数级成长，在保留随机赌性乐趣的同时，严格防止数值崩坏导致游戏失衡。",
   "cover": {
     "src": "/plays/random-affixes-pool-and-scaling/cover.webp",
     "alt": "装备随机词条：词条池设计与防止数值崩坏"

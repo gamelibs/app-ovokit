@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { listPlays } from "@/lib/content/plays";
+import { inferArchetypeFromTags } from "@/lib/archetypes/tag-map";
 
 function isSvg(src: string) {
   return src.endsWith(".svg");
@@ -9,7 +10,19 @@ function isSvg(src: string) {
 /** 「最新发布」：按内容修改时间倒序，让新帖子（含平台导入游戏）始终可被发现 */
 export async function LatestPlaysSection() {
   const plays = await listPlays(); // 已按 mtime 倒序
-  const latest = plays.slice(0, 5);
+  // 封面是按母型模板生成的（同母型图片相同/近似），一行连续相同封面看起来像重复内容；
+  // 同母型只露出一篇（显式 archetype 优先，tag 推断兜底），保证一行内的视觉多样性。
+  const seenArchetypes = new Set<string>();
+  const latest: typeof plays = [];
+  for (const p of plays) {
+    const key = p.archetype ?? inferArchetypeFromTags(p.tags);
+    if (key) {
+      if (seenArchetypes.has(key)) continue;
+      seenArchetypes.add(key);
+    }
+    latest.push(p);
+    if (latest.length >= 5) break;
+  }
   if (latest.length === 0) return null;
 
   return (

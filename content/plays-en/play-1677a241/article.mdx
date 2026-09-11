@@ -1,0 +1,98 @@
+# Merge Gameplay from 0 to 1: Rules, Data Structures, and Scalable Architecture
+
+## The Essence in One Sentence
+
+On the surface, it's about judging whether a merge is possible; in reality, the core mechanism is decision-making for drop behavior based on the priority order: **"empty space first, then merge, and swap last."** This article focuses on explaining how to implement this decision chain using pure functions.
+
+> **Article Goal:** Use a "reusable implementation approach" to get the merge gameplay running, and provide entry points for subsequent expansions (orders/producers/payment points/balance).
+
+## 1. Gameplay Overview (Player Perspective)
+
+The core experience of the merge gameplay is:  
+**Production → Merge & Upgrade → Clear Space / Deliver Goal → Gain Growth**.
+
+A minimum playable loop:
+1) Generate base items (clicking / producers)  
+2) Drag two identical items to merge and upgrade  
+3) Use higher-level items to complete orders or unlock goals  
+4) Use rewards to upgrade production / grid slots / rules  
+
+## 2. Rule Design (MVP Rules Fixed First)
+
+This session covers only the most basic rules (extensible but not implemented yet):
+
+- **Match Condition:** Items can only merge if `type` and `level` are identical.
+- **Merge Result:** Generates a new item with `level + 1`, consuming two old items.
+- **Drop Behavior Priority:** **Merge** > **Swap** > **Move to Empty Space**.
+- **Prohibited Conditions:** Target cell locked / Source cell empty / Target cell non-interactable.
+
+### 2.1 Why "Priority"?
+Without defined priorities, drag-and-drop interactions feel random to players:  
+The same operation might sometimes merge, sometimes swap, or sometimes fail to move.  
+Therefore, the drop rules must be written as explicit judgments at the code level.
+
+## 3. Data Structures (Minimal but Scalable)
+
+I suggest splitting the "gameplay data" into three layers:
+
+### 3.1 Item
+- `id`: Unique identifier (used for animations/tracking)
+- `type`: Merge chain (e.g., flower / weapon / animal)
+- `level`: Level
+- (Optional) `rarity`: Rarity (for later expansion)
+
+### 3.2 Cell (Grid / Inventory)
+- `id`
+- `item: Item | null`
+- `locked?: boolean` (can be used for area unlocking in the future)
+
+### 3.3 Config
+- **Merge Chain:** Max level for each `type`, display name, icon, etc.
+- **Merge Rules:** Whether skipping levels is allowed, whether "critical merge" is allowed.
+- **Generator Rules:** Production interval, produced items, initial level, drop weights.
+
+## 4. Core Merge Logic (Most Important)
+
+The logic below is recommended to be implemented as pure functions for ease of testing and reuse:
+
+```ts
+export function canMerge(a: Item, b: Item) {
+  return a.type === b.type && a.level === b.level;
+}
+
+export function mergeResult(a: Item): Item {
+  return { id: crypto.randomUUID(), type: a.type, level: a.level + 1 };
+}
+
+export type DropResult =
+  | { ok: false; reason: string }
+  | { ok: true; action: "move" }
+  | { ok: true; action: "swap" }
+  | { ok: true; action: "merge"; merged: Item };
+
+export function onDrop(from: Cell, to: Cell): DropResult {
+  if (!from.item) return { ok: false, reason: "empty" };
+  if (to.locked) return { ok: false, reason: "locked" };
+
+  if (!to.item) return { ok: true, action: "move" };
+  if (canMerge(from.item, to.item)) return { ok: true, action: "merge", merged: mergeResult(from.item) };
+  return { ok: true, action: "swap" };
+}
+```
+
+## Edge Cases
+
+- Must handle returning failure with a reason when the source cell is empty.
+- Must handle returning failure with a reason when the target cell is locked.
+- Must prioritize executing the **move** operation when the target cell is empty.
+- Must prioritize executing the **merge** operation when the target cell item matches the source cell item in both type and level.
+- Must execute the **swap** operation when the target cell item does not meet the merge conditions with the source cell item.
+
+## Design Trade-offs
+
+- **Benefit:** Code written as pure functions is easier to test and reuse.  
+  **Cost:** The logic judgment order must be hardcoded and cannot be dynamically adjusted.
+- **Benefit:** Using the `DropResult` type uniformly covers the three outcomes (move, swap, merge).  
+  **Cost:** Every drop action requires traversing and judging all three scenarios.
+- **Benefit:** Supports later expansion of skip-level or critical merge rules.  
+  **Cost:** Basic rules are fixed in the MVP phase without expansion.

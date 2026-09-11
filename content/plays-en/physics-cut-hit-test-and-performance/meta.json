@@ -1,0 +1,61 @@
+{
+  "slug": "physics-cut-hit-test-and-performance",
+  "title": "Physics Cutting: Balancing Detection, Performance, and Precision",
+  "subtitle": "A deep dive into physics cutting mechanisms, covering collision box, ray, and grid detection strategies. It details rigid and soft body slicing approaches and analyzes dynamic precision balancing based on cut count and physics budget, offering direct solutions to common issues like stuttering and clipping.",
+  "tags": [
+    "推荐",
+    "动作",
+    "物理"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "TypeScript",
+    "2D 物理"
+  ],
+  "corePoints": [
+    "Cutting Detection",
+    "Slicing Strategies",
+    "Performance Budget"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Detection Methods",
+      "bullets": [
+        "Line vs Polygon Intersection",
+        "Sampled Points vs Continuous Collision",
+        "Coarse-to-Fine Filtering (AABB to Exact)"
+      ]
+    },
+    {
+      "title": "Performance Balancing",
+      "bullets": [
+        "Maximum Slice Count",
+        "Polygon Simplification",
+        "Spatial Indexing to Reduce Checks"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Coarse-to-Fine: AABB Quick Filter (Example)",
+      "language": "ts",
+      "code": "export type Aabb = { minX: number; minY: number; maxX: number; maxY: number };\n\nexport function aabbIntersects(a: Aabb, b: Aabb) {\n  return !(a.maxX < b.minX || a.minX > b.maxX || a.maxY < b.minY || a.minY > b.maxY);\n}\n"
+    }
+  ],
+  "cover": {
+    "src": "/plays/physics-cut-hit-test-and-performance/cover.webp",
+    "alt": "Physics Cutting: Balancing Detection, Performance, and Precision"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/physics-cut-hit-test-and-performance/cover.webp",
+    "alt": "Physics Cutting: Balancing Detection, Performance, and Precision"
+  },
+  "demo": {},
+  "pattern": "action",
+  "lang": "en"
+}

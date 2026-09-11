@@ -1,0 +1,56 @@
+# Path Planning: Pseudo-Puzzles That Make Players "Look Smart"
+
+## The One-Sentence Essence
+
+On the surface, it's a puzzle game where players plan a route; actually, the core mechanism is a "pseudo-puzzle" that generates candidates first and then uses an algorithm to filter out bad ones. This article focuses on explaining how to balance the "puzzle" and "performance" experiences by controlling the number of solutions and their differences.
+
+**Why it gets traffic:** Audiences love watching "how he thought of it"; players are also more willing to share "I solved it."
+
+## 1) The Core of Pseudo-Puzzles: Hide Complexity in the System, Leave Choices to the Player
+
+The "smartness" of path planning comes from two things:
+
+- Players' choices can be verified immediately (going right means smooth progress)
+- Players believe they are "planning," not "trial and error"
+
+So, level design shouldn't aim for difficulty right from the start, but rather for:
+
+1. **Visible Goals** (endpoints/rewards/danger zones are clear)
+2. **Limited Choices** (2~3 branches per step is optimal)
+3. **Explainable Consequences** (going wrong leads to detours/resource consumption, not instant death)
+
+## 2) Single Solution vs. Multiple Solutions: Choose Based on Whether You Want a "Puzzle" or "Performance"
+
+- **Single Solution**: Feels more like a question bank, suitable for level-based games; players will remember the "standard solution."
+- **Multiple Solutions**: Feels more like a sandbox, suitable for short videos; players will show off "my route is cooler."
+
+A very practical compromise method:  
+Generate multiple solutions, but control the difference between the "shortest solution" and the "second-shortest solution."
+
+- **Small Difference**: Looks like any path works (too loose)
+- **Medium Difference**: Offers planning space (most fun)
+- **Large Difference**: Forces players to find a unique approach (easy to get stuck)
+
+## 3) Key to Generating Levels: Generate Candidates First, Then Filter Out Bad Ones with an Algorithm
+
+Instead of hard-coding 200 levels, you can:
+
+1. Randomly generate candidates (obstacles/rewards/dangers)
+2. Use a solver to check: is there a solution, how many solutions, and the difference in shortest paths?
+3. Automatically sort results into "Beginner/Intermediate/Hardcore" buckets
+
+## Boundary Conditions
+
+- Need to handle whether system-generated levels can be unsolvable.
+- Need to handle whether the number of solutions in a level is too high, leading to an overly loose experience.
+- Need to handle whether the difference between the shortest and second-shortest solutions is too large, causing players to get stuck.
+- Need to handle whether giving explainable consequences (like detours or resource consumption) instead of instant death when players make a wrong move.
+- Need to handle whether player input under limited choices (2~3 branches) is valid.
+
+## Design Trade-offs
+
+- **Benefits**: Players gain a sense of "looking smart" through planning and the achievement of "I solved it."
+- **Costs**: The backend must invest in algorithms for generation and validation; hard-coding levels is not an option.
+- **Alternatives**: Choose single solutions if you want question-bank-like memorability, or multiple solutions if you want cool routes for short videos.
+
+**One-sentence summary:** The path planning experience is "I'm very smart," while your job is to ensure it never turns into an unsolvable bad question through backend validation.

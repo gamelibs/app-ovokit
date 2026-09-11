@@ -1,0 +1,52 @@
+# Drag-and-Drop Placement: Players Should Be "Lazy," But Also Feel That "Taking Action Pays Off More"
+
+## The One-Sentence Essence
+
+On the surface, it's about letting players AFK (idle); actually, the core mechanism uses "upper bound control" and "gentle bonuses" to ensure that online operation rewards are always higher than offline rewards. This article focuses on explaining how to balance the reward gap between manual and idle play through short-term buffs, cooldowns, and event steps, while pairing it with anti-grinding strategies to maintain a sense of fairness.
+
+Why it works with traffic: It fits the habits of "lazy players"; the demo videos look very relaxing (drag here, arrange there, and the rewards come up).
+
+## 1) The Reward Gap Between Idle and Manual: Don't Force Players to Work
+
+A very practical goal:  
+**Manual operations bring a 15%~40% short-term boost**, but you won't fall behind even if you don't play long-term.
+
+Recommended to make manual actions feel like a "short burst":
+
+- Clicking/dragging triggers a **short-term buff** (5~15 seconds)  
+- The buff has a cooldown (to prevent mindless spam-clicking)  
+- Ideally, the buff changes the "visual density" (more drops/faster animations), not just the numbers
+
+This way, manual play becomes "I'll grab a wave," rather than "I have to stare at the screen."
+
+## 2) Offline Reward Formula: The Core Is "Upper Bound" and "Offline Shouldn't Be More Satisfying Than Online"
+
+The most common pitfall in offline settlement is: players discover that offline rewards are higher, so they intentionally quit the game.
+
+Three actionable strategies:
+
+1. **Upper Bound**: 8~12 hours is most common (so players log in once a day).  
+2. **Gentle Bonus**: Offline can have a little bonus, but don't let it exceed the actionable rewards from being online.  
+3. **Event Steps**: If you have "drops/crits/triggers," simulate offline progress with fixed steps (to avoid offline becoming a pure math ATM).
+
+## 3) Anti-Grinding Without Punishment: Make the System Look "Fair"
+
+- Use server-side time for offline duration; locally, at least use "last launch time + verification"  
+- Display offline rewards as "We collected X for you" instead of "System gave you money"
+
+## Edge Cases
+
+- Need to handle manual buff cooldowns to prevent players from spam-clicking mindlessly.
+- Need to handle offline duration upper bounds (e.g., 8~12 hours) to prevent players from intentionally quitting to grind high rewards.
+- Need to handle offline reward values to ensure they don't exceed the short-term boost from online operations.
+- Need to handle local offline time verification logic to prevent cheating via local timestamps.
+- Need to handle settlement copy display to avoid directly showing "System gave you money," which can cause player dissatisfaction.
+
+## Design Trade-offs
+
+- **Reward / Cost**: Provide a 15%~40% short-term manual boost reward, at the cost of players needing to perform click or drag operations.
+- **Reward / Cost**: Grant offline gentle bonus rewards, at the cost of strictly limiting offline duration upper bounds to prevent reward inversion.
+- **Reward / Cost**: Use event steps to simulate offline drops, at the cost of offline experience being less intuitive than online operations and lacking visual feedback.
+- **Reward / Cost**: Adopt server-side verification for offline time, at the cost of increased server-side computation and storage overhead.
+
+One-sentence summary: **The design of idle-style games isn't about making players stop playing, but about making them "not play without anxiety, and play more when they want to."**

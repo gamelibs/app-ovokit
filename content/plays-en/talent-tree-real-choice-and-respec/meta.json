@@ -1,0 +1,68 @@
+{
+  "slug": "talent-tree-real-choice-and-respec",
+  "title": "Talent Trees: False Choices vs. Real Choices, and How to Set Reset Costs",
+  "subtitle": "A deep dive into talent tree mechanics, distinguishing the underlying logic between false and real choices. Analyze how branching differences drive strategy and how key nodes impact growth paths. Explore reset cost design strategies that increase choice penalties while ensuring a smooth respec experience through economic loops, effectively alleviating beginner trial-and-error anxiety.",
+  "cover": {
+    "src": "/plays/talent-tree-real-choice-and-respec/cover.webp",
+    "alt": "Talent Trees: False Choices vs. Real Choices, and How to Set Reset Costs"
+  },
+  "coverWide": {
+    "src": "/plays/talent-tree-real-choice-and-respec/cover.webp",
+    "alt": "Talent Trees: False Choices vs. Real Choices, and How to Set Reset Costs"
+  },
+  "tags": [
+    "数值",
+    "战斗"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "Branching Differences",
+    "Key Nodes",
+    "Respec Economy"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "What Real Choices Look Like",
+      "bullets": [
+        "Two paths offer fundamentally different gameplay mechanics, rather than identical flat stat boosts.",
+        "Requires trade-offs: e.g., higher damage vs. better survivability, or faster pacing vs. more stability.",
+        "Key nodes can alter core gameplay loops (e.g., switching from single-target shots to chain reactions)."
+      ]
+    },
+    {
+      "title": "Typical Symptoms of False Choices",
+      "bullets": [
+        "All nodes provide linear stat increases, leading players to mindlessly pick the optimal solution.",
+        "Branches merge back together at the end, rendering mid-tree decisions meaningless.",
+        "A single wrong choice ruins the character, with no respec option or prohibitively expensive reset costs."
+      ]
+    },
+    {
+      "title": "Reset Cost Design",
+      "bullets": [
+        "Early game: free or low cost to encourage experimentation; mid-to-late game: increased cost for currency recovery.",
+        "Allow 'Partial Respec': reset only a specific branch to reduce frustration.",
+        "Bind reset to gameplay: e.g., consume a rare material or task reward."
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Talent Tree Unlock Validation (Simplified)",
+      "language": "ts",
+      "code": "type NodeId = string;\n\ntype TalentNode = {\n  id: NodeId;\n  cost: number;\n  prereq?: NodeId[];\n  exclusive?: NodeId[];\n};\n\nexport function canUnlock(node: TalentNode, owned: Set<NodeId>, points: number) {\n  if (points < node.cost) return false;\n  if (node.prereq && node.prereq.some((id) => !owned.has(id))) return false;\n  if (node.exclusive && node.exclusive.some((id) => owned.has(id))) return false;\n  return true;\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "strategy",
+  "lang": "en"
+}

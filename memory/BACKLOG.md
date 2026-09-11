@@ -30,6 +30,11 @@
   - 目标：补「回合博弈」（=turn-duel 母型名）等条目，让 tic-tac-toe-showdown 等文章获得回链；可考虑「合成且 pattern=merge 则 merge-unit」的主循环规则
   - 状态：2026-09-07 部分完成——协议方已 bump v1.0.1 补「回合博弈」条目，站点 tag-map.ts 已同步（main a9a5fa7 / deploy 1526247），tic-tac-toe-showdown 回链已验证；「合成主循环规则」仍待协议方决策，条目保留
 
+- [ ] **存量内容批次修复（审查驱动）** <!-- task:id=audit-fix-001 priority:P1 category:content -->
+  - 文件：`scripts/fix-batch-1-text.ts`（批次 1）、`content/plays/*/meta.json` + `article.mdx`
+  - 目标：按批次清零存量审查问题——① subtitle/正文回刷 ② 母型归属治理 ③ demo 资源修复 ④ 空集群选题反哺 ⑤ 英文回刷
+  - 状态：2026-09-09 批 1 上半场（subtitle ×30）+ 批 1（母型归属 ×9）+ 批 2（指南三章节 ×32，fix-batch-2-guide-sections.ts）+ **批 5 英文回刷 32/32（fix-batch-5-translate-en.ts，omlx 9B；meta JSON + 第 3 次纯文本分节兜底；tic-tac-toe-3d 旧样本已覆盖备份）均完成**，en-coverage 清零，复审 257→**255**（D 层 240：experience/mechanics×32、implementation×31、code×30、loop/data-model/primitives×30、demo×24；A/C 余：demo-404×6、demo-localhost×2、pillar-empty×5、cover×2、body×1（roguelike-horde 791 字））。备份 memory/audit-fix-backups/2026-09-09/。**下一步（三选一）：批 3（玩法循环+玩家经历，需 demo 对照，9B 风险高）/ 批 4（数据模型+关键实现+代码块；meta.codeSnippets 已有代码可确定性搬运，不必等 20B）/ 英文路由里程碑（src/ 零引用 plays-en，英文内容站点不可见，Google 无法收录）**；09-10 新增 3 条机检（title-jargon/en-meta-cjk/en-description-length），基线 320，tic-tac-toe-3d 精修试点（双语标题/摘要纠错/封面/管线草稿同步）后 **314**
+
 ## Todo
 
 ### 阻塞项（P0 必须）

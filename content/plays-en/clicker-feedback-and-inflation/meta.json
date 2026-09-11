@@ -1,0 +1,61 @@
+{
+  "slug": "clicker-feedback-and-inflation",
+  "title": "Tap-to-Evolve: Feedback Loops and Inflation Thresholds",
+  "subtitle": "This article deconstructs the tap-to-evolve mechanic, analyzing the click feedback loop and numerical inflation thresholds. It details how clicks drive upgrade pacing and maintain numerical readability, equipping developers with core loop design and balance strategies for casual games.",
+  "tags": [
+    "推荐",
+    "点击",
+    "数值"
+  ],
+  "difficulty": "入门",
+  "techStack": [
+    "TypeScript",
+    "配置表(通用)"
+  ],
+  "corePoints": [
+    "Click Feedback Loop",
+    "Upgrade Pacing",
+    "Numerical Readability"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Minimum Loop",
+      "bullets": [
+        "Instant strong feedback on click",
+        "Purchase one upgrade within a few seconds",
+        "Upgrade immediately alters feel/efficiency"
+      ]
+    },
+    {
+      "title": "Inflation Threshold",
+      "bullets": [
+        "Numbers must be readable: K/M/B segments",
+        "Changes must be perceptible: multipliers must cross perception thresholds"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Upgrade Cost Curve (Geometric Growth + Pacing Points)",
+      "language": "ts",
+      "code": "export function upgradeCost(level: number) {\n  const base = 25;\n  const growth = 1.18;\n  const beat = level % 10 === 0 ? 0.85 : 1; // 每 10 级给一次“更容易买到”的节拍\n  return Math.floor(base * Math.pow(growth, level) * beat);\n}\n"
+    }
+  ],
+  "cover": {
+    "src": "/plays/clicker-feedback-and-inflation/cover.webp",
+    "alt": "Tap-to-Evolve: Feedback Loops and Inflation Thresholds"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/clicker-feedback-and-inflation/cover.webp",
+    "alt": "Tap-to-Evolve: Feedback Loops and Inflation Thresholds"
+  },
+  "demo": {},
+  "pattern": "action",
+  "archetype": "progression",
+  "lang": "en"
+}

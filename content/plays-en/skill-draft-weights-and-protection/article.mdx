@@ -1,0 +1,61 @@
+# Random Skill Selection: Skill Weights and Newbie Protection Mechanisms
+
+## One-Sentence Essence
+
+On the surface, it's a random drop rate; in reality, the core mechanism is "structured classification + dynamic weight adjustment + guaranteed fallback"; this article focuses on explaining how to balance the "mind-reading" satisfaction with the "anti-pitfall" baseline using these three elements.
+
+Traffic reason: Choice anxiety = the highlight. Players will argue in the comments about whether "the options given in this run are god-tier or a trap."
+
+## 1) First, structure the skill pool: otherwise you only have "adjusting weights" as a move
+
+It's recommended to divide skills into three categories (mark `tier` and `tags` directly in the table):
+
+- **Core pieces**: Determine the build direction (e.g., Ice school, Summon, Crit, DoT)  
+- **Enhancement pieces**: Increase stats (+damage, +attack speed, +range)  
+- **Functional pieces**: Ensure gameplay feel (dash, penetration, crowd control, survival)  
+
+Add two types of relationships:
+
+- **Prerequisite**: B doesn't drop without A (avoid "useless" options)  
+- **Mutually exclusive**: Don't appear in the same run (avoid combo collapse or gameplay conflicts)  
+
+## 2) The Core of Weights: Make Players Feel "You Understand My Build"
+
+The most common failure point is: strong builds drop more frequently, leading to increasing homogenization.
+
+A way that feels more "understanding":
+
+1. **Base weights** reflect "appearance frequency," but must be decoupled from strength.  
+2. **Synergy weighting**: Based on the player's existing tags, increase the weight of options that "can immediately strengthen."  
+3. **Anti-synergy is not about cutting probability**: A better approach is to add a cost (e.g., higher cap but more fragile, or requiring stacking conditions).  
+
+Experience: Don't make synergy weighting too aggressive, otherwise every run gets "auto-assembled" into a build, turning it into pseudo-randomness.
+
+## 3) Newbie Protection: Make Players Feel "Satisfied," Not "Fed"
+
+Common newbie protection triad:
+
+- **Functional piece fallback**: At least one "survival/clear/dash" skill in the first 2~3 drops.  
+- **Core piece fallback**: If no core piece drops in consecutive N times → trigger fallback pool.  
+- **Trap skill postponement**: High-threshold skills placed later or threshold reduced.  
+
+Write newbie protection as "rules," not as "secret adjustments":
+
+- UI clearly displays "fallback triggered / next drop guaranteed core."  
+- Players will be more willing to accept random fluctuations.  
+
+## Boundary Conditions
+
+- Need to handle cases where missing prerequisite dependencies cause skills to fail activation.
+- Need to handle cases where mutually exclusive relationships cause conflicting combos in the same run.
+- Need to handle cases where overly aggressive synergy weighting causes randomness to be lost, turning into pseudo-randomness.
+- Need to handle whether to clearly show the fallback status to players after newbie protection is triggered.
+- Need to handle cases where high-threshold skills drop early, causing players to be unable to clear the level.  
+
+## Design Trade-offs
+
+- **Benefit**: Base weights reflect appearance frequency, making players feel "you understand my build"; **Cost**: If weights are strongly coupled with strength, strong builds drop more frequently, causing homogenization in late game; **Alternative**: Decouple weights from strength and use synergy weighting instead.
+- **Benefit**: Synergy weighting increases the weight of options that "can immediately strengthen" based on the player's existing tags; **Cost**: If weighting is too aggressive, every run gets auto-assembled into a build; **Alternative**: Add a cost (e.g., higher cap but more fragile, or requiring stacking conditions) instead of directly cutting probability.
+- **Benefit**: Newbie protection makes players feel "satisfied" through rule-based fallbacks (functional/core pieces); **Cost**: If written as secret adjustments, players will feel "fed"; **Alternative**: UI clearly displays fallback trigger status, letting players accept random fluctuations.  
+
+One-sentence summary: **Weights are responsible for "feeling like you understand me," fallbacks are responsible for "not pitting people."**

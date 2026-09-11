@@ -1,0 +1,806 @@
+{
+  "base": "http://localhost:19600",
+  "at": "2026-09-08T03:06:45.662Z",
+  "playCount": 32,
+  "issues": [
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "2048-variant-probability-control",
+      "code": "description-length",
+      "detail": "subtitle 长度 38（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "2048-variant-probability-control",
+      "code": "body-too-short",
+      "detail": "正文有效字数 555（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "description-length",
+      "detail": "subtitle 长度 33（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "body-too-short",
+      "detail": "正文有效字数 569（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "archetype-unattributed",
+      "detail": "无显式 archetype 且 tags 无法推断母型（详情页无母型回链）",
+      "gateCode": "gate-structure:archetype-refs"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "description-length",
+      "detail": "subtitle 长度 35（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "body-too-short",
+      "detail": "正文有效字数 514（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "archetype-unattributed",
+      "detail": "无显式 archetype 且 tags 无法推断母型（详情页无母型回链）",
+      "gateCode": "gate-structure:archetype-refs"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "finite-state-machine-for-combat",
+      "code": "description-length",
+      "detail": "subtitle 长度 32（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "finite-state-machine-for-combat",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/plays/finite-state-machine-for-combat"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "gacha-pity-and-psychology",
+      "code": "description-length",
+      "detail": "subtitle 长度 32（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "gacha-pity-and-psychology",
+      "code": "archetype-unattributed",
+      "detail": "无显式 archetype 且 tags 无法推断母型（详情页无母型回链）",
+      "gateCode": "gate-structure:archetype-refs"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "grid-movement-and-collision",
+      "code": "description-length",
+      "detail": "subtitle 长度 28（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "grid-movement-and-collision",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/plays/grid-movement-and-collision"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "description-length",
+      "detail": "subtitle 长度 35（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "archetype-unattributed",
+      "detail": "无显式 archetype 且 tags 无法推断母型（详情页无母型回链）",
+      "gateCode": "gate-structure:archetype-refs"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "description-length",
+      "detail": "subtitle 长度 32（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "body-too-short",
+      "detail": "正文有效字数 713（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "match-3-retention-and-pacing",
+      "code": "description-length",
+      "detail": "subtitle 长度 34（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "match-3-retention-and-pacing",
+      "code": "body-too-short",
+      "detail": "正文有效字数 790（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "match-3-retention-and-pacing",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/demos/match3"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "merge-chain-and-gates",
+      "code": "description-length",
+      "detail": "subtitle 长度 28（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "merge-chain-and-gates",
+      "code": "body-too-short",
+      "detail": "正文有效字数 516（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "merge-chain-and-gates",
+      "code": "archetype-unattributed",
+      "detail": "无显式 archetype 且 tags 无法推断母型（详情页无母型回链）",
+      "gateCode": "gate-structure:archetype-refs"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "merge-level-core-loop",
+      "code": "description-length",
+      "detail": "subtitle 长度 30（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "merge-level-core-loop",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/plays/merge-level-core-loop"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "merge-level-core-loop",
+      "code": "archetype-unattributed",
+      "detail": "无显式 archetype 且 tags 无法推断母型（详情页无母型回链）",
+      "gateCode": "gate-structure:archetype-refs"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "meta-progression-permanent-growth",
+      "code": "description-length",
+      "detail": "subtitle 长度 33（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "meta-progression-permanent-growth",
+      "code": "body-too-short",
+      "detail": "正文有效字数 785（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "meta-progression-permanent-growth",
+      "code": "archetype-unattributed",
+      "detail": "无显式 archetype 且 tags 无法推断母型（详情页无母型回链）",
+      "gateCode": "gate-structure:archetype-refs"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "multiple-endings-triggers-and-guidance",
+      "code": "description-length",
+      "detail": "subtitle 长度 44（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "description-length",
+      "detail": "subtitle 长度 32（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "body-too-short",
+      "detail": "正文有效字数 494（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "description-length",
+      "detail": "subtitle 长度 36（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "body-too-short",
+      "detail": "正文有效字数 528（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "physics-cut-hit-test-and-performance",
+      "code": "description-length",
+      "detail": "subtitle 长度 38（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "play-1677a241",
+      "code": "description-length",
+      "detail": "subtitle 长度 16（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "play-1677a241",
+      "code": "archetype-unattributed",
+      "detail": "无显式 archetype 且 tags 无法推断母型（详情页无母型回链）",
+      "gateCode": "gate-structure:archetype-refs"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "description-length",
+      "detail": "subtitle 长度 39（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "body-too-short",
+      "detail": "正文有效字数 544（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "description-length",
+      "detail": "subtitle 长度 34（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "body-too-short",
+      "detail": "正文有效字数 466（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "random-events-balance-and-pity",
+      "code": "description-length",
+      "detail": "subtitle 长度 36（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "random-events-balance-and-pity",
+      "code": "archetype-unattributed",
+      "detail": "无显式 archetype 且 tags 无法推断母型（详情页无母型回链）",
+      "gateCode": "gate-structure:archetype-refs"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "description-length",
+      "detail": "subtitle 长度 35（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "body-too-short",
+      "detail": "正文有效字数 523（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "description-length",
+      "detail": "subtitle 长度 32（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "body-too-short",
+      "detail": "正文有效字数 770（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "description-length",
+      "detail": "subtitle 长度 25（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "body-too-short",
+      "detail": "正文有效字数 591（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "sliding-puzzle-3d-photo",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/games/ReferenceCase/sliding-puzzle-3d"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "spot-the-difference-design-and-anti-skip",
+      "code": "description-length",
+      "detail": "subtitle 长度 32（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "survival-countdown-design",
+      "code": "description-length",
+      "detail": "subtitle 长度 40（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "survival-countdown-design",
+      "code": "body-too-short",
+      "detail": "正文有效字数 763（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "talent-tree-real-choice-and-respec",
+      "code": "description-length",
+      "detail": "subtitle 长度 37（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "tap-dodge-forgiveness-and-speed",
+      "code": "description-length",
+      "detail": "subtitle 长度 31（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "description-length",
+      "detail": "subtitle 长度 29（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/plays/td-waves-and-ai-scaling"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "cover-cover-missing",
+      "detail": "meta.cover.src 为空"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "cover-coverWide-missing",
+      "detail": "meta.coverWide.src 为空"
+    },
+    {
+      "layer": "A",
+      "category": "blocked-demo",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "demo-localhost",
+      "detail": "demo iframe 指向本地地址：http://127.0.0.1:19527/api/v2/projects/cp_1788757022723/preview（等静态 demo 导出）"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "tic-tac-toe-showdown",
+      "code": "description-length",
+      "detail": "subtitle 长度 49（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "A",
+      "category": "blocked-demo",
+      "subject": "tic-tac-toe-showdown",
+      "code": "demo-localhost",
+      "detail": "demo iframe 指向本地地址：http://127.0.0.1:19527/preview-assets/1021/beta/10001/index.html（等静态 demo 导出）"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "wave-defense-difficulty-curve",
+      "code": "description-length",
+      "detail": "subtitle 长度 39（要求 50~160）",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "2048-variant-probability-control",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 38",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 33",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 35",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "finite-state-machine-for-combat",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 32",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "gacha-pity-and-psychology",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 32",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "grid-movement-and-collision",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 28",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 35",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 32",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "match-3-retention-and-pacing",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 34",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "merge-chain-and-gates",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 28",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "merge-level-core-loop",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 30",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "meta-progression-permanent-growth",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 33",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "multiple-endings-triggers-and-guidance",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 44",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 32",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 36",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "physics-cut-hit-test-and-performance",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 38",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "play-1677a241",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 16",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 39",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 34",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "random-events-balance-and-pity",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 36",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 35",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 32",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 25",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "spot-the-difference-design-and-anti-skip",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 32",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "survival-countdown-design",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 40",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "talent-tree-real-choice-and-respec",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 37",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "tap-dodge-forgiveness-and-speed",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 31",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 29",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "tic-tac-toe-showdown",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 49",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "B",
+      "category": "pipeline-gap",
+      "subject": "wave-defense-difficulty-curve",
+      "code": "render-description-length",
+      "detail": "渲染 description 长度 39",
+      "gateCode": "gate-seo-fields:description-length"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:merge-unit",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:runner",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:shoot-aim",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:choice-strategy",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:timing",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:progression",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:simulation",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "pipeline-gap",
+      "subject": "plays-en",
+      "code": "en-coverage",
+      "detail": "英文版覆盖 1/32，缺 31 篇",
+      "gateCode": "generator-translator 存量回刷"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "slug": "skill-draft-weights-and-protection",
+  "title": "Random Skill Selection: Balancing Weights and New Player Safeguards",
+  "subtitle": "A deep dive into Roguelike random skill selection mechanics, detailing skill pool structures and weighting algorithms. Learn how synergistic weighting balances diversity while new player safeguards prevent numerical collapse, effectively resolving choice anxiety and optimizing combat generation.",
+  "cover": {
+    "src": "/plays/skill-draft-weights-and-protection/cover.webp",
+    "alt": "Random Skill Selection: Balancing Weights and New Player Safeguards"
+  },
+  "coverWide": {
+    "src": "/plays/skill-draft-weights-and-protection/cover.webp",
+    "alt": "Random Skill Selection: Balancing Weights and New Player Safeguards"
+  },
+  "tags": [
+    "Roguelike",
+    "战斗",
+    "生成",
+    "数值"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "Skill Weighting",
+    "Synergistic Weighting",
+    "New Player Safeguards"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Basic Structure of the Skill Pool",
+      "bullets": [
+        "Skill Tiering: Core (builds the skeleton) / Enhancement (numerical boosts) / Utility (movement, penetration, control)",
+        "Prerequisites and Exclusivity: Certain skills require acquiring A first; others cannot appear together",
+        "Duplication Strategy: Upgrade the same skill or swap within a family to avoid drawing useless duplicates"
+      ]
+    },
+    {
+      "title": "How to Write Weights That Feel 'Understood'",
+      "bullets": [
+        "Base weights are the 'archetype strength' baseline; do not make strong archetypes appear more frequently",
+        "Synergistic Weighting: Increase probability for options that immediately strengthen based on player's current skill tags",
+        "Anti-Synergy: Reduce probability for overpowered combinations, but balance this naturally using 'risk/cost' mechanics"
+      ]
+    },
+    {
+      "title": "New Player Safeguards (Not Just Hand-Holding)",
+      "bullets": [
+        "First 2~3 picks must include one utility piece (movement, clear, or survival)",
+        "Trigger a guaranteed pool after N consecutive misses on core pieces",
+        "Place 'trap skills' in late game or reframe them as high-uplimit mechanics with clear explanations"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Three-in-One: Synergistic Weighting + New Player Guarantee (Example)",
+      "language": "ts",
+      "code": "type Skill = { id: string; tags: string[]; baseWeight: number; tier: 1 | 2 | 3 };\n\ntype PlayerBuild = { tags: string[]; picks: string[]; newbieUntil: number; coreMissing: number };\n\nfunction synergyMul(skill: Skill, build: PlayerBuild) {\n  const hit = skill.tags.filter((t) => build.tags.includes(t)).length;\n  return 1 + Math.min(0.6, hit * 0.2);\n}\n\nexport function weightFor(skill: Skill, build: PlayerBuild, floor: number) {\n  let w = skill.baseWeight * synergyMul(skill, build);\n\n  // 新手保护：前期更偏向 tier1（直接变强/功能件）\n  if (floor <= build.newbieUntil) {\n    w *= skill.tier === 1 ? 1.6 : 0.9;\n  }\n\n  // 保底：核心件长期没出就加权\n  if (build.coreMissing >= 3 && skill.tags.includes(\"core\")) {\n    w *= 2.0;\n  }\n\n  return w;\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "strategy",
+  "lang": "en"
+}

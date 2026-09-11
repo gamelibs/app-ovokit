@@ -1,7 +1,7 @@
 {
   "slug": "meta-progression-permanent-growth",
   "title": "失败即成长：永久成长比例与防止“刷失败”",
-  "subtitle": "降低挫败感的关键：让失败也能推进，但不能让最优策略变成“故意送”。",
+  "subtitle": "深入拆解 Roguelike 永久成长比例设定与防止刷失败机制，阐述如何平衡节奏解锁与数值反馈，将挫败感转化为正向成长目标，为玩家提供可预期的策略空间与持续动力。",
   "cover": {
     "src": "/plays/meta-progression-permanent-growth/cover.webp",
     "alt": "失败即成长：永久成长比例与防止“刷失败”"
@@ -64,5 +64,6 @@
   ],
   "published": true,
   "demo": {},
-  "pattern": "strategy"
+  "pattern": "strategy",
+  "archetype": "progression"
 }

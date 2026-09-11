@@ -1,0 +1,71 @@
+{
+  "slug": "wave-defense-difficulty-curve",
+  "title": "Wave Defense: Designing Non-Linear Intensity Curves and Mid-Game Buffers",
+  "subtitle": "An analysis of tower defense wave mechanics, focusing on quantifying wave budgets to construct non-linear intensity curves. The guide details how mid-game buffers regulate player tension and breaks down template-based enemy spawning to optimize resource consumption. It offers a complete design methodology for balancing numbers and enhancing level playability.",
+  "cover": {
+    "src": "/plays/wave-defense-difficulty-curve/cover.webp",
+    "alt": "Wave Defense: Designing Non-Linear Intensity Curves and Mid-Game Buffers"
+  },
+  "coverWide": {
+    "src": "/plays/wave-defense-difficulty-curve/cover.webp",
+    "alt": "Wave Defense: Designing Non-Linear Intensity Curves and Mid-Game Buffers"
+  },
+  "tags": [
+    "塔防",
+    "关卡",
+    "数值",
+    "生成"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript",
+    "Unity/UE(可迁移)"
+  ],
+  "corePoints": [
+    "Wave Budget",
+    "Intensity Curve",
+    "Mid-Game Buffer"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Wave Intensity Curve",
+      "bullets": [
+        "Assign a 'budget' per wave: quantity/HP/speed/special enemy ratio",
+        "Segment the curve: tutorial ramp-up → steady growth → peak challenge → recovery reward",
+        "Ensure peaks and valleys exist to prevent player fatigue"
+      ]
+    },
+    {
+      "title": "Mid-Game Buffer (Recovery Phase)",
+      "bullets": [
+        "Provide build/upgrade time: allow for strategy instead of constant panic",
+        "Offer rewards with choices: bonus cash/HP restore/gacha pull",
+        "Use buffers for risk: skip next wave early for extra gains"
+      ]
+    },
+    {
+      "title": "Template-Based Spawning",
+      "bullets": [
+        "Decompose waves into templates: swarm/quick/heavy/air/elite",
+        "Vary repeated templates: path/spawn point/mix in specials",
+        "Estimate 'firepower threshold' for each path to avoid unsolvable waves"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Wave Budget Generation (Example)",
+      "language": "ts",
+      "code": "type Wave = { id: number; budget: number; elite: boolean; pattern: string };\n\nexport function waveBudget(wave: number) {\n  // 预算增长：线性 + 小指数，让后期有加速\n  return Math.floor(40 + wave * 12 + Math.pow(wave, 1.25) * 6);\n}\n\nexport function makeWave(wave: number): Wave {\n  const elite = wave % 5 === 0;\n  const budget = waveBudget(wave) * (elite ? 1.35 : 1);\n  const pattern = elite ? \"elite_mix\" : wave % 3 === 0 ? \"fast\" : \"swarm\";\n  return { id: wave, budget, elite, pattern };\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "strategy",
+  "lang": "en"
+}

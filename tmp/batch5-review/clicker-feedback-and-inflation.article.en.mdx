@@ -1,0 +1,53 @@
+# Tap-to-Earn: Building a 3-Second Closed Loop Around "Clicking"
+
+## The One-Sentence Essence
+
+On the surface, it's about clicking to increase numbers; actually, the core mechanism is constructing a **3-second time loop** of "Click → Feedback → Growth" to maintain the feel. This article focuses on explaining how to prevent player churn due to "lack of feeling" by controlling upgrade pacing and numerical readability.
+
+**Why it goes viral:** Extremely low barrier to entry; rules hardly need explanation in short videos; viewers just watch "what happens when you click."
+
+## 1) Click → Feedback → Growth: The Loop Is Not UI, It's "Time Intervals"
+
+A minimum viable loop that actually works (recommended to treat directly as a KPI):
+
+- **0 seconds**: Instant feedback on click (particles/vibration/popup number)  
+- **Within 1 second**: Resource bar rises noticeably (making "I got stronger" feel true)  
+- **3~6 seconds**: Can afford one upgrade (establishing the rhythm)  
+- **One second after upgrade**: Player immediately feels faster/larger/more satisfying (feel changes matter more than raw numbers)  
+
+If an upgrade only changes numbers without changing the experience, players will quickly treat it as "meaningless addition."
+
+## 2) Psychological Threshold for Numerical Inflation: It's Not "Too Big," It's "Unreadable/Unfelt"
+
+Common breaking points:
+
+- Numbers are huge but **growth rate is too small** (from 1,000,000 to 1,001,000, feels like no change)  
+- Numbers displayed as scientific notation/ultra-long strings (players lose ability to compare)  
+
+Two actionable principles:
+
+1. **Readable Segmentation**: Use K/M/B or Chinese "wan/yi", don't let the UI explode.  
+2. **Perception Threshold**: Upgrades should ideally bring **≥10% efficiency boost** (even 20%+ in early stages); otherwise, players won't "feel" it.
+
+## 3) "Beat Points" Are the Secret Weapon of Clickers
+
+Give players a bigger milestone to hit every certain period (even if it's just more exaggerated animation):
+
+- Every 10 levels: Upgrade becomes cheaper once (letting players buy consecutively)  
+- Every 30~60 seconds: Unlock a new button/new automation (upgrading from "tapping" to "management")  
+
+## Boundary Conditions
+
+- Need to handle cases where instant visual or tactile feedback is missing within 0 seconds after clicking.
+- Need to handle whether the resource bar rise within 1 second is sufficient for players to perceive "getting stronger."
+- Need to handle whether players can complete one upgrade purchase operation within 3 to 6 seconds.
+- Need to handle whether players can immediately perceive feel changes (e.g., speed, size) within 1 second after upgrading.
+- Need to handle whether players can still make effective comparisons when numbers are so large they display as scientific notation or ultra-long strings.
+
+## Design Trade-offs
+
+- **Benefit**: Upgrade brings efficiency boost; **Cost**: If it only changes numbers without changing experience, players will treat it as meaningless addition; **Alternative**: Prioritize ensuring feel changes occur one second after upgrade.
+- **Benefit**: Number display uses segmentation (e.g., wan/yi); **Cost**: None; **Alternative**: Avoid using scientific notation or ultra-long number strings to maintain readability.
+- **Benefit**: Set new button or automation unlock every 30~60 seconds; **Cost**: None; **Alternative**: None (original text did not provide an alternative for this operation; it serves only as a supplement to upgrade pacing).
+
+One-sentence summary: **Clickers aren't about how big you can make the numbers; it's about whether you can give players a "I got stronger" confirmation every 3~6 seconds.**

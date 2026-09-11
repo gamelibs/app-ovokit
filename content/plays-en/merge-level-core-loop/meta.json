@@ -1,0 +1,72 @@
+{
+  "slug": "merge-level-core-loop",
+  "title": "Core Mechanics of Merge & Upgrade Systems",
+  "subtitle": "A deep dive into merge and upgrade mechanics, breaking down merge rules, production pacing, and in-game feedback loops. The article outlines the implementation path from gameplay goals to core loops, offering reusable data structures and key numerical design principles to help developers build accessible, high-growth idle merge systems.",
+  "tags": [
+    "推荐",
+    "合成",
+    "放置",
+    "数值"
+  ],
+  "difficulty": "入门",
+  "techStack": [
+    "TypeScript",
+    "Next.js",
+    "Canvas"
+  ],
+  "corePoints": [
+    "Merge Rules",
+    "Production Pacing",
+    "In-Game Feedback"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Gameplay Goals",
+      "bullets": [
+        "Enable players to continuously make 'optimal choices'",
+        "Amplify small rewards through visual feedback"
+      ]
+    },
+    {
+      "title": "Core Loop",
+      "bullets": [
+        "Produce resources → Merge & Upgrade → Unlock new units → Boost production"
+      ]
+    },
+    {
+      "title": "Implementation Essentials",
+      "bullets": [
+        "Merge table-driven: Upgrade outcomes determined by configuration",
+        "Reversible actions: Replay via event logs",
+        "Embed 'pacing' into numerical curves: Deliver strong feedback every N merges"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Merge Rules (Table-Driven)",
+      "language": "ts",
+      "code": "type UnitId = string;\n\ntype MergeRule = { from: UnitId; to: UnitId; cost: number };\n\nexport const mergeRules: MergeRule[] = [\n  { from: \"u_1\", to: \"u_2\", cost: 2 },\n  { from: \"u_2\", to: \"u_3\", cost: 2 },\n];\n"
+    }
+  ],
+  "demo": {
+    "iframeSrc": "/embed/plays/merge-level-core-loop",
+    "note": "最小可交互：2 合 1 合成链（用于演示表驱动规则与合成节奏）。"
+  },
+  "cover": {
+    "src": "/plays/merge-level-core-loop/cover.webp",
+    "alt": "Core Mechanics of Merge & Upgrade Systems"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/merge-level-core-loop/cover.webp",
+    "alt": "Core Mechanics of Merge & Upgrade Systems"
+  },
+  "pattern": "merge",
+  "archetype": "merge-unit",
+  "lang": "en"
+}

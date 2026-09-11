@@ -1,0 +1,72 @@
+{
+  "slug": "roguelike-horde-density-and-readability",
+  "title": "Roguelike Slaying: Enemy Density Formulas and Screen Readability",
+  "subtitle": "This article dissects the core mechanics of roguelike slaying games, breaking down the construction of enemy density curves to create dynamic combat pacing. It explains how director systems use calculation to control enemy distribution for screen readability, analyzes hard rules limiting special effects to ensure visual clarity, and reveals the satisfaction derived from linear enemy growth paired with exponential player damage. The guide provides actionable advice for developers to balance numerical values with player experience.",
+  "cover": {
+    "src": "/plays/roguelike-horde-density-and-readability/cover.webp",
+    "alt": "Roguelike Slaying: Enemy Density Formulas and Screen Readability"
+  },
+  "coverWide": {
+    "src": "/plays/roguelike-horde-density-and-readability/cover.webp",
+    "alt": "Roguelike Slaying: Enemy Density Formulas and Screen Readability"
+  },
+  "tags": [
+    "Roguelike",
+    "动作",
+    "躲避",
+    "战斗",
+    "数值"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript",
+    "Unity/UE(可迁移)"
+  ],
+  "corePoints": [
+    "Density Curve",
+    "Director System",
+    "Readability Constraints"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Enemy Density Curve",
+      "bullets": [
+        "Use a 'spawn budget per unit time' instead of fixed refresh intervals",
+        "Curve segmentation recommendation: fast start for gratification → stable middle section → explosive late game",
+        "Density = Quantity × Speed × Size; all three cannot be maximized simultaneously"
+      ]
+    },
+    {
+      "title": "Screen Readability (Hard Rules)",
+      "bullets": [
+        "Bullet/Special Effect Cap: downsample or merge visuals if exceeded",
+        "Player Silhouette Must Be Clear: high-contrast outlines and center-screen negative space",
+        "Priority for Hazard Information: damage zones, projectiles, and enemy dashes must be most prominent"
+      ]
+    },
+    {
+      "title": "Satisfaction Sources",
+      "bullets": [
+        "Stepwise escalation in clear efficiency: noticeable power-ups every 1~2 minutes",
+        "'On the Brink of Death' Window: buffer frames for player reaction",
+        "Map numerical growth to visuals: larger range, longer chains, and stronger knockbacks"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Spawn Budget (Segmented Curve) + Cap Clipping (Example)",
+      "language": "ts",
+      "code": "export function spawnBudgetPerSecond(t: number) {\n  // t: 秒，分段曲线：前期快、中期稳、后期爆\n  if (t < 60) return 6 + t * 0.06; // 6 -> 9.6\n  if (t < 240) return 10 + (t - 60) * 0.03; // 10 -> 15.4\n  return 16 + Math.pow((t - 240) / 60, 1.2) * 6; // 16 -> ...\n}\n\nexport function clampVisualCount(count: number, max: number) {\n  // 超过上限时，做降采样/合并表现\n  if (count <= max) return { draw: count, merge: 0 };\n  return { draw: max, merge: count - max };\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "action",
+  "lang": "en"
+}

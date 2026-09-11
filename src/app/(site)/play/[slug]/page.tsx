@@ -34,20 +34,20 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const play = await getPlayBySlug(slug);
-  if (!play) return { title: "玩法不存在 - OVO" };
+  if (!play) return { title: `玩法不存在 - ${siteConfig.name}` };
 
   const coverImage = play.coverWide?.src ?? play.cover?.src ?? null;
   const ogImage = coverImage ? `${siteConfig.url}${coverImage}` : undefined;
 
   return {
-    title: `${play.title} - OVO`,
+    title: `${play.title} - ${siteConfig.name}`,
     description: play.subtitle,
     openGraph: {
       title: play.title,
       description: play.subtitle,
       type: "article",
       locale: "zh_CN",
-      siteName: "OVO",
+      siteName: siteConfig.name,
       images: ogImage ? [{ url: ogImage }] : undefined,
     },
     twitter: {
@@ -108,6 +108,15 @@ export default async function PlayDetailPage({
     if (src.includes("/embed/demos/pattern") || src.includes("/embed/demos/archetype")) return "portrait";
     return "landscape";
   };
+
+  // 本机/内网 demo 地址不对读者暴露（静态 demo 导出落地前的隔离守卫）：
+  // meta 里的地址原样保留、继续被存量审查追踪，这里只决定页面不渲染 iframe/video。
+  const isPrivateDemoSrc = (src?: string | null): boolean => {
+    if (!src) return false;
+    return /^https?:\/\/(localhost|127\.|0\.0\.0\.0|192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[01])\.)/i.test(src);
+  };
+  const demoSrcBlocked =
+    isPrivateDemoSrc(play.demo?.videoSrc) || isPrivateDemoSrc(play.demo?.iframeSrc);
 
   return (
     <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
@@ -221,7 +230,15 @@ export default async function PlayDetailPage({
                   ? "暂未提供专用 Demo，已嵌入对应行为母型的最小可试玩示例。"
                   : "暂未提供可试玩 Demo。")}
             </p>
-            {play.demo.videoSrc ? (
+            {demoSrcBlocked ? (
+              <div className="mt-4 overflow-hidden sketch-card-warm">
+                <div className="h-[46vh] w-full sm:h-auto sm:aspect-video">
+                  <div className="grid h-full place-items-center px-6 text-center text-sm leading-6 text-ink-muted">
+                    公开试玩准备中：本篇 Demo 正在做静态化导出，暂时无法在线试玩。
+                  </div>
+                </div>
+              </div>
+            ) : play.demo.videoSrc ? (
               <div className="mt-4 overflow-hidden sketch-card-warm">
                 <div className="h-[68vh] w-full sm:h-auto sm:aspect-video">
                   <video

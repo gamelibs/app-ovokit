@@ -1,0 +1,68 @@
+{
+  "slug": "multiple-endings-triggers-and-guidance",
+  "title": "Multiple Endings: Trigger Conditions and Player Path Guidance",
+  "subtitle": "A deep dive into crafting multiple ending triggers and player path guidance systems. By quantifying core elements, we define clear completion thresholds, build a tiered hint system ranging from strong to no guidance, and design dynamic feedback to balance exploration freedom, helping developers efficiently construct multi-ending narrative structures.",
+  "cover": {
+    "src": "/plays/multiple-endings-triggers-and-guidance/cover.webp",
+    "alt": "Multiple Endings: Trigger Conditions and Player Path Guidance"
+  },
+  "coverWide": {
+    "src": "/plays/multiple-endings-triggers-and-guidance/cover.webp",
+    "alt": "Multiple Endings: Trigger Conditions and Player Path Guidance"
+  },
+  "tags": [
+    "关卡",
+    "解谜"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "Trigger Conditions",
+    "Hint Tiering",
+    "Path Guidance"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "How to Write Ending Trigger Conditions",
+      "bullets": [
+        "Break conditions into: main story progress + key choices + collection/achievement thresholds",
+        "Avoid over-hiding: ensure at least 1–2 endings are reachable by 'playing normally'",
+        "Make conditions explainable: let players know exactly what they're missing, rather than relying on pure luck"
+      ]
+    },
+    {
+      "title": "Hint Intensity Tiering (Critical)",
+      "bullets": [
+        "Weak hints: environmental details/line dialogue hints (suitable for hardcore exploration)",
+        "Medium hints: task logs/encyclopedia progress (suitable for general audiences)",
+        "Strong hints: explicit 'you will miss a storyline' warnings (protects experience)"
+      ]
+    },
+    {
+      "title": "Player Path Guidance",
+      "bullets": [
+        "Use 'milestones' to tell players: this line is X steps away",
+        "Provide retry costs: chapter rewind/save points, rather than restarting the whole game",
+        "Ending differences must be obvious: gameplay mechanics/levels/rewards must change in at least one aspect"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Ending Judgment (Priority + Conditions)",
+      "language": "ts",
+      "code": "type Flags = Record<string, boolean>;\n\ntype Ending = { id: string; priority: number; when: (f: Flags) => boolean };\n\nexport const endings: Ending[] = [\n  { id: \"true\", priority: 100, when: (f) => f.coreDone && f.secretKey && f.mercy },\n  { id: \"good\", priority: 50, when: (f) => f.coreDone && f.mercy },\n  { id: \"bad\", priority: 10, when: (f) => f.coreDone },\n];\n\nexport function pickEnding(flags: Flags) {\n  return endings\n    .filter((e) => e.when(flags))\n    .sort((a, b) => b.priority - a.priority)[0]?.id;\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "spatial",
+  "lang": "en"
+}

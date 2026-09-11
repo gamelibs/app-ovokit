@@ -1,0 +1,61 @@
+{
+  "slug": "one-stroke-generation-and-grading",
+  "title": "One-Line Drawing: Graph Generation Algorithms and Difficulty Scaling",
+  "subtitle": "Deep dive into the mechanics of one-line drawing puzzles: using Euler path logic to validate solvability and controlling node degrees to generate unsolvable or single-solution levels. Systematically explains how branching points and loops quantify difficulty, demonstrating how algorithms dynamically add misleading edges to boost challenge. Readers will master graph theory applications in level generation and learn to build playable, clearly tiered puzzles.",
+  "tags": [
+    "推荐",
+    "解谜",
+    "生成",
+    "关卡"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "TypeScript",
+    "图论(通用)"
+  ],
+  "corePoints": [
+    "Euler Path",
+    "Level Generation",
+    "Difficulty Scaling"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Solvability",
+      "bullets": [
+        "Treat points as nodes, lines as edges",
+        "Euler path condition: count of odd-degree nodes"
+      ]
+    },
+    {
+      "title": "Difficulty",
+      "bullets": [
+        "More branches increase difficulty",
+        "More misleading loops increase difficulty",
+        "Visual crossings add cognitive load"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Euler Path Solvability Check (Simplified)",
+      "language": "ts",
+      "code": "export function hasEulerTrail(deg: number[]) {\n  const odd = deg.filter((d) => d % 2 === 1).length;\n  return odd === 0 || odd === 2;\n}\n"
+    }
+  ],
+  "cover": {
+    "src": "/plays/one-stroke-generation-and-grading/cover.webp",
+    "alt": "One-Line Drawing: Graph Generation Algorithms and Difficulty Scaling"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/one-stroke-generation-and-grading/cover.webp",
+    "alt": "One-Line Drawing: Graph Generation Algorithms and Difficulty Scaling"
+  },
+  "demo": {},
+  "pattern": "spatial",
+  "lang": "en"
+}

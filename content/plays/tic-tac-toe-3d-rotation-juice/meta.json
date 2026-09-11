@@ -1,7 +1,7 @@
 {
   "slug": "tic-tac-toe-3d-rotation-juice",
-  "title": "已被解决的井字棋，为什么还要做 3D 版？——Quantum Grid 的规则与果汁",
-  "subtitle": "在已被证明为无解的井字棋中，加入 3D 旋转与动态特效，如何改变玩家体验？本文拆解 Quantum Grid 的规则、AI 与表现层，探讨机制与美学的分离。",
+  "title": "规则不变也能翻新体验：井字棋 3D 化的表现层改造与 Minimax 复用",
+  "subtitle": "井字棋早已被完整解决：双方都下最优棋必成平局，先手可保不败。本文拆解一版 3D 井字棋如何在规则一字不改的前提下，用旋转、音效与彩带等“游戏感”（juice）重塑体验，判定与 AI 逻辑完全复用。",
   "archetype": "turn-duel",
   "tags": [
     "回合",
@@ -18,7 +18,7 @@
   "corePoints": [
     "规则层与表现层的分离",
     "minimax 与「已被解决」的游戏",
-    "果汁（juice）不改规则只改感受"
+    "游戏感（juice）只改感受不改规则"
   ],
   "stats": {
     "views": 0,
@@ -42,7 +42,7 @@
       ]
     },
     {
-      "title": "表现层果汁",
+      "title": "表现层游戏感（juice）",
       "bullets": [
         "Three.js 3D 棋盘与回合后旋转动画",
         "胜利彩带与 Web Audio 即时音效",
@@ -55,6 +55,11 @@
       "title": "三连判定：8 条胜利线查表",
       "language": "ts",
       "code": "const LINES = [\n  [0, 1, 2], [3, 4, 5], [6, 7, 8], // 横\n  [0, 3, 6], [1, 4, 7], [2, 5, 8], // 竖\n  [0, 4, 8], [2, 4, 6],            // 斜\n];\n\ntype Mark = 'X' | 'O' | null;\n\nexport function judge(cells: Mark[]): 'X' | 'O' | 'draw' | null {\n  for (const [a, b, c] of LINES) {\n    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {\n      return cells[a]; // 有胜者\n    }\n  }\n  return cells.every(Boolean) ? 'draw' : null;\n}\n"
+    },
+    {
+      "title": "Minimax：递归搜索最优应手（复用 core/board-ai）",
+      "language": "ts",
+      "code": "// 复用自 OVO 产线 core/board-ai 模块：井字棋重建版直接调用，规则零改动\nfunction minimax(cells: Mark[], depth: number, isMaximizing: boolean): number {\n  if (checkWinner(cells, aiPlayer)) return 10 - depth;     // 己方赢：越快分越高\n  if (checkWinner(cells, humanPlayer)) return depth - 10;  // 对手赢：越慢损失越小\n  const empty = getEmptyCells(cells);\n  if (empty.length === 0) return 0;                        // 平局\n\n  let best = isMaximizing ? -Infinity : Infinity;\n  for (const e of empty) {\n    cells[e.index] = isMaximizing ? aiPlayer : humanPlayer; // 试下这一步\n    const score = minimax(cells, depth + 1, !isMaximizing);\n    cells[e.index] = null;                                  // 回溯\n    best = isMaximizing ? Math.max(best, score) : Math.min(best, score);\n  }\n  return best;\n}\n"
     }
   ],
   "published": true,
@@ -62,5 +67,13 @@
     "iframeSrc": "http://127.0.0.1:19527/api/v2/projects/cp_1788757022723/preview",
     "note": "嵌入的是 OVO 产线从原始样本重建的可试玩版本：菜单 → 对局（含 minimax AI）→ 结算完整循环。"
   },
-  "pattern": "strategy"
+  "pattern": "strategy",
+  "cover": {
+    "src": "/plays/tic-tac-toe-3d-rotation-juice/cover.svg",
+    "alt": "规则不变也能翻新体验：井字棋 3D 化的表现层改造与 Minimax 复用"
+  },
+  "coverWide": {
+    "src": "/plays/tic-tac-toe-3d-rotation-juice/cover-wide.svg",
+    "alt": "规则不变也能翻新体验：井字棋 3D 化的表现层改造与 Minimax 复用"
+  }
 }

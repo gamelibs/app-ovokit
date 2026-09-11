@@ -1,7 +1,7 @@
 {
   "slug": "roguelike-horde-density-and-readability",
   "title": "肉鸽割草：敌人密度公式与屏幕可读性",
-  "subtitle": "短视频表现力强，但最难的是“越爽越清楚”：密度、速度与特效都要有上限。",
+  "subtitle": "文章解析肉鸽割草核心机制，拆解敌人密度曲线构建动态战斗节奏，阐述导演系统通过演算控制敌人分布以维持屏幕可读性，分析硬规则限制特效数量确保视觉清晰，揭示敌人数量随时间线性增长与玩家伤害随时间指数级上升的爽感来源，指导开发者平衡数值与体验。",
   "cover": {
     "src": "/plays/roguelike-horde-density-and-readability/cover.webp",
     "alt": "肉鸽割草：敌人密度公式与屏幕可读性"

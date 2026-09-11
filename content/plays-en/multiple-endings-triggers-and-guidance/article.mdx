@@ -1,0 +1,101 @@
+# Multi-Endings: Trigger Conditions and Player Path Guidance
+
+## The One-Sentence Essence
+
+On the surface, it lets players experience different story directions; actually, the core mechanism dynamically determines trigger conditions through variable combinations and a centralized evaluator. This article focuses on how to design interpretable trigger logic, tiered hints, and path guidance that reduces replay costs.
+
+Traffic Reason: High discussion rate; players will ask, "Which ending did you get?" — it naturally drives sharing and replay motivation.
+
+## 1) Ending Conditions: Make Them "Explainable," Not Just "Purely Hidden"
+
+It is recommended to split ending conditions into three parts:
+
+- Main story progress (mandatory)  
+- Key choices (branches)  
+- Collection/Achievement thresholds (bonus)
+
+Bottom line: At least guarantee that **playing normally** can reach 1~2 endings; otherwise, most players will feel the "content is incomplete."
+
+## 2) Hint Intensity Must Be Tiered
+
+Different players have very different tolerance for hints, so do not choose just one hint method.
+
+- **Weak hint**: Environmental clues/line dialogue hints (for hardcore players)  
+- **Medium hint**: Log/Compendium progress (for mass-market players)  
+- **Strong hint**: Explicit "You will miss a certain route" warning (protects immersion)
+
+Experience: A strong hint does not equal spoilers; it is protecting the "sense of investment."
+
+## 3) Path Guidance: Give Backtracking Options, Not a Full Restart
+
+The key to doing multi-endings well is: a second playthrough should not be repetitive labor.
+
+You can offer:
+
+- Chapter backtracking/key save points  
+- Differentiated level mechanics for different endings (at least change one mechanic)  
+- Ending rewards feeding back into the next playthrough (drives the loop)
+
+One-sentence summary: **The value of multi-endings is "discussion and replay," provided "players know how to proceed."**
+
+---
+
+## 4) How to Implement "Explainability" for Ending Conditions
+
+A practical approach is to split ending conditions into three types of variables:
+
+- **Choice variables**: Key options (A/B/C), determining the main branch
+- **Threshold variables**: Collection/Favorability/Completion (numerical thresholds)
+- **Flag variables**: One-time events (whether someone was saved, whether something was destroyed)
+
+Then, use "Progress Hints" within the game to make the presence of these variables visible:
+
+- Log/Compendium shows the percentage of "Ending Clues"
+- At the end of a chapter, give a weak hint like "You are getting closer to one direction"
+
+This way, players won't feel that endings just "pop up suddenly."
+
+---
+
+## 5) Guidance and Error Prevention: Let Players Avoid "Irreversible" Pitfalls
+
+The most common point of negative reviews for multi-endings is:
+
+- Players invest a lot of time, only to realize they took the wrong route and must restart
+
+Common protection strategies:
+
+- Auto-save at key nodes (chapter save points)
+- Give strong hints at irreversible nodes ("Continuing will lock you into a certain route")
+- Provide a backtracking mechanism (return to the nearest key node, not a full restart)
+
+This is not about lowering difficulty; it is about protecting the sense of investment.
+
+---
+
+## 6) Engineering Implementation Advice: Use a "Centralized Ending Evaluator"
+
+Do not write `if` statements scattered throughout the story script to judge endings; instead, centralize them in an evaluator:
+
+- Input: Set of variables (flags + counters + choices)
+- Output: Ending ID + Trigger reason (for UI explanation)
+
+This allows you to:
+
+- Unit test coverage for every ending
+- Print "Why this ending was triggered" during debugging
+- Avoid breaking old logic when adding new endings later
+
+## Boundary Conditions
+
+- Must guarantee that the normal playthrough can reach at least 1~2 endings; otherwise, it will be considered "incomplete content."
+- Must handle situations where players cannot unlock specific endings due to missing key choices or collectibles.
+- Must provide strong hints or auto-saves at irreversible key nodes to prevent players from falling into dead ends due to accidental operations.
+- Must handle conflicts in multi-ending judgment logic to ensure mutually exclusive endings are not triggered simultaneously in a single playthrough.
+- Must handle situations where adding new endings does not break existing logic and unit test coverage.
+
+## Design Trade-offs
+
+- **Benefit**: Logical reuse and easier debugging via a centralized evaluator, **Cost**: Requires developing an independent evaluation module, **Alternative**: Writing numerous `if` judgments scattered in story scripts.
+- **Benefit**: Provides chapter backtracking or differentiated levels to reduce repetitive labor in a second playthrough, **Cost**: Requires designing additional level mechanics or save management logic, **Alternative**: Requires players to completely restart the game from the beginning.
+- **Benefit**: Uses strong hints to protect player investment and clearly guide direction, **Cost**: May weaken the sense of exploration achievement for hardcore players, **Alternative**: Relies solely on environmental or dialogue hints.

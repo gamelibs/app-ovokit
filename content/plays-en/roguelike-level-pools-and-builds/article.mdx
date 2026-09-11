@@ -1,0 +1,74 @@
+# Roguelike Level Design: Random Pool Architecture and Build Power Control
+
+## The One-Sentence Essence
+
+On the surface, it's procedurally generated levels; in reality, the core mechanism is "controlled combinatorial generation" and "risk pacing regulation." This article focuses on explaining how to control room combinations via tag constraints and how to dynamically balance Build power through budgets and soft corrections.
+
+**Why it goes viral:** Content is infinitely scalable ("never the same twice"), naturally fitting short-form video/live streaming loops.
+
+## 1) Random Pools Aren't "Random"—They're "Controlled Combinatorial Generation"
+
+Break levels into multiple **composable pools**, not a big messy dump:
+
+- **Room Pool**: Standard Combat / Elite / Shop / Event / Resupply  
+- **Reward Pool**: Gold / Upgrades / Relics / Temporary Buffs  
+- **Enemy Pool**: Grouped by biome, floor, unit size, and skill tags  
+
+**Key Point:** Every entry must have **tags and constraints**; otherwise, you're just firefighting with "weight magic."
+
+Common constraint fields (table-driven):
+
+- `minFloor/maxFloor`: Appearance interval  
+- `exclusiveTags`: Mutually exclusive (only appears once per floor)  
+- `cooldown`: Won't appear for the last N times (prevents back-to-back shops/events)  
+- `ensureEvery`: Must appear at least once every X floors (avoids "no shop leads to no late-game progression")  
+
+## 2) Build Power Control: Don't Just "Weaken the Player"; Change Risk and Pacing
+
+Player Builds usually break not because "numbers are too high," but because the **growth curve goes out of control**:
+
+- Rare upgrades too dense → stacking multipliers too fast  
+- Defense growth lags → one-shot kill  
+- Key functions (dashes/penetration/lifesteal) appear too late → bad feel, churn  
+
+**Solution:** First, define a **target power curve** (expected value per floor):
+
+- **Output**: Expected DPS growth 10~15%/floor  
+- **Survival**: Effective HP or damage reduction growth 8~12%/floor  
+- **Control**: Key functions must get an "entry version" by floor 2~3  
+
+When a player is ahead, don't "cut stats." Better means are:
+
+- **Increase Risk**: Stronger enemy combos, less resupply, higher elite density  
+- **Change Reward Structure**: Give "choice space" when ahead, give "direct power" when behind  
+- **Control Stacking**: Change similar bonuses to additive (additive within same group, multiplicative across groups)  
+
+## 3) A Very Useful Generation Strategy: Budget + Soft Correction
+
+Set a budget per floor (example):
+
+- Combat room ratio 60%  
+- Event room ratio 25%  
+- Shop/Resupply ratio 15%  
+
+Then apply soft correction based on player state:
+
+- Player behind: Increase weight of resupply/direct numerical rewards  
+- Player ahead: Increase weight of "high risk, high reward" (e.g., elites/cursed rewards)  
+
+## Edge Cases
+
+Issues that need handling:
+- When an entry lacks tags or constraints, don't rely on weight magic; must supplement with exclusive, interval, cooldown, or must-appear constraints.
+- When a player encounters the same room type consecutively (e.g., shop/event), trigger the cooldown mechanism to prevent back-to-back spawns.
+- When a specific room type (e.g., shop) hasn't appeared within X floors, trigger the must-appear mechanism to avoid being unable to progress in the late game.
+- When a player's Build growth curve goes out of control (e.g., stacking too fast or defense lagging), intervene by adjusting enemy combos or reward structure, not by directly weakening stats.
+- When a player is in an ahead or behind state, dynamically adjust resupply weight or risk weight based on the preset target power curve.  
+
+## Design Trade-offs
+
+- **Gains**: Room pool splitting brings infinite content expansion and diversity; budget control ensures level stability; soft correction provides a sense of fairness.
+- **Costs**: Relying on tags and constraint fields increases design complexity; directly weakening player stats ruins feel and increases churn risk.
+- **Alternatives**: Use "increase risk" and "change reward structure" instead of "directly weakening stats"; use "additive within same group/cross-group multiplicative" instead of "directly stacking similar bonuses."  
+
+**One-sentence summary:** **Pools handle "diversity," budgets handle "stability," and corrections handle "fairness."**

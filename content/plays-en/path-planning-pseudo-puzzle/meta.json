@@ -1,0 +1,61 @@
+{
+  "slug": "path-planning-pseudo-puzzle",
+  "title": "Path Planning: Balancing Pseudo-Puzzle Design and Multi-Solution Trade-offs",
+  "subtitle": "This article deconstructs pseudo-puzzle mechanics and solution space design, analyzing how to build an open solution space using limited game mechanics. It details verifiable generation techniques to maintain logical consistency while precisely balancing the fun of multi-solution exploration against the efficiency of single-solution guidance, offering developers core strategies for controlling randomness.",
+  "tags": [
+    "推荐",
+    "解谜",
+    "关卡",
+    "生成"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "TypeScript",
+    "生成/校验(通用)"
+  ],
+  "corePoints": [
+    "Pseudo-Puzzle",
+    "Multi-Solution vs Single-Solution",
+    "Generation and Verification"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Pseudo-Puzzle",
+      "bullets": [
+        "Make players make decisions that 'look smart'",
+        "Hide complexity inside the verification/generation logic"
+      ]
+    },
+    {
+      "title": "Solution Space",
+      "bullets": [
+        "Single Solution: Feels like a puzzle question",
+        "Multi-Solution: Feels like a sandbox",
+        "Control difficulty using 'shortest path difference'"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Count Solutions (BFS/DFS Counting, Simplified)",
+      "language": "ts",
+      "code": "type NodeId = string;\n\ntype Graph = Record<NodeId, NodeId[]>;\n\nexport function countPaths(g: Graph, start: NodeId, goal: NodeId, limit = 3) {\n  let count = 0;\n  const stack: NodeId[] = [start];\n  const visited = new Set<string>();\n\n  function dfs(node: NodeId, path: NodeId[]) {\n    if (count >= limit) return;\n    if (node === goal) {\n      count++;\n      return;\n    }\n    for (const next of g[node] ?? []) {\n      const key = `${node}->${next}|${path.length}`;\n      if (visited.has(key)) continue;\n      visited.add(key);\n      dfs(next, [...path, next]);\n    }\n  }\n\n  dfs(start, stack);\n  return count;\n}\n"
+    }
+  ],
+  "cover": {
+    "src": "/plays/path-planning-pseudo-puzzle/cover.webp",
+    "alt": "Path Planning: Balancing Pseudo-Puzzle Design and Multi-Solution Trade-offs"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/path-planning-pseudo-puzzle/cover.webp",
+    "alt": "Path Planning: Balancing Pseudo-Puzzle Design and Multi-Solution Trade-offs"
+  },
+  "demo": {},
+  "pattern": "spatial",
+  "lang": "en"
+}

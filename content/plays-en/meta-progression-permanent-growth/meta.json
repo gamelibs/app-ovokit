@@ -1,0 +1,70 @@
+{
+  "slug": "meta-progression-permanent-growth",
+  "title": "Failure as Progress: Balancing Permanent Growth and Anti-Farm Mechanics",
+  "subtitle": "A deep dive into Roguelike permanent growth scaling and anti-farming systems. Learn how to balance rhythm-based unlocks and numerical feedback to transform player frustration into a compelling progression loop, ensuring a fair and engaging strategy space.",
+  "cover": {
+    "src": "/plays/meta-progression-permanent-growth/cover.webp",
+    "alt": "Failure as Progress: Balancing Permanent Growth and Anti-Farm Mechanics"
+  },
+  "coverWide": {
+    "src": "/plays/meta-progression-permanent-growth/cover.webp",
+    "alt": "Failure as Progress: Balancing Permanent Growth and Anti-Farm Mechanics"
+  },
+  "tags": [
+    "Roguelike",
+    "关卡",
+    "数值"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "Permanent Growth Scaling",
+    "Rhythm-Based Unlocks",
+    "Anti-Farming Mechanics"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Setting the Permanent Growth Rate",
+      "bullets": [
+        "Too high growth leads to trivial runs; too low makes failure meaningless.",
+        "Best practice: Split growth into three tracks: numerical stats, functional unlocks, and content unlocks.",
+        "Recommendation: Keep permanent numerical stats at 20~35% of total power, relying on gameplay mastery and build composition for the rest."
+      ]
+    },
+    {
+      "title": "Preventing Farming Failures",
+      "bullets": [
+        "Tie rewards to performance metrics: survival time, kills, depth, and task completion.",
+        "Implement diminishing returns for early exits: minimal or no rewards for quitting within the first 2 minutes.",
+        "Set daily or per-run caps with milestone bonuses to encourage players to push deeper."
+      ]
+    },
+    {
+      "title": "Turning Frustration into Purpose",
+      "bullets": [
+        "Clear failure summaries tell players exactly what progress was made.",
+        "Introduce small variations for the next run (new talent/weapon/event) to maintain interest.",
+        "Make near-misses explainable (e.g., one key away, one layer short) to provide a clear next step."
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Failure Rewards: Performance-Based + Early Exit Penalty (Example)",
+      "language": "ts",
+      "code": "export function metaCurrencyGain(opts: {\n  seconds: number;\n  floors: number;\n  kills: number;\n}) {\n  const earlyQuitPenalty = opts.seconds < 120 ? 0.2 : 1;\n  const base = Math.sqrt(opts.kills) + opts.floors * 3;\n  return Math.floor(base * earlyQuitPenalty);\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "strategy",
+  "archetype": "progression",
+  "lang": "en"
+}

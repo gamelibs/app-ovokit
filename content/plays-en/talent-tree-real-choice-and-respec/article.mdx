@@ -1,0 +1,93 @@
+# Talent Trees: Fake Choices vs. Real Choices, How to Set Reset Costs
+
+## One-Sentence Essence
+
+On the surface, it lets players make choices between branches; actually, the core mechanism creates true gameplay divergence by changing control methods, risk structures, or resource loops; this article focuses on explaining how to avoid "pseudo-complexity" from number stacking and design a reasonable trial-and-error and recovery rhythm.
+
+Traffic reason: Strategy + Progression. Players love researching "point allocation," and they also love arguing in the comments about "whether this tree is actually useful."
+
+## 1) Real Choices: Branches Must Change Gameplay, Not Just Add Numbers
+
+A "real choice" must meet at least one of the following conditions:
+
+- Change control methods (range/chain/rhythm)
+- Change risk structure (fragile but stronger, stable but slower)
+- Change resource loops (more skill-dependent, more basic-attack-dependent, more item-dependent)
+
+If all nodes are just "+5%," players will only look for the optimal solution, and your tree becomes "pseudo-complex."
+
+## 2) Three Common Forms of Fake Choices
+
+1. **Branches Merge at the End**: What you choose in the middle doesn't matter.
+2. **Linear Bonus Stacking**: The mathematical optimal solution is unique, leaving little room for discussion.
+3. **One Mistake Ruins a Match/Account**: Frustration is too high.
+
+## 3) Reset Costs: Encourage Trial-and-Error Early, Recover Resources Later
+
+Recommended rhythm:
+
+- Early game: Free/Low cost (encourages players to try)
+- Mid game: Gradually increase cost (forms currency recovery)
+- Late game: Provide "Partial Reset/Event Reset" (reduces irreversible frustration)
+
+One-sentence summary: **The value of a talent tree is "divergence," while the value of resetting points is "trial-and-error."**
+
+---
+
+## 4) Node Design Template: Describe Nodes Using "Amount of Gameplay Change"
+
+To avoid having all `+5%`, suggest you force yourself to answer the following when designing nodes:
+
+- What "control/rhythm/risk" does it change?
+- What is the cost it brings? (More fragile/Slower/More resource-hungry)
+- Which nodes does it synergize with? (Combination space)
+
+A practical node classification:
+
+- Control-type: Changes attack method/range/chain
+- Resource-type: Changes resource loops (mana regen/lifesteal/drops)
+- Risk-type: Trades risk for reward (trading HP for damage, standing still for burst)
+- Rule-type: Changes judgment rules (crit trigger mechanism, debuff stacking)
+
+---
+
+## 5) "Real Branches" Engineering Implementation: Write Branches into the System, Not Just the UI
+
+If a talent tree only affects the number table, players will hardly feel that "the gameplay has changed."
+
+A better implementation approach:
+
+- One node enables a new rule (e.g., "kill causes splash damage")
+- One node changes a core formula (e.g., "shield value comes from attack power")
+- One node changes an input rhythm (e.g., "charged attack")
+
+Engineering advice: Make talent effects into "composable modifiers" instead of writing `if (hasTalentX) ...` in 30 places.
+
+---
+
+## 6) How to Set Reset Costs (An Executable Rhythm)
+
+Recommended "from encouraging trial-and-error to resource recovery" rhythm:
+
+- Newbie period: First N resets are free (or extremely low cost)
+- Growth period: Cost increases with the number of times (forms resource recovery)
+- Late period: Provide "Partial Reset" (reset only one branch) or "Event Free Reset" (reduces irreversible frustration)
+
+Acceptance criteria:
+
+- Will players try different builds? (Willing = Success)
+- Will players quit because one mistake? (Yes = Cost is too harsh)
+
+## Boundary Conditions
+
+- Need to handle invalid input: If all nodes are pure number bonuses like "+5%," players will only look for a unique optimal solution, causing the discussion space to disappear.
+- Need to handle repeated operations: If branches merge in the middle or linear bonuses stack, player choices lose meaning; must force answering "what gameplay changed."
+- Need to handle state reset: If one mistake ruins a match or an account, frustration is too high; must provide free early trial or partial/event reset later.
+- Need to handle data anomalies: If talent effects are only written in the UI or scattered `if` judgments, players will hardly perceive gameplay changes; engineering implementation must be made into composable modifiers.
+- Need to handle settlement judgment: If players quit because the cost is too high, it means the cost rhythm design failed; the acceptance criterion is whether players are willing to try different builds.
+
+## Design Trade-offs
+
+- Benefit is creating gameplay divergence; cost is increased engineering complexity; alternative is abandoning branches to stack numbers directly, but this leads to players only looking for optimal solutions.
+- Benefit is encouraging early trial-and-error; cost is needing to recover resources in the mid-game to form a currency loop; alternative is free throughout or expensive throughout, the former leads to chaos and the latter leads to frustration.
+- Benefit is reducing late-game irreversible frustration; cost is increased event operation costs; alternative is permanently locking choices, but this will ruin the account experience due to a single mistake.

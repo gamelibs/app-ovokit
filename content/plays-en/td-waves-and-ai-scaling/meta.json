@@ -1,0 +1,64 @@
+{
+  "slug": "td-waves-and-ai-scaling",
+  "title": "Tower Defense Wave Generation and Enemy Scheduling",
+  "subtitle": "A deep dive into tower defense wave data structures and enemy scheduling logic. We explore wave DSL configuration for pressure curves and intelligent spawning strategies, offering a complete solution from basic numerical balancing to dynamic level pacing to help developers build flexible and varied tower defense stages.",
+  "tags": [
+    "塔防",
+    "生成",
+    "数值",
+    "热门"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "TypeScript",
+    "状态机",
+    "Pixi.js"
+  ],
+  "corePoints": [
+    "Wave DSL",
+    "Pressure Curve",
+    "Spawning Scheduling"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Wave Structure",
+      "bullets": [
+        "Warm-up → Ramp-up → Climax → Buffer",
+        "Variants used to create 'recognition and counterplay'"
+      ]
+    },
+    {
+      "title": "Scheduling Strategy",
+      "bullets": [
+        "Budget-based: Select enemies per wave based on budget",
+        "Metronome: Spawn enemies in batches by beat"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Wave Budget (Simplified)",
+      "language": "ts",
+      "code": "type EnemyId = string;\ntype Enemy = { id: EnemyId; cost: number };\n\nexport function pickWave(enemies: Enemy[], budget: number) {\n  const picked: Enemy[] = [];\n  let remaining = budget;\n  for (const enemy of enemies) {\n    while (remaining >= enemy.cost) {\n      picked.push(enemy);\n      remaining -= enemy.cost;\n    }\n  }\n  return picked;\n}\n"
+    }
+  ],
+  "demo": {
+    "iframeSrc": "/embed/plays/td-waves-and-ai-scaling",
+    "note": "最小可交互：预算函数生成波次怪物组合（用于解释压力曲线与变体）。"
+  },
+  "cover": {
+    "src": "/plays/td-waves-and-ai-scaling/cover.webp",
+    "alt": "Tower Defense Wave Generation and Enemy Scheduling"
+  },
+  "coverWide": {
+    "src": "/plays/td-waves-and-ai-scaling/cover.webp",
+    "alt": "Tower Defense Wave Generation and Enemy Scheduling"
+  },
+  "published": true,
+  "pattern": "strategy",
+  "lang": "en"
+}

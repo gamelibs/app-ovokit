@@ -1,0 +1,62 @@
+{
+  "slug": "grid-movement-and-collision",
+  "title": "Grid Movement and Collision: From Rules to Implementation",
+  "subtitle": "This article deconstructs the layered mechanism for grid-based movement and collision detection, built upon grid coordinates and physics tags. It details the push-box displacement logic and blockage checks using an occupancy table and reachability model, providing a direct technical path from rule definition to code implementation to help readers master core physics interaction principles.",
+  "tags": [
+    "网格",
+    "物理",
+    "关卡"
+  ],
+  "difficulty": "入门",
+  "techStack": [
+    "TypeScript",
+    "Canvas"
+  ],
+  "corePoints": [
+    "Occupancy Table",
+    "Reachability",
+    "Layered Collision"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Data Model",
+      "bullets": [
+        "Occupancy table occupancy[x,y] → entityId",
+        "Layers: Terrain / Units / Projectiles"
+      ]
+    },
+    {
+      "title": "Movement Resolution",
+      "bullets": [
+        "Calculate intent first, then resolve",
+        "Support chained pushes (optional)"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Occupancy Table (Simplified)",
+      "language": "ts",
+      "code": "export type Pos = { x: number; y: number };\n\nexport class Occupancy {\n  private map = new Map<string, string>();\n  private key(p: Pos) {\n    return `${p.x},${p.y}`;\n  }\n  get(p: Pos) {\n    return this.map.get(this.key(p));\n  }\n  set(p: Pos, id: string) {\n    this.map.set(this.key(p), id);\n  }\n  clear(p: Pos) {\n    this.map.delete(this.key(p));\n  }\n}\n"
+    }
+  ],
+  "demo": {
+    "iframeSrc": "/embed/plays/grid-movement-and-collision",
+    "note": "最小可试玩：网格移动 + 墙体阻挡（用于演示占用/阻挡模型）。"
+  },
+  "cover": {
+    "src": "/plays/grid-movement-and-collision/cover.webp",
+    "alt": "Grid Movement and Collision: From Rules to Implementation"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/grid-movement-and-collision/cover.webp",
+    "alt": "Grid Movement and Collision: From Rules to Implementation"
+  },
+  "pattern": "spatial",
+  "lang": "en"
+}

@@ -1,0 +1,70 @@
+{
+  "slug": "random-affixes-pool-and-scaling",
+  "title": "Randomized Equipment Affixes: Designing Affix Pools and Preventing Numerical Collapse",
+  "subtitle": "This article dissects the grouping strategy for equipment affix pools and the mechanics for controlling multiplicative stacking. It details soft caps and guarantee systems to mitigate exponential growth. By constructing independent affix pools, we avoid attribute conflicts, while using probability decay formulas to curb unchecked scaling. This approach preserves the thrill of randomized gambling without allowing numerical imbalance to break the game economy.",
+  "cover": {
+    "src": "/plays/random-affixes-pool-and-scaling/cover.webp",
+    "alt": "Randomized Equipment Affixes: Designing Affix Pools and Preventing Numerical Collapse"
+  },
+  "coverWide": {
+    "src": "/plays/random-affixes-pool-and-scaling/cover.webp",
+    "alt": "Randomized Equipment Affixes: Designing Affix Pools and Preventing Numerical Collapse"
+  },
+  "tags": [
+    "战斗",
+    "数值",
+    "生成"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript",
+    "Unity/UE(可迁移)"
+  ],
+  "corePoints": [
+    "Affix Pool Grouping",
+    "Multiplicative Stacking Control",
+    "Soft Caps / Guarantees"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "How to Decompose Affix Pools",
+      "bullets": [
+        "Split by Body Part / Weapon Type: Prevents 'Staves dropping Melee Affixes'",
+        "Split by Affix Group: Damage / Survival / Utility groups, limiting the count of same-group affixes per item",
+        "Use Rarity to determine 'Max Affix Count' and 'Overall Cap'"
+      ]
+    },
+    {
+      "title": "Preventing Numerical Collapse",
+      "bullets": [
+        "Same-Group Addition, Cross-Group Multiplication: Avoid infinite stacking within the same dimension",
+        "Apply Soft Caps to Critical Multiplicative Affixes: Diminishing returns instead of hard cuts",
+        "Implement 'Guaranteed Caps': Ensure minimum viability while capping maximum absurdity"
+      ]
+    },
+    {
+      "title": "Gambling Experience",
+      "bullets": [
+        "Predictable: Display affix pools and rarity probabilities (at least provide ranges)",
+        "Modifiable: Gacha reroll / Locking affixes / Reforging serves as a long-term goal",
+        "Narrative-Driven: Compelling affix names and visual feedback encourage players to share screenshots"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Same-Group Addition + Diminishing Returns (Example)",
+      "language": "ts",
+      "code": "export function diminishing(x: number, k = 0.7) {\n  // x: 叠加值（例如暴击伤害 +0.2 +0.2 ...）\n  // k 越小递减越强\n  return 1 - Math.exp(-x * k);\n}\n\nexport function finalDamageMultiplier(opts: {\n  base: number;\n  sameGroupBonus: number; // 同组加法汇总\n  otherGroupMul: number; // 跨组乘法（已控制上限）\n}) {\n  const same = 1 + diminishing(opts.sameGroupBonus);\n  return opts.base * same * opts.otherGroupMul;\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "strategy",
+  "lang": "en"
+}

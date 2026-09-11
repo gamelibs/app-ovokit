@@ -1,0 +1,63 @@
+{
+  "slug": "td-waves-and-ai-scaling",
+  "title": "塔防波次生成与敌人调度",
+  "subtitle": "用简单的波次 DSL + 调度器，控制压力曲线与变体组合。",
+  "tags": [
+    "塔防",
+    "生成",
+    "数值",
+    "热门"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "TypeScript",
+    "状态机",
+    "Pixi.js"
+  ],
+  "corePoints": [
+    "波次 DSL",
+    "压力曲线",
+    "刷怪调度"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "波次结构",
+      "bullets": [
+        "预热 → 爬坡 → 高潮 → 缓冲",
+        "变体用于制造“识别与对策”"
+      ]
+    },
+    {
+      "title": "调度策略",
+      "bullets": [
+        "预算制：每波次按预算选敌人",
+        "节拍器：按节拍分批出怪"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "波次预算（简化）",
+      "language": "ts",
+      "code": "type EnemyId = string;\ntype Enemy = { id: EnemyId; cost: number };\n\nexport function pickWave(enemies: Enemy[], budget: number) {\n  const picked: Enemy[] = [];\n  let remaining = budget;\n  for (const enemy of enemies) {\n    while (remaining >= enemy.cost) {\n      picked.push(enemy);\n      remaining -= enemy.cost;\n    }\n  }\n  return picked;\n}\n"
+    }
+  ],
+  "demo": {
+    "iframeSrc": "/embed/plays/td-waves-and-ai-scaling",
+    "note": "最小可交互：预算函数生成波次怪物组合（用于解释压力曲线与变体）。"
+  },
+  "cover": {
+    "src": "/plays/td-waves-and-ai-scaling/cover.webp",
+    "alt": "塔防波次生成与敌人调度"
+  },
+  "coverWide": {
+    "src": "/plays/td-waves-and-ai-scaling/cover.webp",
+    "alt": "塔防波次生成与敌人调度"
+  },
+  "published": true,
+  "pattern": "strategy"
+}

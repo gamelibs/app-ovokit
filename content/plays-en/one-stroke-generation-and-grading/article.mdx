@@ -1,0 +1,63 @@
+# One-Stroke: Treat Levels as Graphs for Automatic Difficulty Grading
+
+## The Essence in One Sentence
+
+On the surface, it's a geometric challenge where players experience "finishing in one stroke"; actually, the core mechanism leverages Euler path theory from graph theory to guarantee level solvability; this article focuses on explaining how to automatically generate and grade level difficulty using quantitative metrics (branching count, loop count, visual crossings).
+
+**Traffic Reason:** Dual attributes of education + casual; viewers are willing to watch "how to finish in one stroke" and also willing to try it themselves.
+
+## 1) Graph Generation Algorithm: Guarantee Solvability Before Fun
+
+One-stroke is essentially graph theory:
+
+- Point = Node  
+- Line = Edge  
+- "Finish in one stroke" = Traverse every edge once (Euler path/circuit)
+
+The simplest condition for solvability (extremely useful):
+
+- Number of odd-degree nodes = 0 → Has an Euler circuit (can return to start from anywhere)  
+- Number of odd-degree nodes = 2 → Has an Euler path (start/end points are fixed)
+
+The generation process can be highly engineering-oriented:
+
+1. First generate a graph that meets the conditions  
+2. Then perform "visual mapping" (draw the graph as a geometric shape/animal/letter)
+
+## 2) Difficulty Grading Logic: Don't Rely on Intuition, Rely on Metrics
+
+Three difficulty metrics that can be directly quantified:
+
+- **Branching Count**: The higher the maximum degree of a node, the easier it is to make a mistake.  
+- **Loop Count**: The more loops, the easier it is to get stuck prematurely.  
+- **Visual Crossings**: The more line segments cross, the more likely players are to misread the path (even if they aren't connected on the graph).
+
+Suggested Grading:
+
+- Beginner: Maximum degree ≤ 3, few loops  
+- Intermediate: Presence of 4-degree nodes or multiple loops  
+- Hardcore: Many loops + high visual crossing density
+
+## 3) Making One-Stroke Feel More Like a Game: Add "Cost of Mistakes," But Not "Frustration"
+
+Lightweight design can boost retention:
+
+- Allow undoing one step (reduces anxiety)  
+- Provide "highlight traversable edges" (lowers the barrier to reading the map)  
+- On failure, do not clear the board; return to the nearest branching point instead.
+
+## Boundary Conditions
+
+- The number of odd-degree nodes must be 0 or 2; otherwise, a solvable one-stroke path cannot be generated.
+- If the number of odd-degree nodes is neither 0 nor 2, the graph is deemed unsolvable.
+- The generation process must first construct a graph satisfying Euler conditions, then perform visual mapping.
+- After failure, the player must return to the nearest branching point, rather than clearing the current progress directly.
+- Players can execute an undo operation to handle situations where they take the wrong path.
+
+## Design Trade-offs
+
+- **Benefits**: Allowing one-step undo reduces player anxiety; providing "highlight traversable edges" lowers the barrier to reading the map; not clearing the board on failure and retreating to the nearest branching point reduces frustration.
+- **Cost**: The aforementioned lightweight designs (undo, highlight, retreat) may increase system logical complexity or resource consumption.
+- **Alternatives**: If the aforementioned lightweight designs are not adopted, the system would rely entirely on player trial-and-error, potentially leading to a steep learning curve or decreased retention rates.
+
+**One-Sentence Summary:** **One-stroke content production can be fully automated: Euler guarantees solvability, metrics determine difficulty, and visuals handle dissemination.**

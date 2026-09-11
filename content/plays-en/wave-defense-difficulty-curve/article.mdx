@@ -1,0 +1,104 @@
+# Wave Defense: Wave Intensity Curves and Mid-Game Buffer Design
+
+## The One-Sentence Essence
+
+On the surface, it's random enemy swaps or pausing the game; actually, the core is using a "budget" to control total resources, creating strategic space through "peak-valley" rhythms and "consumable windows"; this article focuses on explaining how to quantify intensity with formulas and constrain variant frequencies to maintain the rhythm.
+
+Traffic reason: Clear rhythm, strong visual impact ("Wave 10 is here!"), perfect for short video marathons.
+
+## 1) Wave Intensity Must Be Managed via "Budget"
+
+Don't just write "Wave N spawns 20 enemies"; instead, assign a budget per wave:
+
+- Quantity
+- Health Points (HP)
+- Speed
+- Special Enemies (flying/heavy armor/self-destruct/healing)
+
+The benefit of a budget is: you can swap different templates to create variation without changing the overall difficulty.
+
+## 2) Mid-Game Buffer: Give Players Time to Make Strategy
+
+Tower defense fears "panic throughout the whole game" where no strategic space occurs.
+
+A breathing period can provide:
+
+- Build/upgrade windows
+- Choose-one rewards (more money/heal/tower upgrade)
+- Optional risk: advance the wave for extra rewards
+
+With a buffer, players feel "win/loss is my choice," rather than "the system is spawning too fast."
+
+## 3) Peaks and Valleys Must Exist
+
+Stable growth doesn't mean every wave is harder; instead:
+
+- 3~4 waves of stable growth
+- 1 wave of peak challenge
+- 1 wave of breathing reward
+
+One-sentence summary: **The fun of wave defense comes from "predictable rhythm," not "pure stacking of enemies."**
+
+---
+
+## 4) The Minimum Formula for Intensity Curves (So You Can "Calculate" Instead of "Guess")
+
+You need at least one explainable intensity metric to measure roughly how hard a wave is. A practical approximation is:
+
+- `pressure = Σ (hp * speedWeight * abilityWeight)`
+
+Where:
+
+- `speedWeight`: The faster the speed, the harder it is to kite and focus fire (weight can be >1)
+- `abilityWeight`: Abilities like flying/heavy armor/healing force players to switch strategies (weight is usually higher)
+
+With this metric, you can avoid uncontrolled jumps like "Wave 9 is 300, Wave 10 suddenly 900."
+
+---
+
+## 5) How to Make the Mid-Game Buffer Feel Like a "Reward" Instead of a "Gap"
+
+Common buffer practices:
+
+- Stop spawning for 8~12 seconds (for upgrading/building)
+- Continue spawning but reduce pressure (let players fight while adjusting)
+
+To make the buffer feel more like a reward, suggest giving a clear "consumable window":
+
+- Choose-one (more money/more tower/heal)
+- Low-risk resource wave (weak enemies but lots of money)
+- Optional risk: advance the wave for extra rewards
+
+Key point: **Let players make visible "stronger choices" during the buffer period.**
+
+---
+
+## 6) Variant Appearance Frequency Must Be Controllable (Avoid Aesthetic Fatigue/Unsolvable)
+
+If you treat variants as "random draws," it's easy to get:
+
+- 4 consecutive flying waves (ground tower players crash immediately)
+- 3 consecutive heavy armor waves (rhythm drags)
+
+Suggest adding simple constraints:
+
+- Cooldown: After a variant appears, it won't appear again within X waves
+- Budget cap: Variant cost proportion must not exceed a certain threshold
+- Fallback: If the player fails the previous wave, automatically lower the peak of the next wave or give a buffer reward
+
+## Boundary Conditions
+
+Issues that need handling:
+- If the player encounters the same type of variant consecutively (e.g., consecutive flying or heavy armor), does it trigger a cooldown or lower intensity as a fallback.
+- When the player fails the previous wave, does the next wave automatically lower the peak or give a buffer reward to avoid being unsolvable.
+- Does the variant cost proportion exceed the preset threshold; if so, limit the generation of variants for that wave.
+- During the mid-game buffer, if the player chooses to "advance the wave," does it synchronously adjust subsequent wave intensity or resources.
+- When speed or ability weights in the intensity calculation are abnormal, does it cause the peak-valley rhythm to break.
+
+## Design Trade-offs
+
+- **Benefit**: Using budget instead of fixed quantity allows flexible template swapping to create variation; **Cost**: Increases calculation and management complexity; **Alternative**: Hardcode exactly how many enemies spawn in Wave N.
+- **Benefit**: Mid-game buffer provides build/upgrade windows for player strategy choices; **Cost**: If mishandled, it becomes a mere empty gap period; **Alternative**: Continuous high-pressure spawning throughout but with no strategic space.
+- **Benefit**: A clear consumable window (e.g., choose-one) makes the buffer period feel like a reward; **Cost**: Increases the burden of player decision-making; **Alternative**: Stop spawning for 8~12 seconds, letting players wait passively.
+- **Benefit**: Quantifying intensity with formulas avoids uncontrolled jumps; **Cost**: Requires defining specific weights for speed and abilities; **Alternative**: Subjectively judge each wave's difficulty based on experience.
+- **Benefit**: Constraining variant appearance frequency avoids aesthetic fatigue and unsolvable situations; **Cost**: Limits the surprise element of randomness; **Alternative**: Completely random variant drawing.

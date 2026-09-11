@@ -1,0 +1,61 @@
+{
+  "slug": "tap-dodge-forgiveness-and-speed",
+  "title": "Tap Dodge: Balancing Failure Tolerance and Bullet Speed Curves",
+  "subtitle": "A deep dive into the tap dodge mechanic, analyzing hitbox tolerance settings and near-miss feedback to balance failure risk. We also explore constructing bullet speed curves to achieve smooth difficulty progression, providing core design strategies for developers to ensure both responsive controls and long-term player retention.",
+  "tags": [
+    "动作",
+    "躲避",
+    "热门"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "TypeScript",
+    "Canvas"
+  ],
+  "corePoints": [
+    "Hitbox Tolerance",
+    "Near-Miss Feedback",
+    "Speed Curve"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Tolerance",
+      "bullets": [
+        "Is the hitbox wider or narrower than the visual target?",
+        "Respawn protection and near-miss mechanics",
+        "Making failures feel like 'my mistake'"
+      ]
+    },
+    {
+      "title": "Speed Curve",
+      "bullets": [
+        "Ramp-up in the first 10 seconds",
+        "Mid-game plateau",
+        "Short burst at the end to create a highlight moment"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Bullet Speed Curve (Ramp-up -> Plateau -> Burst)",
+      "language": "ts",
+      "code": "export function bulletSpeed(tSec: number) {\n  const ramp = 0.08 * Math.min(tSec, 10);\n  const plateau = 1.0;\n  const sprint = tSec > 35 ? 0.04 * Math.min(10, tSec - 35) : 0;\n  return plateau + ramp + sprint;\n}\n"
+    }
+  ],
+  "cover": {
+    "src": "/plays/tap-dodge-forgiveness-and-speed/cover.webp",
+    "alt": "Tap Dodge: Balancing Failure Tolerance and Bullet Speed Curves"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/tap-dodge-forgiveness-and-speed/cover.webp",
+    "alt": "Tap Dodge: Balancing Failure Tolerance and Bullet Speed Curves"
+  },
+  "demo": {},
+  "pattern": "action",
+  "lang": "en"
+}

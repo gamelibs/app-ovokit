@@ -1,7 +1,7 @@
 {
   "slug": "roguelike-level-pools-and-builds",
   "title": "Roguelike 关卡：随机池设计与 Build 强度控制",
-  "subtitle": "从房间池/权重/约束出发，做出“可无限扩展但不崩坏”的关卡生成。",
+  "subtitle": "文章拆解 Roguelike 随机池构建与 Build 强度控制机制，详解房间事件池配置及权重约束策略，阐述如何设计数值曲线防止强度崩坏，并提供避免“伪随机”体验的具体技术方案，指导开发者实现既丰富又平衡的关卡生成系统。",
   "cover": {
     "src": "/plays/roguelike-level-pools-and-builds/cover.webp",
     "alt": "Roguelike 关卡：随机池设计与 Build 强度控制"

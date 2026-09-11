@@ -1,0 +1,76 @@
+# Line Matching: Don't prioritize effects first; tune "Length → Reward" until it feels addictive
+
+## The One-Sentence Essence
+
+On the surface, it's about extending lines to increase scores; actually, the core is controlling the emotional climax point via a "length threshold," while using "path/energy/reward" limits to prevent numerical collapse; this article focuses on explaining how to optimize the ratio between score curves and restriction strategies.
+
+Traffic Driver: The gameplay feels more "satisfying" than Match-3, and the "I pulled a super long line" moment is instantly understandable in short videos.
+
+## 1) Line Length and Score Curve: The Core Isn't "Score," It's the "Emotional Threshold"
+
+You need to answer two questions:
+
+1. At what **length** does the player feel "I'm strong"? (Commonly 6~8)  
+2. At what **length** does it count as a "rare event"? (Commonly 12+)
+
+Recommended approach: Use a **power curve** so rewards grow increasingly fast, but simultaneously use **caps/phase thresholds** to control the explosion:
+
+- 3~5: Ensure newbies can reliably achieve this (builds confidence)  
+- 6~9: The main battlefield (gets players to start chasing longer lines)  
+- 10+: Highlight material (encourages viewers to stay)
+
+Meanwhile, make visual feedback act like a "metronome":
+
+- 6: Upgrade sound effects/particles once  
+- 9: Slight camera shake/screen flash  
+- 12: Trigger a "reward settlement animation" (even if it's just making the numbers jump more exaggeratedly)
+
+## 2) Preventing Infinite Lines: Restrictions Must Feel Like "Rules," Not "Brakes"
+
+Common categories of restrictions (ranked by least impact on feel):
+
+### A. Path Rules (Most Natural)
+- No crossing / No backtracking / Must be adjacent cells  
+Pros: Players treat it as a game rule, not a weakening of their power.
+
+### B. Energy/Time (Most Controllable)
+- Lines consume energy, which regenerates over time  
+Pros: You can precisely control "how many mega-lines can be played per minute."
+
+### C. Reward Decay (Most Subtle)
+- Same-color consecutive lines have diminishing returns; switching colors resets the chain  
+Pros: Guides players away from "grinding one color" toward "multi-goal planning."
+
+## 3) A Very Useful "Anti-Infinite Line" Combo
+
+If you can only pick two restrictions:
+
+- **No path crossing** (Rule layer)  
+- **Diminishing same-color rewards** (Economy layer)  
+
+The former limits "mechanical infinity," the latter limits "numerical infinity"; player experience usually remains very satisfying.
+
+One-sentence summary: **The design focus of line matching is to make 6~9 feel like "I can often do this," and 12+ feel like "an occasional explosion."**
+
+---
+
+## 4) Acceptance Checklist (Quick Reference Before Launch)
+
+- [ ] Newbies can make a "noticeably satisfying" line within 1 minute (establishes motivation)
+- [ ] Experts chasing long lines won't encounter "infinite loops/infinite scores"
+- [ ] Score curve rhythm aligns with visual/audio feedback beats (players can "understand why it feels good")
+
+## Edge Cases
+
+- Need to handle situations where newbies cannot achieve a "noticeably satisfying" line length within 1 minute.
+- Need to handle situations where experts chasing long lines encounter infinite loops or infinite scores.
+- Need to handle mismatches between score curve growth rhythm and visual/audio feedback beats.
+- Need to handle state update logic after same-color consecutive line rewards decay or after switching colors resets.
+- Need to handle feedback when player operations are forcibly blocked due to energy depletion or time depletion.
+
+## Design Trade-offs
+
+- **Reward / Cost**: Use a power curve to make rewards grow increasingly fast, trading off player motivation to chase longer lines, but must pair it with caps or phase thresholds to control explosion risk.
+- **Reward / Cost**: Use "no path crossing" to limit mechanical infinity, trading off natural rule feel, but may increase player planning difficulty.
+- **Reward / Cost**: Use "same-color reward decay" to limit numerical infinity, guiding players toward multi-goal planning, but may weaken the satisfaction of single-color chains.
+- **Reward / Cost**: Use "energy/time" to limit operation frequency, trading off precise rhythm control, but may interrupt the player's fluid feel.

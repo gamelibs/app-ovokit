@@ -1,0 +1,95 @@
+# Random Events: Balancing Good/Bad Ratios and Correcting Negative Feedback Loops
+
+## The One-Sentence Essence
+
+On the surface, it's random event selection; in reality, the core mechanism is emotional management and pacing control via a "Pool + Weight + Constraint" model. This article focuses on how to avoid "malicious randomness" through ratio allocation, carry-over correction, and story consistency.
+
+**Why it drives traffic:** It's unpredictable, and players love to discuss "what happened in this run." However, if the event system is done poorly, players will be scolded for "malicious randomness."
+
+## 1) Good/Bad Ratios: Don't Go for 50/50
+
+Events are not gacha pulls; events are about pacing.
+
+A more stable ratio reference:
+
+- 60% Neutral (provides information/route changes/small rewards)  
+- 25% Good Events (speed boosts, healing, strong items)  
+- 15% Bad Events (costs exchanged for larger rewards)
+
+The baseline for bad events: **Make players feel "I made a wrong choice," not "The system is trolling me."**
+
+## 2) Anti-Carry-Over: Must Correct Continuous Negative Feedback
+
+What hurts players most isn't a single failure, but:
+
+> A few consecutive bad events → Resources run dry → Forced into a dead end → Churn
+
+Therefore, we recommend two layers of protection:
+
+- **Soft Pity:** The longer the bad streak, the higher the weight of good events.  
+- **Hard Pity:** Critical resources (healing/repair) must appear at least once every X attempts.
+
+## 3) Make Randomness Feel Like a "Reasonable Story"
+
+Event experience = Randomness + Consistency:
+
+- Split event pools by chapter/biome (ice biome events differ from desert events)  
+- Cool down on recent N event types (avoid repetition)  
+- Events must offer at least two options (turn randomness into "choice")
+
+One-sentence summary: **The essence of the event system is "emotional management," not "rolling dice."**
+
+---
+
+## 4) Event Weights: Use "Pool + Weight + Constraint" Instead of Pure Randomness
+
+A deployable event selection model:
+
+- Split event pools by chapter/biome (pool)
+- Assign a base weight to each event (weight)
+- Overlay constraints (constraints)
+
+Typical examples of constraints:
+
+- Cool down: After a similar event appears, it won't appear again within X attempts.
+- Mutually exclusive: After one event appears, another is disabled.
+- Prerequisite: Related events won't appear if a certain system isn't unlocked.
+
+This way, you maintain the sense of randomness while avoiding "absurd carry-over."
+
+---
+
+## 5) Minimal Implementation of Continuous Negative Feedback Correction (Pity)
+
+You don't need a complex system for pity; a minimal implementation can significantly improve experience:
+
+- Maintain a `badStreak` (count of consecutive bad events)
+- When `badStreak` increases, boost the weight of good events or inject guaranteed rescue resources.
+- Once a good event/critical resource appears, reset `badStreak`.
+
+Note: The goal of pity is not to "make players lucky forever," but to prevent emotions from being completely crushed by a streak.
+
+---
+
+## 6) Events Must Be "Reviewable": Otherwise You Can't Balance Them
+
+We recommend implementing minimal logging during development:
+
+- Event sequence for this run (eventId + choice + result)
+- Key resource curve (HP/Gold/Durability)
+
+You'll quickly discover "which type of event breaks players most easily at what stage," giving you evidence to adjust weights and cool downs.
+
+## Boundary Conditions
+
+- Bad events must make players feel they "made a wrong choice" rather than "the system is trolling them"; ensure the logic of cost vs. reward is self-consistent.
+- Must handle cases where continuous bad events drain resources or force players into a dead end; trigger soft pity or hard pity mechanisms.
+- Must handle the issue of repeated events; use type cool downs or mutual exclusion constraints to prevent player experience collapse.
+- Must handle the risk of missing critical resources (e.g., healing/repair); ensure they appear at least once every X attempts to prevent churn.
+- Must handle balance tuning during development; record the event sequence and key resource curve for this run to enable post-mortem analysis.
+
+## Design Trade-offs
+
+- **Benefit:** Maintains unpredictability and discussion heat from randomness; **Cost:** Pure randomness easily causes continuous negative feedback, leading to player emotional breakdown; **Alternative:** Adopt the "Pool + Weight + Constraint" model, introducing pity and cool down mechanisms while retaining randomness.
+- **Benefit:** Splitting pools by chapter or biome enhances story consistency of events; **Cost:** Limits the purity of global random distribution; **Alternative:** Overlay a cool down on the most recent N event types on top of split pools, ensuring thematic coherence while avoiding event repetition.
+- **Benefit:** Minimal pity implementation (maintaining bad event count and adjusting weights only) significantly improves experience; **Cost:** Cannot achieve perfect luck equalization; **Alternative:** Do not pursue "luck forever"; set the baseline goal as merely "avoiding emotional breakdown."

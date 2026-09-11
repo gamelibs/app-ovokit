@@ -135,7 +135,7 @@ async function sendContactEmail(body: {
 
   const html = `
     <div style="font-family:system-ui,-apple-system,sans-serif;line-height:1.6;color:#202020;">
-      <h2 style="font-size:18px;">来自 OVO 联系表单的新留言</h2>
+      <h2 style="font-size:18px;">来自 ${siteConfig.name} 联系表单的新留言</h2>
       <p><strong>姓名：</strong> ${escapeHtml(body.name)}</p>
       <p><strong>邮箱：</strong> ${escapeHtml(body.email)}</p>
       <p><strong>主题：</strong> ${escapeHtml(body.subject)}</p>
@@ -145,10 +145,10 @@ async function sendContactEmail(body: {
   `;
 
   const raw = buildRawEmail({
-    from: `"OVO 联系表单" <${fromEmail}>`,
+    from: `"${siteConfig.name} 联系表单" <${fromEmail}>`,
     to: toEmail,
     replyTo: body.email,
-    subject: `[OVO] ${body.subject}`,
+    subject: `[${siteConfig.name}] ${body.subject}`,
     html,
   });
 

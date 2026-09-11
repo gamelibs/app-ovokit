@@ -1,7 +1,7 @@
 {
   "slug": "random-events-balance-and-pity",
   "title": "随机事件：好坏事件比例与连续负反馈修正",
-  "subtitle": "不可预测才有故事，但不能把玩家打进“死亡螺旋”：用事件池与保底修复情绪。",
+  "subtitle": "本文拆解随机事件机制，通过设定好坏事件比例确立数值基本盘，引入连续负反馈修正算法防止玩家陷入死亡螺旋。读者将掌握利用事件池与保底逻辑平滑体验的技巧，学会调整随机参数以平衡 Roguelike 游戏的生成长度与关卡难度。",
   "cover": {
     "src": "/plays/random-events-balance-and-pity/cover.webp",
     "alt": "随机事件：好坏事件比例与连续负反馈修正"
@@ -64,5 +64,6 @@
   ],
   "published": true,
   "demo": {},
-  "pattern": "strategy"
+  "pattern": "strategy",
+  "archetype": "progression"
 }

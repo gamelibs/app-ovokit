@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { listPlays } from "@/lib/content/plays";
 import { FavoritesPageClient } from "@/components/favorites/FavoritesPageClient";
+import { siteConfig } from "@/lib/site/config";
 
 export const metadata: Metadata = {
-  title: "我的收藏 - OVO",
-  description: "浏览你在 OVO 收藏的内容。",
+  title: `我的收藏 - ${siteConfig.name}`,
+  description: `浏览你在 ${siteConfig.name} 收藏的内容。`,
 };
 
 export default async function FavoritesPage() {

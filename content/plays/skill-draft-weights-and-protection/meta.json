@@ -1,7 +1,7 @@
 {
   "slug": "skill-draft-weights-and-protection",
   "title": "随机技能选择：技能权重与新手保护机制",
-  "subtitle": "把“选择焦虑”做成爽点：三选一如何既多样又不坑人。",
+  "subtitle": "本文拆解 Roguelike 随机技能选择机制，详解技能池结构与权重算法，通过协同加权平衡多样性，利用新手保护规避数值崩坏，解决选择焦虑并优化战斗生成体验。",
   "cover": {
     "src": "/plays/skill-draft-weights-and-protection/cover.webp",
     "alt": "随机技能选择：技能权重与新手保护机制"

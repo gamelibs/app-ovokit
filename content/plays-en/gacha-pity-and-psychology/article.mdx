@@ -1,0 +1,96 @@
+# Gacha Simulation: Pity Mechanics and Probability Psychology
+
+## The One-Sentence Essence
+
+On the surface, it's a numerical adjustment to increase drop rates; in reality, the core mechanism uses "hard pity as a safety net" and "soft pity for smoothing" to eliminate the pain of extreme tail outcomes; this article focuses on how to verify the distribution via simulation and design emotional thresholds.
+
+**Traffic Reason:** High controversy, naturally high engagement. Players will ask: **"Is this probability actually a trap?"**
+
+## 1) Relying Solely on "2% Drop Rate" Will Fail
+
+Players aren't broken by the "average probability," but by **continuous failure**.
+
+Therefore, the gacha system usually needs to solve two things:
+
+- **Extreme non-lucky tail probability** (Is P99 absurd?)  
+- **The feeling of being stabbed in the back** (Got a drop, but not the one you wanted)
+
+## 2) The Most Common Combination: Hard Pity + Soft Pity + Directed
+
+- **Hard Pity:** Guaranteed rare item after N pulls (baseline fairness)  
+- **Soft Pity:** Probability increases as you approach N (better perceived experience)  
+- **Directed / Big Pity:** If you get the wrong item, the next pull guarantees the target (reduces negative emotions)
+
+**Experience:** The improvement in reputation from soft pity is often more noticeable than simply increasing the base probability.
+
+## 3) Simulation Should Look at Distribution, Not Just Expectation
+
+What you need is not "average 50 pulls to get an item," but:
+
+- P50: How many pulls half the players need  
+- P90: How many pulls most players need  
+- P99: How many pulls extreme non-lucky players need (this decides whether public opinion explodes)
+
+One-sentence summary: **Gacha balance is about "reducing tail pain," not "increasing the mean."**
+
+---
+
+## 4) How to Implement Soft Pity (Smoother Perceived Experience)
+
+The most common implementation of soft pity is not "sudden doubling," but a gradually rising probability curve, for example:
+
+- Pulls 1~A: Base probability `p0`
+- Pulls A~N: Probability increases by `dp` per pull (or rises via segments/exponential)
+- Pull N: Hard pity guarantees the drop
+
+What you are tuning is "player experience," not mathematical elegance:
+
+- Rising too early: Makes the base probability look like a prop
+- Rising too late: The tail remains painful (reputation risk)
+
+---
+
+## 5) Directed / Big Pity: Solving "Got a Drop, But Not the One I Wanted"
+
+Much of the controversy isn't "didn't get a rare," but "got a drop, but got the wrong one."
+
+Common directed schemes:
+
+- **50/50:** If you get the wrong item this time, the next pull guarantees the target (big pity)
+- **Counter:** Getting the wrong item adds 1 point; once full, guaranteed drop
+- **Redemption:** Repeat rares exchange for "fragments," accumulating to redeem the target
+
+**Core Goal:** Turn "bad luck" into accumulative progress.
+
+---
+
+## 6) Using Monte Carlo to View Distribution (Minimum Executable Steps)
+
+You don't need to start with complex mathematical derivation; use simulation first to uncover most problems:
+
+1. Write a `simulateOneUser()` function returning "number of pulls required to get the target"
+2. Run it `100000` times to get the distribution
+3. Check `P50/P90/P95/P99`, then look at the distribution of "how many times you got the wrong item"
+
+You will find: Some configurations may have a great mean, but P99 is extremely ugly—this is the "reputation explosion point."
+
+---
+
+## 7) Review and Reputation Considerations (Product Side)
+
+- **Consistent disclosure wording:** When displaying base probability, also explain pity and directed rules (otherwise players feel misled)
+- **Avoid "implicit weighting" causing unexplainability:** Players fear most feeling "controlled by the system"
+- **Turn "bad luck" into progress:** Even fragment redemption can significantly reduce negative emotions
+
+## Boundary Conditions
+
+- Need to handle whether extreme non-lucky tail probability (P99) is absurd enough to cause reputation explosion.
+- Need to handle the feeling of being stabbed in the back caused by continuous failure (got a drop, but not the one wanted).
+- Need to handle the impact of soft pity probability curve rising too early or too late on perceived experience.
+- Need to handle whether the "wrong item" situation in the directed mechanism converts into accumulative progress.
+- Need to handle whether disclosure wording and implicit weighting rules are consistent, avoiding players feeling controlled.
+
+## Design Trade-offs
+
+- **Benefit:** Soft pity improves reputation; **Cost:** Base probability looks like a prop; **Alternative:** Adjust the rising curve to avoid rising too early or too late.
+- **Benefit:** Turning bad luck into accumulative progress (e.g., fragment redemption); **Cost:** Increased system complexity; **Alternative:** Directly increase base probability or rely solely on hard pity.

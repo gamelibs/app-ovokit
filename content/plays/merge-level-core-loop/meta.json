@@ -1,7 +1,7 @@
 {
   "slug": "merge-level-core-loop",
   "title": "合成 & 升级玩法核心逻辑",
-  "subtitle": "拆解“合成升级”的节奏、产出与反馈，并给出可复用的数据结构。",
+  "subtitle": "深度解析合成与升级玩法，拆解合并规则、产出节奏及局内反馈机制。文章梳理从玩法目标到核心循环的实现路径，提供高复用数据结构与数值设计要点，助开发者构建低门槛高成长的放置类合成系统。",
   "tags": [
     "推荐",
     "合成",
@@ -66,5 +66,6 @@
     "src": "/plays/merge-level-core-loop/cover.webp",
     "alt": "合成 & 升级玩法核心逻辑"
   },
-  "pattern": "merge"
+  "pattern": "merge",
+  "archetype": "merge-unit"
 }

@@ -1,0 +1,2032 @@
+{
+  "base": "http://localhost:19600",
+  "at": "2026-09-09T11:42:33.343Z",
+  "playCount": 32,
+  "issues": [
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "finite-state-machine-for-combat",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/plays/finite-state-machine-for-combat"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "grid-movement-and-collision",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/plays/grid-movement-and-collision"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "match-3-retention-and-pacing",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/demos/match3"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "merge-level-core-loop",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/plays/merge-level-core-loop"
+    },
+    {
+      "layer": "A",
+      "category": "pipeline-gap",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "body-too-short",
+      "detail": "正文有效字数 791（要求 ≥800）",
+      "gateCode": "gate-structure:body-too-short"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "sliding-puzzle-3d-photo",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/games/ReferenceCase/sliding-puzzle-3d"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "demo-404",
+      "detail": "demo 资源不存在：public/embed/plays/td-waves-and-ai-scaling"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "cover-cover-missing",
+      "detail": "meta.cover.src 为空"
+    },
+    {
+      "layer": "A",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "cover-coverWide-missing",
+      "detail": "meta.coverWide.src 为空"
+    },
+    {
+      "layer": "A",
+      "category": "blocked-demo",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "demo-localhost",
+      "detail": "demo iframe 指向本地地址：http://127.0.0.1:19527/api/v2/projects/cp_1788757022723/preview（等静态 demo 导出）"
+    },
+    {
+      "layer": "A",
+      "category": "blocked-demo",
+      "subject": "tic-tac-toe-showdown",
+      "code": "demo-localhost",
+      "detail": "demo iframe 指向本地地址：http://127.0.0.1:19527/preview-assets/1021/beta/10001/index.html（等静态 demo 导出）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:runner",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:shoot-aim",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:choice-strategy",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:timing",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "C",
+      "category": "content-fix",
+      "subject": "archetype:simulation",
+      "code": "pillar-empty",
+      "detail": "母型页无任何文章回链（空集群）"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "2048-variant-probability-control",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "2048-variant-probability-control",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "2048-variant-probability-control",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "2048-variant-probability-control",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "2048-variant-probability-control",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "2048-variant-probability-control",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "2048-variant-probability-control",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "2048-variant-probability-control",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "clicker-feedback-and-inflation",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "drag-idle-manual-vs-offline",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "finite-state-machine-for-combat",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "finite-state-machine-for-combat",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "finite-state-machine-for-combat",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "finite-state-machine-for-combat",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "finite-state-machine-for-combat",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "finite-state-machine-for-combat",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "gacha-pity-and-psychology",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "gacha-pity-and-psychology",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "gacha-pity-and-psychology",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "gacha-pity-and-psychology",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "gacha-pity-and-psychology",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "gacha-pity-and-psychology",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "gacha-pity-and-psychology",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "gacha-pity-and-psychology",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "grid-movement-and-collision",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "grid-movement-and-collision",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "grid-movement-and-collision",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "grid-movement-and-collision",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "grid-movement-and-collision",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "grid-movement-and-collision",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "infinite-upgrades-cost-curves",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "line-connect-scoring-and-limits",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "match-3-retention-and-pacing",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "match-3-retention-and-pacing",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "match-3-retention-and-pacing",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "match-3-retention-and-pacing",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "match-3-retention-and-pacing",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "match-3-retention-and-pacing",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "match-3-retention-and-pacing",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-chain-and-gates",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-chain-and-gates",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-chain-and-gates",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-chain-and-gates",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-chain-and-gates",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-chain-and-gates",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-chain-and-gates",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-chain-and-gates",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-level-core-loop",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-level-core-loop",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-level-core-loop",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-level-core-loop",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-level-core-loop",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "merge-level-core-loop",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "meta-progression-permanent-growth",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "meta-progression-permanent-growth",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "meta-progression-permanent-growth",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "meta-progression-permanent-growth",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "meta-progression-permanent-growth",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "meta-progression-permanent-growth",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "meta-progression-permanent-growth",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "meta-progression-permanent-growth",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "multiple-endings-triggers-and-guidance",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "multiple-endings-triggers-and-guidance",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "multiple-endings-triggers-and-guidance",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "multiple-endings-triggers-and-guidance",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "multiple-endings-triggers-and-guidance",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "multiple-endings-triggers-and-guidance",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "multiple-endings-triggers-and-guidance",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "multiple-endings-triggers-and-guidance",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "one-stroke-generation-and-grading",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "path-planning-pseudo-puzzle",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "physics-cut-hit-test-and-performance",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "physics-cut-hit-test-and-performance",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "physics-cut-hit-test-and-performance",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "physics-cut-hit-test-and-performance",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "physics-cut-hit-test-and-performance",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "physics-cut-hit-test-and-performance",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "physics-cut-hit-test-and-performance",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "physics-cut-hit-test-and-performance",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "play-1677a241",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "play-1677a241",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "play-1677a241",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "play-1677a241",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "play-1677a241",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "play-1677a241",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "pull-the-pin-punish-and-fake-difficulty",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-affixes-pool-and-scaling",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-events-balance-and-pity",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-events-balance-and-pity",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-events-balance-and-pity",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-events-balance-and-pity",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-events-balance-and-pity",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-events-balance-and-pity",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-events-balance-and-pity",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "random-events-balance-and-pity",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-horde-density-and-readability",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "roguelike-level-pools-and-builds",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "skill-draft-weights-and-protection",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "sliding-puzzle-3d-photo",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "sliding-puzzle-3d-photo",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "sliding-puzzle-3d-photo",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "sliding-puzzle-3d-photo",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "sliding-puzzle-3d-photo",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "sliding-puzzle-3d-photo",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "spot-the-difference-design-and-anti-skip",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "spot-the-difference-design-and-anti-skip",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "spot-the-difference-design-and-anti-skip",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "spot-the-difference-design-and-anti-skip",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "spot-the-difference-design-and-anti-skip",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "spot-the-difference-design-and-anti-skip",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "spot-the-difference-design-and-anti-skip",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "spot-the-difference-design-and-anti-skip",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "survival-countdown-design",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "survival-countdown-design",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "survival-countdown-design",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "survival-countdown-design",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "survival-countdown-design",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "survival-countdown-design",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "survival-countdown-design",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "survival-countdown-design",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "talent-tree-real-choice-and-respec",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "talent-tree-real-choice-and-respec",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "talent-tree-real-choice-and-respec",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "talent-tree-real-choice-and-respec",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "talent-tree-real-choice-and-respec",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "talent-tree-real-choice-and-respec",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "talent-tree-real-choice-and-respec",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "talent-tree-real-choice-and-respec",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tap-dodge-forgiveness-and-speed",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tap-dodge-forgiveness-and-speed",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tap-dodge-forgiveness-and-speed",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tap-dodge-forgiveness-and-speed",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tap-dodge-forgiveness-and-speed",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tap-dodge-forgiveness-and-speed",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tap-dodge-forgiveness-and-speed",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tap-dodge-forgiveness-and-speed",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "td-waves-and-ai-scaling",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-3d-rotation-juice",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-showdown",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-showdown",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-showdown",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-showdown",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "tic-tac-toe-showdown",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "wave-defense-difficulty-curve",
+      "code": "guide-loop",
+      "detail": "缺「玩法循环」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-loop"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "wave-defense-difficulty-curve",
+      "code": "guide-experience",
+      "detail": "缺「玩家实际经历」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-experience"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "wave-defense-difficulty-curve",
+      "code": "guide-mechanics",
+      "detail": "缺「核心机制拆解」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-mechanics"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "wave-defense-difficulty-curve",
+      "code": "guide-data-model",
+      "detail": "缺「数据模型」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-data-model"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "wave-defense-difficulty-curve",
+      "code": "guide-implementation",
+      "detail": "缺「关键实现」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-implementation"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "wave-defense-difficulty-curve",
+      "code": "guide-primitives",
+      "detail": "缺「可迁移的玩法原语」章节（指南 §四 标准结构）",
+      "gateCode": "gate-guide-structure:guide-primitives"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "wave-defense-difficulty-curve",
+      "code": "guide-code-missing",
+      "detail": "正文无代码块（指南：1~3 段关键代码证明观点）",
+      "gateCode": "gate-guide-structure:code"
+    },
+    {
+      "layer": "D",
+      "category": "content-fix",
+      "subject": "wave-defense-difficulty-curve",
+      "code": "guide-demo-missing",
+      "detail": "meta.demo 为空（文章无可操作验证入口）",
+      "gateCode": "gate-guide-structure:demo"
+    }
+  ]
+}

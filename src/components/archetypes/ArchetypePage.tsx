@@ -141,6 +141,7 @@ export function ArchetypePage({
           { id: "breakdown", label: "系统拆解" },
           { id: "combos", label: "常见组合" },
           { id: "advanced", label: "高级设计 ▾" },
+          ...(model.relatedPlays.length > 0 ? [{ id: "cases", label: "相关案例" }] : []),
         ].map((item) => (
           <a
             key={item.id}
@@ -261,6 +262,28 @@ export function ArchetypePage({
           </div>
         </details>
       </section>
+
+      {model.relatedPlays.length > 0 && (
+        <SectionShell id="cases" title="⑥ 相关案例文章">
+          <div className="grid gap-3 lg:grid-cols-3">
+            {model.relatedPlays.map((p) => (
+              <Link
+                key={p.slug}
+                href={`/play/${encodeURIComponent(p.slug)}`}
+                className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm hover:bg-paper-warm"
+              >
+                <div className="font-semibold text-ink">{p.title}</div>
+                {p.subtitle ? (
+                  <div className="mt-1 line-clamp-3 text-ink-light">{p.subtitle}</div>
+                ) : null}
+              </Link>
+            ))}
+          </div>
+          <div className="mt-3 text-xs text-ink-muted">
+            归属口径：案例文章 meta.json 显式 archetype 优先，tag 推断兜底（taxonomy site-tags 映射）。
+          </div>
+        </SectionShell>
+      )}
     </div>
   );
 

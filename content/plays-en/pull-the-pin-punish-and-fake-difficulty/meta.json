@@ -1,0 +1,62 @@
+{
+  "slug": "pull-the-pin-punish-and-fake-difficulty",
+  "title": "Pull the Pin: Sequential Penalties and 'Fake Difficulty'",
+  "subtitle": "Deconstructing the penalty mechanics and fake difficulty design in pull-the-pin puzzles. The article analyzes how sequence errors trigger immediate restarts, leveraging low forgiveness to create a 'seemingly hard, actually fake' challenge experience. It reveals the underlying logic of building levels via rule-based constraints rather than complex operations, offering high-value design references for puzzle games.",
+  "tags": [
+    "解谜",
+    "物理",
+    "关卡"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "TypeScript",
+    "2D 物理"
+  ],
+  "corePoints": [
+    "Sequential Penalties",
+    "Fake Difficulty",
+    "Instant Restart"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Penalty Design",
+      "bullets": [
+        "Errors are immediately visible",
+        "Failure results in quick settlement",
+        "Provide one 'aha' learning moment"
+      ]
+    },
+    {
+      "title": "Fake Difficulty",
+      "bullets": [
+        "Visual misdirection",
+        "Hidden constraints",
+        "Timing pressure",
+        "Level segmentation (easy-to-hard progression)"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Sequence Validation (describing level stages via state machine)",
+      "language": "ts",
+      "code": "type Phase = \"setup\" | \"mix\" | \"resolve\" | \"success\" | \"fail\";\n\nexport function nextPhase(phase: Phase, action: string): Phase {\n  if (phase === \"setup\" && action === \"pull\" ) return \"mix\";\n  if (phase === \"mix\" && action === \"pull\" ) return \"resolve\";\n  if (phase === \"resolve\" && action === \"tick\") return \"success\";\n  return phase;\n}\n"
+    }
+  ],
+  "cover": {
+    "src": "/plays/pull-the-pin-punish-and-fake-difficulty/cover.webp",
+    "alt": "Pull the Pin: Sequential Penalties and 'Fake Difficulty'"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/pull-the-pin-punish-and-fake-difficulty/cover.webp",
+    "alt": "Pull the Pin: Sequential Penalties and 'Fake Difficulty'"
+  },
+  "demo": {},
+  "pattern": "spatial",
+  "lang": "en"
+}

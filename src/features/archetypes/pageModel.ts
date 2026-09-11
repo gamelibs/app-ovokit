@@ -1,11 +1,20 @@
 import type { PlayArchetypeKey } from "@/lib/archetypes/archetypes";
-import { getPatternsForArchetype } from "@/lib/archetypes/archetypes";
+import { getPatternsForArchetype, isPlayArchetypeKey } from "@/lib/archetypes/archetypes";
+import { inferArchetypeFromTags } from "@/lib/archetypes/tag-map";
 import { readArchetypeSpec } from "@/lib/archetypes/spec";
+import { listPlays } from "@/lib/content/plays";
 
 export type ArchetypeComboCard = {
   formula: string;
   effect: string;
   href?: string;
+};
+
+/** cluster 案例条目（pillar → cluster 反向回链） */
+export type ArchetypeRelatedPlay = {
+  slug: string;
+  title: string;
+  subtitle?: string;
 };
 
 export type ArchetypePageModel = {
@@ -25,10 +34,21 @@ export type ArchetypePageModel = {
   advancedWarnings: string[];
   advancedAlgoRefs: string[];
   patternKeys: string[];
+  /** 归属本母型的案例文章（显式 meta.archetype 优先，tag 推断兜底） */
+  relatedPlays: ArchetypeRelatedPlay[];
 };
 
+/** 解析案例的母型归属：显式 meta.archetype（ContentPack v1.1 生产线写入）优先，tag 推断兜底 */
+function resolvePlayArchetype(play: { archetype?: string; tags: string[] }): PlayArchetypeKey | null {
+  if (play.archetype && isPlayArchetypeKey(play.archetype)) return play.archetype;
+  return inferArchetypeFromTags(play.tags);
+}
+
 export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<ArchetypePageModel> {
-  const spec = await readArchetypeSpec(key);
+  const [spec, plays] = await Promise.all([readArchetypeSpec(key), listPlays()]);
+  const relatedPlays: ArchetypeRelatedPlay[] = plays
+    .filter((p) => resolvePlayArchetype(p) === key)
+    .map((p) => ({ slug: p.slug, title: p.title, subtitle: p.subtitle }));
   if (!spec) {
     return {
       key,
@@ -47,6 +67,7 @@ export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<Arch
       advancedWarnings: [],
       advancedAlgoRefs: [],
       patternKeys: getPatternsForArchetype(key),
+      relatedPlays,
     };
   }
   return {
@@ -66,5 +87,6 @@ export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<Arch
     advancedWarnings: spec.advancedWarnings,
     advancedAlgoRefs: spec.advancedAlgoRefs,
     patternKeys: getPatternsForArchetype(key),
+    relatedPlays,
   };
 }
