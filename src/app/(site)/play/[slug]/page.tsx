@@ -105,6 +105,7 @@ export default async function PlayDetailPage({
     if (!src) return "portrait"; // pattern/archetype 兜底 demo 均为竖屏原子 demo
     if (src.includes("preview-assets") || src.includes("/demos/atomic/")) return "portrait";
     if (src.includes("/api/v2/projects/")) return "portrait"; // v2 平台预览固定 750×1334 竖屏
+    if (src.includes("/embed/plays/")) return "portrait"; // v2 项目静态导出包同为 750×1334 竖屏
     if (src.includes("/embed/demos/pattern") || src.includes("/embed/demos/archetype")) return "portrait";
     return "landscape";
   };

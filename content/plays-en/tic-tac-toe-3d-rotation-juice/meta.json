@@ -64,8 +64,8 @@
   ],
   "published": true,
   "demo": {
-    "iframeSrc": "http://127.0.0.1:19527/api/v2/projects/cp_1788757022723/preview",
-    "note": "A playable version rebuilt by the OVO pipeline from the original sample: full loop of menu → match (with minimax AI) → result."
+    "iframeSrc": "/embed/plays/tic-tac-toe-3d-rotation-juice/index.html",
+    "note": "Embedded is a playable version rebuilt from the original sample by the OVO pipeline and exported as a fully static bundle: menu → match (with minimax AI) → result, running entirely on this site."
   },
   "pattern": "strategy"
 }

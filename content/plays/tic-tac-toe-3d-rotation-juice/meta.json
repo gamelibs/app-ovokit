@@ -64,8 +64,8 @@
   ],
   "published": true,
   "demo": {
-    "iframeSrc": "http://127.0.0.1:19527/api/v2/projects/cp_1788757022723/preview",
-    "note": "嵌入的是 OVO 产线从原始样本重建的可试玩版本：菜单 → 对局（含 minimax AI）→ 结算完整循环。"
+    "iframeSrc": "/embed/plays/tic-tac-toe-3d-rotation-juice/index.html",
+    "note": "嵌入的是 OVO 产线从原始样本重建、经静态化导出的可试玩版本：菜单 → 对局（含 minimax AI）→ 结算完整循环，完全在站内运行。"
   },
   "pattern": "strategy",
   "cover": {

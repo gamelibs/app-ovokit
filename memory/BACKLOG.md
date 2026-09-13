@@ -82,7 +82,7 @@
 - [ ] **站点内容生产线落地（ovo_system 生产端）** <!-- task:id=content-pipeline-001 priority:P1 category:product -->
   - 文件：设计见 `doc/站点内容生产线说明.md`（权威版：ovo_system `docs/site-content-production-line.md`）
   - 目标：按 M0→M3 实施内容生产管线；站点侧仅需保持 `content/*` 契约稳定，待 ovo_system M0 手工通路联调
-  - 状态：M0/M1/M2 + ContentPack v1.1（多语言/显式母型/translator/i18n 门禁）已落地；2026-09-07 全链路首跑通（Quantum Grid 双语文章 + 嵌入可玩 demo，本地验证）。**待立项：v2 项目静态 demo 导出（当前 demo iframe 只能指 localhost preview，无法上线）**；M3 多站点、plays-en 前端英文路由待启动
+  - 状态：M0/M1/M2 + ContentPack v1.1（多语言/显式母型/translator/i18n 门禁）已落地；2026-09-07 全链路首跑通（Quantum Grid 双语文章 + 嵌入可玩 demo，本地验证）。**v2 项目静态 demo 导出已落地（2026-09-11，含管线「Demo 反推导出」入口，tic-tac-toe-3d 双次导出验证）**；M3 多站点、plays-en 前端英文路由待启动
 
 - [ ] **版主发帖表单：选择原型后自动生成 breakdown / code 骨架** <!-- task:id=future-001 priority:P2 category:future -->
 - [ ] **AI 分析工具识别并输出 `pattern` 字段** <!-- task:id=future-002 priority:P2 category:future -->
@@ -101,6 +101,11 @@
 ---
 
 ## Done
+
+- [x] **Quantum Grid 3D demo 全链路（创作中心工作流 → 站点内嵌可玩）** <!-- task:id=quantum-grid-3d-001 priority:P1 category:product -->
+  - 文件：本站 `public/embed/plays/tic-tac-toe-3d-rotation-juice/`（覆盖为 3D 版）；ovo_system 侧 `modules/core/board-3d/`、`v2-preview-html.ts`、`game-definition-adapter.ts`、`core/board-ai`、项目 cp_1789130311150、e2e `tests/e2e/test-quantum-grid-3d-loop.mjs`
+  - 目标：用文章正式游戏源（astrocade 3d-rotating-tic-tac-toe）经系统工作流重建 3D demo 替换 2D 替身，并补齐 v2 的 3D 能力
+  - 验收：✅ 主循环 e2e 全过（menu→gameplay→raycast 点击+AI 应手→result→restart→backToMenu，零 console 错误）；:19600 生产实例文章页 iframe 内真实点击可玩验证通过；草稿 channelMeta.source 溯源字段补齐；**待提交**（2026-09-11，详见 `memory/daily/2026-09-11.md`）
 
 - [x] **cluster→pillar 回链落地 + 母型补齐 14/14（merge-unit / turn-duel）** <!-- task:id=archetype-backlink-001 priority:P1 category:content -->
   - 文件：`src/lib/archetypes/tag-map.ts`（新增）、`src/app/(site)/play/[slug]/page.tsx`、`src/lib/archetypes/archetypes.ts`、`content/archetypes/{merge-unit,turn-duel}/meta.json`、`public/archetypes/{merge-unit,turn-duel}/*.webp`

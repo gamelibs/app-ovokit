@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "ovoui-skin@1",
+  "name": "gameplay_skin",
+  "canvas": {
+    "width": 750,
+    "height": 1334
+  },
+  "root": {
+    "id": "root",
+    "type": "container",
+    "x": 0,
+    "y": 0,
+    "w": 750,
+    "h": 1334,
+    "children": [
+      {
+        "id": "game-canvas",
+        "type": "container",
+        "x": 175,
+        "y": 592,
+        "w": 400,
+        "h": 400,
+        "text": "Three.js renderer canvas",
+        "style": {
+          "fontSize": 28,
+          "fill": "#ffffff",
+          "align": "center"
+        },
+        "children": []
+      },
+      {
+        "id": "particle-canvas",
+        "type": "container",
+        "x": 275,
+        "y": 292,
+        "w": 200,
+        "h": 60,
+        "text": "2D canvas for particle effects",
+        "style": {
+          "fontSize": 28,
+          "fill": "#ffffff",
+          "align": "center"
+        }
+      },
+      {
+        "id": "current-player",
+        "type": "text",
+        "x": 175,
+        "y": 384,
+        "w": 400,
+        "h": 48,
+        "text": "Displays current player or AI",
+        "style": {
+          "fontSize": 28,
+          "fill": "#ffffff",
+          "align": "center"
+        }
+      }
+    ]
+  }
+}

@@ -1,11 +1,13 @@
 # GamesLog 项目状态（原 OVOFORGE）
 
-> 最后更新：2026-09-09
+> 最后更新：2026-09-11
 > 更新者：Kimi Code CLI
 
 ---
 
 ## 当前阶段
+
+**Quantum Grid 3D demo 全链路跑通（2026-09-11）**：文章 `tic-tac-toe-3d-rotation-juice` 的 demo 从 2D 替身替换为真实游戏源（astrocade `3d-rotating-tic-tac-toe`）的 3D 重建版，全程走 ovo_system 工作流（远程分析 job_1789120754118_rvx9w0 → 用户确认审查 → create-project **cp_1789130311150**（threejs）→ 主循环 e2e → Demo 反推导出 → 站点文章页内嵌可玩验证）。为此 v2 补齐 3D 能力：新增 `core/board-3d` 模块（Three.js，契约对齐 board-turn）、preview 多运行时库加载、适配器 3D 变体 + frameworks 信号识别 + 修 2D 旧项目共有的 backToMenu 迁移缺陷。旧 2D 项目 cp_1788757022723 保留对照。草稿 channelMeta.source 已补齐溯源。**坑：standalone 产物下 public 变更需 rsync 进 `.next/standalone/public` 再 pm2 restart**。三仓库（ovo_system / ovo_workspace / gameslog-site）均有待提交改动，等用户确认。详见 `memory/daily/2026-09-11.md`。
 
 **存量审查 UI 化 + 指南机检化（D 层）+ 四批修复（2026-09-09）**：存量审查搬进 ovo_system「内容生产」页第五个 Tab（`auditInventory` 适配器能力 + 3 条 API + 报告落库，baseUrl 自动解析）。同日审查器加 **D 指南结构层**（《生产内容注意事项》§四/§七 机检：9 标准章节/正文代码块/重复凑字/demo 存在），全量基线 **377 问题**。已修复四批：① 30 篇 subtitle 本机 omlx 9B 重写至 50~160 字；② 9 篇无归属文章补显式 `meta.archetype` + 母型页补齐 pillar→cluster「相关案例文章」区块；③ 批 2 指南结构补全 32/32——`fix-batch-2-guide-sections.ts` 给每篇补「一句话本质/边界条件/设计取舍」（LLM 只生成正文、插入程序化、反引号标识符防编造护栏、每篇 2 次重试；CRLF 行尾坑已修）；④ **批 5 英文回刷 32/32**——`fix-batch-5-translate-en.ts`（omlx 9B，meta JSON + 第 3 次纯文本分节兜底），en-coverage 清零。**现基线 314 问题**（09-10 新增 3 条机检后 255→320，tic-tac-toe-3d 精修清掉 6 项）：D 层 240（experience/mechanics×32、implementation×31、code×30、loop/data-model/primitives×30、demo×24）+ A/C 余 15（demo-404×6、demo-localhost×2、pillar-empty×5、body×1）+ EN 质量 64（en-meta-cjk×32、en-description-length×32，09-10 新机检）。同日主页「最新发布」同母型去重（含 tag 推断兜底，cover-gen 按母型复用模板是根因）、RightSidebar 新手必读改真封面 + 入门选品、play-1677a241 meta 清洗与未闭合代码栅栏修复。备份 `memory/audit-fix-backups/2026-09-09/`。**重要缺口：英文内容已备齐但站点不可见——`src/` 零引用 plays-en，无英文路由；下一里程碑=英文路由 + UI chrome 英文化 + hreflang（EN subtitle 偏长，上线时统一修剪）。** 详见 `memory/daily/2026-09-09.md`。
 
