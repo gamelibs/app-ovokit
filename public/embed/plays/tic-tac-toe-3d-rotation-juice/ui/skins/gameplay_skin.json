@@ -57,5 +57,6 @@
         }
       }
     ]
-  }
+  },
+  "theme": "sketch-paper"
 }

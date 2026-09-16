@@ -187,14 +187,15 @@
             kernel.ctx.engine.app = app;
             console.log('[Preview] PIXI 初始化完成');
           }
-          if (engine === 'threejs') {
-            if (typeof window.THREE !== 'undefined') {
-              kernel.ctx.engine.three = window.THREE;
-              kernel.ctx.engine.name = 'threejs';
-              console.log('[Preview] Three.js 运行时库已加载');
-            } else {
-              console.warn('[Preview] threejs 项目但 THREE 未加载成功');
-            }
+          // three.min.js 就绪即挂 ctx.engine.three——引擎级（engine=threejs）与模块级
+          // （蓝图模块 provides 含 render:threejs，由 extraRuntimeLibs 追加加载）两条路径都覆盖；
+          // engine.name 只在引擎级 threejs 时改写，避免干扰 pixi 项目的皮肤层判断
+          if (typeof window.THREE !== 'undefined') {
+            kernel.ctx.engine.three = window.THREE;
+            if (engine === 'threejs') kernel.ctx.engine.name = 'threejs';
+            console.log('[Preview] Three.js 运行时库已加载');
+          } else if (engine === 'threejs') {
+            console.warn('[Preview] threejs 项目但 THREE 未加载成功');
           }
           if (engine !== 'pixi' && engine !== 'other' && engine !== 'threejs') {
             console.log('[Preview] 引擎库已加载:', engine);
