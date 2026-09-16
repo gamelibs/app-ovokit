@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "ovoui-skin@1",
+  "name": "menu_skin",
+  "canvas": {
+    "width": 750,
+    "height": 1334
+  },
+  "root": {
+    "id": "root",
+    "type": "container",
+    "x": 0,
+    "y": 0,
+    "w": 750,
+    "h": 1334,
+    "children": [
+      {
+        "id": "play-2p-btn",
+        "type": "button",
+        "x": 255,
+        "y": 200,
+        "w": 240,
+        "h": 72,
+        "text": "Start 2‑player game",
+        "style": {
+          "fontSize": 24,
+          "color": "#ffffff",
+          "backgroundColor": "#0ea5e9",
+          "borderRadius": 8,
+          "align": "center"
+        },
+        "event": "mode.select2p",
+        "eventParams": {
+          "mode": "2p"
+        }
+      },
+      {
+        "id": "play-ai-btn",
+        "type": "button",
+        "x": 255,
+        "y": 304,
+        "w": 240,
+        "h": 72,
+        "text": "Start AI game",
+        "style": {
+          "fontSize": 24,
+          "color": "#ffffff",
+          "backgroundColor": "#0ea5e9",
+          "borderRadius": 8,
+          "align": "center"
+        },
+        "event": "mode.select1p",
+        "eventParams": {
+          "mode": "1p"
+        }
+      }
+    ]
+  },
+  "theme": "sketch-paper"
+}

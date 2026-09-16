@@ -1,7 +1,7 @@
 {
   "slug": "gacha-pity-and-psychology",
   "title": "抽卡模拟：保底机制与概率心理学",
-  "subtitle": "争议高=评论高。把保底写清楚、把体感做舒服，才能减少“被坑感”。",
+  "subtitle": "本文拆解硬保底与软保底结构差异，剖析概率心理学如何制造体感偏差。通过模拟验证抽卡数据，揭示情绪阈值对决策的影响，帮助开发者量化保底策略风险，优化数值设计以提升用户留存与付费意愿。",
   "cover": {
     "src": "/plays/gacha-pity-and-psychology/cover.webp",
     "alt": "抽卡模拟：保底机制与概率心理学"
@@ -63,5 +63,6 @@
   ],
   "published": true,
   "demo": {},
-  "pattern": "merge"
+  "pattern": "merge",
+  "archetype": "progression"
 }

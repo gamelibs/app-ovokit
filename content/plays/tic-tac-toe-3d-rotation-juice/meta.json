@@ -1,0 +1,79 @@
+{
+  "slug": "tic-tac-toe-3d-rotation-juice",
+  "title": "规则不变也能翻新体验：井字棋 3D 化的表现层改造与 Minimax 复用",
+  "subtitle": "井字棋早已被完整解决：双方都下最优棋必成平局，先手可保不败。本文拆解一版 3D 井字棋如何在规则一字不改的前提下，用旋转、音效与彩带等“游戏感”（juice）重塑体验，判定与 AI 逻辑完全复用。",
+  "archetype": "turn-duel",
+  "tags": [
+    "回合",
+    "棋盘",
+    "回合博弈"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "入门",
+  "techStack": [
+    "Three.js",
+    "Web Audio",
+    "HTML5 Canvas"
+  ],
+  "corePoints": [
+    "规则层与表现层的分离",
+    "minimax 与「已被解决」的游戏",
+    "游戏感（juice）只改感受不改规则"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "3×3 棋盘，X 先手，双方轮流落子",
+        "8 条胜利线：横 3、竖 3、斜 2",
+        "满盘无胜即平局，没有失败惩罚"
+      ]
+    },
+    {
+      "title": "回合核心循环",
+      "bullets": [
+        "玩家落子 → AI 应手（minimax）→ 棋盘旋转 → 渲染下一帧",
+        "旋转只改变视角，不改变任何格子的逻辑位置",
+        "状态机：menu → gameplay → result，可重开可回菜单"
+      ]
+    },
+    {
+      "title": "表现层游戏感（juice）",
+      "bullets": [
+        "Three.js 3D 棋盘与回合后旋转动画",
+        "胜利彩带与 Web Audio 即时音效",
+        "规则一字未改，体验完全不同"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "三连判定：8 条胜利线查表",
+      "language": "ts",
+      "code": "const LINES = [\n  [0, 1, 2], [3, 4, 5], [6, 7, 8], // 横\n  [0, 3, 6], [1, 4, 7], [2, 5, 8], // 竖\n  [0, 4, 8], [2, 4, 6],            // 斜\n];\n\ntype Mark = 'X' | 'O' | null;\n\nexport function judge(cells: Mark[]): 'X' | 'O' | 'draw' | null {\n  for (const [a, b, c] of LINES) {\n    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {\n      return cells[a]; // 有胜者\n    }\n  }\n  return cells.every(Boolean) ? 'draw' : null;\n}\n"
+    },
+    {
+      "title": "Minimax：递归搜索最优应手（复用 core/board-ai）",
+      "language": "ts",
+      "code": "// 复用自 OVO 产线 core/board-ai 模块：井字棋重建版直接调用，规则零改动\nfunction minimax(cells: Mark[], depth: number, isMaximizing: boolean): number {\n  if (checkWinner(cells, aiPlayer)) return 10 - depth;     // 己方赢：越快分越高\n  if (checkWinner(cells, humanPlayer)) return depth - 10;  // 对手赢：越慢损失越小\n  const empty = getEmptyCells(cells);\n  if (empty.length === 0) return 0;                        // 平局\n\n  let best = isMaximizing ? -Infinity : Infinity;\n  for (const e of empty) {\n    cells[e.index] = isMaximizing ? aiPlayer : humanPlayer; // 试下这一步\n    const score = minimax(cells, depth + 1, !isMaximizing);\n    cells[e.index] = null;                                  // 回溯\n    best = isMaximizing ? Math.max(best, score) : Math.min(best, score);\n  }\n  return best;\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/tic-tac-toe-3d-rotation-juice/index.html",
+    "note": "嵌入的是 OVO 产线从原始样本重建、经静态化导出的可试玩版本：菜单 → 对局（含 minimax AI）→ 结算完整循环，完全在站内运行。"
+  },
+  "pattern": "strategy",
+  "cover": {
+    "src": "/plays/tic-tac-toe-3d-rotation-juice/cover.svg",
+    "alt": "规则不变也能翻新体验：井字棋 3D 化的表现层改造与 Minimax 复用"
+  },
+  "coverWide": {
+    "src": "/plays/tic-tac-toe-3d-rotation-juice/cover-wide.svg",
+    "alt": "规则不变也能翻新体验：井字棋 3D 化的表现层改造与 Minimax 复用"
+  }
+}

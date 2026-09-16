@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>预览 — Retro Glow: Sue&#039;s Makeup Challenge</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
+  #game-canvas { display: block; margin: 0 auto; max-width: 100%; max-height: 100%; width: auto; height: auto; }
+  #preview-status {
+    position: fixed; top: 8px; left: 8px; z-index: 10;
+    padding: 4px 10px; border-radius: 4px; background: rgba(0,0,0,0.6);
+    color: #4ade80; font-family: monospace; font-size: 11px;
+  }
+</style>
+</head>
+<body>
+  <div id="preview-status">加载中...</div>
+  <canvas id="game-canvas" data-design-width="750" data-design-height="1334"></canvas>
+  <script type="module">
+    import { OvoKernel } from './kernel/v2-kernel/src/index.js';
+    import EventBusModule from './kernel/v2-kernel/src/modules/event-bus-module.js';
+    import ToolModule from './kernel/v2-kernel/src/modules/tool-module.js';
+    import RenderModule from './kernel/v2-kernel/src/modules/render-module.js';
+    import SkinRendererModule from './kernel/v2-kernel/src/modules/skin-renderer-module.js';
+    import ProjectMgrModule from './kernel/v2-kernel/src/modules/project-mgr-module.js';
+    import StateMachineModule from './kernel/v2-kernel/src/modules/state-machine-module.js';
+    import MemoryModule from './kernel/v2-kernel/src/modules/memory-module.js';
+    import SaveModule from './kernel/v2-kernel/src/modules/save-module.js';
+    import DataChannelModule from './kernel/v2-kernel/src/modules/data-channel-module.js';
+    import InputModule from './kernel/v2-kernel/src/modules/input-module.js';
+    import ConfigModule from './kernel/v2-kernel/src/modules/config-module.js';
+    import LoaderModule from './kernel/v2-kernel/src/modules/loader-module.js';
+    import ResMgrModule from './kernel/v2-kernel/src/modules/res-mgr-module.js';
+    import AudioModule from './kernel/v2-kernel/src/modules/audio-module.js';
+    const statusEl = document.getElementById('preview-status');
+    const canvas = document.getElementById('game-canvas');
+    canvas.width = 750;
+    canvas.height = 1334;
+
+    const blueprint = {"$schema":"ovo-blueprint@2","projectId":"cp_1789444098231","title":"Retro Glow: Sue's Makeup Challenge","language":"ts","engine":"other","kernel":{"canvas":{"width":750,"height":1334,"background":"#0f172a","resizeMode":"contain","orientation":"portrait"},"bootChain":[["__OV.EventBus"],["__OV.Memory","__OV.DataChannel","__OV.Save"],["__OV.Loader","__OV.ResMgr"],["__OV.Input"],["__OV.Render"],["__OV.SkinRenderer"],["__OV.ProjectMgr","__OV.StateMachine"]],"globalModules":[]},"design":{"scenes":[{"id":"boot","title":"boot","type":"boot","prefab":"boot_prefab","skin":"boot_skin"},{"id":"menu","title":"menu","type":"menu","prefab":"menu_prefab","skin":"menu_skin"},{"id":"gameplay","title":"gameplay","type":"gameplay","prefab":"gameplay_prefab","skin":"gameplay_skin"},{"id":"result","title":"result","type":"result","prefab":"result_prefab","skin":"result_skin"},{"id":"paused","title":"paused","type":"menu","prefab":"paused_prefab","skin":"paused_skin"}],"stateMachine":{"initial":"boot","fallback":"boot","states":[{"id":"boot","scene":"boot","modules":["common-ui"],"on":{"boot.complete":{"target":"menu"}},"logic":{"nodes":[{"id":"boot-auto-onEnter-0","type":"onEnter","params":{}},{"id":"emitEvent-1","type":"emitEvent","params":{"eventId":"boot.complete"}}],"edges":[{"id":"edge-2","source":"boot-auto-onEnter-0","target":"emitEvent-1"}]}},{"id":"menu","scene":"menu","modules":["common-ui","core/interaction-progress"],"on":{"mode.match":{"target":"gameplay"},"mode.free":{"target":"gameplay"},"game.start":{"target":"gameplay"}},"logic":{"nodes":[{"id":"enter-menu-onEnter-3","type":"onEnter","params":{}},{"id":"setData-4","type":"setData","params":{"key":"score","value":0}},{"id":"start-match-mode-onEvent-6","type":"onEvent","params":{"eventId":"mode.match"}},{"id":"setData-7","type":"setData","params":{"key":"currentGameMode","value":"match"}},{"id":"setData-9","type":"setData","params":{"key":"currentLevelIndex","value":0}},{"id":"emitEvent-11","type":"emitEvent","params":{"eventId":"game.start"}},{"id":"start-free-mode-onEvent-13","type":"onEvent","params":{"eventId":"mode.free"}},{"id":"setData-14","type":"setData","params":{"key":"currentGameMode","value":"free"}},{"id":"emitEvent-16","type":"emitEvent","params":{"eventId":"game.start"}}],"edges":[{"id":"edge-5","source":"enter-menu-onEnter-3","target":"setData-4"},{"id":"edge-8","source":"start-match-mode-onEvent-6","target":"setData-7"},{"id":"edge-10","source":"setData-7","target":"setData-9"},{"id":"edge-12","source":"setData-9","target":"emitEvent-11"},{"id":"edge-15","source":"start-free-mode-onEvent-13","target":"setData-14"},{"id":"edge-17","source":"setData-14","target":"emitEvent-16"}]}},{"id":"gameplay","scene":"gameplay","modules":["common-ui","core/interaction-progress","makeup-challenge/makeup-model"],"on":{"game.pause":{"target":"paused"},"game.done":{"target":"result"},"time.up":{"target":"result"},"level.chosen":{"target":"gameplay"},"level.select.close":{"target":"menu"},"game.over":{"target":"result"}},"logic":{"nodes":[{"id":"enter-gameplay-onEnter-18","type":"onEnter","params":{}},{"id":"setData-19","type":"setData","params":{"key":"score","value":0}},{"id":"setData-21","type":"setData","params":{"key":"gameOver","value":false}},{"id":"game-over-onEvent-23","type":"onEvent","params":{"eventId":"game.over"}},{"id":"setData-24","type":"setData","params":{"key":"gameOver","value":true}},{"id":"select-category-onEvent-26","type":"onEvent","params":{"eventId":"category.select"}},{"id":"setData-27","type":"setData","params":{"key":"currentCategory","value":null}},{"id":"select-option-onEvent-29","type":"onEvent","params":{"eventId":"option.select"}},{"id":"setData-30","type":"setData","params":{"key":"selectedOption","value":null}},{"id":"setData-32","type":"setData","params":{"key":"playerChoices","value":null}},{"id":"callAction-34","type":"callAction","params":{"moduleName":"makeup-challenge/makeup-model","actionId":"playSFX"}},{"id":"pause-game-onEvent-36","type":"onEvent","params":{"eventId":"game.pause"}},{"id":"setData-37","type":"setData","params":{"key":"isPaused","value":true}},{"id":"callAction-39","type":"callAction","params":{"moduleName":"makeup-challenge/makeup-model","actionId":"pauseTimer"}},{"id":"submit-makeup-onEvent-41","type":"onEvent","params":{"eventId":"game.done"}},{"id":"callAction-42","type":"callAction","params":{"moduleName":"makeup-challenge/makeup-model","actionId":"stopTimer"}},{"id":"callAction-44","type":"callAction","params":{"moduleName":"makeup-challenge/makeup-model","actionId":"calculateAccuracy"}},{"id":"time-expired-onEvent-46","type":"onEvent","params":{"eventId":"time.up"}},{"id":"callAction-47","type":"callAction","params":{"moduleName":"makeup-challenge/makeup-model","actionId":"calculateAccuracy"}},{"id":"choose-level-onEvent-49","type":"onEvent","params":{"eventId":"level.chosen"}},{"id":"setData-50","type":"setData","params":{"key":"currentLevelIndex","value":0}},{"id":"setData-52","type":"setData","params":{"key":"currentGameMode","value":"match"}},{"id":"emitEvent-54","type":"emitEvent","params":{"eventId":"game.start"}},{"id":"gameplay-tool-confirm-onEvent-56","type":"onEvent","params":{"eventId":"tool.confirm"}},{"id":"callAction-57","type":"callAction","params":{"moduleName":"core/interaction-progress","actionId":"selectTool"}},{"id":"call-select-target","type":"callAction","params":{"moduleName":"core/interaction-progress","actionId":"selectTarget","args":{"targetId":"makeup","initialState":0,"totalWork":100}}},{"id":"call-select-tool","type":"callAction","params":{"moduleName":"core/interaction-progress","actionId":"selectTool","args":{"toolId":"brush","effectiveness":1}}},{"id":"scrub-onEvent","type":"onEvent","params":{"eventId":"clean.scrub"}},{"id":"scrub-apply","type":"callAction","params":{"moduleName":"core/interaction-progress","actionId":"applyInteraction","args":{"amount":20}}},{"id":"complete-onEvent","type":"onEvent","params":{"eventId":"interaction.complete"}},{"id":"complete-emit","type":"emitEvent","params":{"eventId":"game.done"}}],"edges":[{"id":"edge-20","source":"enter-gameplay-onEnter-18","target":"setData-19"},{"id":"edge-22","source":"setData-19","target":"setData-21"},{"id":"edge-25","source":"game-over-onEvent-23","target":"setData-24"},{"id":"edge-28","source":"select-category-onEvent-26","target":"setData-27"},{"id":"edge-31","source":"select-option-onEvent-29","target":"setData-30"},{"id":"edge-33","source":"setData-30","target":"setData-32"},{"id":"edge-35","source":"setData-32","target":"callAction-34"},{"id":"edge-38","source":"pause-game-onEvent-36","target":"setData-37"},{"id":"edge-40","source":"setData-37","target":"callAction-39"},{"id":"edge-43","source":"submit-makeup-onEvent-41","target":"callAction-42"},{"id":"edge-45","source":"callAction-42","target":"callAction-44"},{"id":"edge-48","source":"time-expired-onEvent-46","target":"callAction-47"},{"id":"edge-51","source":"choose-level-onEvent-49","target":"setData-50"},{"id":"edge-53","source":"setData-50","target":"setData-52"},{"id":"edge-55","source":"setData-52","target":"emitEvent-54"},{"id":"edge-58","source":"gameplay-tool-confirm-onEvent-56","target":"callAction-57"},{"id":"edge-st","source":"setData-21","target":"call-select-target"},{"id":"edge-stl","source":"call-select-target","target":"call-select-tool"},{"id":"edge-scrub","source":"scrub-onEvent","target":"scrub-apply"},{"id":"edge-complete","source":"complete-onEvent","target":"complete-emit"}]}},{"id":"result","scene":"result","modules":["common-ui","core/interaction-progress"],"on":{"game.retry":{"target":"gameplay"},"level.select.open":{"target":"gameplay"},"level.next":{"target":"gameplay"},"game.menu":{"target":"menu"},"game.restart":{"target":"gameplay"},"game.backToMenu":{"target":"menu"}},"logic":{"nodes":[{"id":"restart-from-pause-onEvent-67","type":"onEvent","params":{"eventId":"game.restart"}},{"id":"emitEvent-68","type":"emitEvent","params":{"eventId":"game.start"}},{"id":"enter-result-onEnter-70","type":"onEnter","params":{}},{"id":"if-71","type":"if","params":{"key":"currentGameMode","op":"eq","value":"free"}},{"id":"setData-72","type":"setData","params":{"key":"passed","value":true}},{"id":"setData-74","type":"setData","params":{"key":"accuracy","value":100}},{"id":"if-76","type":"if","params":{"key":"accuracy","op":"ne","value":0}},{"id":"if-77","type":"if","params":{"key":"accuracy","op":"gte","value":90}},{"id":"setData-78","type":"setData","params":{"key":"passed","value":true}},{"id":"setData-80","type":"setData","params":{"key":"passed","value":false}},{"id":"setData-83","type":"setData","params":{"key":"passed","value":false}},{"id":"retry-level-onEvent-87","type":"onEvent","params":{"eventId":"game.retry"}},{"id":"emitEvent-88","type":"emitEvent","params":{"eventId":"game.start"}},{"id":"next-level-onEvent-90","type":"onEvent","params":{"eventId":"level.next"}},{"id":"adjustData-91","type":"adjustData","params":{"key":"currentLevelIndex","op":"add","value":1}},{"id":"emitEvent-93","type":"emitEvent","params":{"eventId":"game.start"}}],"edges":[{"id":"edge-69","source":"restart-from-pause-onEvent-67","target":"emitEvent-68"},{"id":"edge-73","source":"if-71","target":"setData-72","sourceHandle":"true"},{"id":"edge-75","source":"setData-72","target":"setData-74"},{"id":"edge-79","source":"if-77","target":"setData-78","sourceHandle":"true"},{"id":"edge-81","source":"if-77","target":"setData-80","sourceHandle":"false"},{"id":"edge-82","source":"if-76","target":"if-77","sourceHandle":"true"},{"id":"edge-84","source":"if-76","target":"setData-83","sourceHandle":"false"},{"id":"edge-85","source":"if-71","target":"if-76","sourceHandle":"false"},{"id":"edge-86","source":"enter-result-onEnter-70","target":"if-71"},{"id":"edge-89","source":"retry-level-onEvent-87","target":"emitEvent-88"},{"id":"edge-92","source":"next-level-onEvent-90","target":"adjustData-91"},{"id":"edge-94","source":"adjustData-91","target":"emitEvent-93"}]}},{"id":"paused","scene":"paused","modules":["common-ui","core/interaction-progress","makeup-challenge/makeup-model"],"on":{"game.resume":{"target":"gameplay"},"game.restart":{"target":"gameplay"},"game.menu":{"target":"menu"}},"logic":{"nodes":[{"id":"resume-game-onEvent-59","type":"onEvent","params":{"eventId":"game.resume"}},{"id":"setData-60","type":"setData","params":{"key":"isPaused","value":false}},{"id":"callAction-62","type":"callAction","params":{"moduleName":"makeup-challenge/makeup-model","actionId":"resumeTimer"}},{"id":"restart-from-pause-onEvent-64","type":"onEvent","params":{"eventId":"game.restart"}},{"id":"emitEvent-65","type":"emitEvent","params":{"eventId":"game.start"}}],"edges":[{"id":"edge-61","source":"resume-game-onEvent-59","target":"setData-60"},{"id":"edge-63","source":"setData-60","target":"callAction-62"},{"id":"edge-66","source":"restart-from-pause-onEvent-64","target":"emitEvent-65"}]}}]},"dataGraph":{"nodes":[{"id":"score","type":"state","initial":0,"persistent":false},{"id":"gameOver","type":"state","initial":false,"persistent":false},{"id":"currentCategory","type":"state","initial":null,"persistent":false},{"id":"selectedOption","type":"state","initial":null,"persistent":false},{"id":"playerChoices","type":"state","initial":{"eyebrows":null,"eyeshadow":null,"eyeliner":null,"blush":null,"lipstick":null,"contacts":null,"baseFaceId":"sue_base_face"},"persistent":false},{"id":"referenceMakeup","type":"state","initial":null,"persistent":false},{"id":"timeRemaining","type":"state","initial":60,"persistent":false},{"id":"isPaused","type":"state","initial":false,"persistent":false},{"id":"warningPlaying","type":"state","initial":false,"persistent":false},{"id":"currentGameMode","type":"state","initial":"match","persistent":false},{"id":"currentLevelIndex","type":"state","initial":0,"persistent":false},{"id":"accuracy","type":"state","initial":0,"persistent":false},{"id":"passed","type":"state","initial":false,"persistent":false},{"id":"interactionTargetId","type":"state","initial":"","persistent":false},{"id":"interactionToolId","type":"state","initial":"","persistent":false},{"id":"interactionToolEffectiveness","type":"state","initial":1,"persistent":false},{"id":"interactionProgress","type":"state","initial":0,"persistent":false},{"id":"interactionTargetState","type":"state","initial":100,"persistent":false},{"id":"interactionIsComplete","type":"state","initial":false,"persistent":false}],"edges":[]},"events":{"definitions":[{"id":"boot.complete","label":"boot.complete","type":"event"},{"id":"game.start","label":"game.start","type":"event"},{"id":"game.over","label":"game.over","type":"event"},{"id":"game.restart","label":"game.restart","type":"event"},{"id":"game.menu","label":"game.menu","type":"event"},{"id":"bubble.aim","label":"bubble.aim","type":"event","schema":{"angle":{"type":"scalar","dataType":"number"}}},{"id":"bubble.shoot","label":"bubble.shoot","type":"event","schema":{"angle":{"type":"scalar","dataType":"number"}}},{"id":"bubble.pop","label":"bubble.pop","type":"event","schema":{"count":{"type":"scalar","dataType":"number"}}},{"id":"cascade.trigger","label":"cascade.trigger","type":"event","schema":{"droppedCount":{"type":"scalar","dataType":"number"}}},{"id":"pacman.move","label":"pacman.move","type":"event","schema":{"dx":{"type":"scalar","dataType":"number"},"dy":{"type":"scalar","dataType":"number"},"angle":{"type":"scalar","dataType":"number"}}},{"id":"dot.eaten","label":"dot.eaten","type":"event","schema":{"x":{"type":"scalar","dataType":"number"},"y":{"type":"scalar","dataType":"number"},"points":{"type":"scalar","dataType":"number"}}},{"id":"enemy.collide","label":"enemy.collide","type":"event","schema":{"enemyId":{"type":"scalar","dataType":"string"}}},{"id":"item.select","label":"item.select","type":"event","schema":{"item":{"type":"scalar","dataType":"string"}}},{"id":"tool.confirm","label":"tool.confirm","type":"event","schema":{"tool":{"type":"scalar","dataType":"string"}}},{"id":"clean.scrub","label":"clean.scrub","type":"event"},{"id":"mode.match","label":"mode.match","type":"event","schema":{}},{"id":"mode.free","label":"mode.free","type":"event","schema":{}},{"id":"category.select","label":"category.select","type":"event","schema":{"category":{"type":"scalar","dataType":"string"}}},{"id":"option.select","label":"option.select","type":"event","schema":{"category":{"type":"scalar","dataType":"string"},"option":{"type":"scalar","dataType":"object"}}},{"id":"game.pause","label":"game.pause","type":"event","schema":{}},{"id":"game.resume","label":"game.resume","type":"event","schema":{}},{"id":"game.done","label":"game.done","type":"event","schema":{}},{"id":"time.up","label":"time.up","type":"event","schema":{}},{"id":"game.retry","label":"game.retry","type":"event","schema":{}},{"id":"level.select.open","label":"level.select.open","type":"event","schema":{}},{"id":"level.next","label":"level.next","type":"event","schema":{}},{"id":"level.chosen","label":"level.chosen","type":"event","schema":{"levelIndex":{"type":"scalar","dataType":"number"}}},{"id":"level.select.close","label":"level.select.close","type":"event","schema":{}}]}},"resources":[{"type":"image","name":"homepage_bg_ffbde988-157e-43a6-9478-39ff0280ddff.webp","url":"./resources/images/homepage_bg_ffbde988-157e-43a6-9478-39ff0280ddff.webp"},{"type":"image","name":"homepage_girl_613b1edb-904a-4a2b-a581-927641b79499.webp","url":"./resources/images/homepage_girl_613b1edb-904a-4a2b-a581-927641b79499.webp"},{"type":"image","name":"icon_blush_c753ec17-43fb-423d-9909-4071cd8b49e9.webp","url":"./resources/images/icon_blush_c753ec17-43fb-423d-9909-4071cd8b49e9.webp"},{"type":"image","name":"icon_contacts_2384e4ae-3189-43c7-b3e0-7e7257c44e54.webp","url":"./resources/images/icon_contacts_2384e4ae-3189-43c7-b3e0-7e7257c44e54.webp"},{"type":"image","name":"icon_eyebrows_dde1e836-70bb-4bdc-a851-b9274cf58cb0.webp","url":"./resources/images/icon_eyebrows_dde1e836-70bb-4bdc-a851-b9274cf58cb0.webp"},{"type":"image","name":"icon_eyeliner_eacea719-8b49-4c7b-a7c5-a9609cbcf66c.webp","url":"./resources/images/icon_eyeliner_eacea719-8b49-4c7b-a7c5-a9609cbcf66c.webp"},{"type":"image","name":"icon_eyeshadow_42330155-074e-4405-866c-bdc657a5743d.webp","url":"./resources/images/icon_eyeshadow_42330155-074e-4405-866c-bdc657a5743d.webp"},{"type":"image","name":"icon_lipstick_299157fb-39f2-4d6d-8802-47ee48ece9b1.webp","url":"./resources/images/icon_lipstick_299157fb-39f2-4d6d-8802-47ee48ece9b1.webp"},{"type":"image","name":"reference_frame_border_b33b85ac-e8e0-4aa5-960b-a636094a2f98.webp","url":"./resources/images/reference_frame_border_b33b85ac-e8e0-4aa5-960b-a636094a2f98.webp"},{"type":"image","name":"sparkle_particle_a218e77c-35b8-4eae-9812-d40cd2577029.webp","url":"./resources/images/sparkle_particle_a218e77c-35b8-4eae-9812-d40cd2577029.webp"},{"type":"image","name":"sue_base_face_2_85717cc7-f151-4f5b-a3ee-08bac7c56514.webp","url":"./resources/images/sue_base_face_2_85717cc7-f151-4f5b-a3ee-08bac7c56514.webp"},{"type":"image","name":"sue_base_face_4_429d5875-ebfb-4263-a7d8-5c6b5201738b.webp","url":"./resources/images/sue_base_face_4_429d5875-ebfb-4263-a7d8-5c6b5201738b.webp"},{"type":"image","name":"sue_base_face_7d731f7f-6477-4f9d-b9a0-7d417910f411.webp","url":"./resources/images/sue_base_face_7d731f7f-6477-4f9d-b9a0-7d417910f411.webp"},{"type":"image","name":"sue_lose_pose_e217782d-7a07-4af2-9821-1a57aa0f5fc9.webp","url":"./resources/images/sue_lose_pose_e217782d-7a07-4af2-9821-1a57aa0f5fc9.webp"},{"type":"image","name":"sue_win_pose_e1fcef56-ddfc-4cde-a7cb-49309f28554b.webp","url":"./resources/images/sue_win_pose_e1fcef56-ddfc-4cde-a7cb-49309f28554b.webp"},{"type":"audio","name":"bgm_upbeat_pop_f84e767c-54ed-45ae-8576-4a7ee13ef7d4.mp3","url":"./resources/audio/bgm_upbeat_pop_f84e767c-54ed-45ae-8576-4a7ee13ef7d4.mp3"},{"type":"audio","name":"sfx_correct_placement_dc9fbceb-3265-46a2-b273-111f8e829599.mp3","url":"./resources/audio/sfx_correct_placement_dc9fbceb-3265-46a2-b273-111f8e829599.mp3"},{"type":"audio","name":"sfx_lose_reaction_079ffd6d-9d57-4117-a9d0-16e75d22e8c1.mp3","url":"./resources/audio/sfx_lose_reaction_079ffd6d-9d57-4117-a9d0-16e75d22e8c1.mp3"},{"type":"audio","name":"sfx_timer_warning_eee2dd69-9eba-4c55-81a8-1e74a734b1da.mp3","url":"./resources/audio/sfx_timer_warning_eee2dd69-9eba-4c55-81a8-1e74a734b1da.mp3"},{"type":"audio","name":"sfx_tool_select_5b98665b-c279-4d0f-b26c-43b0ce021b34.mp3","url":"./resources/audio/sfx_tool_select_5b98665b-c279-4d0f-b26c-43b0ce021b34.mp3"},{"type":"audio","name":"sfx_win_celebration_fc709034-4eaa-4ffc-9c56-dec04b50c70c.mp3","url":"./resources/audio/sfx_win_celebration_fc709034-4eaa-4ffc-9c56-dec04b50c70c.mp3"},{"type":"libs","name":"pixi.min.js","url":"./resources/libs/pixi.min.js"}]};
+    window.__BLUEPRINT__ = blueprint;
+    window.__PROJECT_ID__ = 'cp_1789444098231';
+    // SkinRenderer 等旧模块依赖 window.__OV.emitBootstrapLog / ovoLog
+    window.__OV = window.__OV || {};
+    window.__OV.emitBootstrapLog = function(level, args = [], detail = null) {
+      const fn = { error: console.error, warn: console.warn, info: console.log, debug: console.debug, trace: console.trace }[level] || console.log;
+      fn('[__OV]', ...(Array.isArray(args) ? args : [args]), detail != null ? detail : '');
+    };
+    window.__OV.ovoLog = function(...args) { console.log('[ovoLog]', ...args); };
+    window.__RESOLVE_URL__ = function(path) {
+      // 静态导出包：所有项目文件与 index.html 同目录，相对路径直接可用
+      return path;
+    };
+
+    // 收集蓝图中引用的所有模块名
+    function collectModuleNames(bp) {
+      const names = new Set();
+      (bp.kernel.globalModules || []).forEach((n) => names.add(n));
+      (bp.design.stateMachine.states || []).forEach((s) => {
+        (s.modules || []).forEach((n) => names.add(n));
+      });
+      return [...names];
+    }
+
+    // 动态从市场加载模块代码（静态导出时从本地 ./modules/ 目录取预编译 JS）
+    async function loadMarketModule(name) {
+      try {
+        const resp = await fetch('./modules/' + name + '.js');
+        if (!resp.ok) return null;
+        const code = await resp.text();
+        if (!code) return null;
+        // 使用 Blob URL 动态加载 ESM 模块
+        const blob = new Blob([code], { type: 'application/javascript' });
+        const url = URL.createObjectURL(blob);
+        const mod = await import(/* @vite-ignore */ url);
+        URL.revokeObjectURL(url);
+        return mod.default || mod;
+      } catch (e) {
+        console.warn('[Preview] 加载市场模块失败:', name, e);
+        return null;
+      }
+    }
+
+    async function boot() {
+      try {
+        const kernel = new OvoKernel();
+        window.__kernel = kernel;
+        kernel.canvas = canvas;
+
+        kernel.register('__OV.EventBus', EventBusModule);
+        kernel.register('__OV.Tool', ToolModule);
+        kernel.register('__OV.Memory', MemoryModule);
+        kernel.register('__OV.Save', SaveModule);
+        kernel.register('__OV.DataChannel', DataChannelModule);
+        kernel.register('__OV.Render', RenderModule);
+        kernel.register('__OV.SkinRenderer', SkinRendererModule);
+        kernel.register('__OV.Input', InputModule);
+        kernel.register('__OV.Config', ConfigModule);
+        kernel.register('__OV.Loader', LoaderModule);
+        kernel.register('__OV.ResMgr', ResMgrModule);
+        kernel.register('__OV.Audio', AudioModule);
+        kernel.register('__OV.ProjectMgr', ProjectMgrModule);
+        kernel.register('__OV.StateMachine', StateMachineModule);
+
+        // 动态注册蓝图中引用的市场模块（Phase1 仅保留游戏模块）
+        const moduleNames = collectModuleNames(blueprint);
+        console.log('[Preview] 需要注册的模块:', moduleNames);
+        for (const name of moduleNames) {
+          // 系统 __OV 模块已提前注册；但场景私有游戏模块（__OV.Games.*）需要从市场加载
+          const isSystem = name.startsWith('__OV.') && !name.startsWith('__OV.Games.');
+          if (!isSystem && !kernel.modules.has(name)) {
+            console.log('[Preview] 加载模块:', name);
+            const mod = await loadMarketModule(name);
+            if (mod) {
+              kernel.register(name, mod);
+              console.log('[Preview] 注册模块:', name);
+            } else {
+              console.warn('[Preview] 模块加载失败:', name);
+            }
+          }
+        }
+
+        // 使用蓝图原始 bootChain，过滤掉未注册的模块
+        const kernelBlueprint = {
+          ...blueprint.kernel,
+          bootChain: blueprint.kernel.bootChain
+            .map((group) => group.filter((name) => name.startsWith('__OV.') && kernel.modules.has(name)))
+            .filter((group) => group.length > 0),
+        };
+
+        // 自动补全已注册但未在 bootChain 中的系统模块到最后一个非-StateMachine 组
+        // 注意：排除游戏模块（__OV.Games.*），它们由 StateMachine 在场景加载时调度
+        const bootChainSet = new Set(kernelBlueprint.bootChain.flat());
+        const registeredExtras = [];
+        for (const [name] of kernel.modules) {
+          if (name.startsWith('__OV.') && !name.startsWith('__OV.Games.') && !bootChainSet.has(name)) {
+            registeredExtras.push(name);
+          }
+        }
+        if (registeredExtras.length > 0) {
+          // 插入到 ProjectMgr/StateMachine 之前（如果存在），否则追加到末尾
+          const smIndex = kernelBlueprint.bootChain.findIndex((g) => g.includes('__OV.StateMachine'));
+          if (smIndex > 0) {
+            kernelBlueprint.bootChain.splice(smIndex, 0, registeredExtras);
+          } else {
+            kernelBlueprint.bootChain.push(registeredExtras);
+          }
+        }
+
+        // 如果 bootChain 为空或不合法，使用默认标准 bootChain
+        const hasStateMachine = kernelBlueprint.bootChain.some((g) => g.includes('__OV.StateMachine'));
+        if (kernelBlueprint.bootChain.length === 0 || !hasStateMachine) {
+          kernelBlueprint.bootChain = [
+            ['__OV.EventBus', '__OV.Tool'],
+            ['__OV.Memory', '__OV.Save', '__OV.DataChannel'],
+            ['__OV.Render'],
+            ['__OV.Input'],
+            ['__OV.ProjectMgr', '__OV.StateMachine'],
+          ];
+        }
+        // 加载引擎运行时库并初始化渲染层（threejs 混合加载 pixi + three：PIXI 管皮肤/UI，THREE 供 3D 模块）
+        const engine = 'other';
+        const runtimeLibUrls = ['./resources/libs/pixi.min.js'];
+        try {
+          for (const url of runtimeLibUrls) {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = url;
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          if ((engine === 'pixi' || engine === 'other' || engine === 'threejs') && typeof window.PIXI !== 'undefined') {
+            const app = new window.PIXI.Application({
+              view: canvas,
+              width: canvas.width,
+              height: canvas.height,
+              backgroundColor: 0x0f172a,
+              resolution: window.devicePixelRatio || 1,
+              autoDensity: true,
+            });
+            kernel.ctx.engine.pixi = window.PIXI;
+            kernel.ctx.engine.stage = app.stage;
+            kernel.ctx.engine.app = app;
+            console.log('[Preview] PIXI 初始化完成');
+          }
+          // three.min.js 就绪即挂 ctx.engine.three——引擎级（engine=threejs）与模块级
+          // （蓝图模块 provides 含 render:threejs，由 extraRuntimeLibs 追加加载）两条路径都覆盖；
+          // engine.name 只在引擎级 threejs 时改写，避免干扰 pixi 项目的皮肤层判断
+          if (typeof window.THREE !== 'undefined') {
+            kernel.ctx.engine.three = window.THREE;
+            if (engine === 'threejs') kernel.ctx.engine.name = 'threejs';
+            console.log('[Preview] Three.js 运行时库已加载');
+          } else if (engine === 'threejs') {
+            console.warn('[Preview] threejs 项目但 THREE 未加载成功');
+          }
+          if (engine !== 'pixi' && engine !== 'other' && engine !== 'threejs') {
+            console.log('[Preview] 引擎库已加载:', engine);
+          }
+        } catch (e) {
+          console.warn('[Preview] 引擎库加载失败，将使用 Canvas 2D 回退:', e);
+        }
+
+        await kernel.loadBlueprint(kernelBlueprint);
+
+        // 加载项目数据资源到 ResMgr（静态导出时读本地 manifest + 静态 JSON 文件）
+        try {
+          const resResp = await fetch('./resources/data/manifest.json');
+          if (resResp.ok) {
+            const resData = await resResp.json();
+            const dataFiles = (resData.files || []);
+            for (const fileName of dataFiles) {
+              const dataResp = await fetch('./resources/data/' + encodeURIComponent(fileName));
+              if (dataResp.ok) {
+                const dataContent = await dataResp.json();
+                const dataId = fileName.replace(/\.json$/, '');
+                if (kernel.ctx.system?.resMgr?.registerData) {
+                  kernel.ctx.system.resMgr.registerData(dataId, dataContent);
+                  console.log('[Preview] 注册数据资源:', dataId);
+                }
+              }
+            }
+          }
+        } catch (e) {
+          console.warn('[Preview] 加载数据资源失败:', e);
+        }
+
+        // 全局皮肤渲染辅助函数
+        let globalSkinRendered = false;
+        async function renderGlobalSkin(skinRenderer) {
+          if (globalSkinRendered) return;
+          const globalStateId = blueprint.design?.stateMachine?.globalState;
+          if (!globalStateId) return;
+          const globalStateDef = blueprint.design?.stateMachine?.states?.find(s => s.id === globalStateId);
+          if (!globalStateDef) return;
+          const globalSceneId = globalStateDef.scene || globalStateId;
+          const globalScene = blueprint.design?.scenes?.find(s => s.id === globalSceneId);
+          const globalSkinName = globalStateDef.skin || globalScene?.skin || '';
+          if (!globalSkinName) return;
+          try {
+            const globalSceneRuntime = { id: globalSceneId, skin: globalSkinName, event: kernel.ctx.scene?.event, ui: kernel.ctx.scene?.ui };
+            await skinRenderer.renderSkinForScene(blueprint, globalSceneRuntime, kernel.ctx.engine.stage);
+            globalSkinRendered = true;
+            console.log('[Preview] 全局皮肤渲染完成:', globalSkinName);
+          } catch (e) {
+            console.warn('[Preview] 全局皮肤渲染失败:', e);
+          }
+        }
+
+        function destroyActiveSkinOnly(skinRenderer, globalSceneId) {
+          // 只销毁非全局的 PreviewSkin 层
+          const stage = kernel.ctx.engine?.stage;
+          if (!stage) return;
+          for (const child of [...stage.children]) {
+            const name = String(child.name || '');
+            if (name.startsWith('PreviewSkin:') && !name.includes(globalSceneId)) {
+              try { stage.removeChild(child); } catch {}
+              try { child.destroy({ children: true, texture: false, baseTexture: false }); } catch {}
+            }
+          }
+        }
+
+        const sm = kernel.ctx.system.stateMachine;
+        const events = kernel.ctx.system.events;
+        // 暴露事件总线和数据接口，便于测试/自动化脚本驱动运行时
+        window.__OVO_EVENTS = events;
+        window.__OVO_DATA = kernel.ctx.data;
+        if (sm && events) {
+          // 桥接全局事件总线到状态机：自动订阅所有状态迁移事件
+          const eventIds = new Set();
+          for (const state of blueprint.design.stateMachine.states) {
+            if (state.on) {
+              for (const eventId of Object.keys(state.on)) {
+                eventIds.add(eventId);
+              }
+            }
+          }
+          for (const eventId of eventIds) {
+            console.log('[Preview] 桥接事件:', eventId);
+            events.on(eventId, (payload) => {
+              console.log('[Preview] 收到事件:', eventId, payload);
+              try {
+                sm.transition(eventId, payload);
+              } catch (e) {
+                console.warn('[Preview] transition 失败:', eventId, e);
+              }
+            });
+          }
+        }
+        if (sm) {
+          statusEl.textContent = '状态: ' + sm.getState();
+
+          // boot 自动推进兜底：初始状态为 boot 且存在迁移事件时，在事件桥接完成后自动触发
+          const bootStateDef = blueprint.design?.stateMachine?.states?.find((s) => s.id === 'boot');
+          if (sm.getState() === 'boot' && bootStateDef?.on) {
+            const bootEvents = Object.keys(bootStateDef.on);
+            if (bootEvents.length > 0 && events) {
+              const eventToEmit = bootEvents[0];
+              requestAnimationFrame(() => {
+                console.log('[Preview] boot 自动推进:', eventToEmit);
+                events.emit(eventToEmit, { auto: true });
+              });
+            }
+          }
+
+          sm.onStateChange((from, to) => {
+            statusEl.textContent = '状态: ' + to;
+            if (window.parent !== window) {
+              window.parent.postMessage({ type: 'stateChanged', from, to, projectId: 'cp_1789444098231' }, '*');
+            }
+            // 自动渲染新状态的皮肤（状态 ID → 场景 ID → 场景 skin）
+            const stateDef = blueprint.design.stateMachine.states.find(s => s.id === to);
+            const sceneId = stateDef?.scene || to;
+            const sceneDef = blueprint.design.scenes.find(s => s.id === sceneId);
+            const skinName = sceneDef?.skin || '';
+            const skinRenderer = kernel.ctx.system?.skinRenderer;
+            if (skinRenderer?.renderSkinForScene) {
+              // 先渲染全局皮肤（如果未渲染）
+              renderGlobalSkin(skinRenderer);
+              // 只销毁当前状态皮肤，保留全局皮肤
+              const globalStateId = blueprint.design?.stateMachine?.globalState;
+              const globalStateDef = globalStateId ? blueprint.design?.stateMachine?.states?.find(s => s.id === globalStateId) : null;
+              const globalSceneId = globalStateDef?.scene || globalStateId || '';
+              destroyActiveSkinOnly(skinRenderer, globalSceneId);
+              // 渲染新状态皮肤
+              try {
+                const activeScene = { id: sceneId, skin: skinName, event: kernel.ctx.scene?.event, ui: kernel.ctx.scene?.ui };
+                skinRenderer.renderSkinForScene(blueprint, activeScene, kernel.ctx.engine.stage);
+              } catch (e) {
+                console.warn('[Preview] 皮肤渲染失败:', e);
+              }
+            }
+          });
+          // 渲染初始状态皮肤（先全局，后当前）
+          const skinRenderer = kernel.ctx.system?.skinRenderer;
+          if (skinRenderer?.renderSkinForScene) {
+            // 先渲染全局皮肤
+            await renderGlobalSkin(skinRenderer);
+            // 再渲染初始状态皮肤
+            const initialStateDef = blueprint.design.stateMachine.states.find(s => s.id === sm.getState());
+            const initialSceneId = initialStateDef?.scene || sm.getState();
+            const initialSceneDef = blueprint.design.scenes.find(s => s.id === initialSceneId);
+            const initialSkinName = initialSceneDef?.skin || '';
+            try {
+              const activeScene = { id: initialSceneId, skin: initialSkinName, event: kernel.ctx.scene?.event, ui: kernel.ctx.scene?.ui };
+              await skinRenderer.renderSkinForScene(blueprint, activeScene, kernel.ctx.engine.stage);
+            } catch (e) {
+              console.warn('[Preview] 初始皮肤渲染失败:', e);
+            }
+          }
+        }
+
+        // Canvas 缩放以适应 preview iframe（使用设计尺寸，避免 PIXI autoDensity 改变 canvas.width 后缩放失真）
+        const designWidth = Number(canvas.dataset.designWidth || canvas.width);
+        const designHeight = Number(canvas.dataset.designHeight || canvas.height);
+        function fitCanvas() {
+          const container = canvas.parentElement;
+          if (!container) return;
+          const scale = Math.min(container.clientWidth / designWidth, container.clientHeight / designHeight, 1);
+          canvas.style.width = (designWidth * scale) + 'px';
+          canvas.style.height = (designHeight * scale) + 'px';
+        }
+        window.addEventListener('resize', fitCanvas);
+        fitCanvas();
+
+        if (window.parent !== window) {
+          window.parent.postMessage({ type: 'previewReady', projectId: 'cp_1789444098231' }, '*');
+        }
+      } catch (err) {
+        statusEl.textContent = '错误: ' + err.message;
+        statusEl.style.color = '#f87171';
+        console.error('[Preview] 启动失败:', err);
+      }
+    }
+
+    boot();
+
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'highlightState') {
+        console.log('高亮状态:', e.data.stateId);
+      }
+    });
+  </script>
+</body>
+</html>

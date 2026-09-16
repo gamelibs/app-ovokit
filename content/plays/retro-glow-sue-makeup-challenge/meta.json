@@ -1,0 +1,56 @@
+{
+  "slug": "retro-glow-sue-makeup-challenge",
+  "title": "Retro Glow：给 Sue 化一个一模一样的妆",
+  "subtitle": "在限定时间内复刻参考妆容：选类别、选颜色、动手涂抹，完成度越高越容易过关。",
+  "archetype": "progression",
+  "archetypeSecondary": "simulation",
+  "tags": [
+    "动作",
+    "模拟",
+    "成长 / 数值"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "easy",
+  "techStack": [
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "match 模式：60 秒倒计时内把完成度涂到 90% 以上即过关",
+        "free 模式：无判定压力，完成即满分通过",
+        "每次涂抹 +20 完成度，涂满 100 立即结算"
+      ]
+    },
+    {
+      "title": "行为循环",
+      "bullets": [
+        "观察参考妆容 → 选类别 → 选颜色/工具 → 涂抹（完成度上升）",
+        "提交或时间到 → calculateAccuracy 结算 → result 判定 passed",
+        "重试 / 下一关 / 回菜单，三段出口都回到主循环"
+      ]
+    },
+    {
+      "title": "实现要点",
+      "bullets": [
+        "交互进度由 core/interaction-progress 承载（selectTarget/selectTool/applyInteraction）",
+        "计时与评分下沉到私有模块 makeup-model（time.up 事件驱动结算）",
+        "result 页按 accuracy>=90 判定，free 模式直接满分兜底"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": false,
+  "demo": {
+    "iframeSrc": "/embed/plays/retro-glow-sue-makeup-challenge/index.html",
+    "note": "本作专用试玩：60 秒内把完成度涂到 90% 即过关，支持重试与回菜单。"
+  },
+  "pattern": "merge"
+}

@@ -1,7 +1,7 @@
 {
   "slug": "merge-chain-and-gates",
   "title": "合成进化（Merge）：合成链与卡关点怎么设计",
-  "subtitle": "拆解合成链的层级、视觉爽点与“人为制造卡点”的可控手段。",
+  "subtitle": "深入解析合成进化玩法，拆解合成链层级设计与稀有产出机制，量化卡关点与解锁门槛的数值平衡，提供避免玩家流失的可控卡点策略，助您构建高留存合成链。",
   "tags": [
     "合成",
     "放置",
@@ -59,5 +59,6 @@
     "alt": "合成进化（Merge）：合成链与卡关点怎么设计"
   },
   "demo": {},
-  "pattern": "merge"
+  "pattern": "merge",
+  "archetype": "merge-unit"
 }

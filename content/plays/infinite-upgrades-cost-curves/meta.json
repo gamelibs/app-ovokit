@@ -1,7 +1,7 @@
 {
   "slug": "infinite-upgrades-cost-curves",
   "title": "无限升级：成本指数曲线与“假无限”设计",
-  "subtitle": "数值爽感要持续，关键在成本曲线与阶段重置：让玩家永远有下一步但不失控。",
+  "subtitle": "本文拆解点击放置类游戏的成本指数曲线与阶段阈值机制，详解“假无限”设计。通过设定非线性增长成本与阶段性刷新，在维持数值爽感的同时规避后期崩坏，为开发者提供高可执行性的数值平衡方案，解决伪无限循环下的运营难题。",
   "cover": {
     "src": "/plays/infinite-upgrades-cost-curves/cover.webp",
     "alt": "无限升级：成本指数曲线与“假无限”设计"
@@ -64,5 +64,6 @@
   ],
   "published": true,
   "demo": {},
-  "pattern": "action"
+  "pattern": "action",
+  "archetype": "progression"
 }

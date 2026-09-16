@@ -1,0 +1,25 @@
+{
+  "version": "static-demo-export-v1",
+  "projectId": "cp_1789130311150",
+  "engine": "threejs",
+  "exportedAt": "2026-09-16T04:43:21.707Z",
+  "gameModules": [
+    "common-ui",
+    "core/board-3d",
+    "core/board-ai"
+  ],
+  "files": {
+    "indexHtml": "index.html",
+    "kernelFiles": 24,
+    "moduleFiles": [
+      "modules/common-ui.js",
+      "modules/core/board-3d.js",
+      "modules/core/board-ai.js"
+    ],
+    "copiedDirs": [
+      "ui",
+      "resources"
+    ],
+    "resources": 2
+  }
+}

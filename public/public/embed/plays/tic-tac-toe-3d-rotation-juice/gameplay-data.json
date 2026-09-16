@@ -1,0 +1,133 @@
+{
+  "version": "gameplay-data-v1",
+  "generatedAt": "2026-09-16T04:43:43.186Z",
+  "projectId": "cp_1789130311150",
+  "title": "Quantum Grid",
+  "classification": {
+    "archetype": null,
+    "archetypeName": null,
+    "internalArchetype": "casual-game",
+    "pattern": null,
+    "primitives": [],
+    "features": [
+      "grid"
+    ]
+  },
+  "stateMachine": {
+    "initial": "boot",
+    "globalState": null,
+    "states": [
+      {
+        "id": "boot",
+        "scene": "boot",
+        "modules": [
+          "common-ui"
+        ],
+        "transitions": [
+          {
+            "event": "bootComplete",
+            "target": "menu"
+          },
+          {
+            "event": "boot.complete",
+            "target": "menu"
+          }
+        ]
+      },
+      {
+        "id": "menu",
+        "scene": "menu",
+        "modules": [
+          "common-ui"
+        ],
+        "transitions": [
+          {
+            "event": "startGame",
+            "target": "gameplay"
+          },
+          {
+            "event": "game.start",
+            "target": "gameplay"
+          },
+          {
+            "event": "mode.select1p",
+            "target": "gameplay"
+          },
+          {
+            "event": "mode.select2p",
+            "target": "gameplay"
+          }
+        ]
+      },
+      {
+        "id": "gameplay",
+        "scene": "gameplay",
+        "modules": [
+          "common-ui",
+          "core/board-3d",
+          "core/board-ai"
+        ],
+        "transitions": [
+          {
+            "event": "gameOver",
+            "target": "result"
+          },
+          {
+            "event": "game.over",
+            "target": "result"
+          },
+          {
+            "event": "game.backToMenu",
+            "target": "menu"
+          }
+        ]
+      },
+      {
+        "id": "result",
+        "scene": "result",
+        "modules": [
+          "common-ui"
+        ],
+        "transitions": [
+          {
+            "event": "backToMenu",
+            "target": "menu"
+          },
+          {
+            "event": "game.restart",
+            "target": "gameplay"
+          },
+          {
+            "event": "game.backToMenu",
+            "target": "menu"
+          }
+        ]
+      }
+    ]
+  },
+  "dataModel": [
+    "boardRows",
+    "boardCols",
+    "winLength",
+    "boardCells",
+    "players",
+    "currentPlayer",
+    "gameStatus",
+    "winner",
+    "isDraw",
+    "pvpMode",
+    "playerXColor",
+    "playerOColor"
+  ],
+  "coreParams": {
+    "boardRows": 3,
+    "boardCols": 3,
+    "winLength": 3,
+    "currentPlayer": "X",
+    "gameStatus": "playing",
+    "isDraw": false,
+    "pvpMode": false,
+    "playerXColor": "#ff2d55",
+    "playerOColor": "#00f2ff"
+  }
+}

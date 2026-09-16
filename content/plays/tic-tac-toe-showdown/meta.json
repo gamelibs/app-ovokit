@@ -1,7 +1,7 @@
 {
   "slug": "tic-tac-toe-showdown",
   "title": "Tic Tac Toe Showdown：轮流落子，先连成线者胜",
-  "subtitle": "你要做的：和对手轮流行动，在棋盘格子里落子/摆放，让相同的连成一线；先把己方棋子连成规定长度的一线",
+  "subtitle": "文章拆解 Tic Tac Toe Showdown 的回合博弈机制，涵盖轮流落子、连线判定及 3x3 网格胜负规则。读者将掌握有限状态空间下的先手策略穷举方法，通过核心循环与模块设计实现同线匹配功能，并掌握网格博弈的关键参数配置。",
   "cover": {
     "src": "/plays/tic-tac-toe-showdown/cover.webp",
     "alt": "Tic Tac Toe Showdown：轮流落子，先连成线者胜"

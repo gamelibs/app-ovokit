@@ -1,0 +1,25 @@
+{
+  "version": "static-demo-export-v1",
+  "projectId": "cp_1789444098231",
+  "engine": "other",
+  "exportedAt": "2026-09-15T07:23:07.704Z",
+  "gameModules": [
+    "common-ui",
+    "core/interaction-progress",
+    "makeup-challenge/makeup-model"
+  ],
+  "files": {
+    "indexHtml": "index.html",
+    "kernelFiles": 24,
+    "moduleFiles": [
+      "modules/common-ui.js",
+      "modules/core/interaction-progress.js",
+      "modules/makeup-challenge/makeup-model.js"
+    ],
+    "copiedDirs": [
+      "ui",
+      "resources"
+    ],
+    "resources": 22
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "ovo-ui-skin-index@1",
+  "projectId": "cp_1789444098231",
+  "items": [
+    {
+      "name": "boot_skin",
+      "path": "creative/projects/cp_1789444098231/ui/skins/boot_skin.json",
+      "updateTime": "2026-09-15T03:48:18.234Z"
+    },
+    {
+      "name": "menu_skin",
+      "path": "creative/projects/cp_1789444098231/ui/skins/menu_skin.json",
+      "updateTime": "2026-09-15T03:48:18.235Z"
+    },
+    {
+      "name": "gameplay_skin",
+      "path": "creative/projects/cp_1789444098231/ui/skins/gameplay_skin.json",
+      "updateTime": "2026-09-15T03:48:18.235Z"
+    },
+    {
+      "name": "paused_skin",
+      "path": "creative/projects/cp_1789444098231/ui/skins/paused_skin.json",
+      "updateTime": "2026-09-15T03:48:18.235Z"
+    },
+    {
+      "name": "result_skin",
+      "path": "creative/projects/cp_1789444098231/ui/skins/result_skin.json",
+      "updateTime": "2026-09-15T03:48:18.235Z"
+    }
+  ]
+}

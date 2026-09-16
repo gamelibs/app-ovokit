@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "resource-library@1",
+  "projectId": "cp_1789444098231",
+  "projectTitle": "Retro Glow: Sue's Makeup Challenge",
+  "images": [
+    {
+      "name": "homepage_bg_ffbde988-157e-43a6-9478-39ff0280ddff.webp",
+      "path": "resources/images/homepage_bg_ffbde988-157e-43a6-9478-39ff0280ddff.webp",
+      "size": 91282,
+      "updateTime": "2026-09-15T03:48:18.237Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/homepage_bg_ffbde988-157e-43a6-9478-39ff0280ddff.webp"
+    },
+    {
+      "name": "homepage_girl_613b1edb-904a-4a2b-a581-927641b79499.webp",
+      "path": "resources/images/homepage_girl_613b1edb-904a-4a2b-a581-927641b79499.webp",
+      "size": 81696,
+      "updateTime": "2026-09-15T03:48:18.238Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/homepage_girl_613b1edb-904a-4a2b-a581-927641b79499.webp"
+    },
+    {
+      "name": "icon_blush_c753ec17-43fb-423d-9909-4071cd8b49e9.webp",
+      "path": "resources/images/icon_blush_c753ec17-43fb-423d-9909-4071cd8b49e9.webp",
+      "size": 136498,
+      "updateTime": "2026-09-15T03:48:18.239Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/icon_blush_c753ec17-43fb-423d-9909-4071cd8b49e9.webp"
+    },
+    {
+      "name": "icon_contacts_2384e4ae-3189-43c7-b3e0-7e7257c44e54.webp",
+      "path": "resources/images/icon_contacts_2384e4ae-3189-43c7-b3e0-7e7257c44e54.webp",
+      "size": 170228,
+      "updateTime": "2026-09-15T03:48:18.240Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/icon_contacts_2384e4ae-3189-43c7-b3e0-7e7257c44e54.webp"
+    },
+    {
+      "name": "icon_eyebrows_dde1e836-70bb-4bdc-a851-b9274cf58cb0.webp",
+      "path": "resources/images/icon_eyebrows_dde1e836-70bb-4bdc-a851-b9274cf58cb0.webp",
+      "size": 114646,
+      "updateTime": "2026-09-15T03:48:18.241Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/icon_eyebrows_dde1e836-70bb-4bdc-a851-b9274cf58cb0.webp"
+    },
+    {
+      "name": "icon_eyeliner_eacea719-8b49-4c7b-a7c5-a9609cbcf66c.webp",
+      "path": "resources/images/icon_eyeliner_eacea719-8b49-4c7b-a7c5-a9609cbcf66c.webp",
+      "size": 89152,
+      "updateTime": "2026-09-15T03:48:18.242Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/icon_eyeliner_eacea719-8b49-4c7b-a7c5-a9609cbcf66c.webp"
+    },
+    {
+      "name": "icon_eyeshadow_42330155-074e-4405-866c-bdc657a5743d.webp",
+      "path": "resources/images/icon_eyeshadow_42330155-074e-4405-866c-bdc657a5743d.webp",
+      "size": 141638,
+      "updateTime": "2026-09-15T03:48:18.243Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/icon_eyeshadow_42330155-074e-4405-866c-bdc657a5743d.webp"
+    },
+    {
+      "name": "icon_lipstick_299157fb-39f2-4d6d-8802-47ee48ece9b1.webp",
+      "path": "resources/images/icon_lipstick_299157fb-39f2-4d6d-8802-47ee48ece9b1.webp",
+      "size": 100828,
+      "updateTime": "2026-09-15T03:48:18.244Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/icon_lipstick_299157fb-39f2-4d6d-8802-47ee48ece9b1.webp"
+    },
+    {
+      "name": "reference_frame_border_b33b85ac-e8e0-4aa5-960b-a636094a2f98.webp",
+      "path": "resources/images/reference_frame_border_b33b85ac-e8e0-4aa5-960b-a636094a2f98.webp",
+      "size": 162008,
+      "updateTime": "2026-09-15T03:48:18.245Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/reference_frame_border_b33b85ac-e8e0-4aa5-960b-a636094a2f98.webp"
+    },
+    {
+      "name": "sparkle_particle_a218e77c-35b8-4eae-9812-d40cd2577029.webp",
+      "path": "resources/images/sparkle_particle_a218e77c-35b8-4eae-9812-d40cd2577029.webp",
+      "size": 35152,
+      "updateTime": "2026-09-15T03:48:18.246Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/sparkle_particle_a218e77c-35b8-4eae-9812-d40cd2577029.webp"
+    },
+    {
+      "name": "sue_base_face_2_85717cc7-f151-4f5b-a3ee-08bac7c56514.webp",
+      "path": "resources/images/sue_base_face_2_85717cc7-f151-4f5b-a3ee-08bac7c56514.webp",
+      "size": 90734,
+      "updateTime": "2026-09-15T03:48:18.247Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/sue_base_face_2_85717cc7-f151-4f5b-a3ee-08bac7c56514.webp"
+    },
+    {
+      "name": "sue_base_face_4_429d5875-ebfb-4263-a7d8-5c6b5201738b.webp",
+      "path": "resources/images/sue_base_face_4_429d5875-ebfb-4263-a7d8-5c6b5201738b.webp",
+      "size": 96982,
+      "updateTime": "2026-09-15T03:48:18.247Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/sue_base_face_4_429d5875-ebfb-4263-a7d8-5c6b5201738b.webp"
+    },
+    {
+      "name": "sue_base_face_7d731f7f-6477-4f9d-b9a0-7d417910f411.webp",
+      "path": "resources/images/sue_base_face_7d731f7f-6477-4f9d-b9a0-7d417910f411.webp",
+      "size": 319212,
+      "updateTime": "2026-09-15T03:48:18.248Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/sue_base_face_7d731f7f-6477-4f9d-b9a0-7d417910f411.webp"
+    },
+    {
+      "name": "sue_lose_pose_e217782d-7a07-4af2-9821-1a57aa0f5fc9.webp",
+      "path": "resources/images/sue_lose_pose_e217782d-7a07-4af2-9821-1a57aa0f5fc9.webp",
+      "size": 73708,
+      "updateTime": "2026-09-15T03:48:18.250Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/sue_lose_pose_e217782d-7a07-4af2-9821-1a57aa0f5fc9.webp"
+    },
+    {
+      "name": "sue_win_pose_e1fcef56-ddfc-4cde-a7cb-49309f28554b.webp",
+      "path": "resources/images/sue_win_pose_e1fcef56-ddfc-4cde-a7cb-49309f28554b.webp",
+      "size": 94322,
+      "updateTime": "2026-09-15T03:48:18.252Z",
+      "url": "/creative-preview/cp_1789444098231/resources/images/sue_win_pose_e1fcef56-ddfc-4cde-a7cb-49309f28554b.webp"
+    }
+  ],
+  "audio": [
+    {
+      "name": "bgm_upbeat_pop_f84e767c-54ed-45ae-8576-4a7ee13ef7d4.mp3",
+      "path": "resources/audio/bgm_upbeat_pop_f84e767c-54ed-45ae-8576-4a7ee13ef7d4.mp3",
+      "size": 240579,
+      "updateTime": "2026-09-15T03:48:18.253Z",
+      "url": "/creative-preview/cp_1789444098231/resources/audio/bgm_upbeat_pop_f84e767c-54ed-45ae-8576-4a7ee13ef7d4.mp3"
+    },
+    {
+      "name": "sfx_correct_placement_dc9fbceb-3265-46a2-b273-111f8e829599.mp3",
+      "path": "resources/audio/sfx_correct_placement_dc9fbceb-3265-46a2-b273-111f8e829599.mp3",
+      "size": 16553,
+      "updateTime": "2026-09-15T03:48:18.254Z",
+      "url": "/creative-preview/cp_1789444098231/resources/audio/sfx_correct_placement_dc9fbceb-3265-46a2-b273-111f8e829599.mp3"
+    },
+    {
+      "name": "sfx_lose_reaction_079ffd6d-9d57-4117-a9d0-16e75d22e8c1.mp3",
+      "path": "resources/audio/sfx_lose_reaction_079ffd6d-9d57-4117-a9d0-16e75d22e8c1.mp3",
+      "size": 22195,
+      "updateTime": "2026-09-15T03:48:18.255Z",
+      "url": "/creative-preview/cp_1789444098231/resources/audio/sfx_lose_reaction_079ffd6d-9d57-4117-a9d0-16e75d22e8c1.mp3"
+    },
+    {
+      "name": "sfx_timer_warning_eee2dd69-9eba-4c55-81a8-1e74a734b1da.mp3",
+      "path": "resources/audio/sfx_timer_warning_eee2dd69-9eba-4c55-81a8-1e74a734b1da.mp3",
+      "size": 18643,
+      "updateTime": "2026-09-15T03:48:18.256Z",
+      "url": "/creative-preview/cp_1789444098231/resources/audio/sfx_timer_warning_eee2dd69-9eba-4c55-81a8-1e74a734b1da.mp3"
+    },
+    {
+      "name": "sfx_tool_select_5b98665b-c279-4d0f-b26c-43b0ce021b34.mp3",
+      "path": "resources/audio/sfx_tool_select_5b98665b-c279-4d0f-b26c-43b0ce021b34.mp3",
+      "size": 5686,
+      "updateTime": "2026-09-15T03:48:18.256Z",
+      "url": "/creative-preview/cp_1789444098231/resources/audio/sfx_tool_select_5b98665b-c279-4d0f-b26c-43b0ce021b34.mp3"
+    },
+    {
+      "name": "sfx_win_celebration_fc709034-4eaa-4ffc-9c56-dec04b50c70c.mp3",
+      "path": "resources/audio/sfx_win_celebration_fc709034-4eaa-4ffc-9c56-dec04b50c70c.mp3",
+      "size": 16971,
+      "updateTime": "2026-09-15T03:48:18.257Z",
+      "url": "/creative-preview/cp_1789444098231/resources/audio/sfx_win_celebration_fc709034-4eaa-4ffc-9c56-dec04b50c70c.mp3"
+    }
+  ],
+  "fonts": [],
+  "skins": [],
+  "libs": [
+    {
+      "name": "pixi.min.js",
+      "path": "resources/libs/pixi.min.js",
+      "size": 456074,
+      "updateTime": "2026-09-15T03:48:18.237Z",
+      "url": "/creative-preview/cp_1789444098231/resources/libs/pixi.min.js"
+    }
+  ],
+  "compositions": [],
+  "configs": [],
+  "data": []
+}

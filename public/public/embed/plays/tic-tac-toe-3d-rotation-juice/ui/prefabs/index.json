@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "ovo-ui-prefab-index@1",
+  "projectId": "cp_1789130311150",
+  "items": [
+    {
+      "name": "boot_prefab",
+      "path": "./ui/prefabs/boot_prefab.json",
+      "updateTime": "2026-09-16T02:13:53.344Z"
+    },
+    {
+      "name": "gameplay_prefab",
+      "path": "./ui/prefabs/gameplay_prefab.json",
+      "updateTime": "2026-09-16T02:13:53.343Z"
+    },
+    {
+      "name": "menu_prefab",
+      "path": "./ui/prefabs/menu_prefab.json",
+      "updateTime": "2026-09-16T02:13:53.342Z"
+    },
+    {
+      "name": "result_prefab",
+      "path": "./ui/prefabs/result_prefab.json",
+      "updateTime": "2026-09-16T02:13:53.342Z"
+    }
+  ]
+}
