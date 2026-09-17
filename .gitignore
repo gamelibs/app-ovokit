@@ -49,3 +49,4 @@ data/plays-views.json
 
 # deploy meta (deploy.sh 写入，不入 git)
 .deploy-meta
+tmp/

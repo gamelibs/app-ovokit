@@ -2,6 +2,10 @@
 
 目标：让新会话在不“全仓库重读”的前提下，快速定位入口、约定、与高频文件。
 
+## 部署文档
+
+- `doc/deploy-运行说明.md`：生产服务器 deploy.sh 用法、子命令、「无法启动」排查表（5 类报错对号入座）、分支防呆（服务器必须检出 `deploy/gameslog.top`）、Cloudflare 缓存、GH Actions 自动链路状态。涉及部署/上线话题先读它。
+
 ## 一句话定位
 
 OVO 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动的“玩法技术实现分享站”MVP，并带一个 Fastify 算法/Demo 后端（`server/*`）。
@@ -44,7 +48,7 @@ OVO 是一个 Next.js（App Router）+ 本地内容文件（`content/*`）驱动
 ### 默认不扫描（除非任务明确需要）
 
 - `node_modules/`
-- `public/`、`games/`、`ReferenceCase/`
+- `public/`（资源为主；含 demos/embed 游戏包）
 - `content/`：只读与当前任务相关的 `slug/key` 那一小段目录
 
 ### 先精确定位，再打开文件

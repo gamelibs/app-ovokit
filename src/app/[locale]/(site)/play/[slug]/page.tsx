@@ -284,13 +284,9 @@ export default async function PlayDetailPage({
               </div>
             ) : play.demo.iframeSrc ? (
               <div className="mt-4">
-                {/** Static HTML demos (e.g. ReferenceCase) can't receive postMessage reliably; reload is the safest restart. */}
+                {/** 静态 HTML demo 无法可靠接收 postMessage，reload 是最稳的重启方式。 */}
                 {(() => {
-                  const isStaticDemo =
-                    play.demo.iframeSrc?.startsWith("/embed/demos/sliding-puzzle-3d") ||
-                    play.demo.iframeSrc?.startsWith("/embed/games/ReferenceCase/") ||
-                    play.demo.iframeSrc?.startsWith("/referencecase") ||
-                    (play.demo.iframeSrc?.endsWith(".html") ?? false);
+                  const isStaticDemo = play.demo.iframeSrc?.endsWith(".html") ?? false;
                   return (
                 <DemoEmbed
                   title={`${play.title} Demo`}

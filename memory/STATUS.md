@@ -200,3 +200,5 @@ b9addaa [fix] 修复 block-editor commit 提前访问 bug 并治理 ESLint error
 82b0d86 [assets] 程序化生成母型/原型/特征说明图 104 张
 0775479 [perf] 移除外部 CDN 字体依赖，更新 eslint 忽略规则
 ```
+
+**部署运行说明沉淀（2026-09-17）**：`doc/deploy-运行说明.md` 上线——deploy.sh 用法/子命令/「无法启动」五类报错对照表/分支防呆（服务器必须检出 deploy 分支）/CF 缓存/GH Actions 当前断点（SSH step failure，DEPLOY_HOST 疑指向 CF 边缘地址）。手动部署路径：`bash deploy.sh deploy`（产物分支模式）。
