@@ -1,0 +1,59 @@
+# Equipment Randomized Affixes: Designing the Affix Pool and Preventing Numeric Collapse
+
+## The One-Sentence Essence
+
+On the surface, it's random equipment drops; actually, the core mechanism uses grouped mutual exclusion and multiplicative stacking control to constrain numeric ceilings; this article focuses on explaining how to design the affix pool structure to balance rewards while maintaining the gaming experience.
+
+Traffic reason: The gambling mechanic is naturally "talk-worthy"; players love posting screenshots and arguing about "lucky/unlucky," leading to high comment interaction.
+
+## 1) The Affix Pool Must Be "Split Correctly" Before Discussing Probabilities
+
+The most common pitfall: stuffing a bunch of affixes into one big pool and then relying on weights to balance.
+
+A more reliable structure:
+
+- **Split by body part**: Head/Chest/Boots/Weapon/Accessory  
+- **Split by weapon type**: Melee/Range/Staff/Throwing  
+- **Split by affix group**: Damage Group/Survival Group/Utility Group/Economy Group  
+
+And set limits for each piece of equipment:
+
+- Maximum 1~2 affixes from the same group can appear on a single item  
+- Mutually exclude key multiplicative affixes (to avoid combination explosion)  
+- Rarity determines "number of affixes + ceiling"  
+
+## 2) The Core of Anti-Collapse: Control Stacking, Not Individual Values
+
+Affix collapse usually stems from stacking chains:
+
+> Crit Rate × Crit Damage × Multi-Hit × Trigger Chance × Extra Damage…
+
+Recommended rules:
+
+- **Same-group addition**: Try to stack within the same dimension (e.g., Crit Damage) using addition.  
+- **Cross-group multiplication**: Multiplication is only allowed across different dimensions, but must be controlled for ceiling and mutual exclusion.  
+- **Soft ceiling**: Diminishing returns feel more "random" than hard cuts.  
+
+## 3) The Gambling Experience Must Be "Story-Worthy"
+
+Players are willing to farm repeatedly or reroll repeatedly, provided that:
+
+- I know what's in this affix pool (at least the categories and approximate probabilities)  
+- I can change the outcome (reforge/lock affixes/tune)  
+- I can finally show it off (affix names, effects, and numeric comparisons have a sense of ceremony)  
+
+## Boundary Conditions
+
+- Need to handle pool splitting across different body parts, weapon types, and affix groups, avoiding relying on weights to force-balance a big pool.
+- Need to handle quantity limits for affixes within the same group (max 1~2 affixes) and the mutual exclusion logic for key multiplicative affixes.
+- Need to handle the specific determining role of rarity on "number of affixes" and "ceiling."
+- Need to handle the reward inflation caused by cross-group multiplication, controlling diminishing returns via a soft ceiling mechanism.
+- Need to handle player demands for probability transparency, the ability to change results via reforging/tuning, and the sense of ceremony in finally showing off the results.  
+
+## Design Trade-offs
+
+- **Benefit**: Splitting by body part, weapon type, and affix group ensures clear structure and reliable balance; mutually excluding key multiplicative affixes avoids combination explosion.
+- **Cost**: Must give up the simple and crude solution of "stuffing a bunch of affixes into one big pool and balancing via weights."
+- **Alternative**: Use "same-group addition, cross-group multiplication" stacking rules instead of directly controlling individual values, and use "soft ceiling" instead of "hard cuts" to simulate randomness.  
+
+One-sentence summary: **Randomized affixes are not gambling; they are "controllable pursuit of better."**

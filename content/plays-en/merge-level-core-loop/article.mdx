@@ -1,0 +1,134 @@
+# Core Logic of Merge & Upgrade Gameplay
+
+Merge & Upgrade gameplay might look simple: combining two identical items to create a higher-tier one.  
+However, its addictive nature relies not on the merge rules themselves, but on **output pacing, feedback intensity, and bottleneck design**.
+
+This article breaks down the core of Merge into "modules you can reuse directly" and provides more robust engineering implementation approaches (table-driven, event logs, replayable).
+
+---
+
+## 1. The Essence of Merge: Turning "Repetitive Actions" into "Visible Growth"
+
+What players repeatedly do is essentially one thing: **making the situation better**.
+
+Therefore, the design goal is not to "keep players merging," but to ensure players have clear, visible rewards at every stage:
+
+- Merging produces "stronger units" or "higher output"
+- Unlocking new units creates "new objectives"
+- Bottlenecks motivate players with the feeling of "I'm just one step away from passing"
+
+---
+
+## 2. The Minimal Core Loop (Closed Loop)
+
+A functional minimal closed loop:
+
+1. Produce resources/units (automatically or manually)
+2. Player chooses placement and merging
+3. Merging produces higher-tier units (bringing higher output or stronger abilities)
+4. Unlock new units/grid cells/areas
+5. Enter the next round with a higher goal
+
+From an engineering perspective, it is recommended to decompose this loop into three types of events:
+
+- `spawn` (production)
+- `move/swap` (movement and layout)
+- `merge` (merging and upgrading)
+
+This makes implementing "undo/replay/recording" much easier later on.
+
+---
+
+## 3. Merge Rules: Must Be Table-Driven (Do Not Hardcode in Logic)
+
+The most common pitfall: writing merge rules as `if (a.level===b.level) a.level++`.
+
+Once you need to implement:
+
+- Different branches (A merges to B, B merges to C, etc.)
+- Special units (requiring 3-in-1 merges or cross-level merges)
+- Costs (spending gold/stamina/materials)
+
+Hardcoding will break quickly.
+
+It is recommended to use a **merge table** to drive the logic:
+
+- `from -> to`
+- `cost`
+- `fx` (effects/sound)
+- `unlock` (whether new content is unlocked)
+
+This allows designers and developers to collaborate on the same configuration file.
+
+---
+
+## 4. Output Pacing: Bury the "Highs" into the Curve, Rather Than Stacking Content
+
+Merge retention largely comes from pacing design:
+
+- Small rewards: Every merge provides feedback (sound effects, flashes, jumping numbers)
+- Big rewards: Every N merges gives a strong feedback (new units, loot boxes, expansion, skills)
+
+A simple, actionable approach:
+
+- Drive strong feedback using a "merge counter" or "milestones"
+- Use "rare drops/random events" for variety (but keep it controlled to avoid a feeling of gambling losses)
+
+The key point: Strong feedback must be predictable (players know they are working towards it).
+
+---
+
+## 5. Bottlenecks (Gates): Don't Rely Solely on "Higher Numbers"; Let Players Make Choices
+
+Common bottlenecks in Merge:
+
+- Not enough grid space (space pressure)
+- Output is too slow (time pressure)
+- Key units are hard to merge (combination pressure)
+
+A better bottleneck does not just force players to "grind," but guides them to make choices:
+
+- Should you merge a high-tier unit that takes up space, or clear the field first?
+- Should you expand the grid, or increase output first?
+- Should you "sell/recycle" low-tier units for resources?
+
+When players feel "I lost because I made the wrong choice," rather than "the system's numbers blocked me," the experience improves significantly.
+
+---
+
+## 6. Engineering Implementation: Use Event Logs to Ensure Replayability and Debuggability
+
+If you convert all actions into events (`spawn`/`move`/`merge`), you gain:
+
+- Bug reproduction: Record the event sequence to reproduce issues
+- Undo/Redo: Roll back or recalculate based on events
+- Replay/Recording: Play events chronologically
+
+The minimal implementation can also be simple:
+
+- Within a session: store `events[]`
+- On each action: generate an event, update state
+- For debugging: output events as JSON
+
+---
+
+## 7. Minimal Acceptance Checklist (Must Test Before Launch)
+
+- [ ] Merge rules table: Every `from` can find a `to` (or is explicitly unmergeable)
+- [ ] Space pressure: How to handle production when the grid is full (pause production/convert to reward/auto-merge?)
+- [ ] Boundary between merge and move: Does dragging to an invalid position cause a bounce-back?
+- [ ] Resource consistency: Gold/materials will not appear negative or double-deducted
+- [ ] Save/Load: State is consistent after loading (grid, units, counters, milestones)
+
+## Edge Cases
+
+- Need to handle whether production pauses, converts to a reward, or triggers auto-merge when the grid is full
+- Need to handle bounce-back or cancellation of operations when dragging to an invalid position
+- Need to handle priority judgment when merge and move operations conflict
+- Need to handle cases where resource deduction results in negatives or double deductions
+- Need to handle whether counters, milestones, and other states are consistent after loading a save
+
+## Design Trade-offs
+
+- **Benefit**: Flexibility and maintainability driven by the merge table; **Cost**: Increased initial configuration workload; **Alternative**: Hardcoded rules, but difficult to scale
+- **Benefit**: Replayability, debuggability, and undo capabilities driven by event logs; **Cost**: Increased storage and computation overhead; **Alternative**: Store only keyframes or rely on in-memory state rollback

@@ -1,0 +1,65 @@
+# Match-3: Don't Rush to Add "Many Levels"; First, Turn 3/4/5 Clears into "Behavior Guidance"
+
+## The One-Sentence Essence
+
+On the surface, it's about eliminating layer differences; in reality, the core mechanism uses matches of different lengths to build a learning curve from "maintaining a loop" to "active thinking" to "emotional reversal"; this article focuses on explaining how to guide player behavior and drive retention by controlling the timing of strong item generation.
+
+Traffic Reason: Universal recognition, almost no tutorial needed. What truly widens the gap is not the art, but **how strongly the rules push players toward "better choices"**.
+
+## 1) How Do 3/4/5 Clears Affect Retention?
+
+Treat it as a "learning curve":
+
+- **3 clear = Maintaining a loop**: Players get feedback on every move, but it easily becomes "just tapping randomly works."  
+- **4 clear = Teaching you to think**: When 4 clears can stably produce "visible strong items," players start learning "I need to look for longer matches."  
+- **5 clear = The memory point**: 5 clears are the strongest content for short videos (instant screen clear/chains) and are also the source of the "one step away from a comeback" emotion in the mid-to-late game.
+
+Implementation Check: At which level do you want players to learn "looking for longer matches"?  
+Usually, you can use a very straightforward metric: **the number of times strong items are generated per session** (output from 4/5 clears) should happen **1 time within 20~40 seconds**.
+
+## 2) Level Pacing Design: Write "High Points" into the Curve, Don't Rely on Luck
+
+One reusable 3-stage structure (you can use this directly as a template):
+
+1. **First 10 moves: Stable sugar-coating**  
+   - Give 1~2 "clearly doable" 4 clear opportunities (let players review the rules)  
+   - The progress goal must be visible to the naked eye (e.g., complete 25% in the first phase)
+2. **Middle section: Introduce blockades + choices**  
+   - Let players face the choice between "chasing the goal" or "making longer matches to save items"  
+   - Don't pile up blockades by quantity; pile up "differences in handling methods" (cover/chains/ice, etc.)
+3. **Final section: Create 1 reversal**  
+   - Either give a strong item chain once  
+   - Or press the remaining goal down to "just one step away" (the "almost there" emotion is strongest)
+
+## 3) How to "Artificially Create" Stuck Points Without Getting Players to Hate You?
+
+What you want is not "getting stuck dead," but "just one step away":
+
+- **Failure reasons must be explainable**: Players can say, "If I had done that 4 clear a bit earlier, I would have won."  
+- **Card refill must be controlled randomness**: Apply soft constraints to drops (e.g., avoid not giving an available move for 5 consecutive times)  
+- **Solution methods must be clear**: Either a strong item combination can solve it, or give 1 light hint/start-of-game item.
+
+## 4) How to Test the Minimum Viable Product (MVP)?
+
+Use the same level, changing only one thing:
+
+- **A**: 4 clears do not produce items / 5 clears produce them  
+- **B**: 4 clears produce items / 5 clears are stronger  
+
+Compare: `first session duration`, `day 1 retention`, `churn point at level N`, `item usage rate`. You will quickly see if "learning is being pushed forward" or if players are "just tapping randomly."
+
+## Boundary Conditions
+
+- Need to handle the state where players fall into an "invalid loop" of "just tapping randomly" because they only perform 3 clears.
+- Need to handle the logic judgment of whether 4 or 5 clears stably produce "visible strong items."
+- Need to handle the choice branch when players in the middle section face two strategies: "chasing the goal" vs. "making longer matches."
+- Need to handle whether the final reversal gives a strong item chain or presses the remaining goal down to the "just one step away" state.
+- Need to handle whether the failure reason is explainable, and whether the card refill mechanism sets soft constraints to avoid not giving an available move for 5 consecutive times.
+
+## Design Trade-offs
+
+- **Benefit**: 4 clears can stably produce strong items, teaching players to look for longer matches; 5 clears become the strongest content for short videos and the emotional source for comebacks in the mid-to-late game.
+- **Cost**: If overly reliant on 3 clears, players easily fall into a maintenance loop and start tapping randomly, causing the learning curve to fail.
+- **Alternative**: Level pacing no longer relies on luck by piling quantities, but instead writes "high points" into the curve, designing via a 3-stage structure of "sugar-coating at the start," "introducing blockades and choices in the middle," and "creating a reversal at the end."
+
+One-sentence summary: **Match-3 retention is not built by piling up the number of levels; it is "trained" out by the 3/4/5 clear mechanics.**

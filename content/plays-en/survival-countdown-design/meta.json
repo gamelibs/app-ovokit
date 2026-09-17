@@ -1,0 +1,70 @@
+{
+  "slug": "survival-countdown-design",
+  "title": "Survival Countdown: Designing Time Pressure and the 'Final 10 Seconds' Effect",
+  "subtitle": "Analyze time pressure mechanics focusing on non-malicious dynamic curves and forgiveness windows. Deep dive into the 'Final 10 Seconds' effect to reveal how countdowns alter risk-reward ratios, driving players toward aggressive decisions in high-stakes endings, providing empirical strategies for building urgency in action-dodging levels.",
+  "cover": {
+    "src": "/plays/survival-countdown-design/cover.webp",
+    "alt": "Survival Countdown: Designing Time Pressure and the 'Final 10 Seconds' Effect"
+  },
+  "coverWide": {
+    "src": "/plays/survival-countdown-design/cover.webp",
+    "alt": "Survival Countdown: Designing Time Pressure and the 'Final 10 Seconds' Effect"
+  },
+  "tags": [
+    "关卡",
+    "动作",
+    "躲避"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript",
+    "Unity/UE(可迁移)"
+  ],
+  "corePoints": [
+    "Time Pressure Curve",
+    "Forgiveness Window",
+    "Final 10 Seconds Effect"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "How to Implement Time Pressure Without Being 'Malicious'",
+      "bullets": [
+        "Countdowns create 'decision pressure', not 'mechanic frustration'",
+        "Provide planable resources: extra-time items, shortcuts, risky routes",
+        "Make failure reasons readable: 1 second short vs. completely hopeless creates vastly different experiences"
+      ]
+    },
+    {
+      "title": "The Final 10 Seconds Effect",
+      "bullets": [
+        "Turn audio/visual cues into rituals: heartbeats, flashing, warning text",
+        "Increase rewards or grant burst items in the final 10 seconds to encourage risky decisions",
+        "Allow 'lenient judgment': slightly widen the finish line to reduce frustration"
+      ]
+    },
+    {
+      "title": "Curve Recommendations",
+      "bullets": [
+        "Dedicate the first 60% of time to exploration and learning",
+        "Gradually increase pressure in the next 30% (enemies, obstacles, path changes)",
+        "Use the final 10% for a single goal: create the climax"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Difficulty Coefficient Driven by Remaining Time (Example)",
+      "language": "ts",
+      "code": "export function pressureMul(timeLeft: number, total: number) {\n  const p = 1 - timeLeft / total; // 0 -> 1\n  if (p < 0.6) return 1; // 学习/探索期\n  if (p < 0.9) return 1 + (p - 0.6) / 0.3 * 0.6; // 1 -> 1.6\n  return 1.6 + (p - 0.9) / 0.1 * 0.4; // 1.6 -> 2.0（最后 10%）\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "action",
+  "lang": "en"
+}

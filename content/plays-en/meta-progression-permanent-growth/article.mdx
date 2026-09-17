@@ -1,0 +1,95 @@
+# Failure is Growth: Permanent Growth Ratios and Preventing "Grinding Failures"
+
+## One-Sentence Essence
+
+On the surface, it's unlocking out-of-match numbers or content; actually, the core mechanism is a balance between "short-term feedback driving attempts" and "long-cycle goals driving persistence"; this article focuses on explaining how to split growth into resources/experience and milestones, and set ratios to prevent numerical collapse.
+
+Traffic reason: Significantly reduces frustration, making players more willing to keep trying; it's also the most common retention pillar for "Roguelike/Semi-Roguelike" games.
+
+## 1) Permanent Growth Ratios: Too Strong Ruins the Game, Too Weak Ruins Motivation
+
+Permanent growth should be split into three lines:
+
+- **Numbers** (Minor)  
+- **Features** (Unlock gameplay abilities)  
+- **Content** (New weapons, new levels, new events)  
+
+Experience range: Permanent numbers should account for only **20~35%** of total strength, leaving the rest for players to get stronger through understanding and building.
+
+## 2) Preventing "Grinding Failures": Make the Optimal Strategy Not to Feed the Enemy
+
+Common anti-grind measures:
+
+- Tie rewards to performance (floors/levels, kills, task completion)  
+- Early-exit decay (leaving before 2 minutes yields very low rewards)  
+- Daily/match caps + milestone bonuses (encourages going further)  
+
+## 3) Failure Settlement Must Give Clear Feedback
+
+Players are willing to continue depending on whether the settlement can answer two questions:
+
+1. What did I progress in this run?  
+2. What changes will happen in the next run?  
+
+One-sentence summary: **The core of "Failure is Growth" is "giving hope," but hope cannot come from "feeding."**
+
+---
+
+## 4) How to Split Permanent Growth (A Practical Structure)
+
+Splitting out-of-match growth into two layers is more stable:
+
+- **Short-cycle growth**: Progress in every run (resources/experience), making players willing to start another run immediately  
+- **Long-cycle growth**: Milestone-based unlocks (new systems/new content), giving players a long-term goal  
+
+This allows you to satisfy both "short-term feedback" and "long-term hope," instead of stacking all growth into numbers.
+
+---
+
+## 5) Three Strikes Against Grinding Failures (More Detailed)
+
+### A. Strongly Bind Settlement to Progress
+
+Do not allow "lying flat for 30 seconds to surrender" to get nearly full rewards. Bind instead:
+
+- Reaching floor/level  
+- Defeating elites/bosses  
+- Completing in-run tasks (saving people, lighting altars, escorting, etc.)  
+
+### B. Early-Exit Decay + Failure Decay
+
+Two common decay mechanisms:
+
+- **Early-exit decay**: For example, leaving within 2 minutes yields very low rewards  
+- **Failure decay**: Rewards start decreasing after 3 consecutive failures on the same floor (forcing players to break through)  
+
+### C. Bind "High Rewards" to "Correct Gameplay"
+
+For example:
+
+- Clearing with a specific weapon/specific build grants extra resources  
+- Completing challenge conditions (no-hit, time limit, limited card count) grants extra resources  
+
+Core purpose: Let players learn to play correctly for the rewards, not slouch for the rewards.
+
+---
+
+## 6) Acceptance Checklist (Check Before Launch)
+
+- [ ] Can new players feel significantly stronger within 3~6 runs (must be perceptible)  
+- [ ] Is intentional failure/early-exit more profitable than trying to progress (must NOT be)  
+- [ ] Does mid-to-late game show "numerical domination" making gameplay meaningless (must AVOID)  
+
+## Boundary Conditions
+
+- New players must feel significantly stronger within 3~6 runs, otherwise the experience will feel broken.  
+- The reward for intentional failure or early-exit must be lower than the reward for trying to progress, preventing players from slouching.  
+- Mid-to-late game must avoid "numerical domination" making gameplay meaningless, preserving strategic space.  
+- Settlement feedback must clearly answer the two questions: "What did I progress in this run?" and "What changes will happen in the next run?"  
+- After 3 consecutive failures on the same floor, a reward decay mechanism must be triggered, forcing players to break through bottlenecks.  
+
+## Design Trade-offs
+
+- **Benefit**: Short-term feedback (progress in every run) and long-term hope (milestone-based unlocks) coexist, improving retention and motivation; **Cost**: Cannot stack all growth into numbers, otherwise it's too strong and ruins the game.  
+- **Benefit**: Rewards are strongly bound to performance (floors/levels/kills/tasks), making players learn correct gameplay for rewards; **Cost**: If binding is improper (e.g., allowing lying flat to get full rewards), it leads to players slouching for rewards.  
+- **Benefit**: Both early-exit and failure have decay mechanisms to prevent grinding failures; **Cost**: Decay intensity needs fine control to avoid excessive frustration leading to player churn.

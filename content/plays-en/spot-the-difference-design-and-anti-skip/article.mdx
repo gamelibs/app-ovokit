@@ -1,0 +1,91 @@
+# Spot the Difference: Don't Treat Differences as "Traps," Treat Them as "Pacing"
+
+## The One-Sentence Essence
+
+On the surface, it provides a library of difference types; actually, the core mechanism is building a discovery rhythm through a mix of "fast differences" and "slow differences." This article focuses on explaining how to avoid abandoning the game due to all-slow differences or achieving a speedrun due to all-fast differences.
+
+**Traffic Reason:** Appeals to all ages; does not rely on operation proficiency, leading to extremely wide distribution.
+
+## 1) Difference Design Patterns: You Need Two Tiers of Differences
+
+The experience of "Spot the Difference" is driven by "discovery," and discovery requires rhythm:
+
+- **Fast Differences (first 30 seconds):** Get players into the game state quickly (e.g., missing objects, obvious color changes).
+- **Slow Differences (after 60 seconds):** Keep players engaged longer (e.g., small details, mirroring, quantity differences).
+
+If all differences are slow: New players quit immediately.  
+If all differences are fast: Speedrun completion, resulting in poor completion rates and retention.
+
+## 2) Preventing "Speedruns": Not More Hidden, But More "Reasonably Distributed"
+
+Four very practical strategies to prevent speedruns:
+
+1. **Don't Cluster Distribution:** Don't place all difference points in the center of the screen; cover at least all four quadrants.
+2. **Guide the Gaze:** Use lighting/shadows/character orientation/high-contrast areas to naturally guide players to scan the whole image.
+3. **Hints Have Cooldowns/Costs:** The easier the hint, the more it gets treated as a "skip level" button.
+4. **Confirmation Mechanism:** Clicking a difference point must hit the "target area," avoiding random clicking/spamming.
+
+## 3) An Often Overlooked Retention Point: Failure Should Be Light, Continuing Should Be Fast
+
+"Spot the Difference" most fears "heavy failure penalties." It is more suitable to:
+
+- Deduce a small amount of time/score for wrong clicks
+- Let players continue searching rather than restarting the whole round
+
+**One-sentence summary:** **The design of "Spot the Difference" is not about hiding differences deeper, but creating a "satisfying first, then grinding" rhythm curve.**
+
+---
+
+## 4) Difference Type Library (Directly Apply When Creating Content)
+
+Common difference types (recommended to mix):
+
+- Missing/Extra: One object missing/one object extra (most intuitive)
+- Color/Brightness: Hue/brightness change in a certain area (medium difficulty)
+- Shape/Outline: Edge changes, arcs becoming straight lines (somewhat difficult)
+- Quantity: One extra button/one less star (requires comparison)
+- Orientation: Mirroring/Rotation (easy to misjudge, use with caution)
+- Text: Letter/punctuation differences (very difficult, use with caution)
+
+**Rhythm Suggestion:** Each level must have at least 1 "fast difference" (to get players into the state), matched with 1~2 "slow differences" (to extend stay time).
+
+---
+
+## 5) Anti-"Random Spam Clicking": Must Have Cost, But Not Too Harsh
+
+If players can click randomly infinitely, "Spot the Difference" degenerates into a probability game.
+
+Common suppression strategies:
+
+- Deduce a small amount of time/score for wrong clicks (light penalty)
+- Trigger a short cooldown after consecutive wrong clicks (anti-spam)
+- Limited hint attempts (but hints must have value, not just decoration)
+
+**Bottom Line:** Penalties cannot be so severe that players want to quit after one wrong click.
+
+---
+
+## 6) New Player Protection: Use "Guiding the Gaze" Instead of "Reducing Difficulty"
+
+The difficulty of "Spot the Difference" does not necessarily rely on hiding differences deeper; it relies more on:
+
+- **Composition:** Naturally guide player's gaze to key areas
+- **Contrast:** Increase contrast/focus in suspicious areas
+- **Sequence:** Distribute difference points in different quadrants, forcing players to scan the image
+
+These approaches do not break the sense of achievement in "discovery" and are more advanced than simply making differences obvious.
+
+## Boundary Conditions
+
+- Each level must contain at least 1 fast difference and 1~2 slow differences, otherwise the rhythm is unbalanced.
+- Difference point distribution must cover all four quadrants; prohibiting clustering entirely in the center of the screen.
+- If a player triggers consecutive wrong clicks, immediately trigger a short cooldown or deduct time/score to prevent infinite random clicking.
+- The confirmation mechanism must require clicking the "target area"; prohibiting passing by clicking non-target areas.
+- The hint system must set a cooldown time or consume attempts; prohibiting infinite free hints.
+
+## Design Trade-offs
+
+- **Benefit:** New players can smoothly enter the state and find the first difference point; **Cost:** Using only fast differences leads to speedruns, lowering completion rates and retention; **Alternative:** Balance the experience using a "satisfying first, then grinding" rhythm curve (fast-slow mix).
+- **Benefit:** Using gaze guidance (composition/contrast/sequence) improves discovery efficiency; **Cost:** Does not directly reduce difference concealment; **Alternative:** Compared to directly reducing difficulty, gaze guidance better preserves the sense of achievement in "discovery" and is more advanced.
+- **Benefit:** Giving players a chance to continue searching rather than restarting the whole round; **Cost:** Failure penalty cannot be too heavy; **Alternative:** Wrong clicks only deduct a small amount of time or score, avoiding frustration leading to exit.
+- **Benefit:** Setting hint cooldowns/costs prevents players from treating them as skip buttons; **Cost:** Increases operation threshold; **Alternative:** If hints are too convenient, players will abuse them, breaking the core game experience.

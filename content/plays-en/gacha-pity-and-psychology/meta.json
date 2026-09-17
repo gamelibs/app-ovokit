@@ -1,0 +1,69 @@
+{
+  "slug": "gacha-pity-and-psychology",
+  "title": "Gacha Simulation: Understanding Pity Mechanics and Probability Psychology",
+  "subtitle": "This article deconstructs the structural differences between hard and soft pity systems, analyzing how probability psychology creates perceptual bias. Through simulation verification of gacha data, we reveal the impact of emotional thresholds on decision-making. This helps developers quantify the risks of pity strategies and optimize numerical design to enhance user retention and willingness to pay.",
+  "cover": {
+    "src": "/plays/gacha-pity-and-psychology/cover.webp",
+    "alt": "Gacha Simulation: Pity Mechanics and Probability Psychology"
+  },
+  "coverWide": {
+    "src": "/plays/gacha-pity-and-psychology/cover.webp",
+    "alt": "Gacha Simulation: Pity Mechanics and Probability Psychology"
+  },
+  "tags": [
+    "数值",
+    "生成"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "Hard/Soft Pity",
+    "Perceived Probability",
+    "Emotional Thresholds"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Pity Structure (Most Common)",
+      "bullets": [
+        "Hard Pity: Guaranteed drop of target rarity after N pulls",
+        "Soft Pity: Probability increases as you approach N (feels better)",
+        "Directed Mechanism: Big pity/Warp system ensures a guaranteed drop on the next pull if missed, reducing the feeling of being 'backstabbed'"
+      ]
+    },
+    {
+      "title": "Probability Psychology",
+      "bullets": [
+        "Players remember 'streaks of failure', not the mean",
+        "Soft pity significantly reduces the tail probability of long failure streaks",
+        "Clearly writing the rules can actually reduce controversy (players fear the 'black box')"
+      ]
+    },
+    {
+      "title": "Simulation and Verification",
+      "bullets": [
+        "Look at the distribution, not just the expectation: How many pulls for P50/P90/P99",
+        "Compare 'Pure Random vs. Soft Pity' to observe the proportion of extreme 'chump' cases",
+        "Monitor churn points: Retention drops when consecutive failures exceed a threshold"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Soft Pity Probability Curve (Example)",
+      "language": "ts",
+      "code": "export function rareProb(pity: number) {\n  // pity: 连续未出稀有的次数\n  const base = 0.02; // 2%\n  const hard = 80; // 80 抽硬保底\n  if (pity >= hard - 1) return 1;\n\n  // 60 抽后开始“软保底”线性爬升（示例）\n  const softStart = 60;\n  if (pity < softStart) return base;\n\n  const t = (pity - softStart) / (hard - softStart);\n  return base + t * (0.25 - base); // 最终爬到 25%\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "merge",
+  "archetype": "progression",
+  "lang": "en"
+}

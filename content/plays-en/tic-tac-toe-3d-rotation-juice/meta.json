@@ -1,0 +1,71 @@
+{
+  "slug": "tic-tac-toe-3d-rotation-juice",
+  "title": "Same Rules, New Feel: A 3D Makeover for Solved Tic-Tac-Toe",
+  "subtitle": "Tic-tac-toe is a solved game — optimal play always ends in a draw. See how 3D rotation, sound and confetti rebuild the feel without changing a single rule.",
+  "archetype": "turn-duel",
+  "tags": [
+    "Turn-Based",
+    "Board",
+    "Strategy"
+  ],
+  "lang": "en",
+  "difficulty": "Beginner",
+  "techStack": [
+    "Three.js",
+    "Web Audio",
+    "HTML5 Canvas"
+  ],
+  "corePoints": [
+    "Separation of rule logic and presentation layer",
+    "Minimax algorithm applied to a 'solved' game",
+    "Juice enhances feel without altering core rules"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Rule Skeleton",
+      "bullets": [
+        "3×3 grid, X goes first, players take turns",
+        "8 winning lines: 3 horizontal, 3 vertical, 2 diagonal",
+        "Draw if full without a winner; no failure penalty"
+      ]
+    },
+    {
+      "title": "Turn Core Loop",
+      "bullets": [
+        "Player move → AI response (minimax) → Grid rotation → Render next frame",
+        "Rotation changes only camera view, not logical grid positions",
+        "State machine: menu → gameplay → result, supports restart and return to menu"
+      ]
+    },
+    {
+      "title": "Presentation Layer Juice",
+      "bullets": [
+        "Three.js 3D grid with post-turn rotation animation",
+        "Victory confetti and Web Audio real-time sound effects",
+        "Rules remain unchanged, but player experience is completely transformed"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Triple Match Check: Lookup Table for 8 Winning Lines",
+      "language": "ts",
+      "code": "const LINES = [\n  [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows\n  [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns\n  [0, 4, 8], [2, 4, 6],            // diagonals\n];\n\ntype Mark = 'X' | 'O' | null;\n\nexport function judge(cells: Mark[]): 'X' | 'O' | 'draw' | null {\n  for (const [a, b, c] of LINES) {\n    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {\n      return cells[a]; // we have a winner\n    }\n  }\n  return cells.every(Boolean) ? 'draw' : null;\n}\n"
+    },
+    {
+      "title": "Minimax: Recursive Search for the Best Response (reused from core/board-ai)",
+      "language": "ts",
+      "code": "// Reused from the OVO pipeline's core/board-ai module: the rebuilt Tic-Tac-Toe\n// calls it directly, with zero changes to the rules.\nfunction minimax(cells: Mark[], depth: number, isMaximizing: boolean): number {\n  if (checkWinner(cells, aiPlayer)) return 10 - depth;     // AI wins: faster = higher score\n  if (checkWinner(cells, humanPlayer)) return depth - 10;  // Opponent wins: slower = smaller loss\n  const empty = getEmptyCells(cells);\n  if (empty.length === 0) return 0;                        // Draw\n\n  let best = isMaximizing ? -Infinity : Infinity;\n  for (const e of empty) {\n    cells[e.index] = isMaximizing ? aiPlayer : humanPlayer; // Try the move\n    const score = minimax(cells, depth + 1, !isMaximizing);\n    cells[e.index] = null;                                  // Backtrack\n    best = isMaximizing ? Math.max(best, score) : Math.min(best, score);\n  }\n  return best;\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/tic-tac-toe-3d-rotation-juice/index.html",
+    "note": "Play a full round right here: challenge the minimax AI or pass-and-play with a friend — win, draw, and restart, all without leaving this page."
+  },
+  "pattern": "strategy"
+}

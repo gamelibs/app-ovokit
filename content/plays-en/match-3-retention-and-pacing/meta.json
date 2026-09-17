@@ -1,0 +1,73 @@
+{
+  "slug": "match-3-retention-and-pacing",
+  "title": "Match-3: Leveraging Elimination Mechanics to Drive Retention and Pacing",
+  "subtitle": "A deep dive into Match-3 core mechanics, focusing on the intensity stratification logic for 3/4/5-match eliminations. Through quantitative analysis of satisfying elimination triggers and dynamic checkpoint control strategies, we reveal how to drive user retention via rule design. Content covers constrained random generation algorithms and level pacing, aiming to help developers build high-engagement elimination experiences and improve game balance.",
+  "tags": [
+    "消除",
+    "关卡",
+    "数值",
+    "生成",
+    "热门"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "TypeScript",
+    "配置表(通用)",
+    "Unity/UE(可迁移)"
+  ],
+  "corePoints": [
+    "3/4/5 Match Stratification",
+    "Level Pacing",
+    "Checkpoints and Breakthroughs"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Why 3/4/5 Matches Are Critical",
+      "bullets": [
+        "It determines the 'expected yield per move'",
+        "It dictates whether players understand the goal of finding larger matches"
+      ]
+    },
+    {
+      "title": "How to Design Pacing",
+      "bullets": [
+        "Provide stable positive feedback in the first 10 moves",
+        "Introduce blockades or objectives in the middle section",
+        "Create one major reversal or strong item in the final segment"
+      ]
+    },
+    {
+      "title": "Constrained Randomness",
+      "bullets": [
+        "Apply soft constraints to 'refill/drop' mechanics",
+        "Transform failure into 'one step away' rather than 'no hope'"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "3/4/5 Match Yield Stratification (Simplified)",
+      "language": "ts",
+      "code": "export function rewardForMatch(len: number) {\n  if (len >= 5) return { score: 300, spawn: \"colorBomb\" };\n  if (len === 4) return { score: 120, spawn: \"lineBomb\" };\n  return { score: 60, spawn: null };\n}\n"
+    }
+  ],
+  "demo": {
+    "iframeSrc": "/embed/demos/match3",
+    "note": "可试玩 Demo：最小三消核心（相邻交换→成消判定→消除→下落→补齐→连锁）。后续可在此基础上扩展 4/5 消、特殊块与关卡目标。"
+  },
+  "cover": {
+    "src": "/plays/match-3-retention-and-pacing/cover.webp",
+    "alt": "Match-3: Leveraging Elimination Mechanics to Drive Retention and Pacing"
+  },
+  "coverWide": {
+    "src": "/plays/match-3-retention-and-pacing/cover.webp",
+    "alt": "Match-3: Leveraging Elimination Mechanics to Drive Retention and Pacing"
+  },
+  "published": true,
+  "pattern": "spatial",
+  "lang": "en"
+}

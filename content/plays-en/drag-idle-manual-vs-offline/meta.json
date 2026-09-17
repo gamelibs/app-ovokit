@@ -1,0 +1,60 @@
+{
+  "slug": "drag-idle-manual-vs-offline",
+  "title": "Drag-and-Drop Placement: Balancing Manual Yield Gaps and Offline Rewards",
+  "subtitle": "A deep dive into the numerical logic of drag-and-drop placement mechanics. By comparing manual yield gaps with offline reward formulas, we derive a balancing equation to curb excessive manual play. The guide covers cap setting, anti-farming mechanisms, and reward curve design, offering actionable solutions to the 'tiring when active, losing out when idle' player pain point.",
+  "tags": [
+    "放置",
+    "数值"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "TypeScript",
+    "配置表(通用)"
+  ],
+  "corePoints": [
+    "Manual vs. Idle",
+    "Offline Settlement",
+    "Caps and Anti-Farming"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Yield Gap",
+      "bullets": [
+        "Manual play offers gains but is not mandatory",
+        "Frame manual actions as 'short sprints' rather than prolonged labor"
+      ]
+    },
+    {
+      "title": "Offline Rewards",
+      "bullets": [
+        "Linear settlement with a hard cap",
+        "Simulate event count during offline periods",
+        "Ensure offline rewards do not exceed online experience value"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Offline Rewards (Linear + Cap + Event Step)",
+      "language": "ts",
+      "code": "export function offlineReward(ratePerSec: number, offlineSec: number) {\n  const capSec = 8 * 60 * 60; // 8 小时上限\n  const t = Math.min(offlineSec, capSec);\n  const base = ratePerSec * t;\n  const bonus = 1 + Math.min(0.5, Math.log10(1 + t / 60) * 0.2); // 温和加成\n  return Math.floor(base * bonus);\n}\n"
+    }
+  ],
+  "cover": {
+    "src": "/plays/drag-idle-manual-vs-offline/cover.webp",
+    "alt": "Drag-and-Drop Placement: Manual Yield Gap and Offline Reward Formula"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/drag-idle-manual-vs-offline/cover.webp",
+    "alt": "Drag-and-Drop Placement: Manual Yield Gap and Offline Reward Formula"
+  },
+  "demo": {},
+  "pattern": "merge",
+  "archetype": "progression",
+  "lang": "en"
+}

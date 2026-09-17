@@ -1,0 +1,103 @@
+# Infinite Progression: The Exponential Cost Curve and "Fake Infinite" Design
+
+## The One-Sentence Essence
+
+On the surface, it's a progression process where numbers keep rising; in reality, the core mechanism involves artificially creating a sense of "stages" by adjusting the cost growth rate in segments. This article focuses on explaining how to design a "fake infinite" loop by combining exponential curves with reward limits.
+
+**Traffic Driver:** Extremely satisfying numerical feedback, low barrier to entry (the "numbers skyrocketing" effect is very intuitive in short videos).
+
+## 1) The Cost Curve Determines How Long You Can "Enjoy"
+
+The default solution for infinite progression is exponential:
+
+> cost = base × r^level
+
+But the real trick is **adjusting r in segments**:
+
+- Early game: small r (satisfying, retains players)
+- Mid game: medium r (maintains a sense of goal)
+- Late game: large r (extends lifespan, prevents beating the game in a day)
+
+Note: Do not let rewards grow exponentially along with costs, or the system will crash even faster.
+
+## 2) "Fake Infinite" Is Easier to Content-Design Than True Infinite
+
+Break the infinite goal into stages:
+
+- Reach milestones → unlock new systems (automation, rebirth, new resources)
+- Use rebirth to reset growth faster (players are willing to repeat the grind)
+- Use seasons/rankings to turn "infinite" into a short, comparable cycle
+
+## 3) Players Can Tolerate Waiting, But Not "No Change"
+
+Experience thresholds:
+
+- At least one visible improvement every 30~90 seconds (numbers/effects/unlocks)
+- Large number displays need a unit system (K/M/B/… or scientific notation)
+
+One-sentence summary: **The essence of infinite progression is a "sense of stages," not "no end."**
+
+---
+
+## 4) Reward Curves Should Not Match the Same Exponent as Costs (Otherwise It Crashes in a Day)
+
+Many "true infinite" failures stem from cost growing exponentially and rewards growing exponentially as well, resulting in:
+
+- Instant astronomical numbers in the late game (overflow/precision issues)
+- Gameplay being crushed by numbers (strategy becomes irrelevant)
+
+A more stable combination:
+
+- Cost: exponential / segmented exponential
+- Reward: sub-linear (logarithmic / square root / segmented linear)
+
+From an engineering perspective, you can apply a simple cap first:
+
+- Ensure the reward growth rate is always lower than the cost growth rate
+- Or implement soft caps (diminishing returns)
+
+---
+
+## 5) How to Make "Sense of Stages" Configurable
+
+A common staged strategy:
+
+- Trigger a milestone every X levels
+  - Unlock new resources/new systems (automation, rebirth, research)
+  - Replace some upgrades (old upgrades retire, new ones appear)
+
+You can make stages into a table:
+
+- `phaseId`
+- `levelRange`
+- `costMultiplier`
+- `rewardMultiplier`
+- `unlock` (new feature toggle)
+
+This way, you don't need to write "if level > 1000 ..." everywhere in the code.
+
+---
+
+## 6) Display and Storage: Large Numbers Are an Engineering Problem, Not Just a UI Detail
+
+When numbers start getting big, you must at least consider:
+
+- Display unit system: `k/m/b` or scientific notation (keep it consistent)
+- Storage precision: `number` will distort around 2^53
+- Rankings/Comparisons: need a serializable, comparable representation
+
+If you don't implement "true infinite" in the MVP phase, it is recommended to trigger rebirth/settlement once a certain threshold is reached to avoid falling into the large number trap.
+
+## Boundary Conditions
+
+Issues that need handling:
+- If reward growth rate matches the exponential cost growth, it leads to instant astronomical numbers in the late game, causing overflow or precision distortion.
+- If players cannot obtain visible improvements for a long time (e.g., exceeding 90 seconds), it creates frustration leading to churn.
+- If large number displays lack a unit system (K/M/B) or scientific notation, it causes player cognitive confusion.
+- If stored numbers exceed a specific threshold (e.g., 2^53), precision loss occurs, rendering ranking comparisons ineffective.
+- If the numerical system lacks stage thresholds (e.g., rebirth/settlement) for resetting, players will lose motivation due to an infinite goal.
+
+## Design Trade-offs
+
+- **Reward / Cost**: Rewards use sub-linear growth (logarithmic/square root/segmented linear), while costs use exponential or segmented exponential growth, ensuring gameplay strategy space is not crushed by numbers.
+- **Substitution**: Use a "sense of stages" (milestones unlocking new systems, rebirth resetting) to substitute the endless loop of "true infinite," solving issues of rapid content consumption and numerical collapse.

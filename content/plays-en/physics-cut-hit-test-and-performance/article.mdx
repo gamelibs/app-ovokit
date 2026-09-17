@@ -1,0 +1,106 @@
+# Physical Cutting: Stable Collisions Matter More Than "CAD-Level Precision"
+
+## The One-Sentence Essence
+
+On the surface, it simulates realistic geometric splitting; in reality, the core relies on a "coarse-to-fine" culling strategy and "bounded complexity" fragment rules to ensure stability. This article focuses on how to make hard trade-offs between collision stability and physical performance via configuration parameters.
+
+**Why it works:** Strong physical feedback; players immediately feel "it cut, it shattered, it fell."
+
+## 1) Collision Detection: Coarse-to-Fine for Stability
+
+The biggest killer of cutting experience is:  
+The player clearly swiped, but nothing happened (trust broken).
+
+Common detection pipeline (recommended):
+
+1. **Coarse cull (AABB/Circle):** Quickly exclude 90% of non-intersecting objects  
+2. **Fine check (Segment vs Polygon):** Perform exact intersection only on candidates  
+3. **Result handling:** Generate split polygons, apply physical impulse, play effects
+
+If your budget is tight, prefer:
+
+- Slightly looser collision detection  
+- Slightly lower physical precision  
+Over appearing to hit but getting no reaction.
+
+## 2) Splitting Strategy: Satisfaction Comes from "It Looks Shattered," Not "Infinite Shards"
+
+Engineering-wise, you must set an upper limit:
+
+- Generate at most N pieces per cut (e.g., 6~10)  
+- Fragments below the area threshold disappear directly or merge into particles  
+- If polygon vertex count exceeds the threshold, simplify (to avoid physics calculation explosion)
+
+## 3) Balancing Performance and Precision: Encode Budget as Rules
+
+Recommend writing these into your config:
+
+- `maxPiecesPerCut`  
+- `minPieceArea`  
+- `maxPolygonVertices`  
+- `maxCutChecksPerFrame`
+
+One-sentence summary: **The "satisfaction" of a cutting mechanic is built on stable detection and controllable performance; chasing extreme precision will ruin the feel.**
+
+---
+
+## 4) Segment vs Polygon: Minimal Viable Intersection Detection
+
+When entering the "fine check" phase, the most common approach is:
+
+- Form a line segment (or polyline) from the cutting trajectory  
+- Detect if it intersects the target polygon edges
+
+Key points for the minimal implementation:
+
+- Allow some tolerance (epsilon) to avoid jitter when grazing the edge  
+- Sample high-speed swipes: use a polyline segment instead of a single segment (otherwise it will tunnel through)
+
+In terms of feel, it's better to "cut slightly loosely" than to "look like you swiped but nothing happened."
+
+---
+
+## 5) Split Generation: Enforce "Bounded Complexity" Shattering
+
+The real difficulty isn't intersection detection, but ensuring the generated splits maintain:
+
+- Polygon vertex count stays reasonable (otherwise physics explosion)  
+- Tiny fragments are handled (otherwise jitter everywhere)
+
+Practical rules:
+
+- If generated area `< minPieceArea`: disappear directly or become particles  
+- If vertex count `> maxPolygonVertices`: simplify (e.g., Douglas–Peucker) or degenerate to convex hull  
+- Generate at most `maxPiecesPerCut` pieces per cut; merge or discard if exceeded
+
+## 6) Physics Engine Collaboration: Don't Expect "Shards to Look Good Naturally"
+
+Once splits are generated, to make them "look satisfying," you usually need to manually add a bit of:
+
+- Impulse in the cutting direction, to fling shards apart  
+- Slight angular velocity, to make shards spin  
+- Tuned friction/damping for ground contacts, to avoid infinite jitter
+
+These are all part of the "presentation layer"; don't treat them as cheating.
+
+---
+
+## 7) Acceptance Checklist (Stability First)
+
+- [ ] High-speed swipes don't miss detection (sampling/polyline effective)  
+- [ ] Continuous cutting doesn't let fragment count run out of control (upper limit enforced)  
+- [ ] Tiny fragments don't cause a performance avalanche (area threshold effective)  
+- [ ] Cutting edge jitter is acceptable (epsilon/simplification effective)
+
+## Edge Cases
+
+- Must handle high-speed swipes where single-segment detection tunnels through: use polyline sampling or tolerance (epsilon) as a fallback.  
+- Must handle continuous cutting causing fragment count to run out of control: set a max pieces per cut limit and force merge or discard.  
+- Must handle tiny-area fragments causing a performance avalanche: set a minimum area threshold and make them disappear or convert to particles.  
+- Must handle excessive polygon vertex counts causing physics calculation explosion: set a vertex count limit and simplify or degenerate.  
+- Must handle jitter when the cutting edge just grazes the target: introduce a tolerance mechanism to avoid "hit but no reaction."
+
+## Design Trade-offs
+
+- **Gain:** Slightly looser detection, slightly lower physical precision; **Cost:** Visual/physical presentation is less precise than CAD; **Alternative:** Use "looks shattered" bounded fragments and manual impulses instead of infinite-shard realistic physics.  
+- **Gain:** Encode budget as rules (e.g., `maxPiecesPerCut`, `minPieceArea`); **Cost:** Cannot achieve theoretically perfect cutting effects; **Alternative:** Use config items to forcibly limit computation and generated object counts, prioritizing frame rate.

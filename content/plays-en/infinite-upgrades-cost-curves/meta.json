@@ -1,0 +1,70 @@
+{
+  "slug": "infinite-upgrades-cost-curves",
+  "title": "Infinite Progression: Balancing Exponential Cost Curves and Simulated Infinity",
+  "subtitle": "This guide deconstructs cost scaling and milestone thresholds in clicker/idle games to implement sustainable 'simulated infinity.' By combining non-linear cost growth with periodic system unlocks and prestige mechanics, developers can maintain player engagement without triggering late-game collapse, offering a high-execution framework for solving retention issues in pseudo-infinite loops.",
+  "cover": {
+    "src": "/plays/infinite-upgrades-cost-curves/cover.webp",
+    "alt": "Infinite Progression: Balancing Exponential Cost Curves and Simulated Infinity"
+  },
+  "coverWide": {
+    "src": "/plays/infinite-upgrades-cost-curves/cover.webp",
+    "alt": "Infinite Progression: Balancing Exponential Cost Curves and Simulated Infinity"
+  },
+  "tags": [
+    "点击",
+    "放置",
+    "数值"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "Cost Curves",
+    "Milestone Thresholds",
+    "Simulated Infinity Loops"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Constructing Cost Curves",
+      "bullets": [
+        "Exponential is the default solution: cost = base × r^level (where r typically ranges from 1.07 to 1.15)",
+        "Segment the growth rate r: use a lower r early for immediate gratification and a higher r later to extend the progression curve",
+        "Avoid exponential scaling for rewards: keep rewards sub-exponential or segmented to prevent the economy from collapsing overnight"
+      ]
+    },
+    {
+      "title": "Simulated Infinity (Better for Operations)",
+      "bullets": [
+        "Slice infinity into stages using milestones: unlock new systems or dimensions upon reaching specific thresholds",
+        "Prestige/Rebirth: Reset partial progress in exchange for permanent bonuses, accelerating growth for the next cycle",
+        "Leaderboards/Seasons: Transform infinite goals into short-term, comparable cycles to maintain competitive pressure"
+      ]
+    },
+    {
+      "title": "Psychological Thresholds",
+      "bullets": [
+        "Players can accept waiting, but cannot accept not seeing visible progress",
+        "Provide visible upgrades every 30~90 seconds (via numbers, effects, or unlocks)",
+        "Implement a unit system for large numbers to prevent the UI from becoming unreadable gibberish"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Segmented Exponential Cost + Milestone Thresholds (Example)",
+      "language": "ts",
+      "code": "export function costFor(level: number) {\n  const base = 50;\n  const r = level < 20 ? 1.08 : level < 80 ? 1.11 : 1.14;\n  return Math.floor(base * Math.pow(r, level));\n}\n\nexport function milestoneFor(level: number) {\n  // 把“无限”切成阶段，解锁新系统\n  if (level === 10) return \"解锁自动点击\";\n  if (level === 30) return \"解锁转生\";\n  if (level === 60) return \"解锁新资源\";\n  return null;\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "action",
+  "archetype": "progression",
+  "lang": "en"
+}

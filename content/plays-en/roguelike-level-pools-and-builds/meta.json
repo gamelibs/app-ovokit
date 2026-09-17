@@ -1,0 +1,72 @@
+{
+  "slug": "roguelike-level-pools-and-builds",
+  "title": "Roguelike Level Design: Random Pool Architecture and Build Power Scaling",
+  "subtitle": "A deep dive into constructing random pools and managing build power curves in Roguelikes. This guide details room event pool configuration, weight constraints, and budget-based allocation strategies to prevent power creep. It covers techniques for ensuring key node appearances, implementing soft-correction mechanics for player progression, and designing explainable randomness to deliver a rich yet balanced procedural generation system.",
+  "cover": {
+    "src": "/plays/roguelike-level-pools-and-builds/cover.webp",
+    "alt": "Roguelike Level Design: Random Pool Architecture and Build Power Scaling"
+  },
+  "coverWide": {
+    "src": "/plays/roguelike-level-pools-and-builds/cover.webp",
+    "alt": "Roguelike Level Design: Random Pool Architecture and Build Power Scaling"
+  },
+  "tags": [
+    "Roguelike",
+    "战斗",
+    "关卡",
+    "生成",
+    "数值"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript",
+    "Unity/UE(可迁移)"
+  ],
+  "corePoints": [
+    "Room/Event Pools",
+    "Weights and Constraints",
+    "Build Power Curves"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Building the Random Pool",
+      "bullets": [
+        "Decompose levels into 'Room Template Pools': Standard, Elite, Shop, Event, Supply, etc.",
+        "Attach tags and constraints to each template: biome, difficulty tier, prerequisites/mutual exclusivity, cooldowns (to prevent consecutive spawns)",
+        "Use 'Budgets' instead of pure weights: Define target ratios for events and combat per layer or segment"
+      ]
+    },
+    {
+      "title": "Controlling Build Power",
+      "bullets": [
+        "Define target power curves: Expected growth in DPS/survival/mobility per layer",
+        "Reward distribution driven by tables: Ratios of upgrades/rarity/resources vary by layer",
+        "Implement 'Soft Correction': Compensate for falling behind, increase risk for leading instead of direct nerfs"
+      ]
+    },
+    {
+      "title": "Avoiding 'Seemingly Random' Experiences",
+      "bullets": [
+        "Prevent consecutive same-type rooms: Apply cooldowns to recent N category entries",
+        "Guarantee appearance at key nodes: e.g., at least one Shop/Supply every 3 layers",
+        "Make random results explainable: Use UI to inform players if the current layer is 'Combat-heavy' or 'Resource-heavy'"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Weighted Picking with Cooldowns and Hard Constraints (Simplified)",
+      "language": "ts",
+      "code": "type RoomType = \"fight\" | \"elite\" | \"shop\" | \"event\" | \"heal\";\n\ntype RoomDef = {\n  id: string;\n  type: RoomType;\n  weight: number;\n  minFloor?: number;\n  maxFloor?: number;\n  tags?: string[];\n};\n\nexport function pickRoom(\n  pool: RoomDef[],\n  floor: number,\n  recentTypes: RoomType[],\n  ensure?: RoomType,\n) {\n  const cooldown = new Set(recentTypes.slice(-2)); // 最近 2 次不重复（示例）\n\n  const candidates = pool.filter((r) => {\n    if (r.minFloor && floor < r.minFloor) return false;\n    if (r.maxFloor && floor > r.maxFloor) return false;\n    if (cooldown.has(r.type)) return false;\n    return true;\n  });\n\n  const forced = ensure ? candidates.filter((r) => r.type === ensure) : [];\n  const list = forced.length > 0 ? forced : candidates;\n\n  const total = list.reduce((s, r) => s + r.weight, 0);\n  let roll = Math.random() * total;\n  for (const r of list) {\n    roll -= r.weight;\n    if (roll <= 0) return r;\n  }\n  return list[list.length - 1];\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "strategy",
+  "lang": "en"
+}

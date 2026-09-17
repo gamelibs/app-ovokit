@@ -1,0 +1,144 @@
+# Tower Defense Wave Generation and Enemy Scheduling
+
+## The Essence in One Sentence
+
+On the surface, it's about configuring monster counts and spawn order; in reality, it uses "budget scalars" to unify difficulty measurement and "beat segmentation" to control the rhythm of instantaneous pressure. This article focuses on explaining how to decouple these two using a structured DSL, achieving a predictable pressure curve with strategic depth.
+
+The "fun/frustration" of Tower Defense doesn't just come from numerical strength, but from whether the **pressure curve is controllable**:
+
+- Early game: Let players understand the loop of "Build → Successfully Defend → Earn Resources"
+- Mid game: Let players make choices (which to upgrade first? What counter to switch to?)
+- Late game: Create predictable peaks and valleys, forming a narrative sense of "Wave N is coming"
+
+This article offers an actionable solution: use **Wave DSL (structured configuration) + Scheduler** to generate monsters, and use "Budget + Beat" to make pressure a controllable variable.
+
+---
+
+## 1. A Wave is Not "Spawning X Monsters," It's a Rhythm Segment
+
+It is recommended to break a level into rhythm segments:
+
+- Warmup: A small number of low-threat enemies, allowing players to build and trial-and-error
+- Ramp: Gradually increasing pressure (quantity/speed/special enemies)
+- Peak: A challenging wave (but it must be explainable: players know why they lost)
+- Breather: A reward and adjustment window (upgrade/repair/choose skills)
+
+When writing your wave configuration, you must be able to express these segments, rather than just writing `wave = 20 enemies`.
+
+---
+
+## 2. Budget: Unified Management of "How Hard is This Wave"
+
+Use budget management to control the intensity of each wave, with the core being mapping "difficulty" to a comparable scalar:
+
+`budget = base + growth(waveIndex)`
+
+Each enemy has a cost:
+
+- Minion: cost 1
+- Elite: cost 4
+- Heavy Armor: cost 6
+- Flying: cost 5 (because it forces players to switch towers/strategies)
+
+Then this wave becomes "selecting monsters within the budget":
+
+- Allows easy variation: swapping templates under the same budget (more minions vs. fewer elites)
+- Allows stable pressure control: increasing the budget makes it harder, without manually tuning every parameter
+
+---
+
+## 3. Beat: Solving "How to Spawn Within the Same Wave"
+
+Player experience pressure depends not only on the total amount but also on the spawn rhythm:
+
+- Spawning all at once: High instantaneous pressure, easily leading to instant collapse or instant clear
+- Spawning in batches: Feels more like "breathing," allowing players to micro-adjust while defending
+
+A simple and effective approach is to break a wave into several segments, each with a beat:
+
+- `segment.durationMs`
+- `segment.spawnEveryMs`
+- `segment.packSize` (how many spawn at once)
+- `segment.pool` (optional enemy pool)
+
+When tuning parameters, you can first adjust only `spawnEveryMs` instead of changing quantities everywhere.
+
+---
+
+## 4. Wave DSL (Example Structure)
+
+You don't need to build a full language immediately; using JSON/TS configuration works too. The key is structured expression:
+
+- Which rhythm segment this wave belongs to (warmup/ramp/peak/breather)
+- What the budget for this wave is
+- What segments this wave has (how the beat progresses)
+- Which variants are allowed (Flying/Heavy Armor/Self-Destruct/Healer)
+
+The benefit of writing a DSL is that you can build tools (visual preview/replay/automatic balancing).
+
+---
+
+## 5. Enemy "Variants" Are Designed to Create Recognition and Counters
+
+The appeal of Tower Defense lies in players seeing the monster's form and knowing "how to respond."
+
+Therefore, variant design should revolve around "forcing a strategy change":
+
+- Flying: Bypasses ground towers → Forces building anti-air
+- Heavy Armor: High HP/Damage Reduction → Forces high DPS or armor-piercing
+- Self-Destruct: Explodes on proximity → Forces crowd control/slowing/concentrated fire
+- Healer: Extends the front line → Forces point-and-click killing or interrupting
+
+If variants are just "reskin + higher numbers," players won't feel they are executing strategy.
+
+---
+
+## 6. Difficulty Growth: Use Curves Instead of Guessing
+
+Common growth curves:
+
+- Linear: `budget = a + b * wave`
+- Exponential: `budget = a + b * wave^p` (p>1 leads to explosive growth in late game)
+- Segmented: Fast ramp early, plateau mid, then another sprint late (better experience)
+
+Engineering-wise, it is recommended to start with segmented:
+
+- wave 1~5: Fast growth (teach the player)
+- 6~15: Slow growth (give strategy space)
+- 16+: Short, sharp sprints (create the climax)
+
+---
+
+## 7. Acceptance Checklist: Treat the "Wave System" as a Testable Module
+
+Minimum acceptance criteria:
+
+- [ ] With the same seed and configuration, wave generation results are reproducible (facilitates debugging)
+- [ ] Budget stays within controllable range (no "peak wave suddenly doubles")
+- [ ] Variant appearance frequency is controllable (no 5 consecutive waves of Flying)
+- [ ] Breather waves provide enough "upgrade window" (don't make the monster-free gap too short)
+
+---
+
+## 8. Next Steps (Combined with Demo/Tools)
+
+Once you've structured the wave into a DSL, you can naturally build:
+
+- Preview tool: Graph each wave's budget/beat
+- Simulator: Quickly run 100 games to check P50/P90 clear waves
+- Editor: Designers can adjust the rhythm without changing code
+
+## Boundary Conditions
+
+- Must handle the warmup segment to let players complete the initial loop, avoiding instant death at start.
+- Must handle ramp segment budget growing exponentially with wave index to prevent late-game numerical collapse.
+- Must handle peak segment alternating peaks and valleys to ensure players have explainable reasons for failure.
+- Must handle breather segment providing sufficient upgrade or repair windows to avoid resource gaps.
+- Must handle variant frequency distribution to prevent a single strategy failing across multiple consecutive waves.
+
+## Design Trade-offs
+
+- **Benefit**: Budget uniformly manages difficulty scalars; **Cost**: Designers must pre-define fixed costs for each monster type.
+- **Benefit**: Beat segmentation makes pressure controllable like breathing; **Cost**: Scheduling logic is more complex than spawning all at once.
+- **Benefit**: Variants force players to switch strategies (e.g., anti-air/armor-piercing); **Cost**: Increases maintenance cost of the enemy pool.
+- **Benefit**: Segmented difficulty curve improves mid-game experience; **Cost**: Engineering requires manual division of wave intervals.

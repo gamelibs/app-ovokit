@@ -1,0 +1,146 @@
+# Organizing Combat Unit Behavior with State Machines
+
+## The Essence in One Sentence
+
+On the surface, this splits unit behavior into states and events; actually, the core mechanism is using "states" to encapsulate current behavior logic and using "events" to drive state transitions. This article focuses on how to build the minimum closed loop, converge context dependencies, and design testable transition logic.
+
+Once combat unit behavior starts "adding requirements," it most easily turns into this shape:
+
+- What happens if the pursuit is interrupted?
+- Can the attack wind-up be interrupted?
+- Where does the unit return after hit stun ends?
+- How do you stitch together hate switching, losing targets, and returning to patrol?
+
+If you stitch these together using `if / else`, the code quickly becomes a "dreaded branch hell" where no one dares to make changes.
+
+This article provides a practical, testable, and extensible approach: **organize combat unit behavior using a Finite State Machine (FSM)**, and unify "state switching" into event-driven logic.
+
+---
+
+## 1. Core Conclusion: Split Behavior into "States," Split Switching into "Events"
+
+We recommend splitting unit behavior into two layers:
+
+1. **State (State)**: The current behavior mode the unit is in (Idle / Move / Attack / Hitstun / Dead …)
+2. **Event (Event)**: The facts that trigger state changes (SEE_TARGET / IN_RANGE / TOOK_HIT / ANIM_DONE / LOST_TARGET …)
+
+What you should aim for is:
+
+- Keep logic inside states as simple as possible (only handling "what to do in this state")
+- Ensure state switching happens in only one unified place (transition/guard)
+
+---
+
+## 2. Minimum State Set: Run the "Playable Closed Loop" First
+
+For most combat units (melee AI), the "minimum playable closed loop" is generally:
+
+- `idle`: Standing / Patrolling
+- `move`: Moving towards the target
+- `attack`: Attacking (includes wind-up / strike / recovery)
+- `hitstun`: Hit stun (interruptable)
+- `dead`: Dead (irreversible)
+
+The most critical part is: **explicitly define "whether it can be interrupted" inside `attack`**, otherwise adding interruption logic later will be painful.
+
+---
+
+## 3. State Machine Interface: Converge External Dependencies to Context
+
+Do not let states arbitrarily access global objects or import everywhere, otherwise tests will be very hard to write.
+
+We recommend each unit has a `context` (or called blackboard), providing the minimum information the state needs:
+
+- `pos` / `velocity`
+- `targetId` / `distanceToTarget`
+- `cooldowns`
+- `hp`
+- `events` (input/perception events for this frame)
+
+State functions only read/write the context, and do not directly manipulate engine globals.
+
+---
+
+## 4. Event Sources: Unify Inputs/Perception/Animation/Damage into Event
+
+Many "branch explosions" come from scattered event sources:
+
+- AI Perception (seeing target, losing target)
+- Collision and distance (entering attack range, leaving range)
+- Animation callbacks (wind-up end, strike frame, recovery end)
+- Hit system (touched, knocked back, controlled)
+
+The recommended approach: dump all of these into `events[]` every frame, and the state machine only consumes events.
+
+This way, you can even do "recording/replay": recording an event sequence allows you to reproduce behavior.
+
+---
+
+## 5. Migration Strategy: Moving from if-else to FSM Doesn't Require a One-Time Rewrite
+
+A safe migration rhythm is:
+
+1. First, extract the "attack flow" into an `attack` state (the part most prone to branch explosion)
+2. Then, extract "pursuit/retreat" into `move` and `idle`
+3. Finally, add `hitstun` and various controls (stun/knockback/silence…)
+
+Each step can run and support regression testing, without breaking the project.
+
+---
+
+## 6. Testability: `transition` is the Most Worthwhile Place to Write Unit Tests
+
+The easiest part to write unit tests for, and the best place to block regression bugs, is `transition(state, event)`:
+
+- Given current state + event, does it switch to the correct state?
+- Do guard conditions (cannot attack if CD not ready, HP<=0 must die) take effect?
+
+We recommend writing `transition` as a pure function (or close to pure function), so testing cost is minimized.
+
+You can list key scenarios using a "state transition table":
+
+- `idle + SEE_TARGET => move`
+- `move + IN_RANGE => attack`
+- `attack + TOOK_HIT => hitstun` (if interruption is allowed)
+- `hitstun + STUN_END => move/idle` (depends on whether a target still exists)
+- Any state + HP_ZERO => dead
+
+---
+
+## 7. Debugging and Visualization: Printing "State Names" Can Save You
+
+During the MVP phase, you don't need advanced tools; just achieve:
+
+- Display the unit's current `state` on screen
+- Display the last 3 events (lastEvents)
+- Display the target and distance (targetId / dist)
+
+This will save you a lot of time when debugging AI behavior.
+
+The next step is:
+
+- State diagram visualization
+- Event timeline
+- Breakpoint-style pause/step-through
+
+---
+
+## 8. Next Steps for Extension (Optional)
+
+- Hierarchical FSM: Split `attack` into `windup/strike/recover`
+- Behavior Tree + State Machine combination: Use BT for high-level decisions, FSM for low-level actions
+- Data-driven: Configure states/events/guards into tables to support different monsters reusing the same framework
+
+## Boundary Conditions
+
+- Need to handle whether the attack wind-up is allowed to be interrupted, and how to determine the next state after hit stun ends.
+- Need to handle hate loss, target out of range, and other perception events, ensuring units correctly return to patrol or idle states.
+- Need to handle fatal conditions like HP reaching zero, ensuring units smoothly transition to the dead state and remain irreversible.
+- Need to handle cases where cooldowns are not ready, preventing forced state switching when guard conditions are not met.
+- Need to handle whether state reset is clean, avoiding residual data from the previous state polluting current state logic.
+
+## Design Trade-offs
+
+- **Benefit**: Behavior decoupling; state internal logic is simple and independent; **Cost**: Need to maintain extra state lists and event queues; **Alternative**: Control logic directly via if/else branches.
+- **Benefit**: State switching is uniformly event-driven, supporting behavior recording and replay; **Cost**: Need to design unified event sources and consumption interfaces; **Alternative**: Directly read global variables or scattered perception logic inside states.
+- **Benefit**: `transition` logic can be written as pure functions, greatly reducing unit test costs; **Cost**: Need to pre-define complete state transition tables and guard conditions; **Alternative**: Hardcode complex if/else judgment logic in code.

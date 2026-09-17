@@ -1,0 +1,57 @@
+# 2048 Variant: Players Aren't Angry at "Randomness," They're Angry at "Unwinnable States"
+
+## The One-Sentence Essence
+
+On the surface, it's random number generation; in reality, the core mechanism is controlling board space and merge cancellation rates to adjust failure probability. This article focuses on explaining how to achieve "soft-controlled difficulty" that "looks random" via a "Shuffle Bag" or "Weight Micro-adjustment."
+
+Traffic Reason: Extremely strong classic gameplay cognition; players understand it at a glance and are willing to challenge "how high can I go."
+
+## 1) Failure Probability Control: What You Actually Need to Control is "Space," Not "Whether to Spawn a 2 or a 4"
+
+Player experience breakdowns usually happen in two scenarios:
+
+- The board is full but **there are too few mergeable pairs** (every step feels like waiting for death)  
+- Continuous spawns cause a sudden explosion in entropy (suddenly becoming unsolvable)
+
+So the core strategy for controlling difficulty is:  
+**Keep the situation maintained with "1~2 visible winning points,"** making players feel like "if I just play a bit better, I can survive."
+
+## 2) Anti-Cheat: How to Make It "Look Random"
+
+If you directly "give the player what the system wants," players feel manipulated; if you go fully random, the experience can plummet.
+
+Two very useful intermediate solutions:
+
+### A. Shuffle Bag
+Pre-load the "numbers to appear in the next N turns" into a bag and then draw from it:  
+Players see a random sequence, while the system sees **quota-controlled** randomness.
+
+### B. State Weight Micro-adjustment (Micro-adjustments Only)
+Apply slight weights to "spawn 2/4/obstacles" based on the current state:
+
+- Board nearly full: Increase low values (provide merge space)  
+- Merge chains too smooth: Increase high values or obstacles (avoid mindless snowballing)
+
+Key point: **Only make small-scale, long-term tilts**; do not make short-term, counter-intuitive hard controls (e.g., player clearly needs a 2, but the system suddenly spawns a 4 in a row).
+
+## 3) A Very Practical Experience Metric
+
+Use "Average Playable Moves / Total Moves" as a rough metric:  
+You will intuitively see if pure randomness leads to "early death," and you can also see if soft control makes the situation "too smooth" to lack challenge.
+
+## Boundary Conditions
+
+Issues that need handling:
+- How to avoid players "waiting for death at every step" when the board is full but mergeable pairs are too few.
+- How to intervene timely when continuous spawns cause entropy to explode, leading to unsolvability.
+- How to maintain hope by keeping "1~2 visible winning points" when the player is in an "unwinnable state."
+- How to ensure that when tilting weights, the system only makes small-scale, long-term tilts, avoiding short-term counter-intuitive operations.
+- How to prevent the system from suddenly spawning high values (e.g., 4) when the player clearly needs a specific number (e.g., 2), thereby ruining the experience.
+
+## Design Trade-offs
+
+- **Benefit:** Players feel "it looks random"; **Cost:** Pure randomness leads to a plummeting experience; **Alternative:** Use a Shuffle Bag or State Weight Micro-adjustment as an intermediate solution.
+- **Benefit:** Maintaining "1~2 visible winning points" by controlling space; **Cost:** The system needs to predict and intervene in the situation's trajectory; **Alternative:** Accept the high failure rate or overly smooth situations brought by pure randomness.
+- **Benefit:** Using "Average Playable Moves / Total Moves" as an intuitive metric; **Cost:** This metric is only a rough indicator; **Alternative:** None (no other alternative metrics provided in the original text).
+
+One-sentence summary: **Players accept randomness, but they don't accept unwinnable states; the best control is to make randomness "fluctuate like a human."**

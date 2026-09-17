@@ -1,0 +1,65 @@
+{
+  "slug": "merge-chain-and-gates",
+  "title": "Merge Evolution: Designing Merge Chains and Strategic Blockers",
+  "subtitle": "A deep dive into the Merge Evolution mechanic, breaking down hierarchical chain design and rarity drop mechanics. We quantify the numerical balance of blockers and unlock thresholds, offering controlled pacing strategies to prevent player churn and build high-retention merge chains.",
+  "tags": [
+    "合成",
+    "放置",
+    "关卡",
+    "数值",
+    "热门"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "TypeScript",
+    "配置表(通用)"
+  ],
+  "corePoints": [
+    "Merge Chain Hierarchy",
+    "Rarity Drops",
+    "Blockers/Unlock Thresholds"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Merge Chain",
+      "bullets": [
+        "Keep hierarchy levels few and clear",
+        "Assign unique visuals/SFX to key tiers",
+        "Help players visualize the next evolution stage"
+      ]
+    },
+    {
+      "title": "Blocker Creation",
+      "bullets": [
+        "Space pressure",
+        "Output cooldowns",
+        "Task objective locks",
+        "Insertion of rare materials"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Merge Chain (Table-Driven) + Blockers (Rare Materials)",
+      "language": "ts",
+      "code": "type ItemId = string;\n\ntype MergeRule = {\n  from: ItemId;\n  to: ItemId;\n  need?: { id: ItemId; count: number }; // 稀有材料作为“门”\n};\n\nexport const rules: MergeRule[] = [\n  { from: \"seed\", to: \"sprout\" },\n  { from: \"sprout\", to: \"tree\", need: { id: \"water\", count: 1 } },\n];\n"
+    }
+  ],
+  "cover": {
+    "src": "/plays/merge-chain-and-gates/cover.webp",
+    "alt": "Merge Evolution: Designing Merge Chains and Strategic Blockers"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/merge-chain-and-gates/cover.webp",
+    "alt": "Merge Evolution: Designing Merge Chains and Strategic Blockers"
+  },
+  "demo": {},
+  "pattern": "merge",
+  "archetype": "merge-unit",
+  "lang": "en"
+}

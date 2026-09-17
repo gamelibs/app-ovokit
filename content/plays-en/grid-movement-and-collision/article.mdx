@@ -1,0 +1,139 @@
+# Grid Movement and Collision: From Rules to Implementation
+
+## The One-Sentence Essence
+
+On the surface, it's about handling entity displacement on a grid; in reality, the core mechanism converges all movement (including skills) into a unified flow of "Intent Collection + Snapshot Resolution + Event Replay"; this article focuses on explaining how to implement safe, rollbackable collision detection using layered occupancy tables and a parser.
+
+This article focuses on a very common but easily "messy-as-you-go" system: **Grid Movement + Blocking + Pushing + Multi-Layer Collision**.
+
+The goal is to converge all detections into a unified model so that adding the following later won't turn into "patching holes with if-else everywhere":
+
+- Pushing boxes/pushing chains (A pushes B pushes C...)
+- Displacement skills (dash/knockback/pull)
+- Multi-layer collision (terrain / units / projectiles / traps)
+- Level mechanics (doors, switches, ice surfaces, portals)
+
+---
+
+## 1. Core Conclusion: Unify Rules with "Occupancy Table + Parser"
+
+Don't let each system write its own detection logic (movement system writes once, skill system writes again, monster AI writes again).
+
+The recommended central structure:
+
+1. **Occupancy Table**: Who currently occupies each grid cell (by layer).
+2. **Movement Intent**: An entity's desire to move from A → B, and the reason (player input/AI/skill/knockback).
+3. **Parser**: "Resolves" the intent against the occupancy table into an executable result (success / blocked / successful pushing chain / failed rollback).
+
+> What you need to achieve is: **All movement ultimately goes through the same Resolver.**
+
+---
+
+## 2. Data Model: Layers are Cheaper Than "Type If-Else"
+
+A single grid cell can simultaneously contain:
+
+- Terrain (walls, floors, traps, conveyor belts)
+- Units (players, enemies, boxes)
+- Temporary objects (projectiles, range indicators, effect placeholders)
+
+Therefore, the occupancy table should be stored by layer:
+
+- `terrain[x,y] -> terrainId`
+- `unit[x,y] -> unitId`
+- `projectile[x,y] -> projectileId` (optional; projectiles are usually better suited for continuous space)
+
+This way, "can I walk in here" becomes a combination of rules by layer, rather than writing "if it's a box and it's ice and it's a door...".
+
+---
+
+## 3. Movement Resolution: Two Stages (Intent → Resolution) is Safer Than "Change-and-Check"
+
+**Wrong Approach**: Change coordinates directly when the player presses a key, then check collision, and revert if it fails.  
+This leads to chained pushing, issues with multiple entities moving simultaneously, and great pain during replay/rollback.
+
+**Recommended Approach**: Construct intent first, then resolve uniformly:
+
+- Input Phase: Collect intent `MoveIntent(entityId, from, dir)`
+- Resolution Phase: Run the resolver on the "snapshot occupancy table" to get `MoveResult`
+- Application Phase: Turn `MoveResult` into a "replayable" event sequence (write to event log)
+
+---
+
+## 4. Pushing Chains: Recursion or Iteration is Fine, but Must Be Rollbackable
+
+The essence of a pushing chain:
+
+- I want to enter grid B, but B is occupied by a box
+- If the box can be pushed to C, then I can enter B
+- If C is occupied by another box, try again
+- Until I hit an empty space (success) or a wall/unpushable object (failure)
+
+Key points:
+
+- **Within a single resolution**, do not repeatedly read/write the real occupancy table; simulate in a temporary structure.
+- On failure, the "whole chain must fail together"; no partial success causing clipping.
+
+A practical implementation pattern:
+
+- `tryMove(entity, dir)` returns `{ ok, moves[] }`
+- `moves[]` is a list of displacements in order (e.g., push the last box first, then the previous one, finally move the player)
+
+---
+
+## 5. Displacement Skills (Dash/Knockback/Pull): Treat Them as "Multi-Step Movement"
+
+Many people write skill displacement by bypassing the grid movement system, directly changing coordinates, and then patching in a bunch of special detections.
+
+A more stable way:
+
+- Dash = Continuous N `MoveIntent` calls (each step goes through the resolver)
+- Knockback = `MoveIntent` triggered by a hit event (direction from attacker to victim)
+- Pull = `MoveIntent` triggered by a skill (opposite direction)
+
+Benefits:
+
+- Skills won't "clip through walls"
+- Pushing chains work naturally
+- You can uniformly apply rules like "stop upon hitting a wall" or "trigger traps upon contact"
+
+---
+
+## 6. Common Pitfalls and Acceptance Checklist (Use This to Cross-Check After Writing)
+
+### 6.1 Common Pitfalls
+
+- **Order Dependency**: The result depends on which of two units trying to enter the same cell is processed first.
+- **Ghost Occupancy**: Entity moves but the occupancy table isn't updated, causing subsequent detections to think the cell is still occupied.
+- **Partial Success**: A pushing chain fails midway, but the boxes before it have already been moved.
+- **Wall Detection Only on "Movement"**: Skill displacement/knockback bypass the same detection logic, leading to clipping through walls.
+
+### 6.2 Minimum Acceptance (Recommended as Automated Tests)
+
+- [ ] Cannot walk into walls
+- [ ] Pushing 1 box succeeds/fails correctly
+- [ ] Pushing chains of 2~3 boxes succeed/fail correctly
+- [ ] Dash/knockback does not clip through walls and interacts correctly with boxes
+- [ ] State is consistent after event replay (occupancy table matches coordinates)
+
+---
+
+## 7. Next Steps for Extension (Suggested Priority Order)
+
+1. Deadlock detection/reachability (used by level generation, hint systems)
+2. Trap layers (terrain triggers: switches, conveyor belts, traps)
+3. Field of View/Collision Shape (expanding from grid to "grid + sub-grid/half-grid")
+
+## Boundary Conditions
+
+- Need to handle order dependency issues when two or more entities compete for the same cell in the same frame.
+- Need to handle ghost occupancy issues caused by entities moving without timely updates to the occupancy table.
+- Need to handle partial success states where a pushing chain fails midway but preceding entities have already moved.
+- Need to handle clipping issues that may arise if skill displacement bypasses the unified detection logic.
+- Need to handle whether coordinate changes are applied immediately after resolution to ensure state consistency with the event log.
+
+## Design Trade-offs
+
+- **Benefit**: All movement systems (movement, skills, AI) share one Resolver, avoiding if-else patching everywhere; **Cost**: Skill implementation requires decomposing into multi-step movement intents, increasing logic complexity; **Alternative**: Abandon the "change-and-check" mode of directly modifying coordinates, adopting a two-stage resolution.
+- **Benefit**: Using layered occupancy tables (terrain/units/temporary objects) replaces type-based if-else combination rules; **Cost**: Requires maintaining multi-layer data structures; **Alternative**: Abandon the approach of writing independent collision detection for each object type.
+- **Benefit**: Pushing chains are simulated in a temporary structure and support full-chain failure rollback; **Cost**: Implementation logic is slightly more complex than single movement; **Alternative**: Abandon repeatedly reading/writing the real occupancy table or allowing partial success states.

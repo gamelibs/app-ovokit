@@ -1,0 +1,70 @@
+{
+  "slug": "random-events-balance-and-pity",
+  "title": "Random Events: Balancing Good/Bad Ratios and Implementing Negative Feedback Mitigation",
+  "subtitle": "This guide deconstructs random event mechanics, establishing a baseline probability distribution between positive and negative outcomes. It introduces a continuous negative feedback correction algorithm to prevent players from falling into a 'death spiral.' Readers will master techniques for smoothing player experience through event pools and pity systems, learning how to tune random parameters to balance procedural generation length and level difficulty in Roguelike games.",
+  "cover": {
+    "src": "/plays/random-events-balance-and-pity/cover.webp",
+    "alt": "Random Events: Balancing Good/Bad Ratios and Implementing Negative Feedback Mitigation"
+  },
+  "coverWide": {
+    "src": "/plays/random-events-balance-and-pity/cover.webp",
+    "alt": "Random Events: Balancing Good/Bad Ratios and Implementing Negative Feedback Mitigation"
+  },
+  "tags": [
+    "Roguelike",
+    "生成",
+    "关卡"
+  ],
+  "difficulty": "进阶",
+  "techStack": [
+    "配置表(通用)",
+    "TypeScript"
+  ],
+  "corePoints": [
+    "Good/Bad Ratio",
+    "Emotional Repair",
+    "Event Pity System"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Establishing the Baseline for Good/Bad Ratios",
+      "bullets": [
+        "Avoid aiming for a 50/50 split: Typically, a distribution like 60% neutral/25% good/15% bad is more appropriate.",
+        "Bad events must offer 'justifiable rewards': High risk should be paired with high reward, rather than acting as pure punishment.",
+        "The value of an event is 'altering the route', not merely granting currency or dealing damage."
+      ]
+    },
+    {
+      "title": "Continuous Negative Feedback Correction (Anti-Chain Punishment)",
+      "bullets": [
+        "Track consecutive bad event count: badStreak.",
+        "As badStreak increases, the weight of good events increases (soft pity).",
+        "Implement hard pity for critical resources (healing/repair) to avoid dead ends."
+      ]
+    },
+    {
+      "title": "Making Randomness Feel Logical",
+      "bullets": [
+        "Categorize event theme pools by biome or chapter (narrative consistency).",
+        "Apply a cooldown to the last N event types (avoiding repetition).",
+        "Grant player agency: Ensure events offer at least 2 options instead of a single deterministic result."
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Event Weight: Bad Streak Protection (Example)",
+      "language": "ts",
+      "code": "type Event = { id: string; kind: \"good\" | \"neutral\" | \"bad\"; weight: number };\n\ntype State = { badStreak: number };\n\nexport function eventWeight(e: Event, s: State) {\n  if (e.kind === \"good\") return e.weight * (1 + Math.min(1.5, s.badStreak * 0.3));\n  if (e.kind === \"bad\") return e.weight * (1 - Math.min(0.6, s.badStreak * 0.15));\n  return e.weight;\n}\n"
+    }
+  ],
+  "published": true,
+  "demo": {},
+  "pattern": "strategy",
+  "archetype": "progression",
+  "lang": "en"
+}

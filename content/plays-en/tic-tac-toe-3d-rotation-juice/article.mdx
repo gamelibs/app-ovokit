@@ -1,0 +1,113 @@
+# Same Rules, New Feel: A 3D Makeover for Solved Tic-Tac-Toe
+
+## The One-Sentence Essence
+
+On the surface, it's Tic-Tac-Toe in 3D space; actually, the core mechanism remains the fixed rules and Minimax optimal solution on a 2D plane. This article focuses on explaining how to reuse classic logic through "mechanic and presentation separation" to inject fresh experiences.
+
+## Why Bother 3D-ifying a Solved Game?
+
+Tic-Tac-Toe is one of the earliest abstract strategy games, and it has long been fully solved: when both sides play optimally, every game ends in a draw, and the first player X can guarantee at least a tie. Once it earned the "solved" label, competitive players stopped treating it as an arena.
+
+However, "unchanged" rules do not mean an "unchanged" experience. Perspective, sound and interaction feedback are exactly the "juice" (game feel) that truly differentiates a design. In Quantum Grid — a rebuilt sample from our pipeline — the ancient 3×3 game is placed in 3D space with rotation animations, confetti and sound effects. The rules stay untouched, yet every match feels like a small experiment.
+
+## Core Loop Breakdown
+Quantum Grid's gameplay is broken down into four steps, forming a clear turn flow.
+
+### 1. Player Move
+The player selects an empty space on the 3D board using a mouse or touch, and the system immediately records X's move position. At this point, we are still in the rules layer, verifying legality (whether it's empty, whether it's within the board).
+
+### 2. AI Calculates Response
+The AI searches for the optimal response in the current state via the minimax algorithm. Although this step is the core of technical implementation, for the player, its presence is more about the rhythm of "accelerating the match" rather than involving decision-making entertainment.
+
+### 3. 3D Board Rotation
+After the turn ends, the board automatically rotates. The rotation is not just a visual effect; it allows players to examine the situation from a new angle, creating diverse visual experiences. The rules layer is not altered by the rotation; the positional relationship between X and O remains unchanged.
+
+### 4. Render Next Frame
+Three.js is responsible for rendering the updated board state into a 3D scene. Every render is accompanied by sound effects and lighting, providing players with immediate feedback and reinforcing the visual impact of winning or losing.
+
+Beyond the four-step loop, there is a match lifecycle state machine: `menu → gameplay → result`. The player picks a side in the menu and enters the match; once a win or draw is determined, the game moves to the result screen where confetti and sound effects fire; the player can then restart in one click (state is cleared and the game returns straight to gameplay) or go back to the menu. The key to restarting is "cleanliness" — both the logical board and the 3D scene must be reset, or ghost pieces from the previous match will linger. See "Boundary Conditions" at the end for details.
+
+## Rules Skeleton and 8 Winning Lines
+* 3×3 grid, totaling 9 cells.
+* X goes first, then players take turns.
+* Three in a row horizontally, vertically, or diagonally (8 lines) constitutes a win.
+* If the board is full with no winner, it's a draw.
+* No failure penalty; mistakes merely mean missing opportunities.
+
+The rules are extremely simple and easy to pick up, yet they are visually reshaped due to the 3D space.
+
+## Data Model: One Array Holds the Whole Match
+The rules-layer state is minimal — a 9-cell array plus a few scalars fully describe any moment of a match:
+
+```ts
+type Mark = 'X' | 'O' | null;
+
+interface GameState {
+  cells: Mark[];                          // length 9, row-major: index = row * 3 + col
+  currentPlayer: 'X' | 'O';               // whose turn it is
+  status: 'menu' | 'gameplay' | 'result'; // lifecycle state machine
+  winner: 'X' | 'O' | 'draw' | null;
+}
+```
+
+The 3D rotation never touches this data: the perspective change lives only in the presentation layer's render matrix, and the logical position of `cells[i]` never changes — this is the precondition that makes "zero rule changes" possible. Win detection and minimax read only `cells` and never touch any render object.
+
+## Key Implementation: Why Minimax Is Unbeatable
+Minimax recursively searches all possible moves, evaluating the end result of each step. Because Tic-Tac-Toe is fully solvable, the first-player X only needs to follow the optimal strategy to ensure invincibility. For the AI, the minimax search tree depth is limited—at most 9 moves—sufficient to complete decisions in an instant.
+
+Instead of rewriting the AI, the rebuilt version directly reuses the minimax implementation from the OVO pipeline's `core/board-ai` module (see the second snippet in "Key Code" below): an AI win scores `10 - depth` (the faster the win, the better), an opponent win scores `depth - 10` (the slower the loss, the smaller the damage), and a draw scores 0. The AI layer maximizes, the player layer minimizes, and after trying each move it backtracks — recursion to the bottom yields the optimal move.
+
+This does not mean the AI is "smart"; rather, the nature of the rules itself determines that the AI's best response is "never lose." For the player, the AI's presence is more about providing rhythm and a challenging opponent than being a true competitor.
+
+## Core Mechanic Breakdown: Rules Layer vs. Presentation Layer
+Rules Layer: Logic judgment, win/loss determination, state management.
+Presentation Layer: Rendering, animation, sound effects, user interaction.
+
+Rotation only changes the *appearance*: when the board flips, the player must re-adapt to the perspective, but **nothing** changes regarding the logical position of any cell. Colors, transparency, and lighting are adjusted in the presentation layer; win determination and AI calculation are still completed in the rules layer.
+
+This is the separation of "mechanic" and "aesthetics": mechanics determine the essence of gameplay, while performance determines player perception.
+
+## The Actual Player Experience: Visual & Sound Juice
+* **Three.js Rotation Animation**: After each turn, the board rotates smoothly, allowing players to experience the freshness of "spatial transformation."
+* **Confetti and Sound Effects**: When one side wins, confetti slowly falls, accompanied by cheerful sound effects, making the moment of victory full of ceremony.
+* **Web Audio**: Provides immediate sound effect feedback for moves and wins/losses.
+
+These visual and sound elements, while not changing the rules, significantly enhance the game's immersion.
+
+## Design Approach and Scalability
+Quantum Grid's implementation approach can be broken down into four stages:
+1. **Rules Abstraction**: Abstract logic such as the 3×3 board and win determination into reusable modules.
+2. **AI Layer**: Implement minimax and perform performance optimization on this basis (alpha-beta pruning).
+3. **Presentation Layer**: Use Three.js for 3D rendering, animation, and audio synchronization.
+4. **Interaction Layer**: Map player input to 3D space and handle coordinate transformation after rotation.
+
+If the board is expanded to 4×4, the win determination logic in the rules layer needs to change to four in a row, and the optimal strategy will also become more complex; meanwhile, the rotation animation in the presentation layer can remain unchanged, requiring only an adjustment of the viewing distance.
+
+## Transferable Gameplay Primitives
+Four mechanisms from this case can be carried into other projects as-is:
+
+1. **Rules/presentation separation**: the rules layer maintains pure data (a cell array + turn scalars), so the presentation layer can be reskinned or re-dimensioned freely with zero changes to detection or AI. This applies to any "reskin without touching the rules" project.
+2. **Lookup-table win detection**: a fixed winning-lines table works for any N×N line-up game; for larger boards like Gomoku, the table can be extended into a sliding-window scan.
+3. **Minimax decoupled from board size**: the search depends on only two interfaces — "enumerate empty cells" and "terminal scoring" — so swapping boards means replacing just those two functions; add alpha-beta pruning when the board grows to control the search volume.
+4. **View transforms never move logical coordinates**: 3D rotation, mirroring, and scaling only change the render matrix, never the `index → (row, col)` mapping — eliminating the "visible but unclickable" class of bugs at the root.
+
+## Three Questions for Designers
+- **If changed to 4×4**, can the optimal player still remain unbeatable?
+- **Does rotation change the move position**? From the rules layer perspective, no, but the player's visual perception will differ due to angle changes.
+- How to continue adding more "juice" while ensuring gameplay depth?
+
+Shifting from a player experience perspective to a designer perspective: the core lies in *how to keep simple rules fresh within a variable presentation layer*. When rules are no longer an obstacle but a cornerstone, the mix of visuals and sound can allow players to constantly discover, explore, and be surprised.
+
+## Boundary Conditions
+
+- Need to handle the mapping of player click coordinates in 3D space to ensure only valid cells within the rules layer are selected.
+- Need to handle the switch of player visual perspective after board rotation, avoiding misjudgment of move positions due to angle changes.
+- Need to handle AI decision synchronization from the rules layer to the presentation layer for rendering and feedback.
+- Need to handle draw determination logic; when all 9 cells are filled with no winner, the match ends.
+- Need to handle the cleanliness of state reset, ensuring that the board's logical state and visual state are completely cleared at the start of the next match.
+
+## Design Trade-offs
+
+- **Benefit**: Achieved 3D rotation animation and ribbon sound effects via Three.js, significantly enhancing visual impact and immersion; **Cost**: Increased rendering complexity and resource consumption in the presentation layer, but rules layer logic requires no changes.
+- **Benefit**: Reused the already-solved Tic-Tac-Toe rules and Minimax algorithm, guaranteeing the AI's unbeatability and match rhythm; **Cost**: Sacrificed the depth and variability of strategic gameplay; players cannot defeat the AI through skill.
+- **Benefit**: Decoupled the rules layer from the presentation layer, so rule expansions like 4x4 only require modifying determination logic without rewriting AI or rendering; **Cost**: Expanding rule complexity exponentially increases the AI's computational burden, potentially affecting runtime performance.

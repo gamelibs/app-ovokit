@@ -1,0 +1,123 @@
+# Tic Tac Toe Showdown: Take Turns, First to Connect Wins
+
+## The Essence in One Sentence
+
+On the surface, it's a simple clone of Tic-Tac-Toe; in reality, the core mechanism is a turn-based game and win/loss determination under a finite state space. This article focuses on explaining how to decouple board rules from AI strategy using generic modules.
+
+> The Essence in One Sentence: **Take turns placing pieces; the first to form a line wins**.
+
+## How to Play This Game
+
+What you do: Take turns with an opponent to place pieces on the grid cells, aiming to connect identical pieces in a line. Be the first to connect your pieces in a line of the specified length.
+
+**Behavior Loop**: State flow: boot → menu → gameplay → result; Core behaviors: Take turns + Place piece + Match line + Compare values + Make choice
+
+## Only Three Rules, But Deep Enough
+
+- **Take turns**
+- **Place piece**
+- **Match line**
+- **Compare values**
+- **Make choice**
+
+The charm of a turn-based board game lies in: extremely simple rules, but every move requires thinking about "If I play here, where does the opponent play next."
+
+| Parameter | Value in This Game | Adjustable Range |
+|---|---|---|
+| playerCount | 2 | 1~4 |
+| gridRows | 3 | 3~30 |
+| gridCols | 3 | 3~30 |
+| matchSize | 3 | 3~5 |
+| directions | hv | - |
+| threshold | 0 | - |
+
+## How It's Built
+
+This game consists of 3 public modules:
+
+- **common-ui**: Generic UI event binding module: Automatically binds click events to button nodes in the skin, and supports automatically advancing from the boot scene to the menu.
+- **core/board-turn**: Generic turn-based board core: Manages grid board state, piece placement, and win/loss determination (lines/connects). Suitable for Tic-Tac-Toe, Gomoku, Four-in-a-Row, simplified Go, and other board games.
+- **core/board-ai**: Generic board AI: Provides piece placement decisions for board-turn. Current implementation uses minimax, supporting small-scale zero-sum board games like Tic-Tac-Toe.
+
+> The same set of modules with different rules becomes a different game—that's the meaning of modularity.
+
+## Key Code
+
+### core/board-turn · checkWinner()
+
+```ts
+function checkWinner(cells: CellValue[], r: number, c: number, player: CellValue): CellValue | null {
+  const R = rows();
+  const C = cols();
+  const W = winLength();
+  const directions = [
+    [0, 1],
+    [1, 0],
+    [1, 1],
+    [1, -1],
+  ];
+  const idx = (rr: number, cc: number) => rr * C + cc;
+
+  for (const [dr, dc] of directions) {
+    let count = 1;
+    for (let i = 1; i < W; i++) {
+      const rr = r + dr * i;
+      const cc = c + dc * i;
+      if (rr < 0 || rr >= R || cc < 0 || cc >= C) break;
+      if (cells[idx(rr, cc)] === player) count++;
+      else break;
+```
+
+> Real implementation from module core/board-turn
+
+### core/board-ai · checkWinner()
+
+```ts
+function checkWinner(cells: CellValue[], player: CellValue): boolean {
+  const R = rows();
+  const C = cols();
+  const W = winLength();
+  const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+  for (let r = 0; r < R; r++) {
+    for (let c = 0; c < C; c++) {
+      if (cells[idx(r, c)] !== player) continue;
+      for (const [dr, dc] of directions) {
+        let count = 1;
+        for (let i = 1; i < W; i++) {
+          const rr = r + dr * i;
+          const cc = c + dc * i;
+          if (rr < 0 || rr >= R || cc < 0 || cc >= C) break;
+          if (cells[idx(rr, cc)] === player) count++;
+          else break;
+        }
+        for (let i = 1; i < W; i++) {
+          const rr = r - dr * i;
+          const cc = c - dc * i;
+```
+
+> Real implementation from module core/board-ai
+
+## Design Highlights
+
+- 3×3 small board: Finite state space, opening strategy can be exhaustively searched
+- Connect 3 pieces to win: Balance between offense and blocking
+- AI strength = Opponent model: Three experience levels: Random / Blocking / Calculated kill
+
+## What You Can Learn
+
+- Minimum state machine for board games (boot → menu → gameplay → result)
+- How to write win/loss determination as a pure function (easy to test, easy to reuse)
+- AI opponent is essentially a choice of "opponent model" strength
+
+## Edge Cases
+
+- Need to handle the issue where board size exceeds 3×3, causing state space explosion and making AI exhaustive search impossible
+- Need to handle invalid input validation for out-of-bounds player move coordinates or duplicate moves
+- Need to handle draw/end state judgment when the board is full without any connected lines
+- Need to handle the decision boundary for AI when it cannot force a win, choosing to block the opponent or move randomly
+- Need to handle whether player state reset is clean after the game ends to avoid residual data
+
+## Design Trade-offs
+
+- Benefit: Extremely simple rules and finite state space; Cost: Insufficient strategy depth; Alternative: Adjust board size or line length to increase complexity
+- Benefit: Win/loss determination written as a pure function is easy to test and reuse; Cost: AI strength completely depends on the opponent model; Alternative: Introduce more complex heuristic algorithms or evaluation functions

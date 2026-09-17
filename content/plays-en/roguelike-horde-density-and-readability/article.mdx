@@ -1,0 +1,63 @@
+# Roguelike Slaying: Enemy Density Formulas and Screen Readability
+
+## The One-Sentence Essence
+
+On the surface, it's about piling up enemy counts; in reality, the core mechanism is controlling "Threat Value" budgets and pacing in segments. This article focuses on explaining how to guarantee screen readability through hard rules.
+
+**Why it goes viral:** High tension + extreme satisfaction; "screen explosions" in short videos easily go viral.
+
+## 1) Enemy Density Isn't "More is Better," It's a Triplet: Count × Speed × Size
+
+The difficulty of slaying games feels more like "information pressure" rather than "damage pressure."
+
+If you increase all three simultaneously:
+
+- Count (more on screen)  
+- Speed (closer contact faster)  
+- Size (harder to dodge)  
+
+Players will immediately lose a sense of control.
+
+A more stable approach: Use a **spawn budget** to control difficulty—treat the "Threat Value" that can be spawned per second as the budget:
+
+- Minions: Low threat value, responsible for filling space  
+- Elites: High threat value, responsible for turning points  
+- Ranged enemies: Threat value rises with the number of screen projectiles  
+
+## 2) The Density Curve Should Be "Segmented"
+
+A common 10-minute pacing:
+
+- **0~1 minute**: Rapid heat-up (let players feel satisfied immediately)  
+- **1~4 minutes**: Steady growth (let players feel they can control it)  
+- **After 4 minutes**: Explosive peak (create memorable moments via elites/events)  
+
+If you use linear growth throughout, two problems arise:
+
+1. Early game is too bland, causing new players to churn out  
+2. Late game explodes too early, breaking the experience  
+
+## 3) Readability: Must Be Written as Hard Rules (Otherwise You'll Just Cut Effects at the End)
+
+Recommended to hard-code three red lines:
+
+1. **Max Projectile/Effect Count**: If exceeded, "downsample/merge visuals."  
+2. **Player Silhouette Priority**: Outlines, high contrast, keep center blank—always ensure the player is visible.  
+3. **Danger Information Priority**: Damage zones > Dash trails > Enemy bodies > Environmental decorations.  
+
+If readability is done right, you can even make the numbers harsher, because players will feel they "die with understanding."
+
+## Edge Cases
+
+- Need to handle invalid input causing instant player death.
+- Need to handle repeated operations causing infinite enemy respawning.
+- Need to handle whether to reset state immediately after game end.
+- Need to handle how to judge win/loss in a tie or settlement.
+- Need to handle resource or data anomalies causing out-of-bounds values.
+
+## Design Trade-offs
+
+- **Benefit**: Creates tension and satisfaction via segmented curves; **Cost**: Linear growth throughout leads to bland early game or collapsed late game; **Alternative**: Use spawn budget to control difficulty.
+- **Benefit**: Hard-code three red lines to guarantee readability; **Cost**: May limit effect richness; **Alternative**: Just cut effects at the end.
+
+One-sentence summary: **The difficulty of slaying isn't "making explosions," it's "making explosions still readable."**

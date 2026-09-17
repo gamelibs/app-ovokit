@@ -1,0 +1,61 @@
+{
+  "slug": "spot-the-difference-design-and-anti-skip",
+  "title": "Spot the Difference: Mechanics for Robust Puzzle Design",
+  "subtitle": "An in-depth analysis of difference point types and distribution logic to prevent instant completions. Learn how to implement visual guidance systems that regulate scanning pace, enhance puzzle depth, and design efficient hint mechanisms that deter cheating while ensuring a compelling player experience.",
+  "tags": [
+    "推荐",
+    "解谜",
+    "关卡"
+  ],
+  "difficulty": "入门",
+  "techStack": [
+    "TypeScript",
+    "图片标注(通用)"
+  ],
+  "corePoints": [
+    "Difference Point Types",
+    "Pacing Control",
+    "Hint System"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Difference Point Design",
+      "bullets": [
+        "Shape / Missing / Color / Mirror / Quantity",
+        "Categorize differences into 'Quick Discovery' and 'Slow Discovery' tiers"
+      ]
+    },
+    {
+      "title": "Preventing Instant Completion",
+      "bullets": [
+        "Distribution Strategy",
+        "Visual Guidance",
+        "Hint Cooldown and Cost",
+        "Confirmation Mechanism"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Difference Point Registration + Hint Cooldown (Example)",
+      "language": "ts",
+      "code": "type Diff = { id: string; x: number; y: number; r: number; found: boolean };\n\nexport function canUseHint(lastHintAtMs: number, nowMs: number) {\n  const cooldownMs = 20_000;\n  return nowMs - lastHintAtMs >= cooldownMs;\n}\n"
+    }
+  ],
+  "cover": {
+    "src": "/plays/spot-the-difference-design-and-anti-skip/cover.webp",
+    "alt": "Spot the Difference: Mechanics for Robust Puzzle Design"
+  },
+  "published": true,
+  "coverWide": {
+    "src": "/plays/spot-the-difference-design-and-anti-skip/cover.webp",
+    "alt": "Spot the Difference: Mechanics for Robust Puzzle Design"
+  },
+  "demo": {},
+  "pattern": "spatial",
+  "lang": "en"
+}

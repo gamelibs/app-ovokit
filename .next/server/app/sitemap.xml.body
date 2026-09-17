@@ -1,427 +1,640 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 <url>
 <loc>https://gameslog.top/</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>daily</changefreq>
 <priority>1</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
 <url>
 <loc>https://gameslog.top/patterns</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/patterns" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/patterns" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/patterns" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
 <url>
 <loc>https://gameslog.top/features</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/features" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/features" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/features" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
 <url>
 <loc>https://gameslog.top/favorites</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/favorites" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/favorites" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/favorites" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.4</priority>
 </url>
 <url>
 <loc>https://gameslog.top/about</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/about" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/about" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/about" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>yearly</changefreq>
 <priority>0.4</priority>
 </url>
 <url>
 <loc>https://gameslog.top/contact</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/contact" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/contact" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/contact" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>yearly</changefreq>
 <priority>0.4</priority>
 </url>
 <url>
 <loc>https://gameslog.top/privacy</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/privacy" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/privacy" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/privacy" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>yearly</changefreq>
 <priority>0.3</priority>
 </url>
 <url>
 <loc>https://gameslog.top/terms</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/terms" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/terms" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/terms" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>yearly</changefreq>
 <priority>0.3</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/match-clear</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/match-clear" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/match-clear" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/match-clear" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/merge-unit</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/merge-unit" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/merge-unit" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/merge-unit" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/dodge-avoid</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/dodge-avoid" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/dodge-avoid" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/dodge-avoid" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/runner</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/runner" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/runner" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/runner" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/shoot-aim</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/shoot-aim" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/shoot-aim" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/shoot-aim" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/combat</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/combat" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/combat" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/combat" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/turn-duel</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/turn-duel" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/turn-duel" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/turn-duel" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/placement</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/placement" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/placement" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/placement" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/choice-strategy</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/choice-strategy" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/choice-strategy" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/choice-strategy" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/physics</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/physics" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/physics" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/physics" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/puzzle</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/puzzle" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/puzzle" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/puzzle" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/progression</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/progression" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/progression" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/progression" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/simulation</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/simulation" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/simulation" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/simulation" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/archetypes/timing</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/archetypes/timing" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/archetypes/timing" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/archetypes/timing" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/patterns/action</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/patterns/action" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/patterns/action" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/patterns/action" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/patterns/spatial</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/patterns/spatial" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/patterns/spatial" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/patterns/spatial" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/patterns/merge</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/patterns/merge" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/patterns/merge" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/patterns/merge" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/patterns/management</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/patterns/management" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/patterns/management" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/patterns/management" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/patterns/strategy</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/patterns/strategy" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/patterns/strategy" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/patterns/strategy" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/patterns/narrative</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/patterns/narrative" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/patterns/narrative" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/patterns/narrative" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/features/merge</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/features/merge" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/features/merge" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/features/merge" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/features/idle</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/features/idle" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/features/idle" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/features/idle" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/features/click</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/features/click" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/features/click" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/features/click" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/features/grid</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/features/grid" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/features/grid" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/features/grid" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/features/levels</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/features/levels" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/features/levels" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/features/levels" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/features/numbers</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/features/numbers" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/features/numbers" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/features/numbers" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/features/generation</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/features/generation" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/features/generation" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/features/generation" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/features/roguelike</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/features/roguelike" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/features/roguelike" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/features/roguelike" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
 <loc>https://gameslog.top/features/state-machine</loc>
-<lastmod>2026-09-16T06:27:22.982Z</lastmod>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/features/state-machine" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/features/state-machine" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/features/state-machine" />
+<lastmod>2026-09-17T02:16:07.611Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <url>
+<loc>https://gameslog.top/play/tic-tac-toe-3d-rotation-juice</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/tic-tac-toe-3d-rotation-juice" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/tic-tac-toe-3d-rotation-juice" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/tic-tac-toe-3d-rotation-juice" />
+<lastmod>2026-09-17T01:31:09.073Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
 <loc>https://gameslog.top/play/retro-glow-sue-makeup-challenge</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/retro-glow-sue-makeup-challenge" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/retro-glow-sue-makeup-challenge" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/retro-glow-sue-makeup-challenge" />
 <lastmod>2026-09-15T08:11:52.537Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
-<loc>https://gameslog.top/play/tic-tac-toe-3d-rotation-juice</loc>
-<lastmod>2026-09-11T01:50:11.341Z</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<url>
 <loc>https://gameslog.top/play/play-1677a241</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/play-1677a241" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/play-1677a241" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/play-1677a241" />
 <lastmod>2026-09-09T09:12:05.346Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/random-events-balance-and-pity</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/random-events-balance-and-pity" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/random-events-balance-and-pity" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/random-events-balance-and-pity" />
 <lastmod>2026-09-09T01:41:02.096Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/meta-progression-permanent-growth</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/meta-progression-permanent-growth" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/meta-progression-permanent-growth" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/meta-progression-permanent-growth" />
 <lastmod>2026-09-09T01:41:02.095Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/merge-level-core-loop</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/merge-level-core-loop" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/merge-level-core-loop" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/merge-level-core-loop" />
 <lastmod>2026-09-09T01:41:02.094Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/merge-chain-and-gates</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/merge-chain-and-gates" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/merge-chain-and-gates" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/merge-chain-and-gates" />
 <lastmod>2026-09-09T01:41:02.094Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/infinite-upgrades-cost-curves</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/infinite-upgrades-cost-curves" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/infinite-upgrades-cost-curves" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/infinite-upgrades-cost-curves" />
 <lastmod>2026-09-09T01:41:02.093Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/gacha-pity-and-psychology</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/gacha-pity-and-psychology" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/gacha-pity-and-psychology" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/gacha-pity-and-psychology" />
 <lastmod>2026-09-09T01:41:02.093Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/drag-idle-manual-vs-offline</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/drag-idle-manual-vs-offline" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/drag-idle-manual-vs-offline" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/drag-idle-manual-vs-offline" />
 <lastmod>2026-09-09T01:41:02.093Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/clicker-feedback-and-inflation</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/clicker-feedback-and-inflation" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/clicker-feedback-and-inflation" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/clicker-feedback-and-inflation" />
 <lastmod>2026-09-09T01:41:02.092Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/wave-defense-difficulty-curve</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/wave-defense-difficulty-curve" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/wave-defense-difficulty-curve" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/wave-defense-difficulty-curve" />
 <lastmod>2026-09-09T00:39:24.702Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/tic-tac-toe-showdown</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/tic-tac-toe-showdown" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/tic-tac-toe-showdown" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/tic-tac-toe-showdown" />
 <lastmod>2026-09-09T00:39:17.029Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/td-waves-and-ai-scaling</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/td-waves-and-ai-scaling" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/td-waves-and-ai-scaling" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/td-waves-and-ai-scaling" />
 <lastmod>2026-09-09T00:39:09.312Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/tap-dodge-forgiveness-and-speed</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/tap-dodge-forgiveness-and-speed" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/tap-dodge-forgiveness-and-speed" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/tap-dodge-forgiveness-and-speed" />
 <lastmod>2026-09-09T00:39:02.716Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/talent-tree-real-choice-and-respec</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/talent-tree-real-choice-and-respec" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/talent-tree-real-choice-and-respec" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/talent-tree-real-choice-and-respec" />
 <lastmod>2026-09-09T00:38:56.053Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/survival-countdown-design</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/survival-countdown-design" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/survival-countdown-design" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/survival-countdown-design" />
 <lastmod>2026-09-09T00:38:48.821Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/spot-the-difference-design-and-anti-skip</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/spot-the-difference-design-and-anti-skip" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/spot-the-difference-design-and-anti-skip" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/spot-the-difference-design-and-anti-skip" />
 <lastmod>2026-09-09T00:38:41.619Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/skill-draft-weights-and-protection</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/skill-draft-weights-and-protection" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/skill-draft-weights-and-protection" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/skill-draft-weights-and-protection" />
 <lastmod>2026-09-09T00:38:34.787Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/roguelike-level-pools-and-builds</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/roguelike-level-pools-and-builds" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/roguelike-level-pools-and-builds" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/roguelike-level-pools-and-builds" />
 <lastmod>2026-09-09T00:38:28.338Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/roguelike-horde-density-and-readability</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/roguelike-horde-density-and-readability" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/roguelike-horde-density-and-readability" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/roguelike-horde-density-and-readability" />
 <lastmod>2026-09-09T00:38:21.098Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/random-affixes-pool-and-scaling</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/random-affixes-pool-and-scaling" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/random-affixes-pool-and-scaling" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/random-affixes-pool-and-scaling" />
 <lastmod>2026-09-09T00:38:05.871Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/pull-the-pin-punish-and-fake-difficulty</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/pull-the-pin-punish-and-fake-difficulty" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/pull-the-pin-punish-and-fake-difficulty" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/pull-the-pin-punish-and-fake-difficulty" />
 <lastmod>2026-09-09T00:37:58.818Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/physics-cut-hit-test-and-performance</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/physics-cut-hit-test-and-performance" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/physics-cut-hit-test-and-performance" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/physics-cut-hit-test-and-performance" />
 <lastmod>2026-09-09T00:37:43.968Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/path-planning-pseudo-puzzle</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/path-planning-pseudo-puzzle" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/path-planning-pseudo-puzzle" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/path-planning-pseudo-puzzle" />
 <lastmod>2026-09-09T00:36:31.753Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/one-stroke-generation-and-grading</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/one-stroke-generation-and-grading" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/one-stroke-generation-and-grading" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/one-stroke-generation-and-grading" />
 <lastmod>2026-09-09T00:36:24.521Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/multiple-endings-triggers-and-guidance</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/multiple-endings-triggers-and-guidance" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/multiple-endings-triggers-and-guidance" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/multiple-endings-triggers-and-guidance" />
 <lastmod>2026-09-09T00:36:16.623Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/match-3-retention-and-pacing</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/match-3-retention-and-pacing" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/match-3-retention-and-pacing" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/match-3-retention-and-pacing" />
 <lastmod>2026-09-09T00:35:49.392Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/line-connect-scoring-and-limits</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/line-connect-scoring-and-limits" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/line-connect-scoring-and-limits" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/line-connect-scoring-and-limits" />
 <lastmod>2026-09-09T00:35:40.976Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/grid-movement-and-collision</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/grid-movement-and-collision" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/grid-movement-and-collision" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/grid-movement-and-collision" />
 <lastmod>2026-09-09T00:35:26.766Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/finite-state-machine-for-combat</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/finite-state-machine-for-combat" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/finite-state-machine-for-combat" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/finite-state-machine-for-combat" />
 <lastmod>2026-09-09T00:34:07.632Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/2048-variant-probability-control</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/2048-variant-probability-control" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/2048-variant-probability-control" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/2048-variant-probability-control" />
 <lastmod>2026-09-09T00:33:46.008Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://gameslog.top/play/sliding-puzzle-3d-photo</loc>
+<xhtml:link rel="alternate" hreflang="zh-CN" href="https://gameslog.top/play/sliding-puzzle-3d-photo" />
+<xhtml:link rel="alternate" hreflang="en" href="https://gameslog.top/en/play/sliding-puzzle-3d-photo" />
+<xhtml:link rel="alternate" hreflang="x-default" href="https://gameslog.top/play/sliding-puzzle-3d-photo" />
 <lastmod>2026-07-22T15:27:28.627Z</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
