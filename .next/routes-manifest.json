@@ -153,14 +153,6 @@
       "namedRegex": "^/embed/demos/pattern/(?<nxtPkey>[^/]+?)(?:/)?$"
     },
     {
-      "page": "/embed/demos/sliding-puzzle-3d/[...path]",
-      "regex": "^/embed/demos/sliding\\-puzzle\\-3d/(.+?)(?:/)?$",
-      "routeKeys": {
-        "nxtPpath": "nxtPpath"
-      },
-      "namedRegex": "^/embed/demos/sliding\\-puzzle\\-3d/(?<nxtPpath>.+?)(?:/)?$"
-    },
-    {
       "page": "/embed/games/[collection]/[gameId]",
       "regex": "^/embed/games/([^/]+?)/([^/]+?)(?:/)?$",
       "routeKeys": {
@@ -186,14 +178,6 @@
         "nxtPslug": "nxtPslug"
       },
       "namedRegex": "^/embed/plays/(?<nxtPslug>[^/]+?)(?:/)?$"
-    },
-    {
-      "page": "/referencecase/[...path]",
-      "regex": "^/referencecase/(.+?)(?:/)?$",
-      "routeKeys": {
-        "nxtPpath": "nxtPpath"
-      },
-      "namedRegex": "^/referencecase/(?<nxtPpath>.+?)(?:/)?$"
     },
     {
       "page": "/[locale]",
@@ -553,12 +537,6 @@
       "namedRegex": "^/embed/demos/match3(?:/)?$"
     },
     {
-      "page": "/embed/demos/sliding-puzzle-3d",
-      "regex": "^/embed/demos/sliding\\-puzzle\\-3d(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/embed/demos/sliding\\-puzzle\\-3d(?:/)?$"
-    },
-    {
       "page": "/favicon.ico",
       "regex": "^/favicon\\.ico(?:/)?$",
       "routeKeys": {},
@@ -569,12 +547,6 @@
       "regex": "^/icon\\.svg(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/icon\\.svg(?:/)?$"
-    },
-    {
-      "page": "/referencecase",
-      "regex": "^/referencecase(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/referencecase(?:/)?$"
     },
     {
       "page": "/robots.txt",
