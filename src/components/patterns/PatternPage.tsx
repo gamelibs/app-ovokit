@@ -231,10 +231,7 @@ export function PatternPage({
           />
         </div>
         <div className="mt-3 text-xs text-ink-muted">
-          约束：30 秒内自然理解；不做复杂 UI / 弹窗引导。
-          <span className="ml-1 text-ink-light">
-            你在上方调的参数滑块，对应的正是下方「高级设计与算法」里那张图解的规则。
-          </span>
+          你在上方调的参数滑块，对应的正是下方「高级设计与算法」里那张图解的规则。
         </div>
       </SectionShell>
 
@@ -300,8 +297,8 @@ export function PatternPage({
             <div className="lg:col-span-2">
               <PatternImage
                 src={images.advanced}
-                widthClass="w-full lg:w-[60%]"
-                heightClass="h-[200px] sm:h-[240px] lg:h-[300px]"
+                widthClass="w-full sm:max-w-[420px]"
+                heightClass="h-36 sm:h-44"
               />
             </div>
             <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
