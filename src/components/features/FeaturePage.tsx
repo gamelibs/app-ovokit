@@ -65,9 +65,11 @@ export function FeaturePage({
   const content = (
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
-        <div className="flex flex-col gap-3">
-          <FeatureImage src={images.hero} priority />
-          <div>
+        <div className="grid gap-3 sm:grid-cols-[1fr_minmax(220px,32%)] sm:items-start">
+          <div className="order-1 sm:order-2">
+            <FeatureImage src={images.hero} priority heightClass="h-40 sm:h-44 lg:h-48" />
+          </div>
+          <div className="min-w-0 order-2 sm:order-1">
             <div className="flex items-start justify-between gap-3">
               <h1 className="text-2xl font-semibold text-ink font-kalam">
                 {spec.name}
@@ -82,7 +84,7 @@ export function FeaturePage({
             </div>
             <p className="mt-2 text-sm text-ink-light">{spec.subtitle}</p>
           </div>
-          <div className="grid gap-2 sketch-card p-3 text-sm text-ink-light">
+          <div className="grid gap-2 sketch-card p-3 text-sm text-ink-light order-3">
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
               <div className="text-xs font-semibold text-ink-muted font-kalam">筛选标签</div>
               <div className="font-medium">{spec.filterTags.join(" · ")}</div>

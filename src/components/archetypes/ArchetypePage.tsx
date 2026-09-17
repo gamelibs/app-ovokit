@@ -171,13 +171,6 @@ export function ArchetypePage({
           <div className="text-xs font-semibold text-ink-muted font-kalam">规则提示</div>
           <div className="mt-1 font-medium">{model.demoRuleHint}</div>
         </div>
-        <div className="mt-3">
-          <ArchetypeImage
-            src={images.interaction}
-            widthClass="w-full lg:w-[70%]"
-            heightClass="h-[220px] sm:h-[260px] lg:h-[320px]"
-          />
-        </div>
         <div className="mt-3 overflow-hidden sketch-border bg-paper sketch-shadow-sm p-3">
           <DemoEmbed
             title={`${model.title} Demo`}
@@ -187,38 +180,38 @@ export function ArchetypePage({
             restartStrategy="postMessage"
           />
         </div>
-        <div className="mt-3 text-xs text-ink-muted">
-          约束：30 秒内自然理解；不做复杂 UI / 弹窗引导。
-        </div>
       </SectionShell>
 
       <SectionShell id="breakdown" title="③ 玩法行为系统拆解">
-        <ArchetypeImage
-          src={images.rule}
-          widthClass="w-full lg:w-[70%]"
-          heightClass="h-[220px] sm:h-[260px] lg:h-[320px]"
-        />
-        <div className="grid gap-3 lg:grid-cols-3">
-          <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">3.1 解决了什么问题？</div>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
-              {model.problemsSolved.map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ul>
+        {/* 拆解图缩为右栏缩略图，三卡为主 */}
+        <div className="grid gap-3 lg:grid-cols-[1fr_minmax(200px,28%)] lg:items-start">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-3 min-w-0">
+            <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+              <div className="text-xs font-semibold text-ink-muted font-kalam">3.1 解决了什么问题？</div>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
+                {model.problemsSolved.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+              <div className="text-xs font-semibold text-ink-muted font-kalam">3.2 最小规则集</div>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
+                {model.minimalRules.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+              <div className="text-xs font-semibold text-ink-muted font-kalam">3.3 系统循环图（可选）</div>
+              <div className="mt-2 text-ink-light">{model.systemLoopHint}</div>
+            </div>
           </div>
-          <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">3.2 最小规则集</div>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
-              {model.minimalRules.map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">3.3 系统循环图（可选）</div>
-            <div className="mt-2 text-ink-light">{model.systemLoopHint}</div>
-          </div>
+          <ArchetypeImage
+            src={images.rule}
+            widthClass="w-full"
+            heightClass="h-36 sm:h-44"
+          />
         </div>
       </SectionShell>
 
@@ -236,7 +229,6 @@ export function ArchetypePage({
             </div>
           ))}
         </div>
-        <div className="mt-3 text-xs text-ink-muted">交互：卡片可点击；若有链接将跳转到对应的中级玩法页。</div>
       </SectionShell>
 
       <section id="advanced" className="scroll-mt-24 sketch-card p-4 shadow-sm">
@@ -249,8 +241,8 @@ export function ArchetypePage({
             <div className="lg:col-span-2">
               <ArchetypeImage
                 src={images.advanced}
-                widthClass="w-full lg:w-[60%]"
-                heightClass="h-[200px] sm:h-[240px] lg:h-[300px]"
+                widthClass="w-full sm:max-w-[420px]"
+                heightClass="h-36 sm:h-44"
               />
             </div>
             <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
@@ -288,9 +280,6 @@ export function ArchetypePage({
                 ) : null}
               </Link>
             ))}
-          </div>
-          <div className="mt-3 text-xs text-ink-muted">
-            归属口径：案例文章 meta.json 显式 archetype 优先，tag 推断兜底（taxonomy site-tags 映射）。
           </div>
         </SectionShell>
       )}
