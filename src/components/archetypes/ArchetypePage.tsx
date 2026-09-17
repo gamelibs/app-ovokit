@@ -70,12 +70,9 @@ export function ArchetypePage({
   const content = (
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
-        <div className="flex flex-col gap-3">
-          <ArchetypeImage
-            src={images.hero}
-            priority
-          />
-          <div>
+        {/* 头部：左文右图（示意图是辅助，不再占满整屏） */}
+        <div className="grid gap-3 sm:grid-cols-[1fr_minmax(220px,32%)] sm:items-start">
+          <div className="min-w-0 order-2 sm:order-1">
             <div className="flex items-start justify-between gap-3">
               <h1 className="text-2xl font-semibold text-ink font-kalam">{model.title}</h1>
               <FavoriteButton
@@ -86,21 +83,32 @@ export function ArchetypePage({
               />
             </div>
             <p className="mt-2 text-sm text-ink-light">{model.subtitle}</p>
+            <div className="mt-3 grid gap-2 sketch-card p-3 text-sm text-ink-light">
+              <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
+                <div className="text-xs font-semibold text-ink-muted font-kalam">玩法行为</div>
+                <div className="font-medium">{model.title}</div>
+              </div>
+              <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
+                <div className="text-xs font-semibold text-ink-muted font-kalam">玩法特征</div>
+                <div className="text-ink-light">{model.features.join(" · ")}</div>
+              </div>
+              <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
+                <div className="text-xs font-semibold text-ink-muted font-kalam">难度层级</div>
+                <div className="text-ink-light">{localizeDifficulty(model.difficulty, useLocale())}</div>
+              </div>
+            </div>
           </div>
-          <div className="grid gap-2 sketch-card p-3 text-sm text-ink-light">
-            <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">玩法行为</div>
-              <div className="font-medium">{model.title}</div>
-            </div>
-            <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">玩法特征</div>
-              <div className="text-ink-light">{model.features.join(" · ")}</div>
-            </div>
-            <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">难度层级</div>
-              <div className="text-ink-light">{localizeDifficulty(model.difficulty, useLocale())}</div>
-            </div>
+          {/* 右侧：机制示意图缩略图 */}
+          <div className="order-1 sm:order-2">
+            <ArchetypeImage
+              src={images.hero}
+              priority
+              heightClass="h-40 sm:h-44 lg:h-48"
+            />
           </div>
+        </div>
+        {/* 下方通栏：学习目标 + 所属核心循环（不参与上面的左右网格） */}
+        <div className="mt-3 grid gap-3">
           <div className="sketch-card p-3 text-sm text-ink-light">
             <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted font-kalam">
               学习目标
