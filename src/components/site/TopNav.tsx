@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Search, Menu } from "lucide-react";
 import { OvoLogo } from "./OvoLogo";
 import { DesktopNav } from "./DesktopNav";
 import { MenuDrawer } from "./MenuDrawer";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { SearchSuggestions } from "@/components/search/SearchSuggestions";
 import { useLocalStorageBoolean, useSetLocalStorage } from "@/lib/hooks/useLocalStorage";
 import { useClientValue } from "@/lib/hooks/useClientValue";
 import { trackEvent } from "@/lib/analytics/events";
+import { useRouter } from "@/i18n/navigation";
 
 export function TopNav({ isModerator }: { isModerator: boolean }) {
+  const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const showModeratorTools = useLocalStorageBoolean("gameslog_mod_tools");
@@ -95,7 +98,7 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
               <button
                 type="button"
                 onClick={onLogoTap}
-                aria-label="GamesLog 首页"
+                aria-label={t("logoAria")}
                 className="inline-flex items-center justify-center rounded-2xl px-0 py-2 hover:opacity-90 transition-opacity"
               >
                 <OvoLogo width={60} height={28} />
@@ -105,7 +108,7 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
             <div className="relative min-w-0 flex-1 max-w-xl lg:max-w-md xl:max-w-xl">
               <input
                 ref={searchInputRef}
-                placeholder="搜索玩法"
+                placeholder={t("searchPlaceholder")}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => setSuggestionsOpen(true)}
@@ -138,10 +141,11 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
           </div>
 
           <div className="flex items-center gap-1 text-ink-light">
+            <LanguageSwitcher />
             <button
               type="button"
               className="inline-flex h-11 w-11 items-center justify-center rounded-xl hover:bg-ink/5 sm:h-9 sm:w-9"
-              aria-label="Menu"
+              aria-label={t("menuAria")}
               onClick={() => setOpen(true)}
             >
               <Menu size={20} strokeWidth={2} />

@@ -5,6 +5,17 @@ import { playArchetypeKeys } from "@/lib/archetypes/archetypes";
 import { corePatternKeys } from "@/lib/patterns/patterns";
 import { featureKeys } from "@/lib/features/features";
 
+// 每条 URL 输出双语 hreflang：zh-CN 无前缀 + en /en 前缀（与 localePrefix: "as-needed" 对齐）
+function withLangs(origin: string, path: string) {
+  return {
+    languages: {
+      "zh-CN": `${origin}${path}`,
+      en: `${origin}/en${path === "/" ? "" : path}`,
+      "x-default": `${origin}${path}`,
+    },
+  };
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const origin = getSiteOrigin();
   const now = new Date();
@@ -12,15 +23,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const plays = await listPlaysWithMtime();
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: `${origin}/`, lastModified: now, changeFrequency: "daily", priority: 1 },
-    { url: `${origin}/archetypes`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${origin}/patterns`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${origin}/features`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${origin}/favorites`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
-    { url: `${origin}/about`, lastModified: now, changeFrequency: "yearly", priority: 0.4 },
-    { url: `${origin}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.4 },
-    { url: `${origin}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${origin}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${origin}/`, lastModified: now, changeFrequency: "daily", priority: 1, alternates: withLangs(origin, "/") },
+    { url: `${origin}/archetypes`, lastModified: now, changeFrequency: "weekly", priority: 0.7, alternates: withLangs(origin, "/archetypes") },
+    { url: `${origin}/patterns`, lastModified: now, changeFrequency: "weekly", priority: 0.7, alternates: withLangs(origin, "/patterns") },
+    { url: `${origin}/features`, lastModified: now, changeFrequency: "weekly", priority: 0.7, alternates: withLangs(origin, "/features") },
+    { url: `${origin}/favorites`, lastModified: now, changeFrequency: "monthly", priority: 0.4, alternates: withLangs(origin, "/favorites") },
+    { url: `${origin}/about`, lastModified: now, changeFrequency: "yearly", priority: 0.4, alternates: withLangs(origin, "/about") },
+    { url: `${origin}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.4, alternates: withLangs(origin, "/contact") },
+    { url: `${origin}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3, alternates: withLangs(origin, "/privacy") },
+    { url: `${origin}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3, alternates: withLangs(origin, "/terms") },
   ];
 
   const archetypes: MetadataRoute.Sitemap = playArchetypeKeys.map((key) => ({
@@ -28,6 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.6,
+    alternates: withLangs(origin, `/archetypes/${key}`),
   }));
 
   const patterns: MetadataRoute.Sitemap = corePatternKeys.map((key) => ({
@@ -35,6 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.6,
+    alternates: withLangs(origin, `/patterns/${key}`),
   }));
 
   const features: MetadataRoute.Sitemap = featureKeys.map((key) => ({
@@ -42,6 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.6,
+    alternates: withLangs(origin, `/features/${key}`),
   }));
 
   const playRoutes: MetadataRoute.Sitemap = plays.map(({ meta, mtimeMs }) => ({
@@ -49,6 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(mtimeMs),
     changeFrequency: "monthly",
     priority: 0.8,
+    alternates: withLangs(origin, `/play/${meta.slug}`),
   }));
 
   return [...staticRoutes, ...archetypes, ...patterns, ...features, ...playRoutes];

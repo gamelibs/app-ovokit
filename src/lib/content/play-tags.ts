@@ -82,3 +82,63 @@ export const TAG_GROUPS: { label: string; tags: string[] }[] = [
   { label: "玩法特征", tags: TAG_FEATURES },
   { label: "运营标记", tags: [...TAG_OPS] },
 ];
+
+/** 标签英文标签表（键 = 规范化后的中文标签名，与 taxonomy 中文名对齐） */
+export const TAG_LABELS_EN: Record<string, string> = {
+  // 14 行为母型
+  消除: "Match",
+  合成: "Merge",
+  解谜: "Puzzle",
+  "行进 / 跑酷": "Runner",
+  躲避: "Dodge",
+  射击: "Shooter",
+  战斗对抗: "Combat",
+  策略决策: "Strategy",
+  回合博弈: "Turn-based",
+  建造布局: "Placement",
+  物理: "Physics",
+  "时机 / 反应": "Timing",
+  "成长 / 数值": "Progression",
+  模拟: "Simulation",
+  // 8 玩法特征
+  点击: "Click",
+  放置产出: "Idle",
+  网格: "Grid",
+  关卡: "Levels",
+  合成机制: "Merge Mechanic",
+  数值成长: "Numbers",
+  Roguelike: "Roguelike",
+  限时: "Timed",
+  // 运营标记
+  推荐: "Featured",
+  热门: "Hot",
+};
+
+/** 是否废弃标签（显示层隐藏） */
+export function isDroppedTag(tag: string): boolean {
+  return LEGACY_DROP_TAGS.includes(tag);
+}
+
+/** 显示用本地化：先规范化（旧标签映射），再按 locale 出对应语言标签；废弃标签返回空串（调用方隐藏） */
+export function localizeTag(tag: string, locale: string): string {
+  if (isDroppedTag(tag)) return "";
+  const normalized = normalizeTag(tag);
+  if (locale !== "en") return normalized;
+  return TAG_LABELS_EN[normalized] ?? normalized;
+}
+
+export function localizeTags(tags: string[], locale: string): string[] {
+  return normalizeTags(tags).map((t) => localizeTag(t, locale));
+}
+
+/** 难度中文值 → 英文（数据存量为中文，仅显示层转换） */
+export const DIFFICULTY_LABELS_EN: Record<string, string> = {
+  入门: "Beginner",
+  进阶: "Advanced",
+  硬核: "Hardcore",
+};
+
+export function localizeDifficulty(value: string, locale: string): string {
+  if (locale !== "en") return value;
+  return DIFFICULTY_LABELS_EN[value] ?? value;
+}

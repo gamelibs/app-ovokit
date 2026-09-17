@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { getTranslations, getLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { listPatternSpecs } from "@/lib/patterns/spec";
 
 function patternIcon(key: string) {
@@ -6,17 +7,19 @@ function patternIcon(key: string) {
 }
 
 export async function PatternQuickNav() {
+  const t = await getTranslations("home");
+  const locale = await getLocale();
   const specs = await listPatternSpecs();
 
   return (
     <section className="mt-8 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-kalam text-xl font-semibold text-ink">核心玩法原型</h2>
+        <h2 className="font-kalam text-xl font-semibold text-ink">{t("patternsTitle")}</h2>
         <Link
           href="/patterns"
           className="font-kalam text-sm font-semibold text-ink-light hover:text-ink hover:underline"
         >
-          查看全部 →
+          {t("viewAll")} →
         </Link>
       </div>
 
@@ -35,7 +38,7 @@ export async function PatternQuickNav() {
                 loading="lazy"
               />
               <div>
-                <div className="font-kalam text-sm font-semibold text-ink">{spec.name}</div>
+                <div className="font-kalam text-sm font-semibold text-ink">{locale === "en" ? spec.nameEn : spec.name}</div>
                 <div className="text-[10px] text-ink-muted">{spec.nameEn}</div>
               </div>
             </div>

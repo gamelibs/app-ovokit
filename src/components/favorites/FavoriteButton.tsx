@@ -1,6 +1,7 @@
 "use client";
 
 import { Star } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { FavoriteItem, FavoriteType } from "@/lib/favorites/types";
 import { useFavorites } from "./FavoritesProvider";
 
@@ -17,6 +18,7 @@ export function FavoriteButton({
   className?: string;
   iconOnly?: boolean;
 }) {
+  const t = useTranslations("favorite");
   const { isFavorite, toggle } = useFavorites();
   const active = isFavorite(type, itemKey);
 
@@ -26,7 +28,7 @@ export function FavoriteButton({
       onClick={() =>
         toggle({ type, key: itemKey, title, addedAt: Date.now() } as FavoriteItem)
       }
-      aria-label={active ? "取消收藏" : "加入收藏"}
+      aria-label={active ? t("removeAria") : t("addAria")}
       aria-pressed={active}
       className={`inline-flex items-center justify-center transition ${
         iconOnly
@@ -43,7 +45,7 @@ export function FavoriteButton({
         strokeWidth={2}
         className={active ? "fill-ink text-ink" : "text-ink-light"}
       />
-      {!iconOnly && <span className="font-kalam">{active ? "已收藏" : "收藏"}</span>}
+      {!iconOnly && <span className="font-kalam">{active ? t("added") : t("add")}</span>}
     </button>
   );
 }

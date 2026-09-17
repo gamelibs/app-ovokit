@@ -10,6 +10,16 @@
 
 ## In Progress
 
+- [ ] **多语言 M2：遗留 UI 串与内容英文化** <!-- task:id=i18n-m2-001 priority:P1 category:i18n -->
+  - 背景：M1（2026-09-16）已完成——next-intl v4、`[locale]` 段（zh-CN 无前缀 / en `/en`）、`localeDetection:false`、多 root layout（`[locale]/layout.tsx` + `(embed)/layout.tsx`）、plays.ts locale 读取 + untranslated 回退、导航/页脚/首页/文章页 UI 串入 messages、语言切换器、hreflang + sitemap 双语。详见 `memory/daily/2026-09-16.md`
+  - 遗留清单：
+    - 母型/原型/特征页正文 spec 数据中文（`content/archetypes|patterns|features` 无 -en 目录，需内容层翻译 + spec 读取 locale 化）
+    - ArchetypePage/PatternPage/FeaturePage 固定文案（系统拆解/常见组合/高级设计等 section 标题）未抽取
+    - 分类 Tab 标签（消除/合成等分类数据）与 `POPULAR_SEARCH_TERMS` 中文；en 难度浏览组筛选无效（difficulty 分类值中文）
+    - about/privacy/terms/contact 正文中文；这些静态页 hreflang 暂用根默认（指向 /），应补页面级 alternates
+    - mod 后台、DevToolsPanel 不翻译（内部工具）
+  - ja/ko 接入：`src/i18n/routing.ts` locales 追加 + `messages/{ja,ko}.json` + plays.ts `ContentLocale` 与目录映射（如需新内容目录）
+
 - [ ] **移动端玩法详情页结构优化** <!-- task:id=mobile-detail-001 priority:P1 category:ux -->
   - 文件：`src/app/(site)/play/[slug]/page.tsx`
   - 目标：移动端首屏（标题卡）之后直接展示 Demo，移除移动端封面图片占位；PC 端保持「玩法拆解 → 关键代码 → Demo」顺序
@@ -33,7 +43,7 @@
 - [ ] **存量内容批次修复（审查驱动）** <!-- task:id=audit-fix-001 priority:P1 category:content -->
   - 文件：`scripts/fix-batch-1-text.ts`（批次 1）、`content/plays/*/meta.json` + `article.mdx`
   - 目标：按批次清零存量审查问题——① subtitle/正文回刷 ② 母型归属治理 ③ demo 资源修复 ④ 空集群选题反哺 ⑤ 英文回刷
-  - 状态：2026-09-09 批 1 上半场（subtitle ×30）+ 批 1（母型归属 ×9）+ 批 2（指南三章节 ×32，fix-batch-2-guide-sections.ts）+ **批 5 英文回刷 32/32（fix-batch-5-translate-en.ts，omlx 9B；meta JSON + 第 3 次纯文本分节兜底；tic-tac-toe-3d 旧样本已覆盖备份）均完成**，en-coverage 清零，复审 257→**255**（D 层 240：experience/mechanics×32、implementation×31、code×30、loop/data-model/primitives×30、demo×24；A/C 余：demo-404×6、demo-localhost×2、pillar-empty×5、cover×2、body×1（roguelike-horde 791 字））。备份 memory/audit-fix-backups/2026-09-09/。**下一步（三选一）：批 3（玩法循环+玩家经历，需 demo 对照，9B 风险高）/ 批 4（数据模型+关键实现+代码块；meta.codeSnippets 已有代码可确定性搬运，不必等 20B）/ 英文路由里程碑（src/ 零引用 plays-en，英文内容站点不可见，Google 无法收录）**；09-10 新增 3 条机检（title-jargon/en-meta-cjk/en-description-length），基线 320，tic-tac-toe-3d 精修试点（双语标题/摘要纠错/封面/管线草稿同步）后 **314**
+  - 状态：2026-09-09 批 1 上半场（subtitle ×30）+ 批 1（母型归属 ×9）+ 批 2（指南三章节 ×32，fix-batch-2-guide-sections.ts）+ **批 5 英文回刷 32/32（fix-batch-5-translate-en.ts，omlx 9B；meta JSON + 第 3 次纯文本分节兜底；tic-tac-toe-3d 旧样本已覆盖备份）均完成**，en-coverage 清零，复审 257→**255**（D 层 240：experience/mechanics×32、implementation×31、code×30、loop/data-model/primitives×30、demo×24；A/C 余：demo-404×6、demo-localhost×2、pillar-empty×5、cover×2、body×1（roguelike-horde 791 字））。备份 memory/audit-fix-backups/2026-09-09/。**英文路由里程碑已于 2026-09-16 完成（多语言 M1，见 i18n-m2-001 与 daily/2026-09-16）**；下一步（二选一）：批 3（玩法循环+玩家经历，需 demo 对照，9B 风险高）/ 批 4（数据模型+关键实现+代码块；meta.codeSnippets 已有代码可确定性搬运，不必等 20B）；09-10 新增 3 条机检（title-jargon/en-meta-cjk/en-description-length），基线 320，tic-tac-toe-3d 精修试点（双语标题/摘要纠错/封面/管线草稿同步）后 **314**
 
 ## Todo
 

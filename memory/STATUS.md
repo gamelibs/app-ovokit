@@ -1,11 +1,13 @@
 # GamesLog 项目状态（原 OVOFORGE）
 
-> 最后更新：2026-09-11
+> 最后更新：2026-09-16
 > 更新者：Kimi Code CLI
 
 ---
 
 ## 当前阶段
+
+**多语言 M1 落地（2026-09-16）**：next-intl v4 接入完成，zh-CN 默认无前缀 + en `/en` 前缀（`localeDetection:false` 不强跳）。`(site)` 组整体迁入 `src/app/[locale]/(site)/`，`(site)/api/*` 上移到 `src/app/api/`（URL 不变）；**多 root layout**：删除根 `app/layout.tsx`，`[locale]/layout.tsx`（SSR html lang 正确 + NextIntlClientProvider + 默认 hreflang）与 `(embed)/layout.tsx`（固定 zh-CN）分立，embed/api 完全不进 locale 段。内容层 `plays.ts` 按 locale 读 `content/plays{,-en}`，en 缺稿回退中文并标 `untranslated`（页面显示「本帖暂未翻译」）。UI 串入 `messages/{zh-CN,en}.json`（导航/抽屉/页脚/首页/文章页/收藏/Cookie/搜索建议），站点组件全部换 `@/i18n/navigation` Link；顶部新增「中 / EN」切换器（保路径+query 换 locale）。SEO：play/母型/原型/特征页 hreflang 互链 + locale 感知 canonical，sitemap 双语条目。验证：typecheck/build 通过，Playwright 27/27 + console 零错误，404 三路径均为手绘页。截图 /tmp/i18n-*.png。**未提交 git；生产 :19600 仍跑旧构建，需 build+重启才生效**。遗留 M2：母型/原型/特征页正文 spec 与分类 Tab 标签仍中文、about/privacy/terms/contact 正文中文、这些页 hreflang 暂为根默认、en 难度筛选无效。详见 `memory/daily/2026-09-16.md`。
 
 **Quantum Grid 3D demo 全链路跑通（2026-09-11）**：文章 `tic-tac-toe-3d-rotation-juice` 的 demo 从 2D 替身替换为真实游戏源（astrocade `3d-rotating-tic-tac-toe`）的 3D 重建版，全程走 ovo_system 工作流（远程分析 job_1789120754118_rvx9w0 → 用户确认审查 → create-project **cp_1789130311150**（threejs）→ 主循环 e2e → Demo 反推导出 → 站点文章页内嵌可玩验证）。为此 v2 补齐 3D 能力：新增 `core/board-3d` 模块（Three.js，契约对齐 board-turn）、preview 多运行时库加载、适配器 3D 变体 + frameworks 信号识别 + 修 2D 旧项目共有的 backToMenu 迁移缺陷。旧 2D 项目 cp_1788757022723 保留对照。草稿 channelMeta.source 已补齐溯源。**坑：standalone 产物下 public 变更需 rsync 进 `.next/standalone/public` 再 pm2 restart**。三仓库（ovo_system / ovo_workspace / gameslog-site）均有待提交改动，等用户确认。详见 `memory/daily/2026-09-11.md`。
 

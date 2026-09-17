@@ -1,0 +1,164 @@
+{
+  "nav": {
+    "searchPlaceholder": "搜索玩法",
+    "logoAria": "GamesLog 首页",
+    "menuAria": "菜单",
+    "discover": "发现",
+    "favorites": "收藏"
+  },
+  "langSwitch": {
+    "label": "语言",
+    "zhCN": "中",
+    "en": "EN"
+  },
+  "drawer": {
+    "title": "菜单",
+    "navSection": "导航",
+    "home": "首页信息流",
+    "myFavorites": "我的收藏",
+    "archetypes": "玩法行为",
+    "about": "关于",
+    "contact": "联系",
+    "privacy": "隐私政策",
+    "terms": "使用条款",
+    "adminSection": "管理后台",
+    "loggedIn": "已登录",
+    "loggedOut": "未登录",
+    "logout": "退出",
+    "passwordPlaceholder": "输入口令",
+    "loginBusy": "登录中...",
+    "loginSubmit": "进入管理后台",
+    "loginFailed": "登录失败",
+    "loginHint": "提示：使用环境变量 MOD_PASSWORD 作为口令。",
+    "modHome": "内容管理",
+    "modDemoCases": "带试玩案例",
+    "modNew": "新建玩法",
+    "modTools": "开发者工具箱"
+  },
+  "footer": {
+    "about": "关于",
+    "contact": "联系",
+    "privacy": "隐私政策",
+    "terms": "使用条款"
+  },
+  "browseGroups": {
+    "archetype": "玩法行为",
+    "pattern": "核心循环",
+    "feature": "玩法特征",
+    "difficulty": "难度层级"
+  },
+  "home": {
+    "heroTitleA": "发现游戏玩法",
+    "heroTitleB": "探索设计乐趣",
+    "heroTitleMobileJoin": "，",
+    "heroSubtitle": "这是一个面向所有游戏爱好者的玩法分享站点。无论你是想弄懂游戏为什么好玩，还是想亲手设计一个玩法，都可以在这里找到灵感。",
+    "heroSubtitleMobile": "面向游戏爱好者的玩法分享站点，拆解机制、试玩 Demo、寻找设计灵感。",
+    "heroPoint1": "拆解经典游戏的玩法机制",
+    "heroPoint2": "理解让游戏好玩的核心规则循环",
+    "heroPoint3": "试玩最小可玩 Demo，感受设计差异",
+    "heroPoint4": "从零学习一个玩法如何被实现",
+    "heroBrowse": "浏览玩法",
+    "heroLearnMore": "了解更多",
+    "latestTitle": "最新发布",
+    "hotTitle": "热门玩法",
+    "archetypesTitle": "玩法行为",
+    "patternsTitle": "核心玩法原型",
+    "featuresTitle": "玩法特征",
+    "viewAll": "查看全部",
+    "moreKicker": "精选玩法",
+    "moreTitle": "更多玩法技术拆解",
+    "noResults": "暂无匹配结果",
+    "tryPopular": "试试这些热门搜索：",
+    "orBrowseLatest": "或者浏览最新文章：",
+    "pageInfo": "第 {current} / {total} 页 · 共 {count} 条",
+    "prevPage": "上一页",
+    "nextPage": "下一页",
+    "postCount": "★ {count} 篇",
+    "tagFallback": "玩法"
+  },
+  "play": {
+    "back": "返回",
+    "crumb": "玩法拆解 · 代码 · Demo",
+    "breakdownTitle": "玩法拆解",
+    "codeTitle": "关键代码",
+    "behaviorTitle": "玩法行为",
+    "belongsTo": "本文属于「{name}」母型",
+    "viewArchetype": "查看母型详解",
+    "demoTitle": "Demo",
+    "demoFallbackArchetype": "暂未提供专用 Demo，已嵌入对应行为母型的最小可试玩示例。",
+    "demoNone": "暂未提供可试玩 Demo。",
+    "demoBlocked": "公开试玩准备中：本篇 Demo 正在做静态化导出，暂时无法在线试玩。",
+    "demoEmpty": "暂无可试玩 Demo",
+    "articleTitle": "文章",
+    "infoTitle": "信息",
+    "difficultyLabel": "难度",
+    "techStackLabel": "技术栈",
+    "corePointsLabel": "核心点",
+    "tipsTitle": "阅读建议",
+    "tip1": "先看「玩法拆解」抓住规则与爽点。",
+    "tip2": "再看「关键代码」定位实现入口。",
+    "tip3": "最后试玩 Demo，体会参数与手感。",
+    "notFoundTitle": "玩法不存在",
+    "untranslated": "本帖暂未翻译，以下为中文原文。",
+    "relatedTitle": "你可能也喜欢",
+    "restart": "重开",
+    "loading": "游戏加载中…"
+  },
+  "sidebar": {
+    "hotTags": "热门标签",
+    "newbie": "新手必读"
+  },
+  "card": {
+    "difficulty": "玩法难度",
+    "techStack": "技术栈",
+    "corePoints": "核心点",
+    "viewImpl": "查看实现"
+  },
+  "cookie": {
+    "text": "我们使用 Cookie 提供必要功能，并借助 Google Analytics 了解访问情况。",
+    "privacy": "隐私政策",
+    "necessaryOnly": "仅必要",
+    "acceptAll": "同意全部"
+  },
+  "search": {
+    "related": "相关搜索",
+    "popular": "热门搜索"
+  },
+  "favorite": {
+    "add": "收藏",
+    "added": "已收藏",
+    "addAria": "加入收藏",
+    "removeAria": "取消收藏"
+  },
+  "favorites": {
+    "title": "我的收藏",
+    "note": "收藏仅保存在当前浏览器，换设备不会同步。",
+    "metaTitle": "我的收藏",
+    "metaDescription": "浏览你在 GamesLog 收藏的内容。",
+    "typePlay": "玩法案例",
+    "typeArchetype": "玩法行为",
+    "typePattern": "核心循环",
+    "typeFeature": "玩法特征",
+    "emptyLine1": "还没有收藏任何内容。",
+    "emptyLine2": "在玩法、母型、原型或特征页面点击“收藏”即可加入。",
+    "totalCount": "共 {count} 条收藏"
+  },
+  "stats": {
+    "like": "喜欢",
+    "liked": "已喜欢"
+  },
+  "error": {
+    "oops": "哎呀",
+    "subtitle": "something went wrong",
+    "desc1": "页面遇到了一点小麻烦，可能是临时波动。",
+    "desc2": "如果刷新后仍然出现，请通过{contact}反馈给我们。",
+    "contactLink": "联系页面",
+    "retry": "再试一次",
+    "backHome": "返回首页"
+  },
+  "notFound": {
+    "title": "页面走丢了",
+    "desc": "这个地址不存在，或者内容已被移除。",
+    "browse": "浏览玩法行为"
+  }
+}

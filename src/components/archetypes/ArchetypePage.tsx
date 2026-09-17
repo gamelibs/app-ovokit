@@ -1,9 +1,11 @@
 import type { ArchetypePageModel } from "@/features/archetypes/pageModel";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { fallbackCorePatternByKey, type CorePatternKey } from "@/lib/patterns/patterns";
+import { localizeDifficulty } from "@/lib/content/play-tags";
+import { useLocale } from "next-intl";
 
 function ArchetypeImage({
   src,
@@ -96,7 +98,7 @@ export function ArchetypePage({
             </div>
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
               <div className="text-xs font-semibold text-ink-muted font-kalam">难度层级</div>
-              <div className="text-ink-light">{model.difficulty}</div>
+              <div className="text-ink-light">{localizeDifficulty(model.difficulty, useLocale())}</div>
             </div>
           </div>
           <div className="sketch-card p-3 text-sm text-ink-light">

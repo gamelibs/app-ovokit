@@ -1,16 +1,20 @@
-import Link from "next/link";
 import Image from "next/image";
-import { listPlays } from "@/lib/content/plays";
+import { localizeTag } from "@/lib/content/play-tags";
+import { getLocale, getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { listPlays, type ContentLocale } from "@/lib/content/plays";
 
 function isSvg(src: string) {
   return src.endsWith(".svg");
 }
 
 export async function HotPlaysSection() {
-  const plays = await listPlays();
-  // 首页「热门玩法」由「热门」标签控制，避免按浏览量排序导致重复/不可控
+  const locale = (await getLocale()) as ContentLocale;
+  const t = await getTranslations("home");
+  const plays = await listPlays(locale);
+  // 首页「热门玩法」由「热门」（英文稿为 "Hot"）标签控制，避免按浏览量排序导致重复/不可控
   const topPlays = plays
-    .filter((p) => p.tags.includes("热门"))
+    .filter((p) => p.tags.includes("热门") || (p.tags as string[]).includes("Hot"))
     .slice(0, 5);
 
   if (topPlays.length === 0) return null;
@@ -18,12 +22,12 @@ export async function HotPlaysSection() {
   return (
     <section id="featured-plays" className="mt-8 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-kalam text-xl font-semibold text-ink">热门玩法</h2>
+        <h2 className="font-kalam text-xl font-semibold text-ink">{t("hotTitle")}</h2>
         <Link
           href={{ pathname: "/", query: { all: "1", group: "archetype" } }}
           className="font-kalam text-sm font-semibold text-ink-light hover:text-ink hover:underline"
         >
-          查看全部 →
+          {t("viewAll")} →
         </Link>
       </div>
 
@@ -53,7 +57,11 @@ export async function HotPlaysSection() {
               </h3>
               <div className="mt-2 flex items-center justify-between gap-2">
                 <span className="sketch-pill sketch-pill-neutral text-[10px]">
-                  {play.tags[0] ?? "玩法"}
+                  {(() => {
+                    // 跳过废弃标签，取第一个有效标签
+                    const tag = play.tags.find((tg) => localizeTag(tg, locale) !== "");
+                    return tag ? localizeTag(tag, locale) : t("tagFallback");
+                  })()}
                 </span>
                 <span className="flex items-center gap-0.5 text-xs text-ink-muted">
                   <span>👁</span>

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import Image from "next/image";
+import { Link } from "@/i18n/navigation";
 import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "@/components/plays/TagPill";
 import { Eye } from "lucide-react";

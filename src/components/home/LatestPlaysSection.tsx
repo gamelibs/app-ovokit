@@ -1,7 +1,9 @@
-import Link from "next/link";
 import Image from "next/image";
-import { listPlays } from "@/lib/content/plays";
+import { getLocale, getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { listPlays, type ContentLocale } from "@/lib/content/plays";
 import { inferArchetypeFromTags } from "@/lib/archetypes/tag-map";
+import { localizeDifficulty } from "@/lib/content/play-tags";
 
 function isSvg(src: string) {
   return src.endsWith(".svg");
@@ -9,7 +11,9 @@ function isSvg(src: string) {
 
 /** 「最新发布」：按内容修改时间倒序，让新帖子（含平台导入游戏）始终可被发现 */
 export async function LatestPlaysSection() {
-  const plays = await listPlays(); // 已按 mtime 倒序
+  const locale = (await getLocale()) as ContentLocale;
+  const t = await getTranslations("home");
+  const plays = await listPlays(locale); // 已按 mtime 倒序
   // 封面是按母型模板生成的（同母型图片相同/近似），一行连续相同封面看起来像重复内容；
   // 同母型只露出一篇（显式 archetype 优先，tag 推断兜底），保证一行内的视觉多样性。
   const seenArchetypes = new Set<string>();
@@ -28,12 +32,12 @@ export async function LatestPlaysSection() {
   return (
     <section id="latest-plays" className="mt-6 space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="font-kalam text-xl font-semibold text-ink">最新发布</h2>
+        <h2 className="font-kalam text-xl font-semibold text-ink">{t("latestTitle")}</h2>
         <Link
           href={{ pathname: "/", query: { all: "1", group: "archetype" } }}
           className="font-kalam text-sm font-semibold text-ink-light hover:text-ink hover:underline"
         >
-          查看全部 →
+          {t("viewAll")} →
         </Link>
       </div>
 
@@ -63,7 +67,7 @@ export async function LatestPlaysSection() {
               </div>
               <div className="mt-1 flex items-center gap-2 text-xs text-ink-muted">
                 <span className="rounded-full border border-ink-faint px-2 py-0.5">NEW</span>
-                <span>{play.difficulty}</span>
+                <span>{localizeDifficulty(play.difficulty, locale)}</span>
               </div>
             </div>
           </Link>

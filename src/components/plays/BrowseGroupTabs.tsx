@@ -1,5 +1,6 @@
 import { playBrowseGroups, type PlayBrowseGroupKey } from "@/lib/content/plays";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 function tabClass(active: boolean) {
   if (active) {
@@ -15,6 +16,7 @@ export function BrowseGroupTabs({
   selectedGroup?: PlayBrowseGroupKey;
   q?: string;
 }) {
+  const t = useTranslations("browseGroups");
   return (
     <div className="flex items-center gap-2 overflow-x-auto py-1.5 min-[360px]:gap-3 min-[360px]:py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {playBrowseGroups.map((g) => (
@@ -39,7 +41,7 @@ export function BrowseGroupTabs({
           className={tabClass(selectedGroup === g.key)}
           aria-current={selectedGroup === g.key ? "page" : undefined}
         >
-          <span className="whitespace-nowrap">{g.label}</span>
+          <span className="whitespace-nowrap">{t(g.key)}</span>
         </Link>
       ))}
     </div>

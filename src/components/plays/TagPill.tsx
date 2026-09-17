@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { normalizeTag } from "@/lib/content/play-tags";
+import { useLocale } from "next-intl";
+import { localizeTag } from "@/lib/content/play-tags";
 
 export function TagPill({
   children,
@@ -20,7 +21,9 @@ export function TagPill({
     tone === "primary"
       ? "bg-highlight-blue text-ink"
       : "bg-paper text-ink-light";
-  // 显示层统一：旧标签自动映射为新词表名称（不动原数据）
-  const label = typeof children === "string" ? normalizeTag(children) : children;
+  // 显示层统一：旧标签自动映射为新词表名称（不动原数据）；英文 locale 出英文标签；废弃标签不渲染
+  const locale = useLocale();
+  const label = typeof children === "string" ? localizeTag(children, locale) : children;
+  if (label === "") return null;
   return <span className={`${base} ${sizeClass} ${styles}`}>{label}</span>;
 }

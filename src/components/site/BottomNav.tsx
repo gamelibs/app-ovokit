@@ -1,11 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { navItems } from "./navItems";
 import { useFavorites } from "@/components/favorites/FavoritesProvider";
 
 export function BottomNav({ isModerator }: { isModerator: boolean }) {
   const { count } = useFavorites();
+  const t = useTranslations("nav");
   const visibleItems = navItems.filter((it) =>
     it.requiresModerator ? isModerator : true,
   );
@@ -24,7 +26,8 @@ export function BottomNav({ isModerator }: { isModerator: boolean }) {
         style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
       >
         {visibleItems.map((it) => {
-          const badge = it.label === "收藏" && count > 0 ? String(count) : it.badge;
+          const label = t(it.key);
+          const badge = it.key === "favorites" && count > 0 ? String(count) : it.badge;
 
           const inner = (
             <>
@@ -38,7 +41,7 @@ export function BottomNav({ isModerator }: { isModerator: boolean }) {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className="font-kalam">{it.label}</span>
+              <span className="font-kalam">{label}</span>
               {badge ? (
                 <span className="absolute right-6 top-2 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-highlight-red px-1 text-[10px] font-semibold text-ink">
                   {badge}
@@ -51,15 +54,15 @@ export function BottomNav({ isModerator }: { isModerator: boolean }) {
             "relative flex flex-col items-center justify-center gap-1 text-[11px] text-ink-light hover:text-ink min-[360px]:text-xs";
 
           return it.href ? (
-            <Link key={it.label} href={it.href} className={className}>
+            <Link key={it.key} href={it.href} className={className}>
               {inner}
             </Link>
           ) : (
             <button
-              key={it.label}
+              key={it.key}
               type="button"
               className={`${className} opacity-60`}
-              aria-label={it.label}
+              aria-label={label}
               disabled
             >
               {inner}

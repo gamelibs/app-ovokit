@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { getTranslations, getLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { listFeatureSpecs } from "@/lib/features/spec";
 
 function featureIcon(key: string) {
@@ -6,17 +7,19 @@ function featureIcon(key: string) {
 }
 
 export async function FeatureQuickNav() {
+  const t = await getTranslations("home");
+  const locale = await getLocale();
   const specs = await listFeatureSpecs();
 
   return (
     <section className="mt-8 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-kalam text-xl font-semibold text-ink">玩法特征</h2>
+        <h2 className="font-kalam text-xl font-semibold text-ink">{t("featuresTitle")}</h2>
         <Link
           href="/features"
           className="font-kalam text-sm font-semibold text-ink-light hover:text-ink hover:underline"
         >
-          查看全部 →
+          {t("viewAll")} →
         </Link>
       </div>
 
@@ -35,7 +38,7 @@ export async function FeatureQuickNav() {
                 loading="lazy"
               />
               <div>
-                <div className="font-kalam text-sm font-semibold text-ink">{spec.name}</div>
+                <div className="font-kalam text-sm font-semibold text-ink">{locale === "en" ? spec.nameEn : spec.name}</div>
                 <div className="text-[10px] text-ink-muted">{spec.nameEn}</div>
               </div>
             </div>

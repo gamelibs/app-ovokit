@@ -1,6 +1,6 @@
 import type { CorePatternSpec } from "@/lib/patterns/spec";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { CodeBlock } from "@/components/plays/CodeBlock";
 

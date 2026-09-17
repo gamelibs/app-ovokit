@@ -1,13 +1,15 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { getPlayStats } from "./views";
-import { availablePlayTags } from "./play-tags";
+import { availablePlayTags, localizeTag } from "./play-tags";
 import type { PlayTag } from "./play-tags";
 import { corePatternKeys, fallbackCorePatternByKey, isCorePatternKey, type CorePatternKey } from "@/lib/patterns/patterns";
 import { featureKeys, fallbackFeatureByKey } from "@/lib/features/features";
 import { listFeatureSpecs } from "@/lib/features/spec";
 
-export type PlayDifficulty = "入门" | "进阶" | "硬核";
+export type PlayDifficulty = "入门" | "进阶" | "硬核" | "Beginner" | "Advanced" | "Hardcore";
+/** 内容语言：zh-CN → content/plays，en → content/plays-en（缺失时回退中文并标记 untranslated） */
+export type ContentLocale = "zh-CN" | "en";
 export { availablePlayTags };
 export type { PlayTag };
 
@@ -57,6 +59,8 @@ export type PlayMeta = {
   archetypeSecondary?: string;
   /** 内容语言（ContentPack v1.1，缺省视为 zh-CN） */
   lang?: string;
+  /** en 请求下英文内容缺失、回退到中文原文时为 true（页面据此显示「暂未翻译」标记） */
+  untranslated?: boolean;
   stats: {
     views: number;
     likes: number;
@@ -253,12 +257,18 @@ export function isPlayBrowseGroupKey(v: string | undefined): v is PlayBrowseGrou
   return v === "archetype" || v === "pattern" || v === "feature" || v === "difficulty";
 }
 
-export function getPlayCategoriesForGroup(group: PlayBrowseGroupKey): PlayCategory[] {
+export function getPlayCategoriesForGroup(group: PlayBrowseGroupKey, locale: string = "zh-CN"): PlayCategory[] {
+  const localize = (c: PlayCategory): PlayCategory => ({
+    ...c,
+    label: c.key === "for-you" && group === "difficulty"
+      ? (locale === "en" ? "All" : c.label)
+      : localizeTag(c.label, locale),
+  });
   // 难度层级组不放「推荐」（推荐是策展标记，不是难度）：用「全部」代替
   if (group === "difficulty") {
-    return [{ key: "for-you", label: "全部" }, ...categoriesByGroup[group]];
+    return [{ key: "for-you", label: "全部" }, ...categoriesByGroup[group]].map(localize);
   }
-  return [forYouCategory, ...categoriesByGroup[group]];
+  return [forYouCategory, ...categoriesByGroup[group]].map(localize);
 }
 
 export function getPlayCategory(group: PlayBrowseGroupKey, key: string): PlayCategory | null {
@@ -268,12 +278,14 @@ export function getPlayCategory(group: PlayBrowseGroupKey, key: string): PlayCat
 
 export async function getPlayCategoriesForGroupAsync(
   group: PlayBrowseGroupKey,
+  locale: string = "zh-CN",
 ): Promise<PlayCategory[]> {
   if (group === "feature") {
     const specs = await listFeatureSpecs();
-    return [forYouCategory, ...specs.map((s) => ({ key: s.key, label: s.name, filterTags: s.filterTags as PlayTag[] }))];
+    return [forYouCategory, ...specs.map((s) => ({ key: s.key, label: s.name, filterTags: s.filterTags as PlayTag[] }))]
+      .map((c) => ({ ...c, label: localizeTag(c.label, locale) }));
   }
-  return getPlayCategoriesForGroup(group);
+  return getPlayCategoriesForGroup(group, locale);
 }
 
 const legacyCatKeyMap: Record<string, { group: PlayBrowseGroupKey; cat: string }> = {
@@ -314,26 +326,39 @@ export function resolvePlayBrowseState({
   return { group: fallback ?? group, cat: fallback ? catKey : "for-you" };
 }
 
-function playsRootDir() {
-  return path.join(process.cwd(), "content", "plays");
+function playsRootDir(locale: ContentLocale = "zh-CN") {
+  return path.join(process.cwd(), "content", locale === "en" ? "plays-en" : "plays");
 }
 
-function playDir(slug: string) {
-  return path.join(playsRootDir(), slug);
+function playDir(slug: string, locale: ContentLocale = "zh-CN") {
+  return path.join(playsRootDir(locale), slug);
 }
 
-export async function listPlaySlugs(): Promise<string[]> {
-  const dir = playsRootDir();
-  const entries = await fs.readdir(dir, { withFileTypes: true });
-  return entries
-    .filter((e) => e.isDirectory())
-    .map((e) => e.name)
-    .sort();
+/**
+ * slug 全集以中文目录（content/plays）为准，en 目录允许缺稿（读取时回退中文）。
+ * 返回并集是为了兼容「只有英文没有中文」的未来情况。
+ */
+export async function listPlaySlugs(locale: ContentLocale = "zh-CN"): Promise<string[]> {
+  const readDirs = async (dir: string) => {
+    const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => []);
+    return entries.filter((e) => e.isDirectory()).map((e) => e.name);
+  };
+  if (locale === "en") {
+    const [zh, en] = await Promise.all([
+      readDirs(playsRootDir("zh-CN")),
+      readDirs(playsRootDir("en")),
+    ]);
+    return [...new Set([...zh, ...en])].sort();
+  }
+  return (await readDirs(playsRootDir("zh-CN"))).sort();
 }
 
-export async function readPlayMeta(slug: string): Promise<PlayMeta | null> {
+async function readPlayMetaFromDir(
+  rootDir: string,
+  slug: string,
+): Promise<PlayMeta | null> {
   try {
-    const metaPath = path.join(playDir(slug), "meta.json");
+    const metaPath = path.join(rootDir, slug, "meta.json");
     const raw = await fs.readFile(metaPath, "utf8");
     const meta = JSON.parse(raw) as PlayMeta;
     // Default missing fields for backward compatibility
@@ -348,13 +373,44 @@ export async function readPlayMeta(slug: string): Promise<PlayMeta | null> {
   }
 }
 
-export async function readPlayArticleMdx(slug: string): Promise<string | null> {
-  try {
-    const articlePath = path.join(playDir(slug), "article.mdx");
-    return await fs.readFile(articlePath, "utf8");
-  } catch {
-    return null;
+export async function readPlayMeta(
+  slug: string,
+  locale: ContentLocale = "zh-CN",
+): Promise<PlayMeta | null> {
+  if (locale === "en") {
+    const enMeta = await readPlayMetaFromDir(playsRootDir("en"), slug);
+    if (enMeta) return enMeta;
+    const zhMeta = await readPlayMetaFromDir(playsRootDir("zh-CN"), slug);
+    if (zhMeta) zhMeta.untranslated = true;
+    return zhMeta;
   }
+  return readPlayMetaFromDir(playsRootDir("zh-CN"), slug);
+}
+
+async function readPlayArticleMdxResolved(
+  slug: string,
+  locale: ContentLocale,
+): Promise<{ text: string | null; fromFallback: boolean }> {
+  const readFrom = async (dir: string) => {
+    try {
+      return await fs.readFile(path.join(dir, slug, "article.mdx"), "utf8");
+    } catch {
+      return null;
+    }
+  };
+  if (locale === "en") {
+    const enText = await readFrom(playsRootDir("en"));
+    if (enText !== null) return { text: enText, fromFallback: false };
+    return { text: await readFrom(playsRootDir("zh-CN")), fromFallback: true };
+  }
+  return { text: await readFrom(playsRootDir("zh-CN")), fromFallback: false };
+}
+
+export async function readPlayArticleMdx(
+  slug: string,
+  locale: ContentLocale = "zh-CN",
+): Promise<string | null> {
+  return (await readPlayArticleMdxResolved(slug, locale)).text;
 }
 
 function stripMdx(raw: string): string {
@@ -385,13 +441,15 @@ function buildPlaySearchText(meta: PlayMeta, articleMdx?: string | null): string
   return parts.filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
 }
 
-export async function listPlaySearchIndex(): Promise<PlaySearchDoc[]> {
-  const slugs = await listPlaySlugs();
+export async function listPlaySearchIndex(
+  locale: ContentLocale = "zh-CN",
+): Promise<PlaySearchDoc[]> {
+  const slugs = await listPlaySlugs(locale);
   const entries = await Promise.all(
     slugs.map(async (slug) => {
-      const meta = await readPlayMeta(slug);
+      const meta = await readPlayMeta(slug, locale);
       if (!meta || meta.published === false) return null;
-      const articleMdx = await readPlayArticleMdx(slug);
+      const articleMdx = await readPlayArticleMdx(slug, locale);
       return {
         slug,
         title: meta.title,
@@ -403,15 +461,35 @@ export async function listPlaySearchIndex(): Promise<PlaySearchDoc[]> {
   return entries.filter((e): e is NonNullable<typeof e> => e !== null);
 }
 
-export async function listPlays(): Promise<PlayMeta[]> {
-  const slugs = await listPlaySlugs();
+/** 返回 meta.json 实际被读取的那个文件（en 优先 en 目录，缺失回退中文目录）的 mtime */
+async function statMetaMtime(
+  slug: string,
+  locale: ContentLocale,
+): Promise<number> {
+  const candidates =
+    locale === "en"
+      ? [
+          path.join(playDir(slug, "en"), "meta.json"),
+          path.join(playDir(slug, "zh-CN"), "meta.json"),
+        ]
+      : [path.join(playDir(slug, "zh-CN"), "meta.json")];
+  for (const p of candidates) {
+    const stat = await fs.stat(p).catch(() => null);
+    if (stat) return stat.mtimeMs;
+  }
+  return 0;
+}
+
+export async function listPlays(
+  locale: ContentLocale = "zh-CN",
+): Promise<PlayMeta[]> {
+  const slugs = await listPlaySlugs(locale);
   const entries = await Promise.all(
     slugs.map(async (slug) => {
-      const meta = await readPlayMeta(slug);
+      const meta = await readPlayMeta(slug, locale);
       if (!meta) return null;
-      const metaPath = path.join(playDir(slug), "meta.json");
-      const stat = await fs.stat(metaPath).catch(() => null);
-      return { meta, mtimeMs: stat?.mtimeMs ?? 0 };
+      const mtimeMs = await statMetaMtime(slug, locale);
+      return { meta, mtimeMs };
     }),
   );
 
@@ -421,15 +499,16 @@ export async function listPlays(): Promise<PlayMeta[]> {
     .map((e) => e.meta);
 }
 
-export async function listPlaysWithMtime(): Promise<Array<{ meta: PlayMeta; mtimeMs: number }>> {
-  const slugs = await listPlaySlugs();
+export async function listPlaysWithMtime(
+  locale: ContentLocale = "zh-CN",
+): Promise<Array<{ meta: PlayMeta; mtimeMs: number }>> {
+  const slugs = await listPlaySlugs(locale);
   const entries = await Promise.all(
     slugs.map(async (slug) => {
-      const meta = await readPlayMeta(slug);
+      const meta = await readPlayMeta(slug, locale);
       if (!meta) return null;
-      const metaPath = path.join(playDir(slug), "meta.json");
-      const stat = await fs.stat(metaPath).catch(() => null);
-      return { meta, mtimeMs: stat?.mtimeMs ?? 0 };
+      const mtimeMs = await statMetaMtime(slug, locale);
+      return { meta, mtimeMs };
     }),
   );
 
@@ -438,9 +517,14 @@ export async function listPlaysWithMtime(): Promise<Array<{ meta: PlayMeta; mtim
     .sort((a, b) => b.mtimeMs - a.mtimeMs);
 }
 
-export async function getPlayBySlug(slug: string): Promise<Play | null> {
-  const meta = await readPlayMeta(slug);
+export async function getPlayBySlug(
+  slug: string,
+  locale: ContentLocale = "zh-CN",
+): Promise<Play | null> {
+  const meta = await readPlayMeta(slug, locale);
   if (!meta) return null;
-  const articleMdx = await readPlayArticleMdx(slug);
-  return { ...meta, articleMdx: articleMdx ?? undefined };
+  const article = await readPlayArticleMdxResolved(slug, locale);
+  const untranslated =
+    locale === "en" && (meta.untranslated === true || article.fromFallback);
+  return { ...meta, articleMdx: article.text ?? undefined, untranslated };
 }

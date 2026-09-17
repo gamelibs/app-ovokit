@@ -1,15 +1,17 @@
 "use client";
 
-import Link from "next/link";
-
-const valuePoints = [
-  "拆解经典游戏的玩法机制",
-  "理解让游戏好玩的核心规则循环",
-  "试玩最小可玩 Demo，感受设计差异",
-  "从零学习一个玩法如何被实现"
-];
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export function HandDrawnHero() {
+  const t = useTranslations("home");
+  const valuePoints = [
+    t("heroPoint1"),
+    t("heroPoint2"),
+    t("heroPoint3"),
+    t("heroPoint4"),
+  ];
+
   return (
     <section className="relative overflow-hidden rounded-2xl sketch-border bg-paper/70 p-3 shadow-sm sm:rounded-3xl sm:p-6">
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-6">
@@ -17,23 +19,23 @@ export function HandDrawnHero() {
         <div className="min-w-0 space-y-3 lg:space-y-5">
           <div className="relative">
             <h1 className="font-kalam text-xl font-bold leading-tight text-ink sm:text-3xl lg:text-4xl">
-              发现游戏玩法
+              {t("heroTitleA")}
               <span className="hidden lg:inline">
                 <br />
-                探索设计乐趣
+                {t("heroTitleB")}
               </span>
-              <span className="lg:hidden">，探索设计乐趣</span>
+              <span className="lg:hidden">{t("heroTitleMobileJoin")}{t("heroTitleB")}</span>
             </h1>
             {/* 标题下划线高亮 */}
             <div className="mt-1 h-1.5 w-32 sketch-divider sm:h-2 sm:w-48" />
           </div>
 
           <p className="hidden text-sm leading-relaxed text-ink-light lg:block">
-            这是一个面向所有游戏爱好者的玩法分享站点。无论你是想弄懂游戏为什么好玩，还是想亲手设计一个玩法，都可以在这里找到灵感。
+            {t("heroSubtitle")}
           </p>
 
           <p className="text-xs leading-relaxed text-ink-light lg:hidden">
-            面向游戏爱好者的玩法分享站点，拆解机制、试玩 Demo、寻找设计灵感。
+            {t("heroSubtitleMobile")}
           </p>
 
           <ul className="hidden space-y-2 lg:block">
@@ -49,13 +51,13 @@ export function HandDrawnHero() {
 
           <div className="hidden flex-wrap gap-3 lg:flex">
             <Link href="/patterns" className="sketch-button">
-              浏览玩法
+              {t("heroBrowse")}
             </Link>
             <Link
               href="/about"
               className="sketch-button sketch-button-secondary"
             >
-              了解更多
+              {t("heroLearnMore")}
             </Link>
           </div>
         </div>

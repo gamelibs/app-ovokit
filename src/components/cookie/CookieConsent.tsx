@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { SketchButton } from "@/components/sketch/SketchButton";
 import { getCookieConsent, setCookieConsent } from "@/lib/cookies/consent";
 import { useClientValue } from "@/lib/hooks/useClientValue";
@@ -14,6 +15,7 @@ import { useClientValue } from "@/lib/hooks/useClientValue";
  * - 同意分析 Cookie 后，Google Analytics 才会加载。
  */
 export function CookieConsent() {
+  const t = useTranslations("cookie");
   const [dismissed, setDismissed] = useState(false);
   const needsConsent = useClientValue(() => !getCookieConsent(), false);
 
@@ -37,18 +39,18 @@ export function CookieConsent() {
     <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-ink-faint bg-paper/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-3 py-2 text-xs sm:px-4">
         <p className="text-ink-light">
-          🍪 我们使用 Cookie 提供必要功能，并借助 Google Analytics 了解访问情况。
+          🍪 {t("text")}
           <Link href="/privacy" className="font-kalam underline decoration-dotted hover:text-ink">
-            隐私政策
+            {t("privacy")}
           </Link>
         </p>
         <div className="flex shrink-0 items-center gap-2">
           {/* min-h-11 保证触控目标 ≥44px（Apple HIG），视觉尺寸由 SketchBorder 决定不变 */}
           <SketchButton variant="secondary" onClick={handleNecessaryOnly} className="inline-flex min-h-11 min-w-11 items-center justify-center">
-            仅必要
+            {t("necessaryOnly")}
           </SketchButton>
           <SketchButton variant="primary" onClick={handleAccept} className="inline-flex min-h-11 min-w-11 items-center justify-center">
-            同意全部
+            {t("acceptAll")}
           </SketchButton>
         </div>
       </div>

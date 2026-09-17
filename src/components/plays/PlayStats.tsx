@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Eye, Heart } from "lucide-react";
 import {
   useLocalStorage,
@@ -66,6 +67,7 @@ export function PlayDetailStats({
   initialViews: number;
   initialLikes: number;
 }) {
+  const t = useTranslations("stats");
   const [views, setViews] = useState(initialViews);
   const [likes, setLikes] = useState(initialLikes);
   const liked = useLocalStorageBoolean(`gameslog:liked:${slug}`);
@@ -128,7 +130,7 @@ export function PlayDetailStats({
         type="button"
         onClick={handleLike}
         className={`inline-flex items-center gap-1 transition ${liked ? "text-highlight-red" : "hover:text-highlight-red"}`}
-        aria-label={liked ? "已喜欢" : "喜欢"}
+        aria-label={liked ? t("liked") : t("like")}
         disabled={liked}
       >
         <Heart size={16} strokeWidth={2} fill={liked ? "currentColor" : "none"} />

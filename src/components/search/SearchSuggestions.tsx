@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Search, TrendingUp } from "lucide-react";
 import { SketchBorder } from "@/components/sketch/SketchBorder";
 import { POPULAR_SEARCH_TERMS } from "@/lib/search/match";
@@ -18,6 +19,7 @@ export function SearchSuggestions({
   onClose,
   visible,
 }: SearchSuggestionsProps) {
+  const t = useTranslations("search");
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -73,7 +75,7 @@ export function SearchSuggestions({
         <div className="bg-paper p-2">
           <div className="mb-1 flex items-center gap-1.5 px-2 py-1 text-xs font-semibold text-ink-muted font-kalam">
             {normalized ? <Search size={12} strokeWidth={2} /> : <TrendingUp size={12} strokeWidth={2} />}
-            <span>{normalized ? "相关搜索" : "热门搜索"}</span>
+            <span>{normalized ? t("related") : t("popular")}</span>
           </div>
           <ul className="space-y-0.5">
             {suggestions.map((term, index) => (

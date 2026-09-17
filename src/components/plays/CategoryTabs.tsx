@@ -2,7 +2,8 @@ import {
   getPlayCategoriesForGroupAsync,
   type PlayBrowseGroupKey,
 } from "@/lib/content/plays";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { getLocale } from "next-intl/server";
 
 function pillClass(active: boolean) {
   if (active) {
@@ -22,7 +23,8 @@ export async function CategoryTabs({
   q?: string;
   showAll?: boolean;
 }) {
-  const categories = await getPlayCategoriesForGroupAsync(group);
+  const locale = await getLocale();
+  const categories = await getPlayCategoriesForGroupAsync(group, locale);
   return (
     <div className="flex items-center gap-2 overflow-x-auto py-1.5 min-[360px]:gap-3 min-[360px]:py-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {categories.map((c, idx) => (

@@ -1,22 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { StarOff } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { FavoriteItem } from "@/lib/favorites/types";
 import { useFavorites } from "./FavoritesProvider";
-
-function typeLabel(type: FavoriteItem["type"]) {
-  switch (type) {
-    case "play":
-      return "玩法案例";
-    case "archetype":
-      return "玩法行为";
-    case "pattern":
-      return "核心循环";
-    case "feature":
-      return "玩法特征";
-  }
-}
 
 function itemHref(item: FavoriteItem) {
   switch (item.type) {
@@ -31,14 +19,23 @@ function itemHref(item: FavoriteItem) {
   }
 }
 
+const TYPE_LABEL_KEYS = {
+  play: "typePlay",
+  archetype: "typeArchetype",
+  pattern: "typePattern",
+  feature: "typeFeature",
+} as const;
+
 export function FavoriteCard({ item }: { item: FavoriteItem }) {
+  const t = useTranslations("favorites");
+  const tFav = useTranslations("favorite");
   const { removeFavorite } = useFavorites();
 
   return (
     <article className="flex items-center gap-3 overflow-hidden sketch-card p-3">
       <div className="min-w-0 flex-1">
         <div className="text-[11px] font-semibold uppercase tracking-wide text-ink-muted font-kalam">
-          {typeLabel(item.type)}
+          {t(TYPE_LABEL_KEYS[item.type])}
         </div>
         <h3 className="font-kalam mt-0.5 text-base font-semibold text-ink">
           <Link href={itemHref(item)} className="hover:underline">
@@ -49,7 +46,7 @@ export function FavoriteCard({ item }: { item: FavoriteItem }) {
       <button
         type="button"
         onClick={() => removeFavorite(item.type, item.key)}
-        aria-label="取消收藏"
+        aria-label={tFav("removeAria")}
         className="inline-flex h-10 w-10 flex-none items-center justify-center rounded-xl sketch-border bg-paper text-ink-light hover:bg-paper-warm hover:text-ink"
       >
         <StarOff size={18} strokeWidth={2} />

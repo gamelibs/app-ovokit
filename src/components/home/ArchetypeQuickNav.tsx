@@ -1,5 +1,6 @@
-import Link from "next/link";
-import { listPlays } from "@/lib/content/plays";
+import { getLocale, getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { listPlays, type ContentLocale } from "@/lib/content/plays";
 
 const featuredArchetypes = [
   {
@@ -40,7 +41,9 @@ const featuredArchetypes = [
 ];
 
 export async function ArchetypeQuickNav() {
-  const plays = await listPlays();
+  const locale = (await getLocale()) as ContentLocale;
+  const t = await getTranslations("home");
+  const plays = await listPlays(locale);
 
   const archetypesWithCount = featuredArchetypes.map((a) => {
     const count = plays.filter((p) =>
@@ -52,12 +55,12 @@ export async function ArchetypeQuickNav() {
   return (
     <section className="mt-8 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-kalam text-xl font-semibold text-ink">玩法行为</h2>
+        <h2 className="font-kalam text-xl font-semibold text-ink">{t("archetypesTitle")}</h2>
         <Link
           href="/archetypes"
           className="font-kalam text-sm font-semibold text-ink-light hover:text-ink hover:underline"
         >
-          查看全部 →
+          {t("viewAll")} →
         </Link>
       </div>
 
@@ -79,7 +82,9 @@ export async function ArchetypeQuickNav() {
                 <div className="font-kalam text-sm font-semibold text-ink">
                   {a.label}
                 </div>
-                <div className="text-[10px] text-ink-muted">★ {a.count} 篇</div>
+                <div className="text-[10px] text-ink-muted">
+                  {t("postCount", { count: a.count })}
+                </div>
               </div>
             </div>
           </Link>

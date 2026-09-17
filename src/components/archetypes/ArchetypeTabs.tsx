@@ -1,5 +1,5 @@
 import type { PlayArchetypeKey } from "@/lib/archetypes/archetypes";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 function pillClass(active: boolean) {
   if (active) {

@@ -1,5 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "./TagPill";
 import { PlayStats } from "./PlayStats";
@@ -29,27 +30,30 @@ function listHotTags(plays: PlayMeta[]) {
 
 
 
-export function RightSidebar({ plays }: { plays: PlayMeta[] }) {
+export async function RightSidebar({ plays }: { plays: PlayMeta[] }) {
+  const t = await getTranslations("sidebar");
   const hotTags = listHotTags(plays);
   // 新手必读：按「入门」难度真实选品（无封面的跳过），不再用列表前 3 篇凑数
-  const newbiePlays = plays.filter((p) => p.difficulty === "入门" && p.cover?.src).slice(0, 3);
+  const newbiePlays = plays
+    .filter((p) => (p.difficulty === "入门" || p.difficulty === "Beginner") && p.cover?.src)
+    .slice(0, 3);
   return (
     <aside className="hidden lg:block">
       <div className="space-y-4">
         <section className="sketch-card p-4 shadow-sm">
           <h3 className="font-kalam text-sm font-semibold text-ink">
-            热门标签
+            {t("hotTags")}
           </h3>
           <div className="mt-3 flex flex-wrap gap-2">
-            {hotTags.map((t) => (
-              <TagPill key={t}>{t}</TagPill>
+            {hotTags.map((t2) => (
+              <TagPill key={t2}>{t2}</TagPill>
             ))}
           </div>
         </section>
 
         <section className="sketch-card p-4 shadow-sm">
           <h3 className="font-kalam text-sm font-semibold text-ink">
-            新手必读
+            {t("newbie")}
           </h3>
           <div className="mt-3 space-y-3">
             {newbiePlays.map((p) => (

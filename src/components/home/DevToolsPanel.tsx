@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Sparkles, ImageIcon, Puzzle } from "lucide-react";
 
 const tools = [

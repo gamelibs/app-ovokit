@@ -1,5 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import type { PlayMeta } from "@/lib/content/plays";
 import { TagPill } from "./TagPill";
 
@@ -7,13 +8,14 @@ function isSvg(src: string) {
   return src.endsWith(".svg");
 }
 
-export function RelatedPlays({
+export async function RelatedPlays({
   currentSlug,
   plays,
 }: {
   currentSlug: string;
   plays: PlayMeta[];
 }) {
+  const t = await getTranslations("play");
   // Exclude current play
   const others = plays.filter((p) => p.slug !== currentSlug);
   if (others.length === 0) return null;
@@ -23,7 +25,7 @@ export function RelatedPlays({
 
   return (
     <section className="sketch-card p-5 shadow-sm">
-      <h2 className="font-kalam text-base font-semibold text-ink">你可能也喜欢</h2>
+      <h2 className="font-kalam text-base font-semibold text-ink">{t("relatedTitle")}</h2>
       <div className="mt-4 space-y-3">
         {related.map((p) => (
           <Link

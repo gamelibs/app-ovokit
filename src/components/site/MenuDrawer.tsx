@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { X } from "lucide-react";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useFavorites } from "@/components/favorites/FavoritesProvider";
 
 type ModStatus = { isModerator: boolean };
@@ -24,6 +24,7 @@ export function MenuDrawer({
   onClose: () => void;
   showModeratorTools?: boolean;
 }) {
+  const t = useTranslations("drawer");
   const router = useRouter();
   const { count } = useFavorites();
   const [status, setStatus] = useState<ModStatus>({ isModerator: false });
@@ -36,8 +37,8 @@ export function MenuDrawer({
   const appVersion = process.env.NEXT_PUBLIC_APP_VERSION || "dev";
 
   const modLabel = useMemo(
-    () => (status.isModerator ? "已登录" : "未登录"),
-    [status.isModerator],
+    () => (status.isModerator ? t("loggedIn") : t("loggedOut")),
+    [status.isModerator, t],
   );
 
   useEffect(() => {
@@ -64,13 +65,13 @@ export function MenuDrawer({
       });
       if (!res.ok) {
         const msg = await res.text();
-        throw new Error(msg || "登录失败");
+        throw new Error(msg || t("loginFailed"));
       }
       setPassword("");
       setStatus(await fetchModStatus());
       router.refresh();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "登录失败");
+      setError(e instanceof Error ? e.message : t("loginFailed"));
     } finally {
       setBusy(false);
     }
@@ -102,7 +103,7 @@ export function MenuDrawer({
       />
       <div className="absolute right-0 top-0 h-full w-[320px] max-w-[88vw] overflow-y-auto bg-paper pb-[env(safe-area-inset-bottom)] text-ink shadow-2xl">
         <div className="flex items-center justify-between border-b-2 border-ink sketch-border-thin px-4 pb-3 pt-[calc(env(safe-area-inset-top)+0.75rem)]">
-          <div className="font-kalam text-sm font-semibold">菜单</div>
+          <div className="font-kalam text-sm font-semibold">{t("title")}</div>
           <button
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-xl hover:bg-ink/5 sm:h-9 sm:w-9"
@@ -116,7 +117,7 @@ export function MenuDrawer({
         <div className="space-y-4 p-4">
           <section className="rounded-2xl sketch-border bg-paper-warm p-3">
             <div className="font-kalam text-xs font-semibold text-ink-muted">
-              导航
+              {t("navSection")}
             </div>
             <div className="mt-2 grid gap-2">
               <Link
@@ -124,14 +125,14 @@ export function MenuDrawer({
                 onClick={onClose}
                 className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
-                首页信息流
+                {t("home")}
               </Link>
               <Link
                 href="/favorites"
                 onClick={onClose}
                 className="font-kalam flex items-center justify-between rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
-                <span>我的收藏</span>
+                <span>{t("myFavorites")}</span>
                 {count > 0 ? (
                   <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-highlight-red px-1.5 text-[11px] font-semibold text-ink">
                     {count}
@@ -143,35 +144,35 @@ export function MenuDrawer({
                 onClick={onClose}
                 className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
-                玩法行为
+                {t("archetypes")}
               </Link>
               <Link
                 href="/about"
                 onClick={onClose}
                 className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
-                关于
+                {t("about")}
               </Link>
               <Link
                 href="/contact"
                 onClick={onClose}
                 className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
-                联系
+                {t("contact")}
               </Link>
               <Link
                 href="/privacy"
                 onClick={onClose}
                 className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
-                隐私政策
+                {t("privacy")}
               </Link>
               <Link
                 href="/terms"
                 onClick={onClose}
                 className="font-kalam rounded-xl bg-paper px-3 py-2 text-sm font-semibold text-ink hover:bg-paper-warm"
               >
-                使用条款
+                {t("terms")}
               </Link>
             </div>
           </section>
@@ -181,7 +182,7 @@ export function MenuDrawer({
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-kalam text-xs font-semibold text-ink-muted">
-                    管理后台
+                    {t("adminSection")}
                   </div>
                   <div className="font-kalam mt-1 text-sm font-semibold">
                     {modLabel}
@@ -194,7 +195,7 @@ export function MenuDrawer({
                     disabled={busy}
                     className="font-kalam sketch-border bg-paper px-3 py-2 text-sm font-semibold hover:bg-paper-warm disabled:opacity-50"
                   >
-                    退出
+                    {t("logout")}
                   </button>
                 ) : null}
               </div>
@@ -210,7 +211,7 @@ export function MenuDrawer({
                   <input
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="输入口令"
+                    placeholder={t("passwordPlaceholder")}
                     type="password"
                     name="password"
                     autoComplete="current-password"
@@ -221,14 +222,13 @@ export function MenuDrawer({
                     disabled={busy || password.trim().length === 0}
                     className="sketch-button w-full"
                   >
-                    {busy ? "登录中..." : "进入管理后台"}
+                    {busy ? t("loginBusy") : t("loginSubmit")}
                   </button>
                   {error ? (
                     <div className="text-xs text-highlight-red">{error}</div>
                   ) : null}
                   <div className="text-xs text-ink-muted">
-                    提示：使用环境变量{" "}
-                    <code className="font-mono">MOD_PASSWORD</code> 作为口令。
+                    {t("loginHint")}
                   </div>
                 </form>
               ) : (
@@ -238,28 +238,28 @@ export function MenuDrawer({
                     onClick={onClose}
                     className="sketch-button sketch-button-secondary text-left"
                   >
-                    内容管理
+                    {t("modHome")}
                   </Link>
                   <Link
                     href="/mod?filter=demo"
                     onClick={onClose}
                     className="sketch-button sketch-button-secondary text-left"
                   >
-                    带试玩案例
+                    {t("modDemoCases")}
                   </Link>
                   <Link
                     href="/mod/new"
                     onClick={onClose}
                     className="sketch-button sketch-button-secondary text-left"
                   >
-                    新建玩法
+                    {t("modNew")}
                   </Link>
                   <Link
                     href="/mod/tools"
                     onClick={onClose}
                     className="sketch-button sketch-button-secondary text-left"
                   >
-                    开发者工具箱
+                    {t("modTools")}
                   </Link>
                 </div>
               )}

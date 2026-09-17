@@ -1,11 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { navItems } from "./navItems";
 import { useFavorites } from "@/components/favorites/FavoritesProvider";
 
 export function DesktopNav({ isModerator }: { isModerator: boolean }) {
   const { count } = useFavorites();
+  const t = useTranslations("nav");
 
   return (
     <nav
@@ -15,7 +17,8 @@ export function DesktopNav({ isModerator }: { isModerator: boolean }) {
       {navItems
         .filter((it) => (it.requiresModerator ? isModerator : true))
         .map((it) => {
-          const badge = it.label === "收藏" && count > 0 ? String(count) : it.badge;
+          const label = t(it.key);
+          const badge = it.key === "favorites" && count > 0 ? String(count) : it.badge;
 
           const inner = (
             <>
@@ -30,7 +33,7 @@ export function DesktopNav({ isModerator }: { isModerator: boolean }) {
                 />
               </svg>
               <span className="font-kalam hidden whitespace-nowrap xl:inline">
-                {it.label}
+                {label}
               </span>
               {badge ? (
                 <span className="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-highlight-red px-1 text-[11px] font-semibold leading-none text-ink">
@@ -45,19 +48,19 @@ export function DesktopNav({ isModerator }: { isModerator: boolean }) {
 
           return it.href ? (
             <Link
-              key={it.label}
+              key={it.key}
               href={it.href}
               className={className}
-              aria-label={it.label}
+              aria-label={label}
             >
               {inner}
             </Link>
           ) : (
             <button
-              key={it.label}
+              key={it.key}
               type="button"
               className={`${className} opacity-60`}
-              aria-label={it.label}
+              aria-label={label}
               disabled
             >
               {inner}

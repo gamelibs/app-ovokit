@@ -2,7 +2,7 @@
   "version": "static-demo-export-v1",
   "projectId": "cp_1789130311150",
   "engine": "threejs",
-  "exportedAt": "2026-09-16T04:43:21.707Z",
+  "exportedAt": "2026-09-17T01:48:12.947Z",
   "gameModules": [
     "common-ui",
     "core/board-3d",
