@@ -135,7 +135,7 @@ export function PatternPage({
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
         <div className="grid gap-3 sm:grid-cols-[1fr_minmax(220px,32%)] sm:items-start">
-          <div className="order-1 sm:order-2">
+          <div className="order-1 sm:order-2 sm:row-span-2">
             <PatternImage src={images.hero} priority />
           </div>
           <div className="min-w-0 order-2 sm:order-1">
@@ -153,7 +153,7 @@ export function PatternPage({
             </div>
             <p className="mt-2 text-sm text-ink-light">{spec.subtitle}</p>
           </div>
-          <div className="grid gap-2 sketch-card p-3 text-sm text-ink-light order-3">
+          <div className="grid gap-2 sketch-card p-3 text-sm text-ink-light order-3 sm:order-3">
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
               <div className="text-xs font-semibold text-ink font-kalam">核心循环</div>
               <div className="font-semibold text-ink">{spec.loop}</div>

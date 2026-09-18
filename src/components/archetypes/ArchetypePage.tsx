@@ -96,7 +96,7 @@ export function ArchetypePage({
             </div>
           </div>
           {/* 右侧：机制示意图缩略图 */}
-          <div className="order-1 sm:order-2">
+          <div className="order-1 sm:order-2 sm:row-span-2">
             <ArchetypeImage
               src={images.hero}
               priority
