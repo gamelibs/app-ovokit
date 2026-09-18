@@ -73,26 +73,25 @@ import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 function PatternImage({
   src,
   widthClass = "w-full",
-  heightClass = "h-[260px] sm:h-[320px] lg:h-[420px]",
   priority,
 }: {
   src: string | null;
   widthClass?: string;
-  heightClass?: string;
   priority?: boolean;
 }) {
   if (!src) return null;
 
+  // 容器锁死 4:3（= 蚀刻图固有比例）+ object-contain：信息图宁可留白，绝不被裁
   return (
     <div className={`mx-auto ${widthClass}`}>
-      <div className={`relative overflow-hidden sketch-card bg-ink/10 ${heightClass}`}>
+      <div className="relative aspect-[4/3] w-full overflow-hidden sketch-card bg-ink/10">
         <Image
           src={src}
           alt=""
           fill
           sizes="(max-width: 1024px) 100vw, 960px"
           priority={priority}
-          className="object-cover"
+          className="object-contain p-2"
         />
       </div>
     </div>
@@ -137,7 +136,7 @@ export function PatternPage({
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
         <div className="grid gap-3 sm:grid-cols-[1fr_minmax(220px,32%)] sm:items-start">
           <div className="order-1 sm:order-2">
-            <PatternImage src={images.hero} priority heightClass="h-40 sm:h-44 lg:h-48" />
+            <PatternImage src={images.hero} priority />
           </div>
           <div className="min-w-0 order-2 sm:order-1">
             <div className="flex items-start justify-between gap-3">
@@ -298,7 +297,6 @@ export function PatternPage({
               <PatternImage
                 src={images.advanced}
                 widthClass="w-full sm:max-w-[420px]"
-                heightClass="h-36 sm:h-44"
               />
             </div>
             <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
