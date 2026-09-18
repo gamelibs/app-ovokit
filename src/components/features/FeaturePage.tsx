@@ -130,8 +130,8 @@ export function FeaturePage({
       </nav>
 
       <SectionShell id="breakdown" title="② 玩法特征系统拆解">
-        <div className="grid gap-3 lg:grid-cols-[1fr_minmax(200px,28%)] lg:items-start">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-3 min-w-0 order-2 lg:order-1">
+        <div className="grid gap-3 lg:grid-cols-[minmax(280px,34%)_1fr] lg:items-start">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-3 min-w-0 order-2 lg:order-2">
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
             <div className="text-xs font-semibold text-ink-muted font-kalam">2.1 解决了什么问题？</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
@@ -157,7 +157,7 @@ export function FeaturePage({
             </ul>
           </div>
           </div>
-          <div className="order-1 lg:order-2">
+          <div className="order-1 lg:order-1">
             <FeatureImage
               src={images.rule}
               widthClass="w-full"

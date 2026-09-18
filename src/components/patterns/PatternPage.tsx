@@ -181,23 +181,6 @@ export function PatternPage({
         </div>
       </section>
 
-      <SectionShell id="concept" title="概念、作用与意义">
-        <div className="space-y-3 text-sm text-ink-light">
-          <div>
-            <div className="text-xs font-semibold text-ink-muted font-kalam">概念</div>
-            <p className="mt-1 leading-relaxed">{spec.concept}</p>
-          </div>
-          <div>
-            <div className="text-xs font-semibold text-ink-muted font-kalam">作用</div>
-            <p className="mt-1 leading-relaxed">{spec.role}</p>
-          </div>
-          <div>
-            <div className="text-xs font-semibold text-ink-muted font-kalam">意义</div>
-            <p className="mt-1 leading-relaxed">{spec.significance}</p>
-          </div>
-        </div>
-      </SectionShell>
-
       <nav className="flex items-center gap-2 overflow-x-auto py-1.5 text-sm [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {[
           { id: "demo", label: "▶ 试玩 Demo" },
@@ -232,27 +215,40 @@ export function PatternPage({
           <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
             <div className="text-xs font-semibold text-ink-muted font-kalam">规则提示</div>
             <div className="mt-1 font-medium">{spec.systemLoopHint}</div>
-            <div className="mt-2 text-xs text-ink-muted">
-              你在左侧调的参数滑块，对应的正是下方「高级设计与算法」里那张图解的规则。
+            <div className="mt-3 space-y-3 border-t border-ink-faint pt-3">
+              <div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">概念</div>
+                <p className="mt-1 leading-relaxed">{spec.concept}</p>
+              </div>
+              <div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">作用</div>
+                <p className="mt-1 leading-relaxed">{spec.role}</p>
+              </div>
+              <div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">意义</div>
+                <p className="mt-1 leading-relaxed">{spec.significance}</p>
+              </div>
             </div>
           </div>
         </div>
       </SectionShell>
 
       <SectionShell id="breakdown" title="核心玩法系统拆解">
-        <div className="mx-auto w-full lg:w-[90%]">
-          <div className="text-xs font-semibold text-ink-muted font-kalam">核心循环流程图</div>
-          <div className="relative mt-2 aspect-[800/300] w-full overflow-hidden sketch-border bg-paper">
-            <Image
-              src={`/patterns/${spec.key}/loop.webp`}
-              alt="核心循环流程图"
-              fill
-              sizes="(max-width: 1024px) 100vw, 900px"
-              className="object-contain"
-            />
+        {/* 左：流程图；右：三张卡纵向堆叠 */}
+        <div className="grid gap-3 lg:grid-cols-[1fr_minmax(0,380px)] lg:items-start">
+          <div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">核心循环流程图</div>
+            <div className="relative mt-2 aspect-[800/300] w-full overflow-hidden sketch-border bg-paper">
+              <Image
+                src={`/patterns/${spec.key}/loop.webp`}
+                alt="核心循环流程图"
+                fill
+                sizes="(max-width: 1024px) 100vw, 900px"
+                className="object-contain"
+              />
+            </div>
           </div>
-        </div>
-        <div className="mt-3 grid gap-3 lg:grid-cols-3">
+          <div className="grid gap-3 content-start">
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
             <div className="text-xs font-semibold text-ink-muted font-kalam">3.1 解决了什么问题？</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
@@ -276,6 +272,7 @@ export function PatternPage({
                 <li key={t}>{t}</li>
               ))}
             </ul>
+          </div>
           </div>
         </div>
       </SectionShell>

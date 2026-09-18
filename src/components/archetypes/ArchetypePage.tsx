@@ -184,8 +184,12 @@ export function ArchetypePage({
       </SectionShell>
 
       <SectionShell id="breakdown" title="③ 玩法行为系统拆解">
-        {/* 拆解图缩为右栏缩略图，三卡为主 */}
-        <div className="grid gap-3 lg:grid-cols-[1fr_minmax(200px,28%)] lg:items-start">
+        {/* 流程图在左（窄列），三张内容卡在右 */}
+        <div className="grid gap-3 lg:grid-cols-[minmax(280px,34%)_1fr] lg:items-start">
+          <ArchetypeImage
+            src={images.rule}
+            widthClass="w-full"
+          />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-3 min-w-0">
             <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
               <div className="text-xs font-semibold text-ink-muted font-kalam">3.1 解决了什么问题？</div>
@@ -208,10 +212,6 @@ export function ArchetypePage({
               <div className="mt-2 text-ink-light">{model.systemLoopHint}</div>
             </div>
           </div>
-          <ArchetypeImage
-            src={images.rule}
-            widthClass="w-full"
-          />
         </div>
       </SectionShell>
 
