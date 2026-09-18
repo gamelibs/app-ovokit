@@ -164,18 +164,22 @@ export function ArchetypePage({
         id="demo"
         title="② 即时试玩 Demo"
       >
-        <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
-          <div className="text-xs font-semibold text-ink-muted font-kalam">规则提示</div>
-          <div className="mt-1 font-medium">{model.demoRuleHint}</div>
-        </div>
-        <div className="mt-3 overflow-hidden sketch-border bg-paper sketch-shadow-sm p-3">
-          <DemoEmbed
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,420px)_1fr] lg:items-start">
+          {/* 左：可玩 demo */}
+          <div className="overflow-hidden sketch-border bg-paper sketch-shadow-sm p-3">
+            <DemoEmbed
             title={`${model.title} Demo`}
             src={getDemoSrc("archetype", model.key) ?? ""}
             controls="toolbar"
             showRestart
             restartStrategy="postMessage"
           />
+          </div>
+          {/* 右：规则说明 */}
+          <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
+            <div className="text-xs font-semibold text-ink-muted font-kalam">规则提示</div>
+            <div className="mt-1 font-medium">{model.demoRuleHint}</div>
+          </div>
         </div>
       </SectionShell>
 

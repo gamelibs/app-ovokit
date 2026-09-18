@@ -216,12 +216,10 @@ export function PatternPage({
       </nav>
 
       <SectionShell id="demo" title="即时试玩 Demo">
-        <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
-          <div className="text-xs font-semibold text-ink-muted font-kalam">规则提示</div>
-          <div className="mt-1 font-medium">{spec.systemLoopHint}</div>
-        </div>
-        <div className="mt-3 overflow-hidden sketch-border bg-paper sketch-shadow-sm p-3">
-          <DemoEmbed
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,420px)_1fr] lg:items-start">
+          {/* 左：可玩 demo */}
+          <div className="overflow-hidden sketch-border bg-paper sketch-shadow-sm p-3">
+            <DemoEmbed
             title={`${spec.name} Demo`}
             src={getDemoSrc("pattern", spec.key) ?? ""}
             controls="toolbar"
@@ -229,9 +227,15 @@ export function PatternPage({
             restartStrategy="postMessage"
             orientation="portrait"
           />
-        </div>
-        <div className="mt-3 text-xs text-ink-muted">
-          你在上方调的参数滑块，对应的正是下方「高级设计与算法」里那张图解的规则。
+          </div>
+          {/* 右：规则说明 */}
+          <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
+            <div className="text-xs font-semibold text-ink-muted font-kalam">规则提示</div>
+            <div className="mt-1 font-medium">{spec.systemLoopHint}</div>
+            <div className="mt-2 text-xs text-ink-muted">
+              你在左侧调的参数滑块，对应的正是下方「高级设计与算法」里那张图解的规则。
+            </div>
+          </div>
         </div>
       </SectionShell>
 
