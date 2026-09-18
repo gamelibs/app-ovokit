@@ -18,6 +18,7 @@ import { getPlayBySlug, listPlaySlugs, listPlays, type ContentLocale } from "@/l
 import { loadGlossary } from "@/lib/content/glossary";
 import { inferArchetypeFromTags } from "@/lib/archetypes/tag-map";
 import { isPlayArchetypeKey } from "@/lib/archetypes/archetypes";
+import { getDemoSrc } from "@/lib/demos/registry";
 import { readArchetypeSpec } from "@/lib/archetypes/spec";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { hasLocale } from "next-intl";
@@ -120,11 +121,11 @@ export default async function PlayDetailPage({
     : null;
 
   const fallbackPatternDemoSrc = play.pattern
-    ? `/embed/demos/pattern/${play.pattern}`
+    ? getDemoSrc("pattern", play.pattern)
     : null;
 
   const fallbackArchetypeDemoSrc = inferredArchetypeKey
-    ? `/embed/demos/archetype/${inferredArchetypeKey}`
+    ? getDemoSrc("archetype", inferredArchetypeKey)
     : null;
 
   // demo 画面方向：竖屏游戏（v2 平台预览 750×1334 / 原子母型 demo 2:3）用竖版容器

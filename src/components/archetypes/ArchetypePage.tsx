@@ -2,6 +2,7 @@ import type { ArchetypePageModel } from "@/features/archetypes/pageModel";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
+import { getDemoSrc } from "@/lib/demos/registry";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { fallbackCorePatternByKey, type CorePatternKey } from "@/lib/patterns/patterns";
 import { localizeDifficulty } from "@/lib/content/play-tags";
@@ -96,7 +97,7 @@ export function ArchetypePage({
             </div>
           </div>
           {/* 右侧：机制示意图缩略图 */}
-          <div className="order-1 sm:order-2 sm:row-span-2">
+          <div className="order-1 sm:order-2">
             <ArchetypeImage
               src={images.hero}
               priority
@@ -170,7 +171,7 @@ export function ArchetypePage({
         <div className="mt-3 overflow-hidden sketch-border bg-paper sketch-shadow-sm p-3">
           <DemoEmbed
             title={`${model.title} Demo`}
-            src={`/embed/demos/archetype/${model.key}`}
+            src={getDemoSrc("archetype", model.key) ?? ""}
             controls="toolbar"
             showRestart
             restartStrategy="postMessage"

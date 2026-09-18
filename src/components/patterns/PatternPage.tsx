@@ -2,6 +2,7 @@ import type { CorePatternSpec } from "@/lib/patterns/spec";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
+import { getDemoSrc } from "@/lib/demos/registry";
 import { CodeBlock } from "@/components/plays/CodeBlock";
 
 /** ⑤ 区关键代码：每循环一段真实可读的算法实现（与该区文字互为注解） */
@@ -135,7 +136,7 @@ export function PatternPage({
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
         <div className="grid gap-3 sm:grid-cols-[1fr_minmax(220px,32%)] sm:items-start">
-          <div className="order-1 sm:order-2 sm:row-span-2">
+          <div className="order-1 sm:order-2">
             <PatternImage src={images.hero} priority />
           </div>
           <div className="min-w-0 order-2 sm:order-1">
@@ -152,8 +153,7 @@ export function PatternPage({
               />
             </div>
             <p className="mt-2 text-sm text-ink-light">{spec.subtitle}</p>
-          </div>
-          <div className="grid gap-2 sketch-card p-3 text-sm text-ink-light order-3 sm:order-3">
+          <div className="mt-3 grid gap-2 sketch-card p-3 text-sm text-ink-light">
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
               <div className="text-xs font-semibold text-ink font-kalam">核心循环</div>
               <div className="font-semibold text-ink">{spec.loop}</div>
@@ -176,6 +176,7 @@ export function PatternPage({
                 ))}
               </div>
             </div>
+          </div>
           </div>
         </div>
       </section>
@@ -222,7 +223,7 @@ export function PatternPage({
         <div className="mt-3 overflow-hidden sketch-border bg-paper sketch-shadow-sm p-3">
           <DemoEmbed
             title={`${spec.name} Demo`}
-            src={`/embed/demos/pattern/${spec.key}`}
+            src={getDemoSrc("pattern", spec.key) ?? ""}
             controls="toolbar"
             showRestart
             restartStrategy="postMessage"
