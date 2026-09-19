@@ -183,29 +183,31 @@ export function FeaturePage({
             ④ 高级设计与算法（默认折叠）
             <span className="ml-2 text-xs font-semibold text-ink-muted group-open:hidden font-kalam">点击展开</span>
           </summary>
-          <div className="mt-3 grid gap-3 lg:grid-cols-2">
-            <div className="lg:col-span-2">
-              <FeatureImage
-                src={images.advanced}
-                widthClass="w-full sm:max-w-[420px]"
-              />
+          <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_minmax(280px,34%)] lg:items-start">
+            {/* 左：两张文字卡纵向堆叠 */}
+            <div className="grid gap-3 content-start min-w-0">
+              <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+                <div className="text-xs font-semibold text-ink-muted font-kalam">设计警告</div>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
+                  {spec.advancedWarnings.map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
+                <div className="text-xs font-semibold text-ink-muted font-kalam">算法示例</div>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
+                  {spec.advancedAlgoRefs.map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">设计警告</div>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
-                {spec.advancedWarnings.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">算法示例</div>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
-                {spec.advancedAlgoRefs.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-            </div>
+            {/* 右：图解 */}
+            <FeatureImage
+              src={images.advanced}
+              widthClass="w-full"
+            />
           </div>
         </details>
       </section>
