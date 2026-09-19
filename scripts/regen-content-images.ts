@@ -1,4 +1,9 @@
 /**
+ * ⚠️ 已废弃（2026-09-19）：本脚本产出的是旧 cover-gen 风格（图内烤边框 + 文字标注），
+ * 与现行配图规范冲突（480×360、安全边距、无边框、无文字）。
+ * 母型/循环/特征配图统一改用 `pnpm tsx scripts/generate-entity-assets.ts`（sketch-svg 场景系统）。
+ * 帖子封面仍走 generate-play-covers.ts。本文件仅存档，勿执行。
+ *
  * 全站内容图重绘：母型/原型/特征页 4 图槽 + 首页导航图标 + hero 插图。
  * 全部生成蚀刻报纸风 webp，并删除旧 svg/png/jpg。
  * 用法：npx tsx scripts/regen-content-images.ts

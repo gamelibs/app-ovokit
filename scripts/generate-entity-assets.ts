@@ -1,21 +1,33 @@
 #!/usr/bin/env tsx
 /**
- * 批量生成母型 / 核心原型 / 玩法特征的说明图 SVG
+ * 批量生成母型 / 核心循环 / 玩法特征的说明图（480×360 webp）。
  *
- * 为每个 key 生成 4 张图：hero.svg、interaction.svg、rule.svg、advanced.svg
- * 保持手绘风格，使用 src/lib/sketch-svg/generator.ts。
+ * 渲染管线：src/lib/sketch-svg/generator.ts 的场景系统（generateEntitySceneSvg）
+ *   → sharp 转 webp → 覆盖写入 public/{archetypes|patterns|features}/{key}/。
+ *
+ * 硬性规则（与生成器场景系统一致）：
+ * - 画布 480×360（4:3），内容四边安全边距 ≥ 8%
+ * - 图内无边框 / 无文字；背景为站点纸色 #faf7ef
+ * - 每个 key 的图必须贴合其核心机制（下方 ENTITY_SCENES 映射即唯一真相源，
+ *   新增 key 时必须显式登记映射，否则脚本直接报错）
+ * - patterns 额外生成 loop.webp（核心循环图，供 PatternPage「核心循环流程图」位使用）
  *
  * 用法：
  *   pnpm tsx scripts/generate-entity-assets.ts
  *   pnpm tsx scripts/generate-entity-assets.ts --dry-run
- *   pnpm tsx scripts/generate-entity-assets.ts --only=archetypes
+ *   pnpm tsx scripts/generate-entity-assets.ts --only=patterns
+ *   pnpm tsx scripts/generate-entity-assets.ts --only=archetypes --key=match-clear
  */
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import sharp from "sharp";
 import {
-  generateSketchSvg,
-  type SketchSvgType,
+  generateEntitySceneSvg,
+  isEntitySceneType,
+  ENTITY_SCENE_WIDTH,
+  ENTITY_SCENE_HEIGHT,
+  type EntitySceneType,
 } from "../src/lib/sketch-svg/generator";
 import { playArchetypeKeys } from "../src/lib/archetypes/archetypes";
 import { corePatternKeys } from "../src/lib/patterns/patterns";
@@ -23,267 +35,143 @@ import { featureKeys } from "../src/lib/features/features";
 
 type EntityKind = "archetype" | "pattern" | "feature";
 
-interface EntityConfig {
-  kind: EntityKind;
-  key: string;
-  hero: SketchSvgType;
-  interaction: SketchSvgType;
-  rule: SketchSvgType;
-  advanced: SketchSvgType;
+interface SlotScenes {
+  hero: EntitySceneType;
+  interaction: EntitySceneType;
+  rule: EntitySceneType;
+  advanced: EntitySceneType;
+  /** 仅 patterns：核心循环图 */
+  loop?: EntitySceneType;
 }
 
-const ARCHETYPE_HERO: Record<string, SketchSvgType> = {
-  "match-clear": "blocks",
-  "dodge-avoid": "runner",
-  runner: "runner",
-  "shoot-aim": "gamepad",
-  combat: "skull",
-  placement: "tower",
-  "choice-strategy": "card",
-  physics: "puzzle",
-  puzzle: "puzzle",
-  progression: "gem",
-  simulation: "tower",
-  timing: "clock",
+/** 母型 → 场景映射（每槽画该母型的核心机制） */
+const ARCHETYPE_SCENES: Record<string, SlotScenes> = {
+  "match-clear": { hero: "match-row", interaction: "gem-swap", rule: "clear-drop", advanced: "cascade-chain" },
+  "merge-unit": { hero: "merge-basic", interaction: "merge-drag", rule: "merge-chain", advanced: "merge-tiers" },
+  "dodge-avoid": { hero: "dodge-field", interaction: "dodge-move", rule: "dodge-gap", advanced: "dodge-density" },
+  runner: { hero: "runner-lane", interaction: "runner-jump", rule: "runner-lanes", advanced: "runner-speed" },
+  "shoot-aim": { hero: "aim-target", interaction: "aim-trajectory", rule: "aim-hit", advanced: "aim-lead" },
+  combat: { hero: "combat-clash", interaction: "combat-strike", rule: "combat-trade", advanced: "combat-cooldown" },
+  "turn-duel": { hero: "turn-board", interaction: "turn-place", rule: "turn-cycle", advanced: "turn-win" },
+  placement: { hero: "place-tower", interaction: "place-ghost", rule: "place-wave", advanced: "place-cover" },
+  "choice-strategy": { hero: "choice-cards", interaction: "choice-pick", rule: "choice-branch", advanced: "choice-scale" },
+  physics: { hero: "physics-stack", interaction: "physics-drop", rule: "physics-seesaw", advanced: "physics-domino" },
+  puzzle: { hero: "puzzle-fit", interaction: "puzzle-try", rule: "puzzle-reveal", advanced: "puzzle-path" },
+  progression: { hero: "prog-stairs", interaction: "prog-collect", rule: "prog-curve", advanced: "prog-prestige" },
+  simulation: { hero: "sim-town", interaction: "sim-harvest", rule: "sim-cycle", advanced: "sim-network" },
+  timing: { hero: "timing-gauge", interaction: "timing-tap", rule: "timing-window", advanced: "timing-combo" },
 };
 
-const ARCHETYPE_INTERACTION: Record<string, SketchSvgType> = {
-  "match-clear": "tap",
-  "dodge-avoid": "runner",
-  runner: "runner",
-  "shoot-aim": "gamepad",
-  combat: "gamepad",
-  placement: "tap",
-  "choice-strategy": "card",
-  physics: "puzzle",
-  puzzle: "tap",
-  progression: "gem",
-  simulation: "tower",
-  timing: "clock",
+/** 核心循环 → 场景映射（多一个 loop 槽：核心循环流程图） */
+const PATTERN_SCENES: Record<string, SlotScenes> = {
+  action: { hero: "act-reflex", interaction: "tap-fast", rule: "loop-act", advanced: "act-chain", loop: "loop-action" },
+  spatial: { hero: "sp-board", interaction: "sp-place", rule: "sp-validate", advanced: "sp-fill", loop: "loop-spatial" },
+  merge: { hero: "merge-cycle", interaction: "merge-drag-gem", rule: "merge-chain-gem", advanced: "merge-income", loop: "loop-merge" },
+  management: { hero: "mgmt-base", interaction: "mgmt-build", rule: "mgmt-flow", advanced: "mgmt-expand", loop: "loop-management" },
+  strategy: { hero: "strat-formation", interaction: "strat-arrange", rule: "strat-resolve", advanced: "strat-tree", loop: "loop-strategy" },
+  narrative: { hero: "nar-tree", interaction: "nar-choice", rule: "nar-consequence", advanced: "nar-endings", loop: "loop-narrative" },
 };
 
-const ARCHETYPE_RULE: Record<string, SketchSvgType> = {
-  "match-clear": "flow-decision",
-  "dodge-avoid": "flow-process",
-  runner: "flow-process",
-  "shoot-aim": "flow-process",
-  combat: "flow-decision",
-  placement: "flow-process",
-  "choice-strategy": "flow-decision",
-  physics: "flow-decision",
-  puzzle: "flow-decision",
-  progression: "flow-process",
-  simulation: "flow-process",
-  timing: "flow-process",
+/** 玩法特征 → 场景映射 */
+const FEATURE_SCENES: Record<string, SlotScenes> = {
+  merge: { hero: "merge-basic-gem", interaction: "merge-drag-gem", rule: "merge-chain-gem", advanced: "merge-tiers-gem" },
+  idle: { hero: "idle-coins", interaction: "idle-collect", rule: "idle-offline", advanced: "idle-multi" },
+  click: { hero: "click-target", interaction: "click-tap", rule: "click-reward", advanced: "click-frenzy" },
+  grid: { hero: "grid-board", interaction: "grid-move", rule: "grid-valid", advanced: "grid-path" },
+  levels: { hero: "levels-path", interaction: "levels-enter", rule: "levels-gate", advanced: "levels-branch" },
+  numbers: { hero: "num-bars", interaction: "num-upgrade", rule: "num-curve", advanced: "num-prestige" },
+  generation: { hero: "gen-dice", interaction: "gen-roll", rule: "gen-variety", advanced: "gen-biome" },
+  roguelike: { hero: "rogue-map", interaction: "rogue-door", rule: "rogue-death", advanced: "rogue-meta" },
+  "state-machine": { hero: "sm-states", interaction: "sm-event", rule: "sm-guard", advanced: "sm-nested" },
 };
 
-const ARCHETYPE_ADVANCED: Record<string, SketchSvgType> = {
-  "match-clear": "grid",
-  "dodge-avoid": "runner",
-  runner: "runner",
-  "shoot-aim": "gamepad",
-  combat: "skull",
-  placement: "tower",
-  "choice-strategy": "card",
-  physics: "puzzle",
-  puzzle: "puzzle",
-  progression: "gem",
-  simulation: "tower",
-  timing: "clock",
+const KIND_DIR: Record<EntityKind, string> = {
+  archetype: "archetypes",
+  pattern: "patterns",
+  feature: "features",
 };
 
-const PATTERN_HERO: Record<string, SketchSvgType> = {
-  action: "gamepad",
-  spatial: "grid",
-  merge: "blocks",
-  management: "tower",
-  strategy: "card",
+const KIND_TABLE: Record<EntityKind, Record<string, SlotScenes>> = {
+  archetype: ARCHETYPE_SCENES,
+  pattern: PATTERN_SCENES,
+  feature: FEATURE_SCENES,
 };
 
-const PATTERN_INTERACTION: Record<string, SketchSvgType> = {
-  action: "tap",
-  spatial: "tap",
-  merge: "tap",
-  management: "tap",
-  strategy: "tap",
+const KIND_KEYS: Record<EntityKind, readonly string[]> = {
+  archetype: playArchetypeKeys,
+  pattern: corePatternKeys,
+  feature: featureKeys,
 };
 
-const PATTERN_RULE: Record<string, SketchSvgType> = {
-  action: "flow-process",
-  spatial: "flow-decision",
-  merge: "flow-process",
-  management: "flow-process",
-  strategy: "flow-decision",
-};
-
-const PATTERN_ADVANCED: Record<string, SketchSvgType> = {
-  action: "runner",
-  spatial: "puzzle",
-  merge: "blocks",
-  management: "tower",
-  strategy: "card",
-};
-
-const FEATURE_HERO: Record<string, SketchSvgType> = {
-  merge: "blocks",
-  idle: "clock",
-  click: "tap",
-  grid: "grid",
-  levels: "card",
-  numbers: "dice",
-  generation: "puzzle",
-  roguelike: "skull",
-  "state-machine": "flow-process",
-};
-
-const FEATURE_INTERACTION: Record<string, SketchSvgType> = {
-  merge: "tap",
-  idle: "clock",
-  click: "tap",
-  grid: "tap",
-  levels: "tap",
-  numbers: "dice",
-  generation: "tap",
-  roguelike: "tap",
-  "state-machine": "tap",
-};
-
-const FEATURE_RULE: Record<string, SketchSvgType> = {
-  merge: "flow-process",
-  idle: "flow-process",
-  click: "flow-process",
-  grid: "flow-decision",
-  levels: "flow-decision",
-  numbers: "flow-decision",
-  generation: "flow-decision",
-  roguelike: "flow-decision",
-  "state-machine": "flow-process",
-};
-
-const FEATURE_ADVANCED: Record<string, SketchSvgType> = {
-  merge: "blocks",
-  idle: "clock",
-  click: "tap",
-  grid: "grid",
-  levels: "card",
-  numbers: "dice",
-  generation: "puzzle",
-  roguelike: "skull",
-  "state-machine": "flow-process",
-};
-
-function buildConfigs(only?: EntityKind): EntityConfig[] {
-  const configs: EntityConfig[] = [];
-
-  const shouldInclude = (kind: EntityKind) => !only || only === kind;
-
-  if (shouldInclude("archetype")) {
-    for (const key of playArchetypeKeys) {
-      configs.push({
-        kind: "archetype",
-        key,
-        hero: ARCHETYPE_HERO[key] ?? "puzzle",
-        interaction: ARCHETYPE_INTERACTION[key] ?? "tap",
-        rule: ARCHETYPE_RULE[key] ?? "flow-process",
-        advanced: ARCHETYPE_ADVANCED[key] ?? "puzzle",
-      });
+/** 强校验：内容注册表里的每个 key 都必须在映射表中显式登记，且场景名必须存在 */
+function collectJobs(only: EntityKind | undefined, keyFilter: string | undefined) {
+  const kinds: EntityKind[] = only ? [only] : ["archetype", "pattern", "feature"];
+  const jobs: { kind: EntityKind; key: string; slot: string; scene: EntitySceneType }[] = [];
+  for (const kind of kinds) {
+    for (const key of KIND_KEYS[kind]) {
+      if (keyFilter && key !== keyFilter) continue;
+      const scenes = KIND_TABLE[kind][key];
+      if (!scenes) {
+        throw new Error(`映射缺失：${kind}/${key} 未在 ENTITY_SCENES 映射表中登记`);
+      }
+      const slots = ["hero", "interaction", "rule", "advanced", "loop"] as const;
+      for (const slot of slots) {
+        const scene = scenes[slot];
+        if (!scene) continue;
+        if (!isEntitySceneType(scene)) {
+          throw new Error(`映射错误：${kind}/${key}.${slot} 指向未知场景 "${scene}"`);
+        }
+        jobs.push({ kind, key, slot, scene });
+      }
     }
   }
-
-  if (shouldInclude("pattern")) {
-    for (const key of corePatternKeys) {
-      configs.push({
-        kind: "pattern",
-        key,
-        hero: PATTERN_HERO[key] ?? "puzzle",
-        interaction: PATTERN_INTERACTION[key] ?? "tap",
-        rule: PATTERN_RULE[key] ?? "flow-process",
-        advanced: PATTERN_ADVANCED[key] ?? "puzzle",
-      });
-    }
-  }
-
-  if (shouldInclude("feature")) {
-    for (const key of featureKeys) {
-      configs.push({
-        kind: "feature",
-        key,
-        hero: FEATURE_HERO[key] ?? "puzzle",
-        interaction: FEATURE_INTERACTION[key] ?? "tap",
-        rule: FEATURE_RULE[key] ?? "flow-process",
-        advanced: FEATURE_ADVANCED[key] ?? "puzzle",
-      });
-    }
-  }
-
-  return configs;
+  return jobs;
 }
 
-const SIZES = {
-  hero: { width: 960, height: 420 },
-  interaction: { width: 900, height: 320 },
-  rule: { width: 900, height: 320 },
-  advanced: { width: 900, height: 300 },
-};
-
-function generateEntitySvg(type: SketchSvgType, width: number, height: number): string {
-  return generateSketchSvg({
-    type,
-    width,
-    height,
-    roughness: 2,
-    bowing: 1,
-    stroke: "#202020",
-    strokeWidth: 2,
-    fill: "#faf7ef",
-    fillStyle: "hachure",
-    padding: 0,
-  });
-}
-
-function outDirFor(config: EntityConfig): string {
-  return path.join(process.cwd(), "public", config.kind === "archetype" ? "archetypes" : config.kind === "pattern" ? "patterns" : "features", config.key);
+async function renderWebp(scene: EntitySceneType): Promise<Buffer> {
+  const svg = generateEntitySceneSvg(scene);
+  return sharp(Buffer.from(svg), { density: 120 })
+    .resize(ENTITY_SCENE_WIDTH, ENTITY_SCENE_HEIGHT, { fit: "fill" })
+    .webp({ quality: 82 })
+    .toBuffer();
 }
 
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes("--dry-run");
   const onlyArg = args.find((a) => a.startsWith("--only="));
-  const only = onlyArg ? (onlyArg.slice("--only=".length) as EntityKind) : undefined;
+  const onlyRaw = onlyArg ? onlyArg.slice("--only=".length) : undefined;
+  // 兼容单复数写法（--only=pattern / --only=patterns）
+  const onlyNorm = onlyRaw?.replace(/s$/, "");
+  if (onlyNorm && !(["archetype", "pattern", "feature"] as const).includes(onlyNorm as EntityKind)) {
+    throw new Error(`未知 --only 取值: ${onlyRaw}（可选 archetype|pattern|feature）`);
+  }
+  const only = onlyNorm as EntityKind | undefined;
+  const keyArg = args.find((a) => a.startsWith("--key="));
+  const keyFilter = keyArg ? keyArg.slice("--key=".length) : undefined;
 
-  const configs = buildConfigs(only);
+  const jobs = collectJobs(only, keyFilter);
   let generated = 0;
-  let skipped = 0;
 
-  for (const config of configs) {
-    const outDir = outDirFor(config);
-    if (!dryRun) {
-      await fs.mkdir(outDir, { recursive: true });
-    }
-
-    for (const slot of ["hero", "interaction", "rule", "advanced"] as const) {
-      const filePath = path.join(outDir, `${slot}.svg`);
-      const exists = await fs.stat(filePath).then(() => true).catch(() => false);
-
-      if (exists) {
-        skipped++;
-        continue;
-      }
-
-      const type = config[slot];
-      const { width, height } = SIZES[slot];
-      const svg = generateEntitySvg(type, width, height);
-
-      if (dryRun) {
-        console.log(`[dry-run] 将生成 ${outDir}/${slot}.svg (${type} ${width}x${height})`);
-      } else {
-        await fs.writeFile(filePath, svg, "utf8");
-      }
+  for (const job of jobs) {
+    const outDir = path.join(process.cwd(), "public", KIND_DIR[job.kind], job.key);
+    const outPath = path.join(outDir, `${job.slot}.webp`);
+    if (dryRun) {
+      console.log(`[dry-run] ${KIND_DIR[job.kind]}/${job.key}/${job.slot}.webp ← ${job.scene}`);
       generated++;
+      continue;
     }
+    await fs.mkdir(outDir, { recursive: true });
+    const buf = await renderWebp(job.scene);
+    await fs.writeFile(outPath, buf);
+    // 清理同槽位的旧格式残留（svg/png/jpg）
+    for (const ext of ["svg", "png", "jpg", "jpeg", "gif"]) {
+      await fs.rm(path.join(outDir, `${job.slot}.${ext}`), { force: true });
+    }
+    generated++;
   }
 
-  console.log(`✅ 完成：生成 ${generated} 张，跳过 ${skipped} 张（已存在）`);
+  console.log(`✅ 完成：生成 ${generated} 张（480×360 webp，全量覆盖）`);
 }
 
 main().catch((err) => {
