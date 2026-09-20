@@ -12,6 +12,42 @@
       "priority": true,
       "statusCode": 308,
       "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    },
+    {
+      "source": "/features/merge",
+      "destination": "/features/merge-mechanic",
+      "statusCode": 301,
+      "regex": "^(?!/_next)/features/merge(?:/)?$"
+    },
+    {
+      "source": "/en/features/merge",
+      "destination": "/en/features/merge-mechanic",
+      "statusCode": 301,
+      "regex": "^(?!/_next)/en/features/merge(?:/)?$"
+    },
+    {
+      "source": "/features/generation",
+      "destination": "/implementation-traits/generation",
+      "statusCode": 301,
+      "regex": "^(?!/_next)/features/generation(?:/)?$"
+    },
+    {
+      "source": "/en/features/generation",
+      "destination": "/en/implementation-traits/generation",
+      "statusCode": 301,
+      "regex": "^(?!/_next)/en/features/generation(?:/)?$"
+    },
+    {
+      "source": "/features/state-machine",
+      "destination": "/implementation-traits/state-machine",
+      "statusCode": 301,
+      "regex": "^(?!/_next)/features/state-machine(?:/)?$"
+    },
+    {
+      "source": "/en/features/state-machine",
+      "destination": "/en/implementation-traits/state-machine",
+      "statusCode": 301,
+      "regex": "^(?!/_next)/en/features/state-machine(?:/)?$"
     }
   ],
   "headers": [
@@ -87,6 +123,22 @@
         "nxtPkey": "nxtPkey"
       },
       "namedRegex": "^/api/mod/features/(?<nxtPkey>[^/]+?)/images(?:/)?$"
+    },
+    {
+      "page": "/api/mod/implementation-traits/[key]",
+      "regex": "^/api/mod/implementation\\-traits/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/mod/implementation\\-traits/(?<nxtPkey>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/mod/implementation-traits/[key]/images",
+      "regex": "^/api/mod/implementation\\-traits/([^/]+?)/images(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/mod/implementation\\-traits/(?<nxtPkey>[^/]+?)/images(?:/)?$"
     },
     {
       "page": "/api/mod/import-platform-games/[gameId]",
@@ -254,6 +306,23 @@
       "namedRegex": "^/(?<nxtPlocale>[^/]+?)/features/(?<nxtPkey>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/[locale]/implementation-traits",
+      "regex": "^/([^/]+?)/implementation\\-traits(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/implementation\\-traits(?:/)?$"
+    },
+    {
+      "page": "/[locale]/implementation-traits/[key]",
+      "regex": "^/([^/]+?)/implementation\\-traits/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale",
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/implementation\\-traits/(?<nxtPkey>[^/]+?)(?:/)?$"
+    },
+    {
       "page": "/[locale]/mod",
       "regex": "^/([^/]+?)/mod(?:/)?$",
       "routeKeys": {
@@ -311,6 +380,23 @@
         "nxtPkey": "nxtPkey"
       },
       "namedRegex": "^/(?<nxtPlocale>[^/]+?)/mod/features/(?<nxtPkey>[^/]+?)/edit(?:/)?$"
+    },
+    {
+      "page": "/[locale]/mod/implementation-traits",
+      "regex": "^/([^/]+?)/mod/implementation\\-traits(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/mod/implementation\\-traits(?:/)?$"
+    },
+    {
+      "page": "/[locale]/mod/implementation-traits/[key]/edit",
+      "regex": "^/([^/]+?)/mod/implementation\\-traits/([^/]+?)/edit(?:/)?$",
+      "routeKeys": {
+        "nxtPlocale": "nxtPlocale",
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/(?<nxtPlocale>[^/]+?)/mod/implementation\\-traits/(?<nxtPkey>[^/]+?)/edit(?:/)?$"
     },
     {
       "page": "/[locale]/mod/new",
@@ -469,6 +555,12 @@
       "regex": "^/api/mod/features(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/mod/features(?:/)?$"
+    },
+    {
+      "page": "/api/mod/implementation-traits",
+      "regex": "^/api/mod/implementation\\-traits(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/mod/implementation\\-traits(?:/)?$"
     },
     {
       "page": "/api/mod/import-platform-games",
