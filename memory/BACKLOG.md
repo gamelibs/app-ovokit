@@ -112,6 +112,9 @@
 
 ## Done
 
+- [x] **支柱内容分类重构 + 内容修复批次（对齐 taxonomy）** <!-- task:id=pillar-restructure-001 priority:P0 category:taxonomy -->
+  - 2026-09-20 完成，详见 `memory/daily/2026-09-20.md`。features 8 词 / implementation-traits 新分区 / placement 修复 / 14 母型 features[] 收敛 / concept 扩写 / 301 重定向 + sitemap / 版主编辑镜像。验证 Playwright 36 项 PASS。未提交 git。
+
 - [x] **Quantum Grid 3D demo 全链路（创作中心工作流 → 站点内嵌可玩）** <!-- task:id=quantum-grid-3d-001 priority:P1 category:product -->
   - 文件：本站 `public/embed/plays/tic-tac-toe-3d-rotation-juice/`（覆盖为 3D 版）；ovo_system 侧 `modules/core/board-3d/`、`v2-preview-html.ts`、`game-definition-adapter.ts`、`core/board-ai`、项目 cp_1789130311150、e2e `tests/e2e/test-quantum-grid-3d-loop.mjs`
   - 目标：用文章正式游戏源（astrocade 3d-rotating-tic-tac-toe）经系统工作流重建 3D demo 替换 2D 替身，并补齐 v2 的 3D 能力

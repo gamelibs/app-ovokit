@@ -150,6 +150,12 @@ export default async function ModHomePage({
         >
           玩法特征管理
         </Link>
+        <Link
+          href="/mod/implementation-traits"
+          className="inline-flex h-9 items-center justify-center rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
+        >
+          工程特征管理
+        </Link>
       </div>
 
       {/* 试玩筛选：原「案例演示」已并入本页（筛选 = 仅带试玩 + 行内复制 Demo 地址） */}

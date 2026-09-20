@@ -3,7 +3,7 @@
  * 批量生成母型 / 核心循环 / 玩法特征的说明图（480×360 webp）。
  *
  * 渲染管线：src/lib/sketch-svg/generator.ts 的场景系统（generateEntitySceneSvg）
- *   → sharp 转 webp → 覆盖写入 public/{archetypes|patterns|features}/{key}/。
+ *   → sharp 转 webp → 覆盖写入 public/{archetypes|patterns|features|implementation-traits}/{key}/。
  *
  * 硬性规则（与生成器场景系统一致）：
  * - 画布 480×360（4:3），内容四边安全边距 ≥ 8%
@@ -17,6 +17,7 @@
  *   pnpm tsx scripts/generate-entity-assets.ts --dry-run
  *   pnpm tsx scripts/generate-entity-assets.ts --only=patterns
  *   pnpm tsx scripts/generate-entity-assets.ts --only=archetypes --key=match-clear
+ *   pnpm tsx scripts/generate-entity-assets.ts --only=implementation-traits --key=generation
  */
 
 import { promises as fs } from "node:fs";
@@ -32,8 +33,9 @@ import {
 import { playArchetypeKeys } from "../src/lib/archetypes/archetypes";
 import { corePatternKeys } from "../src/lib/patterns/patterns";
 import { featureKeys } from "../src/lib/features/features";
+import { implementationTraitKeys } from "../src/lib/implementation-traits/implementation-traits";
 
-type EntityKind = "archetype" | "pattern" | "feature";
+type EntityKind = "archetype" | "pattern" | "feature" | "implementation-trait";
 
 interface SlotScenes {
   hero: EntitySceneType;
@@ -72,16 +74,21 @@ const PATTERN_SCENES: Record<string, SlotScenes> = {
   narrative: { hero: "nar-tree", interaction: "nar-choice", rule: "nar-consequence", advanced: "nar-endings", loop: "loop-narrative" },
 };
 
-/** 玩法特征 → 场景映射 */
+/** 玩法特征 → 场景映射（taxonomy features 8 项；工程实现特征见 TRAIT_SCENES） */
 const FEATURE_SCENES: Record<string, SlotScenes> = {
-  merge: { hero: "merge-basic-gem", interaction: "merge-drag-gem", rule: "merge-chain-gem", advanced: "merge-tiers-gem" },
+  "merge-mechanic": { hero: "merge-basic-gem", interaction: "merge-drag-gem", rule: "merge-chain-gem", advanced: "merge-tiers-gem" },
   idle: { hero: "idle-coins", interaction: "idle-collect", rule: "idle-offline", advanced: "idle-multi" },
   click: { hero: "click-target", interaction: "click-tap", rule: "click-reward", advanced: "click-frenzy" },
   grid: { hero: "grid-board", interaction: "grid-move", rule: "grid-valid", advanced: "grid-path" },
   levels: { hero: "levels-path", interaction: "levels-enter", rule: "levels-gate", advanced: "levels-branch" },
   numbers: { hero: "num-bars", interaction: "num-upgrade", rule: "num-curve", advanced: "num-prestige" },
-  generation: { hero: "gen-dice", interaction: "gen-roll", rule: "gen-variety", advanced: "gen-biome" },
   roguelike: { hero: "rogue-map", interaction: "rogue-door", rule: "rogue-death", advanced: "rogue-meta" },
+  timed: { hero: "timing-gauge", interaction: "timing-tap", rule: "timing-window", advanced: "timing-combo" },
+};
+
+/** 工程实现特征 → 场景映射（taxonomy implementationTraits 层，2026-09-20 从 features 迁出） */
+const TRAIT_SCENES: Record<string, SlotScenes> = {
+  generation: { hero: "gen-dice", interaction: "gen-roll", rule: "gen-variety", advanced: "gen-biome" },
   "state-machine": { hero: "sm-states", interaction: "sm-event", rule: "sm-guard", advanced: "sm-nested" },
 };
 
@@ -89,23 +96,28 @@ const KIND_DIR: Record<EntityKind, string> = {
   archetype: "archetypes",
   pattern: "patterns",
   feature: "features",
+  "implementation-trait": "implementation-traits",
 };
 
 const KIND_TABLE: Record<EntityKind, Record<string, SlotScenes>> = {
   archetype: ARCHETYPE_SCENES,
   pattern: PATTERN_SCENES,
   feature: FEATURE_SCENES,
+  "implementation-trait": TRAIT_SCENES,
 };
 
 const KIND_KEYS: Record<EntityKind, readonly string[]> = {
   archetype: playArchetypeKeys,
   pattern: corePatternKeys,
   feature: featureKeys,
+  "implementation-trait": implementationTraitKeys,
 };
 
 /** 强校验：内容注册表里的每个 key 都必须在映射表中显式登记，且场景名必须存在 */
 function collectJobs(only: EntityKind | undefined, keyFilter: string | undefined) {
-  const kinds: EntityKind[] = only ? [only] : ["archetype", "pattern", "feature"];
+  const kinds: EntityKind[] = only
+    ? [only]
+    : ["archetype", "pattern", "feature", "implementation-trait"];
   const jobs: { kind: EntityKind; key: string; slot: string; scene: EntitySceneType }[] = [];
   for (const kind of kinds) {
     for (const key of KIND_KEYS[kind]) {
@@ -143,8 +155,15 @@ async function main() {
   const onlyRaw = onlyArg ? onlyArg.slice("--only=".length) : undefined;
   // 兼容单复数写法（--only=pattern / --only=patterns）
   const onlyNorm = onlyRaw?.replace(/s$/, "");
-  if (onlyNorm && !(["archetype", "pattern", "feature"] as const).includes(onlyNorm as EntityKind)) {
-    throw new Error(`未知 --only 取值: ${onlyRaw}（可选 archetype|pattern|feature）`);
+  if (
+    onlyNorm &&
+    !(["archetype", "pattern", "feature", "implementation-trait"] as const).includes(
+      onlyNorm as EntityKind
+    )
+  ) {
+    throw new Error(
+      `未知 --only 取值: ${onlyRaw}（可选 archetype|pattern|feature|implementation-trait）`
+    );
   }
   const only = onlyNorm as EntityKind | undefined;
   const keyArg = args.find((a) => a.startsWith("--key="));

@@ -160,5 +160,8 @@
     "title": "页面走丢了",
     "desc": "这个地址不存在，或者内容已被移除。",
     "browse": "浏览玩法行为"
+  },
+  "implementationTraits": {
+    "title": "工程特征"
   }
 }

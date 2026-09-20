@@ -5,6 +5,7 @@ import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { getDemoSrc } from "@/lib/demos/registry";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { fallbackCorePatternByKey, type CorePatternKey } from "@/lib/patterns/patterns";
+import { featureKeyByName } from "@/lib/features/features";
 import { localizeDifficulty } from "@/lib/content/play-tags";
 import { useLocale } from "next-intl";
 
@@ -88,7 +89,25 @@ export function ArchetypePage({
               </div>
               <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
                 <div className="text-xs font-semibold text-ink-muted font-kalam">玩法特征</div>
-                <div className="text-ink-light">{model.features.join(" · ")}</div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {model.features.map((name) => {
+                    const featureKey = featureKeyByName[name];
+                    if (!featureKey) {
+                      return (
+                        <span key={name} className="text-ink-light">{name}</span>
+                      );
+                    }
+                    return (
+                      <Link
+                        key={name}
+                        href={`/features/${encodeURIComponent(featureKey)}`}
+                        className="inline-flex items-center rounded-full sketch-border bg-paper px-3 py-1 text-ink-light hover:bg-paper-warm hover:text-ink"
+                      >
+                        {name}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
               <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
                 <div className="text-xs font-semibold text-ink-muted font-kalam">难度层级</div>

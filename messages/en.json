@@ -160,5 +160,8 @@
     "title": "Page not found",
     "desc": "This address doesn't exist, or the content has been removed.",
     "browse": "Browse play behaviors"
+  },
+  "implementationTraits": {
+    "title": "Implementation Traits"
   }
 }

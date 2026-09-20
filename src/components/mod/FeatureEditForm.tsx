@@ -5,6 +5,12 @@ import { Link } from "@/i18n/navigation";
 import { useRouter } from "next/navigation";
 import type { FeatureSpec } from "@/lib/features/spec";
 
+/**
+ * 可编辑元数据结构（features 与 implementation-traits 同构，key 类型放宽为 string）。
+ * apiBase / publicBase 用于复用本表单到 implementation-traits（默认 features）。
+ */
+export type EditableFeatureSpec = Omit<FeatureSpec, "key"> & { key: string };
+
 function TagInput({
   label,
   value,
@@ -96,14 +102,24 @@ function ListEditor({
   );
 }
 
-export function FeatureEditForm({ spec }: { spec: FeatureSpec }) {
+export function FeatureEditForm({
+  spec,
+  apiBase = "/api/mod/features",
+  backHref = "/mod/features",
+  submitLabel = "保存玩法特征",
+}: {
+  spec: EditableFeatureSpec;
+  apiBase?: string;
+  backHref?: string;
+  submitLabel?: string;
+}) {
   const router = useRouter();
-  const [form, setForm] = useState<FeatureSpec>({ ...spec });
+  const [form, setForm] = useState<EditableFeatureSpec>({ ...spec });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [ok, setOk] = useState(false);
 
-  function update<K extends keyof FeatureSpec>(key: K, value: FeatureSpec[K]) {
+  function update<K extends keyof EditableFeatureSpec>(key: K, value: EditableFeatureSpec[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -113,7 +129,7 @@ export function FeatureEditForm({ spec }: { spec: FeatureSpec }) {
     setError(null);
     setOk(false);
     try {
-      const res = await fetch(`/api/mod/features/${encodeURIComponent(spec.key)}`, {
+      const res = await fetch(`${apiBase}/${encodeURIComponent(spec.key)}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -307,10 +323,10 @@ export function FeatureEditForm({ spec }: { spec: FeatureSpec }) {
           disabled={busy}
           className="sketch-button disabled:opacity-50"
         >
-          {busy ? "保存中…" : "保存玩法特征"}
+          {busy ? "保存中…" : submitLabel}
         </button>
         <Link
-          href="/mod/features"
+          href={backHref}
           className="sketch-button sketch-button-secondary"
         >
           返回列表

@@ -17,6 +17,21 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
 
+  async redirects() {
+    // 2026-09-20 支柱内容分类重构（对齐 ovo_system taxonomy.v1.json）：
+    // merge → merge-mechanic（与 pattern merge 消歧）；generation / state-machine 迁入
+    // 工程实现特征层。zh 无前缀 + en /en 前缀两组路径都覆盖，301 永久重定向。
+    const moves: Array<[string, string]> = [
+      ["/features/merge", "/features/merge-mechanic"],
+      ["/features/generation", "/implementation-traits/generation"],
+      ["/features/state-machine", "/implementation-traits/state-machine"],
+    ];
+    return moves.flatMap(([source, destination]) => [
+      { source, destination, statusCode: 301 },
+      { source: `/en${source}`, destination: `/en${destination}`, statusCode: 301 },
+    ]);
+  },
+
   async headers() {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
     const isProductionHost =

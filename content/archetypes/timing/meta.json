@@ -3,7 +3,10 @@
   "name": "时机 / 反应",
   "nameEn": "Timing",
   "subtitle": "通过窗口、节拍与反应制造挑战；核心是判定区与反馈延迟。",
-  "features": ["判定窗口", "节拍", "预判", "反馈延迟"],
+  "features": [
+    "数值成长",
+    "关卡"
+  ],
   "difficulty": "入门 → 进阶",
   "demoRuleHint": "规则：出现节拍/窗口 → 输入 → 判定（Perfect/Good/Miss）→ 反馈 → 难度递进",
   "problemsSolved": [
@@ -23,9 +26,18 @@
   ],
   "systemLoopHint": "输入（按键）→ 判定（与窗口距离）→ 反馈（等级）→ 状态变化（连击/难度）→ 新窗口",
   "combos": [
-    { "formula": "时机 + 战斗", "effect": "完美时机触发反击/格挡，形成节奏对抗" },
-    { "formula": "时机 + 成长", "effect": "连击驱动资源获取与解锁" },
-    { "formula": "时机 + 模拟", "effect": "节奏事件影响系统变量，扩大策略维度" }
+    {
+      "formula": "时机 + 战斗",
+      "effect": "完美时机触发反击/格挡，形成节奏对抗"
+    },
+    {
+      "formula": "时机 + 成长",
+      "effect": "连击驱动资源获取与解锁"
+    },
+    {
+      "formula": "时机 + 模拟",
+      "effect": "节奏事件影响系统变量，扩大策略维度"
+    }
   ],
   "advancedWarnings": [
     "音画不同步会直接摧毁时机玩法",

@@ -291,7 +291,7 @@ export async function getPlayCategoriesForGroupAsync(
 const legacyCatKeyMap: Record<string, { group: PlayBrowseGroupKey; cat: string }> = {
   "for-you": { group: "archetype", cat: "for-you" },
   eliminate: { group: "archetype", cat: "match-clear" },
-  merge: { group: "feature", cat: "merge" },
+  merge: { group: "feature", cat: "merge-mechanic" },
   idle: { group: "archetype", cat: "placement" },
   click: { group: "feature", cat: "click" },
   puzzle: { group: "archetype", cat: "puzzle" },

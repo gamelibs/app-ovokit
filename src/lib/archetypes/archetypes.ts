@@ -37,7 +37,8 @@ export const archetypeToPatterns: Record<PlayArchetypeKey, CorePatternKey[]> = {
   combat: ["action", "strategy"],
   // taxonomy defaultPattern：turn-duel=strategy（Unit → Stats → Combat → Reward）
   "turn-duel": ["strategy"],
-  placement: ["management"],
+  // taxonomy defaultPattern：placement=spatial（主映射）；management 为次级（经营管理视角）
+  placement: ["spatial", "management"],
   "choice-strategy": ["strategy"],
   physics: ["spatial", "action"],
   puzzle: ["spatial"],

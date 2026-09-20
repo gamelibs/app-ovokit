@@ -16,8 +16,8 @@ export default async function FeaturesPage({
   searchParams?: Promise<{ key?: string | string[] }>;
 }) {
   const sp = searchParams ? await searchParams : {};
-  const rawKey = normalizeQueryParam(sp.key) ?? "merge";
-  const selectedKey: FeatureKey = isFeatureKey(rawKey) ? rawKey : "merge";
+  const rawKey = normalizeQueryParam(sp.key) ?? "click";
+  const selectedKey: FeatureKey = isFeatureKey(rawKey) ? rawKey : "click";
 
   const [spec, images, specs] = await Promise.all([
     readFeatureSpec(selectedKey),

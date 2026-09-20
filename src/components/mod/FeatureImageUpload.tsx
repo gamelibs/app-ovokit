@@ -8,9 +8,13 @@ import { useAppDialog } from "@/components/ui/AppDialog";
 export function FeatureImageUpload({
   featureKey,
   initialImages,
+  apiBase = "/api/mod/features",
+  publicBase = "/features",
 }: {
   featureKey: string;
   initialImages: string[];
+  apiBase?: string;
+  publicBase?: string;
 }) {
   const router = useRouter();
   const dialog = useAppDialog();
@@ -30,7 +34,7 @@ export function FeatureImageUpload({
     try {
       const form = new FormData();
       form.append("file", file);
-      const res = await fetch(`/api/mod/features/${encodeURIComponent(featureKey)}/images`, {
+      const res = await fetch(`${apiBase}/${encodeURIComponent(featureKey)}/images`, {
         method: "POST",
         body: form,
       });
@@ -60,7 +64,7 @@ export function FeatureImageUpload({
     setMessage(null);
     try {
       const res = await fetch(
-        `/api/mod/features/${encodeURIComponent(featureKey)}/images?filename=${encodeURIComponent(
+        `${apiBase}/${encodeURIComponent(featureKey)}/images?filename=${encodeURIComponent(
           filename
         )}`,
         { method: "DELETE" }
@@ -115,14 +119,14 @@ export function FeatureImageUpload({
       ) : null}
 
       {images.length === 0 ? (
-        <p className="text-sm text-ink-light">暂无图片。上传后会保存在 public/features/{featureKey}/</p>
+        <p className="text-sm text-ink-light">暂无图片。上传后会保存在 public{publicBase}/{featureKey}/</p>
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
           {images.map((name) => (
             <div key={name} className="group relative rounded-xl sketch-border bg-paper p-2">
               <div className="relative aspect-square w-full overflow-hidden rounded-lg">
                 <Image
-                  src={`/features/${encodeURIComponent(featureKey)}/${encodeURIComponent(name)}`}
+                  src={`${publicBase}/${encodeURIComponent(featureKey)}/${encodeURIComponent(name)}`}
                   alt={name}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
