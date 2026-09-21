@@ -197,10 +197,32 @@ export function ArchetypePage({
             orientation="portrait"
           />
           </div>
-          {/* 右：规则说明 */}
-          <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">{t("ruleHint")}</div>
-            <div className="mt-1 font-medium">{model.demoRuleHint}</div>
+          {/* 右：规则说明 + demo 实验指导 */}
+          <div className="grid content-start gap-3">
+            <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
+              <div className="text-xs font-semibold text-ink-muted font-kalam">{t("ruleHint")}</div>
+              <div className="mt-1 font-medium">{model.demoRuleHint}</div>
+            </div>
+            {model.demoLab.length > 0 && (
+              <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm">
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("demoLab")}</div>
+                <div className="mt-2 grid gap-2">
+                  {model.demoLab.map((lab) => (
+                    <div key={lab.title} className="rounded-lg sketch-border bg-paper-warm/60 p-2.5">
+                      <div className="font-semibold text-ink">{lab.title}</div>
+                      <div className="mt-0.5 text-xs text-ink-light">
+                        <span className="font-semibold text-ink">{t("demoLabAction")}</span>
+                        {lab.action}
+                      </div>
+                      <div className="mt-0.5 text-xs text-ink-light">
+                        <span className="font-semibold text-ink">{t("demoLabObserve")}</span>
+                        {lab.observe}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </SectionShell>

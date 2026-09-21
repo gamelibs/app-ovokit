@@ -1,7 +1,7 @@
 import type { PlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import { getPatternsForArchetype, isPlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import { inferArchetypeFromTags } from "@/lib/archetypes/tag-map";
-import { readArchetypeSpec } from "@/lib/archetypes/spec";
+import { readArchetypeSpec, type ArchetypeDemoLabCard } from "@/lib/archetypes/spec";
 import { listPlays } from "@/lib/content/plays";
 
 export type ArchetypeComboCard = {
@@ -28,6 +28,7 @@ export type ArchetypePageModel = {
   problemsSolved: string[];
   learningGoals: string[];
   demoRuleHint: string;
+  demoLab: ArchetypeDemoLabCard[];
   minimalRules: string[];
   systemLoopHint: string;
   combos: ArchetypeComboCard[];
@@ -69,6 +70,7 @@ export async function getArchetypePageModel(
       problemsSolved: [],
       learningGoals: [],
       demoRuleHint: "",
+      demoLab: [],
       minimalRules: [],
       systemLoopHint: "",
       combos: [],
@@ -90,6 +92,7 @@ export async function getArchetypePageModel(
     problemsSolved: spec.problemsSolved,
     learningGoals: spec.learningGoals,
     demoRuleHint: spec.demoRuleHint,
+    demoLab: spec.demoLab ?? [],
     minimalRules: spec.minimalRules,
     systemLoopHint: spec.systemLoopHint,
     combos: spec.combos,

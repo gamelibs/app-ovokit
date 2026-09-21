@@ -204,6 +204,9 @@
     "relatedPlays": "关联玩法文章",
     "relatedCases": "相关案例文章",
     "scrollLeft": "向左滚动查看更多",
-    "scrollRight": "向右滚动查看更多"
+    "scrollRight": "向右滚动查看更多",
+    "demoLab": "实验指导：把 demo 当实验室",
+    "demoLabAction": "操作：",
+    "demoLabObserve": "观察："
   }
 }

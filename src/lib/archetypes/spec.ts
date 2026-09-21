@@ -8,6 +8,16 @@ export type ArchetypeComboCardSpec = {
   href?: string;
 };
 
+/** demo 实验指导卡：把试玩 demo 变成「带着问题做实验」 */
+export type ArchetypeDemoLabCard = {
+  /** 实验名（如「连锁倍率实验」） */
+  title: string;
+  /** 操作：让读者做什么（如「把倍率从 1x 拉到 3x」） */
+  action: string;
+  /** 观察点：应该注意到什么、背后的设计原理 */
+  observe: string;
+};
+
 export type ArchetypeSpec = {
   key: PlayArchetypeKey;
   name: string;
@@ -16,6 +26,8 @@ export type ArchetypeSpec = {
   features: string[];
   difficulty: string;
   demoRuleHint: string;
+  /** demo 实验指导（可选）：挂在试玩区右栏，指导读者用 demo 参数做对照实验 */
+  demoLab?: ArchetypeDemoLabCard[];
   problemsSolved: string[];
   learningGoals: string[];
   minimalRules: string[];
