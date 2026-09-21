@@ -51,5 +51,22 @@
   "advancedAlgoRefs": [
     "Match-3: elimination validation, chain settlement, replenishment generation strategy.",
     "Board evaluation: eliminable detection, deadlock detection, hint generation."
+  ],
+  "demoLab": [
+    {
+      "title": "Chain Multiplier Experiment",
+      "action": "Drag \"Chain Bonus Multiplier\" from 1x up to 3x, then deliberately set up a second chain",
+      "observe": "Chain score = base × multiplier^(chain−1). The exponential curve turns chains from lucky bonuses into goals you actively chase — that curve is exactly where the juice comes from"
+    },
+    {
+      "title": "Move Budget Experiment",
+      "action": "Squeeze \"Moves per run\" from 30 down to 8",
+      "observe": "The tighter the budget, the higher the evaluation cost per move. Decisions shift from intuitive swaps to global planning — scarcity alone changes the game's character"
+    },
+    {
+      "title": "Deadlock Watch",
+      "action": "Keep swapping until no valid move remains on the board",
+      "observe": "This demo lets a deadlock end the run; a production match game must detect deadlocks and reshuffle automatically. That is the line between minimal rules and product rules"
+    }
   ]
 }
