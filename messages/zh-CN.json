@@ -202,6 +202,8 @@
     "keyCode": "关键代码",
     "coreAlgo": "核心算法",
     "relatedPlays": "关联玩法文章",
-    "relatedCases": "相关案例文章"
+    "relatedCases": "相关案例文章",
+    "scrollLeft": "向左滚动查看更多",
+    "scrollRight": "向右滚动查看更多"
   }
 }

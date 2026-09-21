@@ -202,6 +202,8 @@
     "keyCode": "Key Code",
     "coreAlgo": "Core Algorithm",
     "relatedPlays": "Related Articles",
-    "relatedCases": "Related Case Articles"
+    "relatedCases": "Related Case Articles",
+    "scrollLeft": "Scroll left for more",
+    "scrollRight": "Scroll right for more"
   }
 }
