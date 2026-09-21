@@ -1,0 +1,65 @@
+{
+  "key": "strategy",
+  "name": "Strategy",
+  "nameEn": "Strategy",
+  "lang": "en",
+  "subtitle": "Setup → Combat → Calculation → Growth",
+  "concept": "The strategy growth model integrates units, stats, skills, and combat rules into a quantifiable battle system. Players configure teams, select skills, calculate damage and survival probabilities, and engage in deep confrontations against AI or other players. The underlying numeric model involves health, attack, defense rate, speed, status, and special effects interacting to produce predictable yet random outcomes. The core design principle is \"visible trade‑offs\": every configuration and action carries clear costs and benefits, requiring players to balance resource allocation, risk assessment, and opponent prediction.",
+  "role": "Suitable for mid‑tier strategy and RPG games, emphasizing depth in pre‑battle setup and in‑battle decision‑making.",
+  "significance": "Mastering the strategy growth model means understanding stat design, combat formulas, counter relationships, and growth curves. It forms the foundation for designing mid‑tier games such as RPGs, card games, tower defenses, and auto‑chess, and is key to turning \"action\" into \"thought\".",
+  "loop": "Unit → Stats → Combat → Reward",
+  "abstractions": [
+    "Unit",
+    "Stats",
+    "Combat",
+    "Reward",
+    "Counter Relationships"
+  ],
+  "cases": [
+    "Clash Royale",
+    "Plants vs. Zombies",
+    "Tower Defense",
+    "Slay the Spire"
+  ],
+  "problemsSolved": [
+    "Create a rich strategic space with a limited set of units and skills.",
+    "Maintain long‑term engagement through numeric growth and unlocks.",
+    "Keep repeated battles fresh with counterplay and randomness."
+  ],
+  "learningGoals": [
+    "Design stat models and combat formulas (damage, defense, speed, etc.).",
+    "Master unit balance, counter relationships, and the meta cycle.",
+    "Implement skill systems, buffs/debuffs, and combat logs."
+  ],
+  "minimalRules": [
+    "There exist combat units with stats (health, attack, defense rate, speed, skills).",
+    "Units can attack, cast skills, or generate status effects.",
+    "Damage = Attack × (1 – Defense Rate) × (1 + Skill Multiplier) × (1 + Random Factor).",
+    "After winning combat, players receive resources, experience, or new units; rewards are tied to unit growth."
+  ],
+  "systemLoopHint": "Configure team/deck → Enter combat → Choose actions → Resolve stats and effects → Determine win/loss → Receive rewards and growth",
+  "combos": [
+    {
+      "formula": "Skill + Speed bonus",
+      "effect": "Using a speed‑boosting skill within the same turn allows the attack to occur first, increasing combo opportunities."
+    },
+    {
+      "formula": "High defense + Counter skill",
+      "effect": "High‑defense units paired with counter skills can negate a powerful enemy attack and trigger a counterattack."
+    },
+    {
+      "formula": "AOE skill + Low‑health units",
+      "effect": "Using an AOE skill on a cluster of low‑health units can eliminate multiple enemies at once, saving resources."
+    }
+  ],
+  "advancedWarnings": [
+    "Numeric imbalance can quickly erode strategic feel; balance attack and defense rates. Excessive attack renders defense ineffective, while too low attack makes defense overpowered.",
+    "Too much randomness can make players feel out of control; balance \"calculation\" with \"surprise\". A large random factor weakens strategic depth, while a small one makes combat overly predictable.",
+    "High defense actually forces attackers to use skills: when defense rate approaches 1, normal attacks are nearly ineffective, so players tend to use high‑multiplier skills, draining skill resources quickly."
+  ],
+  "advancedAlgoRefs": [
+    "Stat formulas and damage expectation calculations.",
+    "Turn‑based / real‑time combat state machine.",
+    "AI behavior trees and difficulty adaptation."
+  ]
+}

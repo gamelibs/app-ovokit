@@ -1,0 +1,64 @@
+{
+  "lang": "en",
+  "key": "narrative",
+  "name": "Interactive Narrative",
+  "nameEn": "Interactive Narrative",
+  "subtitle": "Choice → Consequence → Branch → Ending",
+  "concept": "The Interactive Narrative pattern centers on the loop where the player's choices genuinely alter the story's direction. At key junctures, the player makes decisions, each producing observable or traceable consequences that cause the narrative to branch into distinct paths and endings. Fundamentally, it is a branching state tree: nodes represent scenes, edges represent choices, and leaves represent endings. In implementation, branching narrative relies on state tracking and conditional systems, and all consequences of choices must be readable and reproducible.",
+  "role": "The core purpose of Interactive Narrative is to map the player's decisions directly onto changes in the story's trajectory, transforming the game from passive reading to active participation. It achieves this through state tracking and branching trees, giving players a sense of causality and control, thereby enhancing immersion and replay value.",
+  "significance": "Mastering Interactive Narrative enables designers to create highly emotionally engaging experiences with limited resources. It blends writing and system design, emphasizing the explainability and cost of each choice, driving deep synergy between story and gameplay, and is a core competitive advantage of modern narrative games.",
+  "loop": "Choice → Consequence → Branch → Ending",
+  "abstractions": [
+    "Scene Node",
+    "Branching Choice",
+    "State Variable",
+    "Delayed Consequence",
+    "Multiple Endings"
+  ],
+  "cases": [
+    "Orange Light (Chengguang) games",
+    "Life is Strange",
+    "60 Seconds!",
+    "Multiple-Ending Text Adventure"
+  ],
+  "problemsSolved": [
+    "Ensures choices have real consequences, avoiding \"no matter what you choose\" pseudo-branching",
+    "Uses state variables to remember what the player has done, allowing consequences to be delayed",
+    "Uses endings to provide a reason for the player to replay"
+  ],
+  "learningGoals": [
+    "Understand the minimal structure of a branching tree (nodes/edges/leaves)",
+    "Master state variable design: what should be remembered and when it should be realized",
+    "Be able to design a minimal playable narrative loop with 3–5 distinct endings"
+  ],
+  "minimalRules": [
+    "Choice: each node offers 2–4 distinct options",
+    "Consequence: a choice must alter state (immediately or with delayed visibility)",
+    "Ending: states converge into distinguishable final outcomes (at least 2)"
+  ],
+  "systemLoopHint": "Present narrative → Player chooses → Update state variables → Enter next branching node → … → Reach ending → Replayable",
+  "combos": [
+    {
+      "formula": "Narrative + Strategy",
+      "effect": "Combat results influence narrative branching (turn‑based tactical narrative)"
+    },
+    {
+      "formula": "Narrative + Management",
+      "effect": "Business outcomes trigger different narrative paths"
+    },
+    {
+      "formula": "Narrative + Puzzle",
+      "effect": "Puzzle success unlocks hidden story"
+    }
+  ],
+  "advancedWarnings": [
+    "Pseudo‑branching (different paths that converge with no record) immediately erodes player trust",
+    "Branching explosion makes the script unmaintainable; use convergence points to contain it",
+    "If all consequences are immediate, there is no suspense; if all are delayed, there is no feedback—mix them"
+  ],
+  "advancedAlgoRefs": [
+    "State machine / directed graph: narrative nodes and branching conditions",
+    "Variable system: flags, affinity, clue collection",
+    "Ending determination: multi‑condition thresholds and priority"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "key": "management",
+  "lang": "en",
+  "name": "Management / Simulation",
+  "nameEn": "Management / Simulation",
+  "subtitle": "Build → Produce → Consume → Expand",
+  "concept": "The management mode centers on producing, converting, consuming, and expanding resources. Players expand their \"empire\" by building facilities, configuring production lines, and managing inventory and demand. The fun comes from optimizing system efficiency—producing more value with fewer resources and less time—and watching scale grow. Design must pay special attention to the economic closed loop: income sources, conversion chains, and consumption sinks must all exist simultaneously; an economy lacking sinks will inevitably inflate. Production chain length is a core trade‑off: short chains reduce wait time but increase resource consumption per unit, raising expansion costs; long chains provide more decision points, deepening strategy, but can tire players with waiting and detail management. Another key trade‑off is automation versus player control: excessive automation frees players from tedious tasks and enhances macro planning, but if decision points are scarce, players may feel detached; conversely, extreme manual control boosts a sense of mastery but can lead to management fatigue. An anti‑intuitive insight is that adding a moderate number of economic sinks often increases player investment. Designers fear that too many sinks will reduce freedom, yet they provide continuous goals and challenges that sustain long‑term interest. A less obvious conclusion is that resource abundance is not always negative; in some contexts, plentiful resources allow players to focus on optimization and innovation rather than merely acquiring resources.",
+  "role": "This mode satisfies players’ desires for planning, control, and achievement. It abstracts real‑world business logic into a playable system, letting players experience the \"from zero to one to a hundred\" expansion process in a low‑risk environment. Management modes are often the core of long‑cycle, high‑retention games.",
+  "significance": "Mastering the management mode means understanding resource flows, bottleneck analysis, supply‑demand balance, and positive feedback loops. It is the best setting for learning system dynamics, economic simulation, and sandbox design, and it is key to expanding simple mechanics into deep experiences.",
+  "loop": "Building → Production → Economy → Growth",
+  "abstractions": [
+    "Buildings",
+    "Production Chains",
+    "Economy",
+    "Expansion",
+    "Supply‑Demand Balance"
+  ],
+  "cases": [
+    "Hay Day",
+    "SimCity BuildIt",
+    "Restaurant Management",
+    "Factorio"
+  ],
+  "problemsSolved": [
+    "Breaking long‑term goals into manageable, staged building plans",
+    "Creating meaningful decisions under resource constraints",
+    "Providing a sustained sense of growth through expansion and upgrades"
+  ],
+  "learningGoals": [
+    "Design production chains, inventory, and consumption systems",
+    "Master economic balance and control inflation/deflation",
+    "Maintain long‑term goal sense with events, quests, and upgrades"
+  ],
+  "minimalRules": [
+    "Players can build or upgrade production facilities",
+    "Facilities consume resources and produce products or currency",
+    "Resources have limits or must be consumed/sold",
+    "Expansion requires cost and unlocks new content"
+  ],
+  "systemLoopHint": "Build facilities → Allocate resources → Wait / Accelerate production → Receive output → Sell / Consume → Invest in expansion → Unlock new chains",
+  "combos": [
+    {
+      "formula": "Management + Time Management",
+      "effect": "Create revenue points through waiting and acceleration while maintaining free progression"
+    },
+    {
+      "formula": "Management + Order System",
+      "effect": "Guide production priorities with external demand, increasing a sense of purpose"
+    },
+    {
+      "formula": "Management + Random Events",
+      "effect": "Break stability with market fluctuations or disasters to create challenge"
+    }
+  ],
+  "advancedWarnings": [
+    "Economic systems can spiral out of control; design sinks to prevent inflation",
+    "Long production chains can tire players; offer automation or shortcuts",
+    "Pure numeric expansion can become dull; pair with visual, narrative, or social feedback",
+    "Excessive automation weakens player decision‑making; too little automation causes management fatigue",
+    "Too many sinks may limit freedom but can enhance goal‑driven play and long‑term investment"
+  ],
+  "advancedAlgoRefs": [
+    "Resource flow diagrams and production chain simulation",
+    "Inventory limits, supply‑demand curves, and price elasticity",
+    "Offline earnings and cross‑session state restoration"
+  ]
+}

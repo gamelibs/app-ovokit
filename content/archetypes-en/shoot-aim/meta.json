@@ -1,0 +1,55 @@
+{
+  "key": "shoot-aim",
+  "name": "Shoot / Aim",
+  "nameEn": "Shoot / Aim",
+  "subtitle": "Aiming, hitting, and resource management create a closed loop; the core lies in hit feedback and risk-reward.",
+  "features": [
+    "数值成长",
+    "关卡"
+  ],
+  "difficulty": "Beginner → Hardcore",
+  "demoRuleHint": "Rule: Aim → Fire → Hit determination → Feedback (knockback/explosion/score) → Cooldown/Reload",
+  "problemsSolved": [
+    "Turn hit detection and feedback into a learnable rhythmic window (why hitting feels good).",
+    "Use constraints like ammo, recoil, and spread to control erratic shots and unlimited output.",
+    "Make pressure come from interpretable targets and rhythm, not just monster stacking.",
+    "Balancing ammo limits and output: too much ammo leads to overkill and lack of rhythm; too little ammo forces frequent reloading, breaking combo flow.",
+    "Balancing recoil and accuracy: excessive recoil makes shooting unstable and reduces combos; weak recoil makes players too precise, diminishing challenge.",
+    "Overly precise shooting weakens game rhythm: when players can easily hit all targets, the game loses tension and players may stop actively seeking dodge or strategy."
+  ],
+  "learningGoals": [
+    "Understand how hit feedback creates satisfying moments.",
+    "Master how fire rate, spread, and recoil shape gameplay difficulty.",
+    "Be able to design clear projectile trajectories, hit detection, and occlusion rules."
+  ],
+  "minimalRules": [
+    "Aiming: mouse/joystick/touch pointing (minimum: fixed direction).",
+    "Hit: ray or projectile detection and occlusion.",
+    "Resources: ammo/cooldown/energy (minimum: cooldown)."
+  ],
+  "systemLoopHint": "Input (aim/fire) → Resolution (hit/occlusion) → Feedback (damage/recoil) → Resource change (cooldown/ammo) → New target.",
+  "combos": [
+    {
+      "formula": "Shoot / Aim + Dodge / Avoid",
+      "effect": "Movement creates windows of opportunity, forming a high-pressure loop."
+    },
+    {
+      "formula": "Shoot / Aim + Progression",
+      "effect": "Accumulate resources through hits/kills to drive weapon progression."
+    },
+    {
+      "formula": "Shoot / Aim + Physics",
+      "effect": "Projectile trajectories interact with the environment, expanding strategic space."
+    }
+  ],
+  "advancedWarnings": [
+    "Weak hit feedback makes shooting feel like 'air shots'.",
+    "Unexplained recoil and spread break the learning curve.",
+    "Inconsistent occlusion rules cause strong frustration."
+  ],
+  "advancedAlgoRefs": [
+    "Hit detection: rays/projectiles, collision layers, hitboxes.",
+    "Spawn generation: enemy refresh rhythm and wave design."
+  ],
+  "lang": "en"
+}

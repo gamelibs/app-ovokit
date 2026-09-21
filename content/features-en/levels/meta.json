@@ -1,0 +1,57 @@
+{
+  "lang": "en",
+  "key": "levels",
+  "name": "Levels",
+  "nameEn": "Levels",
+  "subtitle": "Use structured levels to drive game progression",
+  "concept": "Level design splits game content into a series of independent, progressively harder challenges. Each level has a clear goal, constraints, and scoring, and players unlock subsequent content by completing levels. Levels are the core tool for pacing the experience: they break a long progression line into bite‑size objectives that can be finished in one go, making \"play another level\" the lowest‑cost reason to continue. When designing levels, the goal should be stated in one sentence (match specific elements, reach a target within a time limit, protect a core). Difficulty should rise along the curve of \"introduce mechanic → combine mechanics → pressure test,\" and failure penalties must be light enough that players are willing to retry immediately. Levels also serve as natural vessels for narrative and instruction; new mechanics should always first be taught in low‑pressure levels. Design trade‑offs: 1️⃣ A too‑steep difficulty curve can cause player churn; a too‑shallow curve removes challenge and motivation. 2️⃣ Heavy failure penalties suppress experimentation, while light penalties can diminish a sense of achievement. Counterintuitive insight: moderate failure penalties (e.g., a brief time deduction) often increase replayability because they add subtle tension without breaking the experience, encouraging players to try more efficient completion strategies.",
+  "role": "Levels control player pacing, breaking long‑term goals into manageable short‑term challenges. They are the core vehicle for narrative, teaching, and difficulty‑curve design.",
+  "significance": "Mastering level design helps understand goal setting, difficulty scaling, and player psychological expectations. It is key to moving from a playable prototype to a complete product.",
+  "filterTags": [
+    "Level"
+  ],
+  "cases": [
+    "Angry Birds",
+    "Candy Crush Saga",
+    "Super Mario"
+  ],
+  "problemsSolved": [
+    "Organize game content into consumable units",
+    "Maintain challenge through difficulty curve",
+    "Guide players to learn new mechanics via level objectives"
+  ],
+  "learningGoals": [
+    "Design level objectives and win conditions",
+    "Master difficulty scaling and pacing",
+    "Use levels for teaching and mechanic introduction"
+  ],
+  "minimalRules": [
+    "Each level has a clear objective",
+    "Levels have win/lose conditions",
+    "Completing a level unlocks new content"
+  ],
+  "combos": [
+    {
+      "formula": "Level + Three-star rating",
+      "effect": "Increase replay value and mastery space"
+    },
+    {
+      "formula": "Level + Story",
+      "effect": "Wrap challenge with narrative, enhancing immersion"
+    },
+    {
+      "formula": "Level + Item",
+      "effect": "Provide assist options in hard levels"
+    }
+  ],
+  "advancedWarnings": [
+    "A steep difficulty curve can deter players",
+    "Heavy failure penalties can negatively affect experience",
+    "Level design must consider players of different skill levels"
+  ],
+  "advancedAlgoRefs": [
+    "Level difficulty assessment and dynamic adjustment",
+    "Procedural level generation",
+    "Player performance analysis and level recommendation"
+  ]
+}

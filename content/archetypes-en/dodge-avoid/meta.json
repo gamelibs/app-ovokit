@@ -1,0 +1,52 @@
+{
+  "key": "dodge-avoid",
+  "name": "Dodge / Avoid",
+  "nameEn": "Dodge / Avoid",
+  "subtitle": "Survive under continuous pressure and spatial constraints; the core revolves around hit detection, windows, and rhythm.",
+  "features": [
+    "数值成长",
+    "限时"
+  ],
+  "difficulty": "Beginner → Hardcore",
+  "demoRuleHint": "Rule: Hazard generation → Warning/trajectory → Player movement → Hit detection (hit/near miss) → Feedback (damage/Invincibility frames)",
+  "problemsSolved": [
+    "Make failure reasons attributable (why you were hit, where safety lies)",
+    "Turn near misses into satisfying moments rather than just staying alive",
+    "Control intensity with a pressure curve (density/velocity/rhythm) to avoid pure numeric stacking"
+  ],
+  "learningGoals": [
+    "Understand how sources of pressure and rhythm shape difficulty",
+    "Master hit detection and tolerance (near miss/Invincibility frames/slowing)",
+    "Design readable warnings and feedback"
+  ],
+  "minimalRules": [
+    "Hazard: Generation rules (frequency/direction/speed/quantity)",
+    "Movement: Player movement and constraints (speed, turning, boundaries)",
+    "Hit detection: Hit radius and resolution (damage/failure/Invincibility frames)"
+  ],
+  "systemLoopHint": "Input (movement/dodging) → Prediction (read warning) → Hit detection (hit/near miss) → Feedback (damage/survival) → Pressure change → New input",
+  "combos": [
+    {
+      "formula": "Dodge / Avoid + Shoot / Aim",
+      "effect": "Output while evading, creating a 'positioning and shooting' loop"
+    },
+    {
+      "formula": "Dodge / Avoid + Progression",
+      "effect": "Convert survival time/perfect dodges into progression resources"
+    },
+    {
+      "formula": "Dodge / Avoid + Random",
+      "effect": "Randomize hazard patterns, emphasizing adaptation and reading the map"
+    }
+  ],
+  "advancedWarnings": [
+    "Unclear warnings make failures unaccountable (players feel unjustified)",
+    "Too fast speed with weak feedback turns the experience into 'passively getting hit'",
+    "Overly strict hit detection compresses expressive space; overly lenient loses tension"
+  ],
+  "advancedAlgoRefs": [
+    "Generation: Bullet/obstacle generator and difficulty curve",
+    "Hit detection: Circle/capsule collision, near-miss detection, invincibility frame window"
+  ],
+  "lang": "en"
+}

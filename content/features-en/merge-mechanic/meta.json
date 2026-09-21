@@ -1,0 +1,58 @@
+{
+  "key": "merge-mechanic",
+  "name": "Merge Mechanic",
+  "nameEn": "Merge Mechanic",
+  "lang": "en",
+  "subtitle": "Merge identical or related units into higher‑tier forms",
+  "concept": "The merge mechanic uses a recipe table to combine collectible base units into higher‑tier units, forming a tier chain. Designers must balance three dimensions: the cost curve, the output curve, and player behavior. The cost curve determines how many resources a player must invest to reach the next tier; if it rises too quickly, players experience an \"early fun, late grind\" pattern, whereas if it rises too slowly, players lose a sense of achievement. The output curve measures the value increase after a merge and must stay in sync with the cost curve to avoid a \"high cost, low return\" situation. Player behavior is influenced by random drops and guaranteed mechanics, which affect the predictability of obtaining the units needed for recipes; an offline earnings cap prevents screen‑filling and economic imbalance. Merge is often combined with grid, idle, and other mechanics to create spatial strategy, offline growth, and other multidimensional experiences. For example, merging three grassland units into one forest unit, or four crystal units into one sapphire unit, with the recipe table listing all viable combinations. Counterintuitively, lowering merge cost can improve retention because players experience achievement faster, triggering higher‑frequency merge loops and resulting in a healthier economy.",
+  "role": "Merge creates a sustained sense of growth and collection desire. It amplifies the \"do small tasks → win big\" feedback, giving players always a next unlockable goal, ideal for ultra‑casual and mid‑casual games.",
+  "significance": "Mastering merge features helps developers understand economic curves, scarcity design, and progress psychology. It teaches how simple merge rules can generate complex long‑term goals and avoid the \"early fun, late grind\" numeric pitfalls.",
+  "filterTags": [
+    "Merge"
+  ],
+  "cases": [
+    "Merge Dragons!",
+    "Triple Town",
+    "Suika Game"
+  ],
+  "problemsSolved": [
+    "Maintain high stickiness with low‑frequency actions",
+    "Provide clear long‑term goals via tier chains",
+    "Combine random drops with player choice to create surprise"
+  ],
+  "learningGoals": [
+    "Design scalable tier/merge recipe tables",
+    "Master balancing cost and output curves",
+    "Handle offline earnings and progress saving"
+  ],
+  "minimalRules": [
+    "Players can obtain mergeable base units through quests, drops, or purchases.",
+    "Units that are identical or satisfy a recipe can be merged at any location into a higher‑tier unit.",
+    "The resulting higher‑tier unit has greater output or stronger abilities and can continue to be merged.",
+    "Daily merge limit is 100 to prevent screen‑filling and economic imbalance."
+  ],
+  "combos": [
+    {
+      "formula": "3x3 Merge + Space",
+      "effect": "After merging, adjacent cells can receive extra space rewards; for example, the unit produced by the merge can occupy a larger area or trigger a chain."
+    },
+    {
+      "formula": "Merge + Quest",
+      "effect": "Use objectives to guide players to merge specific units, avoiding aimless play; completing the quest grants extra rewards or unlocks new recipes."
+    },
+    {
+      "formula": "Merge + Placement",
+      "effect": "Even offline, growth is possible; merge counts are capped daily to prevent screen‑filling, and merges can be performed automatically while offline."
+    }
+  ],
+  "advancedWarnings": [
+    "A steep growth curve can make late‑game content feel unattainable.",
+    "Random drops lacking a guaranteed mechanic can lead to negative experience.",
+    "Offline earnings must have a cap to prevent exploitation, e.g., a daily maximum merge count or timestamp limits."
+  ],
+  "advancedAlgoRefs": [
+    "Exponential / polynomial cost and output curves",
+    "Random drop tables and pseudo‑random distributions",
+    "Offline progress calculation"
+  ]
+}

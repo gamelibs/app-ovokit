@@ -1,0 +1,63 @@
+{
+  "lang": "en",
+  "key": "idle",
+  "name": "Idle",
+  "nameEn": "Idle",
+  "subtitle": "Even without active input, the system continues to generate output.",
+  "concept": "The core of idle mechanics lies in the fact that gameplay progress does not rely entirely on real‑time player input. Facilities, characters, or economic systems keep running offline or in the background, and the player only needs to return periodically to collect rewards and make upgrade decisions. Time itself is treated as a game resource; the longer you wait, the richer the payoff. A good design must balance this with a \"cap\" and an \"accelerator\": the cap prevents runaway accumulation that could destabilize the economy; the accelerator (ads, one‑time items, subscription payments) turns waiting into a decision point, providing instant gains while sustaining long‑term retention. Both the cap and accelerator have bidirectional consequences: a too‑low cap forces frequent collection and erodes sense of progress; a too‑high cap leads to resource hoarding and system imbalance. Over‑use of accelerators can diminish the sense of achievement from waiting and hurt retention; insufficient accelerators can cause players to churn due to excessive waiting. The counter‑intuitive insight is that a moderate accelerator can actually heighten players’ anticipation of waiting, because it lets them switch between active and passive modes, creating a \"controlled wait\" experience that boosts retention.",
+  "role": "Reduce player input pressure and accommodate fragmented time; turn waiting itself into gameplay, creating payment and strategic space through acceleration, doubling, and other mechanisms.",
+  "significance": "Mastering idle features means understanding time monetization, offline earnings calculation, and positive feedback loops, becoming a key lever for designing long‑cycle, high‑retention games.",
+  "filterTags": [
+    "Idle",
+    "Idle / Construction"
+  ],
+  "cases": [
+    "Cookie Clicker",
+    "AdVenture Capitalist",
+    "Idle Jianghu"
+  ],
+  "problemsSolved": [
+    "Allow players to feel growth even in fragmented time",
+    "Create acceleration/pay‑point opportunities through waiting mechanics",
+    "Lower the operational threshold and broaden the audience"
+  ],
+  "learningGoals": [
+    "Design offline earnings and cap mechanisms",
+    "Master time acceleration and pay‑point design",
+    "Use upgrade chains to sustain long‑term goal feeling",
+    "Understand the economic balance of offline earnings caps",
+    "Design scalable acceleration mechanisms"
+  ],
+  "minimalRules": [
+    "Define a base production rate (per second), upgrade multiplier, and cumulative cap for each output source; offline earnings are calculated as: min(baseRate * time * (1 + upgradeMultiplier), cap).",
+    "All outputs must be collectible by the player and used for upgrades or unlocking features, ensuring a closed‑loop revenue cycle.",
+    "Accelerators (ads, items, paid options) must be compatible with caps, preventing players from exceeding cumulative limits in a short period, and acceleration effects must be trackable and time‑bound."
+  ],
+  "combos": [
+    {
+      "formula": "Idle + Merge",
+      "effect": "Offline resource generation, merged and upgraded upon login"
+    },
+    {
+      "formula": "Idle + Management",
+      "effect": "Replace single output with a production chain, increasing strategic depth"
+    },
+    {
+      "formula": "Idle + Clicker",
+      "effect": "Allow players to toggle between active clicking and passive income"
+    }
+  ],
+  "advancedWarnings": [
+    "Excessively high offline earnings can diminish the meaning of active play",
+    "Long waiting times can lead to player churn",
+    "Overuse of accelerators may cause paying players to progress too quickly, weakening the free‑player experience",
+    "Prevent time cheating and exploitation"
+  ],
+  "advancedAlgoRefs": [
+    "Offline earnings formula and cap design",
+    "Time acceleration and multiplier system",
+    "Anti‑cheat time validation",
+    "Example of offline earnings calculation",
+    "Analysis of accelerator multiplier and cap compatibility"
+  ]
+}

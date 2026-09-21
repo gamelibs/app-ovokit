@@ -1,0 +1,56 @@
+{
+  "key": "merge-unit",
+  "name": "Merge Units",
+  "nameEn": "Merge Units",
+  "subtitle": "Merge same-level units to upgrade, leveraging exponential growth for long-term objectives; the core lies in recipes, output curves, and full-cell handling.",
+  "features": [
+    "放置产出",
+    "网格",
+    "关卡",
+    "数值成长"
+  ],
+  "difficulty": "Beginner → Intermediate",
+  "demoRuleHint": "Rule: Acquire units → Merge same-level units → Upgrade to higher-level units → Increase output → Trigger full-cell handling when a cell is full.",
+  "problemsSolved": [
+    "Transform low-frequency actions into clear long-term goals via merge-and-upgrade.",
+    "Maintain continuous pull toward the next level with an exponential growth curve.",
+    "Ensure the board remains playable through full-cell or unmergeable handling."
+  ],
+  "learningGoals": [
+    "Understand the merge recipe rules (same-level merging, upgrade results, full-cell handling).",
+    "Master how cost/output curves (linear/exponential/segmented) affect growth pacing.",
+    "Be able to create a playable demo with minimal merge rules."
+  ],
+  "minimalRules": [
+    "Same-level merge rule: at least two units of the same level merge into one unit of level +1; if the target cell is already full after merging, trigger full-cell handling.",
+    "Output growth: each unit's output increases with level, starting at 1 for the lowest level and up to 10 for the highest, forming an exponential curve.",
+    "Full-cell handling: when a target cell is full and cannot merge, the system alerts and blocks placement; if the player opts to force placement, the system automatically consumes low-level units to free space.",
+    "Recipe restriction: same-level merging only applies when the recipe table (e.g., 2→1, 3→1) is satisfied; units not listed in the recipe cannot merge."
+  ],
+  "systemLoopHint": "Input (place/drag) → Evaluation (mergeable?) → Feedback (merge upgrade) → State change (output increase / space release) → New board state → New input.",
+  "combos": [
+    {
+      "formula": "Merge Units + Idle",
+      "effect": "Offline resource accumulation for merging upon return, reducing daily active pressure."
+    },
+    {
+      "formula": "Merge Units + Numbers",
+      "effect": "Exponential output curves amplify growth satisfaction, requiring synchronized consumption design to prevent inflation."
+    },
+    {
+      "formula": "Merge Units + Levels",
+      "effect": "Use level objectives to guide merge direction, preventing aimlessness."
+    }
+  ],
+  "advancedWarnings": [
+    "A steep output curve can make later levels unattainable, while a shallow curve loses momentum; balancing the exponential growth rate is a core tuning point.",
+    "Missing full-cell handling can freeze the board; forcing consumption of low-level units keeps flow but diminishes their value.",
+    "High output from low-level units can provide abundant early resources, sometimes more important than high-level units—counterintuitive, so early resource allocation must be considered.",
+    "Random drops lacking a safety net amplify frustration; a guarantee and anti-spam mechanism are needed."
+  ],
+  "advancedAlgoRefs": [
+    "Merge determination: same-level matching, recipe table, chain merge settlement.",
+    "Growth curve: exponential/segmented cost and output design, guarantee and anti-spam."
+  ],
+  "lang": "en"
+}

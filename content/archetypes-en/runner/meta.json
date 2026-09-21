@@ -1,0 +1,52 @@
+{
+  "key": "runner",
+  "name": "Runner",
+  "nameEn": "Runner",
+  "lang": "en",
+  "subtitle": "Continuously moving forward while managing path, obstacles, and rhythm; core is readability and choice cost.",
+  "features": [
+    "关卡",
+    "数值成长"
+  ],
+  "difficulty": "Beginner → Intermediate",
+  "demoRuleHint": "Rule: Auto-forward (base 5 m/s) → Obstacle/branch appears → Input (slide/jump/turn) → Judgment (pass/fail) → Speed/combo changes",
+  "problemsSolved": [
+    "Use minimal input to create multiple branching choices (lane/jump/turn/branch).",
+    "Standardize obstacle readability and advance notice, reducing \"can't see, then die\".",
+    "Use speed and segment structure to create rhythmic peaks and troughs, avoiding monotonous straight lines."
+  ],
+  "learningGoals": [
+    "Understand how path branching creates decision density.",
+    "Master how speed, camera, and readability affect difficulty.",
+    "Be able to design levels with \"low input cost but high decision value\"."
+  ],
+  "minimalRules": [
+    "Forward speed: base 5 m/s, combo bonus +0.5 m/s per combo, max 8 m/s.",
+    "Obstacle judgement: jump pass requires triggering jump within 0.3 s before obstacle, jump height ≥1.2 m; slide pass requires sliding within 0.2 s before obstacle; turn pass requires completing turn when lane spacing ≥1.5 m.",
+    "Reward system: collecting items increases combo +1; combo ≥5 triggers combo bonus 1.2× speed; combo lasts 10 s."
+  ],
+  "systemLoopHint": "Input (jump/slide/turn) → Judgment (pass?) → Feedback (speed/combo) → Scene progression → New obstacle → New input",
+  "combos": [
+    {
+      "formula": "Runner + Progression",
+      "effect": "Earn 1 experience point every 10 m; upon reaching 5 points, unlock a new running stance or item, raising the maximum combo cap."
+    },
+    {
+      "formula": "Runner + Combat",
+      "effect": "Collect energy items to trigger abilities (e.g., sprint, shield); ability charge accumulates from combos, and combos reset after use."
+    },
+    {
+      "formula": "Runner + Random",
+      "effect": "Procedurally stitch track segments; obstacle types and density are randomly generated along a difficulty curve, maintaining player adaptability."
+    }
+  ],
+  "advancedWarnings": [
+    "Insufficient readability leads to \"reaction failure\" rather than \"decision failure\", causing players to lose rhythm.",
+    "Too high obstacle density overwhelms choices, turning the game into pure reaction and reducing depth.",
+    "Too low obstacle advance time can actually increase rhythm, but also raises misjudgement rates because players must decide faster, leading to over-anticipation and delayed reaction."
+  ],
+  "advancedAlgoRefs": [
+    "Level: segment stitching, difficulty rhythm arrangement.",
+    "Judgement: terrain collision, jump trajectory, camera follow."
+  ]
+}

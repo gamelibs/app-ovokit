@@ -1,0 +1,57 @@
+{
+  "lang": "en",
+  "key": "generation",
+  "name": "Generation",
+  "nameEn": "Generation",
+  "subtitle": "Create game content with procedural methods",
+  "concept": "Generation refers to creating levels, maps, enemies, items, and other content through algorithms rather than manual design. It ensures each playthrough feels different, greatly boosting replayability. The essence of generation is \"constrained randomness\": pure randomness produces noise; only after rules and validation are applied does it become usable content. Common techniques include noise‑based terrain, room‑corridor dungeons, constraint solving, and wave‑function collapse. The core tension in generation design is balancing controllability with novelty—too much control lets players spot patterns quickly; too much randomness can yield dull or unfair situations. Therefore mature generation systems always include validation mechanisms to prove content is playable before handing it to players.",
+  "role": "Generation addresses content production bottlenecks and offers infinite variety to players. It is a core technical feature of Roguelike, open‑world, and sandbox games.",
+  "significance": "Mastering generation helps understand randomness, constraint satisfaction, and emergent design. It is key to moving from fixed content to infinite content.",
+  "filterTags": [
+    "Generation"
+  ],
+  "cases": [
+    "Minecraft",
+    "Spelunky",
+    "No Man's Sky"
+  ],
+  "problemsSolved": [
+    "Reduce manual content creation costs",
+    "Increase replay value through randomness",
+    "Create emergent player stories"
+  ],
+  "learningGoals": [
+    "Master generation techniques such as noise, graph partitioning, and constraint solving",
+    "Design controllable randomness parameters",
+    "Balance random content with player fairness"
+  ],
+  "minimalRules": [
+    "An algorithmic content generation process exists",
+    "Generated results must be playable/valid",
+    "Players should feel each experience differs"
+  ],
+  "combos": [
+    {
+      "formula": "Generation + Levels",
+      "effect": "Each level layout differs each playthrough"
+    },
+    {
+      "formula": "Generation + Roguelike",
+      "effect": "Build variety using random relics and maps"
+    },
+    {
+      "formula": "Generation + Progression",
+      "effect": "Dynamically adjust difficulty and rewards"
+    }
+  ],
+  "advancedWarnings": [
+    "Purely random generation can produce dull or unfair outcomes",
+    "Generated content must be validated to ensure playability",
+    "High algorithmic complexity can impact performance"
+  ],
+  "advancedAlgoRefs": [
+    "Perlin/Simplex noise for terrain generation",
+    "Room‑corridor dungeon generation",
+    "Constraint solving and wave‑function collapse"
+  ]
+}

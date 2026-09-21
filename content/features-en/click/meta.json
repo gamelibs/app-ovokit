@@ -1,0 +1,63 @@
+{
+  "lang": "en",
+  "key": "click",
+  "name": "Clicker",
+  "nameEn": "Clicker",
+  "subtitle": "Drive game progression through high-frequency clicking.",
+  "concept": "Click mechanics center around continuous player taps as the primary input. Each tap triggers immediate feedback—numeric jumps, sound cues, and synchronized animation. The core design balances feedback intensity against player fatigue, and aligns the reward curve with progression arcs. Overly strong visual/audio cues can cause short-term overstimulation, breaking flow; too weak cues lose instant gratification. The reward curve must provide sufficient early momentum while sustaining long-term viability to prevent churn. As click rewards gradually upgrade into automated output, the gameplay naturally transitions to idle, forming a growth arc from active operation to passive income—a foundational structure for long‑term retention in clicker games.",
+  "role": "Provides an instant feedback loop, allowing players to confirm each click’s effectiveness immediately and maintain short‑term flow.",
+  "significance": "It is the foundation of low‑barrier, high‑feedback gameplay and serves as the bridge for transitioning from active operation to passive income, shaping the growth arc from clicking to idle.",
+  "filterTags": [
+    "Clicker",
+    "Timing"
+  ],
+  "cases": [
+    "Cookie Clicker",
+    "Tap Titans",
+    "Click the Titan"
+  ],
+  "problemsSolved": [
+    "Engage players with minimal operational cost",
+    "Maintain short‑term retention through continuous feedback",
+    "Transform clicking behavior into long‑term goals via upgrades"
+  ],
+  "learningGoals": [
+    "Design instant feedback and visual/audio amplification, balancing flow and fatigue",
+    "Build early incentive and long‑term sustainability in the click reward curve",
+    "Implement automation conversion mechanisms to reduce player fatigue",
+    "Balance the complementary relationship between clicking and idle to form a growth arc",
+    "Identify and avoid counterintuitive traps that cause loss of flow due to excessive mechanization"
+  ],
+  "minimalRules": [
+    "Players generate resources or effects through clicking",
+    "Click rewards can be upgraded to increase the value per click",
+    "There is a path to convert clicks into permanent growth",
+    "Set cooldowns or rate limits to prevent excessive clicking and fatigue"
+  ],
+  "combos": [
+    {
+      "formula": "Clicker + Idle",
+      "effect": "Active clicking complements passive income, creating continuous output"
+    },
+    {
+      "formula": "Clicker + Timing",
+      "effect": "Clicking within specific windows grants bonuses, enhancing rhythm"
+    },
+    {
+      "formula": "Clicker + Progression",
+      "effect": "Click rewards permanently upgrade, forming long‑term goals"
+    }
+  ],
+  "advancedWarnings": [
+    "Pure clicking can cause fatigue; provide automation or rhythm variation",
+    "Ensure the click reward curve does not start too slow or explode too late",
+    "Pay attention to mobile click hot zones and accidental taps",
+    "Avoid over‑reliance on a single click reward to prevent gameplay monotony"
+  ],
+  "advancedAlgoRefs": [
+    "Click cooldowns and combo determination",
+    "Balancing automated and manual click rewards",
+    "Design of critical hit / combo probabilities",
+    "Combo determination algorithm details: use fixed time windows and click counts to calculate combo multipliers"
+  ]
+}

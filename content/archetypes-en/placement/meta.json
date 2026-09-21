@@ -1,0 +1,56 @@
+{
+  "key": "placement",
+  "name": "Placement / Building",
+  "nameEn": "Placement / Building",
+  "lang": "en",
+  "subtitle": "Space rules and feedback loops drive strategy and cascading rewards",
+  "features": [
+    "网格",
+    "关卡",
+    "数值成长"
+  ],
+  "difficulty": "Beginner → Intermediate",
+  "demoRuleHint": "Example: Select object → Preview highlight → Place → Trigger income/blockage → Adjust layout",
+  "problemsSolved": [
+    "Visualize spatial relationships like tile occupancy and connectivity to reduce cognitive load.",
+    "Allow previewing and undoing incorrect placements to reduce frustration and trial‑and‑error waste.",
+    "Use layout optimization and cascading rewards to drive ongoing objectives instead of a one‑off placement."
+  ],
+  "learningGoals": [
+    "Understand how spatial constraints generate strategy.",
+    "Master the impact of preview/highlight/attachment on usability.",
+    "Be able to build reusable grid/attachment/placement systems.",
+    "Recognize the trade‑off between layout density and rewards.",
+    "Assess the benefits and risks of edge placements."
+  ],
+  "minimalRules": [
+    "Placement check: object size ≤ 1×1 grid cells and non‑overlapping; size > 1×1 must occupy contiguous cells and not intersect already‑occupied objects.",
+    "Connectivity bonus: adjacent same‑type buildings earn +10% income; excessive connectivity accelerates resource consumption, so balance layout density.",
+    "Edge bonus: placements on the perimeter earn +5% income; however, they are more vulnerable to attack, so consider defensive layout.",
+    "Preview/Highlight: before placement, highlight legal/illegal zones; illegal zones are marked red with a reason to help players correct quickly."
+  ],
+  "systemLoopHint": "Input (Place/Rotate/Move) → Validation (Legal/Illegal) → Feedback (Highlight/Failure Reason) → State Change (Layout Update) → New Input",
+  "combos": [
+    {
+      "formula": "Construction + Resource Management",
+      "effect": "Arrange resource buildings in high‑yield zones to create a cycle; each resource node must host at least one gathering structure to activate income."
+    },
+    {
+      "formula": "Construction + Defense",
+      "effect": "Place defensive towers on the perimeter for a defense bonus; simultaneously place support structures in the center to boost overall defense."
+    },
+    {
+      "formula": "Construction + Connectivity",
+      "effect": "Arrange same‑type buildings along a connectivity line to gain a connectivity bonus; but keep at least one open path to avoid being blocked."
+    }
+  ],
+  "advancedWarnings": [
+    "Lack of preview and failure reasons will break the placement experience, making it hard for players to judge legal placements.",
+    "Too many constraints without sufficient feedback will leave newcomers stuck, steepening the learning curve.",
+    "Slow reward settlement reduces perceived strategic payoff, leading players to think the layout is ineffective."
+  ],
+  "advancedAlgoRefs": [
+    "Grid: placement, attachment, rotation, collision",
+    "Path: path feasibility (walkable/unwalkable) and connectivity checks"
+  ]
+}

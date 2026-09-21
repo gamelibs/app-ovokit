@@ -1,0 +1,66 @@
+{
+  "lang": "en",
+  "key": "merge",
+  "name": "Merge / Incremental",
+  "nameEn": "Merge / Incremental",
+  "subtitle": "Acquire → Merge → Level Up → Higher Output",
+  "concept": "The Merge progression model centers on merging low‑level resources into higher‑level ones through defined rules. Players continuously acquire base units and merge them by matching type or specific recipes, unlocking higher levels, stronger abilities, or greater output. Its underlying mechanic follows an exponential or polynomial growth curve, complemented by waiting, decision‑making, and surprise. When combined with idle features, it forms the classic retention structure of offline production and online merging. A common misconception is that more merge rules increase player freedom; in reality, too many recipes can weaken macro planning, turning the game into a puzzle rather than a strategy. Conversely, limiting merge options forces deeper resource‑allocation decisions, enhancing overall strategic depth. Balancing merge speed is also key: too fast merges leave little decision space and create monotony; too slow causes boredom from waiting. The steepness of the growth curve matters too: steep curves give quick sense of achievement, but later content becomes unattainable; shallow curves keep players engaged long‑term but lack immediate feedback.",
+  "role": "This model creates a persistent sense of progression and collection. It amplifies the \"small actions → big rewards\" feedback loop and, through upgrade chains, always gives players a next goal. Merge progression is ideal for hyper‑casual and mid‑casual titles, and often appears as a subsystem in management or RPG games.",
+  "significance": "Mastering the merge progression model means understanding economic curves, scarcity design, and progression psychology. Developers learn how to generate complex long‑term goals with simple merge rules, and how to avoid the \"early rush, late grind\" numeric pitfalls.",
+  "loop": "Resource → Merge → Level Up → Production",
+  "abstractions": [
+    "Resources",
+    "Merge Rules",
+    "Level",
+    "Production Rhythm",
+    "Growth Curve"
+  ],
+  "cases": [
+    "Merge Dragons!",
+    "Triple Town",
+    "Suika Game",
+    "Cookie Clicker"
+  ],
+  "problemsSolved": [
+    "Maintain high stickiness with low‑frequency actions (idle + timed collection)",
+    "Provide clear long‑term goals via level progression",
+    "Combine random drops with player choice to create surprise and strategy"
+  ],
+  "learningGoals": [
+    "Design scalable level/merge recipe tables",
+    "Master cost curves, production curves, and economic balance",
+    "Implement automatic production, offline earnings, and progress persistence",
+    "Analyze trade‑offs between merge speed and player decision time"
+  ],
+  "minimalRules": [
+    "Base resources/units are collectible",
+    "Same or rule‑compliant units can merge into higher levels",
+    "Higher‑level units yield greater output or stronger abilities",
+    "Output or new content unlocks require waiting or active action"
+  ],
+  "systemLoopHint": "Acquire resources → Select merge targets → Trigger upgrade → Increase output/unlock content → Harvest resources → Loop",
+  "combos": [
+    {
+      "formula": "Merge + Idle",
+      "effect": "Allows players to grow even while offline, reducing daily active pressure"
+    },
+    {
+      "formula": "Merge + Quest",
+      "effect": "Guides players to merge specific units with objectives, preventing aimlessness"
+    },
+    {
+      "formula": "Merge + Spatial",
+      "effect": "Combines merging with board positioning, adding layout strategy"
+    }
+  ],
+  "advancedWarnings": [
+    "A steep growth curve makes later content feel unattainable; a shallow curve loses excitement",
+    "Random drops without a guarantee mechanic can lead to negative experiences",
+    "Offline earnings must be protected from exploitation; design caps or verification mechanisms"
+  ],
+  "advancedAlgoRefs": [
+    "Design of exponential/polynomial cost and production curves",
+    "Random drop tables and pseudo‑random distributions (guarantees, pools)",
+    "Offline progress calculation and state synchronization"
+  ]
+}

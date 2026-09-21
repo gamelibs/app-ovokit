@@ -1,0 +1,55 @@
+{
+  "key": "match-clear",
+  "name": "Match / Clear",
+  "nameEn": "Match / Clear",
+  "lang": "en",
+  "subtitle": "Trigger elimination and chain feedback through matching rules; create rhythm and strategic space with minimal rules.",
+  "features": [
+    "网格",
+    "关卡",
+    "数值成长",
+    "限时"
+  ],
+  "difficulty": "Beginner → Intermediate",
+  "demoRuleHint": "Rule: swap/click → form ≥3 identical → eliminate → fall/replenish → chain (optional)",
+  "problemsSolved": [
+    "Increase decision density with the shortest feedback cycle (every move yields a result).",
+    "Use chains to create rhythmic peaks and pursue objectives.",
+    "Generate explainable board management through spatial constraints and replenishment mechanics."
+  ],
+  "learningGoals": [
+    "Understand how matching conditions produce immediate feedback.",
+    "Master how chains alter rhythm and strategic priorities.",
+    "Be able to build a playable demo with minimal rules."
+  ],
+  "minimalRules": [
+    "Match determination: what counts as 'identical', how to form a group (≥3 / line / L-shape, etc.).",
+    "Settlement feedback: elimination animation/sound/score (minimal can be 'disappear').",
+    "State update: falling, replenishment, blocking (minimal is 'fall + replenish')."
+  ],
+  "systemLoopHint": "Input (swap/click) → Judgment (group formation) → Feedback (elimination) → State change (fall/replenish) → New board → New input.",
+  "combos": [
+    {
+      "formula": "Match / Clear + Progression",
+      "effect": "Map chains to resources and upgrades, creating long-term goals."
+    },
+    {
+      "formula": "Match / Clear + Combat",
+      "effect": "Translate elimination results into skill triggers/damage, turning into rhythmic output."
+    },
+    {
+      "formula": "Match / Clear + Random",
+      "effect": "Use random drops/affixes to expand the board, creating a Roguelike match-3."
+    }
+  ],
+  "advancedWarnings": [
+    "Excessive chain rewards can lead to a single strategy (only chasing chains, ignoring the board).",
+    "Tight step/time limits compress decision space, turning play into mechanical execution.",
+    "Bias in replenishment algorithms can undermine explainability (players feel 'controlled').",
+    "Reducing chain rewards can actually increase long-term strategic diversity, as players must focus on overall layout rather than a single chain."
+  ],
+  "advancedAlgoRefs": [
+    "Match-3: elimination validation, chain settlement, replenishment generation strategy.",
+    "Board evaluation: eliminable detection, deadlock detection, hint generation."
+  ]
+}

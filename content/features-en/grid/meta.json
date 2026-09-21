@@ -1,0 +1,66 @@
+{
+  "key": "grid",
+  "lang": "en",
+  "name": "Grid",
+  "nameEn": "Grid",
+  "subtitle": "Intuitive operations within a structured grid space",
+  "concept": "Grid gameplay maps abstract rules onto a discrete grid space, allowing players to make decisions based on coordinates and adjacency. Designers first decide the grid data structure (2D array, coordinate mapping, or graph), then define legal operations for elements within the grid (move, match, merge) and win/lose conditions based on the grid. The shape of the grid (square, hexagonal, etc.) determines adjacency directions (4‑way, 8‑way, 6‑way), directly influencing connectivity algorithms, visual presentation, and strategic depth. Square grids are easy to implement and visually intuitive but limit diverse connectivity patterns; hexagonal grids offer richer adjacency relationships, expanding strategic space but adding coordinate conversion and rendering cost. Designers must balance intuitive usability with algorithmic feasibility, selecting appropriate adjacency rules and grid size. Additionally, the frequency and distribution of random events affect strategy formation; excessive randomness weakens strategic play. By providing timely feedback on actions within the game loop, players can immediately perceive changes, maintaining pace and challenge. Moreover, grid size also presents a trade‑off: larger grids provide broader strategic space but can become visually cluttered and increase cognitive load; smaller grids are easier to manage but may feel cramped, reducing exploration. In some match‑3 games, a sparser grid can actually improve match success rates because fewer adjacent cells reduce conflicts, making it easier for players to find matchable combinations. This arises because the matching algorithm finds connected blocks more readily in sparse environments, reducing reliance on random matches.",
+  "role": "Grid transforms abstract rules into observable spatial structures. It serves as the foundational spatial form for gameplay types such as match‑3, merge, puzzle, and strategy board games.",
+  "significance": "Mastering grid characteristics enables understanding of spatial data structures, connectivity detection, and level generation; it is key to translating logical problems into intuitive actions.",
+  "filterTags": [
+    "Grid"
+  ],
+  "cases": [
+    "Candy Crush",
+    "2048",
+    "Tetris"
+  ],
+  "problemsSolved": [
+    "Converting rules into visual spatial actions",
+    "Creating rich combinations within a limited grid",
+    "Providing continuous novelty through changing board states"
+  ],
+  "learningGoals": [
+    "Represent space using 2D arrays or graphs",
+    "Implement connected component detection and match determination",
+    "Design level layouts and difficulty curves"
+  ],
+  "minimalRules": [
+    "Define the grid space and its boundaries: represent cells with a 2D array or coordinate mapping, and explicitly specify dimensions and coordinate ranges in code.",
+    "Define legal operations for elements within the grid: specify movement directions, step sizes, obstacle detection, and trigger events (match, merge).",
+    "Define win/loss or scoring conditions based on the grid: set match‑chain detection, scoring methods, or goal‑completion criteria.",
+    "Define grid shape and adjacency rules: choose square/hexagonal, etc., and specify adjacency directions (4‑way, 8‑way, 6‑way) to determine connectivity algorithms.",
+    "Consider player perspective and feedback mechanisms to ensure action results are intuitively perceived: implement visual or audio feedback, verify UI updates or log output.",
+    "Dynamically adjust grid size based on game goals and player skill to avoid overly large grids that scatter attention or overly small grids that lack spatial sense."
+  ],
+  "combos": [
+    {
+      "formula": "Grid + Match",
+      "effect": "Creates instant feedback through positional matching"
+    },
+    {
+      "formula": "Grid + Merge",
+      "effect": "Combines spatial positioning with upgrades"
+    },
+    {
+      "formula": "Grid + Strategy",
+      "effect": "Adds strategic depth through terrain and positioning"
+    },
+    {
+      "formula": "Grid + Resource Management",
+      "effect": "Manages resource distribution via grid placement"
+    }
+  ],
+  "advancedWarnings": [
+    "Grid size that is too large or too small negatively impacts experience",
+    "Dead‑end detection and hint mechanisms are crucial",
+    "State‑space explosion can make generation difficult",
+    "Excessively symmetrical grids may cause players to lose sense of direction",
+    "Excessive randomness hinders players from forming strategies"
+  ],
+  "advancedAlgoRefs": [
+    "2D array traversal and coordinate conversion",
+    "Connected component detection (BFS/DFS)",
+    "Board state evaluation and heuristic search"
+  ]
+}

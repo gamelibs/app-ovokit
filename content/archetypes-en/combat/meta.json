@@ -1,0 +1,58 @@
+{
+  "lang": "en",
+  "key": "combat",
+  "name": "Combat",
+  "nameEn": "Combat",
+  "subtitle": "Centered on trading and countering with opponents and skills; the core revolves around windows, resources, and reading moves.",
+  "features": [
+    "数值成长",
+    "Roguelike",
+    "限时"
+  ],
+  "difficulty": "Intermediate → Hardcore",
+  "demoRuleHint": "Rule: Observe opponent → Choose skill → Resolve (hit/block/evade) → Feedback (damage/stagger) → Resource recovery",
+  "problemsSolved": [
+    "Clarify attack/defense windows (wind-up/active/stagger) to reduce 'unfair hits'.",
+    "Use resources (stamina/cooldown/distance) to constrain skill usage, forcing choices and rhythm.",
+    "Balance hit weight and risk/reward so that 'attack/evade/block' each carry value.",
+    "Balance wind‑up length and rhythm: a too‑short wind‑up allows combos but removes counter windows; a too‑long wind‑up is easy to interrupt but allows move reading. Designers must balance combo fluidity with defensive readability.",
+    "Resource recovery speed versus skill variety: too fast recovery leads to mindless skill loops; too slow limits combo depth, increasing strategic depth."
+  ],
+  "learningGoals": [
+    "Understand how 'windows' define attack/defense rhythm.",
+    "Master how skill resources (cooldown/stamina/energy) constrain strategy.",
+    "Be able to design readable skill wind‑ups and counter spaces."
+  ],
+  "minimalRules": [
+    "Actions: the player may choose to attack, block, or move; attacks require a wind‑up window; movement requires a movement window.",
+    "Resolution: hit chance is based on accuracy + opponent's evasion; if accuracy > evasion, it's a hit; block chance is based on block rate + opponent's attack power; if block rate > attack power, it's a block.",
+    "Invincibility check: if a skill's invincibility frames exceed the opponent's action duration, the opponent cannot be hit.",
+    "Resources: stamina/cooldown; attacks consume stamina/cooldown; movement consumes stamina; blocking consumes stamina.",
+    "Windows: wind‑up, block window, movement window, stagger window; each window length is configurable."
+  ],
+  "systemLoopHint": "Input (skill selection) → Resolve (hit/counter) → Feedback (damage/stagger) → Resource change (cooldown/stamina) → New window → New input",
+  "combos": [
+    {
+      "formula": "Combat + Match",
+      "effect": "Use matches to trigger skills and rhythm points"
+    },
+    {
+      "formula": "Combat + Choice/Strategy",
+      "effect": "Add building/selection, allowing mid‑to‑long‑term decisions to influence the confrontation"
+    },
+    {
+      "formula": "Combat + Random",
+      "effect": "Affixes/loot alter responses, boosting replayability"
+    }
+  ],
+  "advancedWarnings": [
+    "Unclear wind‑ups render counters ineffective, turning combat into a numbers game.",
+    "Too fast resource recovery leads to mindless skill loops.",
+    "Missing stagger/recoil removes weight from hits.",
+    "Shorter wind‑ups increase overall pace but may shrink defensive space, forcing players into passive attacks and counterintuitively lowering the experience."
+  ],
+  "advancedAlgoRefs": [
+    "State Machine: skill states, cancellation, stagger, hit",
+    "Hit Detection: colliders, invincibility frames, combo windows"
+  ]
+}
