@@ -70,8 +70,8 @@ export function DemoEmbed({
   const stageWrapperClass =
     wrapperClassName ??
     (orientation === "portrait"
-      ? // 竖屏 demo：手机尺寸限宽居中（过大容器会让画布信箱化、喧宾夺主）
-        "mx-auto w-full max-w-[420px] h-[620px] max-sm:h-auto max-sm:aspect-[3/4] relative"
+      ? // 竖屏 demo：手机尺寸限宽居中（过大容器会让画布信箱化、喧宾夺主）；移动端保持同高——原子 demo 含参数面板，压扁会裁掉 HUD
+        "mx-auto w-full max-w-[420px] h-[620px] relative"
       : "min-h-[360px] h-[60vh] w-full sm:h-auto sm:aspect-[4/3] lg:aspect-[16/10] relative");
 
   return (

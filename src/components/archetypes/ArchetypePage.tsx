@@ -194,6 +194,7 @@ export function ArchetypePage({
             controls="toolbar"
             showRestart
             restartStrategy="postMessage"
+            orientation="portrait"
           />
           </div>
           {/* 右：规则说明 */}

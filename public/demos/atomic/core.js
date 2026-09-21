@@ -130,9 +130,12 @@
       var main = root.querySelector('.ac-main');
       var narrow = wrap.clientWidth < 600;
       var sideH = narrow ? side.offsetHeight : 0;
-      var chrome = 40 + 34 + 16 + sideH; // 标题 + HUD + padding + （窄屏侧栏高）
+      // 实测 chrome 高度（标题栏 + HUD + 参数面板 + 间隙），画布自动缩放填满剩余空间
+      var head = root.querySelector('.ac-head');
+      var hud = root.querySelector('.ac-hud');
+      var chrome = (head ? head.offsetHeight : 0) + (hud ? hud.offsetHeight : 0) + 48 + sideH;
       var fitW = (window.innerHeight - chrome) / 1.5;
-      var w = Math.max(240, Math.min(main.clientWidth, 520, fitW));
+      var w = Math.max(200, Math.min(main.clientWidth, 520, fitW));
       var h = Math.round(w * 1.5); // 2:3 竖屏
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
