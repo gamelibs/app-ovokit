@@ -64,7 +64,7 @@
     },
     {
       "title": "难度曲线对照",
-      "action": "easy 与 hard 各「推进（tick）」10 步，对比 difficultyScore 与 mistakes 的增速",
+      "action": "easy 与 hard 各「推进 1 步」10 步，对比 difficultyScore 与 mistakes 的增速",
       "observe": "hard 下 difficultyScore 更高、mistakes 增长更快——难度不是「更隐蔽的答案」，而是「更长的推理链」。学习曲线设计要控制的是链条长度的爬坡速率，而不是把答案藏深"
     }
   ]

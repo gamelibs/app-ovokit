@@ -59,7 +59,7 @@
     },
     {
       "title": "Stability Watch",
-      "action": "After cutting, click \"Advance (tick)\" a dozen steps and track the wobble metric",
+      "action": "After cutting, click \"Advance 1 Step\" a dozen steps and track the wobble metric",
       "observe": "wobble visualizes structural stability: a cut severs load-bearing paths, and oscillation amplifies until collapse. Physics gameplay is predictable because identical inputs give identical results — players dare to make precise cuts only when they can predict which way things fall"
     },
     {

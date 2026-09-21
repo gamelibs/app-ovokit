@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>跑酷 · 难度曲线实验室 | OVO 原子 Demo</title>
+<title>Runner · Difficulty Curve Lab | OVO Atomic Demo</title>
 </head>
 <body>
 <script src="../core.js"></script>
@@ -13,16 +13,16 @@
 //   - 初始速度：起手高度决定新手第一秒的感受（太慢无聊 / 太快劝退）
 //   - 加速曲线：斜率决定心流通道的坡度，0 = 无成长的平坡
 AtomCore.create({
-  title: '跑酷 · 难度曲线实验室',
-  objective: '点左/右半屏换道躲开障碍。调「初始速度」看起手门槛，调「加速曲线」看难度爬坡。',
+  title: AtomCore.L('跑酷 · 难度曲线实验室', 'Runner · Difficulty Curve Lab'),
+  objective: AtomCore.L('点左/右半屏换道躲开障碍。调「初始速度」看起手门槛，调「加速曲线」看难度爬坡。', 'Tap left/right half to switch lanes and dodge obstacles. Tune "Initial Speed" for the entry barrier, and "Acceleration Curve" for the difficulty ramp.'),
   lives: 3,
   params: [
-    { key: 'v0', label: '初始速度', min: 120, max: 320, step: 10, default: 180, unit: 'px/s' },
-    { key: 'accel', label: '加速曲线', min: 0, max: 30, step: 2, default: 10, unit: 'px/s²' }
+    { key: 'v0', label: AtomCore.L('初始速度', 'Initial Speed'), min: 120, max: 320, step: 10, default: 180, unit: 'px/s' },
+    { key: 'accel', label: AtomCore.L('加速曲线', 'Acceleration Curve'), min: 0, max: 30, step: 2, default: 10, unit: 'px/s²' }
   ],
   hudExtra: function (g) {
     var v = g.params.v0 + g.params.accel * g.time;
-    return '速度 <b>' + Math.round(v) + '</b> px/s · 存活 <b>' + g.time.toFixed(1) + 's</b>';
+    return AtomCore.L('速度 <b>', 'Speed <b>') + Math.round(v) + '</b> px/s' + AtomCore.L(' · 存活 <b>', ' · alive <b>') + g.time.toFixed(1) + 's</b>';
   },
   setup: function (g) {
     g.data.lane = 1;              // 0/1/2
@@ -96,7 +96,7 @@ AtomCore.create({
     var px = d.playerX || this.laneX(g, d.lane);
     if (!((d.invincible || 0) > 0 && (g.time * 12 | 0) % 2 === 0)) {
       gg.circle(px, py, 20, C.BLUE, 2.5);
-      gg.text('我', px, py, 15, C.INK);
+      gg.text(AtomCore.L('我', 'ME'), px, py, 15, C.INK);
     }
     // 速度线（速度越快越密）
     var speed = g.params.v0 + g.params.accel * g.time;
@@ -111,7 +111,7 @@ AtomCore.create({
     }
     // 受击闪屏
     if (d.flash > 0) { ctx.fillStyle = 'rgba(255,139,139,' + (d.flash * 1.5) + ')'; ctx.fillRect(0, 0, g.W, g.H); }
-    gg.text('点左半屏 ← 换道 · 点右半屏 → 换道', g.W / 2, g.H - 30, 13, '#888');
+    gg.text(AtomCore.L('点左半屏 ← 换道 · 点右半屏 → 换道', 'Tap left half ← lane left · right half → lane right'), g.W / 2, g.H - 30, 13, '#888');
   }
 });
 </script>

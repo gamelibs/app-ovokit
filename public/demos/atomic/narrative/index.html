@@ -1,59 +1,68 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>交互叙事 · 山中小屋 | OVO 原子 Demo</title>
+<title>Interactive Narrative · Mountain Cabin | OVO Atomic Demo</title>
 </head>
 <body>
 <script src="../core.js"></script>
 <script>
 // 交互叙事原子 demo：行为循环 = 选择 → 后果 → 分支 → 结局
 // 教学点：每个选择都改变状态变量并影响结局；开关「后果提示」体验信息披露设计
+var L = AtomCore.L;
 var STORY = {
   start: {
-    text: '深夜，你在山中小屋避雨。壁炉快熄了，门外传来敲门声。',
+    text: L('深夜，你在山中小屋避雨。壁炉快熄了，门外传来敲门声。',
+      'Late at night, you shelter from the rain in a mountain cabin. The fireplace is dying, and someone knocks at the door.'),
     choices: [
-      { t: '开门看看是谁', next: 'door', flags: { courage: 1 } },
-      { t: '先添柴火再说', next: 'fire', flags: { warm: 1 } }
+      { t: L('开门看看是谁', 'Open the door to see who it is'), next: 'door', flags: { courage: 1 } },
+      { t: L('先添柴火再说', 'Feed the fire first'), next: 'fire', flags: { warm: 1 } }
     ]
   },
   door: {
-    text: '门外是个浑身湿透的旅人，他说山里有狼。你让他进来了吗？',
+    text: L('门外是个浑身湿透的旅人，他说山里有狼。你让他进来了吗？',
+      'Outside stands a soaked traveler who says there are wolves in the mountains. Do you let him in?'),
     choices: [
-      { t: '让他进屋取暖', next: 'end', flags: { kind: 1 } },
-      { t: '给他毯子但不开门', next: 'end', flags: { cautious: 1 } }
+      { t: L('让他进屋取暖', 'Let him in to warm up'), next: 'end', flags: { kind: 1 } },
+      { t: L('给他毯子但不开门', 'Pass him a blanket but keep the door shut'), next: 'end', flags: { cautious: 1 } }
     ]
   },
   fire: {
-    text: '火重新旺起来。敲门声停了，窗上却映出一个影子。',
+    text: L('火重新旺起来。敲门声停了，窗上却映出一个影子。',
+      'The fire roars back to life. The knocking stops, but a shadow appears on the window.'),
     choices: [
-      { t: '吹灭灯，躲到墙角', next: 'end', flags: { cautious: 1 } },
-      { t: '提灯走到窗边查看', next: 'end', flags: { courage: 1 } }
+      { t: L('吹灭灯，躲到墙角', 'Blow out the lamp and hide in the corner'), next: 'end', flags: { cautious: 1 } },
+      { t: L('提灯走到窗边查看', 'Take the lamp and look out the window'), next: 'end', flags: { courage: 1 } }
     ]
   },
   end: { text: '', choices: [] }
 };
 function endingOf(f) {
-  if (f.kind && f.courage) return { title: '结局 · 篝火夜谈', text: '旅人是老猎人，他教你认狼的脚印。第二天你安然下山。善良 + 勇气 = 最好的夜。' };
-  if (f.kind) return { title: '结局 · 一碗热汤', text: '你们分食了热汤。他临走留下一张地图。善良本身就是回报。' };
-  if (f.courage && !f.warm) return { title: '结局 · 灯下的影子', text: '影子只是迷路的鹿。你笑自己多疑，但炉火救了你们俩。勇气带你回家。' };
-  if (f.cautious) return { title: '结局 · 平安无事', text: '你什么都没做，也什么都没发生。谨慎让你平安，只是故事短了一点。' };
-  return { title: '结局 · 雨停', text: '雨停了你继续赶路。这一夜教会你：每个选择都在写故事。' };
+  if (f.kind && f.courage) return { title: L('结局 · 篝火夜谈', 'Ending · Fireside Tales'), text: L('旅人是老猎人，他教你认狼的脚印。第二天你安然下山。善良 + 勇气 = 最好的夜。',
+    'The traveler is an old hunter who teaches you to read wolf tracks. You descend the mountain safely at dawn. Kindness + courage = the best of nights.') };
+  if (f.kind) return { title: L('结局 · 一碗热汤', 'Ending · A Bowl of Hot Soup'), text: L('你们分食了热汤。他临走留下一张地图。善良本身就是回报。',
+    'You share the hot soup. He leaves a map behind. Kindness is its own reward.') };
+  if (f.courage && !f.warm) return { title: L('结局 · 灯下的影子', 'Ending · The Shadow by the Lamp'), text: L('影子只是迷路的鹿。你笑自己多疑，但炉火救了你们俩。勇气带你回家。',
+    'The shadow was just a lost deer. You laugh at your own suspicion — but the fire saved you both. Courage takes you home.') };
+  if (f.cautious) return { title: L('结局 · 平安无事', 'Ending · Safe and Sound'), text: L('你什么都没做，也什么都没发生。谨慎让你平安，只是故事短了一点。',
+    'You did nothing, and nothing happened. Caution kept you safe — the story is just a little shorter.') };
+  return { title: L('结局 · 雨停', 'Ending · The Rain Stops'), text: L('雨停了你继续赶路。这一夜教会你：每个选择都在写故事。',
+    'The rain stops and you travel on. The night taught you this: every choice writes the story.') };
 }
 
 AtomCore.create({
-  title: '交互叙事 · 山中小屋',
-  objective: '做两次选择，看看你的故事走向哪个结局。然后换「后果提示」再玩一次，感受差别。',
+  title: L('交互叙事 · 山中小屋', 'Interactive Narrative · Mountain Cabin'),
+  objective: L('做两次选择，看看你的故事走向哪个结局。然后换「后果提示」再玩一次，感受差别。', 'Make two choices and see which ending your story reaches. Then toggle "Consequence Hints" and play again to feel the difference.'),
   lives: 0,
   params: [
-    { key: 'hint', label: '后果提示（0=隐藏 1=显示）', min: 0, max: 1, step: 1, default: 1, unit: '' },
-    { key: 'speed', label: '文字速度', min: 1, max: 3, step: 1, default: 2, unit: 'x' }
+    { key: 'hint', label: L('后果提示（0=隐藏 1=显示）', 'Consequence Hints (0=hide 1=show)'), min: 0, max: 1, step: 1, default: 1, unit: '' },
+    { key: 'speed', label: L('文字速度', 'Text Speed'), min: 1, max: 3, step: 1, default: 2, unit: 'x' }
   ],
   hudExtra: function (g) {
     var f = g.data.flags || {};
-    var marks = Object.keys(f).map(function (k) { return { courage: '勇气', warm: '温暖', kind: '善良', cautious: '谨慎' }[k]; }).filter(Boolean);
-    return '状态：' + (marks.length ? marks.join(' · ') : '（还没有选择）');
+    var marks = Object.keys(f).map(function (k) { return { courage: L('勇气', 'courage'), warm: L('温暖', 'warmth'), kind: L('善良', 'kindness'), cautious: L('谨慎', 'caution') }[k]; }).filter(Boolean);
+    return L('状态：', 'State: ') + (marks.length ? marks.join(' · ') : L('（还没有选择）', '(no choices yet)'));
   },
   setup: function (g) {
     g.data = { node: 'start', flags: {}, shown: 0, ending: null };
@@ -90,16 +99,31 @@ AtomCore.create({
         gg.rect(40, y, W - 80, 50, C.YELLOW, 1.5);
         gg.text((i + 1) + '. ' + c.t, W / 2, y + 25, 15, C.INK);
         if (g.params.hint === 1) {
-          var hint = Object.keys(c.flags).map(function (k) { return { courage: '+勇气', warm: '+温暖', kind: '+善良', cautious: '+谨慎' }[k]; }).join(' ');
+          var hint = Object.keys(c.flags).map(function (k) { return { courage: L('+勇气', '+courage'), warm: L('+温暖', '+warmth'), kind: L('+善良', '+kindness'), cautious: L('+谨慎', '+caution') }[k]; }).join(' ');
           gg.text(hint, W - 56, y + 25, 11, '#b8860b', 'right');
         }
       });
     } else {
-      gg.text('点「重开」换个选择再试一次', W / 2, g.H - 90, 14, '#888');
+      gg.text(L('点「重开」换个选择再试一次', 'Hit "Play Again" and try a different choice'), W / 2, g.H - 90, 14, '#888');
     }
   }
 });
 function wrapText(gg, text, x, y, maxW, lh, size) {
+  // 英文按词折行（避免单词被截断）；中文无空格，保持逐字折行
+  if (text.indexOf(' ') >= 0) {
+    var yy = y, line = '';
+    text.split(' ').forEach(function (word) {
+      var trial = line ? line + ' ' + word : word;
+      if (line && gg.ctx.measureText(trial).width > maxW) {
+        gg.text(line, x, yy, size, '#2b2b2b', 'left');
+        line = word; yy += lh;
+      } else {
+        line = trial;
+      }
+    });
+    if (line) gg.text(line, x, yy, size, '#2b2b2b', 'left');
+    return;
+  }
   var line = '', yy = y;
   for (var i = 0; i < text.length; i++) {
     line += text[i];

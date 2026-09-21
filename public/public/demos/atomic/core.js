@@ -18,6 +18,20 @@
 
   var PAPER = '#faf7ef', INK = '#2b2b2b', YELLOW = '#ffda6a', RED = '#ff8b8b', BLUE = '#7cc4ff', GREEN = '#9be29b';
 
+  // ---- i18n（规则：显式 ?lang=zh 才中文，其余一律英文） ----
+  var LANG = 'en';
+  try {
+    LANG = new URLSearchParams(window.location.search).get('lang') === 'zh' ? 'zh' : 'en';
+  } catch (e) {}
+  try { document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en'; } catch (e) {}
+  var DICT = {
+    zh: { start: '开始', again: '再来一次', win: '完成！', over: '结束', score: '得分', lives: '生命' },
+    en: { start: 'Start', again: 'Play Again', win: 'Done!', over: 'Over', score: 'Score', lives: 'Lives' }
+  };
+  function T(key) { return (DICT[LANG] && DICT[LANG][key]) || DICT.en[key] || key; }
+  /** L(zh, en)：demo 自有文案双语包裹（当前语言 zh 取前者，否则取后者） */
+  function L(zh, en) { return LANG === 'zh' ? zh : en; }
+
   // ---- 手绘风格绘制助手 ----
   function jitter(v) { return (Math.random() - 0.5) * v; }
   function makeG(ctx) {
@@ -61,7 +75,7 @@
       '  <div class="ac-main">' +
       '    <div class="ac-head"><span class="ac-title"></span></div>' +
       '    <div class="ac-stage"><canvas></canvas>' +
-      '      <div class="ac-overlay"><div class="ac-overlay-text"></div><button class="ac-start" type="button">开始</button></div>' +
+      '      <div class="ac-overlay"><div class="ac-overlay-text"></div><button class="ac-start" type="button">' + T('start') + '</button></div>' +
       '    </div>' +
       '    <div class="ac-hud"></div>' +
       '  </div>' +
@@ -93,9 +107,9 @@
       },
       endGame: function (win) {
         game.state = 'over';
-        overlayText.textContent = (win ? '完成！' : '结束') + ' 得分 ' + game.score;
+        overlayText.textContent = (win ? T('win') : T('over')) + ' · ' + T('score') + ' ' + game.score;
         overlay.style.display = 'flex';
-        startBtn.textContent = '再来一次';
+        startBtn.textContent = T('again');
         post({ type: 'demo:complete', score: game.score, win: !!win });
       },
       reset: function () {
@@ -175,8 +189,8 @@
 
     // ---- HUD ----
     function renderHud() {
-      hud.innerHTML = '<span>得分 <b>' + game.score + '</b></span>' +
-        (cfg.lives ? '<span>生命 <b>' + game.lives + '</b></span>' : '') +
+      hud.innerHTML = '<span>' + T('score') + ' <b>' + game.score + '</b></span>' +
+        (cfg.lives ? '<span>' + T('lives') + ' <b>' + game.lives + '</b></span>' : '') +
         (cfg.hudExtra ? '<span>' + cfg.hudExtra(game) + '</span>' : '');
     }
 
@@ -246,5 +260,5 @@
     document.head.appendChild(s);
   }
 
-  window.AtomCore = { create: create, COLORS: { PAPER: PAPER, INK: INK, YELLOW: YELLOW, RED: RED, BLUE: BLUE, GREEN: GREEN } };
+  window.AtomCore = { create: create, COLORS: { PAPER: PAPER, INK: INK, YELLOW: YELLOW, RED: RED, BLUE: BLUE, GREEN: GREEN }, L: L, T: T, lang: LANG };
 })();
