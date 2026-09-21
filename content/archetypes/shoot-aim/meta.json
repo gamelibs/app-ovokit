@@ -50,5 +50,22 @@
   "advancedAlgoRefs": [
     "判定：射线/投射物、碰撞层、命中框",
     "生成：敌人刷新节奏与波次设计"
+  ],
+  "demoLab": [
+    {
+      "title": "弹药节奏实验",
+      "action": "连续点「射击（primary）」打空 ammo，盯着 accuracy 下滑，再点「换弹（secondary）」补满",
+      "observe": "弹药耗尽强制进入换弹窗口——输出节奏被资源切断。乱射时 accuracy 明显下滑：弹药约束把「无限输出」变成「每次扣扳机都有机会成本」"
+    },
+    {
+      "title": "难度对照实验",
+      "action": "easy 与 hard 各点「推进（tick）」10 步，对比 targets 与 accuracy",
+      "observe": "难度改变目标生成压力：hard 下 targets 堆积更快，同样的射击频率 accuracy 被稀释。难度旋钮本质是命中率的压力测试——命中率从爽点指标变成生存指标"
+    },
+    {
+      "title": "纪律射击实验",
+      "action": "每 3 次 tick 只射击 1 次（先点三次「推进（tick）」再点「射击（primary）」），打满 20 步后对比实验一的 accuracy",
+      "observe": "节制射击的 accuracy 显著高于乱射——射击玩法的深度不在「射得多」而在「射得准」。所以产品级设计用散布/后坐力惩罚无脑连发：过度精准会杀死紧张感"
+    }
   ]
 }

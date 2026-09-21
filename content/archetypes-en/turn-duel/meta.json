@@ -52,5 +52,22 @@
     "Win/loss determination: N‑in‑a‑row scanning, comparison logic, and draw rules.",
     "AI: minimax with alpha‑beta pruning and a board evaluation function."
   ],
-  "lang": "en"
+  "lang": "en",
+  "demoLab": [
+    {
+      "title": "AI Ladder Experiment",
+      "action": "Play a full game at each level of \"AI Strength (0=random, 1=blocking, 2=forced-win search)\"",
+      "observe": "Level 0 is a legality sandbox (any move teaches the rules); level 1 blocking teaches defensive priorities; level 2 exposes the long-term cost of every move. The AI ladder IS the learning curve — a fixed-difficulty AI repels beginners and veterans alike"
+    },
+    {
+      "title": "Forced-Win Attribution Watch",
+      "action": "Against level 2 AI, deliberately play a bad move (e.g. ignore an open three)",
+      "observe": "The search AI punishes it immediately — the loss traces back to one specific move. This is the extreme form of \"explainable consequences\" in turn-based play: failure attributes to a decision, not luck, so players know exactly what to learn next"
+    },
+    {
+      "title": "Draw Closure Watch",
+      "action": "Against level 1 AI, both sides block conservatively until the board fills up",
+      "observe": "A full board with no line is a draw. The adjudication must cover win/loss/draw — miss the draw branch and the match never closes. It is the most commonly omitted rule in a minimal ruleset"
+    }
+  ]
 }

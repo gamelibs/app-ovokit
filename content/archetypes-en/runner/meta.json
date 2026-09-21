@@ -48,5 +48,17 @@
   "advancedAlgoRefs": [
     "Level: segment stitching, difficulty rhythm arrangement.",
     "Judgement: terrain collision, jump trajectory, camera follow."
+  ],
+  "demoLab": [
+    {
+      "title": "Initial Speed Experiment",
+      "action": "Drag \"Initial Speed\" from 120 up to 320px/s",
+      "observe": "Speed compresses the decision window: at 320px/s the same obstacle lead time halves your reaction budget. Speed doesn’t change obstacle density — it changes the evaluation cost per obstacle. That is the boundary between \"died because I couldn’t see\" and \"died because I couldn’t choose in time\""
+    },
+    {
+      "title": "Acceleration Curve Contrast",
+      "action": "Run \"Acceleration Curve\" at 0 and at 30px/s², 60 seconds each",
+      "observe": "At 0 the difficulty is flat and players hit the ceiling fast; at 30px/s² every minute is a new game. An acceleration curve is free difficulty progression at the cost of a slow start — it moves \"pacing structure\" from level design into parameter design"
+    }
   ]
 }

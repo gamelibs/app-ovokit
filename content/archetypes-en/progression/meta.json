@@ -50,5 +50,22 @@
   "advancedAlgoRefs": [
     "Stats: segmented curves, guaranteed returns, and anti-grind mechanisms.",
     "Economy: inflation control, caps, and soft caps."
+  ],
+  "demoLab": [
+    {
+      "title": "Upgrade Curve Experiment",
+      "action": "Save up currency, click \"Upgrade (secondary)\", and watch metaPower jump while the next level’s cost rises",
+      "observe": "Upgrade cost scales with level — the cost curve sets the growth rhythm. Each metaPower jump delivers an instant \"I got stronger\" hit, while the rising next-level cost keeps the \"just a bit more\" pull alive"
+    },
+    {
+      "title": "Guaranteed Growth Watch",
+      "action": "Deliberately fail several runs in a row and check whether badStreak ticks up while currency still grows",
+      "observe": "Even failure pays out currency — guaranteed gains keep frustration from churning players. badStreak is the trigger for protection mechanics: the longer the losing streak, the stronger the compensation, turning \"pure punishment\" into \"controlled progression\""
+    },
+    {
+      "title": "Difficulty Contrast",
+      "action": "On easy vs hard, \"Advance (tick)\" 10 steps each and compare runDepth against metaPower",
+      "observe": "On hard, runDepth is shallower but metaPower keeps accumulating — permanent growth decouples from per-run skill: failing a run never blocks out-of-run growth. That is the escape hatch from the \"pure grind or pure pain\" trap"
+    }
   ]
 }
