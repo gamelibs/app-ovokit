@@ -173,7 +173,7 @@ export function PatternPage({
                   <Link
                     key={c}
                     href={{ pathname: "/", query: { q: c, all: "1" } }}
-                    className="rounded-full sketch-border bg-paper px-2 py-0.5 text-xs text-ink-light hover:bg-paper-warm hover:text-ink"
+                    className="rounded-full sketch-border bg-highlight-green/20 px-2 py-0.5 text-xs text-ink hover:bg-highlight-green/45"
                   >
                     {c}
                   </Link>
@@ -195,7 +195,7 @@ export function PatternPage({
           <a
             key={item.id}
             href={`#${item.id}`}
-            className="inline-flex h-9 flex-none items-center justify-center rounded-full sketch-border bg-paper px-3 font-semibold text-ink-light hover:bg-paper-warm"
+            className="inline-flex h-9 flex-none items-center justify-center rounded-full sketch-border bg-highlight-green/20 px-3 font-semibold text-ink hover:bg-highlight-green/45"
           >
             {item.label}
           </a>

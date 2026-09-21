@@ -102,7 +102,7 @@ export function ArchetypePage({
                       <Link
                         key={name}
                         href={`/features/${encodeURIComponent(featureKey)}`}
-                        className="inline-flex items-center rounded-full sketch-border bg-paper px-3 py-1 text-ink-light hover:bg-paper-warm hover:text-ink"
+                        className="inline-flex items-center rounded-full sketch-border bg-highlight-green/20 px-3 py-1 text-ink hover:bg-highlight-green/45"
                       >
                         {name}
                       </Link>
@@ -149,7 +149,7 @@ export function ArchetypePage({
                     <Link
                       key={key}
                       href={`/patterns/${encodeURIComponent(key)}`}
-                      className="inline-flex items-center gap-1.5 rounded-full sketch-border bg-paper px-3 py-1.5 font-medium text-ink hover:bg-paper-warm"
+                      className="inline-flex items-center gap-1.5 rounded-full sketch-border bg-highlight-green/20 px-3 py-1.5 font-medium text-ink hover:bg-highlight-green/45"
                     >
                       <span>{pattern.name}</span>
                       <span className="text-xs text-ink-light">{pattern.nameEn}</span>
@@ -173,7 +173,7 @@ export function ArchetypePage({
           <a
             key={item.id}
             href={`#${item.id}`}
-            className="inline-flex h-9 flex-none items-center justify-center rounded-full sketch-border bg-paper px-3 font-semibold text-ink-light hover:bg-paper-warm"
+            className="inline-flex h-9 flex-none items-center justify-center rounded-full sketch-border bg-highlight-green/20 px-3 font-semibold text-ink hover:bg-highlight-green/45"
           >
             {item.label}
           </a>

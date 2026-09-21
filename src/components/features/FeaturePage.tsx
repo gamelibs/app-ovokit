@@ -126,7 +126,7 @@ export function FeaturePage({
           <a
             key={item.id}
             href={`#${item.id}`}
-            className="inline-flex h-9 flex-none items-center justify-center rounded-full sketch-border bg-paper px-3 font-semibold text-ink-light hover:bg-paper-warm"
+            className="inline-flex h-9 flex-none items-center justify-center rounded-full sketch-border bg-highlight-green/20 px-3 font-semibold text-ink hover:bg-highlight-green/45"
           >
             {item.label}
           </a>
