@@ -138,10 +138,10 @@ export function PatternPage({
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
         <div className="grid gap-3 sm:grid-cols-[1fr_minmax(220px,32%)] sm:items-start">
-          <div className="order-1 sm:order-2">
-            <PatternImage src={images.hero} priority />
+          <div className="order-2 sm:order-2">
+            <PatternImage src={images.hero} priority widthClass="w-2/3 max-w-[220px] sm:w-full sm:max-w-none" />
           </div>
-          <div className="min-w-0 order-2 sm:order-1">
+          <div className="min-w-0 order-1 sm:order-1">
             <div className="flex items-start justify-between gap-3">
               <h1 className="text-2xl font-semibold text-ink font-kalam">
                 {spec.name}

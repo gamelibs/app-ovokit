@@ -143,6 +143,10 @@
     window.addEventListener('resize', resize);
     resize();
 
+    // 预览态：开局前先跑一遍 setup，让棋盘/场景在 ready 态就可见（overlay 半透明透出）；
+    // 点「开始」时 reset() 会重新 setup，互不影响
+    if (cfg.setup) cfg.setup(game);
+
     // ---- 输入 ----
     function pointer(e) {
       var r = canvas.getBoundingClientRect();
@@ -226,7 +230,7 @@
       '.ac-obj{font-size:14px;color:#666;line-height:1.5}' +
       '.ac-stage{position:relative;border:2.5px solid ' + INK + ';border-radius:14px 4px 12px 6px;overflow:hidden;background:' + PAPER + '}' +
       '.ac-stage canvas{display:block;margin:0 auto;touch-action:none}' +
-      '.ac-overlay{position:absolute;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:rgba(250,247,239,.92)}' +
+      '.ac-overlay{position:absolute;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:rgba(250,247,239,.55)}' +
       '.ac-overlay-text{font-size:17px;color:' + INK + ';padding:0 24px;text-align:center;line-height:1.5}' +
       'button{font-family:inherit;font-size:16px;background:' + YELLOW + ';border:2.5px solid ' + INK + ';border-radius:10px 4px 10px 4px;padding:8px 22px;cursor:pointer;min-height:44px;min-width:88px}' +
       'button:active{transform:translate(1px,2px)}' +

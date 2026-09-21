@@ -72,7 +72,7 @@ export function ArchetypePage({
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
         {/* 头部：左文右图（示意图是辅助，不再占满整屏） */}
         <div className="grid gap-3 sm:grid-cols-[1fr_minmax(220px,32%)] sm:items-start">
-          <div className="min-w-0 order-2 sm:order-1">
+          <div className="min-w-0 order-1 sm:order-1">
             <div className="flex items-start justify-between gap-3">
               <h1 className="text-2xl font-semibold text-ink font-kalam">{model.title}</h1>
               <FavoriteButton
@@ -117,16 +117,17 @@ export function ArchetypePage({
             </div>
           </div>
           {/* 右侧：机制示意图缩略图 */}
-          <div className="order-1 sm:order-2">
+          <div className="order-2 sm:order-2">
             <ArchetypeImage
               src={images.hero}
               priority
+              widthClass="w-2/3 max-w-[220px] sm:w-full sm:max-w-none"
             />
           </div>
         </div>
-        {/* 下方通栏：学习目标 + 所属核心循环（不参与上面的左右网格） */}
-        <div className="mt-3 grid gap-3">
-          <div className="sketch-card p-3 text-sm text-ink-light">
+        {/* 下方通栏：学习目标 + 所属核心循环（两栏紧凑，不参与上面的左右网格） */}
+        <div className="mt-3 sketch-card grid gap-3 p-3 text-sm text-ink-light sm:grid-cols-[1fr_auto] sm:items-start">
+          <div>
             <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted font-kalam">
               {t("learningGoals")}
             </div>
@@ -137,7 +138,7 @@ export function ArchetypePage({
             </ul>
           </div>
           {model.patternKeys.length > 0 && (
-            <div className="sketch-card p-3 text-sm">
+            <div className="sm:min-w-[180px]">
               <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted font-kalam">
                 {t("belongsToPattern")}
               </div>
