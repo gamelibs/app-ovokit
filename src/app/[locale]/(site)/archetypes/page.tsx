@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { ArchetypePage } from "@/components/archetypes/ArchetypePage";
 import { ArchetypeTabs } from "@/components/archetypes/ArchetypeTabs";
 import { BrowseGroupTabs } from "@/components/plays/BrowseGroupTabs";
@@ -11,25 +12,31 @@ function normalizeQueryParam(v: string | string[] | undefined) {
 }
 
 export default async function ArchetypesPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams?: Promise<{ key?: string | string[] }>;
 }) {
-  const sp = searchParams ? await searchParams : {};
+  const [{ locale }, sp] = await Promise.all([params, searchParams ?? Promise.resolve<{ key?: string | string[] }>({})]);
+  const t = await getTranslations("pillar");
   const rawKey = normalizeQueryParam(sp.key) ?? "match-clear";
   const selectedKey: PlayArchetypeKey = isPlayArchetypeKey(rawKey)
     ? (rawKey as PlayArchetypeKey)
     : "match-clear";
   const [model, images, specs] = await Promise.all([
-    getArchetypePageModel(selectedKey),
+    getArchetypePageModel(selectedKey, locale),
     getArchetypeImageSet(selectedKey),
-    listArchetypeSpecs(),
+    listArchetypeSpecs(locale),
   ]);
 
   return (
     <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
       <BrowseGroupTabs selectedGroup="archetype" />
       <ArchetypeTabs selectedKey={selectedKey} items={specs.map((s) => ({ key: s.key, label: s.name }))} />
+      {model.untranslated ? (
+        <div className="mt-3 sketch-card bg-paper-warm p-3 text-sm text-ink-light">{t("untranslated")}</div>
+      ) : null}
       <ArchetypePage model={model} images={images} embedded />
     </main>
   );

@@ -1,0 +1,61 @@
+{
+  "lang": "en",
+  "key": "numbers",
+  "name": "Numbers",
+  "nameEn": "Numbers",
+  "subtitle": "Drive gameplay experience through numerical growth and balance",
+  "concept": "Numerical attributes encompass quantifiable properties such as health, attack power, resources, and scores. Players increase these numbers through upgrades, equipment, skills, and other means, thereby influencing combat, economy, or progression. Numbers are the direct vessel of the \"sense of growth\"—converting progress into comparable figures that allow players to intuitively perceive improvement. The core design focus is balancing the growth curve with game pacing: if the curve is too steep, players lose challenge in later stages by defeating enemies too quickly; if it is too shallow, players become frustrated by the lack of noticeable improvement. Counterintuitively, excessively high numbers can diminish the desire for adventure: when attack power is sufficient to easily kill all enemies, risk and choice vanish, and players tend to stay in safe zones; moderate deficits encourage players to try higher-risk strategies, increasing depth and fun. Excellent number design seeks \"perceivable growth, predictable boundaries, and rollback balance\", synchronizing growth with pacing to keep players motivated.",
+  "role": "Numbers are the core feedback mechanism for player decisions, allowing the abstract sense of progress to be instantly quantified and to influence subsequent choices. They are the core experience source in medium-weight games such as RPGs, strategy, and management titles.",
+  "significance": "Number design determines game balance and player retention. Mastering numerical traits means being able to predict combat outcomes, control economic inflation, and maintain long-term appeal.",
+  "filterTags": [
+    "Numbers",
+    "Growth / Numbers"
+  ],
+  "cases": [
+    "Diablo",
+    "Clash Royale",
+    "Genshin Impact"
+  ],
+  "problemsSolved": [
+    "Transform the sense of growth into quantifiable attribute increases.",
+    "Use numbers to constrain choices, creating meaningful decisions.",
+    "Maintain strategic space through balance."
+  ],
+  "learningGoals": [
+    "Design attribute models and combat formulas.",
+    "Master cost curves and benefit curves.",
+    "Achieve numerical balance and test matrices."
+  ],
+  "minimalRules": [
+    "All core attributes must have configurable growth curves, providing at least a 10% increase at each upgrade stage; if an attribute fails to meet this standard, it is considered a design flaw.",
+    "Numerical changes must have a measurable impact on core gameplay; for example, a 10% increase in attack power should result in at least a 5% increase in average damage, otherwise the formula should be adjusted.",
+    "Player decisions (such as selecting equipment or skills) should influence attribute trajectories within 10 seconds; if the impact is delayed beyond 30 seconds, the feedback mechanism must be optimized.",
+    "The rate of numerical growth must stay in sync with game pacing: during the first 10% of gameplay, the average attribute increase rate should not fall below 0.5% per minute; during the remaining 90%, it should not exceed 2% per minute; if it falls outside these bounds, the growth curve must be redesigned."
+  ],
+  "combos": [
+    {
+      "formula": "Numbers + Strategy",
+      "effect": "Use numbers to calculate and support pre-battle configuration."
+    },
+    {
+      "formula": "Numbers + Roguelike",
+      "effect": "Use random relics to amplify numerical differences."
+    },
+    {
+      "formula": "Numbers + Social",
+      "effect": "Show numerical achievements via leaderboards."
+    }
+  ],
+  "advancedWarnings": [
+    "Numerical collapse quickly ruins the game experience.",
+    "Rapid numerical growth causes game imbalance.",
+    "Excessive randomness can make players feel out of control.",
+    "Numerical growth must match the rate of content consumption."
+  ],
+  "advancedAlgoRefs": [
+    "Combat formulas and expected damage calculations.",
+    "Attribute weighting and balance models.",
+    "Economic sinks and inflation control.",
+    "Analysis of the intersection between benefit curves and cost curves."
+  ]
+}

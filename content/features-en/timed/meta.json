@@ -1,0 +1,66 @@
+{
+  "key": "timed",
+  "name": "Timed",
+  "nameEn": "Timed",
+  "lang": "en",
+  "subtitle": "Create a sense of urgency with clear time constraints",
+  "concept": "The timed feature imposes a measurable time boundary that forces players to complete objectives within a limited window. Time can appear as a global countdown, a per‑level time limit, or a turn‑based action window; all three shift play from unguided exploration to rhythmic action. Designers must answer three core questions: ① Where does the time drain come from (natural passage, action cost, or penalty for mistakes)? ② What options do players have when time runs low (time‑extension items, skip levels, or lower goals)? ③ How does the countdown end trigger feedback (score display, failure attribution, reward scaling)? A well‑designed timed mechanic creates \"tension, not anxiety,\" rewarding players with a \"just‑missed\" feeling rather than an unfair punishment. Timed elements intertwine with dynamic difficulty, resource management, and time‑extension items, forming a multi‑dimensional strategy space; for example, in resource‑scarce levels, time pressure magnifies the cost‑benefit of resource allocation. Design trade‑offs: ① Excessive limits induce anxiety and erode immersion; ② Weak limits leave rhythm loose and lose urgency. Counterintuitive insight: short windows sharpen focus by forcing rapid filtering and reducing multitasking distractions.",
+  "role": "Timed mechanics tighten loose gameplay into a rhythmic experience. They give players a clear \"what to do now\" cue and keep flow slightly above the comfort zone’s pressure level.",
+  "significance": "Mastering timed mechanics helps designers understand pressure curves, failure attribution, and settlement feedback. It is the foundational tool for adjusting difficulty, creating tension, and running timed events (daily challenges, limited‑time quests).",
+  "filterTags": [
+    "Timed",
+    "Timing / Reaction"
+  ],
+  "cases": [
+    "Bejeweled Blitz",
+    "Overcooked",
+    "Candy Crush Saga timed levels"
+  ],
+  "problemsSolved": [
+    "Inject rhythm and urgency into loose gameplay",
+    "Adjust difficulty at low cost with time constraints",
+    "Provide a \"just‑missed\" retry motivation"
+  ],
+  "learningGoals": [
+    "Balance countdowns and time‑extension mechanics",
+    "Master pressure curves and failure attribution",
+    "Design settlement feedback that makes failure acceptable",
+    "Understand the interaction between time and resource management",
+    "Evaluate the impact of time‑extension items on urgency"
+  ],
+  "minimalRules": [
+    "An explicit time constraint exists (global / per‑level / per‑turn)",
+    "Time depletion or zero triggers settlement, and the outcome must be delivered immediately",
+    "Players receive rewards for meeting the goal within the limit; if not, they may receive partial rewards: rewards scale with completion percentage, or they incur penalties such as a 10% deduction of earned points or loss of a key resource, preserving fairness",
+    "Players may use time‑extension items or skills during the countdown, and the amount of added time must be visualized in‑game"
+  ],
+  "combos": [
+    {
+      "formula": "Timed + Levels",
+      "effect": "A tense variant of standard levels that boosts replay value"
+    },
+    {
+      "formula": "Timed + Numbers",
+      "effect": "Creates economic and strategic space using time‑extension items"
+    },
+    {
+      "formula": "Timed + Roguelike",
+      "effect": "Route choices under pressure amplify risk‑reward"
+    },
+    {
+      "formula": "Timed + Resource Management",
+      "effect": "Allocate limited resources within a fixed time, deepening decision‑making; e.g., a player can only earn 10 gold per level and must decide within 30 seconds whether to spend it on a speed‑up item or save it for later, with unused gold expiring when time runs out"
+    }
+  ],
+  "advancedWarnings": [
+    "Excessive countdown pressure turns flow into anxiety",
+    "Time penalties must be explainable; players must know what is being deducted",
+    "Timed events must consider fairness across time zones: use globally synchronized windows or time‑segmented events, allowing players to claim rewards within their local window; or provide a pre‑warm window before the event starts so players in different zones can prepare; calibrate server time with local time to avoid mistakes caused by time‑difference",
+    "Overuse of time‑extension items can dilute urgency"
+  ],
+  "advancedAlgoRefs": [
+    "Countdown independent of frame rate",
+    "Dynamic difficulty: help mechanisms driven by remaining time",
+    "Timed settlement and replay data logging"
+  ]
+}

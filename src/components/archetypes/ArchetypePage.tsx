@@ -7,7 +7,7 @@ import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { fallbackCorePatternByKey, type CorePatternKey } from "@/lib/patterns/patterns";
 import { featureKeyByName } from "@/lib/features/features";
 import { localizeDifficulty } from "@/lib/content/play-tags";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 function ArchetypeImage({
   src,
@@ -66,6 +66,7 @@ export function ArchetypePage({
   };
   embedded?: boolean;
 }) {
+  const t = useTranslations("pillar");
   const content = (
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
@@ -84,11 +85,11 @@ export function ArchetypePage({
             <p className="mt-2 text-sm text-ink-light">{model.subtitle}</p>
             <div className="mt-3 grid gap-2 sketch-card p-3 text-sm text-ink-light">
               <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-                <div className="text-xs font-semibold text-ink-muted font-kalam">玩法行为</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("playBehavior")}</div>
                 <div className="font-medium">{model.title}</div>
               </div>
               <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-                <div className="text-xs font-semibold text-ink-muted font-kalam">玩法特征</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("playFeatures")}</div>
                 <div className="flex flex-wrap items-center gap-2">
                   {model.features.map((name) => {
                     const featureKey = featureKeyByName[name];
@@ -110,7 +111,7 @@ export function ArchetypePage({
                 </div>
               </div>
               <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-                <div className="text-xs font-semibold text-ink-muted font-kalam">难度层级</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("difficultyLabel")}</div>
                 <div className="text-ink-light">{localizeDifficulty(model.difficulty, useLocale())}</div>
               </div>
             </div>
@@ -127,7 +128,7 @@ export function ArchetypePage({
         <div className="mt-3 grid gap-3">
           <div className="sketch-card p-3 text-sm text-ink-light">
             <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted font-kalam">
-              学习目标
+              {t("learningGoals")}
             </div>
             <ul className="mt-2 list-disc space-y-1 pl-5">
               {model.learningGoals.map((t) => (
@@ -138,7 +139,7 @@ export function ArchetypePage({
           {model.patternKeys.length > 0 && (
             <div className="sketch-card p-3 text-sm">
               <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted font-kalam">
-                所属核心循环
+                {t("belongsToPattern")}
               </div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {model.patternKeys.map((key) => {
@@ -163,11 +164,11 @@ export function ArchetypePage({
 
       <nav className="flex items-center gap-2 overflow-x-auto py-1.5 text-sm [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {[
-          { id: "demo", label: "▶ 试玩 Demo" },
-          { id: "breakdown", label: "系统拆解" },
-          { id: "combos", label: "常见组合" },
-          { id: "advanced", label: "高级设计 ▾" },
-          ...(model.relatedPlays.length > 0 ? [{ id: "cases", label: "相关案例" }] : []),
+          { id: "demo", label: t("navDemo") },
+          { id: "breakdown", label: t("navBreakdown") },
+          { id: "combos", label: t("navCombos") },
+          { id: "advanced", label: t("navAdvanced") },
+          ...(model.relatedPlays.length > 0 ? [{ id: "cases", label: t("navCases") }] : []),
         ].map((item) => (
           <a
             key={item.id}
@@ -181,7 +182,7 @@ export function ArchetypePage({
 
       <SectionShell
         id="demo"
-        title="② 即时试玩 Demo"
+        title={`② ${t("demoInstant")}`}
       >
         <div className="grid gap-3 lg:grid-cols-[minmax(0,420px)_1fr] lg:items-start">
           {/* 左：可玩 demo */}
@@ -196,13 +197,13 @@ export function ArchetypePage({
           </div>
           {/* 右：规则说明 */}
           <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">规则提示</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">{t("ruleHint")}</div>
             <div className="mt-1 font-medium">{model.demoRuleHint}</div>
           </div>
         </div>
       </SectionShell>
 
-      <SectionShell id="breakdown" title="③ 玩法行为系统拆解">
+      <SectionShell id="breakdown" title={`③ ${t("breakdownArchetype")}`}>
         {/* 流程图在左（窄列），三张内容卡在右 */}
         <div className="grid gap-3 lg:grid-cols-[minmax(280px,34%)_1fr] lg:items-start">
           <ArchetypeImage
@@ -211,7 +212,7 @@ export function ArchetypePage({
           />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-3 min-w-0">
             <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">3.1 解决了什么问题？</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">3.1 {t("problemsSolved")}</div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                 {model.problemsSolved.map((t) => (
                   <li key={t}>{t}</li>
@@ -219,7 +220,7 @@ export function ArchetypePage({
               </ul>
             </div>
             <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">3.2 最小规则集</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">3.2 {t("minimalRules")}</div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                 {model.minimalRules.map((t) => (
                   <li key={t}>{t}</li>
@@ -227,14 +228,14 @@ export function ArchetypePage({
               </ul>
             </div>
             <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">3.3 系统循环图（可选）</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">3.3 {t("systemLoopOptional")}</div>
               <div className="mt-2 text-ink-light">{model.systemLoopHint}</div>
             </div>
           </div>
         </div>
       </SectionShell>
 
-      <SectionShell id="combos" title="④ 常见组合与变体">
+      <SectionShell id="combos" title={`④ ${t("combosVariants")}`}>
         <div className="grid gap-3 lg:grid-cols-3">
           {model.combos.map((c) => (
             <div key={c.formula} className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
@@ -242,7 +243,7 @@ export function ArchetypePage({
               <div className="mt-1 text-ink-light">{c.effect}</div>
               {c.href ? (
                 <Link href={c.href} className="mt-2 inline-flex text-xs font-semibold text-ink hover:underline">
-                  查看中级玩法页 →
+                  {t("viewIntermediatePage")}
                 </Link>
               ) : null}
             </div>
@@ -253,14 +254,14 @@ export function ArchetypePage({
       <section id="advanced" className="scroll-mt-24 sketch-card p-4 shadow-sm">
         <details className="group">
           <summary className="cursor-pointer list-none text-base font-semibold text-ink font-kalam">
-            ⑤ 高级设计与算法（默认折叠）
-            <span className="ml-2 text-xs font-semibold text-ink-muted group-open:hidden font-kalam">点击展开</span>
+            ⑤ {t("advancedAlgo")}
+            <span className="ml-2 text-xs font-semibold text-ink-muted group-open:hidden font-kalam">{t("clickExpand")}</span>
           </summary>
           <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_minmax(280px,34%)] lg:items-start">
             {/* 左：两张文字卡纵向堆叠 */}
             <div className="grid gap-3 content-start min-w-0">
               <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-                <div className="text-xs font-semibold text-ink-muted font-kalam">设计警告</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("designWarnings")}</div>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                   {model.advancedWarnings.map((t) => (
                     <li key={t}>{t}</li>
@@ -268,7 +269,7 @@ export function ArchetypePage({
                 </ul>
               </div>
               <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-                <div className="text-xs font-semibold text-ink-muted font-kalam">算法示例</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("algoExamples")}</div>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                   {model.advancedAlgoRefs.map((t) => (
                     <li key={t}>{t}</li>
@@ -286,7 +287,7 @@ export function ArchetypePage({
       </section>
 
       {model.relatedPlays.length > 0 && (
-        <SectionShell id="cases" title="⑥ 相关案例文章">
+        <SectionShell id="cases" title={`⑥ ${t("relatedCases")}`}>
           <div className="grid gap-3 lg:grid-cols-3">
             {model.relatedPlays.map((p) => (
               <Link

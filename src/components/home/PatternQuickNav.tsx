@@ -9,7 +9,7 @@ function patternIcon(key: string) {
 export async function PatternQuickNav() {
   const t = await getTranslations("home");
   const locale = await getLocale();
-  const specs = await listPatternSpecs();
+  const specs = await listPatternSpecs(locale);
 
   return (
     <section className="mt-8 space-y-4">

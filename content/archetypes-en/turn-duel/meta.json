@@ -1,0 +1,56 @@
+{
+  "key": "turn-duel",
+  "name": "Turn‑Based Duel",
+  "nameEn": "Turn-based Duel",
+  "subtitle": "Core of turn‑based combat: action rights and adjudication",
+  "features": [
+    "网格",
+    "数值成长"
+  ],
+  "difficulty": "Beginner → Intermediate",
+  "demoRuleHint": "Example: First player places a piece → Second player places a piece → First player continues, until one side connects N or the board is full.",
+  "problemsSolved": [
+    "Use turn switching and phase machines to keep each side’s action rights clear and controllable.",
+    "Use legality checks to turn rule boundaries into interpretable rejection feedback.",
+    "Provide clear win/loss/draw adjudication to give each game a definitive conclusion.",
+    "By limiting actions to one per turn, the pacing is balanced and prevents excessive combos that end the game too quickly. Allowing multiple actions lets players play several cards in a single turn, increasing strategic depth but potentially extending game duration.",
+    "Choosing the line length N is a key trade‑off: too large makes players search longer for a connect, slowing the pace; too small makes connections easy, speeding the game. Experiments show N=5 on a 15×15 board offers the best balance.",
+    "In card‑based turn systems, allowing multiple cards per action (combo) may seem to add complexity, but it lets players generate higher value through combinations, actually deepening the game rather than weakening it."
+  ],
+  "learningGoals": [
+    "Understand how to model a turn state machine (turn start / action / end).",
+    "Master win/loss determination via N‑in‑a‑row and size comparisons, and draw handling.",
+    "Be able to integrate an actionable AI into single‑player mode (minimax suffices for entry)."
+  ],
+  "minimalRules": [
+    "Action rights: Each turn starts with the current player; after performing one action, control immediately switches to the opponent. The acting player may perform only one action per turn, and it counts as completed only after passing legality checks. Turn count starts at 1 and records the current player.",
+    "Legality: The placement must be within the board and unoccupied; for card actions, the player must have sufficient cost and at least one card in hand; for special skills, cooldowns and resources must be satisfied. Illegal actions return error code \"InvalidMove\" with a reason.",
+    "Adjudication: If either player forms a continuous N of identical symbols (horizontal, vertical, or diagonal), that player wins; if the board has no empty spaces and no connections, the game is a draw; if neither condition is met, the turn continues. The adjudication check runs immediately after each legal action."
+  ],
+  "systemLoopHint": "Action → Legality check → Update board → Determine win/draw → If undecided, switch player → Proceed to next turn",
+  "combos": [
+    {
+      "formula": "Turn + Grid",
+      "effect": "Board placement and adjacency become the action space (e.g., Gomoku, Othello, Tic‑Tac‑Toe)."
+    },
+    {
+      "formula": "Turn + Numbers",
+      "effect": "Health/Cost and other numeric gradients support card‑based turn combat."
+    },
+    {
+      "formula": "Turn + AI",
+      "effect": "Single‑player mode has AI control the other side, with an evaluation function setting the difficulty ceiling."
+    }
+  ],
+  "advancedWarnings": [
+    "Missing legality checks can cause players to treat rule loopholes as bugs (or bugs as rules).",
+    "Unadjustable AI difficulty can deter both beginners and veterans.",
+    "Omitting draw conditions can leave games unresolved (full board/long play must be explicitly handled).",
+    "Overly permissive adjudication rules make connections too easy, stripping strategic depth."
+  ],
+  "advancedAlgoRefs": [
+    "Win/loss determination: N‑in‑a‑row scanning, comparison logic, and draw rules.",
+    "AI: minimax with alpha‑beta pruning and a board evaluation function."
+  ],
+  "lang": "en"
+}

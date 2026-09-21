@@ -8,7 +8,7 @@ import { isCorePatternKey, corePatternKeys, type CorePatternKey } from "@/lib/pa
 import { listPatternSpecs, readPatternSpec } from "@/lib/patterns/spec";
 import { listPlays, type ContentLocale } from "@/lib/content/plays";
 import { siteConfig } from "@/lib/site/config";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { hasLocale } from "next-intl";
 import { routing } from "@/i18n/routing";
 
@@ -27,11 +27,12 @@ export async function generateMetadata({
   if (!isCorePatternKey(key)) {
     return {};
   }
-  const spec = await readPatternSpec(key);
+  const spec = await readPatternSpec(key, locale);
   if (!spec) {
     return {};
   }
-  const title = `${spec.name}（${spec.nameEn}）| ${siteConfig.name}`;
+  const nameTitle = spec.name === spec.nameEn ? spec.name : `${spec.name}（${spec.nameEn}）`;
+  const title = `${nameTitle} | ${siteConfig.name}`;
   const description = spec.subtitle;
   return {
     title,
@@ -73,10 +74,11 @@ export default async function PatternDetailPage({
   setRequestLocale(locale);
   const key = rawKey as CorePatternKey;
 
-  const [spec, images, specs, allPlays] = await Promise.all([
-    readPatternSpec(key),
+  const [t, spec, images, specs, allPlays] = await Promise.all([
+    getTranslations("pillar"),
+    readPatternSpec(key, locale),
     getPatternImageSet(key),
-    listPatternSpecs(),
+    listPatternSpecs(locale),
     listPlays(locale),
   ]);
 
@@ -95,6 +97,9 @@ export default async function PatternDetailPage({
         selectedKey={key}
         items={specs.map((s) => ({ key: s.key, label: s.name }))}
       />
+      {spec.untranslated ? (
+        <div className="mt-3 sketch-card bg-paper-warm p-3 text-sm text-ink-light">{t("untranslated")}</div>
+      ) : null}
       <div className="mt-4">
         <PatternPage spec={spec} images={images} relatedPlays={relatedPlays} />
       </div>

@@ -117,7 +117,7 @@ export default async function PlayDetailPage({
     play.archetype && isPlayArchetypeKey(play.archetype) ? play.archetype : null;
   const inferredArchetypeKey = explicitArchetypeKey ?? inferArchetypeFromTags(play.tags);
   const archetypeSpec = inferredArchetypeKey
-    ? await readArchetypeSpec(inferredArchetypeKey)
+    ? await readArchetypeSpec(inferredArchetypeKey, locale)
     : null;
 
   const fallbackPatternDemoSrc = play.pattern

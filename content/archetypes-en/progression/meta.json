@@ -1,0 +1,54 @@
+{
+  "key": "progression",
+  "lang": "en",
+  "name": "Progression",
+  "nameEn": "Progression",
+  "subtitle": "Shape long-term goals through accumulation and curves; the core is controllable progression and stage thresholds.",
+  "features": [
+    "点击",
+    "放置产出",
+    "数值成长"
+  ],
+  "difficulty": "Beginner → Intermediate",
+  "demoRuleHint": "Rule: Complete an action → Gain resources → Upgrade/Unlock → Ability enhancement → New goals and higher costs.",
+  "problemsSolved": [
+    "Ensure failure still yields growth (guaranteed returns/experience), reducing frustration and churn.",
+    "Balance permanent stats with short-term skills, avoiding pure grind or pure punishment.",
+    "Use milestone unlocks to guide return and exploration, creating sustainable goals."
+  ],
+  "learningGoals": [
+    "Understand how growth curves (linear/exponential/segmented) affect pacing.",
+    "Master the freshness brought by stage thresholds and unlocks.",
+    "Design controllable progression that mitigates grind collapse."
+  ],
+  "minimalRules": [
+    "Resources: Gain 1 energy per click; energy can be spent on upgrades or unlocks.",
+    "Upgrade: Cost = current level × 10; after upgrading, stat increases by +1.",
+    "Threshold: Every 100 energy unlocks a new ability; thresholds increase by 50 each time."
+  ],
+  "systemLoopHint": "Input (action) → Feedback (resource gain) → Decision (allocation) → State change (upgrade/unlock) → New ability → New input.",
+  "combos": [
+    {
+      "formula": "Progression + Idle",
+      "effect": "Idle output continuously generates energy; accumulated energy can be spent on upgrades, creating a loop."
+    },
+    {
+      "formula": "Progression + Combat",
+      "effect": "Combat consumes energy; victory grants experience, which is used for upgrades, enhancing combat power."
+    },
+    {
+      "formula": "Progression + Match",
+      "effect": "Level progression and chained resources drive growth; completing a match can trigger additional upgrades."
+    }
+  ],
+  "advancedWarnings": [
+    "Excessively high upgrade costs can sap player motivation, while too low costs diminish challenge and sense of achievement. Designers must balance the cost curve with player investment to maintain both challenge and satisfaction.",
+    "An overly rapid growth curve shortens the game's lifespan, whereas a sluggish one leads to player attrition. Appropriately setting growth rates and milestones can extend the experience cycle.",
+    "Lacking stage goals makes progression feel meaningless. Each threshold should be tied to a visible reward or new gameplay element to sustain player motivation.",
+    "When players forgo immediate gains for long-term growth, the overall experience can improve, as long-term goals provide sustained motivation. Designers should introduce predictable milestones early on to encourage players toward larger objectives."
+  ],
+  "advancedAlgoRefs": [
+    "Stats: segmented curves, guaranteed returns, and anti-grind mechanisms.",
+    "Economy: inflation control, caps, and soft caps."
+  ]
+}

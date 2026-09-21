@@ -1,0 +1,54 @@
+{
+  "key": "physics",
+  "name": "Physics",
+  "nameEn": "Physics",
+  "subtitle": "Create gameplay using physics rules and predictability; the core is explainability and controllability.",
+  "features": [
+    "关卡"
+  ],
+  "difficulty": "Intermediate",
+  "demoRuleHint": "Rule: Apply force / drag → Motion and collision → Decision (trigger/failure) → Feedback → Reset / retry",
+  "problemsSolved": [
+    "Make physics outcomes predictable and learnable (same input yields consistent results)",
+    "Maintain stable simulation within performance budgets, reducing jitter, penetration, and other experience-breaking issues",
+    "Allow tactile parameters (friction, elasticity, damping) to be adjustable and verifiable for rapid iteration"
+  ],
+  "learningGoals": [
+    "Understand the balance between predictability and surprise",
+    "Master how collision, friction, elasticity, and other key parameters affect feel",
+    "Create reproducible solution spaces with minimal parameters"
+  ],
+  "minimalRules": [
+    "Force: Use RigidBody.AddForce(F), e.g., F=10N, direction arbitrary.",
+    "Velocity: Set RigidBody.velocity = v, e.g., v=5m/s.",
+    "Gravity: Use default g=9.8m/s², or adjust via RigidBody.gravityScale.",
+    "Collision: Add a Collider (AABB/circle/polygon) to objects, enable Continuous Collision Detection (CCD) to prevent penetration.",
+    "Goal: Determine arrival/contact/holding via triggers or state machines; the minimal condition is arrival."
+  ],
+  "systemLoopHint": "Input (drag/force) → Evolution (physics simulation) → Decision (whether achieved) → Feedback (success/failure reason) → New input",
+  "combos": [
+    {
+      "formula": "Physics + Puzzle",
+      "effect": "Use causal chains and mechanisms to create multiple solutions"
+    },
+    {
+      "formula": "Physics + Placement",
+      "effect": "Structural stability and layout optimization become the strategic core"
+    },
+    {
+      "formula": "Physics + Combat",
+      "effect": "Knockback, destruction, and rebound introduce spatial combat"
+    }
+  ],
+  "advancedWarnings": [
+    "Excessive friction limits object movement; too little friction causes unstable motion and uncontrolled sliding—balancing friction is key to predictable movement.",
+    "High elasticity retains too much energy, causing excessive rebounds; low elasticity dissipates energy quickly, leading to stalling—reasonable elasticity controls motion rhythm.",
+    "Excessive damping stops objects too quickly; insufficient damping prolongs motion and can cause oscillation—moderate damping achieves smooth stops.",
+    "High-mass objects accelerate less under the same force, moving slower but penetrating less; low-mass objects accelerate more, risking penetration or overly fast motion."
+  ],
+  "advancedAlgoRefs": [
+    "Collision: AABB/circle/polygon, Continuous Collision Detection (CCD)",
+    "Stability: Time step, damping, constraint solving"
+  ],
+  "lang": "en"
+}

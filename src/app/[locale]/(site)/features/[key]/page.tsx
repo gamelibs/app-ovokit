@@ -7,7 +7,7 @@ import { getFeatureImageSet } from "@/lib/features/assets";
 import { isFeatureKey, featureKeys, type FeatureKey } from "@/lib/features/features";
 import { listFeatureSpecs, readFeatureSpec } from "@/lib/features/spec";
 import { siteConfig } from "@/lib/site/config";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 
 export async function generateStaticParams() {
@@ -25,11 +25,12 @@ export async function generateMetadata({
   if (!isFeatureKey(key)) {
     return {};
   }
-  const spec = await readFeatureSpec(key);
+  const spec = await readFeatureSpec(key, locale);
   if (!spec) {
     return {};
   }
-  const title = `${spec.name}（${spec.nameEn}）| ${siteConfig.name}`;
+  const nameTitle = spec.name === spec.nameEn ? spec.name : `${spec.name}（${spec.nameEn}）`;
+  const title = `${nameTitle} | ${siteConfig.name}`;
   const description = spec.subtitle;
   return {
     title,
@@ -70,10 +71,11 @@ export default async function FeatureDetailPage({
   }
   const key = rawKey as FeatureKey;
 
-  const [spec, images, specs] = await Promise.all([
-    readFeatureSpec(key),
+  const [t, spec, images, specs] = await Promise.all([
+    getTranslations("pillar"),
+    readFeatureSpec(key, rawLocale),
     getFeatureImageSet(key),
-    listFeatureSpecs(),
+    listFeatureSpecs(rawLocale),
   ]);
 
   if (!spec) {
@@ -87,6 +89,9 @@ export default async function FeatureDetailPage({
         selectedKey={key}
         items={specs.map((s) => ({ key: s.key, label: s.name }))}
       />
+      {spec.untranslated ? (
+        <div className="mt-3 sketch-card bg-paper-warm p-3 text-sm text-ink-light">{t("untranslated")}</div>
+      ) : null}
       <div className="mt-4">
         <FeaturePage spec={spec} images={images} />
       </div>

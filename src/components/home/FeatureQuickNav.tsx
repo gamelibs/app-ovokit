@@ -9,7 +9,7 @@ function featureIcon(key: string) {
 export async function FeatureQuickNav() {
   const t = await getTranslations("home");
   const locale = await getLocale();
-  const specs = await listFeatureSpecs();
+  const specs = await listFeatureSpecs(locale);
 
   return (
     <section className="mt-8 space-y-4">

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { BrowseGroupTabs } from "@/components/plays/BrowseGroupTabs";
 import { PatternTabs } from "@/components/patterns/PatternTabs";
 import { PatternPage } from "@/components/patterns/PatternPage";
@@ -12,19 +13,22 @@ function normalizeQueryParam(v: string | string[] | undefined) {
 }
 
 export default async function PatternsPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams?: Promise<{ key?: string | string[] }>;
 }) {
-  const sp = searchParams ? await searchParams : {};
+  const [{ locale }, sp] = await Promise.all([params, searchParams ?? Promise.resolve<{ key?: string | string[] }>({})]);
+  const t = await getTranslations("pillar");
   const rawKey = normalizeQueryParam(sp.key) ?? "action";
   const selectedKey: CorePatternKey = isCorePatternKey(rawKey) ? rawKey : "action";
 
   const [spec, images, specs, allPlays] = await Promise.all([
-    readPatternSpec(selectedKey),
+    readPatternSpec(selectedKey, locale),
     getPatternImageSet(selectedKey),
-    listPatternSpecs(),
-    listPlays(),
+    listPatternSpecs(locale),
+    listPlays(locale === "en" ? "en" : "zh-CN"),
   ]);
 
   if (!spec) {
@@ -39,6 +43,9 @@ export default async function PatternsPage({
     <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
       <BrowseGroupTabs selectedGroup="pattern" />
       <PatternTabs selectedKey={selectedKey} items={specs.map((s) => ({ key: s.key, label: s.name }))} />
+      {spec.untranslated ? (
+        <div className="mt-3 sketch-card bg-paper-warm p-3 text-sm text-ink-light">{t("untranslated")}</div>
+      ) : null}
       <PatternPage spec={spec} images={images} embedded relatedPlays={relatedPlays} />
     </main>
   );

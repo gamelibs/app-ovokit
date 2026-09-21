@@ -1,0 +1,55 @@
+{
+  "key": "puzzle",
+  "name": "Puzzle",
+  "nameEn": "Puzzle",
+  "lang": "en",
+  "subtitle": "Centered around information hiding and inference to create solution spaces; the core is learning curves and hint strategies.",
+  "features": [
+    "网格",
+    "关卡"
+  ],
+  "difficulty": "Beginner → Intermediate",
+  "demoRuleHint": "Rule: Observe information → Perform action → Receive feedback → Infer next step → Achieve goal",
+  "problemsSolved": [
+    "Clearly define objectives and actionable objects, avoiding the question 'What am I supposed to do?'",
+    "Use tiered hints to reduce frustration costs, encouraging players to keep trying.",
+    "Make trial-and-error feedback verifiable (correct/incorrect/progression), avoiding randomness and misdirection."
+  ],
+  "learningGoals": [
+    "Understand how information disclosure guides learning curves.",
+    "Master the combination of 'single-step verification' and 'long-chain reasoning'.",
+    "Be able to design hints that are understandable without text."
+  ],
+  "minimalRules": [
+    "Goal: satisfy conditions (minimum: reach endpoint / trigger mechanism).",
+    "Constraints: operation limits (count / order / resources).",
+    "Feedback: every step can be verified (correct / incorrect / neutral)."
+  ],
+  "systemLoopHint": "Input → Judgment → Feedback → State change → New input",
+  "combos": [
+    {
+      "formula": "Puzzle + Physics",
+      "effect": "Physics causal chains provide richer solution spaces."
+    },
+    {
+      "formula": "Puzzle + Random",
+      "effect": "Reconfiguring the state increases replayability, but explainability must be controlled."
+    },
+    {
+      "formula": "Puzzle + Progression",
+      "effect": "Gradually unlock tools and rules, expanding reasoning ability."
+    }
+  ],
+  "advancedWarnings": [
+    "Lack of verifiable feedback prevents players from assessing progress.",
+    "Too strong hints break the sense of achievement; too weak hints lead to abandonment.",
+    "When the solution is unique but the path is long, frustration is amplified.",
+    "Too many hints weaken the challenge; too few cause players to get lost—balancing information is the core design trade-off.",
+    "Excessive randomization can increase replayability but undermines causal chain explainability, making players feel purposeless.",
+    "Over-simplifying hints can actually increase curiosity—players will proactively try multiple strategies when lacking clues."
+  ],
+  "advancedAlgoRefs": [
+    "Levels: solvability verification, solution search, hint generation",
+    "State: state machine / condition graph, used to express causal chains"
+  ]
+}

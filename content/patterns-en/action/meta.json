@@ -1,0 +1,65 @@
+{
+  "key": "action",
+  "name": "Action",
+  "nameEn": "Action",
+  "lang": "en",
+  "subtitle": "Perception → Action → Immediate Feedback",
+  "concept": "The Action‑Reaction pattern focuses on the real‑time feedback between player input and the game world. Its core is that players control one or more entities through continuous, high‑frequency actions (clicks, swipes, key presses) to dodge obstacles, hit targets, or perform rhythmic moves in a dynamic environment. The underlying structure typically includes input sampling, entity state updates, physics or pseudo‑physics calculations, collision detection, and scoring or survival resolution. Designers must balance input latency against collision tolerance: too low latency feels \"stiff,\" while too high latency erodes immediacy. Likewise, the balance between obstacle density and the player’s skill curve is crucial; excessive density can sap a sense of progression, while sparse density reduces challenge. Speed increases and flow are a double‑edged sword—accelerating too quickly can turn flow into anxiety. Notably, a moderate input lag can actually enhance anticipation by giving players a clearer time window to adjust actions, thereby sharpening their sense of impending events.",
+  "role": "This pattern is used to create tension and flow. It directly translates the player’s reaction speed, anticipation, and precision into gameplay performance, making it one of the most intuitive and accessible play styles. In hyper‑casual and arcade titles, the action‑reaction pattern essentially constitutes the entire experience.",
+  "significance": "Mastering the action‑reaction pattern means understanding key design dimensions such as input lag, collision tolerance, and difficulty curves. It is the best entry point for learning real‑time systems, physics simulation, animation, and feedback synchronization, and it underpins many complex mechanics like platforming, bullet‑hell shooting, and rhythm games.",
+  "loop": "Input → Avatar → Physics → Score",
+  "abstractions": [
+    "Reaction Speed",
+    "Hand‑Eye Coordination",
+    "Real‑Time Operation",
+    "Collision Detection",
+    "Input Window"
+  ],
+  "cases": [
+    "Flappy Bird",
+    "Temple Run",
+    "Fruit Ninja",
+    "Geometry Dash"
+  ],
+  "problemsSolved": [
+    "Provide the shortest feedback loop so players immediately understand what they did",
+    "Create sustained tension through variations in speed, density, and rhythm",
+    "Lower the learning curve with simple single‑finger/single‑key controls"
+  ],
+  "learningGoals": [
+    "Understand the timing relationships between input sampling, frame updates, and rendering",
+    "Master collision boxes, hit detection, and tolerance design",
+    "Design scalable speed/density difficulty curves"
+  ],
+  "minimalRules": [
+    "The player controls a movable entity",
+    "Obstacles or targets continuously spawn in the scene",
+    "Collisions/hits trigger immediate feedback (score, failure, visual effect)",
+    "Game speed or obstacle density increases over time"
+  ],
+  "systemLoopHint": "Read input → Update player/object state → Detect collisions → Trigger feedback → Resolve score/survival status → Advance to next frame",
+  "combos": [
+    {
+      "formula": "Action + Collection",
+      "effect": "Adds resource targets beyond dodging/attacking, shifting player priorities"
+    },
+    {
+      "formula": "Action + Progression",
+      "effect": "Transforms performance scores into permanent upgrades, extending lifespan"
+    },
+    {
+      "formula": "Action + Rhythm",
+      "effect": "Synchronizes action windows with musical beats, creating a rhythm game experience"
+    }
+  ],
+  "advancedWarnings": [
+    "Excessive input lag or overly strict collision detection can quickly turn players away",
+    "Purely random obstacles may create unsolvable situations; introduce controllable generation algorithms",
+    "Rapid speed increases can turn flow into anxiety; monitor difficulty pacing"
+  ],
+  "advancedAlgoRefs": [
+    "Fixed‑timestep physics updates independent of frame rate",
+    "AABB / circle collision detection and spatial partitioning optimization",
+    "Procedural obstacle generation and difficulty curve control"
+  ]
+}

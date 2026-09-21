@@ -1,0 +1,52 @@
+{
+  "lang": "en",
+  "key": "simulation",
+  "name": "Simulation",
+  "nameEn": "Simulation",
+  "subtitle": "Generate observable world behavior via system rules; the core is variables, causal chains, and explainability.",
+  "features": [
+    "放置产出",
+    "数值成长"
+  ],
+  "difficulty": "Intermediate",
+  "demoRuleHint": "Example rule: Set resource generation rate → Observe population growth → Adjust resource allocation.",
+  "problemsSolved": [
+    "Make causal chains observable and explainable, avoiding 'black-box number crunching'.",
+    "Provide steady states and boundary conditions to prevent system runaway or boring stagnation.",
+    "Give players clear intervention levers (parameters/strategies/resources) so adjustments are effective."
+  ],
+  "learningGoals": [
+    "Understand how core variables and causal chains drive outcomes.",
+    "Master explainability: let players know why things happen.",
+    "Be able to design controllable emergent behavior, avoiding runaway and boredom."
+  ],
+  "minimalRules": [
+    "Variables: 2–4 key variables (minimum 2).",
+    "Evolution: Update rules (every tick/turn).",
+    "Observation: Let players see key metric changes."
+  ],
+  "systemLoopHint": "Input (parameters/strategies) → Evolution (rule updates) → Observation (metric changes) → Decision (success/failure) → Adjustment → New input",
+  "combos": [
+    {
+      "formula": "Simulation + Progression",
+      "effect": "Drive system evolution and expansion with long-term goals."
+    },
+    {
+      "formula": "Simulation + Choice",
+      "effect": "Alter system trajectory through key decisions."
+    },
+    {
+      "formula": "Simulation + Physics",
+      "effect": "More realistic world rules bring emergent gameplay."
+    }
+  ],
+  "advancedWarnings": [
+    "Too many variables reduce explainability; too few variables reduce depth.",
+    "Long feedback cycles cause players to lose immediate feedback; short cycles cause excessive system noise.",
+    "Overly restricting parameters can spur players to find micro-tuning points, producing richer emergent behavior—limits force exploration of edge states."
+  ],
+  "advancedAlgoRefs": [
+    "Evolution: tick updates, event queue, stability control.",
+    "Visualization: metric dashboard, heatmap, replay."
+  ]
+}

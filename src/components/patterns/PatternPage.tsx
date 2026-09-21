@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { getDemoSrc } from "@/lib/demos/registry";
 import { CodeBlock } from "@/components/plays/CodeBlock";
+import { useTranslations } from "next-intl";
 
 /** ⑤ 区关键代码：每循环一段真实可读的算法实现（与该区文字互为注解） */
 const ADVANCED_CODE: Record<string, { title: string; code: string }> = {
@@ -132,6 +133,7 @@ export function PatternPage({
   embedded?: boolean;
   relatedPlays?: { slug: string; title: string; subtitle: string }[];
 }) {
+  const t = useTranslations("pillar");
   const content = (
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
@@ -143,7 +145,9 @@ export function PatternPage({
             <div className="flex items-start justify-between gap-3">
               <h1 className="text-2xl font-semibold text-ink font-kalam">
                 {spec.name}
-                <span className="ml-2 text-base font-normal text-ink-light">{spec.nameEn}</span>
+                {spec.nameEn !== spec.name ? (
+                  <span className="ml-2 text-base font-normal text-ink-light">{spec.nameEn}</span>
+                ) : null}
               </h1>
               <FavoriteButton
                 type="pattern"
@@ -155,15 +159,15 @@ export function PatternPage({
             <p className="mt-2 text-sm text-ink-light">{spec.subtitle}</p>
           <div className="mt-3 grid gap-2 sketch-card p-3 text-sm text-ink-light">
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink font-kalam">核心循环</div>
+              <div className="text-xs font-semibold text-ink font-kalam">{t("coreLoop")}</div>
               <div className="font-semibold text-ink">{spec.loop}</div>
             </div>
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink font-kalam">关键抽象</div>
+              <div className="text-xs font-semibold text-ink font-kalam">{t("keyAbstractions")}</div>
               <div className="font-semibold text-ink-light">{spec.abstractions.join(" · ")}</div>
             </div>
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink font-kalam">经典案例</div>
+              <div className="text-xs font-semibold text-ink font-kalam">{t("classicCases")}</div>
               <div className="flex flex-wrap gap-1.5">
                 {spec.cases.map((c) => (
                   <Link
@@ -183,10 +187,10 @@ export function PatternPage({
 
       <nav className="flex items-center gap-2 overflow-x-auto py-1.5 text-sm [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {[
-          { id: "demo", label: "▶ 试玩 Demo" },
-          { id: "breakdown", label: "系统拆解" },
-          { id: "combos", label: "常见组合" },
-          { id: "advanced", label: "高级设计 ▾" },
+          { id: "demo", label: t("navDemo") },
+          { id: "breakdown", label: t("navBreakdown") },
+          { id: "combos", label: t("navCombos") },
+          { id: "advanced", label: t("navAdvanced") },
         ].map((item) => (
           <a
             key={item.id}
@@ -198,7 +202,7 @@ export function PatternPage({
         ))}
       </nav>
 
-      <SectionShell id="demo" title="即时试玩 Demo">
+      <SectionShell id="demo" title={t("demoInstant")}>
         <div className="grid gap-3 lg:grid-cols-[minmax(0,420px)_1fr] lg:items-start">
           {/* 左：可玩 demo */}
           <div className="overflow-hidden sketch-border bg-paper sketch-shadow-sm p-3">
@@ -213,19 +217,19 @@ export function PatternPage({
           </div>
           {/* 右：规则说明 */}
           <div className="sketch-border bg-paper sketch-shadow-sm-warm p-3 text-sm text-ink-light">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">规则提示</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">{t("ruleHint")}</div>
             <div className="mt-1 font-medium">{spec.systemLoopHint}</div>
             <div className="mt-3 space-y-3 border-t border-ink-faint pt-3">
               <div>
-                <div className="text-xs font-semibold text-ink-muted font-kalam">概念</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("concept")}</div>
                 <p className="mt-1 leading-relaxed">{spec.concept}</p>
               </div>
               <div>
-                <div className="text-xs font-semibold text-ink-muted font-kalam">作用</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("role")}</div>
                 <p className="mt-1 leading-relaxed">{spec.role}</p>
               </div>
               <div>
-                <div className="text-xs font-semibold text-ink-muted font-kalam">意义</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("significance")}</div>
                 <p className="mt-1 leading-relaxed">{spec.significance}</p>
               </div>
             </div>
@@ -233,15 +237,15 @@ export function PatternPage({
         </div>
       </SectionShell>
 
-      <SectionShell id="breakdown" title="核心玩法系统拆解">
+      <SectionShell id="breakdown" title={t("breakdownPattern")}>
         {/* 左：流程图；右：三张卡纵向堆叠 */}
         <div className="grid gap-3 lg:grid-cols-[1fr_minmax(0,380px)] lg:items-start">
           <div>
-            <div className="text-xs font-semibold text-ink-muted font-kalam">核心循环流程图</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">{t("loopFlowchart")}</div>
             <div className="relative mt-2 aspect-[800/300] w-full overflow-hidden sketch-border bg-paper">
               <Image
                 src={`/patterns/${spec.key}/loop.webp`}
-                alt="核心循环流程图"
+                alt={t("loopFlowchart")}
                 fill
                 sizes="(max-width: 1024px) 100vw, 900px"
                 className="object-contain"
@@ -250,7 +254,7 @@ export function PatternPage({
           </div>
           <div className="grid gap-3 content-start">
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">3.1 解决了什么问题？</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">3.1 {t("problemsSolved")}</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
               {spec.problemsSolved.map((t) => (
                 <li key={t}>{t}</li>
@@ -258,7 +262,7 @@ export function PatternPage({
             </ul>
           </div>
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">3.2 学习目标</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">3.2 {t("learningGoals")}</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
               {spec.learningGoals.map((t) => (
                 <li key={t}>{t}</li>
@@ -266,7 +270,7 @@ export function PatternPage({
             </ul>
           </div>
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">3.3 最小规则集</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">3.3 {t("minimalRules")}</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
               {spec.minimalRules.map((t) => (
                 <li key={t}>{t}</li>
@@ -277,7 +281,7 @@ export function PatternPage({
         </div>
       </SectionShell>
 
-      <SectionShell id="combos" title="常见组合与变体">
+      <SectionShell id="combos" title={t("combosVariants")}>
         <div className="grid gap-3 lg:grid-cols-3">
           {spec.combos.map((c) => (
             <div key={c.formula} className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
@@ -291,14 +295,14 @@ export function PatternPage({
       <section id="advanced" className="scroll-mt-24 sketch-card p-4 shadow-sm">
         <details className="group">
           <summary className="cursor-pointer list-none text-base font-semibold text-ink font-kalam">
-            高级设计与算法（默认折叠）
-            <span className="ml-2 text-xs font-semibold text-ink-muted group-open:hidden font-kalam">点击展开</span>
+            {t("advancedAlgo")}
+            <span className="ml-2 text-xs font-semibold text-ink-muted group-open:hidden font-kalam">{t("clickExpand")}</span>
           </summary>
           <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_minmax(280px,34%)] lg:items-start">
             {/* 左：文字卡 + 关键代码纵向堆叠 */}
             <div className="grid gap-3 content-start min-w-0">
               <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-                <div className="text-xs font-semibold text-ink-muted font-kalam">设计警告</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("designWarnings")}</div>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                   {spec.advancedWarnings.map((t) => (
                     <li key={t}>{t}</li>
@@ -306,7 +310,7 @@ export function PatternPage({
                 </ul>
               </div>
               <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-                <div className="text-xs font-semibold text-ink-muted font-kalam">算法示例</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("algoExamples")}</div>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                   {spec.advancedAlgoRefs.map((t) => (
                     <li key={t}>{t}</li>
@@ -315,7 +319,7 @@ export function PatternPage({
               </div>
               <div>
                 <div className="mb-2 text-xs font-semibold text-ink-muted font-kalam">
-                  关键代码（{ADVANCED_CODE[spec.key]?.title ?? "核心算法"}）
+                  {t("keyCode")}（{ADVANCED_CODE[spec.key]?.title ?? t("coreAlgo")}）
                 </div>
                 <CodeBlock
                   language="ts"
@@ -334,7 +338,7 @@ export function PatternPage({
       </section>
 
       {relatedPlays.length > 0 ? (
-          <SectionShell id="related" title="关联玩法文章">
+          <SectionShell id="related" title={t("relatedPlays")}>
             <div className="grid gap-2 sm:grid-cols-2">
               {relatedPlays.map((p) => (
                 <Link

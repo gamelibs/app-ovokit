@@ -18,21 +18,24 @@ function normalizeQueryParam(v: string | string[] | undefined) {
 }
 
 export default async function ImplementationTraitsPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams?: Promise<{ key?: string | string[] }>;
 }) {
+  const [{ locale }, sp] = await Promise.all([params, searchParams ?? Promise.resolve<{ key?: string | string[] }>({})]);
   const t = await getTranslations("implementationTraits");
-  const sp = searchParams ? await searchParams : {};
+  const tp = await getTranslations("pillar");
   const rawKey = normalizeQueryParam(sp.key) ?? "generation";
   const selectedKey: ImplementationTraitKey = isImplementationTraitKey(rawKey)
     ? rawKey
     : "generation";
 
   const [spec, images, specs] = await Promise.all([
-    readImplementationTraitSpec(selectedKey),
+    readImplementationTraitSpec(selectedKey, locale),
     getImplementationTraitImageSet(selectedKey),
-    listImplementationTraitSpecs(),
+    listImplementationTraitSpecs(locale),
   ]);
 
   if (!spec) {
@@ -47,6 +50,9 @@ export default async function ImplementationTraitsPage({
         selectedKey={selectedKey}
         items={specs.map((s) => ({ key: s.key, label: s.name }))}
       />
+      {spec.untranslated ? (
+        <div className="mt-3 sketch-card bg-paper-warm p-3 text-sm text-ink-light">{tp("untranslated")}</div>
+      ) : null}
       <ImplementationTraitPage spec={spec} images={images} embedded />
     </main>
   );

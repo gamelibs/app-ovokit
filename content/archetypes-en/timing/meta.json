@@ -1,0 +1,57 @@
+{
+  "key": "timing",
+  "name": "Timing",
+  "nameEn": "Timing",
+  "lang": "en",
+  "subtitle": "Create challenge through windows, beats, and reactions; core is judgment zones and feedback latency.",
+  "features": [
+    "数值成长",
+    "关卡"
+  ],
+  "difficulty": "Beginner → Intermediate",
+  "demoRuleHint": "Beat generation → Input → Judgment → Feedback → Combo/Difficulty progression",
+  "problemsSolved": [
+    "Make judgment windows interpretable and consistent, reducing the feeling of pressing correctly but being judged wrong.",
+    "Use tolerance and reward design to create a progression curve that accommodates both beginners and experts.",
+    "Use beat sections to create peaks and recovery zones, controlling fatigue and tension.",
+    "Balance window width: too narrow frustrates beginners, too wide weakens challenge.",
+    "Delayed feedback can enhance rhythm sense: moderate delay lets players anticipate beats."
+  ],
+  "learningGoals": [
+    "Understand how judgment window size affects difficulty and feel.",
+    "Understand the importance of feedback latency and audio-visual sync.",
+    "Be able to design beat variations and learning curves.",
+    "Master the trade-offs between window width and reward balance.",
+    "Recognize the counterintuitive improvement of rhythm sense from delayed feedback."
+  ],
+  "minimalRules": [
+    "Window: Each beat defines a time interval; Perfect ±30 ms (60 ms window), Good ±70 ms (140 ms window), Miss >70 ms; total window duration 140 ms.",
+    "Beat: Rhythm generated at fixed or variable BPM, using an event queue to pre-schedule timestamps, supporting real-time tempo changes.",
+    "Feedback: Trigger sound, vibration, and visual highlight based on judgment level; minimum is visual highlight; audio-visual sync error ≤5 ms."
+  ],
+  "systemLoopHint": "Input → Compute difference with beat timestamp → Judgment level → Trigger feedback → Update combo/difficulty → Generate next window",
+  "combos": [
+    {
+      "formula": "Timing + Combat",
+      "effect": "Perfect timing triggers counterattack/block, creating rhythmic confrontation."
+    },
+    {
+      "formula": "Timing + Progression",
+      "effect": "Combo drives resource acquisition and unlocks."
+    },
+    {
+      "formula": "Timing + Simulation",
+      "effect": "Rhythmic events affect system variables, expanding strategic depth."
+    }
+  ],
+  "advancedWarnings": [
+    "Audio-visual sync loss will directly ruin timing mechanics.",
+    "Opaque judgment rules will break the learning curve.",
+    "Too narrow windows without progression will cause frustration spikes.",
+    "Excessive delayed feedback will weaken immediacy, causing rhythm imbalance."
+  ],
+  "advancedAlgoRefs": [
+    "Judgment: timeline, window calculation, delay compensation",
+    "Rhythm: event queue, BPM changes, sheet generation"
+  ]
+}

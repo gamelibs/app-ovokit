@@ -12,7 +12,7 @@ import {
 } from "@/lib/archetypes/archetypes";
 import { listArchetypeSpecs } from "@/lib/archetypes/spec";
 import { siteConfig } from "@/lib/site/config";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 
 export async function generateStaticParams() {
@@ -30,7 +30,7 @@ export async function generateMetadata({
   if (!isPlayArchetypeKey(key)) {
     return {};
   }
-  const model = await getArchetypePageModel(key);
+  const model = await getArchetypePageModel(key, locale);
   const title = `${model.title} | ${siteConfig.name}`;
   const description = model.subtitle;
   return {
@@ -72,10 +72,11 @@ export default async function ArchetypeDetailPage({
   }
   const key = rawKey as PlayArchetypeKey;
 
-  const [model, images, specs] = await Promise.all([
-    getArchetypePageModel(key),
+  const [t, model, images, specs] = await Promise.all([
+    getTranslations("pillar"),
+    getArchetypePageModel(key, rawLocale),
     getArchetypeImageSet(key),
-    listArchetypeSpecs(),
+    listArchetypeSpecs(rawLocale),
   ]);
 
   return (
@@ -85,6 +86,9 @@ export default async function ArchetypeDetailPage({
         selectedKey={key}
         items={specs.map((s) => ({ key: s.key, label: s.name }))}
       />
+      {model.untranslated ? (
+        <div className="mt-3 sketch-card bg-paper-warm p-3 text-sm text-ink-light">{t("untranslated")}</div>
+      ) : null}
       <div className="mt-4">
         <ArchetypePage model={model} images={images} />
       </div>

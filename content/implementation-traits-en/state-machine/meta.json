@@ -1,0 +1,57 @@
+{
+  "key": "state-machine",
+  "name": "State Machine",
+  "nameEn": "State Machine",
+  "lang": "en",
+  "subtitle": "Drive character or system behavior through state transitions",
+  "concept": "State machine features emphasize the switching of characters, enemies, or game systems between distinct states. Each state has clear entry conditions, behaviors, and exit conditions, making complex behavior predictable and debuggable. It is the foundational engineering structure for AI, character control, and global flow management: menu to gameplay to results is a state machine, and an enemy’s patrol/engage/attack cycle is also a state machine. The biggest threat to state machines is state inflation—when the number of states grows, transition conditions clash and debugging becomes difficult. At that point, consider hierarchical state machines or behavior trees. A system should use a state machine only if its behavior can be decomposed into a finite set of mutually exclusive, well‑defined stages.",
+  "role": "State machines manage complex behavior logic, allowing players and developers to understand \"what stage we’re in and what will happen.\" They form the foundation of AI, character control, and process management.",
+  "significance": "Mastering state machine features helps understand the State pattern, behavior trees, and event‑driven architectures. It is the essential path from simple scripts to complex systems.",
+  "filterTags": [
+    "State Machine"
+  ],
+  "cases": [
+    "Dark Souls Enemy AI",
+    "Hollow Knight",
+    "Fighting games"
+  ],
+  "problemsSolved": [
+    "Decompose complex behavior into manageable states",
+    "Make character/enemy behavior predictable and scalable",
+    "Prevent logical confusion caused by multiple conditional checks"
+  ],
+  "learningGoals": [
+    "Design finite state machines (FSM)",
+    "Master state transition conditions and callbacks",
+    "Extend complexity using hierarchical state machines or behavior trees"
+  ],
+  "minimalRules": [
+    "Systems/characters have a finite number of distinct states",
+    "Clear transition conditions between states",
+    "Each state defines specific behaviors"
+  ],
+  "combos": [
+    {
+      "formula": "State Machine + AI",
+      "effect": "Enable enemies to exhibit rhythmic attack, patrol, and hit reactions"
+    },
+    {
+      "formula": "State Machine + Animation",
+      "effect": "Use state‑driven animation transitions to ensure consistency"
+    },
+    {
+      "formula": "State Machine + Flow",
+      "effect": "Manage global game flow (Menu → Game → Results)"
+    }
+  ],
+  "advancedWarnings": [
+    "FSM becomes difficult to maintain with too many states",
+    "Conflicting transition conditions can cause deadlocks",
+    "Complex AI is recommended to migrate to behavior trees or hierarchical FSMs"
+  ],
+  "advancedAlgoRefs": [
+    "Finite State Machine (FSM) Implementation",
+    "Hierarchical Finite State Machine (HFSM)",
+    "Combining Behavior Trees with State Machines"
+  ]
+}

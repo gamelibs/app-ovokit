@@ -1,6 +1,7 @@
 import type { FeatureSpec } from "@/lib/features/spec";
 import Image from "next/image";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
+import { useTranslations } from "next-intl";
 
 function FeatureImage({
   src,
@@ -61,6 +62,7 @@ export function FeaturePage({
   };
   embedded?: boolean;
 }) {
+  const t = useTranslations("pillar");
   const content = (
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
@@ -72,7 +74,9 @@ export function FeaturePage({
             <div className="flex items-start justify-between gap-3">
               <h1 className="text-2xl font-semibold text-ink font-kalam">
                 {spec.name}
-                <span className="ml-2 text-base font-normal text-ink-light">{spec.nameEn}</span>
+                {spec.nameEn !== spec.name ? (
+                  <span className="ml-2 text-base font-normal text-ink-light">{spec.nameEn}</span>
+                ) : null}
               </h1>
               <FavoriteButton
                 type="feature"
@@ -84,11 +88,11 @@ export function FeaturePage({
             <p className="mt-2 text-sm text-ink-light">{spec.subtitle}</p>
           <div className="mt-3 grid gap-2 sketch-card p-3 text-sm text-ink-light">
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">筛选标签</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">{t("filterTags")}</div>
               <div className="font-medium">{spec.filterTags.join(" · ")}</div>
             </div>
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
-              <div className="text-xs font-semibold text-ink-muted font-kalam">经典案例</div>
+              <div className="text-xs font-semibold text-ink-muted font-kalam">{t("classicCases")}</div>
               <div className="text-ink-light">{spec.cases.join(" · ")}</div>
             </div>
           </div>
@@ -96,18 +100,18 @@ export function FeaturePage({
         </div>
       </section>
 
-      <SectionShell id="concept" title="① 概念、作用与意义">
+      <SectionShell id="concept" title={`① ${t("conceptRoleSignificance")}`}>
         <div className="space-y-3 text-sm text-ink-light">
           <div>
-            <div className="text-xs font-semibold text-ink-muted font-kalam">概念</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">{t("concept")}</div>
             <p className="mt-1 leading-relaxed">{spec.concept}</p>
           </div>
           <div>
-            <div className="text-xs font-semibold text-ink-muted font-kalam">作用</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">{t("role")}</div>
             <p className="mt-1 leading-relaxed">{spec.role}</p>
           </div>
           <div>
-            <div className="text-xs font-semibold text-ink-muted font-kalam">意义</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">{t("significance")}</div>
             <p className="mt-1 leading-relaxed">{spec.significance}</p>
           </div>
         </div>
@@ -115,9 +119,9 @@ export function FeaturePage({
 
       <nav className="flex items-center gap-2 overflow-x-auto py-1.5 text-sm [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {[
-          { id: "breakdown", label: "系统拆解" },
-          { id: "combos", label: "常见组合" },
-          { id: "advanced", label: "高级设计 ▾" },
+          { id: "breakdown", label: t("navBreakdown") },
+          { id: "combos", label: t("navCombos") },
+          { id: "advanced", label: t("navAdvanced") },
         ].map((item) => (
           <a
             key={item.id}
@@ -129,11 +133,11 @@ export function FeaturePage({
         ))}
       </nav>
 
-      <SectionShell id="breakdown" title="② 玩法特征系统拆解">
+      <SectionShell id="breakdown" title={`② ${t("breakdownFeature")}`}>
         <div className="grid gap-3 lg:grid-cols-[minmax(280px,34%)_1fr] lg:items-start">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-3 min-w-0 order-2 lg:order-2">
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">2.1 解决了什么问题？</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">2.1 {t("problemsSolved")}</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
               {spec.problemsSolved.map((t) => (
                 <li key={t}>{t}</li>
@@ -141,7 +145,7 @@ export function FeaturePage({
             </ul>
           </div>
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">2.2 学习目标</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">2.2 {t("learningGoals")}</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
               {spec.learningGoals.map((t) => (
                 <li key={t}>{t}</li>
@@ -149,7 +153,7 @@ export function FeaturePage({
             </ul>
           </div>
           <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-            <div className="text-xs font-semibold text-ink-muted font-kalam">2.3 最小规则集</div>
+            <div className="text-xs font-semibold text-ink-muted font-kalam">2.3 {t("minimalRules")}</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
               {spec.minimalRules.map((t) => (
                 <li key={t}>{t}</li>
@@ -166,7 +170,7 @@ export function FeaturePage({
         </div>
       </SectionShell>
 
-      <SectionShell id="combos" title="③ 常见组合与变体">
+      <SectionShell id="combos" title={`③ ${t("combosVariants")}`}>
         <div className="grid gap-3 lg:grid-cols-3">
           {spec.combos.map((c) => (
             <div key={c.formula} className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
@@ -180,14 +184,14 @@ export function FeaturePage({
       <section id="advanced" className="scroll-mt-24 sketch-card p-4 shadow-sm">
         <details className="group">
           <summary className="cursor-pointer list-none text-base font-semibold text-ink font-kalam">
-            ④ 高级设计与算法（默认折叠）
-            <span className="ml-2 text-xs font-semibold text-ink-muted group-open:hidden font-kalam">点击展开</span>
+            ④ {t("advancedAlgo")}
+            <span className="ml-2 text-xs font-semibold text-ink-muted group-open:hidden font-kalam">{t("clickExpand")}</span>
           </summary>
           <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_minmax(280px,34%)] lg:items-start">
             {/* 左：两张文字卡纵向堆叠 */}
             <div className="grid gap-3 content-start min-w-0">
               <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-                <div className="text-xs font-semibold text-ink-muted font-kalam">设计警告</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("designWarnings")}</div>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                   {spec.advancedWarnings.map((t) => (
                     <li key={t}>{t}</li>
@@ -195,7 +199,7 @@ export function FeaturePage({
                 </ul>
               </div>
               <div className="sketch-border bg-paper sketch-shadow-sm p-3 text-sm">
-                <div className="text-xs font-semibold text-ink-muted font-kalam">算法示例</div>
+                <div className="text-xs font-semibold text-ink-muted font-kalam">{t("algoExamples")}</div>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-ink-light">
                   {spec.advancedAlgoRefs.map((t) => (
                     <li key={t}>{t}</li>

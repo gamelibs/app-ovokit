@@ -36,6 +36,8 @@ export type ArchetypePageModel = {
   patternKeys: string[];
   /** 归属本母型的案例文章（显式 meta.archetype 优先，tag 推断兜底） */
   relatedPlays: ArchetypeRelatedPlay[];
+  /** en 请求回退中文内容时标记 true（页面据此展示「暂未翻译」提示） */
+  untranslated?: boolean;
 };
 
 /** 解析案例的母型归属：显式 meta.archetype（ContentPack v1.1 生产线写入）优先，tag 推断兜底 */
@@ -44,8 +46,14 @@ function resolvePlayArchetype(play: { archetype?: string; tags: string[] }): Pla
   return inferArchetypeFromTags(play.tags);
 }
 
-export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<ArchetypePageModel> {
-  const [spec, plays] = await Promise.all([readArchetypeSpec(key), listPlays()]);
+export async function getArchetypePageModel(
+  key: PlayArchetypeKey,
+  locale: string = "zh-CN",
+): Promise<ArchetypePageModel> {
+  const [spec, plays] = await Promise.all([
+    readArchetypeSpec(key, locale),
+    listPlays(locale === "en" ? "en" : "zh-CN"),
+  ]);
   const relatedPlays: ArchetypeRelatedPlay[] = plays
     .filter((p) => resolvePlayArchetype(p) === key)
     .map((p) => ({ slug: p.slug, title: p.title, subtitle: p.subtitle }));
@@ -74,7 +82,8 @@ export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<Arch
     key,
     name: spec.name,
     nameEn: spec.nameEn,
-    title: `${spec.name}（${spec.nameEn}）`,
+    // 英文内容下 name 已是英文，避免「English（English）」重复展示
+    title: spec.name === spec.nameEn ? spec.name : `${spec.name}（${spec.nameEn}）`,
     subtitle: spec.subtitle,
     features: spec.features,
     difficulty: spec.difficulty,
@@ -88,5 +97,6 @@ export async function getArchetypePageModel(key: PlayArchetypeKey): Promise<Arch
     advancedAlgoRefs: spec.advancedAlgoRefs,
     patternKeys: getPatternsForArchetype(key),
     relatedPlays,
+    untranslated: spec.untranslated,
   };
 }

@@ -1,0 +1,65 @@
+{
+  "key": "spatial",
+  "name": "Spatial Planning",
+  "nameEn": "Spatial",
+  "lang": "en",
+  "subtitle": "Observe → Think → Place → Verify",
+  "concept": "Spatial planning patterns center around board, grid, path, or positional relationships as core data structures. Players observe the state, infer rules, and perform moves, swaps, or placements to transition the system from its current state to a target state. The fun comes from the \"aha\" moment—discovering an optimal or unique solution within constrained space. The primary design principle for spatial gameplay is \"rules that are instantly understandable yet endlessly varied\"—fewer initial rules lead to richer state evolution. Designers often face two major trade‑offs: first, rule simplicity versus exploding state space; simplifying rules lets players pick up quickly, but overly simple rules can make gameplay stale; conversely, adding rules increases depth but causes exponential growth in state space, making level design by hand or algorithm difficult. Second, spatial size versus strategic depth; expanding the grid offers more layout combinations and strategic options, but too large a grid hampers players’ ability to see the whole picture at once, weakening intuition. An counterintuitive insight is that modestly limiting the number of movable steps can actually spark creativity: when players must finish a goal within a limited number of moves, they must find more efficient paths or use the grid’s \"blank\" spaces to create chains, often encouraging exploration of hidden combinations more than unlimited freedom.",
+  "role": "This pattern transforms abstract rules into observable, manipulable spatial structures. It lets players rely on visual and spatial intuition instead of complex calculations, serving as the underlying framework for many mechanics such as puzzle, match‑clear, merge, and path‑planning. Spatial planning games typically feature simple rules but massive state spaces, yielding a \"easy to learn, hard to master\" quality.",
+  "significance": "The spatial planning pattern is a natural teaching tool for understanding state machines, search algorithms, combinatorial explosion, and heuristic evaluation. Developers can learn how to translate complex logical problems into intuitive grid operations, and how to shape the experience curve through level design rather than code complexity.",
+  "loop": "Board → Cell → Rule → State Change",
+  "abstractions": [
+    "Board",
+    "Grid",
+    "Path",
+    "Positional Relationship",
+    "State Space"
+  ],
+  "cases": [
+    "Candy Crush",
+    "2048",
+    "Klotski",
+    "Tetris"
+  ],
+  "problemsSolved": [
+    "Transform abstract rules into spatial actions that players can see.",
+    "Use a limited grid to create rich combinations and constraints.",
+    "Provide ongoing freshness through state changes without relying on complex narrative."
+  ],
+  "learningGoals": [
+    "Master grid/graph data structures and their traversal algorithms.",
+    "Design clear and extensible rule‑evaluation systems.",
+    "Control player experience through level generation and difficulty scaling."
+  ],
+  "minimalRules": [
+    "Define the game space (grid, board, area).",
+    "Define interactive elements and their placement/movement rules.",
+    "Define win/lose or scoring conditions.",
+    "Update the spatial state after each action according to the rules."
+  ],
+  "systemLoopHint": "Observe the board → Choose an action → Apply rules → Update the spatial state → Check for objectives → Generate a new board or next level.",
+  "combos": [
+    {
+      "formula": "Spatial + Match",
+      "effect": "Create instant feedback and chain reactions through matching rules."
+    },
+    {
+      "formula": "Spatial + Merge",
+      "effect": "Combine positional strategy with resource upgrades to form long‑term goals."
+    },
+    {
+      "formula": "Spatial + Limitation",
+      "effect": "Increase decision density with step, time, or area constraints."
+    }
+  ],
+  "advancedWarnings": [
+    "State‑space explosion can make solving or generation difficult; heuristics or constraint solving may be required.",
+    "Overly complex rules can strip players of intuition; keep them instantly understandable.",
+    "Dead‑lock detection and hint mechanisms are crucial for retention."
+  ],
+  "advancedAlgoRefs": [
+    "2D array / graph representation with BFS/DFS traversal.",
+    "Connected‑component detection and shape matching.",
+    "Backtracking / constraint‑satisfaction problem (CSP) solving."
+  ]
+}

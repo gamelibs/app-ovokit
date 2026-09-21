@@ -1,0 +1,61 @@
+{
+  "key": "choice-strategy",
+  "lang": "en",
+  "name": "Choice / Strategy",
+  "nameEn": "Choice / Strategy",
+  "subtitle": "Make critical choices under constraints of information and resources; the core is the presentation of information and the explainability of consequences.",
+  "features": [
+    "数值成长",
+    "关卡",
+    "Roguelike"
+  ],
+  "difficulty": "Intermediate",
+  "demoRuleHint": "Rule example: 2–3 visible options appear → the player selects one → a fixed cost and reward are generated → the situation updates → next round of choices.",
+  "problemsSolved": [
+    "Eliminate 'pseudo-choices' caused by insufficient option differentiation.",
+    "Balance information disclosure and randomness to avoid pure guessing or pure arithmetic.",
+    "Support strategic depth through rounds and resource curves, preventing one-click endings.",
+    "Control information volume to prevent decision fatigue and excessive guessing.",
+    "Limit resources to increase strategic depth, avoiding shallow decisions caused by excess resources.",
+    "Balance the proportion of hidden information and number of visible options to enhance the player's ability to explain consequences."
+  ],
+  "learningGoals": [
+    "Understand the relationship between decision density and information disclosure.",
+    "Master the design of risk-reward and long-term/short-term trade-offs.",
+    "Be able to design 'explainable consequences' and round cycles.",
+    "Understand how resource constraints encourage players to explore deeper strategies."
+  ],
+  "minimalRules": [
+    "Information: number of visible options ≤ 3, proportion of hidden information ≤ 30%.",
+    "Resources: available resource amount per round ≤ 2, and no more than 2 resource types.",
+    "Consequences: state changes (rewards/punishments) resulting from each choice must be traceable and explainable, and the magnitude of change ≤ 20% of current resources.",
+    "Decision cost: each choice consumes a fixed cost, with cost-to-reward ratio ≤ 1:1; high cost limits choice frequency, increasing depth; low cost increases frequency, reducing depth.",
+    "Information update frequency: information updated per round ≤ 1/3 of current visible options; frequent updates increase adaptability, reducing planning depth; sparse updates increase planning depth, reducing adaptability.",
+    "A moderate proportion of hidden information can improve decision quality; too low leads to overanalysis, too high leads to decision fatigue."
+  ],
+  "systemLoopHint": "Input (choice) → Check (resource sufficiency) → Feedback (reward/punishment) → State change (situation update) → New information → New input.",
+  "combos": [
+    {
+      "formula": "Strategy + Combat",
+      "effect": "In a combat round, the player can choose to 'Attack' or 'Defend'. Attacking consumes 1 point of attack power, defending consumes 1 point of defense power; the choice determines the combat outcome path."
+    },
+    {
+      "formula": "Strategy + Random",
+      "effect": "At the start of each round, 1–2 events are randomly drawn from an event pool; the player makes a choice based on the event content, and the event pool weights can be adjusted."
+    },
+    {
+      "formula": "Strategy + Progression",
+      "effect": "At the end of each season, the player chooses an upgrade path based on accumulated resources; the chosen path affects the rewards and visibility of subsequent options."
+    }
+  ],
+  "advancedWarnings": [
+    "Insufficient option differentiation can lead to 'pseudo-choices'.",
+    "Unexplained consequences prevent players from learning and improving.",
+    "Excessive information fatigues newcomers; too little turns it into guessing.",
+    "Excessive randomization weakens the player's sense of strategic control."
+  ],
+  "advancedAlgoRefs": [
+    "Events: event pool and weights, guaranteed events, and deduplication.",
+    "Economy: resource curves, inflation control, threshold design."
+  ]
+}

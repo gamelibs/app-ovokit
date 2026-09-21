@@ -14,7 +14,7 @@ import {
   readImplementationTraitSpec,
 } from "@/lib/implementation-traits/spec";
 import { siteConfig } from "@/lib/site/config";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 
 export async function generateStaticParams() {
@@ -32,11 +32,12 @@ export async function generateMetadata({
   if (!isImplementationTraitKey(key)) {
     return {};
   }
-  const spec = await readImplementationTraitSpec(key);
+  const spec = await readImplementationTraitSpec(key, locale);
   if (!spec) {
     return {};
   }
-  const title = `${spec.name}（${spec.nameEn}）| ${siteConfig.name}`;
+  const nameTitle = spec.name === spec.nameEn ? spec.name : `${spec.name}（${spec.nameEn}）`;
+  const title = `${nameTitle} | ${siteConfig.name}`;
   const description = spec.subtitle;
   return {
     title,
@@ -77,10 +78,11 @@ export default async function ImplementationTraitDetailPage({
   }
   const key = rawKey as ImplementationTraitKey;
 
-  const [spec, images, specs] = await Promise.all([
-    readImplementationTraitSpec(key),
+  const [t, spec, images, specs] = await Promise.all([
+    getTranslations("pillar"),
+    readImplementationTraitSpec(key, rawLocale),
     getImplementationTraitImageSet(key),
-    listImplementationTraitSpecs(),
+    listImplementationTraitSpecs(rawLocale),
   ]);
 
   if (!spec) {
@@ -94,6 +96,9 @@ export default async function ImplementationTraitDetailPage({
         selectedKey={key}
         items={specs.map((s) => ({ key: s.key, label: s.name }))}
       />
+      {spec.untranslated ? (
+        <div className="mt-3 sketch-card bg-paper-warm p-3 text-sm text-ink-light">{t("untranslated")}</div>
+      ) : null}
       <div className="mt-4">
         <ImplementationTraitPage spec={spec} images={images} />
       </div>
