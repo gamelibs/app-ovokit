@@ -48,5 +48,22 @@
   "advancedAlgoRefs": [
     "Evolution: tick updates, event queue, stability control.",
     "Visualization: metric dashboard, heatmap, replay."
+  ],
+  "demoLab": [
+    {
+      "title": "Tax Lever Experiment",
+      "action": "Drag the \"Tax Rate\" slider from 0.2 to 0.5, \"Advance (tick)\" 10 days, and watch money and happiness diverge",
+      "observe": "The tax rate is the start of the causal chain: money surges while happiness slides, and low happiness in turn suppresses pop growth. One lever moves several metrics — the depth of simulation play comes from the propagation delay between variables"
+    },
+    {
+      "title": "Steady-State Hunt",
+      "action": "Use \"Raise Tax (primary)\" / \"Cut Tax (secondary)\" to fine-tune, hunting for the tax band where happiness and money both rise",
+      "observe": "The system reaches a steady state at middle tax rates — both extremes collapse (0% starves the treasury, 60% drives people away). An observable steady-state boundary makes \"adjustment works\": players find their own optimum instead of memorizing a guide"
+    },
+    {
+      "title": "Collapse Watch",
+      "action": "Push the tax rate to 0.6 and \"Advance (tick)\" for 20 straight days",
+      "observe": "happiness collapses → pop drains → tax revenue actually falls — a Laffer-curve counterintuitive: maximum rate ≠ maximum revenue. Emergent collapse is the core teaching moment of simulation play: when causal chains are observable, collapse becomes explainable"
+    }
   ]
 }

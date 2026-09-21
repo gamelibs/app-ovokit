@@ -50,5 +50,22 @@
     "Collision: AABB/circle/polygon, Continuous Collision Detection (CCD)",
     "Stability: Time step, damping, constraint solving"
   ],
-  "lang": "en"
+  "lang": "en",
+  "demoLab": [
+    {
+      "title": "Cut Budget Experiment",
+      "action": "Click \"Cut (primary)\" repeatedly until budget runs out, watching pieces and what structure remains",
+      "observe": "Budget is the economic constraint on actions: every cut has a cost, and careless cutting leaves you broke before the key structure. Budget turns a \"physics sandbox\" into a \"planning puzzle\" — cut order itself becomes strategy"
+    },
+    {
+      "title": "Stability Watch",
+      "action": "After cutting, click \"Advance (tick)\" a dozen steps and track the wobble metric",
+      "observe": "wobble visualizes structural stability: a cut severs load-bearing paths, and oscillation amplifies until collapse. Physics gameplay is predictable because identical inputs give identical results — players dare to make precise cuts only when they can predict which way things fall"
+    },
+    {
+      "title": "Clear-Reset Experiment",
+      "action": "Cut the scene into a mess, hit \"Clear (secondary)\", then re-cut with a new plan",
+      "observe": "Clearing is a low-cost retry: physics trial-and-error needs fast resets, or the jitter from one failure contaminates every later experiment. A reproducible solution space depends on the ability to return to the initial state at will"
+    }
+  ]
 }

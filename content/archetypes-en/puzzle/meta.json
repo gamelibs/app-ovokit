@@ -51,5 +51,22 @@
   "advancedAlgoRefs": [
     "Levels: solvability verification, solution search, hint generation",
     "State: state machine / condition graph, used to express causal chains"
+  ],
+  "demoLab": [
+    {
+      "title": "Trial-and-Error Verification",
+      "action": "Without reasoning, click \"Try (primary)\" ten times and watch mistakes and progress diverge",
+      "observe": "Every step returns a right/wrong signal — mistakes climbing while progress stalls means you are guessing. Verifiable feedback is the minimal rule of puzzles: without it, players cannot tell whether they are advancing or regressing"
+    },
+    {
+      "title": "Hint Cost Experiment",
+      "action": "Get stuck on purpose, click \"Hint (secondary)\", then continue — watch the hints budget drain",
+      "observe": "Hints lower the cost of being stuck but spend a budget — too strong kills the achievement, too weak causes abandonment. Graded hints essentially convert \"quit rate\" into \"resource spend\": players buy back their sense of accomplishment"
+    },
+    {
+      "title": "Difficulty Curve Contrast",
+      "action": "On easy vs hard, \"Advance (tick)\" 10 steps each and compare difficultyScore and mistake growth",
+      "observe": "On hard, difficultyScore is higher and mistakes grow faster — difficulty is not \"a better-hidden answer\" but \"a longer reasoning chain.\" Learning-curve design controls how fast the chain lengthens, not how deeply the answer is buried"
+    }
   ]
 }

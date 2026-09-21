@@ -54,5 +54,22 @@
   "advancedAlgoRefs": [
     "State Machine: skill states, cancellation, stagger, hit",
     "Hit Detection: colliders, invincibility frames, combo windows"
+  ],
+  "demoLab": [
+    {
+      "title": "Resource Exchange Experiment",
+      "action": "Spam \"Attack (primary)\" until stamina bottoms out, watching hits and damage change",
+      "observe": "Stamina is the attack budget: once empty, attacks whiff and you are forced into a regen window. The resource constraint forces a fight/rest rhythm — the cost of button mashing made explicit"
+    },
+    {
+      "title": "Block Window Experiment",
+      "action": "As the enemy closes in, switch to \"Block (secondary)\" and watch guard and hp trade off",
+      "observe": "Blocking converts damage into guard drain: defense is not immunity but resource substitution. Once guard runs out, further blocks fail — the defensive window has its own budget, capping the turtle strategy"
+    },
+    {
+      "title": "Difficulty Contrast",
+      "action": "On easy vs hard, \"Advance (tick)\" 10 steps each and compare the hp drain curves",
+      "observe": "On hard, enemyHp is thicker and enemy attacks more frequent — same attack loop, completely different hp slope. Difficulty is fundamentally an adjustment of the exchange ratio: each of your hits buys less enemy health"
+    }
   ]
 }

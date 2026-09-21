@@ -57,5 +57,22 @@
   "advancedAlgoRefs": [
     "Events: event pool and weights, guaranteed events, and deduplication.",
     "Economy: resource curves, inflation control, threshold design."
+  ],
+  "demoLab": [
+    {
+      "title": "Spotting Fake Choices",
+      "action": "Pick each of \"Gain Gold\" / \"Buff Damage\" / \"Heal\" once per round, tracking the net change in power and risk",
+      "observe": "If the three options converge in net value, the choice degenerates into a fake one. Watch which option wins long-term — option differences must land on explainable numbers, or players are just rolling dice"
+    },
+    {
+      "title": "Risk Accumulation Watch",
+      "action": "Pick only \"Gain Gold\" every round and watch the risk metric climb",
+      "observe": "A single-track strategy pushes risk up — short-term gains traded for long-term fragility. risk carries \"explainable consequences\": when every choice is traceable, players learn and improve instead of feeling the system is out to get them"
+    },
+    {
+      "title": "Reroll Cost Experiment",
+      "action": "Click \"Reroll (secondary)\" before choosing each round, and compare the power curve against never rerolling",
+      "observe": "Reroll trades a fixed cost for better options: when cost ≤ benefit it is the rational move; past that point it becomes a trap. Decision cost is itself a design knob — high cost makes choices rare and deep, low cost makes them frequent and shallow"
+    }
   ]
 }

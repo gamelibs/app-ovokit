@@ -52,5 +52,22 @@
   "advancedAlgoRefs": [
     "Grid: placement, attachment, rotation, collision",
     "Path: path feasibility (walkable/unwalkable) and connectivity checks"
+  ],
+  "demoLab": [
+    {
+      "title": "Adjacency Bonus Experiment",
+      "action": "Keep using \"Place (primary)\" on same-type buildings (as adjacent as possible) and watch synergy and income move together",
+      "observe": "Adjacent same-type buildings grant +10% income — spatial relations translated straight into numbers. The synergy curve lets players see with their own eyes that where you place beats what you place"
+    },
+    {
+      "title": "Expansion Timing Experiment",
+      "action": "One run: click \"Expand (secondary)\" twice before placing; another run: fill up without expanding. Compare income after 20 steps",
+      "observe": "Expansion is spending now for space later: too early dilutes current income, too late and slots choke you. Capacity decisions are the invest-vs-spend tradeoff of placement play — the optimum usually sits just before slots fill"
+    },
+    {
+      "title": "Density Boundary Watch",
+      "action": "Without expanding, fill every slot and watch income growth flatten",
+      "observe": "At full grid, income stalls — density payoff has a boundary, and over-connected layouts burn resources faster. The optimal layout sits at the \"dense but not full\" edge: that is exactly how spatial constraints manufacture strategy"
+    }
   ]
 }

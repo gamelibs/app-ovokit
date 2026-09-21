@@ -48,5 +48,22 @@
     "Generation: Bullet/obstacle generator and difficulty curve",
     "Hit detection: Circle/capsule collision, near-miss detection, invincibility frame window"
   ],
-  "lang": "en"
+  "lang": "en",
+  "demoLab": [
+    {
+      "title": "Hit Tolerance Experiment",
+      "action": "Drag \"Hit Tolerance (hitbox shrink, px)\" from 0 up to 24, then deliberately let bullets graze past your ship",
+      "observe": "Tolerance = the hitbox is one ring smaller than the visuals: at 0px a graze kills, at 24px players dare to thread between bullets. The gap between the two circles is your near-miss budget — too strict crushes showmanship, too loose kills the tension"
+    },
+    {
+      "title": "Near-Miss Reward Experiment",
+      "action": "Pull \"Near-Miss Bonus\" from 0 to 50, then set \"Bullet Density\" to 3+ and actively fly close to bullets",
+      "observe": "A near-miss bonus turns dodging from survival into a chased thrill: hazards become score resources. The higher the reward, the closer players hug danger — one parameter rewrites the whole risk-reward curve"
+    },
+    {
+      "title": "Density Pressure Curve",
+      "action": "Step \"Bullet Density\" from 1 up to 5, surviving 20 seconds at each level",
+      "observe": "Density is the pressure-curve knob: each +1 visibly shrinks the safe space ratio. Density alone is not difficulty — real difficulty is density × tolerance: dense + forgiving stays casual, sparse + strict still kills"
+    }
+  ]
 }

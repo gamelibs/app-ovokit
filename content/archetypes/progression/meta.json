@@ -49,5 +49,22 @@
   "advancedAlgoRefs": [
     "数值：分段曲线、保底与反刷机制",
     "经济：通胀控制、上限与软上限"
+  ],
+  "demoLab": [
+    {
+      "title": "升级曲线实验",
+      "action": "攒够 currency 后点「升级（secondary）」，观察 metaPower 跳变与下一级成本的抬升",
+      "observe": "升级成本随等级递增——成本曲线决定成长节奏。metaPower 每次跳变都制造「变强了」的即时反馈，而下一级成本抬高维持「再攒一点」的牵引"
+    },
+    {
+      "title": "保底成长观察",
+      "action": "故意连续推进失败几次，看 badStreak 计数与 currency 是否仍在增长",
+      "observe": "失败也有 currency 入账——保底收益让挫败不流失。badStreak 是保护机制的触发器：连跪越多补偿越明显，把「纯虐」改造成「可控推进」"
+    },
+    {
+      "title": "难度对照实验",
+      "action": "easy 与 hard 各「推进（tick）」10 步，对比 runDepth 与 metaPower",
+      "observe": "hard 下 runDepth 更浅，但 metaPower 累积不减——永久成长与单局技巧解耦：局内失败不妨碍局外变强。这是「纯肝或纯虐」陷阱的解法"
+    }
   ]
 }

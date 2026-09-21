@@ -50,5 +50,22 @@
   "advancedAlgoRefs": [
     "关卡：可解性验证、解法搜索、提示生成",
     "状态：状态机/条件图，用于表达因果链"
+  ],
+  "demoLab": [
+    {
+      "title": "试错验证实验",
+      "action": "不推理，连续点「尝试（primary）」十次，观察 mistakes 与 progress 的分道扬镳",
+      "observe": "每一步都有对/错反馈——mistakes 上升而 progress 停滞，说明在瞎试。可验证反馈是解谜的最小规则：没有它，玩家无法判断自己在推进还是倒退"
+    },
+    {
+      "title": "提示成本实验",
+      "action": "故意卡关后点「提示（secondary）」再继续，观察 hints 预算的消耗",
+      "observe": "提示降低卡关成本但消耗 hints 预算——提示过强破坏成就感，过弱导致放弃。分级提示的本质是把「放弃率」换成「资源消耗」：玩家在花钱买回成就感"
+    },
+    {
+      "title": "难度曲线对照",
+      "action": "easy 与 hard 各「推进（tick）」10 步，对比 difficultyScore 与 mistakes 的增速",
+      "observe": "hard 下 difficultyScore 更高、mistakes 增长更快——难度不是「更隐蔽的答案」，而是「更长的推理链」。学习曲线设计要控制的是链条长度的爬坡速率，而不是把答案藏深"
+    }
   ]
 }

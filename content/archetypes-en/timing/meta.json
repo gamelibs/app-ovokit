@@ -53,5 +53,22 @@
   "advancedAlgoRefs": [
     "Judgment: timeline, window calculation, delay compensation",
     "Rhythm: event queue, BPM changes, sheet generation"
+  ],
+  "demoLab": [
+    {
+      "title": "Timing Window Experiment",
+      "action": "Stretch the \"Perfect Window\" from 40ms to 150ms",
+      "observe": "Window width is the difficulty knob: 40ms nears the human reaction limit (hardcore), 150ms is nearly unmissable. Every +10ms raises beginner retention but lowers expert satisfaction — the core tradeoff between forgiveness and mastery"
+    },
+    {
+      "title": "BPM Shift Experiment",
+      "action": "Hold the Perfect Window fixed and raise \"BPM (beat speed)\" from 60 to 180",
+      "observe": "BPM changes decision frequency, not judging difficulty: the same 100ms window feels leisurely at 60 BPM and near-mashing at 180. BPM and window are independent knobs — combining them gives \"dense & forgiving\" vs \"sparse & strict,\" two completely different feels"
+    },
+    {
+      "title": "Frustration Boundary Watch",
+      "action": "Set a 40ms Perfect Window at 180 BPM and endure 30 seconds",
+      "observe": "This is the frustration blast zone of \"window too narrow with no ramp\": hit rate falls off a cliff. A production rhythm game must ramp the window (wide first, then tighten) across the learning curve, or beginners churn in the first section"
+    }
   ]
 }

@@ -52,5 +52,22 @@
     "Merge determination: same-level matching, recipe table, chain merge settlement.",
     "Growth curve: exponential/segmented cost and output design, guarantee and anti-spam."
   ],
-  "lang": "en"
+  "lang": "en",
+  "demoLab": [
+    {
+      "title": "Pressure Valve Experiment",
+      "action": "Squeeze \"Spawn Interval (pressure valve)\" from 6s down to 1s",
+      "observe": "The interval is the board-inflation valve: at 1s, full-grid pressure spikes and you are forced into constant merging; at 6s you get real planning time. Spawn interval sets the thinking budget — the most direct cost-side tuning knob"
+    },
+    {
+      "title": "Level Cap & Exponential Pull",
+      "action": "Raise \"Max Level Cap\" from 4 to 7 and compare how long the top tier takes to reach",
+      "observe": "Output grows exponentially per level, so each +1 cap doubles the pull distance to \"the next level.\" Too low and the late game loses its goal; too high and the goal feels unreachable — where you cut the exponential curve decides the game’s lifespan"
+    },
+    {
+      "title": "Full-Grid Watch",
+      "action": "With a 1s interval and a level cap of 4, refuse to merge until the board jams",
+      "observe": "On a full grid the system warns and blocks placement (or force-consumes low-tier units to free space). Without full-grid handling the board deadlocks — it is the line between minimal rules and a playable product"
+    }
+  ]
 }
