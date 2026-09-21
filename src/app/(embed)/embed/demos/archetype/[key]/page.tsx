@@ -6,6 +6,11 @@ import { ServerDemoPlayer } from "@/components/demos/ServerDemoPlayer";
 
 const ATOMIC_KEY_RE = /^[a-z0-9][a-z0-9-]*$/;
 
+/** 语言约定：显式 ?lang=zh 才中文，其余/缺失一律英文 */
+function pickLang(v: string | string[] | undefined): "zh" | "en" {
+  return (Array.isArray(v) ? v[0] : v) === "zh" ? "zh" : "en";
+}
+
 /**
  * public/demos/atomic/<key>/index.html 存在时，母型页直接用真原子 demo（静态 iframe），
  * 替换原来的服务端文本仪表盘；不存在则走原有 ServerDemoPlayer 回退逻辑。
@@ -55,10 +60,13 @@ function demoIdFromKey(key: string) {
 
 export default async function EmbedArchetypeDemoPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ key: string }>;
+  searchParams: Promise<{ lang?: string | string[] }>;
 }) {
-  const { key } = await params;
+  const [{ key }, sp] = await Promise.all([params, searchParams]);
+  const lang = pickLang(sp.lang);
 
   // 原子静态 demo 优先：public/demos/atomic/<key>/ 存在时直接全屏 iframe。
   // 注意：该检查必须在 isPlayArchetypeKey 之前——merge-unit / turn-duel 等
@@ -67,7 +75,7 @@ export default async function EmbedArchetypeDemoPage({
     return (
       <main className="h-dvh w-full overflow-hidden bg-paper p-0">
         <iframe
-          src={`/demos/atomic/${key}/index.html`}
+          src={`/demos/atomic/${key}/index.html?lang=${lang}`}
           title={`${key} 原子母型 demo`}
           className="block h-full w-full border-0"
         />
@@ -82,7 +90,7 @@ export default async function EmbedArchetypeDemoPage({
   return (
     <main className="h-dvh w-full overflow-hidden bg-paper p-0">
       <div className="h-full w-full p-2 sm:p-3">
-        <ServerDemoPlayer demoId={demoId} initInput={{ difficulty: "normal" }} />
+        <ServerDemoPlayer demoId={demoId} lang={lang} initInput={{ difficulty: "normal", lang }} />
       </div>
     </main>
   );

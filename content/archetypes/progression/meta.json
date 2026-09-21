@@ -63,7 +63,7 @@
     },
     {
       "title": "难度对照实验",
-      "action": "easy 与 hard 各「推进（tick）」10 步，对比 runDepth 与 metaPower",
+      "action": "easy 与 hard 各「推进 1 步」10 步，对比 runDepth 与 metaPower",
       "observe": "hard 下 runDepth 更浅，但 metaPower 累积不减——永久成长与单局技巧解耦：局内失败不妨碍局外变强。这是「纯肝或纯虐」陷阱的解法"
     }
   ]

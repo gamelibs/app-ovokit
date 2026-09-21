@@ -1,5 +1,7 @@
 import type { DemoDefinition } from "../types";
 import {
+  L,
+  pickLang,
   archetypeActionSchema,
   archetypeInitSchema,
   makeRng,
@@ -75,22 +77,23 @@ export const spatialPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, A
     const state: ArchetypeState = {
       seed,
       difficulty,
+      lang: pickLang(input.lang),
       step: 0,
       data: { board },
     };
 
     const view: ArchetypeView = {
-      title: "空间布局（十字翻转）",
-      goal: "让 3×3 棋盘全部熄灭（○）。每次点击会翻转自己和四邻。",
-      status: ["choice 选择 cell 索引 0-8；primary=随机提示一步。", "棋盘下方显示当前局面。"],
+      title: L(state.lang, "空间布局（十字翻转）", "Spatial (cross flip)"),
+      goal: L(state.lang, "让 3×3 棋盘全部熄灭（○）。每次点击会翻转自己和四邻。", "Turn off all 3×3 cells (○). Each click flips the cell and its four neighbors."),
+      status: [L(state.lang, "choice 选择 cell 索引 0-8；primary=随机提示一步。", "choice picks cell index 0-8; primary=random hint step."), L(state.lang, "棋盘下方显示当前局面。", "The current board is shown below.")],
       metrics: [
         metric("lit", board.filter((v) => v).length),
         metric("steps", 0),
-        metric("solved", board.every((v) => !v) ? "是" : "否"),
+        metric("solved", board.every((v) => !v) ? L(state.lang, "是", "Yes") : L(state.lang, "否", "No")),
       ],
       controls: [
-        { kind: "choices", label: "点击 cell", options: ["0", "1", "2", "3", "4", "5", "6", "7", "8"] },
-        { kind: "button", label: "随机提示（primary）", action: { type: "primary" } },
+        { kind: "choices", label: L(state.lang, "点击 cell", "Click a cell"), options: ["0", "1", "2", "3", "4", "5", "6", "7", "8"] },
+        { kind: "button", label: L(state.lang, "随机提示（primary）", "Random Hint (primary)"), action: { type: "primary" } },
       ],
     };
     return { state, view };
@@ -127,17 +130,17 @@ export const spatialPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, A
     const next: ArchetypeState = { ...state, step: state.step + 1, data: { board: nextBoard } };
 
     const view: ArchetypeView = {
-      title: "空间布局（十字翻转）",
-      goal: solved ? "已解决！点击重开再来一局。" : "让 3×3 棋盘全部熄灭（○）。",
-      status: [boardStr(nextBoard), "每次选择会翻转该 cell 及其上下左右邻居。"],
+      title: L(state.lang, "空间布局（十字翻转）", "Spatial (cross flip)"),
+      goal: solved ? L(state.lang, "已解决！点击重开再来一局。", "Solved! Hit Restart for another round.") : L(state.lang, "让 3×3 棋盘全部熄灭（○）。", "Turn off all 3×3 cells (○)."),
+      status: [boardStr(nextBoard), L(state.lang, "每次选择会翻转该 cell 及其上下左右邻居。", "Each choice flips the cell and its up/down/left/right neighbors.")],
       metrics: [
         metric("lit", nextBoard.filter((v) => v).length),
         metric("steps", next.step),
-        metric("solved", solved ? "是" : "否"),
+        metric("solved", solved ? L(state.lang, "是", "Yes") : L(state.lang, "否", "No")),
       ],
       controls: [
-        { kind: "choices", label: "点击 cell", options: ["0", "1", "2", "3", "4", "5", "6", "7", "8"] },
-        { kind: "button", label: "随机提示（primary）", action: { type: "primary" } },
+        { kind: "choices", label: L(state.lang, "点击 cell", "Click a cell"), options: ["0", "1", "2", "3", "4", "5", "6", "7", "8"] },
+        { kind: "button", label: L(state.lang, "随机提示（primary）", "Random Hint (primary)"), action: { type: "primary" } },
       ],
     };
 

@@ -59,12 +59,12 @@
     },
     {
       "title": "难度对照实验",
-      "action": "easy 与 hard 各点「推进（tick）」10 步，对比 targets 与 accuracy",
+      "action": "easy 与 hard 各点「推进 1 步」10 步，对比 targets 与 accuracy",
       "observe": "难度改变目标生成压力：hard 下 targets 堆积更快，同样的射击频率 accuracy 被稀释。难度旋钮本质是命中率的压力测试——命中率从爽点指标变成生存指标"
     },
     {
       "title": "纪律射击实验",
-      "action": "每 3 次 tick 只射击 1 次（先点三次「推进（tick）」再点「射击（primary）」），打满 20 步后对比实验一的 accuracy",
+      "action": "每 3 次 tick 只射击 1 次（先点三次「推进 1 步」再点「射击（primary）」），打满 20 步后对比实验一的 accuracy",
       "observe": "节制射击的 accuracy 显著高于乱射——射击玩法的深度不在「射得多」而在「射得准」。所以产品级设计用散布/后坐力惩罚无脑连发：过度精准会杀死紧张感"
     }
   ]

@@ -67,17 +67,24 @@ function Button({
 export function ServerDemoPlayer({
   demoId,
   initInput,
+  lang = "en",
 }: {
   demoId: string;
   initInput?: unknown;
+  /** 语言：显式 "zh" 才中文，其余一律英文 */
+  lang?: "zh" | "en";
 }) {
+  const L = (zh: string, en: string) => (lang === "zh" ? zh : en);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [state, setState] = useState<unknown>(null);
   const [view, setView] = useState<DemoView | null>(null);
   const [events, setEvents] = useState<Array<{ type: string; payload?: unknown }>>([]);
 
-  const initPayload = useMemo(() => initInput ?? {}, [initInput]);
+  const initPayload = useMemo(
+    () => ({ ...(typeof initInput === "object" && initInput !== null ? initInput : {}), lang }),
+    [initInput, lang],
+  );
 
   const init = useCallback(async () => {
     setBusy(true);
@@ -110,7 +117,7 @@ export function ServerDemoPlayer({
         const res = await fetch(`/api/demos/${encodeURIComponent(demoId)}/step`, {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ state, action }),
+          body: JSON.stringify({ state, action, lang }),
           cache: "no-store",
         });
         if (!res.ok) throw new Error(await res.text());
@@ -141,8 +148,9 @@ export function ServerDemoPlayer({
     return () => window.removeEventListener("message", onMessage);
   }, [init]);
 
+  // tick 探测按 action.type（label 随语言变化，不可靠）
   const hasTickControl = view?.controls.some(
-    (c) => c.kind === "button" && String(c.label).toLowerCase().includes("tick"),
+    (c) => c.kind === "button" && (c.action as { type?: unknown }).type === "tick",
   );
 
   const controls = useMemo(() => {
@@ -150,17 +158,17 @@ export function ServerDemoPlayer({
     if (list.length === 0 || hasTickControl) return list;
     return [
       ...list,
-      { kind: "button" as const, label: "推进（tick）", action: { type: "tick" } },
+      { kind: "button" as const, label: L("推进（tick）", "Advance (tick)"), action: { type: "tick" } },
     ];
-  }, [view?.controls, hasTickControl]);
+  }, [view?.controls, hasTickControl, lang]);
 
   if (error) {
     return (
       <div className="rounded-xl border-2 border-highlight-red bg-paper p-4 text-sm text-ink">
-        <div className="font-semibold">Demo 初始化失败</div>
+        <div className="font-semibold">{L("Demo 初始化失败", "Demo init failed")}</div>
         <div className="mt-1 text-ink-light">{error}</div>
         <Button variant="secondary" onClick={() => void init()}>
-          重试
+          {L("重试", "Retry")}
         </Button>
       </div>
     );
@@ -169,7 +177,7 @@ export function ServerDemoPlayer({
   if (!view) {
     return (
       <div className="grid h-full place-items-center rounded-xl sketch-border bg-paper p-6 text-sm text-ink-light">
-        {busy ? "正在加载 Demo…" : "准备中…"}
+        {busy ? L("正在加载 Demo…", "Loading demo…") : L("准备中…", "Preparing…")}
       </div>
     );
   }
@@ -185,7 +193,7 @@ export function ServerDemoPlayer({
       {/* Status + Metrics */}
       <div className="grid shrink-0 gap-3 sm:grid-cols-2">
         <div className="rounded-xl sketch-border bg-paper p-3">
-          <div className="text-xs font-semibold text-ink-muted font-kalam">状态</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">{L("状态", "Status")}</div>
           <ul className="mt-2 space-y-1 text-xs text-ink-light sm:text-sm">
             {view.status.map((s, i) => (
               <li key={i} className="whitespace-pre-wrap leading-relaxed">
@@ -195,7 +203,7 @@ export function ServerDemoPlayer({
           </ul>
         </div>
         <div className="rounded-xl sketch-border bg-paper p-3">
-          <div className="text-xs font-semibold text-ink-muted font-kalam">指标</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">{L("指标", "Metrics")}</div>
           <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs sm:text-sm">
             {view.metrics.map((m) => (
               <div key={m.label} className="flex items-center justify-between gap-2">
@@ -215,7 +223,7 @@ export function ServerDemoPlayer({
               return (
                 <Button
                   key={`${c.label}-${idx}`}
-                  variant={String(c.label).toLowerCase().includes("tick") ? "secondary" : "primary"}
+                  variant={(c.action as { type?: unknown }).type === "tick" ? "secondary" : "primary"}
                   disabled={busy}
                   onClick={() => void step(c.action)}
                 >
@@ -275,7 +283,7 @@ export function ServerDemoPlayer({
 
       {/* Events */}
       <div className="min-h-0 flex-1 rounded-xl sketch-border bg-paper p-3">
-        <div className="mb-2 text-xs font-semibold text-ink-muted font-kalam">事件</div>
+        <div className="mb-2 text-xs font-semibold text-ink-muted font-kalam">{L("事件", "Events")}</div>
         {events.length ? (
           <ul className="max-h-28 space-y-1 overflow-auto text-xs text-ink-light sm:max-h-36 sm:text-sm">
             {events.slice(0, 20).map((e, i) => (
@@ -283,7 +291,7 @@ export function ServerDemoPlayer({
             ))}
           </ul>
         ) : (
-          <div className="text-xs text-ink-muted">（暂无）</div>
+          <div className="text-xs text-ink-muted">{L("（暂无）", "(none)")}</div>
         )}
       </div>
     </div>

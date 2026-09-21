@@ -1,8 +1,21 @@
 import { z } from "zod";
 
+/** demo 语言：显式 zh 才中文，其余/缺失一律英文（用户硬规则） */
+export type DemoLang = "zh" | "en";
+
+export function pickLang(v: unknown): DemoLang {
+  return v === "zh" ? "zh" : "en";
+}
+
+/** L(lang, zh, en)：服务端 demo 文案双语包裹 */
+export function L(lang: DemoLang, zh: string, en: string): string {
+  return lang === "zh" ? zh : en;
+}
+
 export const archetypeInitSchema = z.object({
   seed: z.number().int().optional(),
   difficulty: z.enum(["easy", "normal", "hard"]).optional(),
+  lang: z.enum(["zh", "en"]).optional(),
 });
 
 export type ArchetypeInit = z.infer<typeof archetypeInitSchema>;
@@ -21,6 +34,8 @@ export type ArchetypeAction = z.infer<typeof archetypeActionSchema>;
 export type ArchetypeState = {
   seed: number;
   difficulty: "easy" | "normal" | "hard";
+  /** 由 init input.lang 写入并随 state 传递（step 的 view 文案按它出文） */
+  lang: DemoLang;
   step: number;
   // freeform per demo
   data: Record<string, unknown>;
@@ -38,6 +53,16 @@ export type ArchetypeView = {
   metrics: Array<{ label: string; value: string }>;
   controls: DemoControl[];
 };
+
+/** 公共控件（重开/推进/难度/难度滑块）双语标签 */
+export function commonControlLabels(lang: DemoLang) {
+  return {
+    reset: L(lang, "重开", "Restart"),
+    tick: L(lang, "推进 1 步", "Advance 1 Step"),
+    difficulty: L(lang, "难度", "Difficulty"),
+    difficultySlider: L(lang, "难度(滑块)", "Difficulty (slider)"),
+  };
+}
 
 export function normalizeDifficulty(v: ArchetypeInit["difficulty"]): ArchetypeState["difficulty"] {
   return v ?? "normal";

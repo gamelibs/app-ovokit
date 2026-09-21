@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>回合博弈 · AI 强度实验室 | OVO 原子 Demo</title>
+<title>Turn-based Duel · AI Strength Lab | OVO Atomic Demo</title>
 </head>
 <body>
 <script src="../core.js"></script>
@@ -14,15 +14,15 @@
 //     同一副规则，换的只是对手模型——这正是"回合博弈"母型的调参空间。
 var STATS = { win: 0, lose: 0, draw: 0 };   // 跨局战绩（reset 不清）
 AtomCore.create({
-  title: '回合博弈 · AI 强度实验室',
-  objective: '你执 X 先手，对战三档 AI。调「AI 强度」体会：对手模型就是难度本身。',
+  title: AtomCore.L('回合博弈 · AI 强度实验室', 'Turn-based Duel · AI Strength Lab'),
+  objective: AtomCore.L('你执 X 先手，对战三档 AI。调「AI 强度」体会：对手模型就是难度本身。', 'You play X first against three AI tiers. Tune "AI Strength" and feel it: the opponent model IS the difficulty.'),
   lives: 0,
   params: [
-    { key: 'aiLevel', label: 'AI 强度（0=随机 1=堵截 2=算杀）', min: 0, max: 2, step: 1, default: 1, unit: '' }
+    { key: 'aiLevel', label: AtomCore.L('AI 强度（0=随机 1=堵截 2=算杀）', 'AI Strength (0=random 1=block 2=mate-search)'), min: 0, max: 2, step: 1, default: 1, unit: '' }
   ],
   hudExtra: function (g) {
-    var turn = g.data.over ? '—' : (g.data.turn === 1 ? '你（X）' : 'AI（O）');
-    return '回合 <b>' + turn + '</b> · 战绩 <b>' + STATS.win + '胜 ' + STATS.lose + '负 ' + STATS.draw + '平</b>';
+    var turn = g.data.over ? '—' : (g.data.turn === 1 ? AtomCore.L('你（X）', 'You (X)') : 'AI (O)');
+    return AtomCore.L('回合 <b>', 'Turn <b>') + turn + '</b>' + AtomCore.L(' · 战绩 <b>', ' · record <b>') + STATS.win + AtomCore.L('胜 ', 'W ') + STATS.lose + AtomCore.L('负 ', 'L ') + STATS.draw + AtomCore.L('平</b>', 'D</b>');
   },
   setup: function (g) {
     g.data.board = [0, 0, 0, 0, 0, 0, 0, 0, 0];  // 0空 1=X 2=O
@@ -157,10 +157,10 @@ AtomCore.create({
               L.x + (b2 % 3) * s + s / 2, L.y + Math.floor(b2 / 3) * s + s / 2, 5);
     }
     // 状态行
-    var status = d.over ? '' : (d.turn === 1 ? '轮到你（X）' : 'AI 思考中…');
+    var status = d.over ? '' : (d.turn === 1 ? AtomCore.L('轮到你（X）', 'Your move (X)') : AtomCore.L('AI 思考中…', 'AI thinking…'));
     gg.text(status, g.W / 2, L.y - 26, 18, d.turn === 1 ? C.INK : '#d97706');
-    var aiName = ['随机（沙包）', '堵截（会赢会堵）', '算杀（永不输）'][g.params.aiLevel | 0];
-    gg.text('当前对手：' + aiName, g.W / 2, L.y + s * 3 + 28, 14, '#888');
+    var aiName = [AtomCore.L('随机（沙包）', 'Random (sandbox)'), AtomCore.L('堵截（会赢会堵）', 'Blocker (wins & blocks)'), AtomCore.L('算杀（永不输）', 'Mate-search (never loses)')][g.params.aiLevel | 0];
+    gg.text(AtomCore.L('当前对手：', 'Opponent: ') + aiName, g.W / 2, L.y + s * 3 + 28, 14, '#888');
   }
 });
 </script>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>消除 · 连锁实验室 | OVO 原子 Demo</title>
+<title>Match/Clear · Chain Lab | OVO Atomic Demo</title>
 </head>
 <body>
 <script src="../core.js"></script>
@@ -13,17 +13,17 @@
 //   - 连锁奖励倍率：连锁得分 = 基础分 × 倍率^(链数-1)，滑块直接改变"二次连锁"的爽感曲线
 //   - 每局限定步数：步数预算决定玩家的规划深度与压力（稀缺性设计）
 AtomCore.create({
-  title: '消除 · 连锁实验室',
-  objective: '点击两个相邻方块交换，凑成 ≥3 连线消除。调「连锁奖励倍率」看爽感，调「限定步数」看资源压力。',
+  title: AtomCore.L('消除 · 连锁实验室', 'Match/Clear · Chain Lab'),
+  objective: AtomCore.L('点击两个相邻方块交换，凑成 ≥3 连线消除。调「连锁奖励倍率」看爽感，调「限定步数」看资源压力。', 'Click two adjacent tiles to swap; match 3+ in a line to clear. Try "Chain Bonus Multiplier" for the juice, and "Moves per run" for resource pressure.'),
   lives: 0,
   params: [
-    { key: 'chainMult', label: '连锁奖励倍率', min: 1, max: 3, step: 0.5, default: 1.5, unit: 'x' },
-    { key: 'moves', label: '每局限定步数', min: 8, max: 30, step: 1, default: 16, unit: '步' }
+    { key: 'chainMult', label: AtomCore.L('连锁奖励倍率', 'Chain Bonus Multiplier'), min: 1, max: 3, step: 0.5, default: 1.5, unit: 'x' },
+    { key: 'moves', label: AtomCore.L('每局限定步数', 'Moves per run'), min: 8, max: 30, step: 1, default: 16, unit: AtomCore.L('步', '') }
   ],
   hudExtra: function (g) {
     var d = g.data;
-    var chain = d.lastChain > 1 ? ' · 最大连锁 <b>x' + d.lastChain + '</b>' : '';
-    return '剩余步数 <b>' + (d.movesLeft != null ? d.movesLeft : '-') + '</b>' + chain;
+    var chain = d.lastChain > 1 ? AtomCore.L(' · 最大连锁 <b>x', ' · max chain <b>x') + d.lastChain + '</b>' : '';
+    return AtomCore.L('剩余步数 <b>', 'Moves left <b>') + (d.movesLeft != null ? d.movesLeft : '-') + '</b>' + chain;
   },
   onParam: function (g, key, v) {
     if (key === 'moves' && g.state === 'playing') g.data.movesLeft = v; // 预算实时调整，直接感受压力变化
@@ -78,7 +78,7 @@ AtomCore.create({
       d.cleared = m; d.clearedT = 0.35;
       var cx = 0, cy = 0;
       m.forEach(function (p) { cx += p.c; cy += p.r; board[p.r][p.c] = null; });
-      d.floats.push({ x: cx / m.length, y: cy / m.length, text: '+' + pts + (chain > 1 ? ' 连锁x' + chain : ''), t: 1.0, big: chain > 1 });
+      d.floats.push({ x: cx / m.length, y: cy / m.length, text: '+' + pts + (chain > 1 ? AtomCore.L(' 连锁x', ' chain x') + chain : ''), t: 1.0, big: chain > 1 });
       // 下落 + 顶部补充
       for (var c = 0; c < N; c++) {
         var stack = [];
@@ -149,8 +149,8 @@ AtomCore.create({
     d.floats.forEach(function (f) {
       gg.text(f.text, L.x + (f.x + 0.5) * L.size, L.y + (f.y + 0.5) * L.size, f.big ? 26 : 18, f.big ? '#d97706' : '#888');
     });
-    if (d.flash > 0) gg.text('凑不出 3 连', g.W / 2, L.y - 22, 16, '#d97706');
-    gg.text('选中一个方块，再点相邻方块交换', g.W / 2, g.H - 30, 13, '#888');
+    if (d.flash > 0) gg.text(AtomCore.L('凑不出 3 连', 'No 3-match'), g.W / 2, L.y - 22, 16, '#d97706');
+    gg.text(AtomCore.L('选中一个方块，再点相邻方块交换', 'Select a tile, then click an adjacent tile to swap'), g.W / 2, g.H - 30, 13, '#888');
   }
 });
 </script>

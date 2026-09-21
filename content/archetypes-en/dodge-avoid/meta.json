@@ -52,13 +52,13 @@
   "demoLab": [
     {
       "title": "Hit Tolerance Experiment",
-      "action": "Drag \"Hit Tolerance (hitbox shrink, px)\" from 0 up to 24, then deliberately let bullets graze past your ship",
+      "action": "Drag \"Forgiveness Window (hitbox shrink, px)\" from 0 up to 24, then deliberately let bullets graze past your ship",
       "observe": "Tolerance = the hitbox is one ring smaller than the visuals: at 0px a graze kills, at 24px players dare to thread between bullets. The gap between the two circles is your near-miss budget — too strict crushes showmanship, too loose kills the tension"
     },
     {
       "title": "Near-Miss Reward Experiment",
-      "action": "Pull \"Near-Miss Bonus\" from 0 to 50, then set \"Bullet Density\" to 3+ and actively fly close to bullets",
-      "observe": "A near-miss bonus turns dodging from survival into a chased thrill: hazards become score resources. The higher the reward, the closer players hug danger — one parameter rewrites the whole risk-reward curve"
+      "action": "Pull \"Graze Bonus\" from 0 to 50, then set \"Bullet Density\" to 3+ and actively fly close to bullets",
+      "observe": "A graze bonus turns dodging from survival into a chased thrill: hazards become score resources. The higher the reward, the closer players hug danger — one parameter rewrites the whole risk-reward curve"
     },
     {
       "title": "Density Pressure Curve",

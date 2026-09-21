@@ -60,12 +60,12 @@
     },
     {
       "title": "Difficulty Contrast",
-      "action": "On easy vs hard, click \"Advance (tick)\" 10 steps each and compare targets and accuracy",
+      "action": "On easy vs hard, click \"Advance 1 Step\" 10 steps each and compare targets and accuracy",
       "observe": "Difficulty changes spawn pressure: on hard, targets pile up faster and the same fire rate dilutes accuracy. The difficulty knob is a stress test on hit rate — accuracy shifts from a feel-good metric to a survival metric"
     },
     {
       "title": "Disciplined Fire Experiment",
-      "action": "Fire only once every 3 ticks (click \"Advance (tick)\" three times, then \"Fire (primary)\"), and after 20 steps compare accuracy with experiment one",
+      "action": "Fire only once every 3 ticks (click \"Advance 1 Step\" three times, then \"Fire (primary)\"), and after 20 steps compare accuracy with experiment one",
       "observe": "Disciplined fire scores markedly higher accuracy than spraying — depth in a shooter comes from precision, not volume. That is why production designs punish mindless rapid fire with spread/recoil: perfect accuracy would kill the tension"
     }
   ]

@@ -1,5 +1,7 @@
 import type { DemoDefinition } from "../types";
 import {
+  L,
+  pickLang,
   archetypeActionSchema,
   archetypeInitSchema,
   makeRng,
@@ -35,6 +37,7 @@ export const managementPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState
     const state: ArchetypeState = {
       seed,
       difficulty,
+      lang: pickLang(input.lang),
       step: 0,
       data: {
         money: 10,
@@ -43,12 +46,12 @@ export const managementPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState
       },
     };
     const view: ArchetypeView = {
-      title: "经营模拟（建造与产出）",
-      goal: "建造建筑获得收入，再投资扩张。",
+      title: L(state.lang, "经营模拟（建造与产出）", "Management (build & produce)"),
+      goal: L(state.lang, "建造建筑获得收入，再投资扩张。", "Build buildings for income, then reinvest to expand."),
       status: [
-        "primary=花费金币建造新建筑（等级 1）。",
-        "secondary=花费金币随机升级一座建筑。",
-        "tick=结算所有建筑产出。",
+        L(state.lang, "primary=花费金币建造新建筑（等级 1）。", "primary=spend coins to build a new building (level 1)."),
+        L(state.lang, "secondary=花费金币随机升级一座建筑。", "secondary=spend coins to upgrade a random building."),
+        L(state.lang, "tick=结算所有建筑产出。", "tick=settle production of all buildings."),
       ],
       metrics: [
         metric("money", 10),
@@ -56,8 +59,8 @@ export const managementPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState
         metric("income", 1),
       ],
       controls: [
-        { kind: "button", label: "建造（primary）", action: { type: "primary" } },
-        { kind: "button", label: "升级（secondary）", action: { type: "secondary" } },
+        { kind: "button", label: L(state.lang, "建造（primary）", "Build (primary)"), action: { type: "primary" } },
+        { kind: "button", label: L(state.lang, "升级（secondary）", "Upgrade (secondary)"), action: { type: "secondary" } },
       ],
     };
     return { state, view };
@@ -106,8 +109,8 @@ export const managementPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState
     const next: ArchetypeState = { ...state, step: state.step + 1, data: { money, buildings, income } };
 
     const view: ArchetypeView = {
-      title: "经营模拟（建造与产出）",
-      goal: "平衡建造与升级，让收入指数增长。",
+      title: L(state.lang, "经营模拟（建造与产出）", "Management (build & produce)"),
+      goal: L(state.lang, "平衡建造与升级，让收入指数增长。", "Balance building and upgrading to grow income exponentially."),
       status: [
         `建筑: [${buildings.map((lvl, i) => `B${i + 1}:Lv.${lvl}`).join(", ")}]`,
         `下次建造花费: ${buildCost}，升级花费: ${upgradeCost}`,

@@ -2,7 +2,7 @@
 
 import { FullscreenStage } from "@/components/demos/FullscreenStage";
 import { useMemo, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 type Props = {
   title: string;
@@ -36,6 +36,7 @@ export function DemoEmbed({
   iconSrc,
 }: Props) {
   const t = useTranslations("play");
+  const locale = useLocale();
   const stageRef = useRef<HTMLDivElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [reloadToken, setReloadToken] = useState(0);
@@ -48,11 +49,14 @@ export function DemoEmbed({
     return `${src.slice(0, src.indexOf("/index.html"))}/icon.svg`;
   }, [iconSrc, src]);
 
+  // 语言 plumbing：所有 demo src 统一追加 lang（zh-CN→zh；其余一律 en —— 显式 zh 才中文）
   const effectiveSrc = useMemo(() => {
-    if (restartStrategy !== "reload") return src;
-    const sep = src.includes("?") ? "&" : "?";
-    return `${src}${sep}r=${reloadToken}`;
-  }, [reloadToken, restartStrategy, src]);
+    const lang = locale === "zh-CN" ? "zh" : "en";
+    let out = src;
+    out += (out.includes("?") ? "&" : "?") + `lang=${lang}`;
+    if (restartStrategy === "reload") out += `&r=${reloadToken}`;
+    return out;
+  }, [locale, reloadToken, restartStrategy, src]);
 
   function sendRestart() {
     if (restartStrategy === "reload") {

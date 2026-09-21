@@ -6,7 +6,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   const def = demoDefinitions.find((d) => d.id === id);
   if (!def) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  const body = (await req.json().catch(() => ({}))) as { state?: unknown; action?: unknown };
+  const body = (await req.json().catch(() => ({}))) as {
+    state?: unknown;
+    action?: unknown;
+    lang?: unknown;
+  };
   const parsedAction = def.actionSchema.safeParse(body?.action);
   if (!parsedAction.success) {
     const issues = parsedAction.error.issues.map((i) => ({
@@ -16,7 +20,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ error: "Invalid action", issues }, { status: 400 });
   }
 
-  const result = await def.step({ state: body?.state as never, action: parsedAction.data as never });
+  // lang 覆盖：请求显式带 lang 时覆盖 state 内携带值（state.lang 由 init 写入）
+  const state = body?.state;
+  const lang = body?.lang === "zh" ? "zh" : body?.lang === "en" ? "en" : undefined;
+  const effectiveState =
+    lang && state && typeof state === "object" ? { ...(state as object), lang } : state;
+
+  const result = await def.step({ state: effectiveState as never, action: parsedAction.data as never });
   return NextResponse.json(result);
 }
 

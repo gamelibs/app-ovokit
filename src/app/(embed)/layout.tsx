@@ -24,6 +24,12 @@ export default function EmbedLayout({ children }: { children: React.ReactNode })
       <body
         className={`${inter.variable} ${kalam.variable} ${notoSerif.variable} bg-transparent text-ink antialiased`}
       >
+        {/* demo 壳 html lang 运行时修正：显式 ?lang=zh → zh-CN，其余一律 en */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{document.documentElement.lang=new URLSearchParams(location.search).get("lang")==="zh"?"zh-CN":"en"}catch(e){document.documentElement.lang="en"}`,
+          }}
+        />
         <GoogleAnalytics gaId={gaId} />
         <div className="h-dvh w-full overflow-hidden bg-transparent">{children}</div>
       </body>

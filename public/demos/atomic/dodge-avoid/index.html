@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>躲避 · 宽容度实验室 | OVO 原子 Demo</title>
+<title>Dodge/Avoid · Forgiveness Lab | OVO Atomic Demo</title>
 </head>
 <body>
 <script src="../core.js"></script>
@@ -14,18 +14,18 @@
 //   - 近失反馈：进入擦边区未命中 → 慢放 + 加分
 //   - 速度曲线：爬坡 → 平台 → 冲刺
 AtomCore.create({
-  title: '躲避 · 宽容度实验室',
-  objective: '拖动小人躲开子弹。调「判定宽容度」，看"擦到但没死"是怎么被设计出来的。',
+  title: AtomCore.L('躲避 · 宽容度实验室', 'Dodge/Avoid · Forgiveness Lab'),
+  objective: AtomCore.L('拖动小人躲开子弹。调「判定宽容度」，看"擦到但没死"是怎么被设计出来的。', 'Drag the dodger away from bullets. Tune "Forgiveness Window" to see how "grazed but alive" gets designed.'),
   lives: 3,
   params: [
-    { key: 'forgive', label: '判定宽容度（碰撞圈缩小 px）', min: 0, max: 24, step: 1, default: 10, unit: 'px' },
-    { key: 'density', label: '子弹密度', min: 1, max: 5, step: 1, default: 2, unit: '' },
-    { key: 'grazeBonus', label: '近失奖励分', min: 0, max: 50, step: 5, default: 25, unit: '' }
+    { key: 'forgive', label: AtomCore.L('判定宽容度（碰撞圈缩小 px）', 'Forgiveness Window (hitbox shrink, px)'), min: 0, max: 24, step: 1, default: 10, unit: 'px' },
+    { key: 'density', label: AtomCore.L('子弹密度', 'Bullet Density'), min: 1, max: 5, step: 1, default: 2, unit: '' },
+    { key: 'grazeBonus', label: AtomCore.L('近失奖励分', 'Graze Bonus'), min: 0, max: 50, step: 5, default: 25, unit: '' }
   ],
   hudExtra: function (g) {
-    var phase = g.time < 10 ? '爬坡' : (g.time < 25 ? '平台' : '冲刺');
+    var phase = g.time < 10 ? AtomCore.L('爬坡', 'ramp-up') : (g.time < 25 ? AtomCore.L('平台', 'plateau') : AtomCore.L('冲刺', 'sprint'));
     var ramp = 1 + Math.min(g.time / 18, 2.2);
-    return '存活 <b>' + g.time.toFixed(1) + 's</b> · ' + phase + ' · 压力 <b>x' + ramp.toFixed(1) + '</b>';
+    return AtomCore.L('存活 <b>', 'Alive <b>') + g.time.toFixed(1) + 's</b> · ' + phase + AtomCore.L(' · 压力 <b>x', ' · pressure <b>x') + ramp.toFixed(1) + '</b>';
   },
   setup: function (g) {
     g.data.player = { x: g.W / 2, y: g.H * 0.75, r: 16 };
@@ -102,7 +102,7 @@ AtomCore.create({
     // 玩家：视觉圈（实线）+ 判定圈（虚线）+ 擦边区（浅圈）
     if ((d.invincible || 0) > 0 && (g.time * 10 | 0) % 2 === 0) { /* 无敌闪烁 */ } else {
       gg.circle(pl.x, pl.y, pl.r, C.BLUE, 2.5);
-      gg.text('我', pl.x, pl.y, 16, C.INK);
+      gg.text(AtomCore.L('我', 'ME'), pl.x, pl.y, 16, C.INK);
     }
     // 判定圈（虚线，教学关键：让玩家看到判定≠视觉）
     var ctx = gg.ctx;
@@ -116,7 +116,7 @@ AtomCore.create({
     // 受击闪屏
     if (d.flash > 0) { ctx.fillStyle = 'rgba(255,139,139,' + (d.flash * 1.5) + ')'; ctx.fillRect(0, 0, g.W, g.H); }
     // 图例
-    gg.text('— 视觉圈   ┄ 判定圈   ·· 擦边区', g.W / 2, g.H - 18, 13, '#888');
+    gg.text(AtomCore.L('— 视觉圈   ┄ 判定圈   ·· 擦边区', '— visual circle   ┄ hitbox   ·· graze zone'), g.W / 2, g.H - 18, 13, '#888');
   }
 });
 </script>

@@ -28,12 +28,20 @@ async function atomicDemoDir(key: string): Promise<string | null> {
   }
 }
 
+/** 语言约定：显式 ?lang=zh 才中文，其余/缺失一律英文 */
+function pickLang(v: string | string[] | undefined): "zh" | "en" {
+  return (Array.isArray(v) ? v[0] : v) === "zh" ? "zh" : "en";
+}
+
 export default async function EmbedPatternDemoPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ key: string }>;
+  searchParams: Promise<{ lang?: string | string[] }>;
 }) {
-  const { key } = await params;
+  const [{ key }, sp] = await Promise.all([params, searchParams]);
+  const lang = pickLang(sp.lang);
   if (!isCorePatternKey(key)) notFound();
 
   // 真原子 demo 优先（替换旧服务端文本仪表盘）
@@ -42,7 +50,7 @@ export default async function EmbedPatternDemoPage({
     return (
       <main className="h-dvh w-full overflow-hidden bg-paper p-0">
         <iframe
-          src={`/demos/atomic/${atomicDir}/index.html`}
+          src={`/demos/atomic/${atomicDir}/index.html?lang=${lang}`}
           title={`${key} 核心循环 demo`}
           className="block h-full w-full border-0"
         />
@@ -53,7 +61,7 @@ export default async function EmbedPatternDemoPage({
   return (
     <main className="h-dvh w-full overflow-hidden bg-paper p-0">
       <div className="h-full w-full p-2 sm:p-3">
-        <ServerDemoPlayer demoId={`pattern-${key}`} initInput={{ difficulty: "normal" }} />
+        <ServerDemoPlayer demoId={`pattern-${key}`} lang={lang} initInput={{ difficulty: "normal", lang }} />
       </div>
     </main>
   );

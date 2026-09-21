@@ -1,5 +1,7 @@
 import type { DemoDefinition } from "../types";
 import {
+  L,
+  pickLang,
   archetypeActionSchema,
   archetypeInitSchema,
   makeRng,
@@ -35,6 +37,7 @@ export const strategyPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, 
     const state: ArchetypeState = {
       seed,
       difficulty,
+      lang: pickLang(input.lang),
       step: 0,
       data: {
         round: 1,
@@ -46,12 +49,12 @@ export const strategyPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, 
       },
     };
     const view: ArchetypeView = {
-      title: "数值策略（回合战斗）",
-      goal: "合理分配攻击与治疗，击败敌人获得奖励。",
+      title: L(state.lang, "数值策略（回合战斗）", "Strategy (turn-based combat)"),
+      goal: L(state.lang, "合理分配攻击与治疗，击败敌人获得奖励。", "Balance attacks and heals to defeat the enemy for rewards."),
       status: [
-        "primary=攻击敌人（造成伤害）。",
-        "secondary=治疗自己（恢复生命）。",
-        "tick=敌人攻击并进入下一回合。",
+        L(state.lang, "primary=攻击敌人（造成伤害）。", "primary=attack the enemy (deal damage)."),
+        L(state.lang, "secondary=治疗自己（恢复生命）。", "secondary=heal yourself (restore HP)."),
+        L(state.lang, "tick=敌人攻击并进入下一回合。", "tick=the enemy attacks and the next round begins."),
       ],
       metrics: [
         metric("round", 1),
@@ -60,8 +63,8 @@ export const strategyPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, 
         metric("reward", 0),
       ],
       controls: [
-        { kind: "button", label: "攻击（primary）", action: { type: "primary" } },
-        { kind: "button", label: "治疗（secondary）", action: { type: "secondary" } },
+        { kind: "button", label: L(state.lang, "攻击（primary）", "Attack (primary)"), action: { type: "primary" } },
+        { kind: "button", label: L(state.lang, "治疗（secondary）", "Heal (secondary)"), action: { type: "secondary" } },
       ],
     };
     return { state, view };
@@ -128,15 +131,15 @@ export const strategyPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, 
     };
 
     const view: ArchetypeView = {
-      title: "数值策略（回合战斗）",
+      title: L(state.lang, "数值策略（回合战斗）", "Strategy (turn-based combat)"),
       goal: gameOver
-        ? "战斗失败，点击重开。"
+        ? L(state.lang, "战斗失败，点击重开。", "Defeated — hit Restart.")
         : enemyHp <= 0
           ? `本回合获胜！获得累计奖励 ${reward}。`
-          : "合理分配攻击与治疗，击败敌人获得奖励。",
+          : L(state.lang, "合理分配攻击与治疗，击败敌人获得奖励。", "Balance attacks and heals to defeat the enemy for rewards."),
       status: [
-        "攻击有 20% 概率暴击；治疗量与攻击力挂钩。",
-        "每回合敌人攻击力会小幅增长。",
+        L(state.lang, "攻击有 20% 概率暴击；治疗量与攻击力挂钩。", "Attacks have a 20% crit chance; healing scales with attack power."),
+        L(state.lang, "每回合敌人攻击力会小幅增长。", "Enemy attack grows slightly each round."),
       ],
       metrics: [
         metric("round", round),
@@ -147,8 +150,8 @@ export const strategyPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, 
         metric("reward", reward),
       ],
       controls: [
-        { kind: "button", label: "攻击（primary）", action: { type: "primary" } },
-        { kind: "button", label: "治疗（secondary）", action: { type: "secondary" } },
+        { kind: "button", label: L(state.lang, "攻击（primary）", "Attack (primary)"), action: { type: "primary" } },
+        { kind: "button", label: L(state.lang, "治疗（secondary）", "Heal (secondary)"), action: { type: "secondary" } },
       ],
     };
 

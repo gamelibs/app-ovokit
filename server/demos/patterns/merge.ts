@@ -1,5 +1,7 @@
 import type { DemoDefinition } from "../types";
 import {
+  L,
+  pickLang,
   archetypeActionSchema,
   archetypeInitSchema,
   makeRng,
@@ -37,6 +39,7 @@ export const mergePatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Arc
     const state: ArchetypeState = {
       seed,
       difficulty,
+      lang: pickLang(input.lang),
       step: 0,
       data: {
         slots: [1, 1, 0, 0, 0, 0, 0, 0],
@@ -45,12 +48,12 @@ export const mergePatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Arc
       },
     };
     const view: ArchetypeView = {
-      title: "合成成长（资源合并）",
-      goal: "生成资源，合并同级升级，解锁更高等级。",
+      title: L(state.lang, "合成成长（资源合并）", "Merge (resource merging)"),
+      goal: L(state.lang, "生成资源，合并同级升级，解锁更高等级。", "Spawn resources, merge same-level ones to level up, unlock higher tiers."),
       status: [
-        "primary=在空位生成一个 Lv.1 资源。",
-        "secondary=自动合并一对最低级资源并升级。",
-        "tick=根据最高等级产出分数。",
+        L(state.lang, "primary=在空位生成一个 Lv.1 资源。", "primary=spawn a Lv.1 resource in an empty slot."),
+        L(state.lang, "secondary=自动合并一对最低级资源并升级。", "secondary=auto-merge a pair of the lowest-level resources."),
+        L(state.lang, "tick=根据最高等级产出分数。", "tick=produce score based on the highest level."),
       ],
       metrics: [
         metric("slots", 2),
@@ -58,8 +61,8 @@ export const mergePatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Arc
         metric("production", 0),
       ],
       controls: [
-        { kind: "button", label: "生成资源（primary）", action: { type: "primary" } },
-        { kind: "button", label: "合并升级（secondary）", action: { type: "secondary" } },
+        { kind: "button", label: L(state.lang, "生成资源（primary）", "Spawn (primary)"), action: { type: "primary" } },
+        { kind: "button", label: L(state.lang, "合并升级（secondary）", "Merge Up (secondary)"), action: { type: "secondary" } },
       ],
     };
     return { state, view };
@@ -115,11 +118,11 @@ export const mergePatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Arc
     const next: ArchetypeState = { ...state, step: state.step + 1, data: { slots, production, maxLevel } };
 
     const view: ArchetypeView = {
-      title: "合成成长（资源合并）",
-      goal: "填满空位，合并升级，提高产出等级。",
+      title: L(state.lang, "合成成长（资源合并）", "Merge (resource merging)"),
+      goal: L(state.lang, "填满空位，合并升级，提高产出等级。", "Fill the slots, merge up, and raise the production tier."),
       status: [
         `背包: [${slots.map((v) => (v ? `Lv.${v}` : "--")).join(", ")}]`,
-        "tick 会根据当前最高等级自动产出。",
+        L(state.lang, "tick 会根据当前最高等级自动产出。", "tick auto-produces based on the current highest level."),
       ],
       metrics: [
         metric("filled", slots.filter(Boolean).length),
@@ -127,8 +130,8 @@ export const mergePatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Arc
         metric("production", production),
       ],
       controls: [
-        { kind: "button", label: "生成资源（primary）", action: { type: "primary" } },
-        { kind: "button", label: "合并升级（secondary）", action: { type: "secondary" } },
+        { kind: "button", label: L(state.lang, "生成资源（primary）", "Spawn (primary)"), action: { type: "primary" } },
+        { kind: "button", label: L(state.lang, "合并升级（secondary）", "Merge Up (secondary)"), action: { type: "secondary" } },
       ],
     };
 

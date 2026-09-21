@@ -1,5 +1,7 @@
 import type { DemoDefinition } from "../types";
 import {
+  L,
+  pickLang,
   archetypeActionSchema,
   archetypeInitSchema,
   makeRng,
@@ -35,6 +37,7 @@ export const actionPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Ar
     const state: ArchetypeState = {
       seed,
       difficulty,
+      lang: pickLang(input.lang),
       step: 0,
       data: {
         distance: 0,
@@ -46,9 +49,9 @@ export const actionPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Ar
       },
     };
     const view: ArchetypeView = {
-      title: "动作敏捷（跳跃躲避）",
-      goal: "在合适的时机跳跃，躲避障碍，保持速度增长。",
-      status: ["tick 会推进距离并随机生成障碍。", "primary=跳跃；secondary=加速（更高分但更难反应）。"],
+      title: L(state.lang, "动作敏捷（跳跃躲避）", "Action (jump & dodge)"),
+      goal: L(state.lang, "在合适的时机跳跃，躲避障碍，保持速度增长。", "Jump at the right moment, dodge obstacles, and keep the speed growing."),
+      status: [L(state.lang, "tick 会推进距离并随机生成障碍。", "tick advances the distance and spawns obstacles at random."), L(state.lang, "primary=跳跃；secondary=加速（更高分但更难反应）。", "primary=jump; secondary=speed up (more points, harder reactions).")],
       metrics: [
         metric("distance", 0),
         metric("speed", 1),
@@ -56,8 +59,8 @@ export const actionPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Ar
         metric("lives", 3),
       ],
       controls: [
-        { kind: "button", label: "跳跃（primary）", action: { type: "primary" } },
-        { kind: "button", label: "加速（secondary）", action: { type: "secondary" } },
+        { kind: "button", label: L(state.lang, "跳跃（primary）", "Jump (primary)"), action: { type: "primary" } },
+        { kind: "button", label: L(state.lang, "加速（secondary）", "Speed Up (secondary)"), action: { type: "secondary" } },
       ],
     };
     return { state, view };
@@ -128,11 +131,11 @@ export const actionPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Ar
 
     const finalData = next.data as Record<string, unknown>;
     const view: ArchetypeView = {
-      title: "动作敏捷（跳跃躲避）",
-      goal: lives > 0 ? "在合适的时机跳跃，躲避障碍，保持速度增长。" : "游戏结束，点击重开。",
+      title: L(state.lang, "动作敏捷（跳跃躲避）", "Action (jump & dodge)"),
+      goal: lives > 0 ? L(state.lang, "在合适的时机跳跃，躲避障碍，保持速度增长。", "Jump at the right moment, dodge obstacles, and keep the speed growing.") : L(state.lang, "游戏结束，点击重开。", "Game over — hit Restart."),
       status: [
-        "障碍距离归零时若未跳跃会扣生命。",
-        "成功躲避得分；速度越高单次得分越多。",
+        L(state.lang, "障碍距离归零时若未跳跃会扣生命。", "When an obstacle reaches zero distance without a jump, you lose a life."),
+        L(state.lang, "成功躲避得分；速度越高单次得分越多。", "Successful dodges score; higher speed scores more per dodge."),
       ],
       metrics: [
         metric("distance", Number(finalData.distance ?? 0)),
@@ -142,8 +145,8 @@ export const actionPatternDemo: DemoDefinition<ArchetypeInit, ArchetypeState, Ar
         metric("obstacle", Number(finalData.obstacleDistance ?? 5)),
       ],
       controls: [
-        { kind: "button", label: "跳跃（primary）", action: { type: "primary" } },
-        { kind: "button", label: "加速（secondary）", action: { type: "secondary" } },
+        { kind: "button", label: L(state.lang, "跳跃（primary）", "Jump (primary)"), action: { type: "primary" } },
+        { kind: "button", label: L(state.lang, "加速（secondary）", "Speed Up (secondary)"), action: { type: "secondary" } },
       ],
     };
 

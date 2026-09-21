@@ -3,8 +3,11 @@ import { z } from "zod";
 import {
   archetypeActionSchema,
   archetypeInitSchema,
+  commonControlLabels,
+  L,
   makeRng,
   normalizeDifficulty,
+  pickLang,
   toSeed,
   type ArchetypeAction,
   type ArchetypeInit,
@@ -16,6 +19,7 @@ function baseInit(input: ArchetypeInit, defaultSeed: number): ArchetypeState {
   return {
     seed: toSeed(input.seed, defaultSeed),
     difficulty: normalizeDifficulty(input.difficulty),
+    lang: pickLang(input.lang),
     step: 0,
     data: {},
   };
@@ -31,15 +35,16 @@ function metric(label: string, value: number | string) {
 
 function withCommonControls(state: ArchetypeState, view: ArchetypeView): ArchetypeView {
   const difficultyIndex = state.difficulty === "easy" ? 0 : state.difficulty === "normal" ? 1 : 2;
+  const cc = commonControlLabels(state.lang);
   return {
     ...view,
     controls: [
-      { kind: "button", label: "重开", action: { type: "reset" } },
-      { kind: "button", label: "推进 1 步", action: { type: "tick" } },
-      { kind: "choices", label: "难度", options: ["easy", "normal", "hard"] },
+      { kind: "button", label: cc.reset, action: { type: "reset" } },
+      { kind: "button", label: cc.tick, action: { type: "tick" } },
+      { kind: "choices", label: cc.difficulty, options: ["easy", "normal", "hard"] },
       {
         kind: "slider",
-        label: "难度(滑块)",
+        label: cc.difficultySlider,
         key: "difficultyIndex",
         min: 0,
         max: 2,
@@ -117,15 +122,15 @@ export const archetypeDemoDefinitions = [
       const rng = makeRng(state.seed);
       state.data = { movesLeft: 12, chain: 0, entropy: 0.35 + rng() * 0.25 };
       const view: ArchetypeView = {
-        title: "消除（最小节奏）",
-        goal: "在有限步数内制造连锁与强反馈，同时保持“看起来随机”。",
-        status: ["操作：点击“交换/消除”尝试触发连锁。", "提示：entropy 越低越容易“控盘感”。"],
+        title: L(state.lang, "消除（最小节奏）", "Match/Clear (minimal rhythm)"),
+        goal: L(state.lang, "在有限步数内制造连锁与强反馈，同时保持“看起来随机”。", "Create chains and strong feedback within a limited move budget while staying \"random-looking\"."),
+        status: [L(state.lang, "操作：点击“交换/消除”尝试触发连锁。", "Action: click \"Swap/Clear\" to try to trigger a chain."), L(state.lang, "提示：entropy 越低越容易“控盘感”。", "Hint: lower entropy feels more \"rigged\" (in your favor).")],
         metrics: [
           metric("movesLeft", state.data.movesLeft as number),
           metric("chain", state.data.chain as number),
           metric("entropy", state.data.entropy as number),
         ],
-        controls: [{ kind: "button", label: "交换/消除（primary）", action: { type: "primary" } }],
+        controls: [{ kind: "button", label: L(state.lang, "交换/消除（primary）", "Swap/Clear (primary)"), action: { type: "primary" } }],
       };
       return { state, view: withCommonControls(state, view) };
     },
@@ -151,11 +156,11 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "消除（最小节奏）",
-        goal: "在有限步数内制造连锁与强反馈，同时保持“看起来随机”。",
+        title: L(state.lang, "消除（最小节奏）", "Match/Clear (minimal rhythm)"),
+        goal: L(state.lang, "在有限步数内制造连锁与强反馈，同时保持“看起来随机”。", "Create chains and strong feedback within a limited move budget while staying \"random-looking\"."),
         status: [
-          "primary=交换/消除：概率触发 match；match 会累积 chain；失败会清空 chain。",
-          "entropy 越低越“好消”；entropy 越高越“难消”。",
+          L(state.lang, "primary=交换/消除：概率触发 match；match 会累积 chain；失败会清空 chain。", "primary=swap/clear: may trigger a match; matches stack chain; a miss resets it."),
+          L(state.lang, "entropy 越低越“好消”；entropy 越高越“难消”。", "Lower entropy = easier matches; higher entropy = harder."),
         ],
         metrics: [
           metric("movesLeft", next.data.movesLeft as number),
@@ -163,7 +168,7 @@ export const archetypeDemoDefinitions = [
           metric("entropy", next.data.entropy as number),
           metric("difficulty", next.difficulty),
         ],
-        controls: [{ kind: "button", label: "交换/消除（primary）", action: { type: "primary" } }],
+        controls: [{ kind: "button", label: L(state.lang, "交换/消除（primary）", "Swap/Clear (primary)"), action: { type: "primary" } }],
       };
       return { state: next, view: withCommonControls(next, view), events };
     },
@@ -179,13 +184,13 @@ export const archetypeDemoDefinitions = [
       const state = baseInit(input, 202);
       state.data = { time: 0, hp: 3, danger: 0.35, nearMiss: 0 };
       const view: ArchetypeView = {
-        title: "躲避（近失）",
-        goal: "制造‘差一点’的近失反馈，让紧张变成爽点。",
-        status: ["primary=躲避一次；secondary=慢动作（降低 danger）。", "tick=时间推进，danger 会上升。"],
+        title: L(state.lang, "躲避（近失）", "Dodge (near-miss)"),
+        goal: L(state.lang, "制造‘差一点’的近失反馈，让紧张变成爽点。", "Create \"so close\" near-miss feedback that turns tension into thrill."),
+        status: [L(state.lang, "primary=躲避一次；secondary=慢动作（降低 danger）。", "primary=dodge once; secondary=slow motion (lowers danger)."), L(state.lang, "tick=时间推进，danger 会上升。", "tick=time passes and danger rises.")],
         metrics: [metric("hp", 3), metric("danger", 0.35), metric("nearMiss", 0)],
         controls: [
-          { kind: "button", label: "躲避（primary）", action: { type: "primary" } },
-          { kind: "button", label: "慢动作（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "躲避（primary）", "Dodge (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "慢动作（secondary）", "Slow-mo (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -223,9 +228,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "躲避（近失）",
-        goal: "制造‘差一点’的近失反馈，让紧张变成爽点。",
-        status: ["tick 会让 danger 上升；danger 越高，tick 时越可能受伤。", "primary 会降低 danger，并可能触发 near-miss 反馈。"],
+        title: L(state.lang, "躲避（近失）", "Dodge (near-miss)"),
+        goal: L(state.lang, "制造‘差一点’的近失反馈，让紧张变成爽点。", "Create \"so close\" near-miss feedback that turns tension into thrill."),
+        status: [L(state.lang, "tick 会让 danger 上升；danger 越高，tick 时越可能受伤。", "tick raises danger; the higher it is, the likelier you get hurt per tick."), L(state.lang, "primary 会降低 danger，并可能触发 near-miss 反馈。", "primary lowers danger and may trigger near-miss feedback.")],
         metrics: [
           metric("time", next.data.time as number),
           metric("hp", next.data.hp as number),
@@ -234,8 +239,8 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "button", label: "躲避（primary）", action: { type: "primary" } },
-          { kind: "button", label: "慢动作（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "躲避（primary）", "Dodge (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "慢动作（secondary）", "Slow-mo (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state: next, view: withCommonControls(next, view), events };
@@ -252,9 +257,9 @@ export const archetypeDemoDefinitions = [
       const state = baseInit(input, 303);
       state.data = { distance: 0, speed: 1.0, stamina: 1.0, mistakes: 0 };
       const view: ArchetypeView = {
-        title: "Runner（节奏）",
-        goal: "前期教会你活，中期让你稳，后期给你秀。",
-        status: ["primary=跳跃避障；secondary=冲刺（消耗体力）。", "tick=推进距离并随机出现障碍。"],
+        title: L(state.lang, "Runner（节奏）", "Runner (rhythm)"),
+        goal: L(state.lang, "前期教会你活，中期让你稳，后期给你秀。", "Early game teaches survival, mid game steadiness, late game style."),
+        status: [L(state.lang, "primary=跳跃避障；secondary=冲刺（消耗体力）。", "primary=jump over obstacles; secondary=dash (costs stamina)."), L(state.lang, "tick=推进距离并随机出现障碍。", "tick=advance the distance and spawn obstacles at random.")],
         metrics: [
           metric("distance", 0),
           metric("speed", 1.0),
@@ -262,8 +267,8 @@ export const archetypeDemoDefinitions = [
           metric("mistakes", 0),
         ],
         controls: [
-          { kind: "button", label: "跳跃（primary）", action: { type: "primary" } },
-          { kind: "button", label: "冲刺（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "跳跃（primary）", "Jump (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "冲刺（secondary）", "Dash (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -309,9 +314,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "Runner（节奏）",
-        goal: "速度上升制造紧张，体力与失误让玩家做选择。",
-        status: ["tick 推进：距离随 speed 增长；障碍概率随难度上升。", "冲刺需要体力；体力随 tick 回充。"],
+        title: L(state.lang, "Runner（节奏）", "Runner (rhythm)"),
+        goal: L(state.lang, "速度上升制造紧张，体力与失误让玩家做选择。", "Rising speed creates tension; stamina and misses force choices."),
+        status: [L(state.lang, "tick 推进：距离随 speed 增长；障碍概率随难度上升。", "tick advances: distance grows with speed; obstacle odds rise with difficulty."), L(state.lang, "冲刺需要体力；体力随 tick 回充。", "Dashing costs stamina; stamina recharges per tick.")],
         metrics: [
           metric("distance", next.data.distance as number),
           metric("speed", next.data.speed as number),
@@ -320,8 +325,8 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "button", label: "跳跃（primary）", action: { type: "primary" } },
-          { kind: "button", label: "冲刺（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "跳跃（primary）", "Jump (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "冲刺（secondary）", "Dash (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state: next, view: withCommonControls(next, view), events };
@@ -338,13 +343,13 @@ export const archetypeDemoDefinitions = [
       const state = baseInit(input, 404);
       state.data = { ammo: 6, targets: 5, score: 0, accuracy: 0.65 };
       const view: ArchetypeView = {
-        title: "射击（节奏）",
-        goal: "让玩家在‘开枪/换弹/节拍窗口’之间做决策。",
-        status: ["primary=射击；secondary=换弹。", "tick=刷新目标（但也会提高压力）。"],
+        title: L(state.lang, "射击（节奏）", "Shoot (rhythm)"),
+        goal: L(state.lang, "让玩家在‘开枪/换弹/节拍窗口’之间做决策。", "Let players juggle \"fire / reload / beat windows\"."),
+        status: [L(state.lang, "primary=射击；secondary=换弹。", "primary=fire; secondary=reload."), L(state.lang, "tick=刷新目标（但也会提高压力）。", "tick=refresh targets (but raises pressure too).")],
         metrics: [metric("ammo", 6), metric("targets", 5), metric("score", 0), metric("accuracy", 0.65)],
         controls: [
-          { kind: "button", label: "射击（primary）", action: { type: "primary" } },
-          { kind: "button", label: "换弹（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "射击（primary）", "Fire (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "换弹（secondary）", "Reload (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -384,9 +389,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "射击（节奏）",
-        goal: "命中产生爽感；换弹制造节拍窗口；目标刷新制造压力。",
-        status: ["没子弹射击会降低 accuracy（惩罚‘乱点’）。", "tick 会刷新 targets，但会轻微降低 accuracy（压力）。"],
+        title: L(state.lang, "射击（节奏）", "Shoot (rhythm)"),
+        goal: L(state.lang, "命中产生爽感；换弹制造节拍窗口；目标刷新制造压力。", "Hits feel great; reloads create beat windows; target refreshes create pressure."),
+        status: [L(state.lang, "没子弹射击会降低 accuracy（惩罚‘乱点’）。", "Firing empty lowers accuracy (punishing spray)."), L(state.lang, "tick 会刷新 targets，但会轻微降低 accuracy（压力）。", "tick refreshes targets but slightly lowers accuracy (pressure).")],
         metrics: [
           metric("ammo", next.data.ammo as number),
           metric("targets", next.data.targets as number),
@@ -395,8 +400,8 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "button", label: "射击（primary）", action: { type: "primary" } },
-          { kind: "button", label: "换弹（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "射击（primary）", "Fire (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "换弹（secondary）", "Reload (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state: next, view: withCommonControls(next, view), events };
@@ -413,13 +418,13 @@ export const archetypeDemoDefinitions = [
       const state = baseInit(input, 505);
       state.data = { hp: 10, stamina: 5, enemyHp: 12, guard: 0 };
       const view: ArchetypeView = {
-        title: "战斗（攻防节奏）",
-        goal: "让玩家在‘输出’与‘生存’之间切换，并能解释为什么输。",
-        status: ["primary=攻击；secondary=格挡（提高 guard）。", "tick=敌人行动（可能攻击）。"],
+        title: L(state.lang, "战斗（攻防节奏）", "Combat (attack/defense rhythm)"),
+        goal: L(state.lang, "让玩家在‘输出’与‘生存’之间切换，并能解释为什么输。", "Let players switch between \"damage\" and \"survival\" — and explain why they lost."),
+        status: [L(state.lang, "primary=攻击；secondary=格挡（提高 guard）。", "primary=attack; secondary=block (raises guard)."), L(state.lang, "tick=敌人行动（可能攻击）。", "tick=the enemy acts (may attack).")],
         metrics: [metric("hp", 10), metric("stamina", 5), metric("enemyHp", 12), metric("guard", 0)],
         controls: [
-          { kind: "button", label: "攻击（primary）", action: { type: "primary" } },
-          { kind: "button", label: "格挡（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "攻击（primary）", "Attack (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "格挡（secondary）", "Block (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -467,9 +472,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "战斗（攻防节奏）",
-        goal: "攻防切换要可解释：格挡减少伤害，体力限制连打。",
-        status: ["tick 敌人可能攻击；guard 会减免部分伤害。", "攻击消耗 stamina；tick 会回复 stamina。"],
+        title: L(state.lang, "战斗（攻防节奏）", "Combat (attack/defense rhythm)"),
+        goal: L(state.lang, "攻防切换要可解释：格挡减少伤害，体力限制连打。", "Attack/defense switching must be explainable: blocking reduces damage, stamina limits mashing."),
+        status: [L(state.lang, "tick 敌人可能攻击；guard 会减免部分伤害。", "On tick the enemy may attack; guard absorbs part of the damage."), L(state.lang, "攻击消耗 stamina；tick 会回复 stamina。", "Attacking costs stamina; ticks regenerate it.")],
         metrics: [
           metric("hp", next.data.hp as number),
           metric("stamina", next.data.stamina as number),
@@ -478,8 +483,8 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "button", label: "攻击（primary）", action: { type: "primary" } },
-          { kind: "button", label: "格挡（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "攻击（primary）", "Attack (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "格挡（secondary）", "Block (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state: next, view: withCommonControls(next, view), events };
@@ -496,13 +501,13 @@ export const archetypeDemoDefinitions = [
       const state = baseInit(input, 606);
       state.data = { slots: 9, placed: 0, synergy: 0, income: 1 };
       const view: ArchetypeView = {
-        title: "放置/建造（布局）",
-        goal: "有限空间内做更优布局：扩容、协同、产出节拍。",
-        status: ["primary=放置一个单位；secondary=扩容（消耗协同）。", "tick=结算产出（income）。"],
+        title: L(state.lang, "放置/建造（布局）", "Placement/Building (layout)"),
+        goal: L(state.lang, "有限空间内做更优布局：扩容、协同、产出节拍。", "Optimize layout within limited space: expansion, synergy, production beats."),
+        status: [L(state.lang, "primary=放置一个单位；secondary=扩容（消耗协同）。", "primary=place a unit; secondary=expand capacity (costs synergy)."), L(state.lang, "tick=结算产出（income）。", "tick=settle production (income).")],
         metrics: [metric("slots", 9), metric("placed", 0), metric("synergy", 0), metric("income", 1)],
         controls: [
-          { kind: "button", label: "放置（primary）", action: { type: "primary" } },
-          { kind: "button", label: "扩容（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "放置（primary）", "Place (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "扩容（secondary）", "Expand (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -546,9 +551,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "放置/建造（布局）",
-        goal: "空间是硬约束；协同是软目标；产出是节拍。",
-        status: ["放置可能获得 synergy；synergy 可用于扩容。", "tick 结算产出（示意）。"],
+        title: L(state.lang, "放置/建造（布局）", "Placement/Building (layout)"),
+        goal: L(state.lang, "空间是硬约束；协同是软目标；产出是节拍。", "Space is the hard constraint; synergy the soft goal; production the beat."),
+        status: [L(state.lang, "放置可能获得 synergy；synergy 可用于扩容。", "Placing may grant synergy; synergy can fund expansion."), L(state.lang, "tick 结算产出（示意）。", "tick settles production (illustrative).")],
         metrics: [
           metric("slots", next.data.slots as number),
           metric("placed", next.data.placed as number),
@@ -557,8 +562,8 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "button", label: "放置（primary）", action: { type: "primary" } },
-          { kind: "button", label: "扩容（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "放置（primary）", "Place (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "扩容（secondary）", "Expand (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state: next, view: withCommonControls(next, view), events };
@@ -573,15 +578,15 @@ export const archetypeDemoDefinitions = [
     ["archetype", "choice-strategy"],
     (input) => {
       const state = baseInit(input, 707);
-      state.data = { turn: 1, power: 1, risk: 0, offered: ["加钱", "加伤", "回血"] };
+      state.data = { turn: 1, power: 1, risk: 0, offered: [L(state.lang, "加钱", "+Gold"), L(state.lang, "加伤", "+Power"), L(state.lang, "回血", "Heal")] };
       const view: ArchetypeView = {
-        title: "策略决策（三选一）",
-        goal: "把随机变成选择：让玩家觉得‘输赢是我选的’。",
-        status: ["choice 选择一项奖励；tick 进入下一回合。", "secondary=刷新（增加 risk）。"],
+        title: L(state.lang, "策略决策（三选一）", "Choice/Strategy (pick 1 of 3)"),
+        goal: L(state.lang, "把随机变成选择：让玩家觉得‘输赢是我选的’。", "Turn randomness into choice: make players feel \"I chose this outcome\"."),
+        status: [L(state.lang, "choice 选择一项奖励；tick 进入下一回合。", "choice picks one reward; tick advances to the next round."), L(state.lang, "secondary=刷新（增加 risk）。", "secondary=reroll (raises risk).")],
         metrics: [metric("turn", 1), metric("power", 1), metric("risk", 0)],
         controls: [
-          { kind: "choices", label: "本回合选择", options: state.data.offered as string[] },
-          { kind: "button", label: "刷新（secondary）", action: { type: "secondary" } },
+          { kind: "choices", label: L(state.lang, "本回合选择", "Choose this round"), options: state.data.offered as string[] },
+          { kind: "button", label: L(state.lang, "刷新（secondary）", "Reroll (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -591,14 +596,14 @@ export const archetypeDemoDefinitions = [
       const turn = Number(state.data.turn ?? 1);
       const power = Number(state.data.power ?? 1);
       const risk = Number(state.data.risk ?? 0);
-      const offered = (state.data.offered as string[] | undefined) ?? ["加钱", "加伤", "回血"];
+      const offered = (state.data.offered as string[] | undefined) ?? [L(state.lang, "加钱", "+Gold"), L(state.lang, "加伤", "+Power"), L(state.lang, "回血", "Heal")];
       const difficultyMul = state.difficulty === "easy" ? 0.9 : state.difficulty === "hard" ? 1.2 : 1;
 
       const next = bumpStep(state);
       const events: Array<{ type: string; payload?: unknown }> = [];
 
       const makeOffer = (t: number) => {
-        const pool = ["加钱", "加伤", "回血", "减风险", "抽牌", "加速"];
+        const pool = [L(state.lang, "加钱", "+Gold"), L(state.lang, "加伤", "+Power"), L(state.lang, "回血", "Heal"), L(state.lang, "减风险", "-Risk"), L(state.lang, "抽牌", "Draw"), L(state.lang, "加速", "Haste")];
         const o = [] as string[];
         for (let i = 0; i < 3; i++) o.push(pool[Math.floor(rng() * pool.length)]!);
         return o.map((x) => `${x}（T${t}）`);
@@ -607,8 +612,8 @@ export const archetypeDemoDefinitions = [
       if (action.type === "choice") {
         const idx = Math.max(0, Math.min(2, action.option));
         const picked = offered[idx] ?? offered[0]!;
-        const nextPower = power + (picked.includes("加伤") ? 1.2 : 0.4);
-        const nextRisk = Math.max(0, risk + (picked.includes("加钱") ? 0.2 : -0.05));
+        const nextPower = power + (picked.includes(L(state.lang, "加伤", "+Power")) ? 1.2 : 0.4);
+        const nextRisk = Math.max(0, risk + (picked.includes(L(state.lang, "加钱", "+Gold")) ? 0.2 : -0.05));
         next.data = { turn, power: nextPower, risk: nextRisk, offered };
         events.push({ type: "picked", payload: { picked } });
       } else if (action.type === "secondary") {
@@ -621,9 +626,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "策略决策（三选一）",
+        title: L(state.lang, "策略决策（三选一）", "Choice/Strategy (pick 1 of 3)"),
         goal: "随机事件=情绪管理；三选一=把随机变成选择。",
-        status: ["choice 选择后立刻得到收益；secondary 刷新会提高 risk。", "tick 进入下一回合并生成新 offer。"],
+        status: [L(state.lang, "choice 选择后立刻得到收益；secondary 刷新会提高 risk。", "choice grants its reward at once; secondary rerolls but raises risk."), L(state.lang, "tick 进入下一回合并生成新 offer。", "tick advances to the next round and generates a new offer.")],
         metrics: [
           metric("turn", next.data.turn as number),
           metric("power", next.data.power as number),
@@ -631,8 +636,8 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "choices", label: "本回合选择", options: (next.data.offered as string[]) ?? [] },
-          { kind: "button", label: "刷新（secondary）", action: { type: "secondary" } },
+          { kind: "choices", label: L(state.lang, "本回合选择", "Choose this round"), options: (next.data.offered as string[]) ?? [] },
+          { kind: "button", label: L(state.lang, "刷新（secondary）", "Reroll (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state: next, view: withCommonControls(next, view), events };
@@ -649,13 +654,13 @@ export const archetypeDemoDefinitions = [
       const state = baseInit(input, 808);
       state.data = { pieces: 1, budget: 10, wobble: 0 };
       const view: ArchetypeView = {
-        title: "物理（切割/碎裂预算）",
-        goal: "判定稳定优先；碎片数量与点数必须可控。",
-        status: ["primary=切一次（增加 pieces，消耗 budget）。", "secondary=清理小碎片（回收 budget）。"],
+        title: L(state.lang, "物理（切割/碎裂预算）", "Physics (cut/shatter budget)"),
+        goal: L(state.lang, "判定稳定优先；碎片数量与点数必须可控。", "Stable judging first; piece count and scoring must stay controllable."),
+        status: [L(state.lang, "primary=切一次（增加 pieces，消耗 budget）。", "primary=cut once (adds pieces, spends budget)."), L(state.lang, "secondary=清理小碎片（回收 budget）。", "secondary=clear small pieces (reclaims budget).")],
         metrics: [metric("pieces", 1), metric("budget", 10), metric("wobble", 0)],
         controls: [
-          { kind: "button", label: "切割（primary）", action: { type: "primary" } },
-          { kind: "button", label: "清理（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "切割（primary）", "Cut (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "清理（secondary）", "Clear (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -698,9 +703,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "物理（切割/碎裂预算）",
-        goal: "碎片越多越爽，但预算越容易爆；要在爽与稳定之间取舍。",
-        status: ["budget 是性能预算；pieces 太多会增加 wobble（不稳定）。", "清理小碎片能回收预算与稳定性。"],
+        title: L(state.lang, "物理（切割/碎裂预算）", "Physics (cut/shatter budget)"),
+        goal: L(state.lang, "碎片越多越爽，但预算越容易爆；要在爽与稳定之间取舍。", "More pieces = more juice, but the budget blows faster; trade juice for stability."),
+        status: [L(state.lang, "budget 是性能预算；pieces 太多会增加 wobble（不稳定）。", "budget is the performance budget; too many pieces raise wobble (instability)."), L(state.lang, "清理小碎片能回收预算与稳定性。", "Clearing small pieces reclaims budget and stability.")],
         metrics: [
           metric("pieces", next.data.pieces as number),
           metric("budget", next.data.budget as number),
@@ -708,8 +713,8 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "button", label: "切割（primary）", action: { type: "primary" } },
-          { kind: "button", label: "清理（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "切割（primary）", "Cut (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "清理（secondary）", "Clear (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state: next, view: withCommonControls(next, view), events };
@@ -726,13 +731,13 @@ export const archetypeDemoDefinitions = [
       const state = baseInit(input, 909);
       state.data = { progress: 0, hints: 2, mistakes: 0, difficultyScore: 1 };
       const view: ArchetypeView = {
-        title: "解谜（提示与试错）",
-        goal: "让玩家在可解释的试错中获得‘啊哈’瞬间。",
-        status: ["primary=尝试一步；secondary=用提示（减少 mistakes 风险）。", "tick=进入下一题（提高难度）。"],
+        title: L(state.lang, "解谜（提示与试错）", "Puzzle (hints & trial)"),
+        goal: L(state.lang, "让玩家在可解释的试错中获得‘啊哈’瞬间。", "Give players their \"aha\" moment through explainable trial and error."),
+        status: [L(state.lang, "primary=尝试一步；secondary=用提示（减少 mistakes 风险）。", "primary=try a step; secondary=use a hint (reduces mistakes risk)."), L(state.lang, "tick=进入下一题（提高难度）。", "tick=advance to the next puzzle (harder).")],
         metrics: [metric("progress", 0), metric("hints", 2), metric("mistakes", 0), metric("difficultyScore", 1)],
         controls: [
-          { kind: "button", label: "尝试（primary）", action: { type: "primary" } },
-          { kind: "button", label: "提示（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "尝试（primary）", "Try (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "提示（secondary）", "Hint (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -772,9 +777,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "解谜（提示与试错）",
-        goal: "提示是节奏工具：让玩家少卡死，但仍保留成就感。",
-        status: ["primary 成功概率随难度下降；错误会累积 mistakes。", "secondary 用提示直接推进一步，但提示有限。"],
+        title: L(state.lang, "解谜（提示与试错）", "Puzzle (hints & trial)"),
+        goal: L(state.lang, "提示是节奏工具：让玩家少卡死，但仍保留成就感。", "Hints are a pacing tool: less hard-stuck, but the achievement stays intact."),
+        status: [L(state.lang, "primary 成功概率随难度下降；错误会累积 mistakes。", "primary success odds drop with difficulty; failures accumulate as mistakes."), L(state.lang, "secondary 用提示直接推进一步，但提示有限。", "secondary spends a hint to advance directly — hints are limited.")],
         metrics: [
           metric("progress", next.data.progress as number),
           metric("hints", next.data.hints as number),
@@ -783,8 +788,8 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "button", label: "尝试（primary）", action: { type: "primary" } },
-          { kind: "button", label: "提示（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "尝试（primary）", "Try (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "提示（secondary）", "Hint (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state: next, view: withCommonControls(next, view), events };
@@ -801,13 +806,13 @@ export const archetypeDemoDefinitions = [
       const state = baseInit(input, 1010);
       state.data = { runDepth: 0, metaPower: 1, currency: 0, badStreak: 0 };
       const view: ArchetypeView = {
-        title: "成长（失败即成长）",
-        goal: "每局都有进度，但‘故意失败’不该最划算。",
-        status: ["primary=推进一层（可能失败）；secondary=局外升级（花 currency）。", "tick=结算（失败也给少量）。"],
+        title: L(state.lang, "成长（失败即成长）", "Progression (failure = growth)"),
+        goal: L(state.lang, "每局都有进度，但‘故意失败’不该最划算。", "Every run advances you, but \"failing on purpose\" must never be optimal."),
+        status: [L(state.lang, "primary=推进一层（可能失败）；secondary=局外升级（花 currency）。", "primary=push one floor (may fail); secondary=meta upgrade (spends currency)."), L(state.lang, "tick=结算（失败也给少量）。", "tick=settle (even failure pays a little).")],
         metrics: [metric("runDepth", 0), metric("metaPower", 1), metric("currency", 0), metric("badStreak", 0)],
         controls: [
-          { kind: "button", label: "推进（primary）", action: { type: "primary" } },
-          { kind: "button", label: "升级（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "推进（primary）", "Push (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "升级（secondary）", "Upgrade (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -851,9 +856,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "成长（失败即成长）",
-        goal: "失败给希望；但通过 pity/里程碑防止刷失败最优。",
-        status: ["推进越深失败概率越高；metaPower 会降低失败概率。", "badStreak 过高会触发 pity（示意）。"],
+        title: L(state.lang, "成长（失败即成长）", "Progression (failure = growth)"),
+        goal: L(state.lang, "失败给希望；但通过 pity/里程碑防止刷失败最优。", "Failure gives hope; pity/milestones keep fail-farming from being optimal."),
+        status: [L(state.lang, "推进越深失败概率越高；metaPower 会降低失败概率。", "Deeper pushes fail more often; metaPower lowers the failure rate."), L(state.lang, "badStreak 过高会触发 pity（示意）。", "A high badStreak triggers pity (illustrative).")],
         metrics: [
           metric("runDepth", next.data.runDepth as number),
           metric("metaPower", next.data.metaPower as number),
@@ -862,8 +867,8 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "button", label: "推进（primary）", action: { type: "primary" } },
-          { kind: "button", label: "升级（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "推进（primary）", "Push (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "升级（secondary）", "Upgrade (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state: next, view: withCommonControls(next, view), events };
@@ -880,14 +885,14 @@ export const archetypeDemoDefinitions = [
       const state = baseInit(input, 1111);
       state.data = { day: 1, pop: 100, money: 50, tax: 0.2, happiness: 0.7 };
       const view: ArchetypeView = {
-        title: "模拟（变量与回路）",
-        goal: "让玩家看到因果：变量变化→系统反馈→下一步选择。",
-        status: ["tick=过一天；primary=上调税；secondary=下调税。", "税影响 money 与 happiness，happiness 影响 pop。"],
+        title: L(state.lang, "模拟（变量与回路）", "Simulation (variables & loops)"),
+        goal: L(state.lang, "让玩家看到因果：变量变化→系统反馈→下一步选择。", "Show players the causality: variable change → system feedback → next choice."),
+        status: [L(state.lang, "tick=过一天；primary=上调税；secondary=下调税。", "tick=one day passes; primary=raise tax; secondary=cut tax."), L(state.lang, "税影响 money 与 happiness，happiness 影响 pop。", "Tax affects money and happiness; happiness affects pop.")],
         metrics: [metric("day", 1), metric("pop", 100), metric("money", 50), metric("tax", 0.2), metric("happiness", 0.7)],
         controls: [
-          { kind: "button", label: "加税（primary）", action: { type: "primary" } },
-          { kind: "button", label: "减税（secondary）", action: { type: "secondary" } },
-          { kind: "slider", label: "税率", key: "tax", min: 0, max: 0.6, step: 0.05, value: 0.2 },
+          { kind: "button", label: L(state.lang, "加税（primary）", "Raise Tax (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "减税（secondary）", "Cut Tax (secondary)"), action: { type: "secondary" } },
+          { kind: "slider", label: L(state.lang, "税率", "Tax Rate"), key: "tax", min: 0, max: 0.6, step: 0.05, value: 0.2 },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -930,9 +935,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "模拟（变量与回路）",
-        goal: "税上升：钱更多但幸福下降；幸福决定增长。",
-        status: ["tick 过一天并结算；税率越高 income 越高但 happiness 越低。", "这是最小的可解释回路示意。"],
+        title: L(state.lang, "模拟（变量与回路）", "Simulation (variables & loops)"),
+        goal: L(state.lang, "税上升：钱更多但幸福下降；幸福决定增长。", "Higher tax: more money but less happiness; happiness drives growth."),
+        status: [L(state.lang, "tick 过一天并结算；税率越高 income 越高但 happiness 越低。", "tick settles one day; higher tax means more income but lower happiness."), L(state.lang, "这是最小的可解释回路示意。", "This is a minimal explainable-loop illustration.")],
         metrics: [
           metric("day", next.data.day as number),
           metric("pop", next.data.pop as number),
@@ -942,11 +947,11 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "button", label: "加税（primary）", action: { type: "primary" } },
-          { kind: "button", label: "减税（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "加税（primary）", "Raise Tax (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "减税（secondary）", "Cut Tax (secondary)"), action: { type: "secondary" } },
           {
             kind: "slider",
-            label: "税率",
+            label: L(state.lang, "税率", "Tax Rate"),
             key: "tax",
             min: 0,
             max: 0.6,
@@ -969,13 +974,13 @@ export const archetypeDemoDefinitions = [
       const state = baseInit(input, 1212);
       state.data = { beat: 0, window: 0.25, score: 0, streak: 0 };
       const view: ArchetypeView = {
-        title: "时机（判定窗口）",
-        goal: "让玩家靠练习变强：窗口可调但要可解释。",
-        status: ["tick=节拍推进；primary=点击判定（命中窗口得分）。", "secondary=扩大窗口（但降低奖励）。"],
+        title: L(state.lang, "时机（判定窗口）", "Timing (judgment window)"),
+        goal: L(state.lang, "让玩家靠练习变强：窗口可调但要可解释。", "Let players improve through practice: the window is tunable but must stay explainable."),
+        status: [L(state.lang, "tick=节拍推进；primary=点击判定（命中窗口得分）。", "tick=beat advances; primary=click to judge (hit the window to score)."), L(state.lang, "secondary=扩大窗口（但降低奖励）。", "secondary=widen the window (but lower rewards).")],
         metrics: [metric("beat", 0), metric("window", 0.25), metric("score", 0), metric("streak", 0)],
         controls: [
-          { kind: "button", label: "点击判定（primary）", action: { type: "primary" } },
-          { kind: "button", label: "放宽窗口（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "点击判定（primary）", "Judge Tap (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "放宽窗口（secondary）", "Widen Window (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state, view: withCommonControls(state, view) };
@@ -1007,9 +1012,9 @@ export const archetypeDemoDefinitions = [
       }
 
       const view: ArchetypeView = {
-        title: "时机（判定窗口）",
-        goal: "窗口越小越爽，但要给新手宽容与成长空间。",
-        status: ["primary 会按 offset 与 window 判定命中（示意）。", "secondary 放宽窗口会降低单次奖励（reward 与 window 反比）。"],
+        title: L(state.lang, "时机（判定窗口）", "Timing (judgment window)"),
+        goal: L(state.lang, "窗口越小越爽，但要给新手宽容与成长空间。", "A narrower window feels better, but leave beginners forgiveness and room to grow."),
+        status: [L(state.lang, "primary 会按 offset 与 window 判定命中（示意）。", "primary judges a hit by offset vs window (illustrative)."), L(state.lang, "secondary 放宽窗口会降低单次奖励（reward 与 window 反比）。", "secondary widens the window but lowers the per-hit reward (reward is inverse to window).")],
         metrics: [
           metric("beat", next.data.beat as number),
           metric("window", next.data.window as number),
@@ -1018,8 +1023,8 @@ export const archetypeDemoDefinitions = [
           metric("difficulty", next.difficulty),
         ],
         controls: [
-          { kind: "button", label: "点击判定（primary）", action: { type: "primary" } },
-          { kind: "button", label: "放宽窗口（secondary）", action: { type: "secondary" } },
+          { kind: "button", label: L(state.lang, "点击判定（primary）", "Judge Tap (primary)"), action: { type: "primary" } },
+          { kind: "button", label: L(state.lang, "放宽窗口（secondary）", "Widen Window (secondary)"), action: { type: "secondary" } },
         ],
       };
       return { state: next, view: withCommonControls(next, view), events };

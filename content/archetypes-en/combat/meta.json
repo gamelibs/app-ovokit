@@ -68,7 +68,7 @@
     },
     {
       "title": "Difficulty Contrast",
-      "action": "On easy vs hard, \"Advance (tick)\" 10 steps each and compare the hp drain curves",
+      "action": "On easy vs hard, \"Advance 1 Step\" 10 steps each and compare the hp drain curves",
       "observe": "On hard, enemyHp is thicker and enemy attacks more frequent — same attack loop, completely different hp slope. Difficulty is fundamentally an adjustment of the exchange ratio: each of your hits buys less enemy health"
     }
   ]
