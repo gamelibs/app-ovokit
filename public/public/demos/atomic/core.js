@@ -32,6 +32,17 @@
   /** L(zh, en)：demo 自有文案双语包裹（当前语言 zh 取前者，否则取后者） */
   function L(zh, en) { return LANG === 'zh' ? zh : en; }
 
+  // ---- 固定种子随机（可回放棋盘）：mulberry32，5 行 ----
+  function mulberry32(seed) {
+    var a = seed >>> 0;
+    return function () {
+      a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
   // ---- 手绘风格绘制助手 ----
   function jitter(v) { return (Math.random() - 0.5) * v; }
   function makeG(ctx) {
@@ -78,6 +89,7 @@
       '      <div class="ac-overlay"><div class="ac-overlay-text"></div><button class="ac-start" type="button">' + T('start') + '</button></div>' +
       '    </div>' +
       '    <div class="ac-hud"></div>' +
+      '    <div class="ac-toggles"></div>' +
       '  </div>' +
       '  <aside class="ac-side">' +
       '    <div class="ac-obj"></div>' +
@@ -97,10 +109,16 @@
     root.querySelector('.ac-obj').textContent = cfg.objective || '';
 
     // ---- 游戏对象 ----
+    // rand 委托：默认 Math.random；fixedSeed 开关勾选时（且 demo 声明 seedable）换 mulberry32 固定种子
+    var rngSource = Math.random;
+    function reseed() {
+      var seedable = !!(cfg.seedable || (cfg.toggles || []).some(function (t) { return t.key === 'fixedSeed' && t.seedable; }));
+      rngSource = seedable && game.toggles.fixedSeed ? mulberry32(0xC0FFEE) : Math.random;
+    }
     var game = {
       W: 0, H: 0, score: 0, lives: 3, state: 'ready', time: 0,
-      params: {}, data: {},
-      rand: function (a, b) { return a + Math.random() * (b - a); },
+      params: {}, toggles: {}, data: {},
+      rand: function (a, b) { return a + rngSource() * (b - a); },
       setScore: function (n) {
         game.score = n; renderHud();
         post({ type: 'demo:score', score: n });
@@ -115,6 +133,7 @@
       reset: function () {
         game.score = 0; game.time = 0; game.lives = cfg.lives != null ? cfg.lives : 3;
         game.data = {}; game.state = 'playing';
+        reseed(); // 固定种子在 reset 开头重建 rand：同一开关状态 ⇒ 同一局可回放
         if (cfg.setup) cfg.setup(game);
         renderHud();
         overlay.style.display = 'none';
@@ -137,6 +156,27 @@
       row.appendChild(label); row.appendChild(input);
       paramsBox.appendChild(row);
     });
+
+    // ---- 开关行（HUD 旁 checkbox；label/labelEn 按 lang 取） ----
+    var togglesBox = root.querySelector('.ac-toggles');
+    (cfg.toggles || []).forEach(function (t) {
+      game.toggles[t.key] = t.default === true; // 缺省不勾选（实验开关按需开启）
+      var row = document.createElement('label');
+      row.className = 'ac-toggle';
+      var input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = game.toggles[t.key];
+      var text = document.createElement('span');
+      text.textContent = LANG === 'zh' ? t.label : (t.labelEn || t.label);
+      input.addEventListener('change', function () {
+        game.toggles[t.key] = input.checked;
+        if (t.key === 'fixedSeed') reseed();
+        if (cfg.onToggle) cfg.onToggle(game, t.key, input.checked);
+      });
+      row.appendChild(input); row.appendChild(text);
+      togglesBox.appendChild(row);
+    });
+    reseed(); // 按开关默认状态取 rand（fixedSeed 勾选 ⇒ 预览棋盘即固定棋盘）
 
     // ---- 画布尺寸（适配窗口，永不出现滚动条）----
     var ctx = canvas.getContext('2d');
@@ -229,6 +269,7 @@
     renderHud();
 
     post({ type: 'demo:ready', title: cfg.title || '' });
+    try { window.__atomGame = game; } catch (e) {} // 调试/测试钩子（只读引用）
     return game;
   }
 
@@ -256,7 +297,10 @@
       '.ac-params{display:flex;flex-direction:column;gap:4px}' +
       '.ac-param{display:flex;flex-direction:column;margin:4px 0}' +
       '.ac-param label{font-size:13px;color:#555;display:flex;justify-content:space-between}' +
-      '.ac-param input[type=range]{width:100%;height:28px;accent-color:#d97706;cursor:pointer}';
+      '.ac-param input[type=range]{width:100%;height:28px;accent-color:#d97706;cursor:pointer}' +
+      '.ac-toggles{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;padding:2px 0}' +
+      '.ac-toggle{display:flex;align-items:center;gap:6px;font-size:13px;color:#555;cursor:pointer;user-select:none}' +
+      '.ac-toggle input{accent-color:#d97706;width:16px;height:16px;cursor:pointer}';
     document.head.appendChild(s);
   }
 

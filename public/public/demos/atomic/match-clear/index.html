@@ -16,6 +16,11 @@ AtomCore.create({
   title: AtomCore.L('消除 · 连锁实验室', 'Match/Clear · Chain Lab'),
   objective: AtomCore.L('点击两个相邻方块交换，凑成 ≥3 连线消除。调「连锁奖励倍率」看爽感，调「限定步数」看资源压力。', 'Click two adjacent tiles to swap; match 3+ in a line to clear. Try "Chain Bonus Multiplier" for the juice, and "Moves per run" for resource pressure.'),
   lives: 0,
+  seedable: true,
+  toggles: [
+    { key: 'fixedSeed', seedable: true, label: '固定棋盘（可回放）', labelEn: 'Fixed Board (Replayable)', default: false },
+    { key: 'showLegal', label: '高亮合法步', labelEn: 'Highlight Legal Moves', default: false }
+  ],
   params: [
     { key: 'chainMult', label: AtomCore.L('连锁奖励倍率', 'Chain Bonus Multiplier'), min: 1, max: 3, step: 0.5, default: 1.5, unit: 'x' },
     { key: 'moves', label: AtomCore.L('每局限定步数', 'Moves per run'), min: 8, max: 30, step: 1, default: 16, unit: AtomCore.L('步', '') }
@@ -23,7 +28,11 @@ AtomCore.create({
   hudExtra: function (g) {
     var d = g.data;
     var chain = d.lastChain > 1 ? AtomCore.L(' · 最大连锁 <b>x', ' · max chain <b>x') + d.lastChain + '</b>' : '';
-    return AtomCore.L('剩余步数 <b>', 'Moves left <b>') + (d.movesLeft != null ? d.movesLeft : '-') + '</b>' + chain;
+    var legal = '';
+    if (g.toggles.showLegal && d.board) {
+      legal = AtomCore.L(' · 合法步 <b>', ' · legal <b>') + Object.keys(this.legalMoves(g)).length + '</b>';
+    }
+    return AtomCore.L('剩余步数 <b>', 'Moves left <b>') + (d.movesLeft != null ? d.movesLeft : '-') + '</b>' + chain + legal;
   },
   onParam: function (g, key, v) {
     if (key === 'moves' && g.state === 'playing') g.data.movesLeft = v; // 预算实时调整，直接感受压力变化
@@ -113,6 +122,23 @@ AtomCore.create({
       d.sel = null;
     }
   },
+  // 合法步枚举：所有能形成 ≥3 匹配的相邻交换涉及的格子集合（showLegal 开关用）
+  legalMoves: function (g) {
+    var d = g.data, N = d.N, b = d.board;
+    var set = {};
+    var DIRS = [[0, 1], [1, 0]];
+    for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) {
+      for (var k = 0; k < 2; k++) {
+        var r2 = r + DIRS[k][0], c2 = c + DIRS[k][1];
+        if (r2 >= N || c2 >= N) continue;
+        var tmp = b[r][c]; b[r][c] = b[r2][c2]; b[r2][c2] = tmp;
+        var ok = this.findMatches(b, N).length > 0;
+        tmp = b[r][c]; b[r][c] = b[r2][c2]; b[r2][c2] = tmp;
+        if (ok) { set[r + ',' + c] = true; set[r2 + ',' + c2] = true; }
+      }
+    }
+    return set;
+  },
   cellAt: function (g, p) {
     var L = this.layout(g);
     var c = Math.floor((p.x - L.x) / L.size), r = Math.floor((p.y - L.y) / L.size);
@@ -137,6 +163,8 @@ AtomCore.create({
     var GLYPHS = ['●', '▲', '◆', '■', '★'];
     var clearedSet = {};
     if (d.clearedT > 0) d.cleared.forEach(function (p) { clearedSet[p.r + ',' + p.c] = true; });
+    // showLegal：合法步涉及格画淡黄底（AtomCore.COLORS.YELLOW 半透明）
+    var legalSet = g.toggles.showLegal ? this.legalMoves(g) : null;
     for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) {
       var x = L.x + c * L.size, y = L.y + r * L.size;
       var isSel = d.sel && d.sel.r === r && d.sel.c === c;
@@ -144,6 +172,10 @@ AtomCore.create({
       if (clearedSet[r + ',' + c]) fill = '#fff';
       gg.rect(x + 3, y + 3, L.size - 6, L.size - 6, fill, isSel ? 4 : 1.5);
       gg.text(GLYPHS[d.board[r][c]], x + L.size / 2, y + L.size / 2 + 1, Math.round(L.size * 0.42), isSel ? '#d97706' : C.INK);
+      // showLegal：合法步格顶层淡黄罩（必须在不透明底色之后绘制，否则被遮住）
+      if (legalSet && legalSet[r + ',' + c]) {
+        gg.rect(x + 3, y + 3, L.size - 6, L.size - 6, 'rgba(255,218,106,0.4)', 0);
+      }
     }
     // 飘字（连锁加分反馈）
     d.floats.forEach(function (f) {
