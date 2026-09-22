@@ -45,7 +45,11 @@
     "archetype": "Archetypes",
     "pattern": "Core loops",
     "feature": "Features",
-    "difficulty": "Difficulty"
+    "difficulty": "Complexity",
+    "complexityLegendTitle": "How we rate complexity",
+    "complexityBeginner": "Beginner: the core mechanic fits in ~100 lines; single state machine; no AI, no engine dependencies",
+    "complexityAdvanced": "Advanced: multiple cooperating systems — AI opponents, generation algorithms, numeric curves, engine tuning",
+    "complexityHardcore": "Hardcore: architecture-level design — many entities, state sync, emergent systems, performance engineering"
   },
   "home": {
     "heroTitleA": "Discover Gameplay",
@@ -91,7 +95,7 @@
     "demoEmpty": "No playable demo available",
     "articleTitle": "Article",
     "infoTitle": "Info",
-    "difficultyLabel": "Difficulty",
+    "difficultyLabel": "Complexity",
     "techStackLabel": "Tech stack",
     "corePointsLabel": "Core points",
     "tipsTitle": "How to read",
@@ -109,7 +113,7 @@
     "newbie": "Start here"
   },
   "card": {
-    "difficulty": "Difficulty",
+    "difficulty": "Complexity",
     "techStack": "Tech stack",
     "corePoints": "Core points",
     "viewImpl": "View implementation"
@@ -170,7 +174,7 @@
     "classicCases": "Classic Cases",
     "playBehavior": "Play Behavior",
     "playFeatures": "Gameplay Features",
-    "difficultyLabel": "Difficulty",
+    "difficultyLabel": "Complexity",
     "coreLoop": "Core Loop",
     "keyAbstractions": "Key Abstractions",
     "learningGoals": "Learning Goals",

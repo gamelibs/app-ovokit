@@ -206,7 +206,7 @@ export const playBrowseGroups: ReadonlyArray<{ key: PlayBrowseGroupKey; label: s
   { key: "archetype", label: "玩法行为" },
   { key: "pattern", label: "核心循环" },
   { key: "feature", label: "玩法特征" },
-  { key: "difficulty", label: "难度层级" },
+  { key: "difficulty", label: "实现复杂度" },
 ];
 
 const forYouCategory: PlayCategory = { key: "for-you", label: "推荐" };

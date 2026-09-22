@@ -134,6 +134,7 @@ export default async function Home({
 
   const featured = plays.slice(0, 8);
   const canEdit = await isModerator();
+  const tb = await getTranslations("browseGroups");
 
   if (isDefaultLanding) {
     return (
@@ -183,6 +184,18 @@ export default async function Home({
     <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
       <BrowseGroupTabs selectedGroup={browseGroup} q={q || undefined} />
       <CategoryTabs group={browseGroup} selectedKey={catKey} q={q || undefined} showAll />
+
+      {/* 实现复杂度组：三级锚点定义说明卡（读者可查判定标准） */}
+      {browseGroup === "difficulty" ? (
+        <div className="mt-3 sketch-border bg-paper-warm/60 p-3">
+          <div className="font-kalam text-xs font-semibold text-ink-muted">{tb("complexityLegendTitle")}</div>
+          <ul className="mt-2 space-y-1 text-sm leading-relaxed text-ink-light">
+            <li>· {tb("complexityBeginner")}</li>
+            <li>· {tb("complexityAdvanced")}</li>
+            <li>· {tb("complexityHardcore")}</li>
+          </ul>
+        </div>
+      ) : null}
 
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_360px] lg:items-start">
         <section className="grid grid-cols-2 gap-4 2xl:grid-cols-3">

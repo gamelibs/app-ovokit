@@ -9,7 +9,7 @@
     "Roguelike",
     "限时"
   ],
-  "difficulty": "Intermediate → Hardcore",
+  "difficulty": "Advanced",
   "demoRuleHint": "Rule: Observe opponent → Choose skill → Resolve (hit/block/evade) → Feedback (damage/stagger) → Resource recovery",
   "problemsSolved": [
     "Clarify attack/defense windows (wind-up/active/stagger) to reduce 'unfair hits'.",

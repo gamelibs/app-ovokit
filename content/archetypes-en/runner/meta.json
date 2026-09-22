@@ -8,7 +8,7 @@
     "关卡",
     "数值成长"
   ],
-  "difficulty": "Beginner → Intermediate",
+  "difficulty": "Beginner → Advanced",
   "demoRuleHint": "Rule: Auto-forward (base 5 m/s) → Obstacle/branch appears → Input (slide/jump/turn) → Judgment (pass/fail) → Speed/combo changes",
   "problemsSolved": [
     "Use minimal input to create multiple branching choices (lane/jump/turn/branch).",

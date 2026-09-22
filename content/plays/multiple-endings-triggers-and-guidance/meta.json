@@ -14,7 +14,7 @@
     "关卡",
     "解谜"
   ],
-  "difficulty": "进阶",
+  "difficulty": "入门",
   "techStack": [
     "配置表(通用)",
     "TypeScript"

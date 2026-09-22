@@ -7,7 +7,7 @@
     "物理",
     "关卡"
   ],
-  "difficulty": "进阶",
+  "difficulty": "入门",
   "techStack": [
     "TypeScript",
     "2D 物理"

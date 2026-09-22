@@ -9,7 +9,7 @@
     "放置产出",
     "数值成长"
   ],
-  "difficulty": "Beginner → Intermediate",
+  "difficulty": "Beginner → Advanced",
   "demoRuleHint": "Rule: Complete an action → Gain resources → Upgrade/Unlock → Ability enhancement → New goals and higher costs.",
   "problemsSolved": [
     "Ensure failure still yields growth (guaranteed returns/experience), reducing frustration and churn.",

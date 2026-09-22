@@ -9,7 +9,7 @@
     "关卡",
     "数值成长"
   ],
-  "difficulty": "Beginner → Intermediate",
+  "difficulty": "Beginner → Advanced",
   "demoRuleHint": "Rule: Acquire units → Merge same-level units → Upgrade to higher-level units → Increase output → Trigger full-cell handling when a cell is full.",
   "problemsSolved": [
     "Transform low-frequency actions into clear long-term goals via merge-and-upgrade.",

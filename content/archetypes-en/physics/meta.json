@@ -6,7 +6,7 @@
   "features": [
     "关卡"
   ],
-  "difficulty": "Intermediate",
+  "difficulty": "Advanced → Hardcore",
   "demoRuleHint": "Rule: Apply force / drag → Motion and collision → Decision (trigger/failure) → Feedback → Reset / retry",
   "problemsSolved": [
     "Make physics outcomes predictable and learnable (same input yields consistent results)",

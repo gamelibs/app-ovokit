@@ -7,7 +7,7 @@
     "数值成长",
     "关卡"
   ],
-  "difficulty": "Beginner → Hardcore",
+  "difficulty": "Beginner → Advanced",
   "demoRuleHint": "Rule: Aim → Fire → Hit determination → Feedback (knockback/explosion/score) → Cooldown/Reload",
   "problemsSolved": [
     "Turn hit detection and feedback into a learnable rhythmic window (why hitting feels good).",

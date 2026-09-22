@@ -9,7 +9,7 @@
     "关卡",
     "Roguelike"
   ],
-  "difficulty": "Intermediate",
+  "difficulty": "Advanced",
   "demoRuleHint": "Rule example: 2–3 visible options appear → the player selects one → a fixed cost and reward are generated → the situation updates → next round of choices.",
   "problemsSolved": [
     "Eliminate 'pseudo-choices' caused by insufficient option differentiation.",

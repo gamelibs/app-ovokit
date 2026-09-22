@@ -45,7 +45,11 @@
     "archetype": "玩法行为",
     "pattern": "核心循环",
     "feature": "玩法特征",
-    "difficulty": "难度层级"
+    "difficulty": "实现复杂度",
+    "complexityLegendTitle": "实现复杂度怎么判？",
+    "complexityBeginner": "入门 Beginner：核心机制百行代码内可实现；单状态机；无 AI、无引擎依赖",
+    "complexityAdvanced": "进阶 Advanced：需要多系统协作——AI 对手、生成算法、数值曲线、引擎调参",
+    "complexityHardcore": "硬核 Hardcore：架构级设计——大量实体、状态同步、涌现系统、性能工程"
   },
   "home": {
     "heroTitleA": "发现游戏玩法",
@@ -91,7 +95,7 @@
     "demoEmpty": "暂无可试玩 Demo",
     "articleTitle": "文章",
     "infoTitle": "信息",
-    "difficultyLabel": "难度",
+    "difficultyLabel": "实现复杂度",
     "techStackLabel": "技术栈",
     "corePointsLabel": "核心点",
     "tipsTitle": "阅读建议",
@@ -109,7 +113,7 @@
     "newbie": "新手必读"
   },
   "card": {
-    "difficulty": "玩法难度",
+    "difficulty": "实现复杂度",
     "techStack": "技术栈",
     "corePoints": "核心点",
     "viewImpl": "查看实现"
@@ -170,7 +174,7 @@
     "classicCases": "经典案例",
     "playBehavior": "玩法行为",
     "playFeatures": "玩法特征",
-    "difficultyLabel": "难度层级",
+    "difficultyLabel": "实现复杂度",
     "coreLoop": "核心循环",
     "keyAbstractions": "关键抽象",
     "learningGoals": "学习目标",

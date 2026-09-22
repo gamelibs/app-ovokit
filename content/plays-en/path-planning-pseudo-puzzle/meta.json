@@ -8,7 +8,7 @@
     "关卡",
     "生成"
   ],
-  "difficulty": "进阶",
+  "difficulty": "Advanced",
   "techStack": [
     "TypeScript",
     "生成/校验(通用)"

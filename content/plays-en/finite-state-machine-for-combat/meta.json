@@ -7,7 +7,7 @@
     "状态机",
     "热门"
   ],
-  "difficulty": "进阶",
+  "difficulty": "Advanced",
   "techStack": [
     "TypeScript",
     "XState"

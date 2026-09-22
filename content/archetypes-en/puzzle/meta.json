@@ -8,7 +8,7 @@
     "网格",
     "关卡"
   ],
-  "difficulty": "Beginner → Intermediate",
+  "difficulty": "Beginner → Advanced",
   "demoRuleHint": "Rule: Observe information → Perform action → Receive feedback → Infer next step → Achieve goal",
   "problemsSolved": [
     "Clearly define objectives and actionable objects, avoiding the question 'What am I supposed to do?'",

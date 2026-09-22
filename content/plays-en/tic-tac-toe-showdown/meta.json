@@ -10,7 +10,7 @@
     "回合博弈",
     "网格"
   ],
-  "difficulty": "入门",
+  "difficulty": "Beginner",
   "pattern": "spatial",
   "techStack": [
     "PixiJS",

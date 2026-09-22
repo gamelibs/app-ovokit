@@ -6,7 +6,7 @@
   "features": [
     "关卡"
   ],
-  "difficulty": "进阶",
+  "difficulty": "进阶 → 硬核",
   "demoRuleHint": "规则：施加力/拖拽 → 运动与碰撞 → 判定（触发/失败）→ 反馈 → 复位/再试",
   "problemsSolved": [
     "让物理结果可预期可学习（同输入得到一致结果）",

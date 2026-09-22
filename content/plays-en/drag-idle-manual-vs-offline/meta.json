@@ -6,7 +6,7 @@
     "放置",
     "数值"
   ],
-  "difficulty": "进阶",
+  "difficulty": "Advanced",
   "techStack": [
     "TypeScript",
     "配置表(通用)"
