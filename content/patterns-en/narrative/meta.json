@@ -60,5 +60,10 @@
     "State machine / directed graph: narrative nodes and branching conditions",
     "Variable system: flags, affinity, clue collection",
     "Ending determination: multi‑condition thresholds and priority"
-  ]
+  ],
+  "intro": {
+    "what": "Your choices genuinely change where the story goes and how it ends — interactive fiction, Life is Strange, and Orange Light (Chengguang) games are built on this.",
+    "feel": "Every option feels like signing at a crossroads; at the ending you wonder \"what if I had taken the other road...\" — and then you actually go back and pick it.",
+    "why": "This is the border of narrative and gameplay — the \"choice → consequence → branch\" structure gives a story its first sense of \"me.\""
+  }
 }

@@ -61,5 +61,10 @@
     "Fixed‑timestep physics updates independent of frame rate",
     "AABB / circle collision detection and spatial partitioning optimization",
     "Procedural obstacle generation and difficulty curve control"
-  ]
+  ],
+  "intro": {
+    "what": "You keep tapping the screen or keyboard to dodge or hit whatever keeps coming at you — Flappy Bird, Fruit Ninja, and Geometry Dash all run on this rhythm.",
+    "feel": "Eyes on the screen, fingers on instinct; every input lands an instant result — dodge and you keep going, miss and you restart. Not a second to breathe.",
+    "why": "This is the underlying structure of every action game — tune the \"input → feedback\" loop well, and the feel of any action play has its foundation."
+  }
 }

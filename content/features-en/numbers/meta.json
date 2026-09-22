@@ -57,5 +57,10 @@
     "Attribute weighting and balance models.",
     "Economic sinks and inflation control.",
     "Analysis of the intersection between benefit curves and cost curves."
-  ]
+  ],
+  "intro": {
+    "what": "Attack power, levels, and combat ratings keep inflating — Diablo, Genshin Impact, and Clash Royale all hook players on numbers going up.",
+    "feel": "After an upgrade your damage jumps from 100 to 150 and monsters visibly melt faster; you raise your character on the panel bit by bit, and every jumping number is positive feedback.",
+    "why": "This is the engine of long-running games — the numeric curve decides how long the \"one more hour\" motivation lasts."
+  }
 }

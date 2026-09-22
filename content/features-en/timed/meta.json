@@ -62,5 +62,10 @@
     "Countdown independent of frame rate",
     "Dynamic difficulty: help mechanisms driven by remaining time",
     "Timed settlement and replay data logging"
-  ]
+  ],
+  "intro": {
+    "what": "You get a countdown, and when it hits zero the run settles — the kitchens of Overcooked and the one-minute blitz of Bejeweled Blitz both play this way.",
+    "feel": "The timer ticks, and your speed and heartbeat accelerate together; the last few seconds are a frantic sprint, and the \"so close\" regret makes you restart instantly.",
+    "why": "This is the oldest difficulty dial — the same content with a timeline turns cozy into tense at almost zero cost."
+  }
 }

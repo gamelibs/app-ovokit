@@ -61,5 +61,10 @@
     "Stat formulas and damage expectation calculations.",
     "Turn‑based / real‑time combat state machine.",
     "AI behavior trees and difficulty adaptation."
-  ]
+  ],
+  "intro": {
+    "what": "Set up your lineup and numbers before the fight, then watch them clash to an outcome — Clash Royale, Plants vs. Zombies, and Slay the Spire all share this structure.",
+    "feel": "You weigh the setup again and again in the preparation phase; once battle starts you hold your breath as the report unfolds — wins feel earned, losses make you immediately re-draft and retry.",
+    "why": "This is the model of \"numbers as strategy\" — abstract combat into configuration and settlement, and the depth hides in the choices made before the fight."
+  }
 }
