@@ -17,11 +17,9 @@
     "Use layout optimization and cascading rewards to drive ongoing objectives instead of a one‑off placement."
   ],
   "learningGoals": [
-    "Understand how spatial constraints generate strategy.",
-    "Master the impact of preview/highlight/attachment on usability.",
-    "Be able to build reusable grid/attachment/placement systems.",
-    "Recognize the trade‑off between layout density and rewards.",
-    "Assess the benefits and risks of edge placements."
+    "Beginner: understand the layout loop — pick → preview → place → yield/block → adjust — and reproduce an adjacency bonus in the demo",
+    "Intermediate: write the occupancy and connectivity contract (grid, snapping, synergy coefficient, expansion cost) and tune the density-vs-yield tradeoff",
+    "Advanced: design edge bonuses and risks (defense exposure), and verify spatial-strategy depth with layout-density distribution and expansion-timing distribution"
   ],
   "minimalRules": [
     "Placement check: object size ≤ 1×1 grid cells and non‑overlapping; size > 1×1 must occupy contiguous cells and not intersect already‑occupied objects.",
@@ -69,5 +67,16 @@
       "action": "Without expanding, fill every slot and watch income growth flatten",
       "observe": "At full grid, income stalls — density payoff has a boundary, and over-connected layouts burn resources faster. The optimal layout sits at the \"dense but not full\" edge: that is exactly how spatial constraints manufacture strategy"
     }
+  ],
+  "intro": {
+    "what": "Place buildings or towers onto a limited grid — good placement doubles your income. Tower defense, SimCity, and base-building games are built on this.",
+    "feel": "You hover a building over the grid, hunting for the highest-yield tile to commit; income ticks upward line by line while you already ponder the next placement — the grid is never big enough.",
+    "why": "The best demonstration of \"space as a resource\" — if you want position itself to become strategy, placement play is required study."
+  },
+  "concept": "Placement play translates spatial relations into numeric yield: adjacency, edges, and density all map directly onto output differences — what players place is not buildings but the shape of a payoff function. The hard part is not what to place — it is previewability and feedback cadence: illegal tiles must explain themselves instantly, and income settlement must show the layout paying off. A player thinks \"that placement was clever\" because spatial decisions are visible and verifiable.",
+  "designNotes": [
+    "Adjacency bonuses make WHERE beat WHAT: a +10% neighbor bonus digitizes spatial relations — the synergy curve is something players can literally see, and it teaches strategy better than any hidden formula.",
+    "Expansion timing is the eternal invest-vs-spend tradeoff: expanding too early dilutes current income, too late and capacity chokes you — the optimum usually hides at the \"almost full\" edge, and that edge is the decision sweet spot of placement play.",
+    "Preview and failure reasons are not accessibility features: illegal placements must highlight red instantly with the reason stated, or players read the rules as bugs — placement UX collapses not from complex rules but from opaque ones."
   ]
 }

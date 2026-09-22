@@ -15,9 +15,9 @@
     "Control intensity with a pressure curve (density/velocity/rhythm) to avoid pure numeric stacking"
   ],
   "learningGoals": [
-    "Understand how sources of pressure and rhythm shape difficulty",
-    "Master hit detection and tolerance (near miss/Invincibility frames/slowing)",
-    "Design readable warnings and feedback"
+    "Beginner: understand the minimal survival loop — spawn → telegraph → move → judge → feedback — and reproduce one graze judgment in the demo",
+    "Intermediate: write the full hit-judgment contract (hitbox, graze zone, invincibility frames, respawn protection) and tune forgiveness parameters that keep beginners from churning",
+    "Advanced: design the pressure curve (density × speed × time ramp structure) and verify difficulty health with graze rate and survival-time distribution"
   ],
   "minimalRules": [
     "Hazard: Generation rules (frequency/direction/speed/quantity)",
@@ -65,5 +65,16 @@
       "action": "Step \"Bullet Density\" from 1 up to 5, surviving 20 seconds at each level",
       "observe": "Density is the pressure-curve knob: each +1 visibly shrinks the safe space ratio. Density alone is not difficulty — real difficulty is density × tolerance: dense + forgiving stays casual, sparse + strict still kills"
     }
+  ],
+  "intro": {
+    "what": "Hazards keep flying at you and your job is to stay alive — bullet-hell shooters, Flappy Bird, and dodgeball-style games are all built on this.",
+    "feel": "You drag your character through a storm of bullets, weaving between them; the split second where one grazes past without killing you makes your heart skip — that \"so close\" thrill is the signature move.",
+    "why": "It is the purest sample of \"difficulty as rhythm\" — if you want to learn how to make players tense without feeling cheated, start here."
+  },
+  "concept": "Dodge play breaks \"survival\" into a chain of readable, moment-to-moment judgments: every hazard has a telegraph, a trajectory, and a hitbox, and every dodge immediately reports its outcome and its reason. The hard part is not the dodging — it is the credibility and forgiveness of the judgment: the gap between hitbox and visual circle is your thrill budget, and invincibility frames plus graze feedback decide whether a failure is learnable. The fairness players feel is built from these invisible judgment-engine details.",
+  "designNotes": [
+    "Thrill is a designed resource: how many pixels the hitbox sits inside the visual circle is exactly how brave players dare to be — too strict and they turtle up, too loose and the tension is gone. That gap is worth tuning more than bullet speed.",
+    "\"Nearly died\" beats \"perfectly dodged\": graze bonuses turn threats into resources, luring players toward danger — counterintuitively, rewarding grazes makes players safer, because they start studying trajectories on purpose.",
+    "Only attributable failure earns a retry: with unclear telegraphs, players feel \"wronged\" instead of \"I messed up\" — telegraph lead time is not an accessibility feature; it is the fairness foundation of dodge play."
   ]
 }

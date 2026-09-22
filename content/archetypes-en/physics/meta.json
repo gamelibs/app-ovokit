@@ -14,9 +14,9 @@
     "Allow tactile parameters (friction, elasticity, damping) to be adjustable and verifiable for rapid iteration"
   ],
   "learningGoals": [
-    "Understand the balance between predictability and surprise",
-    "Master how collision, friction, elasticity, and other key parameters affect feel",
-    "Create reproducible solution spaces with minimal parameters"
+    "Beginner: understand the physics loop — apply force/drag → motion & collision → judgment → feedback → reset — and reproduce one cut and collapse in the demo",
+    "Intermediate: write the stability contract (continuous collision detection, iteration counts, sleep thresholds) and shape feel with friction/elasticity/damping",
+    "Advanced: design the action budget and a reproducible solution space, and verify physics credibility with jitter rate, tunneling rate, and reset cost"
   ],
   "minimalRules": [
     "Force: Use RigidBody.AddForce(F), e.g., F=10N, direction arbitrary.",
@@ -67,5 +67,16 @@
       "action": "Cut the scene into a mess, hit \"Clear (secondary)\", then re-cut with a new plan",
       "observe": "Clearing is a low-cost retry: physics trial-and-error needs fast resets, or the jitter from one failure contaminates every later experiment. A reproducible solution space depends on the ability to return to the initial state at will"
     }
+  ],
+  "intro": {
+    "what": "Things roll, collide, and topple under real physics rules, and you harness them to win — Angry Birds, Cut the Rope, and Crayon Physics are built on this.",
+    "feel": "You cut one rope and watch the block sway, fall, and crush the target; when the physical chain reaction lands in one go, that \"exactly as planned\" rush is unmatched.",
+    "why": "It teaches \"predictable chaos\" — anyone can wire up a physics engine, but making it \"fair and fun\" is all parameter and stability craftsmanship."
+  },
+  "concept": "Physics play trades deterministic simulation for the player’s intuitive trust: the same input must produce the same result, or no one dares to plan precise moves. The hard part is not the engine — it is feel parameters and stability engineering: friction, elasticity, and damping set the motion rhythm, while tunneling and jitter set credibility, and the cut/demolish budget turns a sandbox into a puzzle. When players say \"this physics feels real,\" they mean \"I can predict it.\"",
+  "designNotes": [
+    "Predictability beats realism: players do not need a perfect simulation — they need \"same input, same result.\" One random jitter destroys all confidence in fine control; determinism is the foundation of physics play.",
+    "An action budget turns a sandbox into a puzzle: when cuts are limited, order itself becomes strategy — physics without a budget is a toy; physics with one is a game.",
+    "High damping actually stops things faster (counterintuitive): players assume damping \"slows things down,\" but it really \"converges motion\" — feel parameters like this must be experimentally verifiable; whatever docs cannot explain, let players discover hands-on."
   ]
 }

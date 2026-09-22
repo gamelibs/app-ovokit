@@ -19,9 +19,9 @@
     "Resource recovery speed versus skill variety: too fast recovery leads to mindless skill loops; too slow limits combo depth, increasing strategic depth."
   ],
   "learningGoals": [
-    "Understand how 'windows' define attack/defense rhythm.",
-    "Master how skill resources (cooldown/stamina/energy) constrain strategy.",
-    "Be able to design readable skill wind‑ups and counter spaces."
+    "Beginner: understand the attack/defense loop — observe → strike → judge → feedback → resource regen — and reproduce one attack and one block in the demo",
+    "Intermediate: write the window contract (wind-up / block window / hit-stun) and the resource contract (stamina/cooldown spend and regen)",
+    "Advanced: design move-counter relationships and counterplay space, and verify balance with exchange ratio, block rate, and mash frequency"
   ],
   "minimalRules": [
     "Actions: the player may choose to attack, block, or move; attacks require a wind‑up window; movement requires a movement window.",
@@ -71,5 +71,16 @@
       "action": "On easy vs hard, \"Advance 1 Step\" 10 steps each and compare the hp drain curves",
       "observe": "On hard, enemyHp is thicker and enemy attacks more frequent — same attack loop, completely different hp slope. Difficulty is fundamentally an adjustment of the exchange ratio: each of your hits buys less enemy health"
     }
+  ],
+  "intro": {
+    "what": "Trade blows with an opponent up close — when your health bar empties, you lose. Fighting games and action-game boss fights are built on this.",
+    "feel": "You read the opponent’s wind-up, strike into the gap; when stamina runs dry you retreat while gasping — every hit lands with weight, every block is a held breath.",
+    "why": "An introductory dissection of \"the dueling feel\" — once windows, resources, and move-reading click, every confrontation design has its skeleton."
+  },
+  "concept": "Combat play translates \"conflict\" into readable exchanges: attacks have wind-ups, defenses have windows, resources have budgets — every strike settles risk against reward on the spot. The hard part is not the move count — it is the explainability of the exchange: unclear wind-ups kill counterplay, too-fast resource regen turns skills into mindless loops, and missing hit-stun robs impacts of weight. Players feel \"that was a fair fight\" because wins and losses both trace back to specific reads and choices.",
+  "designNotes": [
+    "Defense is not immunity — it is resource substitution: blocking converts health loss into guard-resource drain, so the turtle strategy caps itself at the defense budget without any extra ban.",
+    "Shorter wind-ups can make the game worse (counterintuitive): faster moves smooth out combos but compress the defender’s read window, degrading the duel into a pure speed contest — pace may only improve if counterplay space survives.",
+    "Hit-stun and knockback are the \"weight\" of a hit: players feel nothing from number decrements — it is the flinch and displacement that say \"that landed.\" Without them, combat becomes two health bars being picked at."
   ]
 }

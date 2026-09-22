@@ -20,10 +20,9 @@
     "Balance the proportion of hidden information and number of visible options to enhance the player's ability to explain consequences."
   ],
   "learningGoals": [
-    "Understand the relationship between decision density and information disclosure.",
-    "Master the design of risk-reward and long-term/short-term trade-offs.",
-    "Be able to design 'explainable consequences' and round cycles.",
-    "Understand how resource constraints encourage players to explore deeper strategies."
+    "Beginner: understand the decision loop — options presented → choose → cost & payoff → situation updates — and reproduce one pick-of-three in the demo",
+    "Intermediate: write the option-generation and consequence-settlement contract (payoff magnitude, reroll cost, info refresh rate), and learn to spot fake choices",
+    "Advanced: design information-disclosure ratios and risk visualization, and verify decision quality with option-pick distribution and per-option win-rate gaps"
   ],
   "minimalRules": [
     "Information: number of visible options ≤ 3, proportion of hidden information ≤ 30%.",
@@ -74,5 +73,16 @@
       "action": "Click \"Reroll (secondary)\" before choosing each round, and compare the power curve against never rerolling",
       "observe": "Reroll trades a fixed cost for better options: when cost ≤ benefit it is the rational move; past that point it becomes a trap. Decision cost is itself a design knob — high cost makes choices rare and deep, low cost makes them frequent and shallow"
     }
+  ],
+  "intro": {
+    "what": "Each round offers you a few options — pick one and live with the consequences. Card battlers, auto-chess, and Clash Royale-style tactical choices are built on this.",
+    "feel": "Three rewards sit in front of you, each tempting and each with a price; you weigh them forever, pick one, and rounds later that choice starts paying off — or biting back.",
+    "why": "\"Meaningful choice\" is the soul of strategy games — fake choices, information volume, and consequence explanation are all laid bare here."
+  },
+  "concept": "Choice-based strategy wraps \"randomness\" as \"governable fate\": options are limited and consequences traceable, so players believe outcomes were chosen by themselves. The hard part is not the number of options — it is the explainability of their differences: converging payoffs degenerate into fake choices, too much information causes decision fatigue, too little turns play into guessing. The player’s sense of \"strategy\" rests on being able to replay and trace every choice afterward.",
+  "designNotes": [
+    "A fake choice is worse than no choice: three options with converging net value make players feel fooled — option differences must land on explainable numbers, or the selection ritual is just dice-rolling.",
+    "Reroll is a gentle trap: trading a fixed cost for better options is rational while cost ≤ benefit, and a resource black hole beyond that — decision cost is itself the knob most worth tuning.",
+    "Risk must be visible to accumulate: making risk an explicit metric lets players feel the fragility of a single-track strategy — invisible risk never becomes strategy, only complaints."
   ]
 }

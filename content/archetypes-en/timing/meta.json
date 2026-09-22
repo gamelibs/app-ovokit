@@ -18,11 +18,9 @@
     "Delayed feedback can enhance rhythm sense: moderate delay lets players anticipate beats."
   ],
   "learningGoals": [
-    "Understand how judgment window size affects difficulty and feel.",
-    "Understand the importance of feedback latency and audio-visual sync.",
-    "Be able to design beat variations and learning curves.",
-    "Master the trade-offs between window width and reward balance.",
-    "Recognize the counterintuitive improvement of rhythm sense from delayed feedback."
+    "Beginner: understand the minimal loop — beat spawn → input → judge → feedback — and reproduce one Perfect judgment in the demo",
+    "Intermediate: write the judgment contract (Perfect/Good/Miss windows, timeout handling, combo rules) and combine window width with BPM into distinct feels",
+    "Advanced: design progressive windows and tempo-shift sections (learning-curve engineering), and verify feel health with judgment distribution and combo retention"
   ],
   "minimalRules": [
     "Window: Each beat defines a time interval; Perfect ±30 ms (60 ms window), Good ±70 ms (140 ms window), Miss >70 ms; total window duration 140 ms.",
@@ -70,5 +68,16 @@
       "action": "Set a 40ms Perfect Window at 180 BPM and endure 30 seconds",
       "observe": "This is the frustration blast zone of \"window too narrow with no ramp\": hit rate falls off a cliff. A production rhythm game must ramp the window (wide first, then tighten) across the learning curve, or beginners churn in the first section"
     }
+  ],
+  "intro": {
+    "what": "Tap in time with the beat or the perfect moment — the more precise, the higher the score. Rhythm Master, Taiko no Tatsujin, and rhythm games in general are built on this.",
+    "feel": "A ring shrinks toward the judgment circle and you strike at the exact overlap; when Perfect pops up, your finger and heartbeat are in sync — nailing it is pure relief, missing makes you instantly want another shot.",
+    "why": "It is the ultimate specimen of \"feel engineering\" — invisible millisecond parameters like the judgment window and feedback latency decide whether a game feels good in the hand."
+  },
+  "concept": "Timing play externalizes \"skill\" as a millisecond-scale judgment window: every tap is measured as a deviation from the ideal moment, and rewards scale as the deviation shrinks. The hard part is not the window itself — it is consistency and synchronization: an audio-video error of just a few milliseconds is enough for players to feel \"misjudged,\" and opaque judgment rules snap the learning curve. The player’s sense of \"I’m getting better\" rests on the premise that judgment is always honest.",
+  "designNotes": [
+    "Window width is a trade between retention and achievement: every +10ms raises beginner retention but lowers expert pride — so production rhythm games use progressive windows (wide first, then narrow) to keep both, rather than picking one fixed value.",
+    "Moderate delay improves the groove (counterintuitive): instant feedback interrupts the beat flow, while delaying judgment to the beat boundary keeps players locked in — but audio-video desync is a death sentence, and \"delay\" must be strictly separated from \"misalignment.\"",
+    "BPM and window are independent knobs: BPM sets decision frequency while the window sets strictness — \"dense & forgiving\" and \"sparse & strict\" are entirely different feels, and mixing them up pleases neither crowd."
   ]
 }
