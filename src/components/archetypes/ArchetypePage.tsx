@@ -5,7 +5,7 @@ import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { getDemoSrc } from "@/lib/demos/registry";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { fallbackCorePatternByKey, type CorePatternKey } from "@/lib/patterns/patterns";
-import { featureKeyByName } from "@/lib/features/features";
+import { featureKeyByName, localizeFeatureName } from "@/lib/features/features";
 import { localizeDifficulty } from "@/lib/content/play-tags";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -67,6 +67,7 @@ export function ArchetypePage({
   embedded?: boolean;
 }) {
   const t = useTranslations("pillar");
+  const locale = useLocale();
   const content = (
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
@@ -104,7 +105,7 @@ export function ArchetypePage({
                         href={`/features/${encodeURIComponent(featureKey)}`}
                         className="inline-flex items-center rounded-full sketch-border bg-highlight-green/20 px-2.5 py-0.5 text-xs text-ink hover:bg-highlight-green/45"
                       >
-                        {name}
+                        {localizeFeatureName(name, locale)}
                       </Link>
                     );
                   })}
@@ -112,7 +113,7 @@ export function ArchetypePage({
               </div>
               <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
                 <div className="text-xs font-semibold text-ink-muted font-kalam">{t("difficultyLabel")}</div>
-                <div className="text-ink-light">{localizeDifficulty(model.difficulty, useLocale())}</div>
+                <div className="text-ink-light">{localizeDifficulty(model.difficulty, locale)}</div>
               </div>
             </div>
           </div>
@@ -152,8 +153,8 @@ export function ArchetypePage({
                       href={`/patterns/${encodeURIComponent(key)}`}
                       className="inline-flex items-center gap-1.5 rounded-full sketch-border bg-highlight-green/20 px-2.5 py-1 text-sm font-medium text-ink hover:bg-highlight-green/45"
                     >
-                      <span>{pattern.name}</span>
-                      <span className="text-xs text-ink-light">{pattern.nameEn}</span>
+                      <span>{locale === "en" ? pattern.nameEn : pattern.name}</span>
+                      {locale !== "en" && <span className="text-xs text-ink-light">{pattern.nameEn}</span>}
                     </Link>
                   );
                 })}
