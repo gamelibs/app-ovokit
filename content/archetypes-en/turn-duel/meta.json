@@ -7,7 +7,7 @@
     "网格",
     "数值成长"
   ],
-  "difficulty": "Beginner → Intermediate",
+  "difficulty": "Beginner → Advanced",
   "demoRuleHint": "Example: First player places a piece → Second player places a piece → First player continues, until one side connects N or the board is full.",
   "problemsSolved": [
     "Use turn switching and phase machines to keep each side’s action rights clear and controllable.",

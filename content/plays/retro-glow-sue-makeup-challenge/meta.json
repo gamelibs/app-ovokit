@@ -10,7 +10,7 @@
     "成长 / 数值"
   ],
   "lang": "zh-CN",
-  "difficulty": "easy",
+  "difficulty": "入门",
   "techStack": [
     "PIXI",
     "v2-kernel"

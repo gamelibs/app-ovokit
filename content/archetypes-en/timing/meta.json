@@ -8,7 +8,7 @@
     "数值成长",
     "关卡"
   ],
-  "difficulty": "Beginner → Intermediate",
+  "difficulty": "Beginner → Advanced",
   "demoRuleHint": "Beat generation → Input → Judgment → Feedback → Combo/Difficulty progression",
   "problemsSolved": [
     "Make judgment windows interpretable and consistent, reducing the feeling of pressing correctly but being judged wrong.",

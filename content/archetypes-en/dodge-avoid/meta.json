@@ -7,7 +7,7 @@
     "数值成长",
     "限时"
   ],
-  "difficulty": "Beginner → Hardcore",
+  "difficulty": "Beginner → Advanced",
   "demoRuleHint": "Rule: Hazard generation → Warning/trajectory → Player movement → Hit detection (hit/near miss) → Feedback (damage/Invincibility frames)",
   "problemsSolved": [
     "Make failure reasons attributable (why you were hit, where safety lies)",

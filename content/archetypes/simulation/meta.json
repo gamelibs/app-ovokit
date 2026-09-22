@@ -7,7 +7,7 @@
     "放置产出",
     "数值成长"
   ],
-  "difficulty": "进阶",
+  "difficulty": "进阶 → 硬核",
   "demoRuleHint": "示例规则：设定资源生成率 → 观察人口增长 → 调整资源分配",
   "problemsSolved": [
     "让因果链可观察可解释，避免“黑箱跑数”",

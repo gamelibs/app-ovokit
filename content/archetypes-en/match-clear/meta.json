@@ -10,7 +10,7 @@
     "数值成长",
     "限时"
   ],
-  "difficulty": "Beginner → Intermediate",
+  "difficulty": "Beginner → Advanced",
   "demoRuleHint": "Rule: swap/click → form ≥3 identical → eliminate → fall/replenish → chain (optional)",
   "problemsSolved": [
     "Every move gives an instant result: matched pieces disappear, unmatched pieces don't — easy to understand even on your first try.",

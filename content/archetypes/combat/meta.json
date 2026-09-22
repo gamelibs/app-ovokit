@@ -8,7 +8,7 @@
     "Roguelike",
     "限时"
   ],
-  "difficulty": "进阶 → 硬核",
+  "difficulty": "进阶",
   "demoRuleHint": "规则：观察对手 → 选择技能 → 判定（命中/格挡/闪避）→ 反馈（伤害/硬直）→ 资源回收",
   "problemsSolved": [
     "把攻防窗口（前摇/后摇/硬直）做清楚，减少“无故挨打”",

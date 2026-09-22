@@ -8,7 +8,7 @@
     "放置产出",
     "数值成长"
   ],
-  "difficulty": "Intermediate",
+  "difficulty": "Advanced → Hardcore",
   "demoRuleHint": "Example rule: Set resource generation rate → Observe population growth → Adjust resource allocation.",
   "problemsSolved": [
     "Make causal chains observable and explainable, avoiding 'black-box number crunching'.",

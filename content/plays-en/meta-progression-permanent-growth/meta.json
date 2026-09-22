@@ -15,7 +15,7 @@
     "关卡",
     "数值"
   ],
-  "difficulty": "进阶",
+  "difficulty": "Advanced",
   "techStack": [
     "配置表(通用)",
     "TypeScript"
