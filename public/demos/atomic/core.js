@@ -248,7 +248,7 @@
       '.ac-stage{position:relative;border:2.5px solid ' + INK + ';border-radius:14px 4px 12px 6px;overflow:hidden;background:' + PAPER + '}' +
       '.ac-stage canvas{display:block;margin:0 auto;touch-action:none}' +
       '.ac-overlay{position:absolute;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:rgba(250,247,239,.55)}' +
-      '.ac-overlay-text{font-size:17px;color:' + INK + ';padding:0 24px;text-align:center;line-height:1.5}' +
+      '.ac-overlay-text{font-size:17px;color:' + INK + ';padding:8px 14px;text-align:center;line-height:1.5;background:rgba(255,218,106,.9);border:2px solid ' + INK + ';border-radius:10px 4px 10px 4px;max-width:86%}' +
       'button{font-family:inherit;font-size:16px;background:' + YELLOW + ';border:2.5px solid ' + INK + ';border-radius:10px 4px 10px 4px;padding:8px 22px;cursor:pointer;min-height:44px;min-width:88px}' +
       'button:active{transform:translate(1px,2px)}' +
       '.ac-hud{display:flex;gap:18px;justify-content:center;font-size:15px;padding:6px 0;color:' + INK + '}' +
