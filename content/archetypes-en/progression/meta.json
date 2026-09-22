@@ -17,9 +17,9 @@
     "Use milestone unlocks to guide return and exploration, creating sustainable goals."
   ],
   "learningGoals": [
-    "Understand how growth curves (linear/exponential/segmented) affect pacing.",
-    "Master the freshness brought by stage thresholds and unlocks.",
-    "Design controllable progression that mitigates grind collapse."
+    "Beginner: understand the growth loop — act → earn resources → upgrade/unlock → power up → new goal — and reproduce one upgrade in the demo",
+    "Intermediate: write the cost-curve and guaranteed-floor contract (escalation rule, failure payout, streak-compensation trigger) and tune the growth rate",
+    "Advanced: design threshold pacing and unlock rhythm (the milestone map), and verify long-term health with retention curve, farming-profit margin, and threshold attainment rate"
   ],
   "minimalRules": [
     "Resources: Gain 1 energy per click; energy can be spent on upgrades or unlocks.",
@@ -67,5 +67,16 @@
       "action": "On easy vs hard, \"Advance 1 Step\" 10 steps each and compare runDepth against metaPower",
       "observe": "On hard, runDepth is shallower but metaPower keeps accumulating — permanent growth decouples from per-run skill: failing a run never blocks out-of-run growth. That is the escape hatch from the \"pure grind or pure pain\" trap"
     }
+  ],
+  "intro": {
+    "what": "Finish a run, collect resources, level up, and go further next time — RPG leveling and the permanent power-ups between runs in Vampire Survivors are built on this.",
+    "feel": "You died this run, but the experience banked and your power grew; next run you clearly feel \"I'm stronger now\" — even failure becomes an investment, and it keeps you hooked.",
+    "why": "The classic engine of long-term retention — stringing small wins into a visible growth line that keeps players saying \"one more level, then sleep\"."
+  },
+  "concept": "Progression play converts time spent into irreversible ability assets: every action produces output, failure pays a guaranteed floor, and staged thresholds keep unlocking new goals. The hard part is not the numbers — it is the rhythm and fairness of the curve: steeply rising costs kill motivation, too-fast growth burns content, and pure grind or pure pain both churn players. \"One more run\" comes from the precise sense of distance — the next level never looks far away.",
+  "designNotes": [
+    "Failure must pay a guaranteed floor: loss-streak compensation turns \"pure pain\" into \"controlled progression\" — the streak counter is not pity; it ensures frustration never leaves empty-handed.",
+    "Meta growth must decouple from per-run skill: a shallow run still grows meta power — in-run failure never blocks out-of-run growth. That is the only escape from the \"pure grind or pure pain\" trap.",
+    "Milestones are lighthouses bolted onto the curve: a long curve without staged goals makes progress meaningless — every threshold must hang a visible reward or new mechanic, or the numbers just spin in place."
   ]
 }

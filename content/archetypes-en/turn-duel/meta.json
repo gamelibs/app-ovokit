@@ -18,9 +18,9 @@
     "In card‑based turn systems, allowing multiple cards per action (combo) may seem to add complexity, but it lets players generate higher value through combinations, actually deepening the game rather than weakening it."
   ],
   "learningGoals": [
-    "Understand how to model a turn state machine (turn start / action / end).",
-    "Master win/loss determination via N‑in‑a‑row and size comparisons, and draw handling.",
-    "Be able to integrate an actionable AI into single‑player mode (minimax suffices for entry)."
+    "Beginner: understand the turn state machine (turn start → action → switch → adjudication) and reproduce a legal move plus a win judgment in the demo",
+    "Intermediate: write the full legality-check and adjudication contract (including draw/full-board closure), and wire up a minimax AI",
+    "Advanced: design the AI difficulty ladder and action-count rules (combos/cooldowns), and verify balance with match-length distribution and first-move win rate"
   ],
   "minimalRules": [
     "Action rights: Each turn starts with the current player; after performing one action, control immediately switches to the opponent. The acting player may perform only one action per turn, and it counts as completed only after passing legality checks. Turn count starts at 1 and records the current player.",
@@ -69,5 +69,16 @@
       "action": "Against level 1 AI, both sides block conservatively until the board fills up",
       "observe": "A full board with no line is a draw. The adjudication must cover win/loss/draw — miss the draw branch and the match never closes. It is the most commonly omitted rule in a minimal ruleset"
     }
+  ],
+  "intro": {
+    "what": "You take one turn, they take one turn — race to the goal first. Tic-tac-toe, Gomoku, and chess are all built on this.",
+    "feel": "On your turn the board freezes and you can think as long as you like; once you place, the situation flips and the opponent answers instantly — every move wonders \"what will they do next?\"",
+    "why": "It is the oldest and cleanest model of opposition — if you want to learn where strategic depth comes from, start with turn rights and adjudication."
+  },
+  "concept": "Turn-based dueling breaks confrontation into discrete, explainable decision points: turn rights guarantee both sides express intent in alternation, legality checks keep the rule boundary crisp, and adjudication closes every match. The hard part is not the rules — it is the intelligence gradient of the opponent and the completeness of endings: the AI difficulty ladder IS the learning curve, and a missing draw branch means a match can never end. Players \"lose without complaint\" because every consequence traces back to one specific move.",
+  "designNotes": [
+    "AI strength is not a difficulty knob — it is a teaching path: random AI is a legality sandbox, blocking AI teaches defensive priorities, mate-search AI exposes long-term consequences. Put all three side by side and players pick the teacher they need right now.",
+    "Draws are first-class adjudication: a full board with no winner must close explicitly, or the match never ends — the most commonly omitted entry in a minimal ruleset is exactly this one.",
+    "Action limits trade rhythm for depth: one action per turn keeps pace snappy but caps depth; allowing combos explodes the strategy space but bloats match length — the limit is not laziness, it is what gives the duel its shape."
   ]
 }

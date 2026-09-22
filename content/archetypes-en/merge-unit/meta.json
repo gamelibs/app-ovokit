@@ -17,9 +17,9 @@
     "Ensure the board remains playable through full-cell or unmergeable handling."
   ],
   "learningGoals": [
-    "Understand the merge recipe rules (same-level merging, upgrade results, full-cell handling).",
-    "Master how cost/output curves (linear/exponential/segmented) affect growth pacing.",
-    "Be able to create a playable demo with minimal merge rules."
+    "Beginner: understand the minimal loop — feed → same-level merge → level up → higher output — and reproduce one merge and one full-grid handling in the demo",
+    "Intermediate: write the full merge-rule contract (same-level judgment, recipe table, full-grid policy) and tune the cost/output curve to control the growth rhythm",
+    "Advanced: design pity and anti-farming mechanics, and verify board health with full-grid rate, average merge interval, and tier distribution"
   ],
   "minimalRules": [
     "Same-level merge rule: at least two units of the same level merge into one unit of level +1; if the target cell is already full after merging, trigger full-cell handling.",
@@ -69,5 +69,16 @@
       "action": "With a 1s interval and a level cap of 4, refuse to merge until the board jams",
       "observe": "On a full grid the system warns and blocks placement (or force-consumes low-tier units to free space). Without full-grid handling the board deadlocks — it is the line between minimal rules and a playable product"
     }
+  ],
+  "intro": {
+    "what": "Drag two identical pieces together and they merge into a higher-tier one — 2048, Suika Game, and Merge Dragons are all built on this.",
+    "feel": "You stack matching pieces and watch them pop into a bigger one; the grid keeps filling up while you juggle space and chase the next tier — simple, but impossible to put down.",
+    "why": "The pull of exponential growth is nowhere clearer than here — if you want to learn how to give players a long-term goal, merging is the best specimen to dissect."
+  },
+  "concept": "Merge play is a self-reinforcing growth engine: same-level merging converts low-frequency actions into deterministic tier jumps, and an exponential output curve keeps \"the next tier\" forever more valuable than \"this one.\" The hard part is not the merge rule — it is three loop-closing details: a full grid must always have an escape that never deadlocks, the feed rhythm must leave a thinking budget, and the level cap decides how far the pull reaches. The \"just one more merge\" addiction comes from the curve shape, not the art.",
+  "designNotes": [
+    "The pull comes from the exponential curve, not the reward count: doubling output per tier means the next tier is always worth chasing — but too steep and the late game feels unreachable, too flat and the goal dilutes. Where you cap the curve is the switch for the game’s lifespan.",
+    "Low-tier units are worth more than high-tier ones (counterintuitive): early output rides on a broad base of cheap units, and rushing tiers starves your own production — good merge design lets players discover \"build the base first, then climb\" on their own.",
+    "A full grid is not a punishment; it is a pacing valve: force-consuming low-tier units to free space looks like a penalty but is actually the fuse that prevents board deadlock — it turns \"space management\" from a background rule into an explicit every-move decision."
   ]
 }

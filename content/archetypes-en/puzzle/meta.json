@@ -16,9 +16,9 @@
     "Make trial-and-error feedback verifiable (correct/incorrect/progression), avoiding randomness and misdirection."
   ],
   "learningGoals": [
-    "Understand how information disclosure guides learning curves.",
-    "Master the combination of 'single-step verification' and 'long-chain reasoning'.",
-    "Be able to design hints that are understandable without text."
+    "Beginner: understand the puzzle loop — observe → act → verify feedback → reason the next step — and reproduce one trial and one hint in the demo",
+    "Intermediate: write the feedback contract (instant right/wrong/neutral verification) and the graded-hint policy (budget, tiers, trigger timing)",
+    "Advanced: design reasoning-chain length ramps and the learning curve, and verify puzzle health with stuck rate, hint usage rate, and time-between-insights"
   ],
   "minimalRules": [
     "Goal: satisfy conditions (minimum: reach endpoint / trigger mechanism).",
@@ -68,5 +68,16 @@
       "action": "On easy vs hard, \"Advance 1 Step\" 10 steps each and compare difficultyScore and mistake growth",
       "observe": "On hard, difficultyScore is higher and mistakes grow faster — difficulty is not \"a better-hidden answer\" but \"a longer reasoning chain.\" Learning-curve design controls how fast the chain lengthens, not how deeply the answer is buried"
     }
+  ],
+  "intro": {
+    "what": "Observe the clues, reason it out, and find the one solution — Sokoban, Monument Valley, and escape-room games are built on this.",
+    "feel": "You stare at the layout in deep thought, try a step, read the feedback, try again; the \"aha\" moment arrives like a door swinging open — the agony of being stuck and the ecstasy of insight are two sides of one coin.",
+    "why": "A core specimen of learning-curve design — how to keep players stuck-but-not-quitting is the most important lesson puzzles teach."
+  },
+  "concept": "Puzzle play is a carefully engineered \"duration of confusion\": information is deliberately withheld, the reasoning chain is sized to be just barely walkable, and every trial returns verifiable feedback. The hard part is not a clever riddle — it is managing the cost of being stuck: hints that are too strong kill the achievement, too weak cause abandonment, and unverifiable feedback leaves players unsure whether they are advancing or regressing. The joy of insight is farmed precisely by the rhythm of information disclosure.",
+  "designNotes": [
+    "Hints trade abandonment rate for resource spend: graded hints let players \"buy back their sense of achievement\" — the hint budget turns a stuck moment from a churn point into a decision point.",
+    "Difficulty is not hiding deeper — it is chaining longer: a long reasoning chain with per-step verification beats a \"well-hidden answer,\" because the former gives progress while the latter only invites guessing.",
+    "Slightly missing clues spark exploration (counterintuitive): when information runs a little scarce, players voluntarily try multiple strategies — but only if every step’s feedback is honest; otherwise scarcity becomes deception."
   ]
 }

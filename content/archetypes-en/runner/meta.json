@@ -16,9 +16,9 @@
     "Use speed and segment structure to create rhythmic peaks and troughs, avoiding monotonous straight lines."
   ],
   "learningGoals": [
-    "Understand how path branching creates decision density.",
-    "Master how speed, camera, and readability affect difficulty.",
-    "Be able to design levels with \"low input cost but high decision value\"."
+    "Beginner: understand the minimal loop — auto-forward → obstacle appears → input → judge → speed change — and reproduce a lane-switch dodge in the demo",
+    "Intermediate: write the obstacle-readability contract (lead time, lane spacing, segment rhythm) and shape difficulty with initial speed plus acceleration curve",
+    "Advanced: design segment structure with peaks and valleys (difficulty breathing) and verify level pacing with misread rate, survival curve, and per-segment pass rate"
   ],
   "minimalRules": [
     "Forward speed: base 5 m/s, combo bonus +0.5 m/s per combo, max 8 m/s.",
@@ -60,5 +60,16 @@
       "action": "Run \"Acceleration Curve\" at 0 and at 30px/s², 60 seconds each",
       "observe": "At 0 the difficulty is flat and players hit the ceiling fast; at 30px/s² every minute is a new game. An acceleration curve is free difficulty progression at the cost of a slow start — it moves \"pacing structure\" from level design into parameter design"
     }
+  ],
+  "intro": {
+    "what": "Your character runs forward automatically while you dodge, jump, and slide — Temple Run and Subway Surfers are built on this.",
+    "feel": "The screen scrolls nonstop as you switch lanes and jump at the last moment; the speed keeps climbing and your palms start sweating — every second asks \"how much longer can you last?\"",
+    "why": "It makes \"difficulty ramping\" tangible — if you want to learn how to raise tension without scaring off beginners, the runner is the standard answer."
+  },
+  "concept": "Runner play packs difficulty into the time dimension: auto-forward motion turns every second into a decision deadline, so the speed curve IS the difficulty curve. The hard part is not obstacle placement — it is readability engineering: obstacle lead time decides whether a player fails a decision or fails a reaction, and camera plus speed together set the information density. Behind every \"this game is fair\" review is a precise ratio of lead time to speed.",
+  "designNotes": [
+    "Speed does not change obstacle density — it changes evaluation cost: the same obstacle at 320px/s halves your reaction time. An acceleration curve is free difficulty progression at the price of a tame opening, so the early game must stand on obstacle composition, not speed.",
+    "Shorter lead time can improve flow (counterintuitive, but bounded): compressing the warning drops players into pure-instinct flow — past the threshold it degrades into \"dead before you see it.\" Good runners park lead time at the edge of \"just barely readable.\"",
+    "Failure must blame the choice, not the reflex: when a player thinks \"I didn’t misreact, I picked the wrong lane,\" they queue another run — engineering \"reaction failure\" into \"decision failure\" is the core retention work of runners."
   ]
 }

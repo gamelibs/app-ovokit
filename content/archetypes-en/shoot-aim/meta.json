@@ -18,9 +18,9 @@
     "Overly precise shooting weakens game rhythm: when players can easily hit all targets, the game loses tension and players may stop actively seeking dodge or strategy."
   ],
   "learningGoals": [
-    "Understand how hit feedback creates satisfying moments.",
-    "Master how fire rate, spread, and recoil shape gameplay difficulty.",
-    "Be able to design clear projectile trajectories, hit detection, and occlusion rules."
+    "Beginner: understand the minimal loop — aim → fire → hit judgment → feedback → cooldown/reload — and reproduce one hit and one reload in the demo",
+    "Intermediate: write the trajectory and occlusion contract (hit judgment, spread model, ammo economy) and shape handling difficulty with fire rate and recoil",
+    "Advanced: design target-spawn rhythm and pressure curves, and verify shooting feel with accuracy distribution and reload-timing distribution"
   ],
   "minimalRules": [
     "Aiming: mouse/joystick/touch pointing (minimum: fixed direction).",
@@ -68,5 +68,16 @@
       "action": "Fire only once every 3 ticks (click \"Advance 1 Step\" three times, then \"Fire (primary)\"), and after 20 steps compare accuracy with experiment one",
       "observe": "Disciplined fire scores markedly higher accuracy than spraying — depth in a shooter comes from precision, not volume. That is why production designs punish mindless rapid fire with spread/recoil: perfect accuracy would kill the tension"
     }
+  ],
+  "intro": {
+    "what": "Aim at the target and fire — hits score, ammo is limited. Shooters, target-range games, and FPS titles are all built on this.",
+    "feel": "The reticle settles on a target, you squeeze the trigger, and the hit feedback bursts; when the mag runs dry you scramble to reload — lose the rhythm for a second and targets pile up into a mountain.",
+    "why": "\"How juice gets manufactured\" is nowhere more visible than in shooting — hit feedback, ammo constraints, and risk-reward are required courses in feedback design."
+  },
+  "concept": "Shooting play is an extremely short reward loop: aim, fire, hit judgment, feedback burst — every trigger pull is an evaluable micro-decision. The hard part is not the hit — it is the explainability of constraints: ammo and cooldowns turn infinite output into rhythm management, while spread and recoil turn \"firing a lot\" into \"firing well.\" A gun \"feels good in the hand\" when the reason behind every hit and every miss is clearly visible.",
+  "designNotes": [
+    "Ammo is a pacing valve, not resource packaging: the reload window forcibly interrupts the output beat — too much ammo and mindless spraying kills tension, too little and combos break constantly. Mag size is the heartbeat rate of a shooter.",
+    "Spraying must be punished (counterintuitively punishing high-frequency play): empty shots cost accuracy, spread punishes rapid fire — spraying without a price destroys the value of precision. Shooting depth comes from restraint, not firepower.",
+    "Weak hit feedback is shooting at air: knockback, sound, and the instant score burst ARE the juice — no matter how accurate the judgment is, muted feedback never lets players feel their own skill."
   ]
 }

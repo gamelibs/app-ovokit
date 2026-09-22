@@ -16,9 +16,9 @@
     "Give players clear intervention levers (parameters/strategies/resources) so adjustments are effective."
   ],
   "learningGoals": [
-    "Understand how core variables and causal chains drive outcomes.",
-    "Master explainability: let players know why things happen.",
-    "Be able to design controllable emergent behavior, avoiding runaway and boredom."
+    "Beginner: understand the simulation loop — set variables → system evolves → observe metrics → adjust — and reproduce one parameter intervention in the demo",
+    "Intermediate: write the variable and causal-chain contract (update rules, propagation delays, boundary conditions), and tune the feedback-period length",
+    "Advanced: design steady states and collapse boundaries (explainable emergence), and verify system vitality with metric variance, collapse rate, and intervention effectiveness"
   ],
   "minimalRules": [
     "Variables: 2–4 key variables (minimum 2).",
@@ -65,5 +65,16 @@
       "action": "Push the tax rate to 0.6 and \"Advance 1 Step\" for 20 straight days",
       "observe": "happiness collapses → pop drains → tax revenue actually falls — a Laffer-curve counterintuitive: maximum rate ≠ maximum revenue. Emergent collapse is the core teaching moment of simulation play: when causal chains are observable, collapse becomes explainable"
     }
+  ],
+  "intro": {
+    "what": "Set the rule parameters and watch a little world run itself — management sims, city builders, and The Sims are built on this.",
+    "feel": "You nudge the tax rate; the next day money is up but the people are unhappy; nudge it again and the population starts draining — every knob pulls the whole web, and watching the system react is more addictive than direct control.",
+    "why": "A training ground for \"systems thinking\" — causal chains, emergence, and steady states, all mystical-sounding concepts you can actually touch here."
+  },
+  "concept": "Simulation play lets the rules tell the story themselves: players do not operate outcomes directly — they adjust variables and watch causal chains propagate into emergent behavior. The hard part is not the variable count — it is explainability and steady states: too many variables and causality becomes unreadable, too few and the system lacks depth, and both runaway collapse and stagnant boredom are simulation failures. Players say \"this system is fascinating\" because every adjustment can be explained by its causal chain.",
+  "designNotes": [
+    "Propagation delay is the source of depth: a tax change hits money instantly, happiness slowly, and population last — the time lag of one lever moving several metrics is what gives a system its \"feel.\"",
+    "Extreme parameters must collapse: zero tax starves the treasury, full tax drives everyone away — a system that dies at both ends has a middle steady state worth hunting; if every setting is \"fine,\" the simulation has nothing to explore.",
+    "Constraints spark emergence (counterintuitive): with parameters fenced in, players actively explore edge states hunting for fine-tuning points — give them boundless freedom and they get bored fast."
   ]
 }
