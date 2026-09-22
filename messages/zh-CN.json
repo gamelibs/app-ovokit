@@ -207,6 +207,10 @@
     "scrollRight": "向右滚动查看更多",
     "demoLab": "实验指导：把 demo 当实验室",
     "demoLabAction": "操作：",
-    "demoLabObserve": "观察："
+    "demoLabObserve": "观察：",
+    "introWhat": "这是什么",
+    "introFeel": "玩起来",
+    "introWhy": "为什么值得了解",
+    "designNotes": "设计要点"
   }
 }

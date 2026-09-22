@@ -207,6 +207,10 @@
     "scrollRight": "Scroll right for more",
     "demoLab": "Lab Guide: treat the demo as an experiment",
     "demoLabAction": "Do: ",
-    "demoLabObserve": "Observe: "
+    "demoLabObserve": "Observe: ",
+    "introWhat": "What is it",
+    "introFeel": "How it plays",
+    "introWhy": "Why learn it",
+    "designNotes": "Design Notes"
   }
 }

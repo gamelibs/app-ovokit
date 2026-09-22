@@ -1,7 +1,7 @@
 import type { PlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import { getPatternsForArchetype, isPlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import { inferArchetypeFromTags } from "@/lib/archetypes/tag-map";
-import { readArchetypeSpec, type ArchetypeDemoLabCard } from "@/lib/archetypes/spec";
+import { readArchetypeSpec, type ArchetypeDemoLabCard, type ArchetypeIntro } from "@/lib/archetypes/spec";
 import { listPlays } from "@/lib/content/plays";
 
 export type ArchetypeComboCard = {
@@ -37,6 +37,12 @@ export type ArchetypePageModel = {
   patternKeys: string[];
   /** 归属本母型的案例文章（显式 meta.archetype 优先，tag 推断兜底） */
   relatedPlays: ArchetypeRelatedPlay[];
+  /** 导语（快速认识三小段）；缺省 null 不渲染 */
+  intro: ArchetypeIntro | null;
+  /** 概念本质正文段；缺省空串不渲染 */
+  concept: string;
+  /** 设计要点；缺省空数组不渲染 */
+  designNotes: string[];
   /** en 请求回退中文内容时标记 true（页面据此展示「暂未翻译」提示） */
   untranslated?: boolean;
 };
@@ -78,6 +84,9 @@ export async function getArchetypePageModel(
       advancedAlgoRefs: [],
       patternKeys: getPatternsForArchetype(key),
       relatedPlays,
+      intro: null,
+      concept: "",
+      designNotes: [],
     };
   }
   return {
@@ -100,6 +109,9 @@ export async function getArchetypePageModel(
     advancedAlgoRefs: spec.advancedAlgoRefs,
     patternKeys: getPatternsForArchetype(key),
     relatedPlays,
+    intro: spec.intro ?? null,
+    concept: spec.concept ?? "",
+    designNotes: spec.designNotes ?? [],
     untranslated: spec.untranslated,
   };
 }

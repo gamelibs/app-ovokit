@@ -12,6 +12,12 @@ const comboSchema = z.object({
   href: z.string().optional(),
 });
 
+const introSchema = z.object({
+  what: z.string(),
+  feel: z.string(),
+  why: z.string(),
+});
+
 const demoLabSchema = z.object({
   title: z.string(),
   action: z.string(),
@@ -27,6 +33,9 @@ const archetypeSchema = z.object({
   difficulty: z.string(),
   demoRuleHint: z.string(),
   demoLab: z.array(demoLabSchema).optional(),
+  intro: introSchema.optional(),
+  concept: z.string().optional(),
+  designNotes: z.array(z.string()).optional(),
   problemsSolved: z.array(z.string()),
   learningGoals: z.array(z.string()),
   minimalRules: z.array(z.string()),

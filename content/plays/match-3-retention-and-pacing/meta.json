@@ -68,5 +68,6 @@
     "alt": "Match-3：用消除规则驱动留存与节奏"
   },
   "published": true,
-  "pattern": "spatial"
+  "pattern": "spatial",
+  "archetype": "match-clear"
 }

@@ -84,6 +84,27 @@ export function ArchetypePage({
               />
             </div>
             <p className="mt-2 text-sm text-ink-light">{model.subtitle}</p>
+            {model.intro ? (
+              <div className="mt-3 sketch-border bg-paper-warm/60 p-3">
+                <div className="grid gap-2.5">
+                  {(
+                    [
+                      ["introWhat", model.intro.what],
+                      ["introFeel", model.intro.feel],
+                      ["introWhy", model.intro.why],
+                    ] as const
+                  ).map(([key, text]) => (
+                    <div key={key}>
+                      <div className="font-kalam text-xs font-semibold text-ink-muted">{t(key)}</div>
+                      <p className="mt-0.5 text-sm leading-relaxed text-ink-light">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {model.concept ? (
+              <p className="mt-3 text-sm leading-7 text-ink-light">{model.concept}</p>
+            ) : null}
             <div className="mt-3 grid gap-2 sketch-card p-3 text-sm text-ink-light">
               <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
                 <div className="text-xs font-semibold text-ink-muted font-kalam">{t("playBehavior")}</div>
@@ -257,6 +278,18 @@ export function ArchetypePage({
               <div className="mt-2 text-ink-light">{model.systemLoopHint}</div>
             </div>
           </div>
+          {model.designNotes.length > 0 ? (
+            <div className="mt-3">
+              <div className="text-xs font-semibold text-ink-muted font-kalam">{t("designNotes")}</div>
+              <div className="mt-2 grid gap-2 lg:grid-cols-3">
+                {model.designNotes.map((note, i) => (
+                  <div key={i} className="sketch-border bg-paper-warm/60 sketch-shadow-sm p-3 text-sm leading-relaxed text-ink-light">
+                    {note}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
       </SectionShell>
 

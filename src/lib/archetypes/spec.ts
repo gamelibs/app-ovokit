@@ -18,6 +18,15 @@ export type ArchetypeDemoLabCard = {
   observe: string;
 };
 
+export type ArchetypeIntro = {
+  /** 这是什么（一句话定义 + 知名案例） */
+  what: string;
+  /** 玩起来（操作与核心反馈） */
+  feel: string;
+  /** 为什么值得了解（设计价值） */
+  why: string;
+};
+
 export type ArchetypeSpec = {
   key: PlayArchetypeKey;
   name: string;
@@ -35,6 +44,12 @@ export type ArchetypeSpec = {
   combos: ArchetypeComboCardSpec[];
   advancedWarnings: string[];
   advancedAlgoRefs: string[];
+  /** 导语（快速认识三小段）；缺省不渲染 */
+  intro?: ArchetypeIntro;
+  /** 概念本质正文段（导语卡后渲染）；缺省不渲染 */
+  concept?: string;
+  /** 设计要点（系统拆解区底部块）；缺省不渲染 */
+  designNotes?: string[];
   /** en 请求回退中文内容时标记 true（页面据此展示「暂未翻译」提示） */
   untranslated?: boolean;
 };

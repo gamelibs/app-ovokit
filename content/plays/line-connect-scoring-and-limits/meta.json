@@ -56,5 +56,6 @@
     "alt": "连线消除：爽点来自分数曲线与限制策略"
   },
   "demo": {},
-  "pattern": "spatial"
+  "pattern": "spatial",
+  "archetype": "match-clear"
 }
