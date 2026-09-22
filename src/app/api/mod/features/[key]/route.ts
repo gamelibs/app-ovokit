@@ -6,6 +6,12 @@ import { isModerator } from "@/lib/mod/auth";
 import { isFeatureKey } from "@/lib/features/features";
 import { readFeatureSpec } from "@/lib/features/spec";
 
+const introSchema = z.object({
+  what: z.string(),
+  feel: z.string(),
+  why: z.string(),
+});
+
 const comboSchema = z.object({
   formula: z.string(),
   effect: z.string(),
@@ -25,6 +31,7 @@ const featureSchema = z.object({
   problemsSolved: z.array(z.string()),
   learningGoals: z.array(z.string()),
   minimalRules: z.array(z.string()),
+  intro: introSchema.optional(),
   combos: z.array(comboSchema),
   advancedWarnings: z.array(z.string()),
   advancedAlgoRefs: z.array(z.string()),

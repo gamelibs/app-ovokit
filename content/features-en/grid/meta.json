@@ -62,5 +62,10 @@
     "2D array traversal and coordinate conversion",
     "Connected component detection (BFS/DFS)",
     "Board state evaluation and heuristic search"
-  ]
+  ],
+  "intro": {
+    "what": "Cut the game world into neat cells and let every action happen on them — Tetris, 2048, and Candy Crush all play inside a grid.",
+    "feel": "The grid makes everything crystal clear: what can move and what cannot is obvious at a glance; you never fumble a shaky tap, you just think for the optimal move.",
+    "why": "This is the universal structure for lowering the skill floor — discretizing a continuous world into cells makes precise operation possible even on tiny touchscreens."
+  }
 }

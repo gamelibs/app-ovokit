@@ -59,5 +59,10 @@
     "Anti‑cheat time validation",
     "Example of offline earnings calculation",
     "Analysis of accelerator multiplier and cap compatibility"
-  ]
+  ],
+  "intro": {
+    "what": "It works for you while the game is closed — come back and collect. AdVenture Capitalist and Idle Jianghu are both built on this.",
+    "feel": "Set up the production line before bed, wake to overflowing resources; you only plan and upgrade while time does the labor — relaxing, yet you keep wanting to check in.",
+    "why": "It answers \"how does the game continue while the player is offline\" — offline production and return rewards are the most important retention structures of the fragmented-attention era."
+  }
 }

@@ -50,5 +50,10 @@
     "Procedural dungeon generation and room graphs",
     "Relic/card pool design and fallback mechanisms",
     "Difficulty curve and player win-rate balancing"
-  ]
+  ],
+  "intro": {
+    "what": "Every run generates a random map; death sends you back to the start, but you come back stronger — Hades, Slay the Spire, and The Binding of Isaac are the canonical works.",
+    "feel": "Every run is brand new: random rooms, random treasures; death stops being scary because you return with experience — \"one more run\" is its mantra.",
+    "why": "It solves the ultimate content-consumption problem — randomized combinations turn finite content into nearly infinite replay value."
+  }
 }

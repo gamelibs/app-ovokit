@@ -53,5 +53,10 @@
     "Level difficulty assessment and dynamic adjustment",
     "Procedural level generation",
     "Player performance analysis and level recommendation"
-  ]
+  ],
+  "intro": {
+    "what": "The game is sliced into stages, and clearing one unlocks the next — Super Mario, Angry Birds, and Candy Crush Saga all advance this way.",
+    "feel": "Each level is a self-contained little challenge: start, try, clear, watch the stars settle; \"just one more level before bed\" is its most famous spell.",
+    "why": "This is the skeleton of content progression — difficulty ramps, teaching rhythm, and achievement settlement all ride on the level structure."
+  }
 }

@@ -59,5 +59,10 @@
     "Balancing automated and manual click rewards",
     "Design of critical hit / combo probabilities",
     "Combo determination algorithm details: use fixed time windows and click counts to calculate combo multipliers"
-  ]
+  ],
+  "intro": {
+    "what": "Tap once, gain a little; tap again, gain again — Cookie Clicker and Tap Titans built empires on that single tap.",
+    "feel": "Your finger keeps poking the screen as numbers visibly jump; inflating from \"+1\" to \"+1000\" makes even the most monotonous action feel good.",
+    "why": "This is the textbook of the smallest interaction unit — nail the feedback of a single tap, and the feel of the whole game has its starting point."
+  }
 }

@@ -30,7 +30,11 @@ export type CorePatternCombo = {
   href?: string;
 };
 
+import type { ArchetypeIntro } from "../archetypes/spec";
+
 export type CorePatternMeta = {
+  /** 导语（快速认识三小段）；缺省不渲染 */
+  intro?: ArchetypeIntro;
   key: CorePatternKey;
   name: string;
   nameEn: string;

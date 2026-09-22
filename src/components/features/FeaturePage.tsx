@@ -86,6 +86,24 @@ export function FeaturePage({
               />
             </div>
             <p className="mt-2 text-sm text-ink-light">{spec.subtitle}</p>
+            {spec.intro ? (
+              <div className="mt-3 sketch-border bg-paper-warm/60 p-3">
+                <div className="grid gap-2.5">
+                  {(
+                    [
+                      ["introWhat", spec.intro.what],
+                      ["introFeel", spec.intro.feel],
+                      ["introWhy", spec.intro.why],
+                    ] as const
+                  ).map(([key, text]) => (
+                    <div key={key}>
+                      <div className="font-kalam text-xs font-semibold text-ink-muted">{t(key)}</div>
+                      <p className="mt-0.5 text-sm leading-relaxed text-ink-light">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           <div className="mt-3 grid gap-2 sketch-card p-3 text-sm text-ink-light">
             <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
               <div className="text-xs font-semibold text-ink-muted font-kalam">{t("filterTags")}</div>

@@ -62,5 +62,10 @@
     "Design of exponential/polynomial cost and production curves",
     "Random drop tables and pseudo‑random distributions (guarantees, pools)",
     "Offline progress calculation and state synchronization"
-  ]
+  ],
+  "intro": {
+    "what": "Combine two identical things into a stronger one, again and again — the fruits of Suika Game, the dragon eggs of Merge Dragons, and the villages of Triple Town all hook players this way.",
+    "feel": "You hoard low-tier units, merge a pair the moment they match, and watch output numbers double; \"just one more merge and I’ll stop\" — and then the sun comes up.",
+    "why": "This is the engine of idle and progression economies — the self-reinforcing \"merge → better output\" loop is the most valuable structure to learn for long-term retention."
+  }
 }

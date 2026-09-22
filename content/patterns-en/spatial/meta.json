@@ -61,5 +61,10 @@
     "2D array / graph representation with BFS/DFS traversal.",
     "Connected‑component detection and shape matching.",
     "Backtracking / constraint‑satisfaction problem (CSP) solving."
-  ]
+  ],
+  "intro": {
+    "what": "Read the board, think it through, then make your move — Tetris, 2048, and Klotski are all built on this.",
+    "feel": "You are in no hurry: you run a few moves in your head first; after each placement the board reshapes itself, and an even cleverer solution appears — every move is quiet mental gymnastics.",
+    "why": "This is the skeleton of all board and layout play — once \"state → rule → new state\" clicks, puzzle and strategy games all fall into place."
+  }
 }

@@ -54,5 +54,10 @@
     "Exponential / polynomial cost and output curves",
     "Random drop tables and pseudo‑random distributions",
     "Offline progress calculation"
-  ]
+  ],
+  "intro": {
+    "what": "Two of a kind fuse into a stronger form — the fruits of Suika Game and the dragon eggs of Merge Dragons both play this way.",
+    "feel": "The moment you spot two identical things, you want to bring them together; the merge itself is oddly satisfying, and you immediately start hunting for the next pair.",
+    "why": "This is a stackable progression dimension — bolt it onto any gameplay and a growth line appears instantly; a model case of mechanic reuse."
+  }
 }
