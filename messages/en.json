@@ -49,7 +49,9 @@
     "complexityLegendTitle": "How we rate complexity",
     "complexityBeginner": "Beginner: the core mechanic fits in ~100 lines; single state machine; no AI, no engine dependencies",
     "complexityAdvanced": "Advanced: multiple cooperating systems — AI opponents, generation algorithms, numeric curves, engine tuning",
-    "complexityHardcore": "Hardcore: architecture-level design — many entities, state sync, emergent systems, performance engineering"
+    "complexityHardcore": "Hardcore: architecture-level design — many entities, state sync, emergent systems, performance engineering",
+    "all": "All",
+    "legendToggle": "How we rate"
   },
   "home": {
     "heroTitleA": "Discover Gameplay",

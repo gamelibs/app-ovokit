@@ -49,7 +49,9 @@
     "complexityLegendTitle": "实现复杂度怎么判？",
     "complexityBeginner": "入门 Beginner：核心机制百行代码内可实现；单状态机；无 AI、无引擎依赖",
     "complexityAdvanced": "进阶 Advanced：需要多系统协作——AI 对手、生成算法、数值曲线、引擎调参",
-    "complexityHardcore": "硬核 Hardcore：架构级设计——大量实体、状态同步、涌现系统、性能工程"
+    "complexityHardcore": "硬核 Hardcore：架构级设计——大量实体、状态同步、涌现系统、性能工程",
+    "all": "全部",
+    "legendToggle": "级别定义"
   },
   "home": {
     "heroTitleA": "发现游戏玩法",

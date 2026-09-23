@@ -2,7 +2,8 @@ import { BrowseGroupTabs } from "@/components/plays/BrowseGroupTabs";
 import { CategoryTabs } from "@/components/plays/CategoryTabs";
 import { PlayCard } from "@/components/plays/PlayCard";
 import { RightSidebar } from "@/components/plays/RightSidebar";
-import { getPlayCategory, listPlays, listPlaySearchIndex, resolvePlayBrowseState, type ContentLocale, type PlayBrowseGroupKey, type PlayTag } from "@/lib/content/plays";
+import { ComplexityFilterBar } from "@/components/plays/ComplexityFilterBar";
+import { complexityTiers, getPlayCategory, listPlays, listPlaySearchIndex, playDifficultyTier, resolvePlayBrowseState, type ComplexityTierKey, type ContentLocale, type PlayBrowseGroupKey, type PlayTag } from "@/lib/content/plays";
 import { filterPlaysBySearchResults, POPULAR_SEARCH_TERMS, searchPlayDocs, sortPlaysBySearchResults } from "@/lib/search/match";
 import { HandDrawnHero } from "@/components/home/HandDrawnHero";
 import { HotPlaysSection } from "@/components/home/HotPlaysSection";
@@ -52,6 +53,7 @@ export default async function Home({
     q?: string | string[];
     cat?: string | string[];
     group?: string | string[];
+    tier?: string | string[];
     page?: string | string[];
     all?: string | string[];
   }>;
@@ -71,6 +73,11 @@ export default async function Home({
   const rawGroupKey = normalizeQueryParam(sp.group);
   const page = Math.max(1, Number.parseInt(normalizeQueryParam(sp.page) ?? "1", 10) || 1);
   const showAll = normalizeQueryParam(sp.all) === "1";
+  // 实现复杂度横切筛选（与浏览组正交）：tier=beginner|advanced|hardcore，非法值忽略
+  const rawTier = normalizeQueryParam(sp.tier);
+  const tier: ComplexityTierKey | null = complexityTiers.some((t) => t.key === rawTier)
+    ? (rawTier as ComplexityTierKey)
+    : null;
   const pageSize = 12;
 
   const [plays, searchDocs] = await Promise.all([
@@ -89,7 +96,6 @@ export default async function Home({
   const catKey = browseState.cat;
   const selectedCategory = getPlayCategory(browseGroup, catKey);
   const selectedTags = selectedCategory?.filterTags ?? null;
-  const selectedDifficulty = selectedCategory?.filterDifficulty ?? null;
   const selectedPattern = selectedCategory?.filterPattern ?? null;
 
   let filtered = plays.filter((p) => {
@@ -99,7 +105,8 @@ export default async function Home({
     if (selectedTags && !selectedTags.some((t) => p.tags.includes(t as PlayTag))) {
       return false;
     }
-    if (selectedDifficulty && p.difficulty !== selectedDifficulty) {
+    // 实现复杂度横切筛选：zh/en 存量值统一映射三档 key 后比较
+    if (tier && playDifficultyTier(p.difficulty) !== tier) {
       return false;
     }
     return true;
@@ -127,6 +134,7 @@ export default async function Home({
         ...(browseGroup ? { group: browseGroup } : {}),
         ...(catKey === "for-you" ? {} : { cat: catKey }),
         all: "1",
+        ...(tier ? { tier } : {}),
         ...(nextPage <= 1 ? {} : { page: String(nextPage) }),
       },
     };
@@ -134,7 +142,6 @@ export default async function Home({
 
   const featured = plays.slice(0, 8);
   const canEdit = await isModerator();
-  const tb = await getTranslations("browseGroups");
 
   if (isDefaultLanding) {
     return (
@@ -183,19 +190,9 @@ export default async function Home({
   return (
     <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
       <BrowseGroupTabs selectedGroup={browseGroup} q={q || undefined} />
-      <CategoryTabs group={browseGroup} selectedKey={catKey} q={q || undefined} showAll />
-
-      {/* 实现复杂度组：三级锚点定义说明卡（读者可查判定标准） */}
-      {browseGroup === "difficulty" ? (
-        <div className="mt-3 sketch-border bg-paper-warm/60 p-3">
-          <div className="font-kalam text-xs font-semibold text-ink-muted">{tb("complexityLegendTitle")}</div>
-          <ul className="mt-2 space-y-1 text-sm leading-relaxed text-ink-light">
-            <li>· {tb("complexityBeginner")}</li>
-            <li>· {tb("complexityAdvanced")}</li>
-            <li>· {tb("complexityHardcore")}</li>
-          </ul>
-        </div>
-      ) : null}
+      <CategoryTabs group={browseGroup} selectedKey={catKey} q={q || undefined} showAll tier={tier} />
+      {/* 实现复杂度横切筛选条（叠加生效；三级锚点说明在其右端开关内） */}
+      <ComplexityFilterBar group={browseGroup} cat={catKey} q={q || undefined} tier={tier} />
 
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_360px] lg:items-start">
         <section className="grid grid-cols-2 gap-4 2xl:grid-cols-3">

@@ -1,5 +1,6 @@
 import {
   getPlayCategoriesForGroupAsync,
+  type ComplexityTierKey,
   type PlayBrowseGroupKey,
 } from "@/lib/content/plays";
 import { Link } from "@/i18n/navigation";
@@ -17,11 +18,14 @@ export async function CategoryTabs({
   selectedKey,
   q,
   showAll,
+  tier,
 }: {
   group: PlayBrowseGroupKey;
   selectedKey?: string;
   q?: string;
   showAll?: boolean;
+  /** 实现复杂度筛选：切换分类时保留 */
+  tier?: ComplexityTierKey | null;
 }) {
   const locale = await getLocale();
   const categories = await getPlayCategoriesForGroupAsync(group, locale);
@@ -37,6 +41,7 @@ export async function CategoryTabs({
               group,
               ...(showAll ? { all: "1" } : {}),
               ...(c.key === "for-you" ? {} : { cat: c.key }),
+              ...(tier ? { tier } : {}),
             },
           }}
           className={pillClass(

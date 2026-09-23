@@ -200,13 +200,42 @@ export type PlayCategory = {
   filterPattern?: CorePatternKey;
 };
 
-export type PlayBrowseGroupKey = "archetype" | "pattern" | "feature" | "difficulty";
+export type PlayBrowseGroupKey = "archetype" | "pattern" | "feature";
+
+/** 实现复杂度三档（横切筛选器，与浏览组正交； taxonomy complexityTier 层对齐） */
+export type ComplexityTierKey = "beginner" | "advanced" | "hardcore";
+export const complexityTiers: ReadonlyArray<{
+  key: ComplexityTierKey;
+  label: string;
+  filterDifficulty: PlayDifficulty;
+}> = [
+  { key: "beginner", label: "入门", filterDifficulty: "入门" },
+  { key: "advanced", label: "进阶", filterDifficulty: "进阶" },
+  { key: "hardcore", label: "硬核", filterDifficulty: "硬核" },
+];
+
+/** play.difficulty（zh/en 存量值）→ 三档 key；en 侧 Intermediate 为历史遗留口径，兼容读入 */
+export function playDifficultyTier(value: string | undefined | null): ComplexityTierKey | null {
+  switch (value) {
+    case "入门":
+    case "Beginner":
+      return "beginner";
+    case "进阶":
+    case "Advanced":
+    case "Intermediate":
+      return "advanced";
+    case "硬核":
+    case "Hardcore":
+      return "hardcore";
+    default:
+      return null;
+  }
+}
 
 export const playBrowseGroups: ReadonlyArray<{ key: PlayBrowseGroupKey; label: string }> = [
   { key: "archetype", label: "玩法行为" },
   { key: "pattern", label: "核心循环" },
   { key: "feature", label: "玩法特征" },
-  { key: "difficulty", label: "实现复杂度" },
 ];
 
 const forYouCategory: PlayCategory = { key: "for-you", label: "推荐" };
@@ -234,12 +263,6 @@ const featureCategories: PlayCategory[] = featureKeys.map((key) => ({
   filterTags: fallbackFeatureByKey[key].filterTags as PlayTag[],
 }));
 
-const difficultyCategories: PlayCategory[] = [
-  { key: "beginner", label: "入门", filterDifficulty: "入门" },
-  { key: "advanced", label: "进阶", filterDifficulty: "进阶" },
-  { key: "hardcore", label: "硬核", filterDifficulty: "硬核" },
-];
-
 const patternCategories: PlayCategory[] = corePatternKeys.map((key) => ({
   key,
   label: fallbackCorePatternByKey[key].name,
@@ -250,24 +273,17 @@ const categoriesByGroup: Record<PlayBrowseGroupKey, PlayCategory[]> = {
   archetype: archetypeCategories,
   pattern: patternCategories,
   feature: featureCategories,
-  difficulty: difficultyCategories,
 };
 
 export function isPlayBrowseGroupKey(v: string | undefined): v is PlayBrowseGroupKey {
-  return v === "archetype" || v === "pattern" || v === "feature" || v === "difficulty";
+  return v === "archetype" || v === "pattern" || v === "feature";
 }
 
 export function getPlayCategoriesForGroup(group: PlayBrowseGroupKey, locale: string = "zh-CN"): PlayCategory[] {
   const localize = (c: PlayCategory): PlayCategory => ({
     ...c,
-    label: c.key === "for-you" && group === "difficulty"
-      ? (locale === "en" ? "All" : c.label)
-      : localizeTag(c.label, locale),
+    label: localizeTag(c.label, locale),
   });
-  // 难度层级组不放「推荐」（推荐是策展标记，不是难度）：用「全部」代替
-  if (group === "difficulty") {
-    return [{ key: "for-you", label: "全部" }, ...categoriesByGroup[group]].map(localize);
-  }
   return [forYouCategory, ...categoriesByGroup[group]].map(localize);
 }
 
