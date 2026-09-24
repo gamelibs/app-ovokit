@@ -80,5 +80,10 @@
     "The pull comes from the exponential curve, not the reward count: doubling output per tier means the next tier is always worth chasing — but too steep and the late game feels unreachable, too flat and the goal dilutes. Where you cap the curve is the switch for the game’s lifespan.",
     "Low-tier units are worth more than high-tier ones (counterintuitive): early output rides on a broad base of cheap units, and rushing tiers starves your own production — good merge design lets players discover \"build the base first, then climb\" on their own.",
     "A full grid is not a punishment; it is a pacing valve: force-consuming low-tier units to free space looks like a penalty but is actually the fuse that prevents board deadlock — it turns \"space management\" from a background rule into an explicit every-move decision."
-  ]
+  ],
+  "value": {
+    "player": "Merging feeds the twin instincts of collecting and growing stronger: low-tier units are visible savings, and every merge is a certain upgrade — the goal chain is always clear, and the next tier is always beckoning.",
+    "ecosystem": "Merge is a dual winner of retention and monetization in casual games: the goal chain natively supports content expansion (a new tier IS new content), and grid pressure interlocks cleanly with stamina and booster monetization — proven repeatedly from Merge Dragons to Suika Game.",
+    "transfer": "Learn merging and you learn exponential pull-curve design — escalating output, cap placement, feed pacing — a numeric structure that holds just as well in idle games and card collection."
+  }
 }

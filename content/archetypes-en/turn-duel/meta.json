@@ -80,5 +80,10 @@
     "AI strength is not a difficulty knob — it is a teaching path: random AI is a legality sandbox, blocking AI teaches defensive priorities, mate-search AI exposes long-term consequences. Put all three side by side and players pick the teacher they need right now.",
     "Draws are first-class adjudication: a full board with no winner must close explicitly, or the match never ends — the most commonly omitted entry in a minimal ruleset is exactly this one.",
     "Action limits trade rhythm for depth: one action per turn keeps pace snappy but caps depth; allowing combos explodes the strategy space but bloats match length — the limit is not laziness, it is what gives the duel its shape."
-  ]
+  ],
+  "value": {
+    "player": "Turn-based dueling satisfies the oldest intellectual competitiveness: no excuses about reflexes — the outcome lives entirely in your head. Losing feels fair; winning feels earned.",
+    "ecosystem": "Turn-based opposition is the origin form of competitive socializing: the rules ARE the social protocol, and a board is a face-to-face connection that needs no network. From board games to card battlers, it remains the ecological bedrock of adversarial play — and the oldest testing ground for AI opponent design.",
+    "transfer": "Learn turn-based duels and you learn discrete decision-point design — turn rights, legality, adjudication closure — a skeleton that extends directly to tactics games, deck-builders, and even asynchronous social duels."
+  }
 }

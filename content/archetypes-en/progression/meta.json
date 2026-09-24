@@ -78,5 +78,10 @@
     "Failure must pay a guaranteed floor: loss-streak compensation turns \"pure pain\" into \"controlled progression\" — the streak counter is not pity; it ensures frustration never leaves empty-handed.",
     "Meta growth must decouple from per-run skill: a shallow run still grows meta power — in-run failure never blocks out-of-run growth. That is the only escape from the \"pure grind or pure pain\" trap.",
     "Milestones are lighthouses bolted onto the curve: a long curve without staged goals makes progress meaningless — every threshold must hang a visible reward or new mechanic, or the numbers just spin in place."
-  ]
+  ],
+  "value": {
+    "player": "Progression gives players the certainty that time spent is time banked: even a loss makes you stronger, so no run is ever wasted.",
+    "ecosystem": "Meta-progression is the core engine of retention economics: guaranteed payouts keep frustration from churning players, milestone unlocks spread content consumption across long-term goals, and the cost curve plus stamina economy directly set the LTV ceiling of a long-running title — the commercial miracles of roguelikes and idle games are mostly built on this structure.",
+    "transfer": "Learn progression design and you learn to assetize player time: cost curves, pity compensation, threshold unlocks — a structure that ports to anything that needs retention, from battle passes to learning apps."
+  }
 }

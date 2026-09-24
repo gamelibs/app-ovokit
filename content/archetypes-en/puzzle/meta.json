@@ -79,5 +79,10 @@
     "Hints trade abandonment rate for resource spend: graded hints let players \"buy back their sense of achievement\" — the hint budget turns a stuck moment from a churn point into a decision point.",
     "Difficulty is not hiding deeper — it is chaining longer: a long reasoning chain with per-step verification beats a \"well-hidden answer,\" because the former gives progress while the latter only invites guessing.",
     "Slightly missing clues spark exploration (counterintuitive): when information runs a little scarce, players voluntarily try multiple strategies — but only if every step’s feedback is honest; otherwise scarcity becomes deception."
-  ]
+  ],
+  "value": {
+    "player": "Puzzles sell the \"aha\" moment: information is deliberately withheld and the player completes it with their own reasoning — an achievement that cannot be lucked into, and is precious for exactly that reason. The agony of being stuck and the joy of insight are carefully rationed by the designer into a unique intellectual high.",
+    "ecosystem": "Puzzle is a word-of-mouth long-tail category: costs are controllable, content production IS level design, and a small team with brilliant levels can build a brand (Monument Valley, Baba Is You).",
+    "transfer": "Learn puzzles and you learn the rhythm of information disclosure — what to hide, when to hint, how to let players walk to the answer themselves — a craft that transfers to tutorial design, narrative guidance, and even product onboarding."
+  }
 }

@@ -1,7 +1,7 @@
 import type { PlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import { getPatternsForArchetype, isPlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import { inferArchetypeFromTags } from "@/lib/archetypes/tag-map";
-import { readArchetypeSpec, type ArchetypeDemoLabCard, type ArchetypeIntro } from "@/lib/archetypes/spec";
+import { readArchetypeSpec, type ArchetypeDemoLabCard, type ArchetypeIntro, type ArchetypeValueNotes } from "@/lib/archetypes/spec";
 import { listPlays } from "@/lib/content/plays";
 
 export type ArchetypeComboCard = {
@@ -43,6 +43,8 @@ export type ArchetypePageModel = {
   concept: string;
   /** 设计要点；缺省空数组不渲染 */
   designNotes: string[];
+  /** 玩法价值三维；缺省 null 不渲染 */
+  value: ArchetypeValueNotes | null;
   /** en 请求回退中文内容时标记 true（页面据此展示「暂未翻译」提示） */
   untranslated?: boolean;
 };
@@ -87,6 +89,7 @@ export async function getArchetypePageModel(
       intro: null,
       concept: "",
       designNotes: [],
+      value: null,
     };
   }
   return {
@@ -112,6 +115,7 @@ export async function getArchetypePageModel(
     intro: spec.intro ?? null,
     concept: spec.concept ?? "",
     designNotes: spec.designNotes ?? [],
+    value: spec.value ?? null,
     untranslated: spec.untranslated,
   };
 }

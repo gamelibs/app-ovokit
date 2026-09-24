@@ -27,6 +27,15 @@ export type ArchetypeIntro = {
   why: string;
 };
 
+export type ArchetypeValueNotes = {
+  /** 玩家价值：心理机制（为什么好玩） */
+  player: string;
+  /** 生态价值：品类/商业/生态位（为什么值得做） */
+  ecosystem: string;
+  /** 迁移价值：学会带走什么（可迁移能力） */
+  transfer: string;
+};
+
 export type ArchetypeSpec = {
   key: PlayArchetypeKey;
   name: string;
@@ -50,6 +59,8 @@ export type ArchetypeSpec = {
   concept?: string;
   /** 设计要点（系统拆解区底部块）；缺省不渲染 */
   designNotes?: string[];
+  /** 玩法价值三维（玩家/生态/迁移）；缺省不渲染 */
+  value?: ArchetypeValueNotes;
   /** en 请求回退中文内容时标记 true（页面据此展示「暂未翻译」提示） */
   untranslated?: boolean;
 };

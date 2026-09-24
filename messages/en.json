@@ -217,6 +217,10 @@
     "introWhat": "What is it",
     "introFeel": "How it plays",
     "introWhy": "Why learn it",
-    "designNotes": "Design Notes"
+    "designNotes": "Design Notes",
+    "valueTitle": "Why This Mechanic Matters",
+    "valuePlayer": "For Players",
+    "valueEcosystem": "For the Ecosystem",
+    "valueTransfer": "Transferable Craft"
   }
 }

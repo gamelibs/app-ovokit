@@ -79,5 +79,10 @@
     "Window width is a trade between retention and achievement: every +10ms raises beginner retention but lowers expert pride — so production rhythm games use progressive windows (wide first, then narrow) to keep both, rather than picking one fixed value.",
     "Moderate delay improves the groove (counterintuitive): instant feedback interrupts the beat flow, while delaying judgment to the beat boundary keeps players locked in — but audio-video desync is a death sentence, and \"delay\" must be strictly separated from \"misalignment.\"",
     "BPM and window are independent knobs: BPM sets decision frequency while the window sets strictness — \"dense & forgiving\" and \"sparse & strict\" are entirely different feels, and mixing them up pleases neither crowd."
-  ]
+  ],
+  "value": {
+    "player": "Timing play sells mastery itself: the judgment window quantifies skill into milliseconds, and players watch themselves climb from fumbling to flawless. The instant a Perfect lands, rhythm and nerves sync — a satisfaction few other feedbacks can match.",
+    "ecosystem": "Rhythm games hold one of the steadiest core communities in the industry: content expands per track, and the judgment feel is a moat competitors cannot copy.",
+    "transfer": "Learn timing and you learn feel engineering — judgment windows, feedback latency, audio-video sync at millisecond scale — fundamentals that fighting games, shooters, and even clickers cannot do without."
+  }
 }

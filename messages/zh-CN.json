@@ -217,6 +217,10 @@
     "introWhat": "这是什么",
     "introFeel": "玩起来",
     "introWhy": "为什么值得了解",
-    "designNotes": "设计要点"
+    "designNotes": "设计要点",
+    "valueTitle": "玩法价值",
+    "valuePlayer": "玩家价值",
+    "valueEcosystem": "生态价值",
+    "valueTransfer": "迁移价值"
   }
 }

@@ -78,5 +78,10 @@
     "Predictability beats realism: players do not need a perfect simulation — they need \"same input, same result.\" One random jitter destroys all confidence in fine control; determinism is the foundation of physics play.",
     "An action budget turns a sandbox into a puzzle: when cuts are limited, order itself becomes strategy — physics without a budget is a toy; physics with one is a game.",
     "High damping actually stops things faster (counterintuitive): players assume damping \"slows things down,\" but it really \"converges motion\" — feel parameters like this must be experimentally verifiable; whatever docs cannot explain, let players discover hands-on."
-  ]
+  ],
+  "value": {
+    "player": "Physics play rewards the player with the \"just as I predicted\" hit: when blocks topple exactly the way you imagined, it is a small proof of how the world works — a satisfaction found nowhere else.",
+    "ecosystem": "Physics puzzlers are a classic breakout niche for small teams: engines are off-the-shelf and levels are content — Angry Birds and Cut the Rope both proved its commercial viability.",
+    "transfer": "Learn physics play and you learn the hard craft of stability engineering: determinism of same-input-same-result, performance budgets, parameter feel tuning — core engineering literacy for any real-time system, and the most portable inner skill beyond physics itself."
+  }
 }

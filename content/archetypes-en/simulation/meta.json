@@ -76,5 +76,10 @@
     "Propagation delay is the source of depth: a tax change hits money instantly, happiness slowly, and population last — the time lag of one lever moving several metrics is what gives a system its \"feel.\"",
     "Extreme parameters must collapse: zero tax starves the treasury, full tax drives everyone away — a system that dies at both ends has a middle steady state worth hunting; if every setting is \"fine,\" the simulation has nothing to explore.",
     "Constraints spark emergence (counterintuitive): with parameters fenced in, players actively explore edge states hunting for fine-tuning points — give them boundless freedom and they get bored fast."
-  ]
+  ],
+  "value": {
+    "player": "Simulation satisfies the god-view urge for control: you play no one — you set the rules and watch a world grow itself. Understanding a system is more addictive than winning a fight.",
+    "ecosystem": "Simulation is a rare training ground for systems thinking: city builders and management sims let players experience causal chains and emergence hands-on in a safe sandbox — a capability that spills over into real-world decisions. That is also why it is the natural niche for educational and serious games.",
+    "transfer": "Learn simulation and you learn systems design with variables and feedback loops — update rules, propagation delays, steady-state boundaries — thinking that ports directly into economy systems, ecosystem balance, and even product growth models."
+  }
 }

@@ -105,6 +105,25 @@ export function ArchetypePage({
             {model.concept ? (
               <p className="mt-3 text-sm leading-7 text-ink-light">{model.concept}</p>
             ) : null}
+            {model.value ? (
+              <div className="mt-3 sketch-border bg-paper-warm/60 p-3">
+                <div className="font-kalam text-xs font-semibold text-ink-muted">{t("valueTitle")}</div>
+                <div className="mt-2 grid gap-2.5">
+                  {(
+                    [
+                      ["valuePlayer", model.value.player],
+                      ["valueEcosystem", model.value.ecosystem],
+                      ["valueTransfer", model.value.transfer],
+                    ] as const
+                  ).map(([key, text]) => (
+                    <div key={key}>
+                      <div className="font-kalam text-xs font-semibold text-ink-muted">{t(key)}</div>
+                      <p className="mt-0.5 text-sm leading-relaxed text-ink-light">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
             <div className="mt-3 grid gap-2 sketch-card p-3 text-sm text-ink-light">
               <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
                 <div className="text-xs font-semibold text-ink-muted font-kalam">{t("playBehavior")}</div>

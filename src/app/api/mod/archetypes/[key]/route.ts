@@ -18,6 +18,12 @@ const introSchema = z.object({
   why: z.string(),
 });
 
+const valueNotesSchema = z.object({
+  player: z.string(),
+  ecosystem: z.string(),
+  transfer: z.string(),
+});
+
 const demoLabSchema = z.object({
   title: z.string(),
   action: z.string(),
@@ -34,6 +40,7 @@ const archetypeSchema = z.object({
   demoRuleHint: z.string(),
   demoLab: z.array(demoLabSchema).optional(),
   intro: introSchema.optional(),
+  value: valueNotesSchema.optional(),
   concept: z.string().optional(),
   designNotes: z.array(z.string()).optional(),
   problemsSolved: z.array(z.string()),
