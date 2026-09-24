@@ -97,5 +97,10 @@
     "Juice comes from the curve, not the animation: chain score = base × multiplier^(chain−1), so the second chain is worth far more than the first — animation is just the packaging for that curve.",
     "Difficulty must come from readable boards: move budgets, blockers, and color count are all knobs, but the premise of any difficulty is that the player can see what went wrong. Silently removing legal moves in the backend is the cheapest difficulty — and the one that kills retention.",
     "A deadlock is not a failure; it is a teaching moment: detect it, hint a legal move, and reshuffle under constraints. These three decide whether a stuck player learns something or churns."
-  ]
+  ],
+  "value": {
+    "player": "Match-and-clear answers a primal appetite for closure — turning a messy board into order, one small, certain, instant win at a time. Its rules are readable at a glance and its feedback is immediate, which makes it one of the rare mechanics that works across all ages and cultures.",
+    "ecosystem": "Match-3 is one of the most proven monetization models in casual games: near-zero onboarding widens the top of the funnel, level-based structure supports endless content expansion, and move/stamina economies interlock cleanly with rewarded ads. Candy Crush's decade-long reign is no accident.",
+    "transfer": "Learn match-clear and you've learned the portable craft of feedback-curve design — reward multipliers, chain pacing, difficulty ramps — knobs you'll keep turning in numbers, combat, and idle games alike."
+  }
 }

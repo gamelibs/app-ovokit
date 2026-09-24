@@ -71,5 +71,10 @@
     "Speed does not change obstacle density — it changes evaluation cost: the same obstacle at 320px/s halves your reaction time. An acceleration curve is free difficulty progression at the price of a tame opening, so the early game must stand on obstacle composition, not speed.",
     "Shorter lead time can improve flow (counterintuitive, but bounded): compressing the warning drops players into pure-instinct flow — past the threshold it degrades into \"dead before you see it.\" Good runners park lead time at the edge of \"just barely readable.\"",
     "Failure must blame the choice, not the reflex: when a player thinks \"I didn’t misreact, I picked the wrong lane,\" they queue another run — engineering \"reaction failure\" into \"decision failure\" is the core retention work of runners."
-  ]
+  ],
+  "value": {
+    "player": "Runners satisfy the primal urge of forward motion: obstacles keep coming, you keep dodging, and the distance itself is the progress bar — simple, tense, and you always want to know how far you can go.",
+    "ecosystem": "The runner is the industrialized template of hyper-casual: minimal mechanics, content that scales infinitely through parameters, and one of the most proven ad-monetization funnels in the business.",
+    "transfer": "Learn runners and you learn rhythm-and-readability engineering: how speed curves ramp, how much obstacle lead time to give, how to arrange difficulty breathing — this \"timeline typesetting\" skill is just as central in level design and boss fights."
+  }
 }

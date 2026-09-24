@@ -76,5 +76,10 @@
     "Thrill is a designed resource: how many pixels the hitbox sits inside the visual circle is exactly how brave players dare to be — too strict and they turtle up, too loose and the tension is gone. That gap is worth tuning more than bullet speed.",
     "\"Nearly died\" beats \"perfectly dodged\": graze bonuses turn threats into resources, luring players toward danger — counterintuitively, rewarding grazes makes players safer, because they start studying trajectories on purpose.",
     "Only attributable failure earns a retry: with unclear telegraphs, players feel \"wronged\" instead of \"I messed up\" — telegraph lead time is not an accessibility feature; it is the fairness foundation of dodge play."
-  ]
+  ],
+  "value": {
+    "player": "Dodging feeds a safe craving for danger — a bullet grazing past without killing you gets converted by the brain into pure thrill. Forgiveness windows and graze bonuses mass-produce that moment, letting players harvest small wins swinging between \"I almost died\" and \"I can’t believe I didn’t.\"",
+    "ecosystem": "Bullet-dodging is one of the lowest-barrier forms in action gaming: one finger, ten seconds a run, naturally suited to fragmented time and short-video sharing.",
+    "transfer": "Learn dodge play and you learn pressure-curve and forgiveness engineering — density ramps, hitbox scaling, telegraph lead time — knobs you will keep turning in runners, shooters, and boss fights."
+  }
 }

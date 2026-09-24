@@ -82,5 +82,10 @@
     "Defense is not immunity — it is resource substitution: blocking converts health loss into guard-resource drain, so the turtle strategy caps itself at the defense budget without any extra ban.",
     "Shorter wind-ups can make the game worse (counterintuitive): faster moves smooth out combos but compress the defender’s read window, degrading the duel into a pure speed contest — pace may only improve if counterplay space survives.",
     "Hit-stun and knockback are the \"weight\" of a hit: players feel nothing from number decrements — it is the flinch and displacement that say \"that landed.\" Without them, combat becomes two health bars being picked at."
-  ]
+  ],
+  "value": {
+    "player": "Combat satisfies the deep pleasure of reading an opponent: wind-ups, hit-stun, and resource exchanges turn every victory into intellectual evidence — you know exactly where you won.",
+    "ecosystem": "Adversarial depth is the root niche of the action category: from side-scrollers to fighting esports, combat systems are the longest-lived content — a great combat system keeps players studying it for years, and that study itself becomes community and traffic.",
+    "transfer": "Learn combat and you learn readable-bout design: the window/resource/read triad reappears in different forms across shooters, card games, and auto-battlers."
+  }
 }

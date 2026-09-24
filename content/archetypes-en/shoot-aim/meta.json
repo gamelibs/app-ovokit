@@ -79,5 +79,10 @@
     "Ammo is a pacing valve, not resource packaging: the reload window forcibly interrupts the output beat — too much ammo and mindless spraying kills tension, too little and combos break constantly. Mag size is the heartbeat rate of a shooter.",
     "Spraying must be punished (counterintuitively punishing high-frequency play): empty shots cost accuracy, spread punishes rapid fire — spraying without a price destroys the value of precision. Shooting depth comes from restraint, not firepower.",
     "Weak hit feedback is shooting at air: knockback, sound, and the instant score burst ARE the juice — no matter how accurate the judgment is, muted feedback never lets players feel their own skill."
-  ]
+  ],
+  "value": {
+    "player": "Shooting satisfies the instant-adjudication urge of \"a hit is justice\": reticle on, trigger pulled, target down — reward and punishment cash out in milliseconds, the most immediate thrill loop there is.",
+    "ecosystem": "Shooting is one of the largest category niches in the industry: from target ranges to FPS esports, the precision of hit feedback sets the product floor, and feel-tuning capability is a team’s core asset.",
+    "transfer": "Learn shooting and you learn feedback-precision engineering: judgment credibility, ammo pacing, the instant burst of a hit — this fine control over \"feel\" transfers to any mechanic that needs actions to carry weight."
+  }
 }

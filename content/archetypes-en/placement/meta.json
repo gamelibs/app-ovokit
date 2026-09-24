@@ -78,5 +78,10 @@
     "Adjacency bonuses make WHERE beat WHAT: a +10% neighbor bonus digitizes spatial relations — the synergy curve is something players can literally see, and it teaches strategy better than any hidden formula.",
     "Expansion timing is the eternal invest-vs-spend tradeoff: expanding too early dilutes current income, too late and capacity chokes you — the optimum usually hides at the \"almost full\" edge, and that edge is the decision sweet spot of placement play.",
     "Preview and failure reasons are not accessibility features: illegal placements must highlight red instantly with the reason stated, or players read the rules as bugs — placement UX collapses not from complex rules but from opaque ones."
-  ]
+  ],
+  "value": {
+    "player": "Placement play satisfies the planner’s appetite for order: arrange limited space into your own optimum, then watch the income curve rise along your layout — the most direct redemption of intellectual aesthetics.",
+    "ecosystem": "Placement building is a golden niche between strategy and casual: tower defense, base building, and city management all live here, and spatial constraints let content depth grow without numeric inflation.",
+    "transfer": "Learn placement and you learn the craft of digitizing spatial relations — adjacency bonuses, edge risks, density boundaries — a mindset that turns maps into payoff functions, equally valid in tactics games, card positioning, and economy systems."
+  }
 }

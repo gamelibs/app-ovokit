@@ -84,5 +84,10 @@
     "A fake choice is worse than no choice: three options with converging net value make players feel fooled — option differences must land on explainable numbers, or the selection ritual is just dice-rolling.",
     "Reroll is a gentle trap: trading a fixed cost for better options is rational while cost ≤ benefit, and a resource black hole beyond that — decision cost is itself the knob most worth tuning.",
     "Risk must be visible to accumulate: making risk an explicit metric lets players feel the fragility of a single-track strategy — invisible risk never becomes strategy, only complaints."
-  ]
+  ],
+  "value": {
+    "player": "Choice-driven strategy satisfies the illusion — and reality — of \"fate in my hands\": every round’s choice is traceable and reviewable. Wins and losses are not luck; they are my judgment.",
+    "ecosystem": "Decision-driven play is the most content-efficient structure: a few options can carry a whole run’s depth, and deck-builders and auto-battlers have proven its friendliness to small teams — with the right mechanics, content costs stay far below action games.",
+    "transfer": "Learn choice-driven strategy and you learn decision-density design: option differences, information ratios, explainable consequences — a craft that ports directly to roguelike drafting, narrative branches, and even product pricing experiments."
+  }
 }
