@@ -1,0 +1,59 @@
+{
+  "slug": "penalty-kick-aim-timing-and-pressure",
+  "title": "Penalty Kick: One Shot, Two Inputs, Five Rounds of Mounting Pressure",
+  "subtitle": "A rebuild of Penalty World Cup 2026 as a minimal shoot-aim loop: aim parameters feed a probability model, every miss scores for the keeper, and a five-round sprint decides the match. Fully playable demo at the end.",
+  "archetype": "shoot-aim",
+  "archetypeSecondary": "timing",
+  "tags": [
+    "Shoot / Aim",
+    "Timing",
+    "Action"
+  ],
+  "lang": "en",
+  "difficulty": "Beginner",
+  "techStack": [
+    "Three.js",
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Rule Skeleton",
+      "bullets": [
+        "Four-state machine: boot → menu → gameplay → result, with instant rematch and menu return",
+        "Five penalty rounds per match, one kick each: a goal scores for the player, a save or miss scores for the AI",
+        "After five rounds the scores are compared: player wins, AI wins, or draw",
+        "Aiming is just two parameters — angle and power; defaults are angle 0, power 50"
+      ]
+    },
+    {
+      "title": "Behavior Loop",
+      "bullets": [
+        "Set angle/power → hit Shoot → the probability model resolves goal / save / miss on the spot",
+        "Every miss hands the keeper a point, so the score seesaws and pressure rises with each round",
+        "On the result screen, Play Again resets everything for a rematch; Main Menu exits to the menu"
+      ]
+    },
+    {
+      "title": "Implementation Notes",
+      "bullets": [
+        "penalty/physics-engine resolves shots analytically: 0.7 × (1 − |angle|/45 × 0.5) × power/100, clamped to 0.1–0.9",
+        "The shot.take event drives simulateShot, which resolves, scores, and advances the round synchronously, emitting game.over after round 5",
+        "Module split: common-ui for buttons, aim-controller for inputs, physics-engine for resolution, audio-manager as the audio hook",
+        "Presentation left as placeholder: the 3D scene container and scoreboard are static in this build — the rule pipeline comes first"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/penalty-kick-aim-timing-and-pressure/index.html",
+    "note": "Hit Start Match, then click Shoot through five penalty rounds: each kick is resolved instantly by the angle/power probability model, every miss scores for the keeper, and the final score decides the match. One-click rematch included."
+  },
+  "pattern": "action"
+}

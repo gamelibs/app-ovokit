@@ -1,0 +1,57 @@
+# Pacman City: Turning "Dodge the Ghosts" into Timed Route Planning
+
+## The Essence in One Sentence
+
+Pacman City looks like a classic Pac-Man clone, but it actually reshapes the dodge-and-avoid archetype into a timed score-attack problem: within 120 seconds, the player constantly trades off "push progress by eating dots" against "stay alive by dodging ghosts" — and the power pellet's 8-second role reversal is the only rhythm switch in the game. When to take it, and where to hunt afterwards, decides the score ceiling.
+
+## Behavior Loop
+
+1. **Observe**: 323 dots cover the maze at the start; 4 ghosts (red / cyan / pink / orange) patrol the streets; the HUD shows score, lives and the countdown in real time.
+2. **Plan a route**: pick a line that chains dots without running into a ghost's patrol path — this is where the game's puzzle flavor comes from.
+3. **Execute**: steer Pacman with the arrow keys or the on-screen joystick at bottom-left; dots are eaten automatically on contact, +10 each.
+4. **Power reversal**: eat a golden power pellet in a corner for +50 and 8 seconds of power mode, during which ghosts can be eaten for +200 each — the highest single score in the game.
+5. **Back to dodging**: when power mode ends, avoidance resumes; colliding with a ghost in normal mode costs 1 of 3 lives.
+6. **Settle and restart**: when the 120-second countdown hits zero or lives run out, the result screen offers "restart" (a full data reset) or "back to menu".
+
+## Primitive Annotations
+
+- `SetDirection(dx, dy)` – joystick / arrow-key input, converted into Pacman's heading
+- `EatDot(+10)` – eat a dot on contact, add score, and check level completion
+- `EnterPowerMode(8s)` – eat a power pellet: roles reverse, +50 points
+- `EatGhost(+200)` – collide with a ghost during power mode for the top single score
+- `CollideGhost()` – collide with a ghost in normal mode: lose 1 life and reset position
+- `Tick(-1s)` – the countdown fires every second; reaching zero ends the run
+- `Reset(score/lives/time)` – restart restores every value to its initial state
+
+## Parameter Cheat Sheet
+
+| Parameter | Meaning | Default | Unit |
+|------|------|--------|------|
+| `timeRemaining` | Time limit per run | 120 | seconds |
+| `lives` | Starting lives | 3 | lives |
+| `dotScore` | Score per dot | 10 | points |
+| `powerupScore` | Score per power pellet | 50 | points |
+| `ghostScore` | Score per ghost eaten | 200 | points |
+| `powerTime` | Power mode duration | 8 | seconds |
+| `pacmanSpeed` | Pacman movement speed | 180 | px/s |
+| `pacmanSize` | Pacman radius | 16 | px |
+| `dotsTotal` | Total dots on the map | 323 | dots |
+| `enemyCount` | Ghosts on the field | 4 | ghosts |
+
+## Design Trade-offs
+
+1. **A 120-second hard limit instead of "until the maze is clean"**: in a pure eat-everything mode, pressure comes only from ghosts. A hard countdown makes "greed" and "survival" mutually exclusive at every moment, compressing the dodge archetype into score attack — and a short run makes the result screen's "restart" almost free to tap.
+2. **An 8-second power window**: the reversal is deliberately short. Inside the window, players charge at the very ghosts they were fleeing seconds ago; emotion swings from tension to release and back — the strongest flow oscillation this game has. A longer window would dilute it.
+3. **A 10 / 50 / 200 score gradient**: reward is strictly aligned with risk. Dots are steady income, the pellet is the rhythm switch, and eating ghosts is high-risk high-reward — nudging players to plan routes like "swing by the pellet, then cut the ghost off on the way back".
+4. **Dual input: joystick + keyboard**: the virtual joystick serves touch screens, arrow keys serve desktop. One set of gameplay logic covers both device classes, with the input layer fully decoupled from gameplay.
+5. **4 ghosts on the field**: just enough to form moving blockades on the maze's arterial streets without sealing every route — combined with 3 lives of tolerance, beginners survive while veterans stay pressured.
+
+## Implementation Notes
+
+- **Thin rules, thick modules**: the four states boot → menu → gameplay → result migrate on events (`boot.complete` / `game.start` / `game.over` / `game.restart` / `game.menu`); the rule layer only reads/writes data and forwards events, never touching rendering.
+- **Core module `core/pacman-city`**: owns maze data, dot layout, ghost AI and collision detection, exposing four actions — `reset` / `setDirection` / `checkLevelComplete` / `handlePlayerDeath`; clearing all dots advances the level.
+- **Scene-private renderer**: `__OV.Games.PacmanCity.Game` draws the city maze, Pacman, ghosts, dots and HUD in PIXI, takes over joystick and keyboard input, and emits `pacman.move` to the kernel.
+- **Timing sinks into the rule chain**: `game.tick` fires every second; a rule writes `remaining` into `timeRemaining`, and at ≤0 it sets `isGameActive=false` and emits `game.over`, which the result screen renders.
+- **Zero custom UI code**: button binding on the menu and result screens is handled by the generic `common-ui` module, and the boot scene auto-advances to the menu.
+
+A playable demo of this game is embedded at the end of this article: steer with arrow keys or the joystick, and see if you can double your score with two well-timed power reversals within 120 seconds.

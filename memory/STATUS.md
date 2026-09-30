@@ -1,11 +1,13 @@
 # GamesLog 项目状态（原 OVOFORGE）
 
-> 最后更新：2026-09-20
+> 最后更新：2026-09-30
 > 更新者：Kimi Code CLI
 
 ---
 
 ## 当前阶段
+
+**基础内容夯实完成（2026-09-30）**：ovo_system 评估「支柱层已扎实、缺口全在 demo 层与案例均衡度」后的集中补齐，全程不使用上游 forge-studio（本地工具链 + 主链路模型）。① **14/14 母型 demo 全部真 canvas 可玩**——新增 8 个 AtomCore 原子 demo（puzzle 灯阵/placement 塔防/physics 弹球/choice-strategy 爬塔/combat 格挡/progression 放置曲线/simulation 生态箱/shoot-aim 泡泡龙），替换 8 个文本仪表盘，双语 Playwright 逐 demo 实测 + dev 集成 14/14 通过；② **案例 32→40 篇**——6 个 e2e 样本（泡泡龙/8球/吃豆人/点球/足球/跑酷）静态包+中英文章上站、2 篇实验室实例案例（choice-strategy/timing，母型案例缺口全补齐 14/14）；③ tic-tac-toe-showdown localhost demo 改自包含包，**content/ 全目录 localhost 清零**；④ 部署通道定案（决策 006：自包含静态包进仓库 + release 产物分支）。可玩 demo 案例 2→11 篇。验证：sitemap 全收录、文章页 iframe 真实可玩。遗留：生产部署待用户执行（pnpm release + 服务器 deploy.sh）、8球官方 e2e 回归（v2-studio 可用时）、P2 打磨项。详见 `memory/daily/2026-09-30.md`。
 
 **消除母型支柱页内容升级（2026-09-22）**：`content/archetypes/match-clear/meta.json` 已从概念提纲升级为可实施、可验证的规则指南。补齐交换回滚、批量匹配、连锁结算、重力补充、合法步检测、受约束重洗、质量指标，以及连锁/步数/死局/规则回放/合法步质量五项 Demo 实验。2048 变体、连线消除、Match-3 三篇案例改为显式 `archetype: match-clear`；Match-3 正文补齐结算契约、TypeScript 骨架和单变量验证指标。未改组件，既有 ArchetypePage 与文章渲染器直接渲染。验证：内容 JSON 解析通过，`pnpm -s typecheck` 通过。详见 `memory/daily/2026-09-22.md`。
 

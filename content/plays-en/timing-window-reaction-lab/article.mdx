@@ -1,0 +1,54 @@
+# Judgment Window Lab: Timing Feel as Two Sliders
+
+## One-Sentence Essence
+
+This is not a commercial game but a lab-grade minimal game instance built for the Timing archetype: 20 beats per round, one shrinking ring, one fixed judgment circle — the gameplay is compressed down to a single act, "click at the overlap moment." Its real value is turning the two knobs that define timing feel — judgment window strictness (Perfect window in ms) and beat density (BPM) — into adjustable sliders, so players and developers can drag them by hand and feel how the same primitive produces different feels under different parameters.
+
+## Behavior Loop
+
+1. A note spawns from the outer circle 2 beats early, with its hitAt landing exactly on a beat;
+2. The ring shrinks linearly toward the fixed judgment circle at the center, whose core dot pulses once per beat as a rhythm cue;
+3. The player clicks anywhere on the canvas at the moment they believe the ring overlaps the circle;
+4. The system picks the unjudged note nearest to the click time and compares the absolute error: within the Perfect window judges Perfect (+100 + combo × 5), within the Good window (Perfect × 2.2) judges Good (+40); beyond that it only flashes "Too early / late" and consumes no note;
+5. A note left unclicked past the Good window judges Miss and resets the combo to zero;
+6. After all 20 notes resolve, Perfect + Good ≥ 60% (12 notes) wins the round, with a one-click replay.
+
+## Gameplay Primitives
+
+- `SpawnNote(hitAt)` – spawn a note `approach` (2 beats) ahead of its beat, derived from BPM
+- `CompareTiming(clickTime, hitAt)` – the compare primitive: absolute error as judgment input
+- `JudgePerfect(err ≤ perfectMs)` / `JudgeGood(err ≤ perfectMs × 2.2)` / `JudgeMiss(timeout)` – three-tier timing-window judgment
+- `ComboInc()` / `ComboReset()` – combo accumulation and reset
+- `CheckPass(P + G ≥ total × 0.6)` – pass-threshold comparison
+
+## Parameter Cheat Sheet
+
+| Parameter | Meaning | Default | Adjustable Range | Unit |
+|-----------|---------|---------|------------------|------|
+| `perfectMs` | Perfect judgment window (±) | 80 | 40–150 (step 5) | ms |
+| `bpm` | Beat speed | 100 | 60–180 (step 5) | BPM |
+| `total` | Notes per round | 20 | fixed | notes |
+| `approach` | Spawn lead time (= seconds per beat × 2) | 2 | fixed | beats |
+| Good window | Multiple of the Perfect window | 2.2× | fixed | — |
+| Pass line | Share of Perfect + Good | 60 | fixed | % |
+| Perfect score | Base + combo bonus | 100 + combo × 5 | fixed | pts |
+| Good score | Base score | 40 | fixed | pts |
+
+## Design Trade-offs
+
+1. **Only two knobs are exposed**: window strictness and beat density are the entire design space of the Timing archetype — the former draws the line between "juicy feel" and "low barrier" (80ms is already casual-friendly, 40ms approaches hardcore rhythm-game territory), while the latter decides whether players play reactively (watch the ring land, then click) or rhythmically (anticipate the beat). Everything else is hard-coded so each experiment moves exactly one variable.
+2. **No punishment for early/late clicks**: a click outside the Good window only flashes "Too early / late" — no note consumed, no combo broken, zero cost to experimenting. That is a deliberate lab-instance trade-off: commercial rhythm games use ghost-tap penalties to create tension, but a lab wants players to dare to try and be able to attribute the outcome.
+3. **Combo bonus hangs on Perfect only**: Perfect scores 100 + combo × 5 while Good is a flat 40, pushing players toward chasing Perfect instead of coasting on Good — and one Miss zeroes the combo, creating a "the sharper you are, the more you earn; one slip wipes it" tension.
+4. **A 60% pass line**: missing up to 8 notes still clears the round, so beginners always finish all 20 beats and see the full settlement instead of failing out of the experiment midway.
+5. **The invisible window is drawn on screen**: a permanent "Perfect ±80ms / Good ±176ms" caption sits under the canvas — teaching transparency over immersion, which is exactly what a "lab" is for.
+
+## Implementation Notes
+
+- **Click attribution**: on click, iterate all unjudged notes and judge the one whose hitAt is nearest to the current time, avoiding mis-attribution when multiple notes are on screen;
+- **Judgment decoupled from the time source**: judgment runs against `game.time`, accumulated at a fixed 60fps step — not render-frame timestamps — so frame drops never distort fairness;
+- **Ring rendering**: radius `r = R0 + (Rj − R0) × progress`, linearly interpolated from remaining time over the approach window; a ring still unclicked past its hitAt turns red and keeps shrinking to a 6px floor, painting "you are late" right on its face;
+- **BPM coupling**: seconds per beat is `beat = 60 / bpm` and spawn lead is `approach = beat × 2`, so the ring's visual shrink speed is identical at any BPM — only beat density changes. This is the implementation key to "the BPM knob changes density, not feel";
+- **Miss detection lives in update**: unjudged notes past the Good window judge Miss and reset the combo; the round settles the moment all 20 resolve;
+- **Fully static engine**: the demo runs on AtomCore (hand-drawn Canvas 2D), needs no server, posts `demo:ready` / `demo:score` / `demo:complete` via postMessage, accepts `demo:restart`, and iframes directly.
+
+The way to squeeze this instance dry: play one round with the Perfect window at 150ms, then another at 40ms. The "feel collapsed / feel tightened" sensation between those two rounds is the entire design lesson of the Timing archetype.

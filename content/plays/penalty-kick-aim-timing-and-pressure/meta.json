@@ -1,0 +1,67 @@
+{
+  "slug": "penalty-kick-aim-timing-and-pressure",
+  "title": "点球大战：把一脚射门拆成角度、力度与五轮短盘压力",
+  "subtitle": "以 Penalty World Cup 2026 重建版为例：瞄准参数 → 概率结算 → 未进送分的 5 轮短盘，每一脚都是此消彼长，文末附完整可试玩 demo。",
+  "archetype": "shoot-aim",
+  "archetypeSecondary": "timing",
+  "tags": [
+    "射击",
+    "时机 / 反应",
+    "动作反应"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "入门",
+  "techStack": [
+    "Three.js",
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "boot → menu → gameplay → result 四态状态机，支持一键重赛与回菜单",
+        "每场 5 轮点球、每轮一脚：进球记玩家一分，被扑或射偏记 AI 一分",
+        "5 轮射满比较比分，判定玩家胜 / AI 胜 / 平局",
+        "瞄准只有角度与力度两个参数，缺省角度 0、力度 50"
+      ]
+    },
+    {
+      "title": "行为循环",
+      "bullets": [
+        "设定角度/力度 → 点 Shoot → 概率模型当场结算 goal / save / miss",
+        "未进等于送守门员一分，比分此消彼长，压力随轮次递增",
+        "result 页 Play Again 重置数据直接重赛，Main Menu 回主菜单"
+      ]
+    },
+    {
+      "title": "实现要点",
+      "bullets": [
+        "penalty/physics-engine 用解析概率模型结算：0.7 × (1 − |angle|/45 × 0.5) × power/100，夹取 0.1–0.9",
+        "shot.take 事件驱动 simulateShot 同步完成结算、记分与轮次推进，满 5 轮 emit game.over",
+        "模块分工：common-ui 管按钮、aim-controller 管输入、physics-engine 管结算、audio-manager 预留音频钩子",
+        "表现层留白：3D 场景容器与记分牌为静态占位，本版优先跑通规则链路"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/penalty-kick-aim-timing-and-pressure/index.html",
+    "note": "点 Start Match 开赛，连点 Shoot 完成 5 轮点球：每脚按角度/力度概率模型当场结算，未进就送守门员一分，全场比分定胜负，可一键重赛。"
+  },
+  "pattern": "action",
+  "cover": {
+    "src": "/plays/penalty-kick-aim-timing-and-pressure/cover.svg",
+    "alt": "点球大战：把一脚射门拆成角度、力度与五轮短盘压力"
+  },
+  "coverWide": {
+    "src": "/plays/penalty-kick-aim-timing-and-pressure/cover-wide.svg",
+    "alt": "点球大战：把一脚射门拆成角度、力度与五轮短盘压力"
+  }
+}

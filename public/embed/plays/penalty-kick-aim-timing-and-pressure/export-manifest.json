@@ -1,0 +1,27 @@
+{
+  "version": "static-demo-export-v1",
+  "projectId": "cp_1019_10161_penalty",
+  "engine": "threejs",
+  "exportedAt": "2026-09-30T12:19:53.609Z",
+  "gameModules": [
+    "common-ui",
+    "penalty/audio-manager",
+    "penalty/aim-controller",
+    "penalty/physics-engine"
+  ],
+  "files": {
+    "indexHtml": "index.html",
+    "kernelFiles": 24,
+    "moduleFiles": [
+      "modules/common-ui.js",
+      "modules/penalty/audio-manager.js",
+      "modules/penalty/aim-controller.js",
+      "modules/penalty/physics-engine.js"
+    ],
+    "copiedDirs": [
+      "ui",
+      "resources"
+    ],
+    "resources": 11
+  }
+}

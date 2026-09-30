@@ -1,0 +1,67 @@
+{
+  "slug": "stream-runner-speed-curve-and-readability",
+  "title": "Stream Runner: Difficulty as a Speed Curve, UI Reduced to Two Buttons",
+  "subtitle": "A minimalist auto-runner case study: score equals distance, a one-obstacle-one-button mapping, and how a 0.6s dodge window keeps high speeds readable.",
+  "archetype": "runner",
+  "archetypeSecondary": "dodge-avoid",
+  "tags": [
+    "行进 / 跑酷",
+    "躲避",
+    "动作"
+  ],
+  "lang": "en",
+  "difficulty": "Beginner",
+  "cover": {
+    "src": "/plays/stream-runner-speed-curve-and-readability/cover.svg",
+    "alt": "Stream Runner: Difficulty as a Speed Curve, UI Reduced to Two Buttons"
+  },
+  "coverWide": {
+    "src": "/plays/stream-runner-speed-curve-and-readability/cover-wide.svg",
+    "alt": "Stream Runner: Difficulty as a Speed Curve, UI Reduced to Two Buttons"
+  },
+  "techStack": [
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Rule Skeleton",
+      "bullets": [
+        "Auto-run: base speed 10 units/s, ramping +0.5 per second linearly",
+        "Ground obstacles require SLIDE, air obstacles require JUMP; dodge window is 0.6s",
+        "Score equals distance (1 unit = 1 point, rounded at settlement); 3 lives, run ends on the third crash",
+        "High score is compared and updated at settlement; Play Again restarts instantly"
+      ]
+    },
+    {
+      "title": "Behavior Loop",
+      "bullets": [
+        "Tap Start Game in menu → data resets → core/runner.start",
+        "Read the obstacle type while auto-scrolling → press the matching button → dodge or lose 1 life",
+        "runner.finish → score/distance written back → result screen shows score and high score",
+        "A hands-off run lasts ~6 seconds for ~65 points: an ultra-short loop of about ten seconds per round"
+      ]
+    },
+    {
+      "title": "Implementation Notes",
+      "bullets": [
+        "core/runner carries all gameplay: five actions (start/jump/slide/setSpeed/reset) plus runner.crash and runner.finish events",
+        "Obstacle interval starts at 2s, shrinks 0.05 per second, floored at 0.8s — stacking with the speed curve into one pressure curve",
+        "All parameters are data-key driven (runnerSpeed/obstacleInterval/jumpDuration, etc.); tuning requires no code change",
+        "Known limitation: skin text {{key}} placeholders currently render literally, so HUD numbers do not tick"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/stream-runner-speed-curve-and-readability/index.html",
+    "note": "Tap Start Game to run: SLIDE for ground obstacles, JUMP for air obstacles. Three lives, and your score is exactly your distance."
+  },
+  "pattern": "action"
+}

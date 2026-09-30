@@ -1,0 +1,67 @@
+{
+  "slug": "bubble-shooter-aim-and-chain-pop",
+  "title": "泡泡龙 Bubble Shooter：瞄准即落点，连锁才得分",
+  "subtitle": "拆解这只泡泡龙的确定性设计：角度如何被折叠成列选择、八向连通如何提高消除密度、每 10 发压顶如何把倒计时改成可计算的步数压力，以及悬空 20 分为什么是技巧上限。文末附可试玩 demo。",
+  "archetype": "shoot-aim",
+  "archetypeSecondary": "puzzle",
+  "tags": [
+    "射击",
+    "解谜",
+    "空间规划"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "入门",
+  "techStack": [
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "14 行 × 8 列网格，开局随机填 5 行，蓝/绿/红三色泡泡",
+        "瞄准角 ±80° 直接映射到目标列：泡泡挂在该列最低泡泡之下，空列则顶到天花板",
+        "八向连通同色 ≥3 即消除，每颗 10 分；失去顶部锚点的泡泡整片下落，每颗 20 分",
+        "每发射 10 次天花板整体下压一行；触底或列满判负，清空网格直接结算"
+      ]
+    },
+    {
+      "title": "行为循环",
+      "bullets": [
+        "读盘：看网格缺口 + 当前/下一颗颜色，决定这一发去哪一列",
+        "按住拖动出瞄准线，松手发射（pointerDown 瞄准 / pointerUp 发射）",
+        "命中 → 消除计分 → 悬空连锁下落 → 发射计数 +1",
+        "计数满 10 发压顶一行，网格逼近底线形成倒计时感；结束进 result，可 Restart 或回菜单"
+      ]
+    },
+    {
+      "title": "实现要点",
+      "bullets": [
+        "core/bubble-shooter 承载全部规则数据：bubbleGrid / currentBubble / nextBubble / score / comboCount",
+        "渲染与交互走 core/scene-renderer 的 grid-shooter 模板（PIXI），__OV.Games.BubbleShooter.Game 只做薄封装注册 drawer",
+        "消除用八向 flood fill，悬空检测用从顶行出发的 BFS 锚定标记",
+        "状态机 boot → menu → gameplay → result 由 v2-kernel LogicGraph 驱动，按钮事件与迁移事件严格同名"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/bubble-shooter-aim-and-chain-pop/index.html",
+    "note": "点击 Play 开局；在网格区域按住拖动瞄准、松手发射，凑 3 颗同色消除，打掉支撑点可整片连锁下落；每 10 发天花板下压一行，别让泡泡触底。"
+  },
+  "pattern": "spatial",
+  "cover": {
+    "src": "/plays/bubble-shooter-aim-and-chain-pop/cover.svg",
+    "alt": "泡泡龙 Bubble Shooter：瞄准即落点，连锁才得分"
+  },
+  "coverWide": {
+    "src": "/plays/bubble-shooter-aim-and-chain-pop/cover-wide.svg",
+    "alt": "泡泡龙 Bubble Shooter：瞄准即落点，连锁才得分"
+  }
+}

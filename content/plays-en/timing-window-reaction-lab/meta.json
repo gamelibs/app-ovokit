@@ -1,0 +1,75 @@
+{
+  "slug": "timing-window-reaction-lab",
+  "title": "Judgment Window Lab: Timing Feel as Two Sliders",
+  "subtitle": "A lab-grade minimal instance built for the Timing archetype: 20 beats, one shrinking ring, one fixed judgment circle. Drag the Perfect Window (40–150ms) to feel judgment strictness, drag the BPM (60–180) to feel beat density, and see where timing-game feel actually comes from.",
+  "archetype": "timing",
+  "archetypeSecondary": "dodge-avoid",
+  "tags": [
+    "Timing",
+    "Dodge / Avoid",
+    "Action"
+  ],
+  "lang": "en",
+  "difficulty": "Beginner",
+  "techStack": [
+    "JavaScript",
+    "Canvas",
+    "AtomCore"
+  ],
+  "corePoints": [
+    "Judgment Window Strictness",
+    "Beat Density",
+    "Combo Incentive"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Rule Skeleton",
+      "bullets": [
+        "20 notes per round; each hitAt lands exactly on a beat, and the ring spawns 2 beats early from the outer circle",
+        "Click error ≤ Perfect window judges Perfect, ≤ Good window (Perfect × 2.2) judges Good, and a note left unclicked past the Good window judges Miss",
+        "After all 20 notes resolve: Perfect + Good ≥ 60% (12 notes) clears the round"
+      ]
+    },
+    {
+      "title": "Behavior Loop",
+      "bullets": [
+        "Watch the ring shrink toward the judgment circle → click the canvas at the overlap moment → read the Perfect / Good / Miss feedback",
+        "Perfect scores 100 + combo × 5 and extends the combo, Good scores a flat 40, Miss resets the combo to zero",
+        "Clicks outside the Good window only flash 'Too early / late': no note is consumed and the combo survives, so experimenting costs nothing"
+      ]
+    },
+    {
+      "title": "Implementation Notes",
+      "bullets": [
+        "Judgment picks the unjudged note nearest to the click time, against game.time accumulated at a fixed 60fps step — decoupled from render frame rate",
+        "Spawn lead time approach = 2 beats scales with BPM, so the ring's visual shrink speed is identical at any BPM; only beat spacing tightens",
+        "Perfect window and BPM are exposed as sliders while everything else is hard-coded, keeping each experiment single-variable"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Three-tier timing judgment (real code excerpt from the demo)",
+      "language": "js",
+      "code": "var pw = g.params.perfectMs / 1000, gw = pw * 2.2;\nvar err = Math.abs(g.time - n.hitAt); // n = nearest unjudged note\nif (err <= pw) { /* Perfect: +100 + combo*5, combo++ */ }\nelse if (err <= gw) { /* Good: +40, combo++ */ }\n// clicks with err > gw only flash 'Too early / late', no note consumed\n// in update: notes past gw unclicked → Miss, combo resets"
+    }
+  ],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/demos/atomic/timing/index.html",
+    "note": "Hit Start, then click the canvas the moment the shrinking ring overlaps the judgment circle. Drag the Perfect Window and BPM sliders on the side to change judgment strictness and beat density in real time; the round settles after 20 notes."
+  },
+  "pattern": "action",
+  "cover": {
+    "src": "/plays/timing-window-reaction-lab/cover.svg",
+    "alt": "Judgment Window Lab: Timing Feel as Two Sliders"
+  },
+  "coverWide": {
+    "src": "/plays/timing-window-reaction-lab/cover-wide.svg",
+    "alt": "Judgment Window Lab: Timing Feel as Two Sliders"
+  }
+}

@@ -1,0 +1,59 @@
+# 点球大战：把一脚射门拆成角度、力度与五轮短盘压力
+
+## 一句话本质
+
+点球大战（Penalty World Cup 2026 重建版）是一个射击母型的最小可行样本：玩家每轮只做一次决策——定好瞄准角度与射门力度，然后点下 Shoot——系统用概率模型当场结算进球、被扑或射偏，5 轮之后比分定胜负。它把足球点球的紧张感压缩进「一次输入、一次结算、一分此消彼长」的短循环里。
+
+## 行为循环
+
+1. **开局**：主菜单点 Start Match，比分清零、轮次归 1，进入点球场景。
+2. **瞄准**：设定角度（aimAngle）与力度（power）两个参数；不调整时使用默认值（角度 0、力度 50）。
+3. **射门**：点 Shoot 按钮触发 `shot.take`，物理模块同步结算——角度越大、力度越极端，进球概率越低。
+4. **计分**：进球记 playerScore +1；被扑或射偏记 aiScore +1。未进等于送守门员一分，比分此消彼长。
+5. **终盘**：5 轮射满触发 `game.over`，result 状态比较双方比分，判定玩家胜、AI 胜或平局。
+6. **再来**：Play Again 重置全部数据直接重赛，Main Menu 返回主菜单。
+
+文末的 demo 可以直接试玩这个完整循环。
+
+## 原语标注
+
+- `Aim(angle, power)` – 写入瞄准参数（aim.adjust → aim-controller）
+- `Shoot()` – 执行射门（shot.take → physics-engine.simulateShot）
+- `ResolveShot(angle, power)` – 概率结算三态：goal / save / miss
+- `ScoreGoal()` / `ScoreAgainst()` – 进球记玩家、未进记 AI
+- `AdvanceRound()` – 轮次 +1，满 5 轮触发终盘
+- `JudgeWinner()` – 比较比分写 gameWinner（player / ai / draw）
+- `ResetMatch()` – 重开：round=1、双分归零、gameWinner=none
+
+## 参数速查表
+
+| 参数 | 说明 | 默认值 | 单位 |
+|------|------|--------|------|
+| `totalRounds` | 每场射门轮数 | 5 | 轮 |
+| `aimAngle` | 瞄准水平角（reset 后） | 0 | 度 |
+| `power` | 射门力度（reset 后） | 50 | 0–100 |
+| 初速度映射 | 15 + power/100 × 20 | 15–35 | m/s |
+| 球门宽 | 标准球门 | 7.32 | m |
+| 球门高 | 标准球门 | 2.44 | m |
+| 罚球距离 | 罚球点到球门线 | 11 | m |
+| 重力加速度 | 弹道下坠 | 9.8 | m/s² |
+| 角度惩罚 | 概率按 \|angle\|/45 线性削弱 | 45 | 度封顶 |
+| 概率夹取 | 进球概率上下限 | 0.1–0.9 | – |
+| 力度惩罚 | power<30 线性衰减；>90 打 0.85 折 | – | – |
+
+## 设计取舍
+
+1. **解析概率结算替代逐帧弹道**：模块里其实备好了逐帧物理（重力、地面反弹、门柱与守门员碰撞检测），但出货版本选择解析解——一帧内出结果，与帧率无关、任何设备可跑；代价是牺牲了球路飞行的观赏性。
+2. **5 轮单边射门替代 10 轮轮换**：设计稿原为双方各射 5 次、轮流攻守；实现版把 AI 的射门回合折叠成「你未进 = 守门员得分」的对立计分。单局时长砍半，每一脚的心理权重反而被放大。
+3. **概率曲线的两端惩罚**：角度追求死角、力度追求爆射都会被曲线打折，最优解落在「中等偏大力度、小角度」——这与真实点球「打角度比发力更重要」的经验一致。
+4. **表现层留白，规则先行**：本版 demo 的 3D 场景容器与记分牌仍是占位（静态文本、未做数据绑定），音频模块也是日志级占位。样本的目标是先把状态机与结算链路完整跑通，3D 演出与音效留给下一轮迭代。
+
+## 实现要点
+
+- **状态机**：boot → menu → gameplay → result 四态，迁移事件为 boot.complete / game.start / game.over / game.restart / menu.return，由蓝图 stateMachine 声明。
+- **事件流**：`aim.adjust` → aim-controller 写入 aimAngle/power；Shoot 按钮发 `shot.take` → physics-engine.simulateShot 同步完成结算、记分、轮次推进，满 5 轮 emit `game.over`，同时发 `shot.result` 供音频等扩展订阅。
+- **数据模型**：round / totalRounds / playerScore / aiScore / aimAngle / power / shotResult / gameWinner 八个键撑起全场；result 态 onEnter 用条件节点比较比分写出 gameWinner。
+- **模块分工**：common-ui 管按钮事件，penalty/aim-controller 管输入参数，penalty/physics-engine 管结算与概率模型，penalty/audio-manager 预留音频钩子。
+- **运行时**：v2-kernel 驱动 LogicGraph，引擎声明 threejs（皮肤层走 PIXI，双运行时库加载），整包导出为纯静态 demo，离线可玩。
+
+这一版的价值不在画面，而在把「瞄准—结算—计分—终盘」整条规则链路压缩到两个参数和五个回合里：规则足够小，才看得清每个设计取舍的代价。

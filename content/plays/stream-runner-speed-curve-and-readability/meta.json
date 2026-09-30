@@ -1,0 +1,67 @@
+{
+  "slug": "stream-runner-speed-curve-and-readability",
+  "title": "Stream Runner：把难度写进速度曲线，把界面砍到只剩两个按钮",
+  "subtitle": "极简自动跑酷案例拆解：分数=距离、一种障碍对应一个按钮的二分映射，以及 0.6 秒躲避窗口如何保证高速下的可读性。",
+  "archetype": "runner",
+  "archetypeSecondary": "dodge-avoid",
+  "tags": [
+    "行进 / 跑酷",
+    "躲避",
+    "动作"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "入门",
+  "techStack": [
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "自动前进：基础速度 10 单位/秒，每秒 +0.5 线性爬升",
+        "地面障碍点 SLIDE、低空障碍点 JUMP，躲避窗口 0.6 秒",
+        "分数=距离（1 单位 1 分，结算取整），3 条命撞完出局",
+        "结算时与历史最高分比较更新，Play Again 直接重开"
+      ]
+    },
+    {
+      "title": "行为循环",
+      "bullets": [
+        "menu 点 Start Game → 数据清零 → core/runner.start",
+        "自动滚动中读障碍类型 → 按对应按钮 → 躲过或扣 1 命",
+        "runner.finish → 写回得分/距离 → result 展示得分与最高分",
+        "实测一局约 6 秒、60 多分，十秒一回合的超短循环"
+      ]
+    },
+    {
+      "title": "实现要点",
+      "bullets": [
+        "core/runner 承载全部玩法：start/jump/slide/setSpeed/reset 五个 action + runner.crash/finish 事件",
+        "障碍间隔 2 秒起步、每秒再缩 0.05、下限 0.8 秒，与速度曲线叠加成压力曲线",
+        "参数全部走数据键（runnerSpeed/obstacleInterval/jumpDuration 等），调参不改代码",
+        "已知限制：皮肤文本 {{key}} 占位当前按字面量渲染，HUD 数字不跳动"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/stream-runner-speed-curve-and-readability/index.html",
+    "note": "点 Start Game 开跑：地面障碍点 SLIDE、低空障碍点 JUMP，三条命撞完结算，跑多远就得多少分。"
+  },
+  "pattern": "action",
+  "cover": {
+    "src": "/plays/stream-runner-speed-curve-and-readability/cover.svg",
+    "alt": "Stream Runner：把难度写进速度曲线，把界面砍到只剩两个按钮"
+  },
+  "coverWide": {
+    "src": "/plays/stream-runner-speed-curve-and-readability/cover-wide.svg",
+    "alt": "Stream Runner：把难度写进速度曲线，把界面砍到只剩两个按钮"
+  }
+}

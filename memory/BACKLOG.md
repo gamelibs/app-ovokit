@@ -112,6 +112,11 @@
 
 ## Done
 
+- [x] **基础内容夯实：8 母型 canvas demo + 8 案例文章 + localhost 清零** <!-- task:id=foundation-hardening-001 priority:P0 category:content -->
+  - 文件：`public/demos/atomic/{puzzle,placement,physics,choice-strategy,combat,progression,simulation,shoot-aim}/index.html`（新增）、`public/embed/plays/{6 样本 slug + tic-tac-toe-showdown}/`、`content/plays{,-en}/{8 个新 slug}/`、`public/plays/{8 个新 slug}/`
+  - 目标：S1 收尾（8 个文本仪表盘 → 真 canvas）+ 6 个 e2e 样本上站 + 2 个缺位母型案例 + 部署通道定案
+  - 验收：✅ 14/14 母型原子 demo、6/6 循环回归；8 篇新案例 zh/en 全 200、sitemap 全收录、demo iframe 真实可玩零 console error；content/ localhost grep 清零（2026-09-30，详见 `memory/daily/2026-09-30.md`）
+
 - [x] **支柱内容分类重构 + 内容修复批次（对齐 taxonomy）** <!-- task:id=pillar-restructure-001 priority:P0 category:taxonomy -->
   - 2026-09-20 完成，详见 `memory/daily/2026-09-20.md`。features 8 词 / implementation-traits 新分区 / placement 修复 / 14 母型 features[] 收敛 / concept 扩写 / 301 重定向 + sitemap / 版主编辑镜像。验证 Playwright 36 项 PASS。未提交 git。
 

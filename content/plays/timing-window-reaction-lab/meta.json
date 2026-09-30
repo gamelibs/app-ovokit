@@ -1,0 +1,75 @@
+{
+  "slug": "timing-window-reaction-lab",
+  "title": "判定窗实验室：把时机手感做成两个滑块",
+  "subtitle": "一个为「时机 / 反应」母型建造的实验室级最小实例：一局 20 个节拍、一个收缩环、一个判定圈。拖动 Perfect 窗口（40~150ms）体验判定宽严，拖动 BPM（60~180）体验节奏密度，看清判定窗与节拍如何决定时机类游戏的手感。",
+  "archetype": "timing",
+  "archetypeSecondary": "dodge-avoid",
+  "tags": [
+    "时机 / 反应",
+    "躲避",
+    "动作"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "入门",
+  "techStack": [
+    "JavaScript",
+    "Canvas",
+    "AtomCore"
+  ],
+  "corePoints": [
+    "判定窗口宽严",
+    "节拍密度",
+    "连击激励"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "一局 20 个音符，hitAt 精确落在拍点上，音符提前 2 拍从外圈出环",
+        "点击与判定点的误差 ≤Perfect 窗口判 Perfect，≤Good 窗口（Perfect×2.2）判 Good，超时未点判 Miss",
+        "20 个音符全部判定后结算：Perfect+Good ≥ 60%（12 个）即过关"
+      ]
+    },
+    {
+      "title": "行为循环",
+      "bullets": [
+        "看圆环收缩逼近判定圈 → 在重合瞬间点击画布 → 读 Perfect/Good/Miss 反馈",
+        "Perfect 得 100+连击×5 分并续连击，Good 得 40 分，Miss 清零连击",
+        "超出 Good 窗口的点击只提示「太早/太晚」，不消耗音符、不断连击，试错零成本"
+      ]
+    },
+    {
+      "title": "实现要点",
+      "bullets": [
+        "判定取「离判定点最近的未判定音符」，基准时间是固定步长 60fps 累加的 game.time，与渲染帧率解耦",
+        "出环提前量 approach = 2 拍，随 BPM 联动，任何 BPM 下圆环视觉收缩速度一致，只有节拍间隔变密",
+        "Perfect 窗口与 BPM 做成滑块参数，其余参数写死，保证单变量手感实验"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "三档时机判定（demo 真实代码节选）",
+      "language": "js",
+      "code": "var pw = g.params.perfectMs / 1000, gw = pw * 2.2;\nvar err = Math.abs(g.time - n.hitAt); // n = 离判定点最近的未判定音符\nif (err <= pw) { /* Perfect: +100 + combo*5, 连击+1 */ }\nelse if (err <= gw) { /* Good: +40, 连击+1 */ }\n// err > gw 的点击只提示「太早/太晚」，不消耗音符\n// update 中超时 err > gw 仍未点击 → Miss，连击清零"
+    }
+  ],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/demos/atomic/timing/index.html",
+    "note": "点「Start / 开始」后，在圆环收缩到与判定圈重合的瞬间点击画布；右侧拖「Perfect 窗口」和「BPM」滑块可实时改变判定宽严与节奏密度，20 个音符判定完即结算。"
+  },
+  "pattern": "action",
+  "cover": {
+    "src": "/plays/timing-window-reaction-lab/cover.svg",
+    "alt": "判定窗实验室：把时机手感做成两个滑块"
+  },
+  "coverWide": {
+    "src": "/plays/timing-window-reaction-lab/cover-wide.svg",
+    "alt": "判定窗实验室：把时机手感做成两个滑块"
+  }
+}

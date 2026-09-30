@@ -1,0 +1,54 @@
+# Football Kick: Compressing a Penalty Shootout into an Angle-by-Power Judgement Table
+
+## The One-Sentence Essence
+
+On the surface it is a 3D penalty shootout with swipe-to-aim and charged shots; at the rules layer, its core is a two-dimensional judgement table — slice "aim angle × shot power" into three bands (guaranteed miss, risk zone, sweet spot), let probability rule goal / save / miss, then wrap it in a 5-round scoring loop.
+
+## Behavior Loop
+
+1. **Enter the duel**: tap "开始游戏" (Start) on the menu → gameplay. Scores reset to 0, round resets to 1, `gamePhase=aiming`, and the opening whistle plays.
+2. **Aim**: the `aim.update` event writes the angle (clamped to ±80°) and power (0–100).
+3. **Shoot**: `shot.take` triggers `executeShot`, switching `gamePhase` to shooting; the judgement table immediately returns goal / save / miss.
+4. **Verdict feedback**: `shot.result` carries the outcome back; a goal adds +1 to the player's score, with matching SFX (kick / goal / miss).
+5. **Round advance**: round +1. Below 5 rounds, `resetScene` returns to aiming for the next kick; at 5 rounds the game emits `game.over`.
+6. **Settle and replay**: the result state compares both scores to declare win / loss / draw, with "再来一局" (play again) resetting the match or "返回菜单" (back to menu).
+
+A playable demo of this exact build is embedded at the end of the article — you can click through the whole loop yourself.
+
+## Primitive Annotations
+
+- `Aim(angle, power)` — write aim parameters; angle clamped to [-80°, 80°]
+- `Shoot()` — commit the shot; input locks into the shooting phase
+- `Judge(angle, power)` — three-band probabilistic verdict: goal / save / miss
+- `Score()` — the scoring side gains a point (only goals score in this build)
+- `RoundNext()` — round +1; hitting the cap triggers `game.over`
+- `ResetScene()` — reset the shot-scene data after each round
+
+## Parameter Cheat Sheet
+
+| Parameter | Meaning | Default | Unit |
+|-----------|---------|---------|------|
+| `maxRounds` | Penalty round cap | 5 | rounds |
+| `shotAngle` | Aim angle (clamped ±80) | 0 | degrees |
+| `shotPower` | Shot power | 80 (first kick) | 0–100 |
+| Guaranteed-miss zone | `power ≤ 10` or `|angle| > 75` → 100% miss | — | — |
+| Risk zone | `|angle| > 55` or `power > 95` → 60% miss / 40% saved | — | — |
+| Sweet-spot save chance | `0.25 + |angle| / 200` (goal rate 47.5%–75%) | 0.25–0.525 | probability |
+| Charge cycle | Triangular power wave reserved in the model layer (0→100→0) | 1.2 | seconds |
+
+## Design Trade-offs
+
+1. **A probability table instead of rigid-body ballistics.** The original design called for a Three.js 3D ballistic trajectory plus a diving keeper; the shipped build converges on a data-layer probability model. The win: same input, same distribution, unit-testable, tunable. The cost: no real flight animation. For a short "5 rounds and done" match, the feel of the judgement curve matters more than ballistic fidelity.
+2. **The shape of the three bands.** The guaranteed-miss zone punishes extreme inputs (a weak kick, or an angle beyond 75°); the risk zone gives "full-power / wide-angle" shots high variance (60% miss); the sweet spot rewards sensible kicks. One deliberately counter-intuitive choice: inside the sweet spot the save chance *rises* with `|angle|` — the more cunning your placement, the more likely the keeper gets it. That effectively prices corner-hunting and forces a real trade-off between safety and angle.
+3. **A placeholder AI opponent.** The data model already has `aiScore` and a three-way `winner` (player / ai / draw), but in this build the AI never shoots (aiScore stays 0): score once and you win, score zero and it is a draw. That is a deliberate cut — get the "settleable, restartable" rule skeleton right first, then grow the AI decision module (the original plan's football-ai) later.
+4. **Rules first, presentation as a placeholder.** The current demo is a rules-layer skeleton: the aim control, score text binding and the 3D pitch are not on screen yet, but the state machine, judgement, scoring and restart already form a closed loop. This sequencing lets automated tests lock rule correctness before the presentation layer iterates, so art progress never blocks the rules.
+
+## Implementation Notes
+
+- **Module split**: reuse `common-ui` (button event binding and boot auto-advance), and build one private module `football/football-model` for shot judgement, scene reset and SFX hooks. The original plan sketched three new modules (aim-controller, football-ai); the build converged on a single model module to keep the interface surface small.
+- **The judgement function**: `executeShot` reads `shotAngle` / `shotPower`, walks the three if-branches, writes `shotResult`, and self-emits `shot.result` (tagged `_ovoInternal` to avoid double-counting against external events).
+- **State-machine driving**: rules compile into the v2-kernel's per-state logic graph — onEnter initializes the scoreboard, `onEvent(aim.update / shot.take / shot.result)` branches, and `round > maxRounds` emits `game.over` into the result state. Both exits (restart / return to menu) call `resetScene` first.
+- **Event contract**: `aim.update {angle, power}`, `shot.take`, `shot.result {result, angle, power}`, `game.over`, `game.restart`, `menu.return` — all over the kernel event bus.
+- **Known gaps (visible when you play)**: the gameplay skin currently exposes only the "射门" (Shoot) button; aim parameters are reserved at the model layer via `aim.update`. Score and round labels are static placeholders, and the result screen is not data-bound yet. None of this breaks the judgement chain — every step from menu to 5 rounds to settlement is the real rules running.
+
+The value of this sample is not its polish but the reproducible development order it demonstrates: **turn the judgement model into a verifiable rules skeleton first, then grow the presentation layer on top.** Penalty kicks, golf swings, free throws — any play pattern where "two input parameters decide one attempt" can reuse the structure of this table.

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Choice/Strategy · Choice-Space Lab | OVO Atomic Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 策略决策母型原子 demo（三选一爬塔）：行为原语 = choose + compare + accumulate
+// 教学点（对应母型页 demoLab：伪选择识别 / 风险累积 / 决策成本）：
+//   - 每回合 N 选 1：攻击/护盾/经济此消彼长——每个选择都是机会成本，后果立刻落在数值上
+//   - 可选卡数 2/3/4：选择空间大小本身就是难度旋钮（卡越少越容易"想要的类型没来"）
+//   - 敌人成长斜率可调：单一策略的脆弱性会被逐回合放大（风险累积可见）
+var STATS = { win: 0, lose: 0 };   // 跨局战绩（reset 不清）
+AtomCore.create({
+  title: AtomCore.L('策略决策 · 选择空间实验室', 'Choice/Strategy · Choice-Space Lab'),
+  objective: AtomCore.L(
+    '每回合从卡中选 1 张（攻击/护盾/经济），数值累积对抗逐回合增强的敌人，撑过 12 回合。调「可选卡数」体会：选择空间大小本身就是难度。',
+    'Pick 1 card per round (attack/shield/economy); your stacked stats fight an enemy that grows every round. Survive 12 rounds. Tune "Cards per Round" and feel it: the size of the choice space IS the difficulty knob.'),
+  lives: 0,
+  params: [
+    { key: 'slope', label: AtomCore.L('敌人成长曲线斜率', 'Enemy Growth Slope'), min: 0.6, max: 2, step: 0.1, default: 1.2, unit: '' },
+    { key: 'cards', label: AtomCore.L('每回合可选卡数（2/3/4）', 'Cards per Round (2/3/4)'), min: 2, max: 4, step: 1, default: 3, unit: '' }
+  ],
+  hudExtra: function (g) {
+    var d = g.data;
+    return AtomCore.L('回合 <b>', 'Round <b>') + (d.round || 1) + '/12</b>' +
+      AtomCore.L(' · 战绩 <b>', ' · record <b>') + STATS.win + AtomCore.L('胜 ', 'W ') + STATS.lose + AtomCore.L('负</b>', 'L</b>');
+  },
+  MAX_ROUND: 12,
+  setup: function (g) {
+    g.data.round = 1;
+    g.data.player = { hp: 24, maxHp: 30, atk: 5, def: 1, gold: 0 };
+    g.data.phase = 'choose';     // 'choose' | 'resolve'
+    g.data.picked = -1;
+    g.data.log = AtomCore.L('选一张卡，开始爬塔。', 'Pick a card and start climbing.');
+    g.data.log2 = '';
+    g.data.token = Math.random(); // 防"重开后旧结算定时器推进回合"
+    this.spawnEnemy(g);
+    this.dealCards(g);
+  },
+  enemyFor: function (g, r) {
+    var s = g.params.slope;
+    return { hp: Math.round(3 + r * s * 2.2), atk: Math.round(1 + r * s * 0.8) };
+  },
+  spawnEnemy: function (g) {
+    g.data.enemy = this.enemyFor(g, g.data.round);
+  },
+  dealCards: function (g) {
+    var n = g.params.cards | 0, r = g.data.round, cards = [];
+    for (var i = 0; i < n; i++) {
+      var roll = g.rand(0, 1);
+      var type = roll < 0.35 ? 'atk' : (roll < 0.65 ? 'def' : 'gold');
+      var v = type === 'gold'
+        ? 5 + Math.floor(r * 1.2) + Math.floor(g.rand(0, 4))
+        : 2 + Math.floor(r / 4) + Math.floor(g.rand(0, 2));
+      cards.push({ type: type, value: v });
+    }
+    g.data.cards = cards;
+  },
+  cardName: function (t) {
+    return t === 'atk' ? AtomCore.L('攻击', 'Attack') : t === 'def' ? AtomCore.L('护盾', 'Shield') : AtomCore.L('经济', 'Economy');
+  },
+  pick: function (g, idx) {
+    var d = g.data, p = d.player, c = d.cards[idx];
+    d.picked = idx;
+    // 1) 卡牌生效（数值累积）
+    if (c.type === 'atk') p.atk += c.value;
+    else if (c.type === 'def') p.def += c.value;
+    else p.gold += c.value;
+    // 2) 战斗自动结算：击杀出手数 = ceil(敌HP/你攻)；受击伤害 = (出手数-1) × max(1, 敌攻-你防)
+    var e = d.enemy;
+    var hits = Math.max(1, Math.ceil(e.hp / p.atk));
+    var counters = hits - 1;
+    var dmg = counters * Math.max(1, e.atk - p.def);
+    p.hp -= dmg;
+    p.gold += 3; // 击杀赏金
+    // 3) 休整：每 10 金币自动换 3 HP（缺多少补多少）——经济是"存起来的血"
+    var chunks = Math.min(Math.floor(p.gold / 10), Math.max(0, Math.ceil((p.maxHp - p.hp) / 3)));
+    var healed = 0;
+    if (chunks > 0) { healed = chunks * 3; p.gold -= chunks * 10; p.hp = Math.min(p.maxHp, p.hp + healed); }
+    // 4) 战报（后果可解释：每个数字都能回溯到一次选择）
+    d.log = AtomCore.L(
+      '第' + d.round + '回合：' + this.cardName(c.type) + ' +' + c.value + ' · ' + hits + ' 次出手击杀（敌 HP ' + e.hp + '）',
+      'R' + d.round + ': ' + this.cardName(c.type) + ' +' + c.value + ' · kill in ' + hits + ' hit' + (hits > 1 ? 's' : '') + ' (foe HP ' + e.hp + ')');
+    var hurt = dmg > 0
+      ? AtomCore.L('受击 ' + counters + ' 次，-' + dmg + ' HP', 'took ' + counters + ' hit' + (counters === 1 ? '' : 's') + ', -' + dmg + ' HP')
+      : AtomCore.L('毫发无损！', 'untouched!');
+    var rest = healed > 0 ? AtomCore.L(' · 休整 -' + chunks * 10 + ' 金 +' + healed + ' HP', ' · camp -' + chunks * 10 + 'g +' + healed + ' HP') : '';
+    d.log2 = hurt + rest;
+    // 5) 延迟推进回合（token 防重开竞态）
+    d.phase = 'resolve';
+    g.setScore((d.round - 1) * 25 + p.gold);
+    var token = d.token, self = this;
+    setTimeout(function () {
+      if (g.state !== 'playing' || g.data.token !== token) return;
+      self.advance(g);
+    }, 550);
+  },
+  advance: function (g) {
+    var d = g.data, p = d.player;
+    if (p.hp <= 0) { STATS.lose++; g.endGame(false); return; }
+    g.setScore(d.round * 25 + p.gold);
+    if (d.round >= this.MAX_ROUND) { STATS.win++; g.setScore(300 + p.gold + p.hp); g.endGame(true); return; }
+    d.round++;
+    d.phase = 'choose';
+    d.picked = -1;
+    this.spawnEnemy(g);
+    this.dealCards(g);
+  },
+  onPointer: function (g, p) {
+    if (p.type !== 'down') return;
+    var d = g.data;
+    if (d.phase !== 'choose' || !d.cards) return;
+    var L = this.cardLayout(g);
+    for (var i = 0; i < d.cards.length; i++) {
+      var r = L[i];
+      if (p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h) { this.pick(g, i); return; }
+    }
+  },
+  cardLayout: function (g) {
+    var n = (g.data.cards || []).length || (g.params.cards | 0);
+    var m = 12, gap = 8;
+    var w = (g.W - m * 2 - gap * (n - 1)) / n;
+    var h = Math.min(w * 1.4, g.H * 0.24);
+    var y = g.H - h - 14;
+    var out = [];
+    for (var i = 0; i < n; i++) out.push({ x: m + i * (w + gap), y: y, w: w, h: h });
+    return out;
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS;
+    if (!d.player || !d.enemy) return;
+    var p = d.player, e = d.enemy, i;
+
+    // —— 爬塔进度：12 级台阶圆点 ——
+    var dx0 = 26, dx1 = g.W - 26, dy = 26;
+    gg.line(dx0, dy, dx1, dy, 1.5);
+    for (i = 1; i <= this.MAX_ROUND; i++) {
+      var px = dx0 + (dx1 - dx0) * (i - 1) / (this.MAX_ROUND - 1);
+      var fill = i < d.round ? C.GREEN : (i === d.round ? C.YELLOW : null);
+      gg.circle(px, dy, i === d.round ? 7 : 5, fill, 1.5);
+    }
+
+    // —— 敌人（拦路怪）：数值就是威胁本身 ——
+    var ecx = g.W / 2, ecy = g.H * 0.155, er = Math.min(34, g.W * 0.09);
+    gg.circle(ecx, ecy, er, C.RED, 2.5);
+    gg.circle(ecx - er * 0.35, ecy - er * 0.15, 3.5, C.INK, 1);
+    gg.circle(ecx + er * 0.35, ecy - er * 0.15, 3.5, C.INK, 1);
+    gg.line(ecx - er * 0.4, ecy + er * 0.45, ecx, ecy + er * 0.25, 2);   // 怒嘴
+    gg.line(ecx, ecy + er * 0.25, ecx + er * 0.4, ecy + er * 0.45, 2);
+    gg.line(ecx - er * 0.55, ecy - er * 0.55, ecx - er * 0.2, ecy - er * 0.35, 2); // 怒眉
+    gg.line(ecx + er * 0.55, ecy - er * 0.55, ecx + er * 0.2, ecy - er * 0.35, 2);
+    gg.text(AtomCore.L('第 ' + d.round + ' 回合的拦路怪', 'Floor ' + d.round + ' Guardian'), ecx, ecy - er - 16, 14, '#888');
+    gg.text('HP ' + e.hp + AtomCore.L(' · 攻 ', ' · ATK ') + e.atk, ecx, ecy + er + 18, 17, C.INK);
+    if (d.round < this.MAX_ROUND) {
+      var nx = this.enemyFor(g, d.round + 1);
+      gg.text(AtomCore.L('下回合：HP ' + nx.hp + ' · 攻 ' + nx.atk, 'Next: HP ' + nx.hp + ' · ATK ' + nx.atk), ecx, ecy + er + 40, 12, '#aaa');
+    }
+
+    // —— 玩家面板：HP 条 + 三维数值 ——
+    var by = g.H * 0.315, bw = g.W - 72;
+    gg.rect(36, by, bw, 15, null, 2);
+    if (p.hp > 0) {
+      gg.ctx.fillStyle = p.hp > p.maxHp * 0.35 ? C.GREEN : C.RED;
+      gg.ctx.fillRect(38, by + 2, Math.max(2, (bw - 4) * p.hp / p.maxHp), 11);
+    }
+    gg.text('HP ' + p.hp + '/' + p.maxHp, g.W / 2, by + 8, 12, C.INK);
+    var sy = by + 36;
+    gg.text(AtomCore.L('攻 ', 'ATK ') + p.atk, g.W * 0.25, sy, 16, '#c2452d');
+    gg.text(AtomCore.L('防 ', 'DEF ') + p.def, g.W * 0.5, sy, 16, '#2d6dc2');
+    gg.text(AtomCore.L('金 ', 'GLD ') + p.gold, g.W * 0.75, sy, 16, '#b45309');
+
+    // —— 战报（后果可解释） ——
+    gg.text(d.log || '', g.W / 2, sy + 34, 14, C.INK);
+    gg.text(d.log2 || '', g.W / 2, sy + 56, 13, '#888');
+
+    // —— 手卡区 ——
+    var cards = d.cards || [], L = this.cardLayout(g);
+    gg.text(
+      AtomCore.L('受击伤害 =（击杀出手数 − 1）× max(1, 敌攻 − 你防）', 'dmg taken = (hits to kill − 1) × max(1, foe ATK − your DEF)'),
+      g.W / 2, L.length ? L[0].y - 12 : g.H - 130, 11, '#bbb');
+    for (i = 0; i < cards.length; i++) {
+      var c = cards[i], r = L[i];
+      var chosen = d.picked === i;
+      var dim = d.phase === 'resolve' && !chosen;
+      var fill = c.type === 'atk' ? C.RED : (c.type === 'def' ? C.BLUE : C.YELLOW);
+      gg.ctx.save();
+      if (dim) gg.ctx.globalAlpha = 0.35;
+      gg.rect(r.x, r.y + (chosen ? -6 : 0), r.w, r.h, fill, chosen ? 4 : 2.5);
+      gg.text(this.cardName(c.type), r.x + r.w / 2, r.y + (chosen ? -6 : 0) + 20, 14, C.INK);
+      var ix = r.x + r.w / 2, iy = r.y + (chosen ? -6 : 0) + r.h * 0.48;
+      if (c.type === 'atk') {           // 剑
+        gg.line(ix - 10, iy + 10, ix + 10, iy - 12, 3.5);
+        gg.line(ix - 8, iy + 2, ix - 1, iy + 9, 3);
+      } else if (c.type === 'def') {    // 盾
+        gg.ctx.beginPath();
+        gg.ctx.arc(ix, iy - 2, 12, Math.PI * 0.05, Math.PI * 0.95, false);
+        gg.ctx.strokeStyle = C.INK; gg.ctx.lineWidth = 3; gg.ctx.stroke();
+        gg.line(ix - 11, iy - 3, ix + 11, iy - 3, 3);
+      } else {                          // 金币
+        gg.circle(ix, iy, 11, null, 3);
+        gg.text('$', ix, iy + 1, 14, C.INK);
+      }
+      gg.text('+' + c.value, ix, r.y + (chosen ? -6 : 0) + r.h - 20, 20, C.INK);
+      gg.ctx.restore();
+    }
+    if (d.phase === 'resolve') {
+      gg.text(AtomCore.L('⚔ 结算中…', '⚔ resolving…'), g.W / 2, L.length ? L[0].y - 32 : g.H - 150, 14, '#d97706');
+    } else if (g.state === 'playing') {
+      gg.text(AtomCore.L('↓ 选 1 张（其余作废）', '↓ pick 1 (the rest are lost)'), g.W / 2, L.length ? L[0].y - 32 : g.H - 150, 13, '#888');
+    }
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "ovoui-skin-index@1",
+  "skins": [
+    "boot_skin",
+    "menu_skin",
+    "gameplay_skin",
+    "result_skin"
+  ]
+}

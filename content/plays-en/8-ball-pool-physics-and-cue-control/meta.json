@@ -1,0 +1,59 @@
+{
+  "slug": "8-ball-pool-physics-and-cue-control",
+  "title": "8-Ball Pool: One Drag, Two Modules, and a Full Rules Engine Behind Every Shot",
+  "subtitle": "A rebuild of classic 8-ball pool as a physics-archetype duel against an AI: drag distance folds into 18 power levels, all-stopped settlement keeps the rules trustworthy, fouls hand over ball-in-hand, and AI aim error keeps the match alive. Fully playable demo at the end.",
+  "archetype": "physics",
+  "archetypeSecondary": "shoot-aim",
+  "tags": [
+    "Physics",
+    "Shoot / Aim",
+    "Spatial Planning"
+  ],
+  "lang": "en",
+  "difficulty": "Advanced",
+  "techStack": [
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Rule Skeleton",
+      "bullets": [
+        "Standard 8-ball: 16 balls (cue + 1-15), solids 1-7 vs stripes 9-15, the 8 goes last",
+        "The first ball pocketed after the break assigns both players' groups",
+        "Three foul states — cue ball pocketed, no ball contacted, opponent's ball hit first — hand the opponent ball-in-hand",
+        "Clear your group then legally sink the 8 to win; sinking it early or on a foul loses on the spot"
+      ]
+    },
+    {
+      "title": "Behavior Loop",
+      "bullets": [
+        "Press near the cue ball → drag to set direction and power (drag distance maps to 0-18) → release to shoot",
+        "Frame-by-frame physics: ball-ball collisions, cushion bounces, pocket detection, settled only after everything stops",
+        "Settlement judges fouls, group assignment, and pocket ownership — keep shooting or hand over; the AI answers in 1-1.5s",
+        "A legal 8-ball finish pops the result screen; PLAY AGAIN rematches instantly"
+      ]
+    },
+    {
+      "title": "Implementation Notes",
+      "bullets": [
+        "8-ball/pool-model carries physics and rules in one module: ball states, collision/pocket detection, foul and winner logic, plus the AI shot",
+        "__OV.Games.EightBallPool.Game is the scene-private renderer: PIXI draws table, balls and cue, translating pointer events into shot.aim/drag/release",
+        "A real race had to be fixed: LogicGraph runs async, so resetting the aiming flag must defer to a macrotask or a real drag can never fire a shot",
+        "common-ui wires pause/help buttons; the boot → menu → gameplay ⇄ paused → result state machine is declared in the blueprint"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/8-ball-pool-physics-and-cue-control/index.html",
+    "note": "Hit Play to break. Press near the cue ball, drag to aim, release to shoot — the farther you drag, the harder the hit. Clear your group, then sink the 8; the AI takes its turns automatically."
+  },
+  "pattern": "spatial"
+}

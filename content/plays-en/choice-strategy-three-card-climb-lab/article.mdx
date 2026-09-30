@@ -1,0 +1,54 @@
+# Three-Card Climb Lab: A Choice/Strategy Playground Where the Choice Space Is a Dial
+
+## The One-Sentence Essence
+
+This is a laboratory-grade minimal game instance built for the Choice / Strategy archetype: every round you pick 1 card from attack / shield / economy, your stacked stats auto-resolve against a guardian that grows stronger each round, and you win by surviving 12 rounds. It does not pretend to be a commercial game — no art package, no deck-building meta. It is a choice-space experiment rig: the archetype's two primary design axes (cards per round, enemy growth slope) are exposed as sliders, so you can turn them yourself and watch the difficulty change.
+
+## Behavior Loop
+
+1. **Read the board**: check your HP/ATK/DEF/gold, the current guardian's HP/ATK, and the next-round guardian preview printed right on the canvas.
+2. **Deal**: the system deals N cards (N = 2/3/4, adjustable) with weights ATK 35% / DEF 30% / Economy 35%.
+3. **Pick 1**: the chosen card applies immediately (ATK +X / DEF +X / gold +X); the rest are lost — opportunity cost lands at once.
+4. **Auto-resolve**: hits to kill = ceil(foe HP / your ATK); damage taken = (hits − 1) × max(1, foe ATK − your DEF). The formula is printed above your hand.
+5. **Camp**: +3 gold kill bounty, then every 10 gold auto-converts to 3 HP (heals only what is missing, cap 30) — economy is stored blood.
+6. **Advance**: HP at 0 means defeat; surviving round 12 means victory; otherwise the enemy grows by the slope and you loop back to step 1.
+
+## Primitive Annotations
+
+- `Choose(cardId)` — pick 1 of N cards; the rest are discarded (choose)
+- `Compare(card value, enemy threat)` — weigh "what is this card worth now" against "how much will I get hit this round" (compare)
+- `Accumulate(ATK/DEF/gold)` — card values permanently stack onto your panel (accumulate)
+- `ResolveCombat()` — auto-resolve with a public formula; every report line is traceable
+- `ConvertGold(10g→3HP)` — economy converts into sustain at camp
+- `AdvanceRound()` — the enemy grows by the slope; 12 rounds is the cap
+
+## Parameter Cheat Sheet
+
+| Parameter | Meaning | Default | Range / Formula |
+|-----------|---------|---------|-----------------|
+| `slope` | Enemy growth curve slope (slider) | 1.2 | 0.6 ~ 2.0, step 0.1 |
+| `cards` | Cards per round (slider) | 3 | 2 / 3 / 4 |
+| Enemy HP | Grows each round | 6 (round 1) | round(3 + round × slope × 2.2); 35 on round 12 at default slope |
+| Enemy ATK | Grows each round | 2 (round 1) | round(1 + round × slope × 0.8); 13 on round 12 at default slope |
+| Player start | HP / ATK / DEF / gold | 24 (cap 30) / 5 / 1 / 0 | fixed |
+| ATK/DEF card value | Appreciates slowly | — | 2 + ⌊round/4⌋ + random 0~1 |
+| Economy card value | Appreciates noticeably | — | 5 + ⌊round×1.2⌋ + random 0~3 |
+| Kill bounty | Per guardian killed | +3 gold | fixed |
+| Camp ratio | Gold to HP | 10 gold → 3 HP | heals up to the cap of 30 |
+| Win condition | Rounds survived | 12 | fixed; final score = 300 + gold + remaining HP |
+
+## Design Trade-offs
+
+1. **The two sliders are the archetype's two primary axes.** `cards` tunes the size of the choice space: fewer cards means the type you want is more likely to be missing, and decisions degrade from "pick the best" to "make do" — the choice space itself is the difficulty. `slope` tunes the speed of risk accumulation: the steeper it is, the sooner a one-dimensional strategy (all attack, or all savings) gets punished. Difficulty is not hidden in a spreadsheet; it is handed to the player to feel.
+2. **The formula is printed on the canvas.** The damage formula sits right above your hand, and every round's combat report (hits to kill, hits taken, HP recovered at camp) is traceable line by line — delivering the archetype checklist item "outcomes must be explainable": the player can say "I lost because of that card on that round."
+3. **Economy is stored blood.** Gold does nothing on its own; it only converts to HP at camp at 10:3, healing just what is missing. That makes economy a delayed-defense card, so the three card types genuinely trade off against each other instead of collapsing into a fake choice with converging net value.
+4. **Next-round enemy preview.** Information is fully public, pushing the challenge from "guessing" back to "weighing"; the residual uncertainty lives in the random card supply — neither pure guessing nor pure arithmetic.
+5. **Laboratory honesty.** The cross-session record is just two W/L counters, and the math model is visible at a glance. The demo deliberately does one thing: let you turn the dials and watch how "choice space × growth slope" rewrites the answer to "can I survive 12 rounds?"
+
+## Implementation Notes
+
+- **Pure static single file**: built on the AtomCore engine (Canvas 2D, portrait 2:3 auto-fit), zero dependencies and zero external requests; `?lang=zh` switches the copy to Chinese.
+- **Two-phase round machine**: `phase` is only `choose` / `resolve`; a 550ms timer advances the round after a pick, guarded by a token against the "stale timer advances a fresh run" race.
+- **Dealing and resolving are separated**: `dealCards` rolls the weighted random hand, while `pick` does exactly four steps — apply, resolve, camp, report. Combat is fully automatic: the interaction cost is zero, so the decision cost is everything.
+- **Sliders as live config**: `game.params` feeds `enemyFor` and `dealCards` in real time — change the slope and the next guardian is immediately stronger; change the card count and the next deal immediately changes.
+- **Debug hook**: `window.__atomGame` exposes a read-only game object for automated verification and numeric replay.

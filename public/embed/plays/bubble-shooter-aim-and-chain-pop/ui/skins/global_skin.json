@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "ovoui-skin@1",
+  "name": "global_skin",
+  "canvas": {
+    "width": 750,
+    "height": 1334
+  },
+  "root": {
+    "id": "root",
+    "type": "container",
+    "x": 0,
+    "y": 0,
+    "w": 750,
+    "h": 1334,
+    "children": [
+      {
+        "id": "quit_btn",
+        "type": "button",
+        "x": 0,
+        "y": 0,
+        "w": 120,
+        "h": 48,
+        "text": "Quit"
+      }
+    ]
+  }
+}

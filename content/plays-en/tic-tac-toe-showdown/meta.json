@@ -73,8 +73,8 @@
     }
   ],
   "demo": {
-    "iframeSrc": "http://127.0.0.1:19527/preview-assets/1021/beta/10001/index.html",
-    "note": "轮流落子，先连成线者胜"
+    "iframeSrc": "/embed/plays/tic-tac-toe-showdown/index.html",
+    "note": "Embedded playable demo: take turns placing pieces and be the first to complete a line (choose 1 Player to face a minimax AI)."
   },
   "source": {
     "platformId": "1021",

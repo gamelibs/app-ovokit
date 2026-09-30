@@ -1,0 +1,64 @@
+{
+  "slug": "pacman-city-maze-dodge-and-route-planning",
+  "title": "吃豆人 Pacman City：把「躲幽灵」玩成「限时路线规划」",
+  "subtitle": "120 秒、3 条命、323 颗豆：在方块城市迷宫里边吃边躲，能量豆的 8 秒攻守反转是全局唯一的节奏开关。",
+  "archetype": "dodge-avoid",
+  "archetypeSecondary": "puzzle",
+  "tags": [
+    "躲避",
+    "解谜",
+    "动作反应"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "进阶",
+  "techStack": [
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "120 秒倒计时 + 3 条命，时间归零或命数耗尽即 game.over",
+        "普通豆 +10 分，能量道具 +50 分并进入 8 秒能量模式，能量模式下反吃幽灵 +200 分",
+        "普通模式撞到幽灵触发 handlePlayerDeath 损失生命；吃光全部豆点进入下一关"
+      ]
+    },
+    {
+      "title": "行为循环",
+      "bullets": [
+        "观察迷宫与幽灵位置 → 规划吃豆路线 → 方向键/摇杆移动 → 吃豆得分",
+        "吃能量豆 → 8 秒攻守反转 → 主动追幽灵冲高分 → 模式结束回归躲避",
+        "时间到/命尽 → result 结算 → 再来一局（全量重置）或返回菜单"
+      ]
+    },
+    {
+      "title": "实现要点",
+      "bullets": [
+        "玩法数据与规则挂在 v2-kernel 状态机（boot/menu/gameplay/result），事件驱动迁移",
+        "core/pacman-city 承载迷宫、豆点、幽灵 AI 与碰撞判定，规则层只做数据读写",
+        "场景私有渲染器 __OV.Games.PacmanCity.Game 负责 PIXI 绘制与摇杆/键盘输入"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/pacman-city-maze-dodge-and-route-planning/index.html",
+    "note": "本作专用试玩：方向键或左下角虚拟摇杆控制吃豆人，120 秒内吃豆得分、躲幽灵，吃金色能量豆可反吃幽灵冲分。"
+  },
+  "pattern": "action",
+  "cover": {
+    "src": "/plays/pacman-city-maze-dodge-and-route-planning/cover.svg",
+    "alt": "吃豆人 Pacman City：把「躲幽灵」玩成「限时路线规划」"
+  },
+  "coverWide": {
+    "src": "/plays/pacman-city-maze-dodge-and-route-planning/cover-wide.svg",
+    "alt": "吃豆人 Pacman City：把「躲幽灵」玩成「限时路线规划」"
+  }
+}

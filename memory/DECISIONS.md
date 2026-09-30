@@ -79,3 +79,17 @@
   3. 与 ovoforge.com 工具站的互导只做编辑式上下文导流（文章 ↔ 工具的自然互链），禁止强制跳转/横幅互导；导流落地暂缓，等 Pixel Studio 具备向生产线供素材能力后再做。
 - **原因**：搜索位混用母品牌会稀释 GamesLog 品牌词建设；分域名让内容站（信息型关键词）与工具站（工具型关键词）各自积累权重。
 - **影响**：SEO 修复任务（双 H1 / title 后缀）以本决策为准；英文化工作不受品牌规则影响。
+
+---
+
+## 决策 006：可玩 demo 公开通道统一为「自包含静态包进站点仓库 + release 产物分支」
+
+- **日期**：2026-09-30
+- **问题**：文章/母型页的可玩 demo 以什么形式公开托管？历史上存在三种并存形态：自包含静态包打进 `public/embed/plays/`、外部平台托管（1022 平台包）、localhost 动态预览直连（`127.0.0.1:19527/preview-assets/...`）。
+- **选项**：
+  1. 外部平台/R2 托管（站点仓库不带大文件）
+  2. 自包含静态包统一打进站点仓库（`public/embed/plays/{slug}/`、`public/demos/atomic/{key}/`），随 `pnpm release` 进入 deploy/gameslog.top 产物分支
+  3. 维持现状混用
+- **决定**：选项 2。所有可玩 demo 必须是自包含静态包（零 runtime-gateway 依赖、零 localhost），经 ovo_system `scripts/export-static-demo.ts`（v2 项目）或 AtomCore 单文件（母型原子 demo）产出；localhost/外部托管引用视为发布缺陷必须清零。
+- **原因**：单包 0.8~3.3MB 对 git 与产物体积均可接受；deploy 分支通道已存在且被验证（服务器 `bash deploy.sh deploy` 免构建生效）；零外部依赖 = 线上可玩性与本地验证完全一致，无第二真相源；R2/三方托管在当前资产规模下是纯增加运维面。
+- **影响**：tic-tac-toe-showdown 的 localhost 引用已清零（content/ 全目录 grep 通过）；未来大资产（>10MB）再评估 R2；已落地：14/14 母型原子 demo + 11 篇可玩 demo 案例全部走本通道。

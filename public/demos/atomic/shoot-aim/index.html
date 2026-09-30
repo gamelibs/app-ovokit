@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Shoot/Aim · Trajectory-Assist Lab | OVO Atomic Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 射击瞄准母型原子 demo（泡泡龙式）：行为原语 = aim + collision + spawn + accumulate
+// 教学点：aim 的手感 = 辅助信息量（弹道辅助线）与下压压力（墙速/颜色数）的平衡。
+//   - 辅助线长度：瞄准决策被"外包"给系统的程度；压到 0 就是纯手感。
+//   - 下压速度：节奏阀门。速度越快越没时间细瞄，辅助线的价值越高。
+//   - 颜色种数：凑同色的期望等待 = 难度本体。
+var PALETTE = ['#7cc4ff', '#ffda6a', '#ff8b8b', '#9be29b', '#d3a6ff', '#ffb26b'];
+AtomCore.create({
+  title: AtomCore.L('射击瞄准 · 弹道辅助实验室', 'Shoot/Aim · Trajectory-Assist Lab'),
+  objective: AtomCore.L(
+    '拖动瞄准、松手发射：同色≥3消除，墙压过底线即败。调「辅助线 × 下压速度」体会：手感=信息量与压力的平衡。',
+    'Drag to aim, release to fire: 3+ same-colored bubbles pop; you lose when the wall crosses the deadline. Tune "guide line × descent speed" — aim feel = assist info vs pressure.'),
+  lives: 0,
+  params: [
+    { key: 'guideLen', label: AtomCore.L('弹道辅助线长度', 'Guide Line Length'), min: 0, max: 600, step: 20, default: 240, unit: 'px' },
+    { key: 'dropSpeed', label: AtomCore.L('泡泡墙下压速度', 'Wall Descent Speed'), min: 0, max: 16, step: 1, default: 6, unit: 'px/s' },
+    { key: 'colors', label: AtomCore.L('颜色种数（=难度）', 'Colors (= Difficulty)'), min: 3, max: 6, step: 1, default: 4, unit: '' }
+  ],
+  hudExtra: function (g) {
+    var d = g.data;
+    return AtomCore.L('消除 <b>', 'Cleared <b>') + (d.cleared || 0) + '/' + (d.target || 20) + '</b>' +
+      AtomCore.L(' · 墙 <b>', ' · wall <b>') + (d.grid ? d.grid.length : 0) + AtomCore.L(' 行</b>', ' rows</b>');
+  },
+  setup: function (g) {
+    var d = g.data;
+    d.R = Math.max(10, Math.floor((g.W - 10) / 17)); // 8 列正六边形堆叠，半径自适应画布
+    d.cols = 8;
+    d.gridX = (g.W - d.cols * 2 * d.R) / 2;
+    d.rowH = d.R * 1.75;
+    d.topY = 10;
+    d.wallY = 0;                    // 墙整体下压的亚行偏移（攒满一行就生新行）
+    d.deadlineY = g.H - 116;
+    d.launcher = { x: g.W / 2, y: g.H - 46 };
+    d.aim = Math.PI / 2;
+    d.grid = [];                    // 行数组 {off:0/1, cells:[颜色,0=空]}，相邻行 off 必相反
+    for (var i = 0; i < 4; i++) this.pushRow(g, 0.9);
+    d.flying = null;
+    d.cleared = 0;
+    d.points = 0;
+    d.target = 20;                  // 消除 20 个 = 通关
+    d.pops = [];                    // 消除扩散圈动画 {x,y,t,color}
+    d.falling = [];                 // 悬空掉落动画 {x,y,vy,color}
+    d.dragging = false;
+    d.current = this.pickColor(g);
+    d.next = this.pickColor(g);
+  },
+  // —— 网格几何 ——
+  cellPos: function (g, ri, ci) {
+    var d = g.data, row = d.grid[ri];
+    return { x: d.gridX + d.R + ci * 2 * d.R + (row.off ? d.R : 0), y: d.topY + d.wallY + ri * d.rowH + d.R };
+  },
+  neighbors: function (g, ri, ci) {
+    var d = g.data, off = d.grid[ri] ? d.grid[ri].off : 0;
+    var deltas = off
+      ? [[0, -1], [0, 1], [-1, 0], [-1, 1], [1, 0], [1, 1]]
+      : [[0, -1], [0, 1], [-1, -1], [-1, 0], [1, -1], [1, 0]];
+    var out = [];
+    for (var i = 0; i < deltas.length; i++) {
+      var r = ri + deltas[i][0], c = ci + deltas[i][1];
+      if (r < 0 || r >= d.grid.length) continue;
+      if (c < 0 || c >= d.grid[r].cells.length) continue;
+      out.push([r, c]);
+    }
+    return out;
+  },
+  pushRow: function (g, fillProb) {
+    var d = g.data;
+    var off = d.grid.length ? 1 - d.grid[0].off : 0;
+    var n = off ? d.cols - 1 : d.cols;
+    var cells = [];
+    for (var i = 0; i < n; i++) {
+      cells.push(g.rand(0, 1) < fillProb ? 1 + Math.floor(g.rand(0, g.params.colors)) : 0);
+    }
+    d.grid.unshift({ off: off, cells: cells });
+  },
+  maxBubbleY: function (g) {
+    var d = g.data, max = -1;
+    for (var ri = 0; ri < d.grid.length; ri++) {
+      for (var ci = 0; ci < d.grid[ri].cells.length; ci++) {
+        if (!d.grid[ri].cells[ci]) continue;
+        var p = this.cellPos(g, ri, ci);
+        if (p.y + d.R > max) max = p.y + d.R;
+      }
+    }
+    return max;
+  },
+  isEmpty: function (g) {
+    var grid = g.data.grid;
+    for (var i = 0; i < grid.length; i++) {
+      for (var j = 0; j < grid[i].cells.length; j++) if (grid[i].cells[j]) return false;
+    }
+    return true;
+  },
+  // —— 弹药：只从场上已有的颜色里取，避免永远凑不齐的死弹 ——
+  pickColor: function (g) {
+    var d = g.data, set = {}, arr = [];
+    (d.grid || []).forEach(function (row) {
+      row.cells.forEach(function (v) { if (v && !set[v]) { set[v] = 1; arr.push(v); } });
+    });
+    if (!arr.length) { for (var i = 1; i <= g.params.colors; i++) arr.push(i); }
+    return arr[Math.floor(g.rand(0, arr.length))];
+  },
+  ensureAmmo: function (g) {
+    var d = g.data, set = {}, has = false;
+    d.grid.forEach(function (row) { row.cells.forEach(function (v) { if (v) { set[v] = 1; has = true; } }); });
+    if (!has) return;
+    if (!set[d.current]) d.current = this.pickColor(g);
+    if (!set[d.next]) d.next = this.pickColor(g);
+  },
+  // —— 瞄准与发射 ——
+  setAim: function (g, p) {
+    var d = g.data, L = d.launcher, MIN = 0.26, MAX = Math.PI - 0.26;
+    if (p.y >= L.y - 4) { d.aim = p.x >= L.x ? MIN : MAX; return; }
+    var a = Math.atan2(L.y - p.y, p.x - L.x);
+    d.aim = Math.max(MIN, Math.min(MAX, a));
+  },
+  onPointer: function (g, p) {
+    var d = g.data;
+    if (p.type === 'down') { d.dragging = true; this.setAim(g, p); }
+    else if (p.type === 'move') { this.setAim(g, p); }
+    else if (p.type === 'up' && d.dragging) {
+      d.dragging = false;
+      this.setAim(g, p);
+      this.fire(g);
+    }
+  },
+  fire: function (g) {
+    var d = g.data;
+    if (d.flying) return;
+    var S = 560;
+    d.flying = {
+      x: d.launcher.x + Math.cos(d.aim) * (d.R + 8),
+      y: d.launcher.y - Math.sin(d.aim) * (d.R + 8),
+      vx: Math.cos(d.aim) * S,
+      vy: -Math.sin(d.aim) * S,
+      color: d.current
+    };
+    d.current = d.next;
+    d.next = this.pickColor(g);
+  },
+  updateFlying: function (g, dt) {
+    var d = g.data, f = d.flying;
+    var dist = Math.sqrt(f.vx * f.vx + f.vy * f.vy) * dt;
+    var steps = Math.max(1, Math.ceil(dist / (d.R * 0.5))); // 子步进防穿透
+    var sdt = dt / steps;
+    for (var s = 0; s < steps; s++) {
+      f.x += f.vx * sdt; f.y += f.vy * sdt;
+      if (f.x < d.R) { f.x = d.R; f.vx = Math.abs(f.vx); }
+      if (f.x > g.W - d.R) { f.x = g.W - d.R; f.vx = -Math.abs(f.vx); }
+      var hit = f.y - d.R <= d.topY + d.wallY;
+      for (var ri = 0; ri < d.grid.length && !hit; ri++) {
+        for (var ci = 0; ci < d.grid[ri].cells.length; ci++) {
+          if (!d.grid[ri].cells[ci]) continue;
+          var p = this.cellPos(g, ri, ci);
+          var dx = f.x - p.x, dy = f.y - p.y;
+          if (dx * dx + dy * dy < (2 * d.R * 0.86) * (2 * d.R * 0.86)) { hit = true; break; }
+        }
+      }
+      if (hit) {
+        var fx = f.x, fy = f.y, fc = f.color;
+        d.flying = null;
+        this.snap(g, fx, fy, fc);
+        return;
+      }
+      if (f.y < -d.R * 2) { d.flying = null; return; } // 兜底，防丢失
+    }
+  },
+  snap: function (g, x, y, color) {
+    var d = g.data, best = null, bestD = Infinity;
+    for (var ri = 0; ri < d.grid.length; ri++) {
+      for (var ci = 0; ci < d.grid[ri].cells.length; ci++) {
+        if (d.grid[ri].cells[ci]) continue;
+        if (ri !== 0 && !this.hasFilledNeighbor(g, ri, ci)) continue; // 只能贴在已有泡泡旁或顶行
+        var p = this.cellPos(g, ri, ci);
+        var dx = x - p.x, dy = y - p.y, dd = dx * dx + dy * dy;
+        if (dd < bestD) { bestD = dd; best = [ri, ci]; }
+      }
+    }
+    if (!best) { this.ensureAmmo(g); return; }
+    d.grid[best[0]].cells[best[1]] = color;
+    this.resolve(g, best[0], best[1]);
+  },
+  hasFilledNeighbor: function (g, ri, ci) {
+    var nb = this.neighbors(g, ri, ci);
+    for (var i = 0; i < nb.length; i++) {
+      if (g.data.grid[nb[i][0]].cells[nb[i][1]]) return true;
+    }
+    return false;
+  },
+  // —— 命中结算：同色≥3消除，失去顶部连接的悬空掉落 ——
+  resolve: function (g, ri, ci) {
+    var d = g.data, color = d.grid[ri].cells[ci];
+    var stack = [[ri, ci]], seen = {}, group = [];
+    while (stack.length) {
+      var cur = stack.pop(), key = cur[0] + ',' + cur[1];
+      if (seen[key]) continue; seen[key] = 1;
+      if (d.grid[cur[0]].cells[cur[1]] !== color) continue;
+      group.push(cur);
+      var nb = this.neighbors(g, cur[0], cur[1]);
+      for (var i = 0; i < nb.length; i++) stack.push(nb[i]);
+    }
+    if (group.length >= 3) {
+      for (var a = 0; a < group.length; a++) {
+        var p = this.cellPos(g, group[a][0], group[a][1]);
+        d.pops.push({ x: p.x, y: p.y, t: 0.35 });
+        d.grid[group[a][0]].cells[group[a][1]] = 0;
+        d.cleared++; d.points += 10;
+      }
+      var conn = {}, q = [];
+      for (var c0 = 0; c0 < d.grid[0].cells.length; c0++) {
+        if (d.grid[0].cells[c0]) { conn['0,' + c0] = 1; q.push([0, c0]); }
+      }
+      while (q.length) {
+        var u = q.pop(), n2 = this.neighbors(g, u[0], u[1]);
+        for (var b = 0; b < n2.length; b++) {
+          var k = n2[b][0] + ',' + n2[b][1];
+          if (conn[k] || !d.grid[n2[b][0]].cells[n2[b][1]]) continue;
+          conn[k] = 1; q.push(n2[b]);
+        }
+      }
+      for (var r2 = 0; r2 < d.grid.length; r2++) {
+        for (var c2 = 0; c2 < d.grid[r2].cells.length; c2++) {
+          if (!d.grid[r2].cells[c2] || conn[r2 + ',' + c2]) continue;
+          var pp = this.cellPos(g, r2, c2);
+          d.falling.push({ x: pp.x, y: pp.y, vy: 60, color: d.grid[r2].cells[c2] });
+          d.grid[r2].cells[c2] = 0;
+          d.cleared++; d.points += 15;
+        }
+      }
+    }
+    g.setScore(d.points);
+    this.ensureAmmo(g);
+    if (d.cleared >= d.target || this.isEmpty(g)) { g.endGame(true); return; }
+    if (this.maxBubbleY(g) >= d.deadlineY) g.endGame(false);
+  },
+  update: function (g, dt) {
+    var d = g.data;
+    d.wallY += g.params.dropSpeed * dt;   // 下压压力源（spawn + accumulate）
+    while (d.wallY >= d.rowH) {
+      d.wallY -= d.rowH;
+      this.pushRow(g, 0.92);
+      this.ensureAmmo(g);
+    }
+    if (d.flying) this.updateFlying(g, dt);
+    for (var i = d.pops.length - 1; i >= 0; i--) { d.pops[i].t -= dt; if (d.pops[i].t <= 0) d.pops.splice(i, 1); }
+    for (var j = d.falling.length - 1; j >= 0; j--) {
+      var f = d.falling[j];
+      f.vy += 1400 * dt; f.y += f.vy * dt;
+      if (f.y > g.H + 40) d.falling.splice(j, 1);
+    }
+    if (this.maxBubbleY(g) >= d.deadlineY) { g.endGame(false); return; }
+  },
+  // —— 绘制 ——
+  drawGuide: function (g, gg) {
+    var d = g.data, L = d.launcher, INK = AtomCore.COLORS.INK;
+    var x = L.x + Math.cos(d.aim) * (d.R + 8), y = L.y - Math.sin(d.aim) * (d.R + 8);
+    var vx = Math.cos(d.aim), vy = -Math.sin(d.aim);
+    var step = 7, left = g.params.guideLen, dots = 0, hitPoint = null;
+    while (left > 0) {
+      x += vx * step; y += vy * step; left -= step;
+      if (x < d.R) { x = d.R; vx = Math.abs(vx); }
+      if (x > g.W - d.R) { x = g.W - d.R; vx = -Math.abs(vx); }
+      var hit = y - d.R <= d.topY + d.wallY;
+      for (var ri = 0; ri < d.grid.length && !hit; ri++) {
+        for (var ci = 0; ci < d.grid[ri].cells.length; ci++) {
+          if (!d.grid[ri].cells[ci]) continue;
+          var p = this.cellPos(g, ri, ci);
+          var dx = x - p.x, dy = y - p.y;
+          if (dx * dx + dy * dy < (2 * d.R * 0.86) * (2 * d.R * 0.86)) { hit = true; break; }
+        }
+      }
+      if (hit) { hitPoint = { x: x, y: y }; break; }
+      dots++;
+      if (dots % 2 === 0) gg.circle(x, y, 2.2, INK);
+    }
+    if (hitPoint) gg.circle(hitPoint.x, hitPoint.y, d.R * 0.65, null, 2); // 预判落点圈
+  },
+  draw: function (g, gg) {
+    var d = g.data, ctx = gg.ctx;
+    if (!d.grid) return;
+    var ri, ci, p;
+    // 底线（失败线）
+    ctx.save();
+    ctx.setLineDash([6, 6]); ctx.strokeStyle = '#d97706'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(0, d.deadlineY); ctx.lineTo(g.W, d.deadlineY); ctx.stroke();
+    ctx.restore();
+    gg.text(AtomCore.L('底线', 'deadline'), 36, d.deadlineY - 12, 12, '#d97706');
+    gg.text(AtomCore.L('拖动瞄准 · 松手发射', 'drag to aim · release to fire'), g.W / 2, d.deadlineY + 18, 13, '#888');
+    // 泡泡墙
+    for (ri = 0; ri < d.grid.length; ri++) {
+      for (ci = 0; ci < d.grid[ri].cells.length; ci++) {
+        var v = d.grid[ri].cells[ci];
+        if (!v) continue;
+        p = this.cellPos(g, ri, ci);
+        gg.circle(p.x, p.y, d.R - 1, PALETTE[(v - 1) % PALETTE.length], 2);
+      }
+    }
+    // 消除扩散圈
+    for (var i = 0; i < d.pops.length; i++) {
+      var pop = d.pops[i], k = 1 - pop.t / 0.35;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, pop.t / 0.35);
+      gg.circle(pop.x, pop.y, d.R - 1 + k * 12, null, 3);
+      ctx.restore();
+    }
+    // 悬空掉落
+    for (var f2 = 0; f2 < d.falling.length; f2++) {
+      var fb = d.falling[f2];
+      gg.circle(fb.x, fb.y, d.R - 1, PALETTE[(fb.color - 1) % PALETTE.length], 2);
+    }
+    // 弹道辅助线（aim 的信息量本体）
+    if (g.params.guideLen > 0) this.drawGuide(g, gg);
+    // 发射台：炮管 + 底座 + 已装填泡泡
+    var L = d.launcher;
+    gg.line(L.x, L.y, L.x + Math.cos(d.aim) * (d.R + 20), L.y - Math.sin(d.aim) * (d.R + 20), 7);
+    gg.circle(L.x, L.y, d.R + 7, '#fff', 2.5);
+    if (!d.flying) gg.circle(L.x, L.y, d.R - 2, PALETTE[(d.current - 1) % PALETTE.length], 2);
+    // 下一颗
+    var nx = L.x + d.R * 2.6;
+    gg.circle(nx, L.y, d.R * 0.55, PALETTE[(d.next - 1) % PALETTE.length], 2);
+    gg.text(AtomCore.L('下个', 'next'), nx, L.y + d.R + 12, 12, '#888');
+    // 飞行泡泡
+    if (d.flying) gg.circle(d.flying.x, d.flying.y, d.R - 1, PALETTE[(d.flying.color - 1) % PALETTE.length], 2);
+  }
+});
+</script>
+</body>
+</html>

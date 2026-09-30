@@ -1,0 +1,65 @@
+{
+  "slug": "football-kick-physics-and-goal-angle",
+  "title": "Football Kick: Compressing a Penalty Shootout into an Angle-by-Power Judgement Table",
+  "subtitle": "The rule skeleton of a 5-round penalty duel: aim angle and shot power are sliced into three judgement bands — guaranteed miss, risk zone and sweet spot — with probability deciding goal, save or miss. Playable demo included.",
+  "archetype": "shoot-aim",
+  "archetypeSecondary": "physics",
+  "tags": [
+    "Shoot / Aim",
+    "Physics",
+    "Action"
+  ],
+  "lang": "en",
+  "difficulty": "Advanced",
+  "techStack": [
+    "Three.js",
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Rule Skeleton",
+      "bullets": [
+        "5 penalty rounds (maxRounds=5); each shot advances the round, then the match settles",
+        "Three verdicts: goal / save / miss; only goals score; the AI keeper is a placeholder (aiScore stays 0)",
+        "Winner decided by comparing both scores; draws allowed — one goal locks the win"
+      ]
+    },
+    {
+      "title": "Behavior Loop",
+      "bullets": [
+        "Aim (aim.update writes angle/power, angle clamped to ±80°) → shoot (shot.take)",
+        "executeShot judges via the three-band table → shot.result returns → goal scores +1 with SFX",
+        "resetScene resets for the next round; round>5 emits game.over and moves to result"
+      ]
+    },
+    {
+      "title": "Implementation Notes",
+      "bullets": [
+        "Judgement model lives in the private module football/football-model; sweet-spot save chance = 0.25+|angle|/200",
+        "State machine and scoring driven by the v2-kernel logic graph: boot→menu→gameplay→result",
+        "Current build is a rules-layer skeleton: aim controls and the 3D scene are not on screen yet, but the judgement chain is fully closed"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/football-kick-physics-and-goal-angle/index.html",
+    "note": "Hit \"开始游戏\" to enter the shootout, then click \"射门\" for 5 rounds of judgement — each kick's angle and power are ruled by the model-layer probability table. One goal wins."
+  },
+  "pattern": "action",
+  "cover": {
+    "src": "/plays/football-kick-physics-and-goal-angle/cover.svg",
+    "alt": "Football Kick: Compressing a Penalty Shootout into an Angle-by-Power Judgement Table"
+  },
+  "coverWide": {
+    "src": "/plays/football-kick-physics-and-goal-angle/cover-wide.svg",
+    "alt": "Football Kick: Compressing a Penalty Shootout into an Angle-by-Power Judgement Table"
+  }
+}

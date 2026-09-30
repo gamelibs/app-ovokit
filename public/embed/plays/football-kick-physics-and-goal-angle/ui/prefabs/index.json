@@ -1,0 +1,9 @@
+{
+  "files": [
+    "boot_prefab",
+    "gameplay_prefab",
+    "index",
+    "menu_prefab",
+    "result_prefab"
+  ]
+}
