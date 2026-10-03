@@ -122,7 +122,7 @@ export function TopNav({ isModerator }: { isModerator: boolean }) {
                 type="button"
                 onClick={() => goSearch()}
                 aria-label="Search"
-                className="absolute right-1.5 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center sketch-border bg-paper text-ink-muted hover:bg-paper-warm hover:text-ink min-[360px]:right-2"
+                className="absolute right-1 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-ink/5 hover:text-ink"
               >
                 <Search size={18} strokeWidth={2} />
               </button>
