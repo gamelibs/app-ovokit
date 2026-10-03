@@ -13,7 +13,7 @@ export const navItems: NavItem[] = [
   {
     key: "discover",
     iconPath: "M12 3l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z",
-    href: "/?all=1&group=difficulty",
+    href: "/",
   },
   {
     key: "favorites",

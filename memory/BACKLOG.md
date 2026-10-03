@@ -112,6 +112,11 @@
 
 ## Done
 
+- [x] **首页 UX 重设计：默认落地「发现」界面 + 浏览视图筛选降噪** <!-- task:id=home-discover-001 priority:P1 category:ux -->
+  - 文件：`src/components/home/DiscoverLanding.tsx`（新增）、`src/app/[locale]/(site)/page.tsx`、`src/components/site/navItems.ts`、`src/components/plays/ComplexityFilterBar.tsx`、`src/components/plays/ComplexityLegendToggle.tsx`、`src/components/plays/CategoryTabs.tsx`、`messages/{zh-CN,en}.json`
+  - 目标：① 默认落地变真正的「发现」界面（Hero 说清站点是什么 + 内容域入口 + 可玩精选 + 新手必读 + 最新发布）；② 浏览视图 tier 筛选降级为次级小控件、标签行降噪
+  - 验收：✅ typecheck 0 错；改动文件 lint 0 error；Playwright 42/42 + console 零错误（双语结构/真实数量/tier 筛选功能/移动视口）；截图 ovo_system/tmp/discover-*.png（2026-10-03，详见 `memory/daily/2026-10-03.md`）
+
 - [x] **基础内容夯实：8 母型 canvas demo + 8 案例文章 + localhost 清零** <!-- task:id=foundation-hardening-001 priority:P0 category:content -->
   - 文件：`public/demos/atomic/{puzzle,placement,physics,choice-strategy,combat,progression,simulation,shoot-aim}/index.html`（新增）、`public/embed/plays/{6 样本 slug + tic-tac-toe-showdown}/`、`content/plays{,-en}/{8 个新 slug}/`、`public/plays/{8 个新 slug}/`
   - 目标：S1 收尾（8 个文本仪表盘 → 真 canvas）+ 6 个 e2e 样本上站 + 2 个缺位母型案例 + 部署通道定案

@@ -5,14 +5,7 @@ import { RightSidebar } from "@/components/plays/RightSidebar";
 import { ComplexityFilterBar } from "@/components/plays/ComplexityFilterBar";
 import { complexityTiers, getPlayCategory, listPlays, listPlaySearchIndex, playDifficultyTier, resolvePlayBrowseState, type ComplexityTierKey, type ContentLocale, type PlayBrowseGroupKey, type PlayTag } from "@/lib/content/plays";
 import { filterPlaysBySearchResults, POPULAR_SEARCH_TERMS, searchPlayDocs, sortPlaysBySearchResults } from "@/lib/search/match";
-import { HandDrawnHero } from "@/components/home/HandDrawnHero";
-import { HotPlaysSection } from "@/components/home/HotPlaysSection";
-import { LatestPlaysSection } from "@/components/home/LatestPlaysSection";
-import { ArchetypeQuickNav } from "@/components/home/ArchetypeQuickNav";
-import { PatternQuickNav } from "@/components/home/PatternQuickNav";
-import { FeatureQuickNav } from "@/components/home/FeatureQuickNav";
-import { PlayListItem } from "@/components/home/PlayListItem";
-import { DevToolsPanel } from "@/components/home/DevToolsPanel";
+import { DiscoverLanding } from "@/components/home/DiscoverLanding";
 import { isModerator } from "@/lib/mod/auth";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { hasLocale } from "next-intl";
@@ -140,49 +133,13 @@ export default async function Home({
     };
   }
 
-  const featured = plays.slice(0, 8);
   const canEdit = await isModerator();
 
   if (isDefaultLanding) {
+    // 默认落地 = 「发现」界面：Hero（站点是什么）→ 内容域入口 → 可玩精选 → 新手必读 → 最新发布
     return (
       <main className="mx-auto w-full max-w-6xl px-3 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-4 min-[360px]:px-4">
-        <HandDrawnHero />
-        <LatestPlaysSection />
-        <HotPlaysSection />
-        <ArchetypeQuickNav />
-        <PatternQuickNav />
-        <FeatureQuickNav />
-
-        <div className="sketch-divider-wavy mt-8" />
-
-        {/* 更多玩法 + 开发者工具箱 */}
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
-          <section className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-kalam text-xs font-semibold uppercase tracking-wide text-highlight-blue">{t("moreKicker")}</p>
-                <h2 className="font-kalam text-xl font-semibold text-ink">{t("moreTitle")}</h2>
-              </div>
-              <Link
-                href={{ pathname: "/", query: { all: "1", group: "archetype" } }}
-                className="sketch-button sketch-button-secondary"
-              >
-                {t("viewAll")}
-              </Link>
-            </div>
-            <div className="sketch-card p-3">
-              <div className="divide-y divide-ink-light/10">
-                {featured.slice(0, 6).map((p) => (
-                  <PlayListItem key={p.slug} play={p} />
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <aside className="space-y-6">
-            {canEdit ? <DevToolsPanel /> : null}
-          </aside>
-        </div>
+        <DiscoverLanding plays={plays} canEdit={canEdit} />
       </main>
     );
   }
