@@ -1,7 +1,7 @@
 {
   "slug": "timing-window-reaction-lab",
   "title": "Judgment Window Lab: Timing Feel as Two Sliders",
-  "subtitle": "A lab-grade minimal instance built for the Timing archetype: 20 beats, one shrinking ring, one fixed judgment circle. Drag the Perfect Window (40–150ms) to feel judgment strictness, drag the BPM (60–180) to feel beat density, and see where timing-game feel actually comes from.",
+  "subtitle": "A timing lab: 20 beats, one shrinking ring, one judgment circle. Drag Perfect Window (40–150ms) and BPM (60–180) sliders to feel where timing feel comes from.",
   "archetype": "timing",
   "archetypeSecondary": "dodge-avoid",
   "tags": [

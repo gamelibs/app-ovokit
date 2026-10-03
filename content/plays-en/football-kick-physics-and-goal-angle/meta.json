@@ -1,7 +1,7 @@
 {
   "slug": "football-kick-physics-and-goal-angle",
   "title": "Football Kick: Compressing a Penalty Shootout into an Angle-by-Power Judgement Table",
-  "subtitle": "The rule skeleton of a 5-round penalty duel: aim angle and shot power are sliced into three judgement bands — guaranteed miss, risk zone and sweet spot — with probability deciding goal, save or miss. Playable demo included.",
+  "subtitle": "A 5-round penalty duel compressed into an angle-by-power table: three judgement bands — miss zone, risk zone, sweet spot — rule goal, save or miss.",
   "archetype": "shoot-aim",
   "archetypeSecondary": "physics",
   "tags": [
@@ -16,7 +16,12 @@
     "PIXI",
     "v2-kernel"
   ],
-  "corePoints": [],
+  "corePoints": [
+    "A probability table instead of rigid-body ballistics: same input, same distribution, unit-testable, tunable",
+    "Three judgement bands: the miss zone punishes extremes, the sweet spot rewards safe shots",
+    "Save chance inside the sweet spot rises with |angle|: aiming for the corner has a price",
+    "The AI opponent is a deliberate placeholder: lock the settle-and-rematch rule skeleton first"
+  ],
   "stats": {
     "views": 0,
     "likes": 0
@@ -47,11 +52,17 @@
       ]
     }
   ],
-  "codeSnippets": [],
+  "codeSnippets": [
+    {
+      "title": "The three judgement bands (football/football-model)",
+      "language": "js",
+      "code": "let result = \"miss\";\nif (power <= 10 || Math.abs(angle) > 75) {\n  result = \"miss\";                               // miss zone: too soft or angle beyond 75°\n} else if (Math.abs(angle) > 55 || power > 95) {\n  result = Math.random() < 0.6 ? \"miss\" : \"save\"; // risk zone: 60% go wide\n} else {\n  const saveChance = 0.25 + Math.abs(angle) / 200; // sweet spot: sharper angles get saved more\n  result = Math.random() < saveChance ? \"save\" : \"goal\";\n}\n"
+    }
+  ],
   "published": true,
   "demo": {
     "iframeSrc": "/embed/plays/football-kick-physics-and-goal-angle/index.html",
-    "note": "Hit \"开始游戏\" to enter the shootout, then click \"射门\" for 5 rounds of judgement — each kick's angle and power are ruled by the model-layer probability table. One goal wins."
+    "note": "Enter the shootout and click Shoot through 5 rounds: each kick's angle and power are ruled by the model-layer probability table — goal, save or miss. One goal wins it."
   },
   "pattern": "action",
   "cover": {

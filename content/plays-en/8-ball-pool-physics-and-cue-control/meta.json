@@ -1,13 +1,13 @@
 {
   "slug": "8-ball-pool-physics-and-cue-control",
   "title": "8-Ball Pool: One Drag, Two Modules, and a Full Rules Engine Behind Every Shot",
-  "subtitle": "A rebuild of classic 8-ball pool as a physics-archetype duel against an AI: drag distance folds into 18 power levels, all-stopped settlement keeps the rules trustworthy, fouls hand over ball-in-hand, and AI aim error keeps the match alive. Fully playable demo at the end.",
+  "subtitle": "A physics rebuild of 8-ball pool: drag distance folds into 18 power levels, all-stopped settlement keeps the rules trustworthy, and AI aim error keeps it alive.",
   "archetype": "physics",
   "archetypeSecondary": "shoot-aim",
   "tags": [
     "Physics",
     "Shoot / Aim",
-    "Spatial Planning"
+    "Puzzle"
   ],
   "lang": "en",
   "difficulty": "Advanced",
@@ -15,7 +15,12 @@
     "PIXI",
     "v2-kernel"
   ],
-  "corePoints": [],
+  "corePoints": [
+    "Drag distance maps straight to 0-18 power levels: no charge bar, no waiting",
+    "All-stopped settlement: fouls, ownership and win/loss judged only after every ball stops",
+    "Three foul states hand over ball-in-hand, keeping turns fair",
+    "AI aims with random error, so the match goes back and forth"
+  ],
   "stats": {
     "views": 0,
     "likes": 0
@@ -49,7 +54,18 @@
       ]
     }
   ],
-  "codeSnippets": [],
+  "codeSnippets": [
+    {
+      "title": "Folding drag distance into shot speed (8-ball/pool-model)",
+      "language": "js",
+      "code": "takeShot(_payload) {\n  const angle = getNumber(\"aimAngle\", 0);\n  const power = getNumber(\"power\", 0);   // drag distance already mapped to 0-18\n  const balls = getBalls();\n  const cue = balls.find((b) => b.id === 0);\n  if (!cue || cue.pocketed) return;\n  const speed = power * 180;\n  cue.vx = Math.cos(angle) * speed;\n  cue.vy = Math.sin(angle) * speed;\n  setBalls(balls);\n  ctx.data.set(\"ballsMoving\", true);\n  ctx.data.set(\"shotInProgress\", true);\n  events()?.emit(\"shot.taken\", { angle, power, speed });\n}\n"
+    },
+    {
+      "title": "Ball-ball collision: separate overlap, then apply the normal impulse (8-ball/pool-model)",
+      "language": "js",
+      "code": "const dx = b.x - a.x;\nconst dy = b.y - a.y;\nconst dist = Math.hypot(dx, dy);\nconst minDist = a.radius + b.radius;\nif (dist < minDist && dist > 0) {\n  const nx = dx / dist;\n  const ny = dy / dist;\n  const overlap = (minDist - dist) / 2;   // separate the two balls until just touching\n  a.x -= nx * overlap;\n  a.y -= ny * overlap;\n  b.x += nx * overlap;\n  b.y += ny * overlap;\n  const dvx = a.vx - b.vx;\n  const dvy = a.vy - b.vy;\n  const velAlongNormal = dvx * nx + dvy * ny;\n  if (velAlongNormal > 0) continue;       // already separating, skip the impulse\n  const impulse = -(1 + RESTITUTION) * velAlongNormal / 2;\n  a.vx += impulse * nx;\n  a.vy += impulse * ny;\n  b.vx -= impulse * nx;\n  b.vy -= impulse * ny;\n}\n"
+    }
+  ],
   "published": true,
   "demo": {
     "iframeSrc": "/embed/plays/8-ball-pool-physics-and-cue-control/index.html",

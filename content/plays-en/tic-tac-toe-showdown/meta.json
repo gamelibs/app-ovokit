@@ -1,14 +1,14 @@
 {
   "slug": "tic-tac-toe-showdown",
   "title": "Tic Tac Toe Showdown: Turn-Based Line-Matching Game",
-  "subtitle": "A deep dive into the turn-based mechanics of Tic Tac Toe Showdown, covering alternating moves, line detection, and 3x3 grid win conditions. Readers will master exhaustive first-player strategies within a finite state space, implement line-matching logic through core loops and modular design, and configure key grid parameters.",
+  "subtitle": "Tic Tac Toe Showdown teardown: alternating placement, line detection and a minimax AI on a configurable 3x3 grid, with a playable embedded demo.",
   "cover": {
     "src": "/plays/tic-tac-toe-showdown/cover.webp",
     "alt": "Tic Tac Toe Showdown: Turn-Based Line-Matching Game"
   },
   "tags": [
-    "回合博弈",
-    "网格"
+    "Turn-Based",
+    "Grid"
   ],
   "difficulty": "Beginner",
   "pattern": "spatial",

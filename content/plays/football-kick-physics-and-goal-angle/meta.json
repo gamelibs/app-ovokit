@@ -16,7 +16,12 @@
     "PIXI",
     "v2-kernel"
   ],
-  "corePoints": [],
+  "corePoints": [
+    "概率表代替刚体弹道：同输入同分布、可单测、可调参",
+    "三段判定带：必偏区惩罚极端输入，甜区奖励稳妥",
+    "甜区被扑率随 |angle| 上升：瞄死角被标了价格",
+    "AI 对手刻意占位：先锁死可结算、可重开的规则骨架"
+  ],
   "stats": {
     "views": 0,
     "likes": 0
@@ -47,7 +52,13 @@
       ]
     }
   ],
-  "codeSnippets": [],
+  "codeSnippets": [
+    {
+      "title": "三段判定带（football/football-model）",
+      "language": "js",
+      "code": "let result = \"miss\";\nif (power <= 10 || Math.abs(angle) > 75) {\n  result = \"miss\";                               // 必偏区：力度过轻或角度超 75°\n} else if (Math.abs(angle) > 55 || power > 95) {\n  result = Math.random() < 0.6 ? \"miss\" : \"save\"; // 风险区：六成射偏\n} else {\n  const saveChance = 0.25 + Math.abs(angle) / 200; // 甜区：瞄得越刁越易被扑\n  result = Math.random() < saveChance ? \"save\" : \"goal\";\n}\n"
+    }
+  ],
   "published": true,
   "demo": {
     "iframeSrc": "/embed/plays/football-kick-physics-and-goal-angle/index.html",

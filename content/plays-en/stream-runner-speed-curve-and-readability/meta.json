@@ -5,9 +5,9 @@
   "archetype": "runner",
   "archetypeSecondary": "dodge-avoid",
   "tags": [
-    "行进 / 跑酷",
-    "躲避",
-    "动作"
+    "Runner",
+    "Dodge / Avoid",
+    "Action"
   ],
   "lang": "en",
   "difficulty": "Beginner",
@@ -23,7 +23,12 @@
     "PIXI",
     "v2-kernel"
   ],
-  "corePoints": [],
+  "corePoints": [
+    "Collection economy cut: score equals distance, so the speed curve is the only difficulty knob",
+    "Binary mapping: one obstacle type per button, failures are easy to attribute",
+    "Window 0.6s < interval floor 0.8s: you never face more than one obstacle at a time",
+    "Speed ramp stacked with shrinking intervals; gentle slopes make the first seconds a tutorial"
+  ],
   "stats": {
     "views": 0,
     "likes": 0
@@ -57,7 +62,13 @@
       ]
     }
   ],
-  "codeSnippets": [],
+  "codeSnippets": [
+    {
+      "title": "Speed curve and obstacle scheduling (core/runner)",
+      "language": "js",
+      "code": "const currentSpeed = speed + elapsed * 0.5;   // base 10 units/s, +0.5 every second\ndistance += currentSpeed * sdt;\nscore += currentSpeed * sdt;\nnextObstacle -= sdt;\nif (nextObstacle <= 0) {\n  // interval starts at 2s, shrinks 0.05/s, floored at 0.8s\n  nextObstacle = Math.max(0.8, getNumber(\"obstacleInterval\", 2) - elapsed * 0.05);\n  const obstacleType = Math.random() > 0.5 ? \"ground\" : \"air\";\n  const canAvoid = obstacleType === \"ground\" ? slideTimer > 0 : jumpTimer > 0;\n  if (!canAvoid) {\n    lives -= 1;\n    ctx.data.set(\"runnerLives\", lives);\n    emit(\"runner.crash\", { type: obstacleType, lives, distance });\n  }\n}\n"
+    }
+  ],
   "published": true,
   "demo": {
     "iframeSrc": "/embed/plays/stream-runner-speed-curve-and-readability/index.html",

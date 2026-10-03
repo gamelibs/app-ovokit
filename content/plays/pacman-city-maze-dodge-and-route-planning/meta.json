@@ -7,7 +7,7 @@
   "tags": [
     "躲避",
     "解谜",
-    "动作反应"
+    "动作"
   ],
   "lang": "zh-CN",
   "difficulty": "进阶",
@@ -15,7 +15,12 @@
     "PIXI",
     "v2-kernel"
   ],
-  "corePoints": [],
+  "corePoints": [
+    "120 秒硬倒计时：贪分与保命时刻互斥",
+    "8 秒能量窗口是全局唯一的攻守反转开关",
+    "分值梯度 10/50/200，收益与风险严格对齐",
+    "4 只幽灵 + 3 条命：新手能活，高手有压迫感"
+  ],
   "stats": {
     "views": 0,
     "likes": 0
@@ -46,7 +51,13 @@
       ]
     }
   ],
-  "codeSnippets": [],
+  "codeSnippets": [
+    {
+      "title": "能量豆攻守反转与反吃结算（core/pacman-city）",
+      "language": "js",
+      "code": "// 吃到能量豆：+50 分，进入 8 秒能量模式，全场幽灵转受惊\nif (cell.power && dist(playerX, playerY, cell.x, cell.y) < PLAYER_RADIUS + CELL_SIZE * 0.35) {\n  cell.power = false;\n  state.powerMode = true;\n  state.powerTime = POWER_DURATION;\n  state.score += 50;\n  for (const e of state.enemies) {\n    e.state = \"frightened\";\n    e.spawnTimer = 0;\n  }\n  emit(\"powerup.eaten\", { x: cell.x, y: cell.y, duration: POWER_DURATION });\n}\n// 撞幽灵：能量模式反吃 +200 并送回家重生，否则掉命\nif (dist(playerX, playerY, enemy.x, enemy.y) < PLAYER_RADIUS + ENEMY_RADIUS - 2) {\n  if (state.powerMode) {\n    enemy.respawnTimer = 3;\n    enemy.spawnTimer = SPAWN_PROTECTION;\n    enemy.x = 0;\n    enemy.y = 0;\n    state.score += 200;\n    emit(\"enemy.eaten\", { enemyId: enemy.id, points: 200 });\n  } else {\n    emit(\"enemy.collide\", { enemyId: enemy.id });\n  }\n}\n"
+    }
+  ],
   "published": true,
   "demo": {
     "iframeSrc": "/embed/plays/pacman-city-maze-dodge-and-route-planning/index.html",

@@ -23,7 +23,12 @@
     "PIXI",
     "v2-kernel"
   ],
-  "corePoints": [],
+  "corePoints": [
+    "A hard 120-second countdown: scoring and survival are mutually exclusive at every moment",
+    "The 8-second power window is the game's only attack/defense reversal switch",
+    "Score gradient 10/50/200 keeps reward strictly aligned with risk",
+    "4 ghosts plus 3 lives: beginners survive, veterans feel the squeeze"
+  ],
   "stats": {
     "views": 0,
     "likes": 0
@@ -54,7 +59,13 @@
       ]
     }
   ],
-  "codeSnippets": [],
+  "codeSnippets": [
+    {
+      "title": "Power-pellet reversal and eat-a-ghost settlement (core/pacman-city)",
+      "language": "js",
+      "code": "// Eating a power pellet: +50, enter 8s power mode, every ghost turns frightened\nif (cell.power && dist(playerX, playerY, cell.x, cell.y) < PLAYER_RADIUS + CELL_SIZE * 0.35) {\n  cell.power = false;\n  state.powerMode = true;\n  state.powerTime = POWER_DURATION;\n  state.score += 50;\n  for (const e of state.enemies) {\n    e.state = \"frightened\";\n    e.spawnTimer = 0;\n  }\n  emit(\"powerup.eaten\", { x: cell.x, y: cell.y, duration: POWER_DURATION });\n}\n// Ghost contact: in power mode eat it for +200 and send it home to respawn,\n// otherwise lose a life\nif (dist(playerX, playerY, enemy.x, enemy.y) < PLAYER_RADIUS + ENEMY_RADIUS - 2) {\n  if (state.powerMode) {\n    enemy.respawnTimer = 3;\n    enemy.spawnTimer = SPAWN_PROTECTION;\n    enemy.x = 0;\n    enemy.y = 0;\n    state.score += 200;\n    emit(\"enemy.eaten\", { enemyId: enemy.id, points: 200 });\n  } else {\n    emit(\"enemy.collide\", { enemyId: enemy.id });\n  }\n}\n"
+    }
+  ],
   "published": true,
   "demo": {
     "iframeSrc": "/embed/plays/pacman-city-maze-dodge-and-route-planning/index.html",
