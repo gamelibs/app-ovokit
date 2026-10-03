@@ -423,21 +423,14 @@ export const featureKeyByName: Record<string, FeatureKey> = Object.fromEntries(
   fallbackFeatures.map((f) => [f.name, f.key])
 ) as Record<string, FeatureKey>;
 
-/** taxonomy 特征冻结中文词 → 英文显示名（词表冻结不动，仅显示层本地化；与 taxonomy features 一一对应） */
-const FEATURE_NAME_EN_BY_KEY: Record<FeatureKey, string> = {
-  click: "Click",
-  idle: "Idle",
-  grid: "Grid",
-  levels: "Levels",
-  "merge-mechanic": "Merge Mechanic",
-  numbers: "Numbers",
-  roguelike: "Roguelike",
-  timed: "Timed",
-};
-
-/** 特征名的显示层本地化：zh 显示冻结中文词（链接词表），en 显示英文名；未知名原样返回 */
+/**
+ * 特征名的显示层本地化：zh 显示冻结中文词（链接词表），en 显示英文特征名。
+ * 英文名取自 fallbackFeatureByKey[key].nameEn——与 `content/features-en/<key>/meta.json`
+ * 的 nameEn/name 逐词一致（内容层缺稿时的回退源），保证 chips 与目标特征页同名；
+ * 未知名原样返回。
+ */
 export function localizeFeatureName(name: string, locale: string): string {
   const key = featureKeyByName[name];
   if (!key) return name;
-  return locale === "en" ? FEATURE_NAME_EN_BY_KEY[key] : name;
+  return locale === "en" ? fallbackFeatureByKey[key].nameEn : name;
 }

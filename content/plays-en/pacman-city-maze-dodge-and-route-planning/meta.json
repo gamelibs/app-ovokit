@@ -18,7 +18,7 @@
     "Action"
   ],
   "lang": "en",
-  "difficulty": "Intermediate",
+  "difficulty": "Advanced",
   "techStack": [
     "PIXI",
     "v2-kernel"

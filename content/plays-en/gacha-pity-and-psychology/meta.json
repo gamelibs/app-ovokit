@@ -58,7 +58,7 @@
     {
       "title": "Soft Pity Probability Curve (Example)",
       "language": "ts",
-      "code": "export function rareProb(pity: number) {\n  // pity: 连续未出稀有的次数\n  const base = 0.02; // 2%\n  const hard = 80; // 80 抽硬保底\n  if (pity >= hard - 1) return 1;\n\n  // 60 抽后开始“软保底”线性爬升（示例）\n  const softStart = 60;\n  if (pity < softStart) return base;\n\n  const t = (pity - softStart) / (hard - softStart);\n  return base + t * (0.25 - base); // 最终爬到 25%\n}\n"
+      "code": "export function rareProb(pity: number) {\n  // pity: consecutive pulls without a rare drop\n  const base = 0.02; // 2%\n  const hard = 80; // hard pity at 80 pulls\n  if (pity >= hard - 1) return 1;\n\n  // after 60 pulls, the 'soft pity' starts ramping up linearly (example)\n  const softStart = 60;\n  if (pity < softStart) return base;\n\n  const t = (pity - softStart) / (hard - softStart);\n  return base + t * (0.25 - base); // eventually climbs to 25%\n}\n"
     }
   ],
   "published": true,

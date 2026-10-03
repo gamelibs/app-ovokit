@@ -62,7 +62,7 @@
     {
       "title": "Spawn Budget (Segmented Curve) + Cap Clipping (Example)",
       "language": "ts",
-      "code": "export function spawnBudgetPerSecond(t: number) {\n  // t: 秒，分段曲线：前期快、中期稳、后期爆\n  if (t < 60) return 6 + t * 0.06; // 6 -> 9.6\n  if (t < 240) return 10 + (t - 60) * 0.03; // 10 -> 15.4\n  return 16 + Math.pow((t - 240) / 60, 1.2) * 6; // 16 -> ...\n}\n\nexport function clampVisualCount(count: number, max: number) {\n  // 超过上限时，做降采样/合并表现\n  if (count <= max) return { draw: count, merge: 0 };\n  return { draw: max, merge: count - max };\n}\n"
+      "code": "export function spawnBudgetPerSecond(t: number) {\n  // t: seconds; segmented curve: fast early, steady mid, bursting late\n  if (t < 60) return 6 + t * 0.06; // 6 -> 9.6\n  if (t < 240) return 10 + (t - 60) * 0.03; // 10 -> 15.4\n  return 16 + Math.pow((t - 240) / 60, 1.2) * 6; // 16 -> ...\n}\n\nexport function clampVisualCount(count: number, max: number) {\n  // when over the cap, downsample / merge the visuals\n  if (count <= max) return { draw: count, merge: 0 };\n  return { draw: max, merge: count - max };\n}\n"
     }
   ],
   "published": true,

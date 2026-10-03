@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { getDemoSrc } from "@/lib/demos/registry";
 import { CodeBlock } from "@/components/plays/CodeBlock";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 /** ⑤ 区关键代码：每循环一段真实可读的算法实现（与该区文字互为注解） */
 const ADVANCED_CODE: Record<string, { title: string; code: string }> = {
@@ -68,6 +68,71 @@ function damage(attacker: Unit, defender: Unit): number {
   ["平安无事", (f) => !!f.cautious],
 ];
 const ending = ENDINGS.find(([, cond]) => cond(flags))?.[0] ?? "雨停";`,
+  },
+};
+
+/** English mirror of ADVANCED_CODE, served on /en pattern pages */
+const ADVANCED_CODE_EN: Record<string, { title: string; code: string }> = {
+  action: {
+    title: "Fixed Timestep + Difficulty Ramp",
+    code: `// Fixed-step updates; pressure ramps over time (speed steps × density slope)
+const STEP = 1000 / 60;
+const ramp = 1 + Math.min(t / 18, 2.2);      // +1 every 18s, capped at 3.2x
+spawnT -= dt;
+if (spawnT <= 0) {
+  spawnT = (0.7 / density) / ramp;            // shorter interval = higher density
+  bullets.push({ vy: baseSpeed * (0.7 + ramp * 0.3) });
+}`,
+  },
+  spatial: {
+    title: "Solvability Search (DFS Pruning)",
+    code: `function solvable(board, depth = 0): boolean {
+  if (isGoal(board)) return true;
+  if (depth > MAX_DEPTH) return false;
+  for (const move of legalMoves(board)) {
+    const next = apply(board, move);
+    if (seen.has(hash(next))) continue;      // prune: skip already-visited states
+    seen.add(hash(next));
+    if (solvable(next, depth + 1)) return true;
+  }
+  return false;
+}`,
+  },
+  merge: {
+    title: "Cost/Output Exponential Curves",
+    code: `// Where the scissors gap comes from: cost growth must stay below the output payoff, but not too far below
+const cost = (n: number) => Math.floor(base * Math.pow(growth, n));   // 1.15^n
+const output = (n: number) => Math.pow(2, n);                          // exponential output
+// Tuning rule: each +0.05 on growth doubles late-game duration — do the math first`,
+  },
+  management: {
+    title: "Production Tick & Inventory Cap",
+    code: `function tick(dt: number) {
+  const rate = producers.reduce((s, p) => s + p.count * p.out, 0);
+  goods = Math.min(goodsCap, goods + rate * dt);   // cap prevents inflation
+}
+function sellAll() {
+  coins += goods;                                   // goods → coins
+  goods = 0;
+}`,
+  },
+  strategy: {
+    title: "Counter-Multiplier Damage Formula",
+    code: `const COUNTER = { A: { B: 1.5, C: 0.5 }, B: { C: 1.5, A: 0.5 }, C: { A: 1.5, B: 0.5 } };
+function damage(attacker: Unit, defender: Unit): number {
+  const k = COUNTER[attacker.type]?.[defender.type] ?? 1.0;
+  return Math.max(1, Math.floor(attacker.atk * k - defender.def));
+}`,
+  },
+  narrative: {
+    title: "State Flags → Ending Resolution",
+    code: `const ENDINGS: [string, (f: Flags) => boolean][] = [
+  ["Bonfire Night Talk", (f) => f.kind && f.courage],  // ordered by priority, highest first
+  ["A Bowl of Hot Soup", (f) => !!f.kind],
+  ["Shadow Under the Lamp", (f) => f.courage && !f.warm],
+  ["Safe and Sound", (f) => !!f.cautious],
+];
+const ending = ENDINGS.find(([, cond]) => cond(flags))?.[0] ?? "Rain Lets Up";`,
   },
 };
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
@@ -134,6 +199,8 @@ export function PatternPage({
   relatedPlays?: { slug: string; title: string; subtitle: string }[];
 }) {
   const t = useTranslations("pillar");
+  const locale = useLocale();
+  const advancedCode = (locale === "en" ? ADVANCED_CODE_EN : ADVANCED_CODE)[spec.key];
   const content = (
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">
@@ -337,11 +404,11 @@ export function PatternPage({
               </div>
               <div>
                 <div className="mb-2 text-xs font-semibold text-ink-muted font-kalam">
-                  {t("keyCode")}（{ADVANCED_CODE[spec.key]?.title ?? t("coreAlgo")}）
+                  {t("keyCode")}（{advancedCode?.title ?? t("coreAlgo")}）
                 </div>
                 <CodeBlock
                   language="ts"
-                  code={ADVANCED_CODE[spec.key]?.code ?? ""}
+                  code={advancedCode?.code ?? ""}
                   defaultExpanded
                 />
               </div>

@@ -42,7 +42,7 @@
     {
       "title": "Shuffle Bag: Both Random and Controllable (Example)",
       "language": "ts",
-      "code": "export class ShuffleBag<T> {\n  private bag: T[] = [];\n  constructor(private seed: T[]) {}\n  next(rand: () => number) {\n    if (this.bag.length === 0) this.bag = [...this.seed];\n    const i = Math.floor(rand() * this.bag.length);\n    return this.bag.splice(i, 1)[0]!;\n  }\n}\n\n// 例如：2 的配额远高于 4，但不会连续出 10 次 4\n"
+      "code": "export class ShuffleBag<T> {\n  private bag: T[] = [];\n  constructor(private seed: T[]) {}\n  next(rand: () => number) {\n    if (this.bag.length === 0) this.bag = [...this.seed];\n    const i = Math.floor(rand() * this.bag.length);\n    return this.bag.splice(i, 1)[0]!;\n  }\n}\n\n// e.g. the quota for 2 is far higher than for 4, yet 4 never drops 10 times in a row\n"
     }
   ],
   "cover": {

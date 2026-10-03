@@ -104,7 +104,7 @@
     {
       "title": "Drop Target Handling (Merge / Swap / Place)",
       "language": "ts",
-      "code": "export function onDrop(from: Cell, to: Cell) {\n  if (to.locked) return { ok: false, reason: 'locked' };\n  if (!from.item) return { ok: false, reason: 'empty' };\n\n  // 放置到空格\n  if (!to.item) {\n    return { ok: true, action: 'move' };\n  }\n\n  // 合成\n  if (canMerge(from.item, to.item)) {\n    const merged = mergeResult(from.item, to.item);\n    return { ok: true, action: 'merge', merged };\n  }\n\n  // 交换\n  return { ok: true, action: 'swap' };\n}\n"
+      "code": "export function onDrop(from: Cell, to: Cell) {\n  if (to.locked) return { ok: false, reason: 'locked' };\n  if (!from.item) return { ok: false, reason: 'empty' };\n\n  // place into an empty cell\n  if (!to.item) {\n    return { ok: true, action: 'move' };\n  }\n\n  // merge\n  if (canMerge(from.item, to.item)) {\n    const merged = mergeResult(from.item, to.item);\n    return { ok: true, action: 'merge', merged };\n  }\n\n  // swap\n  return { ok: true, action: 'swap' };\n}\n"
     },
     {
       "title": "Generator: Cooldown-based Base Item Spawning",

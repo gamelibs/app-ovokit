@@ -42,7 +42,7 @@
     {
       "title": "Upgrade Cost Curve (Geometric Growth + Pacing Points)",
       "language": "ts",
-      "code": "export function upgradeCost(level: number) {\n  const base = 25;\n  const growth = 1.18;\n  const beat = level % 10 === 0 ? 0.85 : 1; // 每 10 级给一次“更容易买到”的节拍\n  return Math.floor(base * Math.pow(growth, level) * beat);\n}\n"
+      "code": "export function upgradeCost(level: number) {\n  const base = 25;\n  const growth = 1.18;\n  const beat = level % 10 === 0 ? 0.85 : 1; // every 10 levels, give an 'easier to buy' beat\n  return Math.floor(base * Math.pow(growth, level) * beat);\n}\n"
     }
   ],
   "cover": {

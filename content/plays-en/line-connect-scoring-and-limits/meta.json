@@ -43,7 +43,7 @@
     {
       "title": "Length-to-Score (Power Curve + Cap)",
       "language": "ts",
-      "code": "export function scoreForLen(len: number) {\n  const base = 10;\n  const alpha = 1.35; // 让长线更值钱\n  const raw = base * Math.pow(Math.max(0, len - 2), alpha);\n  return Math.min(9999, Math.floor(raw));\n}\n"
+      "code": "export function scoreForLen(len: number) {\n  const base = 10;\n  const alpha = 1.35; // make longer lines worth more\n  const raw = base * Math.pow(Math.max(0, len - 2), alpha);\n  return Math.min(9999, Math.floor(raw));\n}\n"
     }
   ],
   "cover": {
