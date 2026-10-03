@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "ovo-ui-skin-index@1",
+  "projectId": "cp_1019_10158_pacman_city_v1",
+  "items": [
+    {
+      "name": "result_skin",
+      "path": "creative/projects/cp_1019_10158_pacman_city_v1/ui/skins/result_skin.json",
+      "updateTime": "2026-07-05T04:12:53.221Z"
+    }
+  ]
+}
+]
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "ovo-ui-skin-index@1",
+  "projectId": "cp_1019_10062_job_1782200111798_ycyhbo",
+  "items": [
+    {
+      "name": "gameplay_skin",
+      "path": "creative/projects/cp_1019_10062_job_1782200111798_ycyhbo/ui/skins/gameplay_skin.json",
+      "updateTime": "2026-07-03T02:22:17.778Z"
+    },
+    {
+      "name": "result_skin",
+      "path": "creative/projects/cp_1019_10062_job_1782200111798_ycyhbo/ui/skins/result_skin.json",
+      "updateTime": "2026-07-03T02:22:17.825Z"
+    }
+  ]
+}

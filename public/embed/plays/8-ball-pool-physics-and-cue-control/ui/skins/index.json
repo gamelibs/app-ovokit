@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "ovo-ui-skin-index@1",
+  "projectId": "cp_1019_10137_job_1782009366181_ogxgqh",
+  "items": [
+    {
+      "name": "result_skin",
+      "path": "creative/projects/cp_1019_10137_job_1782009366181_ogxgqh/ui/skins/result_skin.json",
+      "updateTime": "2026-07-05T04:11:15.076Z"
+    },
+    {
+      "name": "paused_skin",
+      "path": "creative/projects/cp_1019_10137_job_1782009366181_ogxgqh/ui/skins/paused_skin.json",
+      "updateTime": "2026-07-05T04:11:15.204Z"
+    }
+  ]
+}
+]
+}

@@ -1,0 +1,65 @@
+{
+  "slug": "football-kick-physics-and-goal-angle",
+  "title": "足球射门：把点球大战压缩成一张「角度 × 力度」判定表",
+  "subtitle": "5 轮点球对决的规则骨架：瞄准角与力度被切成必偏区、风险区、甜区三段判定带，用概率裁决进球、被扑与射偏。文末附可试玩 demo。",
+  "archetype": "shoot-aim",
+  "archetypeSecondary": "physics",
+  "tags": [
+    "动作",
+    "物理",
+    "射击"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "进阶",
+  "techStack": [
+    "Three.js",
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "5 轮点球（maxRounds=5），每射一脚轮次 +1，轮次用尽进入结算",
+        "判定三态：goal / save / miss，仅进球记分，AI 对手占位（aiScore 恒 0）",
+        "胜负=双方进球数对比，平局允许；进 1 球即锁定胜利"
+      ]
+    },
+    {
+      "title": "行为循环",
+      "bullets": [
+        "瞄准（aim.update 写入角度/力度，角度钳制 ±80°）→ 射门（shot.take）",
+        "executeShot 按三段判定带裁决 → shot.result 回传 → 进球记分 + 音效",
+        "resetScene 重置场景进入下一轮；round>5 时 emit game.over 转结算"
+      ]
+    },
+    {
+      "title": "实现要点",
+      "bullets": [
+        "判定模型下沉在私有模块 football/football-model，甜区被扑率=0.25+|angle|/200",
+        "状态机与记分由 v2-kernel LogicGraph 驱动：boot→menu→gameplay→result",
+        "当前构建为规则层骨架：瞄准控件与 3D 场景未上屏，判定链路完整闭环"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/football-kick-physics-and-goal-angle/index.html",
+    "note": "点「开始游戏」进入点球对决，连点「射门」完成 5 轮判定——每脚射门的角度与力度由模型层概率表裁决进球/被扑/射偏，进 1 球即胜。"
+  },
+  "pattern": "action",
+  "cover": {
+    "src": "/plays/football-kick-physics-and-goal-angle/cover.svg",
+    "alt": "足球射门：把点球大战压缩成一张「角度 × 力度」判定表"
+  },
+  "coverWide": {
+    "src": "/plays/football-kick-physics-and-goal-angle/cover-wide.svg",
+    "alt": "足球射门：把点球大战压缩成一张「角度 × 力度」判定表"
+  }
+}

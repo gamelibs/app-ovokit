@@ -1,0 +1,64 @@
+{
+  "slug": "pacman-city-maze-dodge-and-route-planning",
+  "title": "Pacman City: Turning \"Dodge the Ghosts\" into Timed Route Planning",
+  "subtitle": "120 seconds, 3 lives, 323 dots: eat and dodge through a block-city maze, where the 8-second power-pellet reversal is the only rhythm switch that matters.",
+  "cover": {
+    "src": "/plays/pacman-city-maze-dodge-and-route-planning/cover.svg",
+    "alt": "Pacman City: Turning \"Dodge the Ghosts\" into Timed Route Planning"
+  },
+  "coverWide": {
+    "src": "/plays/pacman-city-maze-dodge-and-route-planning/cover-wide.svg",
+    "alt": "Pacman City: Turning \"Dodge the Ghosts\" into Timed Route Planning"
+  },
+  "archetype": "dodge-avoid",
+  "archetypeSecondary": "puzzle",
+  "tags": [
+    "Dodge / Avoid",
+    "Puzzle",
+    "Action"
+  ],
+  "lang": "en",
+  "difficulty": "Advanced",
+  "techStack": [
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Rule Skeleton",
+      "bullets": [
+        "120-second countdown plus 3 lives; time out or losing all lives triggers game.over",
+        "Dot = +10; power pellet = +50 and an 8-second power mode; eating a ghost during power mode = +200",
+        "Colliding with a ghost in normal mode calls handlePlayerDeath and costs one life; clearing all dots advances to the next level"
+      ]
+    },
+    {
+      "title": "Behavior Loop",
+      "bullets": [
+        "Read the maze and ghost positions → plan an eating route → steer with arrow keys or the joystick → score dots",
+        "Eat a power pellet → 8 seconds of role reversal → chase ghosts for big points → back to dodging when it ends",
+        "Time out / out of lives → result screen → restart (full reset) or back to menu"
+      ]
+    },
+    {
+      "title": "Implementation Notes",
+      "bullets": [
+        "Gameplay data and rules live on the v2-kernel state machine (boot/menu/gameplay/result) with event-driven transitions",
+        "core/pacman-city owns the maze, dots, ghost AI and collision detection; the rule layer only reads and writes data",
+        "The scene-private renderer __OV.Games.PacmanCity.Game handles PIXI drawing plus joystick/keyboard input"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/pacman-city-maze-dodge-and-route-planning/index.html",
+    "note": "Playable demo: steer Pacman with arrow keys or the on-screen joystick, eat dots for points within 120 seconds, dodge ghosts — grab golden power pellets to hunt them back."
+  },
+  "pattern": "action"
+}

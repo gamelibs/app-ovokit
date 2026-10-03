@@ -61,7 +61,7 @@
     {
       "title": "Wave Budget Generation (Example)",
       "language": "ts",
-      "code": "type Wave = { id: number; budget: number; elite: boolean; pattern: string };\n\nexport function waveBudget(wave: number) {\n  // 预算增长：线性 + 小指数，让后期有加速\n  return Math.floor(40 + wave * 12 + Math.pow(wave, 1.25) * 6);\n}\n\nexport function makeWave(wave: number): Wave {\n  const elite = wave % 5 === 0;\n  const budget = waveBudget(wave) * (elite ? 1.35 : 1);\n  const pattern = elite ? \"elite_mix\" : wave % 3 === 0 ? \"fast\" : \"swarm\";\n  return { id: wave, budget, elite, pattern };\n}\n"
+      "code": "type Wave = { id: number; budget: number; elite: boolean; pattern: string };\n\nexport function waveBudget(wave: number) {\n  // budget growth: linear + a small exponential term, so the late game accelerates\n  return Math.floor(40 + wave * 12 + Math.pow(wave, 1.25) * 6);\n}\n\nexport function makeWave(wave: number): Wave {\n  const elite = wave % 5 === 0;\n  const budget = waveBudget(wave) * (elite ? 1.35 : 1);\n  const pattern = elite ? \"elite_mix\" : wave % 3 === 0 ? \"fast\" : \"swarm\";\n  return { id: wave, budget, elite, pattern };\n}\n"
     }
   ],
   "published": true,

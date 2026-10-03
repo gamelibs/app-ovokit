@@ -1,0 +1,23 @@
+{
+  "version": "static-demo-export-v1",
+  "projectId": "cp_1019_10165_football",
+  "engine": "threejs",
+  "exportedAt": "2026-09-30T12:20:48.917Z",
+  "gameModules": [
+    "common-ui",
+    "football/football-model"
+  ],
+  "files": {
+    "indexHtml": "index.html",
+    "kernelFiles": 24,
+    "moduleFiles": [
+      "modules/common-ui.js",
+      "modules/football/football-model.js"
+    ],
+    "copiedDirs": [
+      "ui",
+      "resources"
+    ],
+    "resources": 2
+  }
+}

@@ -1,0 +1,59 @@
+# Penalty Kick: One Shot, Two Inputs, Five Rounds of Mounting Pressure
+
+## One-Sentence Essence
+
+This penalty shootout — a rebuild of Penalty World Cup 2026 — is a minimal viable sample of the shoot-aim archetype: each round the player makes exactly one decision, setting the aim angle and shot power before hitting Shoot, and a probability model resolves the kick as a goal, a save, or a miss on the spot. Five rounds later, the score decides the match. All the tension of a real penalty is compressed into a short loop of one input, one resolution, and a score that seesaws with every kick.
+
+## Behavior Loop
+
+1. **Kick-off**: from the main menu, hit Start Match; the score resets to zero, the round counter to 1, and the penalty scene loads.
+2. **Aim**: set two parameters — angle (`aimAngle`) and power (`power`); untouched, they default to angle 0 and power 50.
+3. **Shoot**: the Shoot button fires `shot.take`, and the physics module resolves the kick synchronously — wider angles and extreme power both lower the scoring probability.
+4. **Score**: a goal adds to playerScore; a save or a miss adds to aiScore. Every miss hands the keeper a point, so the score seesaws.
+5. **Full time**: after five rounds `game.over` fires, the result state compares both scores, and the match is ruled a player win, an AI win, or a draw.
+6. **Rematch**: Play Again wipes the data and restarts instantly; Main Menu returns to the title.
+
+You can play through this entire loop in the demo at the end of this article.
+
+## Gameplay Primitives
+
+- `Aim(angle, power)` – writes the aim parameters (aim.adjust → aim-controller)
+- `Shoot()` – executes the kick (shot.take → physics-engine.simulateShot)
+- `ResolveShot(angle, power)` – probabilistic three-way resolution: goal / save / miss
+- `ScoreGoal()` / `ScoreAgainst()` – goal for the player, miss for the AI
+- `AdvanceRound()` – round +1, triggering full time after round 5
+- `JudgeWinner()` – compares the scores and writes gameWinner (player / ai / draw)
+- `ResetMatch()` – rematch: round=1, both scores zeroed, gameWinner=none
+
+## Parameter Cheat Sheet
+
+| Parameter | Description | Default | Unit |
+|-----------|-------------|---------|------|
+| `totalRounds` | Kicks per match | 5 | rounds |
+| `aimAngle` | Horizontal aim angle (after reset) | 0 | degrees |
+| `power` | Shot power (after reset) | 50 | 0–100 |
+| Speed mapping | 15 + power/100 × 20 | 15–35 | m/s |
+| Goal width | Regulation goal | 7.32 | m |
+| Goal height | Regulation goal | 2.44 | m |
+| Kick distance | Penalty spot to goal line | 11 | m |
+| Gravity | Ballistic drop | 9.8 | m/s² |
+| Angle penalty | Probability scaled down linearly by \|angle\|/45 | 45 | degrees (cap) |
+| Probability clamp | Min/max goal probability | 0.1–0.9 | – |
+| Power penalty | power<30 decays linearly; >90 multiplies by 0.85 | – | – |
+
+## Design Trade-offs
+
+1. **Analytic resolution over frame-by-frame ballistics**: the module actually ships a full stepwise simulation (gravity, ground bounce, post and keeper collision), but the released build resolves shots analytically — the outcome lands in a single frame, frame-rate independent, runnable on any device. The cost: no visible ball flight, which is pure presentation loss.
+2. **Five one-sided rounds instead of ten alternating**: the original design had both sides take five kicks in turn; the build folds the AI's turn into an adversarial score — your miss is the keeper's point. Match length halves, and the psychological weight of each kick grows.
+3. **Punishing both ends of the probability curve**: chasing the corner with angle or blasting at full power both get taxed by the curve, so the optimum sits at "medium-high power, small angle" — mirroring the real-world wisdom that placement beats force.
+4. **Placeholder presentation, rules first**: in this build the 3D scene container and scoreboard are still placeholders (static text, no data binding), and the audio module is a logging stub. The sample's goal is to prove the state machine and resolution pipeline end-to-end; 3D staging and sound are queued for the next iteration.
+
+## Implementation Notes
+
+- **State machine**: four states — boot → menu → gameplay → result — with transitions on boot.complete / game.start / game.over / game.restart / menu.return, declared in the blueprint's stateMachine.
+- **Event flow**: `aim.adjust` → aim-controller writes aimAngle/power; the Shoot button emits `shot.take` → physics-engine.simulateShot resolves, scores, and advances the round synchronously, emitting `game.over` after round 5 plus a `shot.result` event for extensions like audio to subscribe to.
+- **Data model**: eight keys carry the whole match — round / totalRounds / playerScore / aiScore / aimAngle / power / shotResult / gameWinner; the result state's onEnter compares the scores with condition nodes and writes gameWinner.
+- **Module split**: common-ui handles button events, penalty/aim-controller owns input parameters, penalty/physics-engine owns resolution and the probability model, and penalty/audio-manager reserves the audio hooks.
+- **Runtime**: v2-kernel drives the LogicGraph; the engine is declared as threejs (the skin layer renders through PIXI, with both runtime libraries loaded), and the whole package exports as a fully static, offline-playable demo.
+
+The value of this build is not in its visuals but in how it compresses the entire aim → resolve → score → full-time rule pipeline into two parameters and five rounds: the rules stay small enough that the cost of every design trade-off remains visible.

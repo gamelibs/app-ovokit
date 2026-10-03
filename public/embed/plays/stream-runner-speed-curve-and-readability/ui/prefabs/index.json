@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "ovoui-prefab-index@1",
+  "prefabs": [
+    "boot_prefab",
+    "menu_prefab",
+    "gameplay_prefab",
+    "result_prefab"
+  ]
+}

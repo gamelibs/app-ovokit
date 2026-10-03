@@ -73,8 +73,8 @@
     }
   ],
   "demo": {
-    "iframeSrc": "http://127.0.0.1:19527/preview-assets/1021/beta/10001/index.html",
-    "note": "轮流落子，先连成线者胜"
+    "iframeSrc": "/embed/plays/tic-tac-toe-showdown/index.html",
+    "note": "内嵌可玩 Demo：轮流落子，先连成一线者胜（选 1 Player 可与 minimax AI 对弈）"
   },
   "source": {
     "platformId": "1021",

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "resource-library@1",
+  "projectId": "cp_1019_10151_job_1782132365223_9dtiol",
+  "projectTitle": "Stream Runner",
+  "images": [],
+  "audio": [],
+  "fonts": [],
+  "skins": [],
+  "libs": [
+    {
+      "name": "pixi.min.js",
+      "path": "resources/libs/pixi.min.js",
+      "size": 456074,
+      "updateTime": "2026-07-04T08:37:36.095Z",
+      "url": "/creative-preview/cp_1019_10151_job_1782132365223_9dtiol/resources/libs/pixi.min.js"
+    }
+  ],
+  "compositions": [],
+  "configs": [],
+  "data": []
+}

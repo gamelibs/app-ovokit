@@ -1,0 +1,23 @@
+{
+  "version": "static-demo-export-v1",
+  "projectId": "cp_1019_10151_job_1782132365223_9dtiol",
+  "engine": "other",
+  "exportedAt": "2026-09-30T12:17:10.624Z",
+  "gameModules": [
+    "common-ui",
+    "core/runner"
+  ],
+  "files": {
+    "indexHtml": "index.html",
+    "kernelFiles": 24,
+    "moduleFiles": [
+      "modules/common-ui.js",
+      "modules/core/runner.js"
+    ],
+    "copiedDirs": [
+      "ui",
+      "resources"
+    ],
+    "resources": 1
+  }
+}

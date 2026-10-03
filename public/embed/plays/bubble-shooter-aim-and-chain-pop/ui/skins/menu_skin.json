@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "ovoui-skin@1",
+  "name": "menu_skin",
+  "canvas": {
+    "width": 750,
+    "height": 1334
+  },
+  "root": {
+    "id": "root",
+    "type": "container",
+    "x": 0,
+    "y": 0,
+    "w": 750,
+    "h": 1334,
+    "children": [
+      {
+        "id": "sidebar",
+        "type": "container",
+        "x": 225,
+        "y": 200,
+        "w": 300,
+        "h": 300,
+        "text": "Astrocade Sidebar",
+        "style": {
+          "fontSize": 28,
+          "fill": "#ffffff",
+          "align": "center"
+        }
+      },
+      {
+        "id": "play_btn",
+        "type": "button",
+        "x": 255,
+        "y": 532,
+        "w": 240,
+        "h": 72,
+        "text": "Play",
+        "style": {
+          "fontSize": 24,
+          "color": "#ffffff",
+          "backgroundColor": "#0ea5e9",
+          "borderRadius": 8,
+          "align": "center"
+        },
+        "event": "game.start",
+        "targetState": "gameplay"
+      },
+      {
+        "id": "create_btn",
+        "type": "button",
+        "x": 255,
+        "y": 636,
+        "w": 240,
+        "h": 72,
+        "text": "Create",
+        "style": {
+          "fontSize": 24,
+          "color": "#ffffff",
+          "backgroundColor": "#0ea5e9",
+          "borderRadius": 8,
+          "align": "center"
+        }
+      },
+      {
+        "id": "search_btn",
+        "type": "button",
+        "x": 255,
+        "y": 740,
+        "w": 240,
+        "h": 72,
+        "text": "Search",
+        "style": {
+          "fontSize": 24,
+          "color": "#ffffff",
+          "backgroundColor": "#0ea5e9",
+          "borderRadius": 8,
+          "align": "center"
+        }
+      },
+      {
+        "id": "notification_btn",
+        "type": "button",
+        "x": 255,
+        "y": 844,
+        "w": 240,
+        "h": 72,
+        "text": "Notifications",
+        "style": {
+          "fontSize": 24,
+          "color": "#ffffff",
+          "backgroundColor": "#0ea5e9",
+          "borderRadius": 8,
+          "align": "center"
+        }
+      },
+      {
+        "id": "more_btn",
+        "type": "button",
+        "x": 255,
+        "y": 948,
+        "w": 240,
+        "h": 72,
+        "text": "More",
+        "style": {
+          "fontSize": 24,
+          "color": "#ffffff",
+          "backgroundColor": "#0ea5e9",
+          "borderRadius": 8,
+          "align": "center"
+        }
+      }
+    ]
+  }
+}

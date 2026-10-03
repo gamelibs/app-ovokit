@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Progression · Mini Idle Lab | OVO Atomic Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 成长/数值母型原子 demo（迷你放置数值实验室）：行为原语 = accumulate + choose + compare
+// 教学点（对应 meta.concept「设计难点不在数值大小，而在曲线的节奏」）：
+//   - 线性系（+1/秒每级）前期性价比碾压，指数系（×底数每级）后期反超——同一笔金币投哪条系，
+//     就是数值策划每天在做的「choose」；两条贡献曲线实时叠加在总产量曲线上，直观可 compare。
+//   - 升级价格随等级按膨胀率抬升：成本曲线决定成长节奏，膨胀率拉满时曲线被「压扁」必输。
+//   - 实时画出产量-时间曲线：策划画的是曲线不是数字——曲线形状（平 vs 翘）就是心流节奏。
+// 无 setTimeout：全部时序走主循环 update(dt)，reset 天然无残留定时器。
+AtomCore.create({
+  title: AtomCore.L('成长数值 · 迷你放置实验室', 'Progression · Mini Idle Lab'),
+  objective: AtomCore.L('点击攒金币，把钱投进线性系（+1/秒）或指数系（×底数）。60 秒内让总产量越过红色虚线——策划画的是曲线，不是数字。',
+    'Click to bank coins, then invest in the linear track (+1/s) or the exponential track (×base). Push total output past the red dashed line within 60s — designers draw curves, not numbers.'),
+  lives: 0,
+  params: [
+    { key: 'expBase', label: AtomCore.L('指数系底数（×/级）', 'Exponential base (×/level)'), min: 1.05, max: 1.5, step: 0.05, default: 1.2, unit: '×' },
+    { key: 'priceInfl', label: AtomCore.L('升级价格膨胀率', 'Upgrade price inflation'), min: 1.05, max: 1.8, step: 0.05, default: 1.25, unit: '' },
+    { key: 'target', label: AtomCore.L('目标产量（金/秒）', 'Target output (gold/s)'), min: 6, max: 24, step: 1, default: 14, unit: '/s' }
+  ],
+  hudExtra: function (g) {
+    return AtomCore.L('剩余 <b>', 'Time left <b>') + Math.max(0, 60 - g.time).toFixed(0) + 's</b>';
+  },
+  setup: function (g) {
+    g.data.gold = 0;
+    g.data.lvA = 0;          // 线性系等级：每级 +1 金/秒
+    g.data.lvB = 0;          // 指数系等级：产量 = 4×(base^lv - 1)
+    g.data.samples = [];     // 曲线采样 {t, a, b}
+    g.data.sampleT = 0;
+    g.data.scoreT = 0;
+    g.data.floaters = [];    // 点击/购买飘字 {x, y, life, txt, color}
+    g.data.pulse = 0;        // 金币按钮点击回弹
+  },
+  // ---- 经济模型（draw/onPointer/update 共用，改数值只动这里） ----
+  costA: function (g) { return Math.ceil(8 * Math.pow(g.params.priceInfl, g.data.lvA)); },
+  costB: function (g) { return Math.ceil(25 * Math.pow(g.params.priceInfl, g.data.lvB)); },
+  prod: function (g) {
+    var d = g.data;
+    return { a: d.lvA, b: 4 * (Math.pow(g.params.expBase, d.lvB) - 1) };
+  },
+  layout: function (g) {
+    var W = g.W, H = g.H;
+    var btnW = (W - 36) / 2;
+    return {
+      coin: { x: W / 2, y: H * 0.26, r: Math.max(34, Math.min(W * 0.15, 58)) },
+      btnA: { x: 12, y: H * 0.40, w: btnW, h: 66 },
+      btnB: { x: 24 + btnW, y: H * 0.40, w: btnW, h: 66 },
+      chart: { x: 30, y: H * 0.55, w: W - 44, h: H * 0.30 }
+    };
+  },
+  tryBuy: function (g, track) {
+    var d = g.data, L = this.layout(g);
+    var isA = track === 'A';
+    var cost = isA ? this.costA(g) : this.costB(g);
+    var btn = isA ? L.btnA : L.btnB;
+    if (d.gold >= cost) {
+      d.gold -= cost;
+      if (isA) d.lvA++; else d.lvB++;
+      d.floaters.push({ x: btn.x + btn.w / 2, y: btn.y - 6, life: 1, txt: 'Lv.' + (isA ? d.lvA : d.lvB), color: '#2f9e44' });
+    } else {
+      d.floaters.push({ x: btn.x + btn.w / 2, y: btn.y - 6, life: 1, txt: AtomCore.L('金币不足', 'not enough'), color: '#c92a2a' });
+    }
+  },
+  onPointer: function (g, p) {
+    if (p.type !== 'down') return;
+    var d = g.data, L = this.layout(g);
+    var dx = p.x - L.coin.x, dy = p.y - L.coin.y;
+    if (dx * dx + dy * dy <= L.coin.r * L.coin.r) {
+      d.gold += 1;
+      d.pulse = 0.15;
+      d.floaters.push({ x: L.coin.x + (Math.random() - 0.5) * 36, y: L.coin.y - L.coin.r - 4, life: 1, txt: '+1', color: '#d97706' });
+      return;
+    }
+    function hit(b) { return p.x >= b.x && p.x <= b.x + b.w && p.y >= b.y && p.y <= b.y + b.h; }
+    if (hit(L.btnA)) this.tryBuy(g, 'A');
+    else if (hit(L.btnB)) this.tryBuy(g, 'B');
+  },
+  update: function (g, dt) {
+    var d = g.data, target = g.params.target;
+    var pr = this.prod(g), total = pr.a + pr.b;
+    d.gold += total * dt;
+    if (d.pulse > 0) d.pulse -= dt;
+    for (var i = d.floaters.length - 1; i >= 0; i--) {
+      var f = d.floaters[i];
+      f.y -= 30 * dt; f.life -= 0.9 * dt;
+      if (f.life <= 0) d.floaters.splice(i, 1);
+    }
+    d.sampleT -= dt;
+    if (d.sampleT <= 0) { d.sampleT = 0.25; d.samples.push({ t: g.time, a: pr.a, b: pr.b }); }
+    d.scoreT -= dt;
+    if (d.scoreT <= 0) { d.scoreT = 0.5; g.setScore(Math.floor(total * 10)); }  // 实时分 = 当前产量十分制
+    if (total >= target) {
+      g.setScore(Math.floor(target * 10) + 100 + Math.round((60 - g.time) * 10)); // 胜利 = 目标分 + 时间加成
+      g.endGame(true);
+      return;
+    }
+    if (g.time >= 60) { g.setScore(Math.floor(total * 10)); g.endGame(false); }
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS, L = this.layout(g);
+    var pr = this.prod(g), total = pr.a + pr.b;
+    var ctx = gg.ctx;
+
+    // ---- 顶部读数：金币 + 产量 ----
+    gg.text(AtomCore.L('金币 ', 'Coins ') + Math.floor(d.gold), g.W / 2, 26, 24, C.INK);
+    gg.text(AtomCore.L('产量 ', 'Output ') + total.toFixed(1) + '/s' + AtomCore.L(' · 目标 ', ' · goal ') + g.params.target + '/s', g.W / 2, 50, 13, '#888');
+
+    // ---- 金币按钮（accumulate：点击 = 最原始的产出） ----
+    var cr = L.coin.r * (1 + Math.max(0, d.pulse) * 0.9);
+    gg.circle(L.coin.x, L.coin.y, cr, C.YELLOW, 3);
+    gg.circle(L.coin.x, L.coin.y, cr * 0.72, null, 2);
+    gg.text('+1', L.coin.x, L.coin.y, 26, C.INK);
+    gg.text(AtomCore.L('点击得金币', 'click for coins'), L.coin.x, L.coin.y + cr + 16, 12, '#888');
+
+    // ---- 两个升级按钮（choose：同一笔金币投哪条曲线） ----
+    this.drawButton(g, gg, L.btnA, AtomCore.L('线性系', 'Linear'), d.lvA,
+      '+1 ' + AtomCore.L('金/秒', 'gold/s'), this.costA(g), C.BLUE);
+    this.drawButton(g, gg, L.btnB, AtomCore.L('指数系', 'Exponential'), d.lvB,
+      '×' + g.params.expBase.toFixed(2) + AtomCore.L('/级 → ', '/lv → ') + pr.b.toFixed(1) + '/s', this.costB(g), C.GREEN);
+
+    // ---- 飘字 ----
+    d.floaters.forEach(function (f) {
+      ctx.save(); ctx.globalAlpha = Math.max(0, Math.min(1, f.life));
+      gg.text(f.txt, f.x, f.y, 14, f.color);
+      ctx.restore();
+    });
+
+    // ---- 实时产量-时间曲线（compare：两条贡献曲线 + 总产量，叠在目标线下） ----
+    var ch = L.chart, target = g.params.target, ymax = target * 1.15;
+    gg.rect(ch.x, ch.y, ch.w, ch.h, null, 2);
+    function px(t) { return ch.x + (t / 60) * ch.w; }
+    function py(v) { return ch.y + ch.h - Math.min(v / ymax, 1) * ch.h; }
+    // 目标虚线（红）
+    ctx.save(); ctx.setLineDash([6, 5]); ctx.strokeStyle = C.RED; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(ch.x, py(target)); ctx.lineTo(ch.x + ch.w, py(target)); ctx.stroke();
+    ctx.restore();
+    gg.text(AtomCore.L('目标 ', 'goal ') + target, ch.x + ch.w - 4, py(target) - 10, 11, C.RED, 'right');
+    // 轴刻度
+    gg.text('0', ch.x - 10, ch.y + ch.h - 4, 10, '#aaa');
+    gg.text('0s', ch.x, ch.y + ch.h + 12, 10, '#aaa');
+    gg.text('30s', ch.x + ch.w / 2, ch.y + ch.h + 12, 10, '#aaa');
+    gg.text('60s', ch.x + ch.w, ch.y + ch.h + 12, 10, '#aaa');
+    // 曲线：线性贡献（蓝）/ 指数贡献（绿）/ 总产量（墨线）
+    function plot(key, color, width) {
+      if (d.samples.length < 2) return;
+      ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      ctx.beginPath();
+      d.samples.forEach(function (s, i) {
+        var v = key === 't' ? s.a + s.b : s[key];
+        if (i === 0) ctx.moveTo(px(s.t), py(v)); else ctx.lineTo(px(s.t), py(v));
+      });
+      ctx.stroke(); ctx.restore();
+    }
+    plot('a', C.BLUE, 2);
+    plot('b', C.GREEN, 2);
+    plot('t', C.INK, 2.5);
+    // 当前点
+    if (d.samples.length) {
+      var last = d.samples[d.samples.length - 1];
+      gg.circle(px(last.t), py(last.a + last.b), 3.5, C.INK, 1);
+    } else {
+      gg.text(AtomCore.L('开始后这里实时画出产量曲线', 'your output curve draws here live'), ch.x + ch.w / 2, ch.y + ch.h / 2, 12, '#bbb');
+    }
+    // 图例
+    var ly = ch.y + ch.h + 30;
+    gg.text('—', ch.x + 14, ly, 14, C.BLUE);
+    gg.text(AtomCore.L('线性系', 'linear'), ch.x + 28, ly, 11, '#666', 'left');
+    gg.text('—', ch.x + ch.w * 0.38, ly, 14, C.GREEN);
+    gg.text(AtomCore.L('指数系', 'expo'), ch.x + ch.w * 0.38 + 14, ly, 11, '#666', 'left');
+    gg.text('—', ch.x + ch.w * 0.68, ly, 14, C.INK);
+    gg.text(AtomCore.L('总产量', 'total'), ch.x + ch.w * 0.68 + 14, ly, 11, '#666', 'left');
+  },
+  drawButton: function (g, gg, b, name, lv, effect, cost, tint) {
+    var afford = g.data.gold >= cost;
+    var ctx = gg.ctx;
+    ctx.save(); ctx.globalAlpha = afford ? 0.45 : 0.12;
+    gg.rect(b.x, b.y, b.w, b.h, tint, 2.5);
+    ctx.restore();
+    gg.rect(b.x, b.y, b.w, b.h, null, 2.5);
+    gg.text(name + ' Lv.' + lv, b.x + b.w / 2, b.y + 15, 14, AtomCore.COLORS.INK);
+    gg.text(effect, b.x + b.w / 2, b.y + 36, 12, '#555');
+    gg.text(AtomCore.L('价格 ', 'cost ') + cost, b.x + b.w / 2, b.y + 55, 12, afford ? '#2f9e44' : '#c92a2a');
+  }
+});
+</script>
+</body>
+</html>

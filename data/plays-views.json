@@ -1,6 +1,6 @@
 {
   "wave-defense-difficulty-curve": {
-    "views": 19,
+    "views": 21,
     "likes": 0
   },
   "merge-chain-and-gates": {
@@ -120,7 +120,7 @@
     "likes": 0
   },
   "tic-tac-toe-showdown": {
-    "views": 39,
+    "views": 40,
     "likes": 0
   },
   "tic-tac-toe-3d-rotation-juice": {
@@ -129,6 +129,10 @@
   },
   "retro-glow-sue-makeup-challenge": {
     "views": 9,
+    "likes": 0
+  },
+  "bubble-shooter-aim-and-chain-pop": {
+    "views": 2,
     "likes": 0
   }
 }

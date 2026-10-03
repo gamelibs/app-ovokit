@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "ovoui-skin@1",
+  "name": "gameplay_skin",
+  "canvas": {
+    "width": 750,
+    "height": 1334
+  },
+  "root": {
+    "id": "root",
+    "type": "container",
+    "x": 0,
+    "y": 0,
+    "w": 750,
+    "h": 1334,
+    "children": [
+      {
+        "id": "score_display",
+        "type": "text",
+        "x": 20,
+        "y": 40,
+        "w": 400,
+        "h": 48,
+        "text": "Score: 0",
+        "style": {
+          "fontSize": 28,
+          "fill": "#ffffff",
+          "align": "left"
+        }
+      },
+      {
+        "id": "lives_display",
+        "type": "text",
+        "x": 275,
+        "y": 40,
+        "w": 400,
+        "h": 48,
+        "text": "Lives: 3",
+        "style": {
+          "fontSize": 28,
+          "fill": "#ffffff",
+          "align": "center"
+        }
+      },
+      {
+        "id": "timer_display",
+        "type": "text",
+        "x": 730,
+        "y": 40,
+        "w": 400,
+        "h": 48,
+        "text": "Time: 120",
+        "style": {
+          "fontSize": 28,
+          "fill": "#ffffff",
+          "align": "right"
+        }
+      },
+      {
+        "id": "power_display",
+        "type": "text",
+        "x": 375,
+        "y": 1040,
+        "w": 400,
+        "h": 48,
+        "text": "",
+        "style": {
+          "fill": "#facc15"
+        }
+      },
+      {
+        "id": "game_canvas",
+        "type": "container",
+        "x": 0,
+        "y": 120,
+        "w": 750,
+        "h": 900
+      }
+    ]
+  }
+}

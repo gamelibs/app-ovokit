@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Combat · Fairness Lab | OVO Atomic Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 战斗对抗母型原子 demo：行为原语 = compare(血条对比) + timing-window(格挡窗) + accumulate(伤害累积) + choose(挡/攻)
+// 教学点：动作公平感 = 前摇可读性 × 窗口宽度，两者都是设计参数而非手感玄学。
+//   - 敌人每回合：对峙(idle) → 前摇(tele) → 打击(strike) → 收招硬直(recover)
+//   - 顶部「前摇计时条」尾段绿色 = 格挡判定区：打击落下时，距你按格挡 ≤ 窗口宽度 → 免伤+反击
+//   - 抢攻随时可按：输出更快，但前摇中抢攻 = 换血，吃满伤害；收招硬直是抢攻黄金期
+// 无 setTimeout：全部时序由 update(dt) 状态机驱动，reset 天然无残留定时器/竞态。
+AtomCore.create({
+  title: AtomCore.L('战斗对抗 · 公平感实验室', 'Combat · Fairness Lab'),
+  objective: AtomCore.L(
+    '读敌人前摇：在绿色判定区内按「格挡」免伤反击，或「抢攻」换血。公平感 = 前摇可读性 × 窗口宽度——两者都是可调参数。',
+    'Read the wind-up: BLOCK inside the green zone to negate & counter, or ATTACK to trade blows. Fairness = telegraph readability × window width — both are tunable parameters.'),
+  lives: 0,
+  params: [
+    { key: 'telegraph', label: AtomCore.L('敌人前摇时长（可读性）', 'Enemy Wind-up (readability)'), min: 200, max: 1600, step: 100, default: 900, unit: 'ms' },
+    { key: 'window', label: AtomCore.L('格挡窗口宽度（公平感）', 'Block Window (fairness)'), min: 80, max: 600, step: 20, default: 260, unit: 'ms' },
+    { key: 'enemyDmg', label: AtomCore.L('敌人伤害', 'Enemy Damage'), min: 4, max: 30, step: 2, default: 12, unit: '' }
+  ],
+  hudExtra: function (g) {
+    var s = g.data.stats || { blocked: 0, taken: 0, dealt: 0 };
+    return AtomCore.L('格挡 <b>', 'Blocked <b>') + s.blocked + '</b> · ' + AtomCore.L('受击 <b>', 'Taken <b>') + s.taken + '</b> · ' + AtomCore.L('输出 <b>', 'Dealt <b>') + s.dealt + '</b>';
+  },
+  setup: function (g) {
+    g.data.playerHp = 100;
+    g.data.enemyHp = 100;
+    g.data.enemyState = 'idle';      // idle | tele | strike | recover
+    g.data.stateT = 0;               // 当前敌人状态已过秒数
+    g.data.nextAttack = 1.2;         // 首次前摇前的对峙时长
+    g.data.blockAt = -99;            // 上次按格挡的 game.time（<0 = 未按）
+    g.data.atkCd = 0;                // 抢攻冷却剩余
+    g.data.stats = { blocked: 0, taken: 0, dealt: 0 };
+    g.data.floats = [];              // 飘字 {x,y,txt,color,t}
+    g.data.flash = 0;                // 受击红屏
+    g.data.counterFlash = 0;         // 格挡成功绿屏
+    g.data.over = false;
+  },
+  layout: function (g) {
+    return {
+      groundY: g.H * 0.52,
+      px: g.W * 0.26, py: g.H * 0.44,   // 玩家位置
+      ex: g.W * 0.74, ey: g.H * 0.42,   // 敌人位置
+      barX: 40, barY: 52, barW: g.W - 80, barH: 10,
+      btnY: g.H - 96, btnH: 56
+    };
+  },
+  syncScore: function (g) {
+    var d = g.data;
+    g.setScore(d.stats.dealt + d.stats.blocked * 10);
+  },
+  finish: function (g, win) {
+    var d = g.data;
+    if (d.over) return;
+    d.over = true;
+    if (win) g.setScore(d.stats.dealt + d.stats.blocked * 10 + 50 + Math.max(0, Math.round(d.playerHp)));
+    g.endGame(win);
+  },
+  // —— 打击结算：格挡窗内 = 免伤+反击；窗外 = 吃满伤害 ——
+  strike: function (g) {
+    var d = g.data, L = this.layout(g);
+    d.enemyState = 'strike'; d.stateT = 0;
+    var W = g.params.window / 1000;
+    if (d.blockAt >= 0 && (g.time - d.blockAt) <= W) {
+      var dmg = 10;                              // 反击伤害
+      d.stats.blocked++; d.stats.dealt += dmg;
+      d.enemyHp -= dmg; d.counterFlash = 0.25; d.blockAt = -99;  // 一次按键只挡一刀
+      d.floats.push({ x: L.ex, y: L.ey - 56, txt: AtomCore.L('格挡反击 -', 'Perfect Block -') + dmg, color: '#2f9e44', t: 0.9 });
+    } else {
+      d.stats.taken++;
+      d.playerHp -= g.params.enemyDmg; d.flash = 0.3;
+      d.floats.push({ x: L.px, y: L.py - 48, txt: '-' + g.params.enemyDmg, color: '#e03131', t: 0.9 });
+    }
+    this.syncScore(g);
+    if (d.enemyHp <= 0) this.finish(g, true);
+    else if (d.playerHp <= 0) this.finish(g, false);
+  },
+  update: function (g, dt) {
+    var d = g.data;
+    if (d.over) return;
+    if (d.atkCd > 0) d.atkCd -= dt;
+    if (d.flash > 0) d.flash -= dt;
+    if (d.counterFlash > 0) d.counterFlash -= dt;
+    for (var i = d.floats.length - 1; i >= 0; i--) {
+      d.floats[i].t -= dt; d.floats[i].y -= 30 * dt;
+      if (d.floats[i].t <= 0) d.floats.splice(i, 1);
+    }
+    d.stateT += dt;
+    var T = g.params.telegraph / 1000;
+    if (d.enemyState === 'idle' && d.stateT >= d.nextAttack) { d.enemyState = 'tele'; d.stateT = 0; }
+    else if (d.enemyState === 'tele' && d.stateT >= T) { this.strike(g); }
+    else if (d.enemyState === 'strike' && d.stateT >= 0.16) { d.enemyState = 'recover'; d.stateT = 0; }
+    else if (d.enemyState === 'recover' && d.stateT >= 0.5) { d.enemyState = 'idle'; d.stateT = 0; d.nextAttack = g.rand(0.8, 1.5); }
+  },
+  onPointer: function (g, p) {
+    if (p.type !== 'down') return;
+    var d = g.data, L = this.layout(g);
+    if (d.over) return;
+    var bw = (g.W - 60) / 2, by = L.btnY, bh = L.btnH;
+    // 左按钮：格挡
+    if (p.x >= 24 && p.x <= 24 + bw && p.y >= by && p.y <= by + bh) { d.blockAt = g.time; return; }
+    // 右按钮：抢攻
+    if (p.x >= 36 + bw && p.x <= 36 + bw * 2 && p.y >= by && p.y <= by + bh) {
+      if (d.atkCd > 0) return;
+      d.atkCd = 0.45;
+      var dmg = 8;
+      d.enemyHp -= dmg; d.stats.dealt += dmg;
+      d.floats.push({ x: L.ex, y: L.ey - 48, txt: '-' + dmg, color: '#e8590c', t: 0.7 });
+      this.syncScore(g);
+      if (d.enemyHp <= 0) this.finish(g, true);
+    }
+  },
+  hpBar: function (g, gg, x, y, w, h, hp, color, label) {
+    gg.rect(x, y, w, h, null, 2);
+    var ctx = gg.ctx, ratio = Math.max(0, Math.min(1, hp / 100));
+    ctx.fillStyle = color;
+    ctx.fillRect(x + 2, y + 2, Math.max(0, (w - 4) * ratio), h - 4);
+    gg.text(label + ' ' + Math.max(0, Math.round(hp)), x + w / 2, y + h / 2 + 0.5, 12, AtomCore.COLORS.INK);
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS, L = this.layout(g), ctx = gg.ctx;
+    var T = g.params.telegraph / 1000, W = g.params.window / 1000;
+    // —— 双方血条 ——
+    var hbw = (g.W - 66) / 2;
+    this.hpBar(g, gg, 24, 14, hbw, 16, d.playerHp, C.BLUE, AtomCore.L('你', 'YOU'));
+    this.hpBar(g, gg, 42 + hbw, 14, hbw, 16, d.enemyHp, C.RED, AtomCore.L('敌', 'FOE'));
+    // —— 前摇计时条（教学核心：条长=可读性，绿区=公平感，游标=当前进度）——
+    gg.rect(L.barX, L.barY, L.barW, L.barH, '#e9e4d8', 2);
+    var zoneW = L.barW * Math.min(W, T) / T;
+    ctx.fillStyle = C.GREEN; ctx.fillRect(L.barX + L.barW - zoneW, L.barY + 1.5, zoneW, L.barH - 3);
+    if (d.enemyState === 'tele' || d.enemyState === 'strike') {
+      var k = d.enemyState === 'strike' ? 1 : Math.min(1, d.stateT / T);
+      ctx.fillStyle = 'rgba(43,43,43,.18)'; ctx.fillRect(L.barX + 1.5, L.barY + 1.5, (L.barW - 3) * k, L.barH - 3);
+      gg.line(L.barX + L.barW * k, L.barY - 5, L.barX + L.barW * k, L.barY + L.barH + 5, 2.5);
+    }
+    gg.text(AtomCore.L('— 前摇 ', '— wind-up ') + g.params.telegraph + 'ms' + AtomCore.L(' · 绿区=格挡判定区 ', ' · green = block zone ') + g.params.window + 'ms',
+      g.W / 2, L.barY + 24, 12, '#888');
+    // —— 场地 ——
+    gg.line(24, L.groundY, g.W - 24, L.groundY, 2.5);
+    // 敌人（右臂随前摇抬起，打击瞬间劈下）
+    var armA = Math.PI * 0.75;                                   // idle：垂手
+    if (d.enemyState === 'tele') armA = Math.PI * 0.75 + (-Math.PI * 0.55 - Math.PI * 0.75) * Math.min(1, d.stateT / T);
+    else if (d.enemyState === 'strike') armA = Math.PI * 0.98;   // 劈向玩家
+    else if (d.enemyState === 'recover') armA = Math.PI * 0.6;
+    gg.circle(L.ex, L.ey, 26, C.RED, 2.5);
+    gg.text(AtomCore.L('敌', 'FOE'), L.ex, L.ey, 14, C.INK);
+    gg.line(L.ex, L.ey, L.ex + Math.cos(armA) * 36, L.ey + Math.sin(armA) * 36, 4);
+    if (d.enemyState === 'tele') gg.text('!', L.ex, L.ey - 52, 20 + 12 * Math.min(1, d.stateT / T), '#e03131');
+    if (d.enemyState === 'strike') gg.line(L.ex - 10, L.ey - 8, L.px + 16, L.py - 6, 5);
+    // 玩家
+    gg.circle(L.px, L.py, 22, C.BLUE, 2.5);
+    gg.text(AtomCore.L('我', 'ME'), L.px, L.py, 14, C.INK);
+    if (d.atkCd > 0.3) gg.line(L.px + 10, L.py - 6, L.ex - 24, L.ey - 4, 4);   // 抢攻出剑（前 150ms）
+    var rem = d.blockAt >= 0 ? W - (g.time - d.blockAt) : -1;
+    if (rem > 0) {                                               // 格挡盾 + 剩余窗口条
+      ctx.save(); ctx.strokeStyle = '#1971c2'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.arc(L.px + 14, L.py, 26, -Math.PI / 2.4, Math.PI / 2.4); ctx.stroke(); ctx.restore();
+      ctx.fillStyle = '#2f9e44'; ctx.fillRect(L.px - 23, L.py - 42, 46 * (rem / W), 4);
+    }
+    // 飘字
+    d.floats.forEach(function (f) { gg.text(f.txt, f.x, f.y, 16, f.color); });
+    // —— 状态提示行 ——
+    var st = '', stc = C.INK;
+    if (!d.over) {
+      if (d.enemyState === 'idle') { st = AtomCore.L('对峙中——盯住敌人，等前摇', 'Standoff — watch for the wind-up'); stc = '#888'; }
+      else if (d.enemyState === 'tele') { st = AtomCore.L('前摇中！游标进绿区按「格挡」', 'Wind-up! BLOCK as the marker hits green'); stc = '#d97706'; }
+      else if (d.enemyState === 'strike') { st = AtomCore.L('打击落下！', 'The blow lands!'); stc = '#e03131'; }
+      else { st = AtomCore.L('敌人收招硬直——抢攻好时机', 'Enemy recovering — prime time to attack!'); stc = '#2f9e44'; }
+    }
+    gg.text(st, g.W / 2, L.groundY + 34, 15, stc);
+    // —— 按钮：格挡（左）/ 抢攻（右）——
+    var bw = (g.W - 60) / 2, by = L.btnY, bh = L.btnH;
+    gg.rect(24, by, bw, bh, C.BLUE, 2.5);
+    gg.text(AtomCore.L('格挡', 'BLOCK'), 24 + bw / 2, by + bh / 2, 20, C.INK);
+    gg.rect(36 + bw, by, bw, bh, C.YELLOW, 2.5);
+    gg.text(AtomCore.L('抢攻', 'ATTACK'), 36 + bw + bw / 2, by + bh / 2, 20, C.INK);
+    if (d.atkCd > 0) { ctx.fillStyle = 'rgba(43,43,43,.25)'; ctx.fillRect(36 + bw, by, bw, bh * Math.min(1, d.atkCd / 0.45)); }
+    // 教学点落款
+    gg.text(AtomCore.L('教学点：公平感 = 前摇可读性 × 窗口宽度（拖滑块体会）', 'Lesson: fairness = readability × window width (try the sliders)'), g.W / 2, g.H - 18, 12, '#888');
+    // —— 反馈闪屏 ——
+    if (d.flash > 0) { ctx.fillStyle = 'rgba(255,139,139,' + Math.min(0.5, d.flash * 1.4) + ')'; ctx.fillRect(0, 0, g.W, g.H); }
+    if (d.counterFlash > 0) { ctx.fillStyle = 'rgba(155,226,155,' + Math.min(0.5, d.counterFlash * 1.6) + ')'; ctx.fillRect(0, 0, g.W, g.H); }
+  }
+});
+</script>
+</body>
+</html>

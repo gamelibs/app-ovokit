@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "resource-library@1",
+  "projectId": "cp_1019_10019_bubble_shooter_v1",
+  "projectTitle": "Bubble Shooter",
+  "images": [
+    {
+      "name": "bubble_blue_6bda258d-566d-40ba-b6a6-632811eca08c.webp",
+      "path": "resources/images/bubble_blue_6bda258d-566d-40ba-b6a6-632811eca08c.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.449Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/images/bubble_blue_6bda258d-566d-40ba-b6a6-632811eca08c.webp"
+    },
+    {
+      "name": "bubble_green_af333dba-b5ae-4126-be3a-f2a3f0988c87.webp",
+      "path": "resources/images/bubble_green_af333dba-b5ae-4126-be3a-f2a3f0988c87.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.454Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/images/bubble_green_af333dba-b5ae-4126-be3a-f2a3f0988c87.webp"
+    },
+    {
+      "name": "bubble_launcher_dbaa3141-7362-4fc8-88b0-50183272fddb.webp",
+      "path": "resources/images/bubble_launcher_dbaa3141-7362-4fc8-88b0-50183272fddb.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.465Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/images/bubble_launcher_dbaa3141-7362-4fc8-88b0-50183272fddb.webp"
+    },
+    {
+      "name": "bubble_red_b6768630-cb07-48ec-adca-5817c0e36a23.webp",
+      "path": "resources/images/bubble_red_b6768630-cb07-48ec-adca-5817c0e36a23.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.469Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/images/bubble_red_b6768630-cb07-48ec-adca-5817c0e36a23.webp"
+    },
+    {
+      "name": "bubble_yellow_02eba2ba-c7cb-410d-b920-a5f05746adce.webp",
+      "path": "resources/images/bubble_yellow_02eba2ba-c7cb-410d-b920-a5f05746adce.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.474Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/images/bubble_yellow_02eba2ba-c7cb-410d-b920-a5f05746adce.webp"
+    },
+    {
+      "name": "game_background_1_3a790202-af72-4768-a2b8-ae2a854643cb.webp",
+      "path": "resources/images/game_background_1_3a790202-af72-4768-a2b8-ae2a854643cb.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.478Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/images/game_background_1_3a790202-af72-4768-a2b8-ae2a854643cb.webp"
+    },
+    {
+      "name": "particle_star_76efbc62-4f44-4846-9a0a-e2a5627a2008.webp",
+      "path": "resources/images/particle_star_76efbc62-4f44-4846-9a0a-e2a5627a2008.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.482Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/images/particle_star_76efbc62-4f44-4846-9a0a-e2a5627a2008.webp"
+    },
+    {
+      "name": "thumbnail_65ea45ce-751f-4720-a503-3dbefd5e6dfb.webp",
+      "path": "resources/images/thumbnail_65ea45ce-751f-4720-a503-3dbefd5e6dfb.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.487Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/images/thumbnail_65ea45ce-751f-4720-a503-3dbefd5e6dfb.webp"
+    }
+  ],
+  "audio": [
+    {
+      "name": "background_music_290ac97a-9edc-4938-b928-40c4ed0b77ab.mp3",
+      "path": "resources/audio/background_music_290ac97a-9edc-4938-b928-40c4ed0b77ab.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.492Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/audio/background_music_290ac97a-9edc-4938-b928-40c4ed0b77ab.mp3"
+    },
+    {
+      "name": "bg_music_gameplay_2_32d0ab61-67f6-452f-9d05-8f5d0bce815d.mp3",
+      "path": "resources/audio/bg_music_gameplay_2_32d0ab61-67f6-452f-9d05-8f5d0bce815d.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.496Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/audio/bg_music_gameplay_2_32d0ab61-67f6-452f-9d05-8f5d0bce815d.mp3"
+    },
+    {
+      "name": "bubble_attach_sfx_d2222783-d389-4e48-9957-d0341ba5a1ea.mp3",
+      "path": "resources/audio/bubble_attach_sfx_d2222783-d389-4e48-9957-d0341ba5a1ea.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.500Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/audio/bubble_attach_sfx_d2222783-d389-4e48-9957-d0341ba5a1ea.mp3"
+    },
+    {
+      "name": "bubble_launch_sfx_d1bcda28-3718-43fe-82bf-eec78bf02b7d.mp3",
+      "path": "resources/audio/bubble_launch_sfx_d1bcda28-3718-43fe-82bf-eec78bf02b7d.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.504Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/audio/bubble_launch_sfx_d1bcda28-3718-43fe-82bf-eec78bf02b7d.mp3"
+    },
+    {
+      "name": "bubble_pop_sfx_8f810415-2e66-4de6-bb48-5f3a47192163.mp3",
+      "path": "resources/audio/bubble_pop_sfx_8f810415-2e66-4de6-bb48-5f3a47192163.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.510Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/audio/bubble_pop_sfx_8f810415-2e66-4de6-bb48-5f3a47192163.mp3"
+    },
+    {
+      "name": "cascade_sfx_236e117f-1385-448b-9cd5-6602081adc48.mp3",
+      "path": "resources/audio/cascade_sfx_236e117f-1385-448b-9cd5-6602081adc48.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.514Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/audio/cascade_sfx_236e117f-1385-448b-9cd5-6602081adc48.mp3"
+    },
+    {
+      "name": "game_over_sfx_c905985a-b64e-44d8-b9ac-eda78e917cfe.mp3",
+      "path": "resources/audio/game_over_sfx_c905985a-b64e-44d8-b9ac-eda78e917cfe.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:05.518Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/audio/game_over_sfx_c905985a-b64e-44d8-b9ac-eda78e917cfe.mp3"
+    }
+  ],
+  "fonts": [],
+  "skins": [],
+  "libs": [
+    {
+      "name": "pixi.min.js",
+      "path": "resources/libs/pixi.min.js",
+      "size": 456074,
+      "updateTime": "2026-07-05T04:11:05.349Z",
+      "url": "/creative-preview/cp_1019_10019_bubble_shooter_v1/resources/libs/pixi.min.js"
+    }
+  ],
+  "compositions": [],
+  "configs": [],
+  "data": []
+}

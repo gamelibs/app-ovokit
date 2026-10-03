@@ -1,0 +1,67 @@
+{
+  "slug": "bubble-shooter-aim-and-chain-pop",
+  "title": "Bubble Shooter: Aim Once, Score by the Cascade",
+  "subtitle": "A teardown of this bubble shooter's deterministic design: how the aim angle is folded into a column choice, how 8-way connectivity raises pop density, how a ceiling drop every 10 shots turns a countdown into countable move pressure, and why 20 points per floating bubble is the skill ceiling. Playable demo at the end.",
+  "archetype": "shoot-aim",
+  "archetypeSecondary": "puzzle",
+  "tags": [
+    "射击",
+    "解谜",
+    "空间规划"
+  ],
+  "lang": "en",
+  "difficulty": "Beginner",
+  "techStack": [
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Rule Skeleton",
+      "bullets": [
+        "14 rows x 8 cols grid, 5 rows pre-filled at start, three bubble colors (blue/green/red)",
+        "Aim angle of +/-80 degrees maps directly to a target column: the bubble attaches below the lowest bubble in that column, or to the ceiling if the column is empty",
+        "8-way connected same-color clusters of 3+ pop for 10 points each; bubbles that lose their anchor to the top drop for 20 points each",
+        "Every 10 shots the ceiling pushes down one row; bottom-out or a full column ends the run, clearing the grid settles it as a win"
+      ]
+    },
+    {
+      "title": "Behavior Loop",
+      "bullets": [
+        "Read the board: grid gaps plus current/next bubble color decide the target column",
+        "Press and drag to show the aim guide, release to shoot (pointerDown aims / pointerUp fires)",
+        "Attach -> pop scoring -> floating cascade -> shot counter +1",
+        "At 10 shots the ceiling drops a row, pressing the grid toward the danger line; the result screen offers Restart or Menu"
+      ]
+    },
+    {
+      "title": "Implementation Notes",
+      "bullets": [
+        "core/bubble-shooter owns all rule data: bubbleGrid / currentBubble / nextBubble / score / comboCount",
+        "Rendering and pointer input come from the grid-shooter template of core/scene-renderer (PIXI); __OV.Games.BubbleShooter.Game is only a thin wrapper that registers the drawer",
+        "Matching uses 8-way flood fill; floating detection marks anchored bubbles with a BFS from the top row",
+        "The boot -> menu -> gameplay -> result state machine runs on the v2-kernel LogicGraph; button events and transition events share identical names"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/bubble-shooter-aim-and-chain-pop/index.html",
+    "note": "Click Play to start. Press and drag inside the grid area to aim, release to shoot. Connect 3+ of a color to pop them; cut the supports to drop whole clusters. The ceiling drops one row every 10 shots — do not let the bubbles touch the bottom."
+  },
+  "pattern": "spatial",
+  "cover": {
+    "src": "/plays/bubble-shooter-aim-and-chain-pop/cover.svg",
+    "alt": "Bubble Shooter: Aim Once, Score by the Cascade"
+  },
+  "coverWide": {
+    "src": "/plays/bubble-shooter-aim-and-chain-pop/cover-wide.svg",
+    "alt": "Bubble Shooter: Aim Once, Score by the Cascade"
+  }
+}

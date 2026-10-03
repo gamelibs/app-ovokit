@@ -1,0 +1,75 @@
+{
+  "slug": "choice-strategy-three-card-climb-lab",
+  "title": "三选一爬塔：把「选择空间」做成旋钮的策略决策实验室",
+  "subtitle": "每回合从攻击/护盾/经济卡中选 1 张，数值累积对抗逐回合增强的拦路怪，撑过 12 回合即胜；可选卡数与敌人成长斜率直接做成滑块，亲手体会「选择空间大小本身就是难度」。",
+  "archetype": "choice-strategy",
+  "archetypeSecondary": "progression",
+  "tags": [
+    "策略决策",
+    "成长 / 数值"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "进阶",
+  "techStack": [
+    "Canvas",
+    "AtomCore"
+  ],
+  "corePoints": [
+    "选择空间即难度：每回合可选卡数 2/3/4 可调",
+    "风险累积：敌人成长斜率 0.6~2.0 可调",
+    "机会成本：选 1 张其余作废，后果立刻落在数值上",
+    "后果可解释：战斗公式印在画布上，战报逐条可回溯",
+    "经济是存起来的血：每 10 金币休整时自动换 3 HP"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "每回合从 N 张卡（2/3/4 可调）中选 1 张：攻击 +X / 护盾 +X / 经济 +X，其余作废",
+        "选卡后战斗自动结算：击杀出手数 = ceil(敌HP/你攻)，受击伤害 =（出手数−1）× max(1, 敌攻−你防）",
+        "HP 归零败北；撑过第 12 回合胜利，终局得分 = 300 + 金币 + 剩余 HP"
+      ]
+    },
+    {
+      "title": "行为循环",
+      "bullets": [
+        "读局势（自身三维 + 当前怪与下回合怪预告）→ 发牌（攻 35% / 防 30% / 经济 35%）→ 选 1 张",
+        "自动结算 → 击杀赏金 +3 → 休整：每 10 金币自动换 3 HP（缺多少补多少，上限 30）",
+        "敌人按斜率逐回合变强（HP ≈ 3 + 回合×斜率×2.2，攻 ≈ 1 + 回合×斜率×0.8），回到读局势"
+      ]
+    },
+    {
+      "title": "实现要点",
+      "bullets": [
+        "基于 AtomCore 原子试玩引擎的纯静态单文件 demo：Canvas 2D 竖屏自适应，零依赖零外部请求",
+        "回合仅 choose / resolve 两态；选卡后 550ms 延迟推进，token 防「重开后旧定时器推进新局」竞态",
+        "两个滑块（敌人成长斜率 / 每回合卡数）经 game.params 实时生效于发牌与敌人生成"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "战斗自动结算（受击伤害公式）",
+      "language": "js",
+      "code": "// 击杀出手数 = ceil(敌HP/你攻)；受击伤害 = (出手数-1) × max(1, 敌攻-你防)\nvar hits = Math.max(1, Math.ceil(e.hp / p.atk));\nvar counters = hits - 1;\nvar dmg = counters * Math.max(1, e.atk - p.def);\np.hp -= dmg;\np.gold += 3; // 击杀赏金"
+    }
+  ],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/demos/atomic/choice-strategy/index.html",
+    "note": "点开始，每回合从攻击/护盾/经济卡中选 1 张（其余作废），数值累积自动与拦路怪结算，撑过 12 回合即胜；侧栏两个滑块可实时调敌人成长斜率与每回合可选卡数。"
+  },
+  "pattern": "strategy",
+  "cover": {
+    "src": "/plays/choice-strategy-three-card-climb-lab/cover.svg",
+    "alt": "三选一爬塔：把「选择空间」做成旋钮的策略决策实验室"
+  },
+  "coverWide": {
+    "src": "/plays/choice-strategy-three-card-climb-lab/cover-wide.svg",
+    "alt": "三选一爬塔：把「选择空间」做成旋钮的策略决策实验室"
+  }
+}

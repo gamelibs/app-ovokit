@@ -1,0 +1,57 @@
+{
+  "$schema": "ovoui-skins@2",
+  "name": "global_skin",
+  "title": "全局皮肤",
+  "canvas": {
+    "width": 750,
+    "height": 1334
+  },
+  "root": {
+    "id": "globalRoot",
+    "type": "container",
+    "children": [
+      {
+        "id": "soundBtn",
+        "type": "button",
+        "x": 20,
+        "y": 20,
+        "w": 48,
+        "h": 48,
+        "label": "🔊",
+        "style": {
+          "fontSize": 20,
+          "backgroundColor": "#334155",
+          "borderRadius": 8
+        }
+      },
+      {
+        "id": "langBtn",
+        "type": "button",
+        "x": 620,
+        "y": 20,
+        "w": 48,
+        "h": 48,
+        "label": "🌐",
+        "style": {
+          "fontSize": 20,
+          "backgroundColor": "#334155",
+          "borderRadius": 8
+        }
+      },
+      {
+        "id": "backBtn",
+        "type": "button",
+        "x": 80,
+        "y": 20,
+        "w": 48,
+        "h": 48,
+        "label": "←",
+        "style": {
+          "fontSize": 20,
+          "backgroundColor": "#334155",
+          "borderRadius": 8
+        }
+      }
+    ]
+  }
+}

@@ -46,7 +46,7 @@
     {
       "title": "Merge Chain (Table-Driven) + Blockers (Rare Materials)",
       "language": "ts",
-      "code": "type ItemId = string;\n\ntype MergeRule = {\n  from: ItemId;\n  to: ItemId;\n  need?: { id: ItemId; count: number }; // 稀有材料作为“门”\n};\n\nexport const rules: MergeRule[] = [\n  { from: \"seed\", to: \"sprout\" },\n  { from: \"sprout\", to: \"tree\", need: { id: \"water\", count: 1 } },\n];\n"
+      "code": "type ItemId = string;\n\ntype MergeRule = {\n  from: ItemId;\n  to: ItemId;\n  need?: { id: ItemId; count: number }; // rare materials act as 'gates'\n};\n\nexport const rules: MergeRule[] = [\n  { from: \"seed\", to: \"sprout\" },\n  { from: \"sprout\", to: \"tree\", need: { id: \"water\", count: 1 } },\n];\n"
     }
   ],
   "cover": {

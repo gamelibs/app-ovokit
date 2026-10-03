@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Physics · Game-Feel Parameter Lab | OVO Atomic Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 物理母型原子 demo（迷你弹球撞靶 / mini-golf）：行为原语 = physics + collision + aim
+// 教学点（对应母型 concept「同输入同结果」「手感参数决定运动节奏」）：
+//   - 摩擦系数：指数阻尼，直接决定球滚多远才停 —— 参数即手感，边打边调立刻生效
+//   - 弹性系数：碰墙/碰障碍保留多少能量，决定反弹次数与节奏
+//   - 障碍块数量：0~6 预设槽位，布局完全确定（同参数 = 同局面 = 可复现实验）
+//   - 弹道预测线（开关）：易用性取舍 —— 开 = 精确规划反弹路线，关 = 纯手感挑战
+var MAX_STROKES = 8;
+var STATS = { win: 0, lose: 0, best: 0 };   // 跨局战绩（reset 不清）
+AtomCore.create({
+  title: AtomCore.L('物理 · 手感参数实验室', 'Physics · Game-Feel Parameter Lab'),
+  objective: AtomCore.L(
+    '拖拽蓄力发射小球，借墙壁反弹撞中全部 3 个靶，杆数越少分越高。边打边调摩擦/弹性——参数即手感。',
+    'Drag to charge and launch; bank off walls to hit all 3 targets. Fewer strokes = higher score. Tune friction/restitution mid-round: parameters ARE the game feel.'),
+  lives: 0,
+  params: [
+    { key: 'friction', label: AtomCore.L('摩擦系数（球多快停下）', 'Friction (how fast ball stops)'), min: 0.2, max: 3, step: 0.1, default: 1.0, unit: '' },
+    { key: 'bounce', label: AtomCore.L('弹性系数（反弹保留能量）', 'Restitution (bounce energy kept)'), min: 0.1, max: 0.95, step: 0.05, default: 0.7, unit: '' },
+    { key: 'obstacles', label: AtomCore.L('障碍块数量', 'Obstacle Count'), min: 0, max: 6, step: 1, default: 3, unit: '' }
+  ],
+  toggles: [
+    { key: 'aimGuide', label: '弹道预测线', labelEn: 'Trajectory Guide', default: true }
+  ],
+  hudExtra: function (g) {
+    var d = g.data;
+    var hit = (d.targets || []).filter(function (t) { return t.hit; }).length;
+    var sp = d.ball ? Math.round(Math.sqrt(d.ball.vx * d.ball.vx + d.ball.vy * d.ball.vy)) : 0;
+    var s = AtomCore.L('杆数 <b>', 'Strokes <b>') + (d.strokes || 0) + '/' + MAX_STROKES + '</b>' +
+      AtomCore.L(' · 靶 <b>', ' · targets <b>') + hit + '/3</b>' +
+      AtomCore.L(' · 球速 <b>', ' · ball <b>') + sp + '</b>';
+    if (STATS.best > 0) s += AtomCore.L(' · 最佳 <b>', ' · best <b>') + STATS.best + AtomCore.L(' 杆</b>', ' str</b>');
+    return s;
+  },
+  // ---- 场地与布局（全部确定论：同参数 = 同局面）----
+  field: function (g) { return { l: 16, t: 16, r: g.W - 16, b: g.H - 16 }; },
+  targetSpots: function (g) {
+    var f = this.field(g), w = f.r - f.l, h = f.b - f.t;
+    return [
+      { x: f.l + w * 0.24, y: f.t + h * 0.14 },
+      { x: f.l + w * 0.76, y: f.t + h * 0.20 },
+      { x: f.l + w * 0.50, y: f.t + h * 0.36 }
+    ];
+  },
+  obstaclePresets: function (g) {
+    var f = this.field(g), w = f.r - f.l, h = f.b - f.t;
+    function R(cx, cy, rw, rh) { return { x: f.l + cx * w - rw / 2, y: f.t + cy * h - rh / 2, w: rw, h: rh }; }
+    return [
+      R(0.50, 0.26, w * 0.36, 16),   // 上横杆：挡住中靶直线，逼出反弹路线
+      R(0.24, 0.46, w * 0.30, 16),
+      R(0.76, 0.54, w * 0.30, 16),
+      R(0.50, 0.60, 16, h * 0.13),   // 中竖杆
+      R(0.28, 0.72, w * 0.26, 16),
+      R(0.72, 0.76, 16, h * 0.11)
+    ];
+  },
+  obstacles: function (g) { return this.obstaclePresets(g).slice(0, Math.round(g.params.obstacles)); },
+  setup: function (g) {
+    var f = this.field(g), h = f.b - f.t;
+    g.data.ball = { x: (f.l + f.r) / 2, y: f.b - h * 0.12, vx: 0, vy: 0, r: 11 };
+    g.data.targets = this.targetSpots(g).map(function (p) { return { x: p.x, y: p.y, r: 16, hit: false }; });
+    g.data.strokes = 0;
+    g.data.moving = false;
+    g.data.aim = null;
+  },
+  // ---- 物理步进（子步防穿透；update 与弹道预测共用同一份代码 = 同输入同结果）----
+  stepBall: function (g, b, dt) {
+    var f = this.field(g), mu = g.params.friction, e = g.params.bounce;
+    var sp = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
+    var sub = Math.max(1, Math.ceil(sp * dt / 4));
+    var sdt = dt / sub, obs = this.obstacles(g);
+    for (var i = 0; i < sub; i++) {
+      var damp = Math.exp(-mu * sdt);        // 摩擦：指数阻尼
+      b.vx *= damp; b.vy *= damp;
+      b.x += b.vx * sdt; b.y += b.vy * sdt;
+      if (b.x < f.l + b.r) { b.x = f.l + b.r; b.vx = Math.abs(b.vx) * e; }
+      if (b.x > f.r - b.r) { b.x = f.r - b.r; b.vx = -Math.abs(b.vx) * e; }
+      if (b.y < f.t + b.r) { b.y = f.t + b.r; b.vy = Math.abs(b.vy) * e; }
+      if (b.y > f.b - b.r) { b.y = f.b - b.r; b.vy = -Math.abs(b.vy) * e; }
+      for (var j = 0; j < obs.length; j++) {
+        var o = obs[j];
+        var cx = Math.max(o.x, Math.min(b.x, o.x + o.w));
+        var cy = Math.max(o.y, Math.min(b.y, o.y + o.h));
+        var dx = b.x - cx, dy = b.y - cy, d2 = dx * dx + dy * dy;
+        if (d2 < b.r * b.r) {
+          var d = Math.sqrt(d2), nx = 0, ny = -1;
+          if (d > 0.0001) { nx = dx / d; ny = dy / d; }
+          b.x = cx + nx * (b.r + 0.1); b.y = cy + ny * (b.r + 0.1);
+          var vn = b.vx * nx + b.vy * ny;
+          if (vn < 0) { b.vx -= (1 + e) * vn * nx; b.vy -= (1 + e) * vn * ny; }
+        }
+      }
+    }
+  },
+  aimVelocity: function (g) {               // 当前拖拽对应的发射速度（无瞄准返回 null）
+    var d = g.data, b = d.ball;
+    if (!d.aim || !b) return null;
+    var vx = b.x - d.aim.x, vy = b.y - d.aim.y;
+    var len = Math.sqrt(vx * vx + vy * vy);
+    if (len <= 18) return null;
+    var power = Math.min(1, len / 150), sp = power * 860;
+    return { vx: vx / len * sp, vy: vy / len * sp, power: power };
+  },
+  simulate: function (g) {                  // 弹道预测：同一套物理跑出虚线轨迹
+    var d = g.data, av = this.aimVelocity(g);
+    if (!av) return null;
+    var sim = { x: d.ball.x, y: d.ball.y, vx: av.vx, vy: av.vy, r: d.ball.r };
+    var pts = [];
+    for (var i = 0; i < 360; i++) {
+      this.stepBall(g, sim, 1 / 60);
+      if (i % 3 === 0) pts.push({ x: sim.x, y: sim.y });
+      if (Math.sqrt(sim.vx * sim.vx + sim.vy * sim.vy) < 14) break;
+    }
+    return pts;
+  },
+  onPointer: function (g, p) {
+    var d = g.data;
+    if (!d.ball || d.moving) return;
+    if (p.type === 'down') {
+      d.aim = { x: p.x, y: p.y };
+    } else if (p.type === 'move' && d.aim) {
+      d.aim.x = p.x; d.aim.y = p.y;
+    } else if (p.type === 'up' && d.aim) {
+      var av = this.aimVelocity(g);
+      if (av) {
+        d.ball.vx = av.vx; d.ball.vy = av.vy;
+        d.strokes++;
+        d.moving = true;
+      }
+      d.aim = null;
+    }
+  },
+  update: function (g, dt) {
+    var d = g.data, b = d.ball;
+    if (!b || !d.moving) return;
+    this.stepBall(g, b, dt);
+    var hit = 0;
+    d.targets.forEach(function (t) {
+      if (t.hit) { hit++; return; }
+      var dx = b.x - t.x, dy = b.y - t.y;
+      if (dx * dx + dy * dy < (b.r + t.r) * (b.r + t.r)) { t.hit = true; hit++; g.setScore(hit * 100); }
+    });
+    if (hit === 3) {                          // 全中即胜（飞行中也立即结算）
+      b.vx = b.vy = 0; d.moving = false;
+      var sc = 300 + (MAX_STROKES - d.strokes) * 100;
+      STATS.win++;
+      if (!STATS.best || d.strokes < STATS.best) STATS.best = d.strokes;
+      g.setScore(sc); g.endGame(true);
+      return;
+    }
+    var sp = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
+    if (sp < 14) {                            // 停球：可继续击球；杆数耗尽则败
+      b.vx = b.vy = 0; d.moving = false;
+      if (d.strokes >= MAX_STROKES) {
+        STATS.lose++;
+        g.setScore(hit * 100); g.endGame(false);
+      }
+    }
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS;
+    if (!d.ball) return;
+    var f = this.field(g), ctx = gg.ctx;
+    // 场地围墙（双线手绘）
+    gg.rect(f.l, f.t, f.r - f.l, f.b - f.t, null, 3);
+    gg.rect(f.l + 5, f.t + 5, f.r - f.l - 10, f.b - f.t - 10, null, 1);
+    // 障碍木块
+    this.obstacles(g).forEach(function (o) {
+      gg.rect(o.x, o.y, o.w, o.h, C.YELLOW, 2.5);
+      gg.line(o.x + 4, o.y + o.h / 2, o.x + o.w - 4, o.y + o.h / 2, 1);
+    });
+    // 目标靶：同心圆；命中变绿打勾
+    d.targets.forEach(function (t) {
+      if (t.hit) {
+        gg.circle(t.x, t.y, t.r, C.GREEN, 2.5);
+        gg.text('✓', t.x, t.y + 1, 18, C.INK);
+      } else {
+        gg.circle(t.x, t.y, t.r, C.PAPER, 2.5);
+        gg.circle(t.x, t.y, t.r * 0.55, C.PAPER, 2);
+        gg.circle(t.x, t.y, t.r * 0.22, C.RED, 2);
+      }
+    });
+    // 弹道预测线（教学：易用性取舍，可关）
+    var av = this.aimVelocity(g);
+    if (av && g.toggles.aimGuide) {
+      var pts = this.simulate(g) || [];
+      if (pts.length > 1) {
+        ctx.save(); ctx.setLineDash([5, 7]); ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(d.ball.x, d.ball.y);
+        pts.forEach(function (p) { ctx.lineTo(p.x, p.y); });
+        ctx.stroke(); ctx.restore();
+        var last = pts[pts.length - 1];
+        ctx.save(); ctx.setLineDash([3, 4]); ctx.strokeStyle = '#d97706'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(last.x, last.y, 7, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+      }
+    }
+    // 小球
+    gg.circle(d.ball.x, d.ball.y, d.ball.r, C.BLUE, 2.5);
+    // 瞄准：拉线 + 方向箭头（长度 = 力度）
+    if (d.aim && av) {
+      ctx.save(); ctx.setLineDash([3, 5]); ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(d.ball.x, d.ball.y); ctx.lineTo(d.aim.x, d.aim.y); ctx.stroke(); ctx.restore();
+      var sp = Math.sqrt(av.vx * av.vx + av.vy * av.vy), ux = av.vx / sp, uy = av.vy / sp;
+      var al = 26 + av.power * 54, tx = d.ball.x + ux * al, ty = d.ball.y + uy * al;
+      gg.line(d.ball.x, d.ball.y, tx, ty, 3);
+      gg.line(tx, ty, tx - ux * 10 - uy * 6, ty - uy * 10 + ux * 6, 2.5);
+      gg.line(tx, ty, tx - ux * 10 + uy * 6, ty - uy * 10 - ux * 6, 2.5);
+      gg.text(Math.round(av.power * 100) + '%', tx + ux * 18, ty + uy * 18, 13, '#d97706');
+    }
+    // 停球提示
+    if (!d.moving && !d.aim && g.state === 'playing') {
+      gg.text(AtomCore.L('按住拖拽蓄力，松手发射', 'Drag to charge, release to shoot'),
+        g.W / 2, f.b - 10, 12, '#999');
+    }
+  }
+});
+</script>
+</body>
+</html>

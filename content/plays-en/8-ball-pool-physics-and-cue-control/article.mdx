@@ -1,0 +1,62 @@
+# 8-Ball Pool: One Drag, Two Modules, and a Full Rules Engine Behind Every Shot
+
+## One-Sentence Essence
+
+This rebuild of 8-Ball Pool is a complete physics-archetype duel: you and an AI alternate shots on a standard table, and every shot is compressed into one gesture — press to aim, drag to set power, release to fire — while collisions, pockets, fouls, and the win itself are handed to a physics simulation and a deterministic rule settlement. It splits the two hardest parts of a pool game, feel and rule trustworthiness, into two separate modules.
+
+## Behavior Loop
+
+1. **Opening**: hit Play on the menu; 15 object balls rack in a triangle, the cue ball sits behind the head string at 25% of the table width, and you take the break.
+2. **Aiming**: press within 4 ball-radii of the cue ball to start aiming; the drag direction is the shot direction, and drag distance maps linearly to power (150 logical pixels reaches the maximum level 18).
+3. **Shooting**: releasing with power above 0.5 fires the shot at an initial speed of power × 180, starting the physics simulation.
+4. **Settlement**: ball-ball collisions, cushion bounces, and pocket detection run per frame; once every ball stops, a single pass judges fouls, group assignment, pocket ownership, and the turn switch.
+5. **Rotation**: before groups are assigned, the first pocketed ball decides them; a legal pocket keeps the turn, otherwise the AI takes over, answering after 1-1.5 seconds of "thinking" with deliberate aim error.
+6. **Endgame**: clear your group and legally sink the 8 to win; sinking it early or on a foul loses immediately. The result popup shows 🏆 or 😞, and PLAY AGAIN rematches on the spot.
+
+The demo at the end of this article runs this exact loop.
+
+## Gameplay Primitives
+
+- `AimStart(x, y)` – press near the cue ball to begin aiming (shot.aim)
+- `AimDrag(dx, dy)` – drag to update angle and power (shot.drag)
+- `Shoot(angle, power)` – release to fire (shot.release → takeShot)
+- `SimulatePhysics()` – per-frame collision / bounce / pocket until all balls stop
+- `SettleTurn()` – foul check, group assignment, turn switch (on balls.stopped)
+- `PlaceCueBall(x, y)` – manually place the cue ball under ball-in-hand (cueball.place)
+- `AiShoot()` – the AI computes angle and power and shoots back
+- `JudgeWinner()` – legality ruling on the 8 ball (game.over)
+
+## Parameter Cheat Sheet
+
+| Parameter | Description | Default | Unit |
+|-----------|-------------|---------|------|
+| Table size | Logical table width × height | 600 × 300 | logical px |
+| Ball radius | Uniform for all balls | 10 | logical px |
+| Pockets | 4 corners + 2 side | 6 | – |
+| Ball count | Cue ball + 1-15 | 16 | balls |
+| Power range | power | 0-18 | levels |
+| Full-power drag | maxDrag | 150 | logical px |
+| Fire threshold | Minimum effective power | 0.5 | levels |
+| Speed mapping | speed = power × 180 | up to 3240 | logical px/s |
+| Aim grab radius | Max press distance from cue ball | 40 (4× radius) | logical px |
+| Head string | Cue ball starting position | 25% of width | – |
+| AI think time | Pause before answering | 1-1.5 | seconds |
+
+## Design Trade-offs
+
+1. **Drag toward the target, not away**: a real cue pulls back and strikes forward; this build simplifies it to "drag where you want the ball to go" — one less mental inversion on touch screens, at the cost of the pull-back feel.
+2. **Power as raw drag distance**: no charging meter — a short drag nudges, a long drag smashes, and there is no waiting; anything under 0.5 reads as a cancel, guarding against mis-taps.
+3. **All-stopped settlement over per-ball instant scoring**: fouls, ownership, and the win are judged only after every ball stops, so the rules are written once in a fixed order; the cost is that feedback on your shot waits for the table to settle, favoring a "one shot, one tableau" rhythm over rapid-fire play.
+4. **AI with deliberate error**: instead of solving shots exactly, the AI aims with added noise to simulate skill, keeping the match competitive; there is a single strength level and no difficulty selector yet.
+5. **Secondary menus**: the main HUD keeps only pause and help buttons, tucking the volume slider inside the pause menu so the table area stays clean.
+
+## Implementation Notes
+
+- **State machine**: boot → menu → gameplay ⇄ paused → result, with transitions game.start / game.pause / game.resume / game.over / game.restart declared in the blueprint.
+- **Event flow**: `shot.aim` → `shot.drag` → `shot.release` (emitted only above power 0.5) → pool-model.takeShot; when all balls stop, turn settlement runs, and with `currentPlayer = 2` the AI fires automatically, closing the rotation.
+- **Data model**: `balls` (position / velocity / pocketed for all 16), currentPlayer, both groups and pocketed lists, foul / ballInHand / placingCueBall, aiming / power / aimAngle — about twenty keys carry the whole match.
+- **Module split**: 8-ball/pool-model holds the physics, the 8-ball rules, and the AI shot in one place; `__OV.Games.EightBallPool.Game` is the scene-private renderer — PIXI draws the table, balls, and cue, and translates pointer events into the aiming gesture; common-ui wires the pause and help buttons.
+- **A real race, really fixed**: LogicGraph event handling is asynchronous, so when the renderer reset `aiming` synchronously right after emitting `shot.release`, the rule's `if (aiming == true)` check lost the race and real drags could never fire; deferring the reset to a macrotask fixed it. Event-injection e2e tests cannot catch this class of bug — only real pointer input exposes it.
+- **Runtime**: PIXI rendering with the v2-kernel LogicGraph driver, exported as a fully static, offline-playable demo; the iframe below is that exact export.
+
+The value of this build is the clean decoupling of feel from rules: the gesture produces nothing but two parameters — angle and power — while the physics and rules modules read only data keys. Every layer can be swapped or tuned independently, and the causal chain of a single shot stays verifiable end to end.

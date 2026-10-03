@@ -41,7 +41,7 @@
     {
       "title": "Offline Rewards (Linear + Cap + Event Step)",
       "language": "ts",
-      "code": "export function offlineReward(ratePerSec: number, offlineSec: number) {\n  const capSec = 8 * 60 * 60; // 8 小时上限\n  const t = Math.min(offlineSec, capSec);\n  const base = ratePerSec * t;\n  const bonus = 1 + Math.min(0.5, Math.log10(1 + t / 60) * 0.2); // 温和加成\n  return Math.floor(base * bonus);\n}\n"
+      "code": "export function offlineReward(ratePerSec: number, offlineSec: number) {\n  const capSec = 8 * 60 * 60; // 8-hour cap\n  const t = Math.min(offlineSec, capSec);\n  const base = ratePerSec * t;\n  const bonus = 1 + Math.min(0.5, Math.log10(1 + t / 60) * 0.2); // gentle bonus\n  return Math.floor(base * bonus);\n}\n"
     }
   ],
   "cover": {

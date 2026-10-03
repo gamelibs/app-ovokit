@@ -1,0 +1,191 @@
+{
+  "schemaVersion": "resource-library@1",
+  "projectId": "cp_1019_10137_job_1782009366181_ogxgqh",
+  "projectTitle": "8-Ball Pool",
+  "images": [
+    {
+      "name": "ball_1_solid_yellow_85db2da2-34bb-459d-bdba-57fb348c1409.webp",
+      "path": "resources/images/ball_1_solid_yellow_85db2da2-34bb-459d-bdba-57fb348c1409.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.966Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_1_solid_yellow_85db2da2-34bb-459d-bdba-57fb348c1409.webp"
+    },
+    {
+      "name": "ball_10_stripe_blue_b3933537-7643-4b73-99ca-4144e9d30964.webp",
+      "path": "resources/images/ball_10_stripe_blue_b3933537-7643-4b73-99ca-4144e9d30964.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.943Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_10_stripe_blue_b3933537-7643-4b73-99ca-4144e9d30964.webp"
+    },
+    {
+      "name": "ball_11_stripe_red_e4b38825-eb72-4c56-bab1-8d994cf65511.webp",
+      "path": "resources/images/ball_11_stripe_red_e4b38825-eb72-4c56-bab1-8d994cf65511.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.947Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_11_stripe_red_e4b38825-eb72-4c56-bab1-8d994cf65511.webp"
+    },
+    {
+      "name": "ball_12_stripe_purple_f922d026-fe8a-4866-b03c-a2c78da313b7.webp",
+      "path": "resources/images/ball_12_stripe_purple_f922d026-fe8a-4866-b03c-a2c78da313b7.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.950Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_12_stripe_purple_f922d026-fe8a-4866-b03c-a2c78da313b7.webp"
+    },
+    {
+      "name": "ball_13_stripe_orange_479bd3de-2a45-4774-bbed-3c724a713fba.webp",
+      "path": "resources/images/ball_13_stripe_orange_479bd3de-2a45-4774-bbed-3c724a713fba.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.954Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_13_stripe_orange_479bd3de-2a45-4774-bbed-3c724a713fba.webp"
+    },
+    {
+      "name": "ball_14_stripe_green_12a749f3-c8d1-4bf4-92bc-3181ad8f6cc7.webp",
+      "path": "resources/images/ball_14_stripe_green_12a749f3-c8d1-4bf4-92bc-3181ad8f6cc7.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.959Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_14_stripe_green_12a749f3-c8d1-4bf4-92bc-3181ad8f6cc7.webp"
+    },
+    {
+      "name": "ball_15_stripe_maroon_cca51057-b36b-470c-8b2b-dd91d6bce397.webp",
+      "path": "resources/images/ball_15_stripe_maroon_cca51057-b36b-470c-8b2b-dd91d6bce397.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.963Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_15_stripe_maroon_cca51057-b36b-470c-8b2b-dd91d6bce397.webp"
+    },
+    {
+      "name": "ball_2_solid_blue_c6254f4f-047e-4abf-9249-d9393afa821a.webp",
+      "path": "resources/images/ball_2_solid_blue_c6254f4f-047e-4abf-9249-d9393afa821a.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.970Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_2_solid_blue_c6254f4f-047e-4abf-9249-d9393afa821a.webp"
+    },
+    {
+      "name": "ball_3_solid_red_67ffa298-3135-4e5f-b14d-f665bc51b895.webp",
+      "path": "resources/images/ball_3_solid_red_67ffa298-3135-4e5f-b14d-f665bc51b895.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.975Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_3_solid_red_67ffa298-3135-4e5f-b14d-f665bc51b895.webp"
+    },
+    {
+      "name": "ball_4_solid_purple_afcf18b7-49d4-4fae-adfb-97f265742aa8.webp",
+      "path": "resources/images/ball_4_solid_purple_afcf18b7-49d4-4fae-adfb-97f265742aa8.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.979Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_4_solid_purple_afcf18b7-49d4-4fae-adfb-97f265742aa8.webp"
+    },
+    {
+      "name": "ball_5_solid_orange_05c988f3-0be9-4915-8cda-4df7a549d469.webp",
+      "path": "resources/images/ball_5_solid_orange_05c988f3-0be9-4915-8cda-4df7a549d469.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.983Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_5_solid_orange_05c988f3-0be9-4915-8cda-4df7a549d469.webp"
+    },
+    {
+      "name": "ball_6_solid_green_498430bc-ab80-4170-8979-a14f8bcae603.webp",
+      "path": "resources/images/ball_6_solid_green_498430bc-ab80-4170-8979-a14f8bcae603.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.986Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_6_solid_green_498430bc-ab80-4170-8979-a14f8bcae603.webp"
+    },
+    {
+      "name": "ball_7_solid_maroon_6163cb4f-a971-4689-a833-a39c0ad25acc.webp",
+      "path": "resources/images/ball_7_solid_maroon_6163cb4f-a971-4689-a833-a39c0ad25acc.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.992Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_7_solid_maroon_6163cb4f-a971-4689-a833-a39c0ad25acc.webp"
+    },
+    {
+      "name": "ball_8_black_96778dde-9bd8-4b16-bc60-9b2624358fc1.webp",
+      "path": "resources/images/ball_8_black_96778dde-9bd8-4b16-bc60-9b2624358fc1.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:14.996Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_8_black_96778dde-9bd8-4b16-bc60-9b2624358fc1.webp"
+    },
+    {
+      "name": "ball_9_stripe_yellow_abfc8715-4be1-4b90-a55e-9573c7af19f9.webp",
+      "path": "resources/images/ball_9_stripe_yellow_abfc8715-4be1-4b90-a55e-9573c7af19f9.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:15.000Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/ball_9_stripe_yellow_abfc8715-4be1-4b90-a55e-9573c7af19f9.webp"
+    },
+    {
+      "name": "cue_ball_374637ee-c584-4f40-9c7c-7383b23f6ccf.webp",
+      "path": "resources/images/cue_ball_374637ee-c584-4f40-9c7c-7383b23f6ccf.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:15.004Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/cue_ball_374637ee-c584-4f40-9c7c-7383b23f6ccf.webp"
+    },
+    {
+      "name": "cue_stick_667f86b1-f04a-4cad-8c39-71d74e8b1eba.webp",
+      "path": "resources/images/cue_stick_667f86b1-f04a-4cad-8c39-71d74e8b1eba.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:15.010Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/images/cue_stick_667f86b1-f04a-4cad-8c39-71d74e8b1eba.webp"
+    }
+  ],
+  "audio": [
+    {
+      "name": "ball_collision_sound_2adf6c91-f01a-4d4a-ac2f-dcb335af059a.mp3",
+      "path": "resources/audio/ball_collision_sound_2adf6c91-f01a-4d4a-ac2f-dcb335af059a.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:15.014Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/audio/ball_collision_sound_2adf6c91-f01a-4d4a-ac2f-dcb335af059a.mp3"
+    },
+    {
+      "name": "ball_pocket_sound_a6dd4ffa-fb49-404b-ae6d-018b0a7215f7.mp3",
+      "path": "resources/audio/ball_pocket_sound_a6dd4ffa-fb49-404b-ae6d-018b0a7215f7.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:15.018Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/audio/ball_pocket_sound_a6dd4ffa-fb49-404b-ae6d-018b0a7215f7.mp3"
+    },
+    {
+      "name": "break_sound_f07f17d5-fa92-4727-9659-59576ab8a4c5.mp3",
+      "path": "resources/audio/break_sound_f07f17d5-fa92-4727-9659-59576ab8a4c5.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:15.022Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/audio/break_sound_f07f17d5-fa92-4727-9659-59576ab8a4c5.mp3"
+    },
+    {
+      "name": "cue_strike_sound_e9f3a9d6-d893-4c97-861d-f68c0c871945.mp3",
+      "path": "resources/audio/cue_strike_sound_e9f3a9d6-d893-4c97-861d-f68c0c871945.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:15.027Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/audio/cue_strike_sound_e9f3a9d6-d893-4c97-861d-f68c0c871945.mp3"
+    },
+    {
+      "name": "lose_sound_ea49b3cb-6710-4699-a76e-98962929d09d.mp3",
+      "path": "resources/audio/lose_sound_ea49b3cb-6710-4699-a76e-98962929d09d.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:15.031Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/audio/lose_sound_ea49b3cb-6710-4699-a76e-98962929d09d.mp3"
+    },
+    {
+      "name": "rail_bounce_sound_316c8935-25ec-4998-afc0-0f4ee38173d4.mp3",
+      "path": "resources/audio/rail_bounce_sound_316c8935-25ec-4998-afc0-0f4ee38173d4.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:15.035Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/audio/rail_bounce_sound_316c8935-25ec-4998-afc0-0f4ee38173d4.mp3"
+    },
+    {
+      "name": "win_sound_7bf96583-d79b-4c01-913f-052845c6cf4d.mp3",
+      "path": "resources/audio/win_sound_7bf96583-d79b-4c01-913f-052845c6cf4d.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:11:15.038Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/audio/win_sound_7bf96583-d79b-4c01-913f-052845c6cf4d.mp3"
+    }
+  ],
+  "fonts": [],
+  "skins": [],
+  "libs": [
+    {
+      "name": "pixi.min.js",
+      "path": "resources/libs/pixi.min.js",
+      "size": 456074,
+      "updateTime": "2026-07-05T04:11:14.878Z",
+      "url": "/creative-preview/cp_1019_10137_job_1782009366181_ogxgqh/resources/libs/pixi.min.js"
+    }
+  ],
+  "compositions": [],
+  "configs": [],
+  "data": []
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "ovo-ui-prefab-index@1",
+  "projectId": "cp_1019_10019_bubble_shooter_v1",
+  "items": [
+    {
+      "name": "boot_prefab",
+      "path": "./ui/prefabs/boot_prefab.json",
+      "updateTime": "2026-07-05T04:11:05.558Z"
+    },
+    {
+      "name": "gameplay_prefab",
+      "path": "./ui/prefabs/gameplay_prefab.json",
+      "updateTime": "2026-07-05T04:11:05.559Z"
+    },
+    {
+      "name": "global_prefab",
+      "path": "./ui/prefabs/global_prefab.json",
+      "updateTime": "2026-07-05T04:11:05.559Z"
+    },
+    {
+      "name": "menu_prefab",
+      "path": "./ui/prefabs/menu_prefab.json",
+      "updateTime": "2026-07-05T04:11:05.558Z"
+    },
+    {
+      "name": "paused_prefab",
+      "path": "./ui/prefabs/paused_prefab.json",
+      "updateTime": "2026-07-05T04:11:05.558Z"
+    },
+    {
+      "name": "result_prefab",
+      "path": "./ui/prefabs/result_prefab.json",
+      "updateTime": "2026-07-05T04:11:05.559Z"
+    }
+  ]
+}

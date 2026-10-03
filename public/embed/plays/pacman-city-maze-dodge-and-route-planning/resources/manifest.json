@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "resource-library@1",
+  "projectId": "cp_1019_10158_pacman_city_v1",
+  "projectTitle": "Pacman City Crunch",
+  "images": [
+    {
+      "name": "ghost_indicator_icon_9b98aa06-ac35-49be-b9f0-7a2298599db3.webp",
+      "path": "resources/images/ghost_indicator_icon_9b98aa06-ac35-49be-b9f0-7a2298599db3.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.070Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/ghost_indicator_icon_9b98aa06-ac35-49be-b9f0-7a2298599db3.webp"
+    },
+    {
+      "name": "timer_clock_icon_b54ac8cb-a8d0-4848-a3bd-4774fc147064.webp",
+      "path": "resources/images/timer_clock_icon_b54ac8cb-a8d0-4848-a3bd-4774fc147064.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.077Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/timer_clock_icon_b54ac8cb-a8d0-4848-a3bd-4774fc147064.webp"
+    },
+    {
+      "name": "upgrade_combo_17874b0f-3ceb-4410-9801-00886604f8f2.webp",
+      "path": "resources/images/upgrade_combo_17874b0f-3ceb-4410-9801-00886604f8f2.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.088Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/upgrade_combo_17874b0f-3ceb-4410-9801-00886604f8f2.webp"
+    },
+    {
+      "name": "upgrade_double_d21efcb0-3922-4782-be16-71164ddcce91.webp",
+      "path": "resources/images/upgrade_double_d21efcb0-3922-4782-be16-71164ddcce91.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.093Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/upgrade_double_d21efcb0-3922-4782-be16-71164ddcce91.webp"
+    },
+    {
+      "name": "upgrade_frenzy_8c575ce9-5851-479a-b85b-3c2bcb6fc2f8.webp",
+      "path": "resources/images/upgrade_frenzy_8c575ce9-5851-479a-b85b-3c2bcb6fc2f8.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.103Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/upgrade_frenzy_8c575ce9-5851-479a-b85b-3c2bcb6fc2f8.webp"
+    },
+    {
+      "name": "upgrade_ghost_6219d7a4-8533-4c50-86f1-3050fbcf0550.webp",
+      "path": "resources/images/upgrade_ghost_6219d7a4-8533-4c50-86f1-3050fbcf0550.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.112Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/upgrade_ghost_6219d7a4-8533-4c50-86f1-3050fbcf0550.webp"
+    },
+    {
+      "name": "upgrade_growth_134b14b7-239a-4272-9cf4-94b1ed2f4afb.webp",
+      "path": "resources/images/upgrade_growth_134b14b7-239a-4272-9cf4-94b1ed2f4afb.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.116Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/upgrade_growth_134b14b7-239a-4272-9cf4-94b1ed2f4afb.webp"
+    },
+    {
+      "name": "upgrade_magnet_984e3fd3-1f3c-4653-9385-3389da766688.webp",
+      "path": "resources/images/upgrade_magnet_984e3fd3-1f3c-4653-9385-3389da766688.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.120Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/upgrade_magnet_984e3fd3-1f3c-4653-9385-3389da766688.webp"
+    },
+    {
+      "name": "upgrade_speed_98046565-cf9b-4692-bd61-3abadd1fd24d.webp",
+      "path": "resources/images/upgrade_speed_98046565-cf9b-4692-bd61-3abadd1fd24d.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.125Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/upgrade_speed_98046565-cf9b-4692-bd61-3abadd1fd24d.webp"
+    },
+    {
+      "name": "upgrade_surge_705cd8a5-533f-4467-866e-3d372568f7da.webp",
+      "path": "resources/images/upgrade_surge_705cd8a5-533f-4467-866e-3d372568f7da.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.130Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/upgrade_surge_705cd8a5-533f-4467-866e-3d372568f7da.webp"
+    },
+    {
+      "name": "upgrade_time_a2b4dbb5-2a92-4b64-a70a-d5dde9837d7d.webp",
+      "path": "resources/images/upgrade_time_a2b4dbb5-2a92-4b64-a70a-d5dde9837d7d.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.134Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/upgrade_time_a2b4dbb5-2a92-4b64-a70a-d5dde9837d7d.webp"
+    },
+    {
+      "name": "upgrade_vacuum_0e6d3339-b999-40c7-80f2-3dc8574ea4b4.webp",
+      "path": "resources/images/upgrade_vacuum_0e6d3339-b999-40c7-80f2-3dc8574ea4b4.webp",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.137Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/images/upgrade_vacuum_0e6d3339-b999-40c7-80f2-3dc8574ea4b4.webp"
+    }
+  ],
+  "audio": [
+    {
+      "name": "consume_huge_sfx_c31d10b5-a46b-4876-afd9-3045b3b4c330.mp3",
+      "path": "resources/audio/consume_huge_sfx_c31d10b5-a46b-4876-afd9-3045b3b4c330.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.142Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/audio/consume_huge_sfx_c31d10b5-a46b-4876-afd9-3045b3b4c330.mp3"
+    },
+    {
+      "name": "consume_large_sfx_d570a58b-5d32-4421-861f-42b84c32e1ce.mp3",
+      "path": "resources/audio/consume_large_sfx_d570a58b-5d32-4421-861f-42b84c32e1ce.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.147Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/audio/consume_large_sfx_d570a58b-5d32-4421-861f-42b84c32e1ce.mp3"
+    },
+    {
+      "name": "consume_medium_sfx_c6a50134-78d2-4241-883f-b3895e0cf607.mp3",
+      "path": "resources/audio/consume_medium_sfx_c6a50134-78d2-4241-883f-b3895e0cf607.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.150Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/audio/consume_medium_sfx_c6a50134-78d2-4241-883f-b3895e0cf607.mp3"
+    },
+    {
+      "name": "consume_small_sfx_f3109a4d-b598-45f7-bfe2-38715ddd5c11.mp3",
+      "path": "resources/audio/consume_small_sfx_f3109a4d-b598-45f7-bfe2-38715ddd5c11.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.154Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/audio/consume_small_sfx_f3109a4d-b598-45f7-bfe2-38715ddd5c11.mp3"
+    },
+    {
+      "name": "countdown_tick_sfx_b39dcefc-d9c1-4ce9-b76c-85160b0a30b3.mp3",
+      "path": "resources/audio/countdown_tick_sfx_b39dcefc-d9c1-4ce9-b76c-85160b0a30b3.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.159Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/audio/countdown_tick_sfx_b39dcefc-d9c1-4ce9-b76c-85160b0a30b3.mp3"
+    },
+    {
+      "name": "countdown_warning_sfx_6231e91f-f9db-4658-bd60-3a5404812fa5.mp3",
+      "path": "resources/audio/countdown_warning_sfx_6231e91f-f9db-4658-bd60-3a5404812fa5.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.164Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/audio/countdown_warning_sfx_6231e91f-f9db-4658-bd60-3a5404812fa5.mp3"
+    },
+    {
+      "name": "game_over_sfx_2dcaba68-ad63-425c-b02a-983c743cf831.mp3",
+      "path": "resources/audio/game_over_sfx_2dcaba68-ad63-425c-b02a-983c743cf831.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.167Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/audio/game_over_sfx_2dcaba68-ad63-425c-b02a-983c743cf831.mp3"
+    },
+    {
+      "name": "growth_milestone_sfx_789ba50d-4f40-440d-9233-33353bf89619.mp3",
+      "path": "resources/audio/growth_milestone_sfx_789ba50d-4f40-440d-9233-33353bf89619.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.171Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/audio/growth_milestone_sfx_789ba50d-4f40-440d-9233-33353bf89619.mp3"
+    },
+    {
+      "name": "victory_sfx_99cf579f-a9b9-4737-a547-c958a830daf6.mp3",
+      "path": "resources/audio/victory_sfx_99cf579f-a9b9-4737-a547-c958a830daf6.mp3",
+      "size": 503,
+      "updateTime": "2026-07-05T04:12:53.177Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/audio/victory_sfx_99cf579f-a9b9-4737-a547-c958a830daf6.mp3"
+    }
+  ],
+  "fonts": [],
+  "skins": [],
+  "libs": [
+    {
+      "name": "pixi.min.js",
+      "path": "resources/libs/pixi.min.js",
+      "size": 456074,
+      "updateTime": "2026-07-05T04:12:52.999Z",
+      "url": "/creative-preview/cp_1019_10158_pacman_city_v1/resources/libs/pixi.min.js"
+    }
+  ],
+  "compositions": [],
+  "configs": [],
+  "data": []
+}

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Placement · Space Economy Lab | OVO Atomic Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 建造布局母型原子 demo（迷你塔防）：行为原语 = place + compare + accumulate
+// 教学点（对应母型页 concept 与 demoLab「连通加成实验」）：
+//   - 同样的钱，摆在哪比摆什么更值钱：相邻同种塔互相加成，空间关系被直接翻译成伤害数值
+//   - 三个滑块复现实验变量：出怪速率（压力）、塔造价（预算约束）、邻接伤害加成（协同系数）
+//   - 无 setTimeout：全部逻辑在 update 固定步长内推进，reset 天然无残留
+var COLS = 9, ROWS = 5, PATH_R = 2, TOTAL = 30;      // 5×9 网格，左路出怪右路终点
+var BOUNTY = 15, START_GOLD = 160, BASE_DMG = 9, FIRE_CD = 0.75;
+var L = AtomCore.L;
+AtomCore.create({
+  title: L('建造布局 · 空间经济实验室', 'Placement · Space Economy Lab'),
+  objective: L(
+    '同样的钱，摆在哪比摆什么更值钱：沿路放箭塔守住右路，相邻塔互相加成——布局就是收益函数。',
+    'Same gold, different spots, different output: place arrow towers to guard the road — adjacent towers boost each other. Layout IS the profit function.'),
+  lives: 10,
+  params: [
+    { key: 'spawnRate', label: L('出怪速率', 'Spawn Rate'), min: 0.3, max: 1.5, step: 0.1, default: 0.6, unit: L(' 只/秒', ' /s') },
+    { key: 'towerCost', label: L('塔造价', 'Tower Cost'), min: 20, max: 100, step: 5, default: 50, unit: L(' 金', 'g') },
+    { key: 'adjBonus', label: L('邻接伤害加成（每个邻居）', 'Adjacency Bonus (per neighbor)'), min: 0, max: 50, step: 5, default: 25, unit: '%' }
+  ],
+  hudExtra: function (g) {
+    var d = g.data;
+    return L('金币 <b>', 'Gold <b>') + (d.gold | 0) + '</b>' +
+      L(' · 羁绊加成 <b>+', ' · synergy <b>+') + Math.round(d.bonusDmg || 0) + '</b>' +
+      L(' · 击杀 <b>', ' · kills <b>') + (d.kills | 0) + '/' + TOTAL + '</b>';
+  },
+  setup: function (g) {
+    g.data.towers = [];          // {c, r, cd, cost}
+    g.data.monsters = [];        // {x, hp, maxHp, speed}（y 恒在路面行）
+    g.data.fx = [];              // 攻击线 {x1,y1,x2,y2,ttl}
+    g.data.gold = START_GOLD;
+    g.data.kills = 0;
+    g.data.leaks = 0;
+    g.data.spawned = 0;
+    g.data.spawnT = 1.2;         // 开局宽限
+    g.data.bonusDmg = 0;         // 邻接加成贡献的累计伤害（教学指标：空间效率被数字化）
+    g.data.hover = null;
+    g.data.msg = null; g.data.msgT = 0;
+    g.data.over = false;
+  },
+  geom: function (g) {
+    var cell = Math.min((g.W - 28) / (COLS + 1), (g.H * 0.4) / ROWS);
+    return { cell: cell, x: (g.W - cell * COLS) / 2, y: g.H * 0.17 };
+  },
+  cellCenter: function (geo, c, r) {
+    return { x: geo.x + c * geo.cell + geo.cell / 2, y: geo.y + r * geo.cell + geo.cell / 2 };
+  },
+  neighbors: function (towers, i) {
+    var t = towers[i], n = 0;
+    for (var j = 0; j < towers.length; j++) {
+      if (j === i) continue;
+      if (Math.abs(towers[j].c - t.c) + Math.abs(towers[j].r - t.r) === 1) n++;
+    }
+    return n;
+  },
+  mult: function (g, n) { return 1 + n * (g.params.adjBonus / 100); },
+  say: function (d, s) { d.msg = s; d.msgT = 1.4; },
+  onPointer: function (g, p) {
+    var d = g.data, geo = this.geom(g);
+    var c = Math.floor((p.x - geo.x) / geo.cell), r = Math.floor((p.y - geo.y) / geo.cell);
+    var inGrid = c >= 0 && c < COLS && r >= 0 && r < ROWS;
+    if (p.type === 'move') { d.hover = inGrid ? { c: c, r: r } : null; return; }
+    if (p.type !== 'down' || d.over || !inGrid) return;
+    d.hover = { c: c, r: r };
+    for (var i = 0; i < d.towers.length; i++) {           // 点已有塔 → 半价出售（调整布局）
+      if (d.towers[i].c === c && d.towers[i].r === r) {
+        var back = Math.floor(d.towers[i].cost / 2);
+        d.gold += back;
+        d.towers.splice(i, 1);
+        this.say(d, L('已出售 +' + back + ' 金', 'Sold +' + back + 'g'));
+        return;
+      }
+    }
+    if (r === PATH_R) return this.say(d, L('路面不能建塔', "Can't build on the road"));
+    if (d.gold < g.params.towerCost) return this.say(d, L('金币不足', 'Not enough gold'));
+    d.gold -= g.params.towerCost;
+    d.towers.push({ c: c, r: r, cd: 0, cost: g.params.towerCost });
+  },
+  update: function (g, dt) {
+    var d = g.data, geo = this.geom(g), cell = geo.cell;
+    if (d.msgT > 0) d.msgT -= dt;
+    d.spawnT -= dt;                                        // 出怪
+    if (d.spawned < TOTAL && d.spawnT <= 0) {
+      d.spawnT = 1 / g.params.spawnRate;
+      d.spawned++;
+      var hp = 24 + d.spawned * 1.6;
+      d.monsters.push({ x: geo.x - cell * 0.5, hp: hp, maxHp: hp, speed: cell * 1.25 * g.rand(0.9, 1.1) });
+    }
+    var pathY = geo.y + PATH_R * cell + cell / 2;
+    var exitX = geo.x + COLS * cell + cell * 0.5;
+    for (var i = d.monsters.length - 1; i >= 0; i--) {     // 怪物沿路向右行进
+      var m = d.monsters[i];
+      m.x += m.speed * dt;
+      if (m.x > exitX) {
+        d.monsters.splice(i, 1);
+        d.leaks++;
+        g.lives -= 1;
+        if (g.lives <= 0) {
+          d.over = true;
+          g.setScore(d.kills * 10);
+          g.endGame(false);
+          return;
+        }
+      }
+    }
+    var range = cell * 2.3;                                // 塔自动攻击（取最接近终点的目标）
+    for (var t = 0; t < d.towers.length; t++) {
+      var tw = d.towers[t];
+      tw.cd -= dt;
+      if (tw.cd > 0) continue;
+      var tc = this.cellCenter(geo, tw.c, tw.r), target = null;
+      for (var k = 0; k < d.monsters.length; k++) {
+        var mm = d.monsters[k], dx = mm.x - tc.x, dy = pathY - tc.y;
+        if (dx * dx + dy * dy > range * range) continue;
+        if (!target || mm.x > target.x) target = mm;
+      }
+      if (!target) { tw.cd = 0.1; continue; }
+      tw.cd = FIRE_CD;
+      var mult = this.mult(g, this.neighbors(d.towers, t));
+      var dmg = BASE_DMG * mult;
+      d.bonusDmg += dmg - BASE_DMG;
+      target.hp -= dmg;
+      d.fx.push({ x1: tc.x, y1: tc.y, x2: target.x, y2: pathY, ttl: 0.12 });
+      if (target.hp <= 0) {
+        var idx = d.monsters.indexOf(target);
+        if (idx >= 0) d.monsters.splice(idx, 1);
+        d.kills++;
+        d.gold += BOUNTY;
+        g.setScore(d.kills * 10);
+      }
+    }
+    for (var f = d.fx.length - 1; f >= 0; f--) {           // 特效衰减
+      d.fx[f].ttl -= dt;
+      if (d.fx[f].ttl <= 0) d.fx.splice(f, 1);
+    }
+    if (d.spawned >= TOTAL && d.monsters.length === 0) {   // 全部出完且清空 → 守住了
+      d.over = true;
+      g.setScore(d.kills * 10 + g.lives * 50 + Math.floor(d.gold));
+      g.endGame(true);
+    }
+  },
+  drawTower: function (g, gg, geo, tw, mult) {
+    var C = AtomCore.COLORS;
+    var p = this.cellCenter(geo, tw.c, tw.r), s = geo.cell;
+    gg.rect(p.x - s * 0.26, p.y - s * 0.1, s * 0.52, s * 0.34, C.BLUE, 2);   // 塔身
+    gg.line(p.x - s * 0.3, p.y - s * 0.1, p.x, p.y - s * 0.38, 2);           // 屋顶
+    gg.line(p.x, p.y - s * 0.38, p.x + s * 0.3, p.y - s * 0.1, 2);
+    gg.line(p.x, p.y - s * 0.3, p.x, p.y - s * 0.02, 1.5);                   // 箭
+    if (mult > 1) gg.text('x' + mult.toFixed(2), p.x, p.y + s * 0.36, 10.5, '#2e7d32');
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS, ctx = gg.ctx;
+    if (!d.towers) return;
+    var geo = this.geom(g), cell = geo.cell;
+    var pathY = geo.y + PATH_R * cell + cell / 2;
+    ctx.fillStyle = 'rgba(255,218,106,.28)';               // 路面底色
+    ctx.fillRect(geo.x - cell * 0.5, geo.y + PATH_R * cell, cell * (COLS + 1), cell);
+    for (var r = 0; r <= ROWS; r++) gg.line(geo.x, geo.y + r * cell, geo.x + COLS * cell, geo.y + r * cell, 1);
+    for (var c = 0; c <= COLS; c++) gg.line(geo.x + c * cell, geo.y, geo.x + c * cell, geo.y + ROWS * cell, 1);
+    for (var a = 0; a < COLS; a++) {                       // 路面方向箭头
+      var ax = geo.x + a * cell + cell / 2;
+      gg.line(ax - 4, pathY - 5, ax + 4, pathY, 1.5);
+      gg.line(ax + 4, pathY, ax - 4, pathY + 5, 1.5);
+    }
+    gg.circle(geo.x - cell * 0.5, pathY, cell * 0.3, C.RED, 2);              // 出怪口
+    gg.text(L('出怪', 'IN'), geo.x - cell * 0.5, pathY - cell * 0.62, 11, C.INK);
+    gg.rect(geo.x + COLS * cell + cell * 0.2, pathY - cell * 0.32, cell * 0.6, cell * 0.64, C.GREEN, 2); // 终点
+    gg.text(L('终点', 'OUT'), geo.x + COLS * cell + cell * 0.5, pathY + cell * 0.62, 11, C.INK);
+    ctx.save();                                            // 羁绊连线（相邻塔 = 加成可见化）
+    ctx.strokeStyle = '#4caf50'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
+    for (var i = 0; i < d.towers.length; i++) {
+      for (var j = i + 1; j < d.towers.length; j++) {
+        var A = d.towers[i], B = d.towers[j];
+        if (Math.abs(A.c - B.c) + Math.abs(A.r - B.r) !== 1) continue;
+        var pa = this.cellCenter(geo, A.c, A.r), pb = this.cellCenter(geo, B.c, B.r);
+        ctx.beginPath(); ctx.moveTo(pa.x, pa.y); ctx.lineTo(pb.x, pb.y); ctx.stroke();
+      }
+    }
+    ctx.restore();
+    for (i = 0; i < d.towers.length; i++) this.drawTower(g, gg, geo, d.towers[i], this.mult(g, this.neighbors(d.towers, i)));
+    for (i = 0; i < d.monsters.length; i++) {              // 怪物 + 血条
+      var m = d.monsters[i], mr = cell * 0.28;
+      gg.circle(m.x, pathY, mr, C.RED, 2);
+      ctx.fillStyle = C.INK;
+      ctx.beginPath(); ctx.arc(m.x - mr * 0.35, pathY - 2, 1.6, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(m.x + mr * 0.35, pathY - 2, 1.6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#ddd'; ctx.fillRect(m.x - mr, pathY - mr - 7, mr * 2, 3);
+      ctx.fillStyle = '#4caf50'; ctx.fillRect(m.x - mr, pathY - mr - 7, mr * 2 * Math.max(0, m.hp / m.maxHp), 3);
+    }
+    for (i = 0; i < d.fx.length; i++) {                    // 攻击特效
+      var fx = d.fx[i];
+      ctx.save(); ctx.globalAlpha = Math.max(0, fx.ttl / 0.12);
+      ctx.strokeStyle = C.INK; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(fx.x1, fx.y1); ctx.lineTo(fx.x2, fx.y2); ctx.stroke();
+      ctx.restore();
+    }
+    if (d.hover && !d.over) {                              // 放置预览：合法=绿+预期倍率，非法=红
+      var h = d.hover, occupied = false;
+      for (i = 0; i < d.towers.length; i++) if (d.towers[i].c === h.c && d.towers[i].r === h.r) occupied = true;
+      var legal = !occupied && h.r !== PATH_R && d.gold >= g.params.towerCost;
+      ctx.fillStyle = legal ? 'rgba(155,226,155,.45)' : 'rgba(255,139,139,.45)';
+      ctx.fillRect(geo.x + h.c * cell, geo.y + h.r * cell, cell, cell);
+      if (legal) {
+        var n = 0;
+        for (i = 0; i < d.towers.length; i++) if (Math.abs(d.towers[i].c - h.c) + Math.abs(d.towers[i].r - h.r) === 1) n++;
+        var pc = this.cellCenter(geo, h.c, h.r);
+        gg.text('x' + this.mult(g, n).toFixed(2), pc.x, pc.y, 13, '#2e7d32');
+      }
+    }
+    var infoY = geo.y + ROWS * cell + 30;                  // 反馈行：非法原因 / 出售回执 / 操作提示
+    if (d.msgT > 0 && d.msg) gg.text(d.msg, g.W / 2, infoY, 15, '#d97706');
+    else gg.text(L('点空格建塔 · 点塔半价出售 · 相邻塔虚线相连 = 伤害加成', 'Tap a cell to build · tap a tower to sell (50%) · dashed links = damage bonus'), g.W / 2, infoY, 12.5, '#888');
+    var panelY = infoY + 34;                               // 教学面板：让「位置产出」可比较
+    gg.text(L('本局产出账', 'Output ledger'), g.W / 2, panelY, 14, C.INK);
+    gg.text(L('塔基础伤害 ', 'Base dmg ') + BASE_DMG + L(' → 羁绊加成已累计打出 +', ' → synergy dealt +') + Math.round(d.bonusDmg || 0), g.W / 2, panelY + 24, 14, '#2e7d32');
+    gg.text(L('漏怪 ', 'Leaked ') + (d.leaks | 0) + L(' · 尚未进场 ', ' · not yet in ') + (TOTAL - d.spawned), g.W / 2, panelY + 48, 13, '#888');
+  }
+});
+</script>
+</body>
+</html>

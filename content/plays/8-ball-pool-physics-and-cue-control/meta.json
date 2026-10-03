@@ -1,0 +1,67 @@
+{
+  "slug": "8-ball-pool-physics-and-cue-control",
+  "title": "8 球台球：一杆击球背后的拖拽力度、碰撞物理与回合裁决",
+  "subtitle": "拆解这只 8 球台球的确定性设计：拖拽距离如何折叠成 18 档力度、全停统一结算如何保证规则可信、犯规与自由球如何维持回合公平，以及 AI 误差如何制造对局张力。文末附可试玩 demo。",
+  "archetype": "physics",
+  "archetypeSecondary": "shoot-aim",
+  "tags": [
+    "物理",
+    "射击",
+    "空间规划"
+  ],
+  "lang": "zh-CN",
+  "difficulty": "进阶",
+  "techStack": [
+    "PIXI",
+    "v2-kernel"
+  ],
+  "corePoints": [],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "规则骨架",
+      "bullets": [
+        "标准 8 球：16 颗球（母球 + 1-15 号），纯色 1-7 与条纹 9-15 两组，8 号球最后收",
+        "开球后首颗入袋球决定双方球组分配（groupsAssigned 由 null 写入）",
+        "犯规三态：母球落袋、空杆未碰球、先碰对方球 → 对手获得自由球，手动放置母球",
+        "清空己方组后合法打进 8 号获胜；提前进 8 或犯规进 8 直接判负"
+      ]
+    },
+    {
+      "title": "行为循环",
+      "bullets": [
+        "母球附近按下 → 拖拽决定方向与力度（拖拽距离映射 0-18 档）→ 松手击球",
+        "球体逐帧物理：球-球碰撞、库边反弹、入袋检测，全部停稳后统一结算",
+        "结算判定犯规 / 球组分配 / 入袋归属，决定续杆或换人；AI 思考 1-1.5 秒后自动回杆",
+        "任一方合法收掉 8 号 → result 弹出胜负，PLAY AGAIN 一键重开"
+      ]
+    },
+    {
+      "title": "实现要点",
+      "bullets": [
+        "8-ball/pool-model 单模块承载物理与规则：球态数组、碰撞/入袋检测、犯规判定、胜负与 AI 击球",
+        "__OV.Games.EightBallPool.Game 场景私有渲染器：PIXI 绘制球台/球/球杆，把指针事件翻译成 shot.aim/drag/release",
+        "击球链路修过真实竞态：LogicGraph 异步执行，aiming 标志的重置必须让位到宏任务，否则真实拖拽永远打不出杆",
+        "common-ui 管暂停/帮助按钮；状态机 boot → menu → gameplay ⇄ paused → result 由蓝图声明"
+      ]
+    }
+  ],
+  "codeSnippets": [],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/embed/plays/8-ball-pool-physics-and-cue-control/index.html",
+    "note": "点击 Play 开局；在母球附近按住拖动瞄准、松手击球，拖拽越远力度越大；先清空己方球组再打进 8 号球获胜，AI 会自动应战。"
+  },
+  "pattern": "spatial",
+  "cover": {
+    "src": "/plays/8-ball-pool-physics-and-cue-control/cover.svg",
+    "alt": "8 球台球：一杆击球背后的拖拽力度、碰撞物理与回合裁决"
+  },
+  "coverWide": {
+    "src": "/plays/8-ball-pool-physics-and-cue-control/cover-wide.svg",
+    "alt": "8 球台球：一杆击球背后的拖拽力度、碰撞物理与回合裁决"
+  }
+}

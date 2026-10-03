@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>预览 — Penalty World Cup 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
+  #game-canvas { display: block; margin: 0 auto; max-width: 100%; max-height: 100%; width: auto; height: auto; }
+  #preview-status {
+    position: fixed; top: 8px; left: 8px; z-index: 10;
+    padding: 4px 10px; border-radius: 4px; background: rgba(0,0,0,0.6);
+    color: #4ade80; font-family: monospace; font-size: 11px;
+  }
+</style>
+</head>
+<body>
+  <div id="preview-status" style="display:none">加载中...</div>
+  <canvas id="game-canvas" data-design-width="750" data-design-height="1334"></canvas>
+  <script type="module">
+    import { OvoKernel } from './kernel/v2-kernel/src/index.js';
+    import EventBusModule from './kernel/v2-kernel/src/modules/event-bus-module.js';
+    import ToolModule from './kernel/v2-kernel/src/modules/tool-module.js';
+    import RenderModule from './kernel/v2-kernel/src/modules/render-module.js';
+    import SkinRendererModule from './kernel/v2-kernel/src/modules/skin-renderer-module.js';
+    import ProjectMgrModule from './kernel/v2-kernel/src/modules/project-mgr-module.js';
+    import StateMachineModule from './kernel/v2-kernel/src/modules/state-machine-module.js';
+    import MemoryModule from './kernel/v2-kernel/src/modules/memory-module.js';
+    import SaveModule from './kernel/v2-kernel/src/modules/save-module.js';
+    import DataChannelModule from './kernel/v2-kernel/src/modules/data-channel-module.js';
+    import InputModule from './kernel/v2-kernel/src/modules/input-module.js';
+    import ConfigModule from './kernel/v2-kernel/src/modules/config-module.js';
+    import LoaderModule from './kernel/v2-kernel/src/modules/loader-module.js';
+    import ResMgrModule from './kernel/v2-kernel/src/modules/res-mgr-module.js';
+    import AudioModule from './kernel/v2-kernel/src/modules/audio-module.js';
+    const statusEl = document.getElementById('preview-status');
+    const canvas = document.getElementById('game-canvas');
+    canvas.width = 750;
+    canvas.height = 1334;
+
+    const blueprint = {"$schema":"ovo-blueprint@2","projectId":"cp_1019_10161_penalty","title":"Penalty World Cup 2026","language":"ts","engine":"threejs","kernel":{"canvas":{"width":750,"height":1334,"background":"#0f172a","resizeMode":"contain","orientation":"portrait"},"bootChain":[["__OV.EventBus"],["__OV.Memory","__OV.DataChannel","__OV.Save"],["__OV.Loader","__OV.ResMgr"],["__OV.Input"],["__OV.Render"],["__OV.SkinRenderer"],["__OV.ProjectMgr","__OV.StateMachine"]],"globalModules":[]},"design":{"scenes":[{"id":"boot","title":"boot","type":"boot","prefab":"boot_prefab","skin":"boot_skin"},{"id":"menu","title":"menu","type":"menu","prefab":"menu_prefab","skin":"menu_skin"},{"id":"gameplay","title":"gameplay","type":"gameplay","prefab":"gameplay_prefab","skin":"gameplay_skin"},{"id":"result","title":"result","type":"result","prefab":"result_prefab","skin":"result_skin"}],"stateMachine":{"initial":"boot","fallback":"boot","states":[{"id":"boot","scene":"boot","modules":["common-ui"],"on":{"boot.complete":{"target":"menu"}},"logic":{"nodes":[{"id":"boot-auto-onEnter-0","type":"onEnter","params":{}},{"id":"emitEvent-1","type":"emitEvent","params":{"eventId":"boot.complete"}}],"edges":[{"id":"edge-2","source":"boot-auto-onEnter-0","target":"emitEvent-1"}]}},{"id":"menu","scene":"menu","modules":["common-ui","penalty/audio-manager"],"on":{"game.start":{"target":"gameplay"}},"logic":{"nodes":[{"id":"enter-menu-onEnter-3","type":"onEnter","params":{}},{"id":"callAction-4","type":"callAction","params":{"moduleName":"penalty/audio-manager","actionId":"reset"}},{"id":"setData-6","type":"setData","params":{"key":"round","value":1}},{"id":"setData-8","type":"setData","params":{"key":"playerScore","value":0}},{"id":"setData-10","type":"setData","params":{"key":"aiScore","value":0}},{"id":"setData-12","type":"setData","params":{"key":"gameWinner","value":"none"}},{"id":"setData-14","type":"setData","params":{"key":"shotResult","value":"pending"}}],"edges":[{"id":"edge-5","source":"enter-menu-onEnter-3","target":"callAction-4"},{"id":"edge-7","source":"callAction-4","target":"setData-6"},{"id":"edge-9","source":"setData-6","target":"setData-8"},{"id":"edge-11","source":"setData-8","target":"setData-10"},{"id":"edge-13","source":"setData-10","target":"setData-12"},{"id":"edge-15","source":"setData-12","target":"setData-14"}]}},{"id":"gameplay","scene":"gameplay","modules":["common-ui","penalty/aim-controller","penalty/physics-engine"],"on":{"game.over":{"target":"result"}},"logic":{"nodes":[{"id":"enter-gameplay-onEnter-16","type":"onEnter","params":{}},{"id":"callAction-17","type":"callAction","params":{"moduleName":"penalty/physics-engine","actionId":"resetScene"}},{"id":"callAction-19","type":"callAction","params":{"moduleName":"penalty/aim-controller","actionId":"reset"}},{"id":"setData-21","type":"setData","params":{"key":"shotResult","value":"pending"}},{"id":"adjust-aim-onEvent-23","type":"onEvent","params":{"eventId":"aim.adjust"}},{"id":"callAction-24","type":"callAction","params":{"moduleName":"penalty/aim-controller","actionId":"updateAim"}},{"id":"take-shot-onEvent-26","type":"onEvent","params":{"eventId":"shot.take"}},{"id":"callAction-27","type":"callAction","params":{"moduleName":"penalty/physics-engine","actionId":"simulateShot"}}],"edges":[{"id":"edge-18","source":"enter-gameplay-onEnter-16","target":"callAction-17"},{"id":"edge-20","source":"callAction-17","target":"callAction-19"},{"id":"edge-22","source":"callAction-19","target":"setData-21"},{"id":"edge-25","source":"adjust-aim-onEvent-23","target":"callAction-24"},{"id":"edge-28","source":"take-shot-onEvent-26","target":"callAction-27"}]}},{"id":"result","scene":"result","modules":["common-ui","penalty/audio-manager"],"on":{"game.restart":{"target":"gameplay"},"menu.return":{"target":"menu"},"game.backToMenu":{"target":"menu"}},"logic":{"nodes":[{"id":"enter-result-onEnter-29","type":"onEnter","params":{}},{"id":"if-30","type":"if","params":{"expr":"ctx.data.get('playerScore') > ctx.data.get('aiScore')"}},{"id":"setData-31","type":"setData","params":{"key":"gameWinner","value":"player"}},{"id":"if-33","type":"if","params":{"expr":"ctx.data.get('aiScore') > ctx.data.get('playerScore')"}},{"id":"setData-34","type":"setData","params":{"key":"gameWinner","value":"ai"}},{"id":"setData-36","type":"setData","params":{"key":"gameWinner","value":"draw"}},{"id":"callAction-40","type":"callAction","params":{"moduleName":"penalty/audio-manager","actionId":"playResultMusic"}},{"id":"restart-game-onEvent-44","type":"onEvent","params":{"eventId":"game.restart"}},{"id":"setData-45","type":"setData","params":{"key":"round","value":1}},{"id":"setData-47","type":"setData","params":{"key":"playerScore","value":0}},{"id":"setData-49","type":"setData","params":{"key":"aiScore","value":0}},{"id":"setData-51","type":"setData","params":{"key":"gameWinner","value":"none"}},{"id":"emitEvent-53","type":"emitEvent","params":{"eventId":"game.start"}},{"id":"back-to-menu-onEvent-55","type":"onEvent","params":{"eventId":"game.backToMenu"}},{"id":"callAction-56","type":"callAction","params":{"moduleName":"penalty/audio-manager","actionId":"reset"}}],"edges":[{"id":"edge-32","source":"if-30","target":"setData-31","sourceHandle":"true"},{"id":"edge-35","source":"if-33","target":"setData-34","sourceHandle":"true"},{"id":"edge-37","source":"if-33","target":"setData-36","sourceHandle":"false"},{"id":"edge-38","source":"if-30","target":"if-33","sourceHandle":"false"},{"id":"edge-39","source":"enter-result-onEnter-29","target":"if-30"},{"id":"edge-41","source":"setData-31","target":"callAction-40"},{"id":"edge-42","source":"setData-34","target":"callAction-40"},{"id":"edge-43","source":"setData-36","target":"callAction-40"},{"id":"edge-46","source":"restart-game-onEvent-44","target":"setData-45"},{"id":"edge-48","source":"setData-45","target":"setData-47"},{"id":"edge-50","source":"setData-47","target":"setData-49"},{"id":"edge-52","source":"setData-49","target":"setData-51"},{"id":"edge-54","source":"setData-51","target":"emitEvent-53"},{"id":"edge-57","source":"back-to-menu-onEvent-55","target":"callAction-56"}]}}]},"dataGraph":{"nodes":[{"id":"round","type":"state","initial":1,"persistent":false},{"id":"totalRounds","type":"state","initial":5,"persistent":false},{"id":"playerScore","type":"state","initial":0,"persistent":false},{"id":"aiScore","type":"state","initial":0,"persistent":false},{"id":"aimAngle","type":"state","initial":0,"persistent":false},{"id":"power","type":"state","initial":50,"persistent":false},{"id":"shotResult","type":"state","initial":"pending","persistent":false},{"id":"gameWinner","type":"state","initial":"none","persistent":false}],"edges":[]},"events":{"definitions":[{"id":"boot.complete","label":"boot.complete","type":"event"},{"id":"game.start","label":"game.start","type":"event"},{"id":"aim.adjust","label":"aim.adjust","type":"event","schema":{"angle":{"type":"scalar","dataType":"number"},"power":{"type":"scalar","dataType":"number"}}},{"id":"shot.take","label":"shot.take","type":"event"},{"id":"shot.result","label":"shot.result","type":"event","schema":{"result":{"type":"scalar","dataType":"string"}}},{"id":"game.over","label":"game.over","type":"event"},{"id":"game.restart","label":"game.restart","type":"event"},{"id":"game.backToMenu","label":"game.backToMenu","type":"event"}]}},"resources":[{"type":"image","name":"splash_worldcup_2026_2a3e7def-cda4-461d-b4e5-ebfecc5643cd.webp","url":"./resources/images/splash_worldcup_2026_2a3e7def-cda4-461d-b4e5-ebfecc5643cd.webp"},{"type":"audio","name":"goal_crowd_1_af0b8138-9db6-464f-8143-e5f164818e0b.mp3","url":"./resources/audio/goal_crowd_1_af0b8138-9db6-464f-8143-e5f164818e0b.mp3"},{"type":"audio","name":"goal_crowd_2_0b75d917-3c11-47da-93ba-a621e364566d.mp3","url":"./resources/audio/goal_crowd_2_0b75d917-3c11-47da-93ba-a621e364566d.mp3"},{"type":"audio","name":"penalty_miss_79f338a2-4f6a-4f62-96b6-0e72d99bc694.mp3","url":"./resources/audio/penalty_miss_79f338a2-4f6a-4f62-96b6-0e72d99bc694.mp3"},{"type":"audio","name":"stadium_ambient_2_dcb9e28d-02dc-4432-b01d-73a3ce2e6ec4.mp3","url":"./resources/audio/stadium_ambient_2_dcb9e28d-02dc-4432-b01d-73a3ce2e6ec4.mp3"},{"type":"audio","name":"stadium_ambient_cc1c18fd-917f-4651-92fb-77681ec3801e.mp3","url":"./resources/audio/stadium_ambient_cc1c18fd-917f-4651-92fb-77681ec3801e.mp3"},{"type":"audio","name":"stadium_calm_3672b2fe-8735-478d-afce-c5338a937495.mp3","url":"./resources/audio/stadium_calm_3672b2fe-8735-478d-afce-c5338a937495.mp3"},{"type":"audio","name":"stadium_intense_1_7b0394ee-e438-4e56-ae16-1f69c20c86a0.mp3","url":"./resources/audio/stadium_intense_1_7b0394ee-e438-4e56-ae16-1f69c20c86a0.mp3"},{"type":"audio","name":"stadium_very_calm_c496b157-4c03-45a4-82df-84f8ceabece1.mp3","url":"./resources/audio/stadium_very_calm_c496b157-4c03-45a4-82df-84f8ceabece1.mp3"},{"type":"libs","name":"pixi.min.js","url":"./resources/libs/pixi.min.js"},{"type":"libs","name":"three.min.js","url":"./resources/libs/three.min.js"}]};
+    window.__BLUEPRINT__ = blueprint;
+    window.__PROJECT_ID__ = 'cp_1019_10161_penalty';
+    // SkinRenderer 等旧模块依赖 window.__OV.emitBootstrapLog / ovoLog
+    window.__OV = window.__OV || {};
+    window.__OV.emitBootstrapLog = function(level, args = [], detail = null) {
+      const fn = { error: console.error, warn: console.warn, info: console.log, debug: console.debug, trace: console.trace }[level] || console.log;
+      fn('[__OV]', ...(Array.isArray(args) ? args : [args]), detail != null ? detail : '');
+    };
+    window.__OV.ovoLog = function(...args) { console.log('[ovoLog]', ...args); };
+    window.__RESOLVE_URL__ = function(path) {
+      // 静态导出包：所有项目文件与 index.html 同目录，相对路径直接可用
+      return path;
+    };
+
+    // 收集蓝图中引用的所有模块名
+    function collectModuleNames(bp) {
+      const names = new Set();
+      (bp.kernel.globalModules || []).forEach((n) => names.add(n));
+      (bp.design.stateMachine.states || []).forEach((s) => {
+        (s.modules || []).forEach((n) => names.add(n));
+      });
+      return [...names];
+    }
+
+    // 动态从市场加载模块代码（静态导出时从本地 ./modules/ 目录取预编译 JS）
+    async function loadMarketModule(name) {
+      try {
+        const resp = await fetch('./modules/' + name + '.js');
+        if (!resp.ok) return null;
+        const code = await resp.text();
+        if (!code) return null;
+        // 使用 Blob URL 动态加载 ESM 模块
+        const blob = new Blob([code], { type: 'application/javascript' });
+        const url = URL.createObjectURL(blob);
+        const mod = await import(/* @vite-ignore */ url);
+        URL.revokeObjectURL(url);
+        return mod.default || mod;
+      } catch (e) {
+        console.warn('[Preview] 加载市场模块失败:', name, e);
+        return null;
+      }
+    }
+
+    async function boot() {
+      try {
+        const kernel = new OvoKernel();
+        window.__kernel = kernel;
+        kernel.canvas = canvas;
+
+        kernel.register('__OV.EventBus', EventBusModule);
+        kernel.register('__OV.Tool', ToolModule);
+        kernel.register('__OV.Memory', MemoryModule);
+        kernel.register('__OV.Save', SaveModule);
+        kernel.register('__OV.DataChannel', DataChannelModule);
+        kernel.register('__OV.Render', RenderModule);
+        kernel.register('__OV.SkinRenderer', SkinRendererModule);
+        kernel.register('__OV.Input', InputModule);
+        kernel.register('__OV.Config', ConfigModule);
+        kernel.register('__OV.Loader', LoaderModule);
+        kernel.register('__OV.ResMgr', ResMgrModule);
+        kernel.register('__OV.Audio', AudioModule);
+        kernel.register('__OV.ProjectMgr', ProjectMgrModule);
+        kernel.register('__OV.StateMachine', StateMachineModule);
+
+        // 动态注册蓝图中引用的市场模块（Phase1 仅保留游戏模块）
+        const moduleNames = collectModuleNames(blueprint);
+        console.log('[Preview] 需要注册的模块:', moduleNames);
+        for (const name of moduleNames) {
+          // 系统 __OV 模块已提前注册；但场景私有游戏模块（__OV.Games.*）需要从市场加载
+          const isSystem = name.startsWith('__OV.') && !name.startsWith('__OV.Games.');
+          if (!isSystem && !kernel.modules.has(name)) {
+            console.log('[Preview] 加载模块:', name);
+            const mod = await loadMarketModule(name);
+            if (mod) {
+              kernel.register(name, mod);
+              console.log('[Preview] 注册模块:', name);
+            } else {
+              console.warn('[Preview] 模块加载失败:', name);
+            }
+          }
+        }
+
+        // 使用蓝图原始 bootChain，过滤掉未注册的模块
+        const kernelBlueprint = {
+          ...blueprint.kernel,
+          bootChain: blueprint.kernel.bootChain
+            .map((group) => group.filter((name) => name.startsWith('__OV.') && kernel.modules.has(name)))
+            .filter((group) => group.length > 0),
+        };
+
+        // 自动补全已注册但未在 bootChain 中的系统模块到最后一个非-StateMachine 组
+        // 注意：排除游戏模块（__OV.Games.*），它们由 StateMachine 在场景加载时调度
+        const bootChainSet = new Set(kernelBlueprint.bootChain.flat());
+        const registeredExtras = [];
+        for (const [name] of kernel.modules) {
+          if (name.startsWith('__OV.') && !name.startsWith('__OV.Games.') && !bootChainSet.has(name)) {
+            registeredExtras.push(name);
+          }
+        }
+        if (registeredExtras.length > 0) {
+          // 插入到 ProjectMgr/StateMachine 之前（如果存在），否则追加到末尾
+          const smIndex = kernelBlueprint.bootChain.findIndex((g) => g.includes('__OV.StateMachine'));
+          if (smIndex > 0) {
+            kernelBlueprint.bootChain.splice(smIndex, 0, registeredExtras);
+          } else {
+            kernelBlueprint.bootChain.push(registeredExtras);
+          }
+        }
+
+        // 如果 bootChain 为空或不合法，使用默认标准 bootChain
+        const hasStateMachine = kernelBlueprint.bootChain.some((g) => g.includes('__OV.StateMachine'));
+        if (kernelBlueprint.bootChain.length === 0 || !hasStateMachine) {
+          kernelBlueprint.bootChain = [
+            ['__OV.EventBus', '__OV.Tool'],
+            ['__OV.Memory', '__OV.Save', '__OV.DataChannel'],
+            ['__OV.Render'],
+            ['__OV.Input'],
+            ['__OV.ProjectMgr', '__OV.StateMachine'],
+          ];
+        }
+        // 加载引擎运行时库并初始化渲染层（threejs 混合加载 pixi + three：PIXI 管皮肤/UI，THREE 供 3D 模块）
+        const engine = 'threejs';
+        const runtimeLibUrls = ['./resources/libs/pixi.min.js', './resources/libs/three.min.js'];
+        try {
+          for (const url of runtimeLibUrls) {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = url;
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          if ((engine === 'pixi' || engine === 'other' || engine === 'threejs') && typeof window.PIXI !== 'undefined') {
+            const app = new window.PIXI.Application({
+              view: canvas,
+              width: canvas.width,
+              height: canvas.height,
+              backgroundColor: 0x0f172a,
+              resolution: window.devicePixelRatio || 1,
+              autoDensity: true,
+            });
+            kernel.ctx.engine.pixi = window.PIXI;
+            kernel.ctx.engine.stage = app.stage;
+            kernel.ctx.engine.app = app;
+            console.log('[Preview] PIXI 初始化完成');
+          }
+          // three.min.js 就绪即挂 ctx.engine.three——引擎级（engine=threejs）与模块级
+          // （蓝图模块 provides 含 render:threejs，由 extraRuntimeLibs 追加加载）两条路径都覆盖；
+          // engine.name 只在引擎级 threejs 时改写，避免干扰 pixi 项目的皮肤层判断
+          if (typeof window.THREE !== 'undefined') {
+            kernel.ctx.engine.three = window.THREE;
+            if (engine === 'threejs') kernel.ctx.engine.name = 'threejs';
+            console.log('[Preview] Three.js 运行时库已加载');
+          } else if (engine === 'threejs') {
+            console.warn('[Preview] threejs 项目但 THREE 未加载成功');
+          }
+          if (engine !== 'pixi' && engine !== 'other' && engine !== 'threejs') {
+            console.log('[Preview] 引擎库已加载:', engine);
+          }
+        } catch (e) {
+          console.warn('[Preview] 引擎库加载失败，将使用 Canvas 2D 回退:', e);
+        }
+
+        await kernel.loadBlueprint(kernelBlueprint);
+
+        // 加载项目数据资源到 ResMgr（静态导出时读本地 manifest + 静态 JSON 文件）
+        try {
+          const resResp = await fetch('./resources/data/manifest.json');
+          if (resResp.ok) {
+            const resData = await resResp.json();
+            const dataFiles = (resData.files || []);
+            for (const fileName of dataFiles) {
+              const dataResp = await fetch('./resources/data/' + encodeURIComponent(fileName));
+              if (dataResp.ok) {
+                const dataContent = await dataResp.json();
+                const dataId = fileName.replace(/\.json$/, '');
+                if (kernel.ctx.system?.resMgr?.registerData) {
+                  kernel.ctx.system.resMgr.registerData(dataId, dataContent);
+                  console.log('[Preview] 注册数据资源:', dataId);
+                }
+              }
+            }
+          }
+        } catch (e) {
+          console.warn('[Preview] 加载数据资源失败:', e);
+        }
+
+        // 全局皮肤渲染辅助函数
+        let globalSkinRendered = false;
+        async function renderGlobalSkin(skinRenderer) {
+          if (globalSkinRendered) return;
+          const globalStateId = blueprint.design?.stateMachine?.globalState;
+          if (!globalStateId) return;
+          const globalStateDef = blueprint.design?.stateMachine?.states?.find(s => s.id === globalStateId);
+          if (!globalStateDef) return;
+          const globalSceneId = globalStateDef.scene || globalStateId;
+          const globalScene = blueprint.design?.scenes?.find(s => s.id === globalSceneId);
+          const globalSkinName = globalStateDef.skin || globalScene?.skin || '';
+          if (!globalSkinName) return;
+          try {
+            const globalSceneRuntime = { id: globalSceneId, skin: globalSkinName, event: kernel.ctx.scene?.event, ui: kernel.ctx.scene?.ui };
+            await skinRenderer.renderSkinForScene(blueprint, globalSceneRuntime, kernel.ctx.engine.stage);
+            globalSkinRendered = true;
+            console.log('[Preview] 全局皮肤渲染完成:', globalSkinName);
+          } catch (e) {
+            console.warn('[Preview] 全局皮肤渲染失败:', e);
+          }
+        }
+
+        function destroyActiveSkinOnly(skinRenderer, globalSceneId) {
+          // 只销毁非全局的 PreviewSkin 层
+          const stage = kernel.ctx.engine?.stage;
+          if (!stage) return;
+          for (const child of [...stage.children]) {
+            const name = String(child.name || '');
+            if (name.startsWith('PreviewSkin:') && !name.includes(globalSceneId)) {
+              try { stage.removeChild(child); } catch {}
+              try { child.destroy({ children: true, texture: false, baseTexture: false }); } catch {}
+            }
+          }
+        }
+
+        const sm = kernel.ctx.system.stateMachine;
+        const events = kernel.ctx.system.events;
+        // 暴露事件总线和数据接口，便于测试/自动化脚本驱动运行时
+        window.__OVO_EVENTS = events;
+        window.__OVO_DATA = kernel.ctx.data;
+        if (sm && events) {
+          // 桥接全局事件总线到状态机：自动订阅所有状态迁移事件
+          const eventIds = new Set();
+          for (const state of blueprint.design.stateMachine.states) {
+            if (state.on) {
+              for (const eventId of Object.keys(state.on)) {
+                eventIds.add(eventId);
+              }
+            }
+          }
+          for (const eventId of eventIds) {
+            console.log('[Preview] 桥接事件:', eventId);
+            events.on(eventId, (payload) => {
+              console.log('[Preview] 收到事件:', eventId, payload);
+              try {
+                sm.transition(eventId, payload);
+              } catch (e) {
+                console.warn('[Preview] transition 失败:', eventId, e);
+              }
+            });
+          }
+        }
+        if (sm) {
+          statusEl.textContent = '状态: ' + sm.getState();
+
+          // boot 自动推进兜底：初始状态为 boot 且存在迁移事件时，在事件桥接完成后自动触发
+          const bootStateDef = blueprint.design?.stateMachine?.states?.find((s) => s.id === 'boot');
+          if (sm.getState() === 'boot' && bootStateDef?.on) {
+            const bootEvents = Object.keys(bootStateDef.on);
+            if (bootEvents.length > 0 && events) {
+              const eventToEmit = bootEvents[0];
+              requestAnimationFrame(() => {
+                console.log('[Preview] boot 自动推进:', eventToEmit);
+                events.emit(eventToEmit, { auto: true });
+              });
+            }
+          }
+
+          sm.onStateChange((from, to) => {
+            statusEl.textContent = '状态: ' + to;
+            if (window.parent !== window) {
+              window.parent.postMessage({ type: 'stateChanged', from, to, projectId: 'cp_1019_10161_penalty' }, '*');
+            }
+            // 自动渲染新状态的皮肤（状态 ID → 场景 ID → 场景 skin）
+            const stateDef = blueprint.design.stateMachine.states.find(s => s.id === to);
+            const sceneId = stateDef?.scene || to;
+            const sceneDef = blueprint.design.scenes.find(s => s.id === sceneId);
+            const skinName = sceneDef?.skin || '';
+            const skinRenderer = kernel.ctx.system?.skinRenderer;
+            if (skinRenderer?.renderSkinForScene) {
+              // 先渲染全局皮肤（如果未渲染）
+              renderGlobalSkin(skinRenderer);
+              // 只销毁当前状态皮肤，保留全局皮肤
+              const globalStateId = blueprint.design?.stateMachine?.globalState;
+              const globalStateDef = globalStateId ? blueprint.design?.stateMachine?.states?.find(s => s.id === globalStateId) : null;
+              const globalSceneId = globalStateDef?.scene || globalStateId || '';
+              destroyActiveSkinOnly(skinRenderer, globalSceneId);
+              // 渲染新状态皮肤
+              try {
+                const activeScene = { id: sceneId, skin: skinName, event: kernel.ctx.scene?.event, ui: kernel.ctx.scene?.ui };
+                skinRenderer.renderSkinForScene(blueprint, activeScene, kernel.ctx.engine.stage);
+              } catch (e) {
+                console.warn('[Preview] 皮肤渲染失败:', e);
+              }
+            }
+          });
+          // 渲染初始状态皮肤（先全局，后当前）
+          const skinRenderer = kernel.ctx.system?.skinRenderer;
+          if (skinRenderer?.renderSkinForScene) {
+            // 先渲染全局皮肤
+            await renderGlobalSkin(skinRenderer);
+            // 再渲染初始状态皮肤
+            const initialStateDef = blueprint.design.stateMachine.states.find(s => s.id === sm.getState());
+            const initialSceneId = initialStateDef?.scene || sm.getState();
+            const initialSceneDef = blueprint.design.scenes.find(s => s.id === initialSceneId);
+            const initialSkinName = initialSceneDef?.skin || '';
+            try {
+              const activeScene = { id: initialSceneId, skin: initialSkinName, event: kernel.ctx.scene?.event, ui: kernel.ctx.scene?.ui };
+              await skinRenderer.renderSkinForScene(blueprint, activeScene, kernel.ctx.engine.stage);
+            } catch (e) {
+              console.warn('[Preview] 初始皮肤渲染失败:', e);
+            }
+          }
+        }
+
+        // Canvas 缩放以适应 preview iframe（使用设计尺寸，避免 PIXI autoDensity 改变 canvas.width 后缩放失真）
+        const designWidth = Number(canvas.dataset.designWidth || canvas.width);
+        const designHeight = Number(canvas.dataset.designHeight || canvas.height);
+        function fitCanvas() {
+          const container = canvas.parentElement;
+          if (!container) return;
+          const scale = Math.min(container.clientWidth / designWidth, container.clientHeight / designHeight, 1);
+          canvas.style.width = (designWidth * scale) + 'px';
+          canvas.style.height = (designHeight * scale) + 'px';
+        }
+        window.addEventListener('resize', fitCanvas);
+        fitCanvas();
+
+        if (window.parent !== window) {
+          window.parent.postMessage({ type: 'previewReady', projectId: 'cp_1019_10161_penalty' }, '*');
+        }
+      } catch (err) {
+        statusEl.textContent = '错误: ' + err.message;
+        statusEl.style.color = '#f87171';
+        console.error('[Preview] 启动失败:', err);
+      }
+    }
+
+    boot();
+
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'highlightState') {
+        console.log('高亮状态:', e.data.stateId);
+      }
+    });
+  </script>
+</body>
+</html>

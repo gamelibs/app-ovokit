@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Simulation · Mini Eco-Tank | OVO Atomic Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 模拟母型原子 demo：行为原语 = simulate + choose + accumulate
+// 草-兔-狐三层捕食链（Lotka-Volterra 变体，常数经数值扫描标定）：
+//   - 默认参数 → 持续振荡存活 90 天；降雨 <~1.3 / 狐 0 / 狐过多 / 繁殖率过低 → 链断裂灭绝
+//   - 玩家不直接控制任何动物，只调初始条件（狐数/繁殖率）与规则系数（降雨·实时）
+// 教学点：平衡不是静态数值，而是动态振荡；极端参数必然崩溃，稳态边界可亲手摸到
+var ECO = { K: 100, r0: 1.0, q: 0.9, h: 30, hg: 10, mR: 0.1, p: 5, ph: 12, conv: 0.15, foxDeath: 0.45, cR: 0.001 };
+var GOAL = 90; // 目标天数（1 秒 = 1 天）
+AtomCore.create({
+  title: AtomCore.L('模拟 · 迷你生态箱', 'Simulation · Mini Eco-Tank'),
+  objective: AtomCore.L(
+    '你不直接控制任何动物——只调三个系数，看草-兔-狐食物链自己演化。三个物种都活过 ' + GOAL + ' 天即达成平衡：平衡是动态振荡，不是静止数字。',
+    'You control no animal directly — tune three coefficients and watch the grass–rabbit–fox chain evolve on its own. Keep all three species alive for ' + GOAL + ' days: balance is dynamic oscillation, not a static number.'),
+  lives: 0,
+  params: [
+    { key: 'rain', label: AtomCore.L('降雨（草生长速率·实时可调）', 'Rainfall (grass growth · live)'), min: 0.4, max: 3, step: 0.1, default: 1.5, unit: 'x' },
+    { key: 'foxes', label: AtomCore.L('初始狐数量（下局生效）', 'Initial foxes (next run)'), min: 0, max: 12, step: 1, default: 4, unit: '' },
+    { key: 'rabbitRate', label: AtomCore.L('兔繁殖率（下局生效）', 'Rabbit birth rate (next run)'), min: 0.2, max: 1.6, step: 0.1, default: 0.8, unit: 'x' }
+  ],
+  toggles: [
+    { key: 'fixedSeed', label: '固定种子（可复现实验）', labelEn: 'Fixed seed (reproducible run)', default: true, seedable: true }
+  ],
+  hudExtra: function (g) {
+    var d = g.data;
+    if (d.G == null) return '';
+    return AtomCore.L('第 <b>', 'Day <b>') + Math.min(GOAL, d.day | 0) + '/' + GOAL + '</b>' + AtomCore.L(' 天 · 草 <b>', ' · grass <b>') + Math.round(d.G) + '</b>' + AtomCore.L(' · 兔 <b>', ' · rabbits <b>') + Math.round(d.R) + '</b>' + AtomCore.L(' · 狐 <b>', ' · foxes <b>') + Math.round(d.F) + '</b>';
+  },
+  setup: function (g) {
+    var d = g.data;
+    d.G = 70; d.R = 30; d.F = g.params.foxes;
+    d.day = 0; d.paused = false; d.over = false; d.cause = null;
+    d.rainEff = g.params.rain;
+    d.hist = [{ day: 0, g: d.G, r: d.R, f: d.F }];
+    d.sampleT = 0; d.lastDayInt = 0;
+    // 视觉槽位：草簇/兔/狐的固定随机位置（固定种子下每局一致，可复现）
+    d.grassSlots = []; d.rabbitSlots = []; d.foxSlots = [];
+    var i;
+    for (i = 0; i < 70; i++) d.grassSlots.push({ x: g.rand(0.05, 0.95), y: g.rand(0.25, 0.95), s: g.rand(0.7, 1.3) });
+    for (i = 0; i < 40; i++) d.rabbitSlots.push({ x: g.rand(0.06, 0.94), y: g.rand(0.15, 0.95), ph: g.rand(0, 6) });
+    for (i = 0; i < 14; i++) d.foxSlots.push({ x: g.rand(0.06, 0.94), y: g.rand(0.1, 0.9), ph: g.rand(0, 6) });
+  },
+  // —— 生态积分（1 秒 = 1 天，欧拉步进） ——
+  step: function (g, dt) {
+    var d = g.data, C = ECO;
+    if ((d.day | 0) !== d.lastDayInt) { // 每日天气：降雨 ±8% 抖动（固定种子可复现）
+      d.lastDayInt = d.day | 0;
+      d.rainEff = g.params.rain * (0.92 + 0.16 * g.rand(0, 1));
+      g.setScore(d.lastDayInt);
+    }
+    var food = d.G / (d.G + C.h);
+    var grow = d.rainEff * C.r0 * d.G * (1 - d.G / C.K);
+    var graze = C.q * d.R * d.G / (d.G + C.hg);
+    var eaten = Math.min(d.R, d.F * C.p * d.R * d.R / (d.R * d.R + C.ph * C.ph));
+    d.G = Math.max(0, d.G + (grow - graze) * dt);
+    d.R = Math.max(0, d.R + (g.params.rabbitRate * d.R * food - C.mR * d.R - eaten - C.cR * d.R * d.R) * dt);
+    d.F = Math.max(0, d.F + (C.conv * eaten - C.foxDeath * d.F) * dt);
+    d.day += dt;
+    d.sampleT += dt;
+    if (d.sampleT >= 0.25) { d.sampleT = 0; d.hist.push({ day: d.day, g: d.G, r: d.R, f: d.F }); }
+    // 判定：任一物种灭绝 = 链断裂（草 <5 视为根枯死不可逆）
+    if (d.G < 5) return this.finish(g, 'grass');
+    if (d.R < 1) return this.finish(g, 'rabbit');
+    if (d.F < 0.5 && g.params.foxes > 0) return this.finish(g, 'fox');
+    if (d.day >= GOAL) {
+      // 达成平衡：振幅越小奖励越高——平衡是振荡，能压住振荡才是好设计
+      var win = 100, bonus = 0, recent = d.hist.slice(-120), lo = Infinity, hi = -Infinity;
+      recent.forEach(function (s) { lo = Math.min(lo, s.r); hi = Math.max(hi, s.r); });
+      bonus = Math.max(0, Math.min(90, Math.round(90 - (hi - lo))));
+      g.setScore(win + bonus);
+      d.over = true;
+      g.endGame(true);
+    }
+  },
+  finish: function (g, cause) {
+    var d = g.data;
+    d.over = true; d.cause = cause;
+    g.setScore(d.day | 0);
+    g.endGame(false);
+  },
+  update: function (g, dt) {
+    var d = g.data;
+    if (d.over || d.paused || d.G == null) return;
+    this.step(g, dt);
+  },
+  onPointer: function (g, p) {
+    if (p.type !== 'down') return;
+    var d = g.data;
+    if (d.over) return;
+    d.paused = !d.paused; // 唯一的"操作"是观察：暂停/继续；结果只由参数决定
+  },
+  causeText: function (cause) {
+    if (cause === 'grass') return AtomCore.L('草被吃光，生态系统崩溃', 'Grass stripped — ecosystem collapsed');
+    if (cause === 'rabbit') return AtomCore.L('兔群灭绝，食物链断裂', 'Rabbits extinct — chain broken');
+    if (cause === 'fox') return AtomCore.L('狐群饿死，食物链断裂', 'Foxes starved — chain broken');
+    return '';
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS, W = g.W, H = g.H;
+    if (!d.grassSlots) return;
+    var ctx = gg.ctx;
+    var tankB = H * 0.46;              // 生态箱底（地面）
+    var groundY = tankB - 14;
+    // —— 顶部进度条（第 X/90 天） ——
+    var prog = Math.min(1, d.day / GOAL);
+    gg.rect(24, 12, W - 48, 10, null, 1);
+    ctx.fillStyle = C.YELLOW; ctx.fillRect(25, 13, (W - 50) * prog, 8);
+    // —— 生态箱 ——
+    gg.line(14, groundY, W - 14, groundY, 2.5);
+    var gCount = Math.max(0, Math.min(70, Math.round(d.G / 100 * 70)));
+    var i, s;
+    for (i = 0; i < gCount; i++) {     // 草簇：三笔抖动线
+      s = d.grassSlots[i];
+      var gx = 16 + s.x * (W - 32), gy = 24 + s.y * (groundY - 30), gh = 5 * s.s;
+      ctx.strokeStyle = '#5a9e4b'; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx - 2, gy - gh); ctx.moveTo(gx, gy); ctx.lineTo(gx + 0.5, gy - gh * 1.4); ctx.moveTo(gx, gy); ctx.lineTo(gx + 2.2, gy - gh); ctx.stroke();
+    }
+    var rCount = Math.max(0, Math.min(40, Math.round(d.R)));
+    for (i = 0; i < rCount; i++) {     // 兔：蓝点小耳
+      s = d.rabbitSlots[i];
+      var rx = 16 + s.x * (W - 32), ry = 26 + s.y * (groundY - 34) + Math.sin(g.time * 2 + s.ph) * 1.5;
+      gg.circle(rx, ry, 4.2, C.BLUE, 1.5);
+      gg.line(rx - 2, ry - 4, rx - 3, ry - 8, 1.2);
+      gg.line(rx + 1, ry - 4, rx + 2, ry - 8, 1.2);
+    }
+    var fCount = Math.max(0, Math.min(14, Math.round(d.F)));
+    for (i = 0; i < fCount; i++) {     // 狐：红点大耳
+      s = d.foxSlots[i];
+      var fx = 16 + s.x * (W - 32), fy = 26 + s.y * (groundY - 40) + Math.sin(g.time * 1.6 + s.ph) * 1.5;
+      gg.circle(fx, fy, 6, C.RED, 1.8);
+      gg.line(fx - 3.5, fy - 5, fx - 5, fy - 10, 1.5);
+      gg.line(fx + 2.5, fy - 5, fx + 4, fy - 10, 1.5);
+    }
+    if (d.R > 40) gg.text('×' + Math.round(d.R), W - 40, groundY - 26, 13, '#888');
+    // 数量标注
+    gg.text(AtomCore.L('草 ', 'grass ') + Math.round(d.G), 44, tankB + 16, 13, '#5a9e4b', 'left');
+    gg.text(AtomCore.L('兔 ', 'rabbits ') + Math.round(d.R), 130, tankB + 16, 13, '#3d7dc4', 'left');
+    gg.text(AtomCore.L('狐 ', 'foxes ') + Math.round(d.F), 240, tankB + 16, 13, '#c0392b', 'left');
+    // 状态词：振荡/危险/趋于稳定
+    var status, statusColor = '#888';
+    if (d.over) { status = this.causeText(d.cause) || AtomCore.L('达成动态平衡！', 'Dynamic balance achieved!'); statusColor = d.cause ? '#c0392b' : '#5a9e4b'; }
+    else if (d.G < 15 || d.R < 6 || (d.F < 1.2 && g.params.foxes > 0)) { status = AtomCore.L('⚠ 危险：有物种濒临灭绝', '⚠ Danger: a species nears extinction'); statusColor = '#c0392b'; }
+    else { status = AtomCore.L('系统自演化中（振荡即平衡）', 'Self-evolving (oscillation IS balance)'); }
+    gg.text(status, W / 2, tankB + 36, 14, statusColor);
+    // —— 种群曲线图（教学核心：振荡可视化） ——
+    var chX = 30, chY = H * 0.60, chW = W - 60, chH = H * 0.30;
+    gg.rect(chX, chY, chW, chH, null, 1.5);
+    gg.text(AtomCore.L('种群-时间曲线', 'Population over time'), chX + chW / 2, chY - 12, 13, '#888');
+    var h = d.hist, rMax = 80, fMax = 16;
+    h.forEach(function (s) { rMax = Math.max(rMax, s.r * 1.1); fMax = Math.max(fMax, s.f * 1.1); });
+    function plot(key, max, color) {
+      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.beginPath();
+      for (var j = 0; j < h.length; j++) {
+        var px = chX + Math.min(1, h[j].day / GOAL) * chW;
+        var py = chY + chH - Math.min(1, h[j][key] / max) * (chH - 8);
+        if (j === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+    if (h.length > 1) {
+      plot('g', 100, '#5a9e4b');
+      plot('r', rMax, '#3d7dc4');
+      plot('f', fMax, '#c0392b');
+    }
+    // 图例
+    var lgY = chY + chH + 18;
+    gg.text('—', chX + 26, lgY, 16, '#5a9e4b'); gg.text(AtomCore.L('草', 'grass'), chX + 44, lgY, 12, '#666');
+    gg.text('—', chX + 86, lgY, 16, '#3d7dc4'); gg.text(AtomCore.L('兔', 'rabbits'), chX + 104, lgY, 12, '#666');
+    gg.text('—', chX + 150, lgY, 16, '#c0392b'); gg.text(AtomCore.L('狐', 'foxes'), chX + 168, lgY, 12, '#666');
+    // 底部提示
+    var hint = d.paused ? AtomCore.L('⏸ 已暂停 · 点画面继续 · 调降雨实时生效', '⏸ Paused · tap to resume · rainfall applies live')
+      : AtomCore.L('点画面暂停观察 · 调降雨实时生效 · 狐数/繁殖率下局生效', 'Tap to pause & observe · rainfall applies live · foxes/birth rate apply next run');
+    gg.text(hint, W / 2, H - 16, 12, '#999');
+  }
+});
+</script>
+</body>
+</html>

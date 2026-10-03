@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "ovo-ui-skin-index@1",
+  "projectId": "cp_1019_10161_penalty",
+  "items": [
+    {
+      "name": "boot_skin",
+      "path": "creative/projects/cp_1019_10161_penalty/ui/skins/boot_skin.json",
+      "updateTime": "2026-07-04T07:36:47.910Z"
+    },
+    {
+      "name": "menu_skin",
+      "path": "creative/projects/cp_1019_10161_penalty/ui/skins/menu_skin.json",
+      "updateTime": "2026-07-04T07:36:47.912Z"
+    },
+    {
+      "name": "gameplay_skin",
+      "path": "creative/projects/cp_1019_10161_penalty/ui/skins/gameplay_skin.json",
+      "updateTime": "2026-07-04T07:36:47.913Z"
+    },
+    {
+      "name": "result_skin",
+      "path": "creative/projects/cp_1019_10161_penalty/ui/skins/result_skin.json",
+      "updateTime": "2026-07-04T07:36:47.914Z"
+    }
+  ]
+}

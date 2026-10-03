@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "resource-library@1",
+  "projectId": "cp_1019_10161_penalty",
+  "projectTitle": "Penalty World Cup 2026",
+  "images": [
+    {
+      "name": "splash_worldcup_2026_2a3e7def-cda4-461d-b4e5-ebfecc5643cd.webp",
+      "path": "resources/images/splash_worldcup_2026_2a3e7def-cda4-461d-b4e5-ebfecc5643cd.webp",
+      "size": 519,
+      "updateTime": "2026-07-04T06:59:08.550Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/images/splash_worldcup_2026_2a3e7def-cda4-461d-b4e5-ebfecc5643cd.webp"
+    }
+  ],
+  "audio": [
+    {
+      "name": "goal_crowd_1_af0b8138-9db6-464f-8143-e5f164818e0b.mp3",
+      "path": "resources/audio/goal_crowd_1_af0b8138-9db6-464f-8143-e5f164818e0b.mp3",
+      "size": 519,
+      "updateTime": "2026-07-04T06:59:08.554Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/audio/goal_crowd_1_af0b8138-9db6-464f-8143-e5f164818e0b.mp3"
+    },
+    {
+      "name": "goal_crowd_2_0b75d917-3c11-47da-93ba-a621e364566d.mp3",
+      "path": "resources/audio/goal_crowd_2_0b75d917-3c11-47da-93ba-a621e364566d.mp3",
+      "size": 519,
+      "updateTime": "2026-07-04T06:59:08.559Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/audio/goal_crowd_2_0b75d917-3c11-47da-93ba-a621e364566d.mp3"
+    },
+    {
+      "name": "penalty_miss_79f338a2-4f6a-4f62-96b6-0e72d99bc694.mp3",
+      "path": "resources/audio/penalty_miss_79f338a2-4f6a-4f62-96b6-0e72d99bc694.mp3",
+      "size": 519,
+      "updateTime": "2026-07-04T06:59:08.562Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/audio/penalty_miss_79f338a2-4f6a-4f62-96b6-0e72d99bc694.mp3"
+    },
+    {
+      "name": "stadium_ambient_2_dcb9e28d-02dc-4432-b01d-73a3ce2e6ec4.mp3",
+      "path": "resources/audio/stadium_ambient_2_dcb9e28d-02dc-4432-b01d-73a3ce2e6ec4.mp3",
+      "size": 519,
+      "updateTime": "2026-07-04T06:59:08.565Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/audio/stadium_ambient_2_dcb9e28d-02dc-4432-b01d-73a3ce2e6ec4.mp3"
+    },
+    {
+      "name": "stadium_ambient_cc1c18fd-917f-4651-92fb-77681ec3801e.mp3",
+      "path": "resources/audio/stadium_ambient_cc1c18fd-917f-4651-92fb-77681ec3801e.mp3",
+      "size": 519,
+      "updateTime": "2026-07-04T06:59:08.569Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/audio/stadium_ambient_cc1c18fd-917f-4651-92fb-77681ec3801e.mp3"
+    },
+    {
+      "name": "stadium_calm_3672b2fe-8735-478d-afce-c5338a937495.mp3",
+      "path": "resources/audio/stadium_calm_3672b2fe-8735-478d-afce-c5338a937495.mp3",
+      "size": 519,
+      "updateTime": "2026-07-04T06:59:08.574Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/audio/stadium_calm_3672b2fe-8735-478d-afce-c5338a937495.mp3"
+    },
+    {
+      "name": "stadium_intense_1_7b0394ee-e438-4e56-ae16-1f69c20c86a0.mp3",
+      "path": "resources/audio/stadium_intense_1_7b0394ee-e438-4e56-ae16-1f69c20c86a0.mp3",
+      "size": 519,
+      "updateTime": "2026-07-04T06:59:08.578Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/audio/stadium_intense_1_7b0394ee-e438-4e56-ae16-1f69c20c86a0.mp3"
+    },
+    {
+      "name": "stadium_very_calm_c496b157-4c03-45a4-82df-84f8ceabece1.mp3",
+      "path": "resources/audio/stadium_very_calm_c496b157-4c03-45a4-82df-84f8ceabece1.mp3",
+      "size": 519,
+      "updateTime": "2026-07-04T06:59:08.582Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/audio/stadium_very_calm_c496b157-4c03-45a4-82df-84f8ceabece1.mp3"
+    }
+  ],
+  "fonts": [],
+  "skins": [],
+  "libs": [
+    {
+      "name": "pixi.min.js",
+      "path": "resources/libs/pixi.min.js",
+      "size": 456074,
+      "updateTime": "2026-07-04T06:59:08.492Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/libs/pixi.min.js"
+    },
+    {
+      "name": "three.min.js",
+      "path": "resources/libs/three.min.js",
+      "size": 603445,
+      "updateTime": "2026-07-04T06:59:08.492Z",
+      "url": "/creative-preview/cp_1019_10161_penalty/resources/libs/three.min.js"
+    }
+  ],
+  "compositions": [],
+  "configs": [],
+  "data": []
+}

@@ -1,0 +1,75 @@
+{
+  "slug": "choice-strategy-three-card-climb-lab",
+  "title": "Three-Card Climb Lab: A Choice/Strategy Playground Where the Choice Space Is a Dial",
+  "subtitle": "Pick 1 card per round (attack/shield/economy); your stacked stats auto-resolve against a guardian that grows every round — survive 12 rounds to win. Cards-per-round and enemy growth slope are exposed as sliders, so you can feel that the size of the choice space IS the difficulty knob.",
+  "cover": {
+    "src": "/plays/choice-strategy-three-card-climb-lab/cover.svg",
+    "alt": "Three-Card Climb Lab: A Choice/Strategy Playground Where the Choice Space Is a Dial"
+  },
+  "coverWide": {
+    "src": "/plays/choice-strategy-three-card-climb-lab/cover-wide.svg",
+    "alt": "Three-Card Climb Lab: A Choice/Strategy Playground Where the Choice Space Is a Dial"
+  },
+  "archetype": "choice-strategy",
+  "archetypeSecondary": "progression",
+  "tags": [
+    "策略决策",
+    "成长 / 数值"
+  ],
+  "lang": "en",
+  "difficulty": "Advanced",
+  "techStack": [
+    "Canvas",
+    "AtomCore"
+  ],
+  "corePoints": [
+    "Choice space as difficulty: 2/3/4 cards per round, adjustable",
+    "Risk accumulation: enemy growth slope adjustable from 0.6 to 2.0",
+    "Opportunity cost: pick 1 card and the rest are lost, consequences land on your stats immediately",
+    "Explainable outcomes: the damage formula is printed on the canvas and every combat report line is traceable",
+    "Economy is stored blood: every 10 gold auto-converts to 3 HP at camp"
+  ],
+  "stats": {
+    "views": 0,
+    "likes": 0
+  },
+  "breakdown": [
+    {
+      "title": "Rule Skeleton",
+      "bullets": [
+        "Each round, pick 1 of N cards (N = 2/3/4, adjustable): Attack +X / Shield +X / Economy +X; the rest are discarded",
+        "Combat auto-resolves after the pick: hits to kill = ceil(foe HP / your ATK); damage taken = (hits − 1) × max(1, foe ATK − your DEF)",
+        "Lose when HP hits 0; win by surviving round 12; final score = 300 + gold + remaining HP"
+      ]
+    },
+    {
+      "title": "Behavior Loop",
+      "bullets": [
+        "Read the board (your stats + current and next guardian preview) → deal cards (ATK 35% / DEF 30% / Economy 35%) → pick 1",
+        "Auto-resolve → +3 gold kill bounty → camp: every 10 gold auto-converts to 3 HP (heals only what is missing, cap 30)",
+        "The enemy grows with the slope every round (HP ≈ 3 + round × slope × 2.2, ATK ≈ 1 + round × slope × 0.8); back to reading the board"
+      ]
+    },
+    {
+      "title": "Implementation Notes",
+      "bullets": [
+        "Pure static single-file demo on the AtomCore engine: Canvas 2D, portrait 2:3, zero dependencies, zero external requests",
+        "Only two round phases, choose / resolve; a 550ms timer advances the round, guarded by a token against stale timers after restart",
+        "Two sliders (enemy growth slope / cards per round) take effect live via game.params in dealing and enemy generation"
+      ]
+    }
+  ],
+  "codeSnippets": [
+    {
+      "title": "Combat auto-resolution (damage formula)",
+      "language": "js",
+      "code": "// hits to kill = ceil(foe HP / your ATK); damage taken = (hits - 1) × max(1, foe ATK - your DEF)\nvar hits = Math.max(1, Math.ceil(e.hp / p.atk));\nvar counters = hits - 1;\nvar dmg = counters * Math.max(1, e.atk - p.def);\np.hp -= dmg;\np.gold += 3; // kill bounty"
+    }
+  ],
+  "published": true,
+  "demo": {
+    "iframeSrc": "/demos/atomic/choice-strategy/index.html",
+    "note": "Press Start, then pick 1 card per round (attack/shield/economy — the rest are lost). Your stacked stats auto-resolve against a guardian that grows every round; survive 12 rounds to win. The two sidebar sliders retune enemy growth slope and cards per round live."
+  },
+  "pattern": "strategy"
+}

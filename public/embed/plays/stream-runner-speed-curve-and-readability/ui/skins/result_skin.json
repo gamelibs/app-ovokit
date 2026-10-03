@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "ovoui-skin@1",
+  "name": "result_skin",
+  "canvas": {
+    "width": 750,
+    "height": 1334
+  },
+  "root": {
+    "id": "root",
+    "type": "container",
+    "x": 0,
+    "y": 0,
+    "w": 750,
+    "h": 1334,
+    "style": {
+      "fill": "#0f172a"
+    },
+    "children": [
+      {
+        "id": "game_over_text",
+        "type": "text",
+        "x": 175,
+        "y": 300,
+        "w": 400,
+        "h": 72,
+        "text": "Game Over",
+        "style": {
+          "fontSize": 52,
+          "fill": "#ffffff",
+          "align": "center",
+          "fontWeight": "bold"
+        }
+      },
+      {
+        "id": "final_score",
+        "type": "text",
+        "x": 175,
+        "y": 460,
+        "w": 400,
+        "h": 40,
+        "text": "Score: {{score}}",
+        "style": {
+          "fontSize": 28,
+          "fill": "#ffffff",
+          "align": "center"
+        }
+      },
+      {
+        "id": "high_score",
+        "type": "text",
+        "x": 175,
+        "y": 530,
+        "w": 400,
+        "h": 36,
+        "text": "High Score: {{highScore}}",
+        "style": {
+          "fontSize": 24,
+          "fill": "#facc15",
+          "align": "center"
+        }
+      },
+      {
+        "id": "restart_btn",
+        "type": "button",
+        "x": 225,
+        "y": 700,
+        "w": 300,
+        "h": 80,
+        "text": "Play Again",
+        "event": "game.restart",
+        "targetState": "gameplay",
+        "style": {
+          "fontSize": 28,
+          "color": "#ffffff",
+          "backgroundColor": "#0ea5e9",
+          "borderRadius": 12,
+          "align": "center"
+        }
+      }
+    ]
+  }
+}

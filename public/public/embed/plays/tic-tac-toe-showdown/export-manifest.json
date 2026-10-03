@@ -1,0 +1,25 @@
+{
+  "version": "static-demo-export-v1",
+  "projectId": "cp_1019_10062_job_1782200111798_ycyhbo",
+  "engine": "other",
+  "exportedAt": "2026-09-30T12:45:51.726Z",
+  "gameModules": [
+    "common-ui",
+    "core/board-turn",
+    "core/board-ai"
+  ],
+  "files": {
+    "indexHtml": "index.html",
+    "kernelFiles": 24,
+    "moduleFiles": [
+      "modules/common-ui.js",
+      "modules/core/board-turn.js",
+      "modules/core/board-ai.js"
+    ],
+    "copiedDirs": [
+      "ui",
+      "resources"
+    ],
+    "resources": 2
+  }
+}

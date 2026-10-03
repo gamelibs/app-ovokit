@@ -1,0 +1,62 @@
+# Bubble Shooter: Aim Once, Score by the Cascade
+
+## The Essence in One Sentence
+
+On the surface this is aim-and-shoot; in substance it is a **deterministic match-3**. The aim angle is folded into a column choice, so every shot is a spatial decision whose outcome you can fully compute in advance. The floating cascade (20 points per dropped bubble) is the skill ceiling, and the ceiling dropping one row every 10 shots is the pacing clock — the player always knows exactly which shot lost the run.
+
+Bubble shooters need no traffic explanation. What makes this sample worth dissecting: it replaces the arcade original's continuous ballistics and wall bounces with **discrete landing points**, preserving the "where should this shot go" puzzle feel at a very low implementation cost.
+
+## Behavior Loop
+
+1. **Read the board**: scan grid gaps and color distribution, then check the current bubble and the next-bubble preview — together they decide the target column.
+2. **Aim**: press and drag inside the grid area to bring up the dotted aim guide; the angle is clamped to +/-80 degrees.
+3. **Shoot**: release to fire. The bubble does not fly as a continuous physics body; the angle maps to a target column and the bubble attaches directly below the lowest bubble there. An empty column attaches to the ceiling.
+4. **Pop settlement**: the new bubble runs an 8-way connectivity check against its neighbors; any same-color cluster of 3 or more pops as a whole, 10 points per bubble.
+5. **Cascade drop**: after a pop, an anchoring scan from the top row drops every bubble that lost its connection to the ceiling, 20 points each — the score multiplier of a single shot.
+6. **Ceiling pressure**: when the shot counter hits 10, the ceiling pushes down one row and refills with a random row. Bottom-out or a full column loses; clearing the grid settles the run as a win.
+7. **Result screen**: shows the final score, with Restart for another run and Menu to go back.
+
+## Primitive Annotations
+
+- `Aim(angle)` – press-drag adjusts the aim angle, updating the guide line in real time
+- `Shoot(angle)` – release fires the current bubble
+- `Attach(row, col, color)` – the bubble mounts into the grid by column
+- `Match(min=3)` – 8-way flood fill finds same-color clusters
+- `Eliminate(cells)` – pop and score (10 points per bubble)
+- `Cascade()` – top-row BFS anchoring; unanchored bubbles drop together (20 points per bubble)
+- `Advance(every=10)` – the ceiling drops one row every 10 shots
+- `CheckEnd()` – three-way endgame check: bottom-out / column full / grid cleared
+
+## Parameter Cheat Sheet
+
+| Parameter | Meaning | Default | Unit |
+|------|------|--------|------|
+| `gridRows` | total grid rows | 14 | rows |
+| `gridCols` | grid columns | 8 | cols |
+| `initialRows` | pre-filled rows at start | 5 | rows |
+| `colorCount` | bubble colors (blue/green/red) | 3 | colors |
+| `matchMin` | minimum connected cluster to pop | 3 | bubbles |
+| `popScore` | score per popped bubble | 10 | pts |
+| `cascadeScore` | score per floating drop | 20 | pts |
+| `advanceEvery` | ceiling drop interval | 10 | shots |
+| `aimRange` | aim angle range | +/-80 | degrees |
+| `canvasRect` | shooting interaction area (design coords) | 75,180 / 600x540 | px |
+
+## Design Trade-offs
+
+1. **Folding angle into columns**: continuous ballistics and wall bounces are hostile to one-handed touch play, and landing prediction easily becomes guesswork. Mapping +/-80 degrees directly onto 8 columns lets the player know the landing spot before firing — that is what makes the puzzle attribute (spatial) real. The cost is losing bounce trick shots; the gain is that every shot can be reviewed.
+2. **8-way instead of 4-way connectivity**: diagonals count as connected, which significantly raises match probability. For beginner difficulty this is right — newcomers pop clusters within their first few shots. With 4-way, the same board would feel noticeably stiffer.
+3. **Move-based instead of timer-based pressure**: one row per 10 shots translates countdown pressure into countable move pressure. The player can say exactly "how many shots I can still waste", and the cause of failure stays explainable — far better suited to puzzle players than a stopwatch.
+4. **Floating 20 pts > pop 10 pts**: the doubled reward is the most direct form of behavior guidance — cutting supports beats picking off stragglers. Players teach themselves to look for "the single cell holding the cluster together"; the entire skill depth hides in this one coefficient.
+5. **Three colors instead of four**: fewer colors means a higher expected match per shot and a faster pace; it also makes the "clear the grid" win genuinely reachable on a 14x8 board, giving experts a victory exit instead of only a slower death.
+
+## Implementation Notes
+
+- **All rules live in the module**: `core/bubble-shooter` owns the grid, attachment, matching, cascades, ceiling advances and endgame checks, exposing only three actions — `reset / setAim / shoot`. The blueprint LogicGraph contains nothing but onEnter reset and onEvent(aim/shoot) calls; no scattered branch logic.
+- **Rendering is a template, not custom code**: the visuals come from the grid-shooter template of `core/scene-renderer` (staggered rows, aim guide, pop fade-out, danger line). `__OV.Games.BubbleShooter.Game` is just a thin wrapper registering the drawer — reskinning never touches the render layer.
+- **The right way to detect floating bubbles**: after each pop, BFS from every bubble in the top row to mark anchored ones; everything unmarked is floating and drops in one batch. Recursively asking "am I still hanging" bubble by bubble is slow and leaky in cascade scenarios.
+- **Check overflow before advancing**: before pushing rows down, check whether the bottom row already holds bubbles; if so, emit `game.over` directly instead of shoving bubbles out of the grid.
+- **Event names are the contract**: the skin buttons' `game.start / game.restart / game.menu` are character-identical to the state machine's transition events, so clicks need no glue code; `bubble.aim / bubble.shoot` are emitted by pointer events and carry a single angle.
+- **Audio follows events**: launch, attach, pop, cascade and game-over each bind one SFX, so audio timing aligns with rule events by construction — no state polling in the presentation layer.
+
+"Discrete landing points + 8-way matching + move-based ceiling pressure" is the minimal recipe for turning an arcade bubble shooter into a mobile puzzle match-3. Every parameter and judgment in this article can be verified in the demo below — it is the exact build this case study analyzes.

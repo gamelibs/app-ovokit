@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "ovoui-skin@1",
+  "name": "menu_skin",
+  "canvas": {
+    "width": 750,
+    "height": 1334
+  },
+  "root": {
+    "id": "root",
+    "type": "container",
+    "x": 0,
+    "y": 0,
+    "w": 750,
+    "h": 1334,
+    "style": {
+      "fill": "#0f172a"
+    },
+    "children": [
+      {
+        "id": "title",
+        "type": "text",
+        "x": 75,
+        "y": 300,
+        "w": 600,
+        "h": 72,
+        "text": "Stream Runner",
+        "style": {
+          "fontSize": 52,
+          "fill": "#ffffff",
+          "align": "center",
+          "fontWeight": "bold"
+        }
+      },
+      {
+        "id": "start_btn",
+        "type": "button",
+        "x": 225,
+        "y": 600,
+        "w": 300,
+        "h": 80,
+        "text": "Start Game",
+        "event": "game.start",
+        "targetState": "gameplay",
+        "style": {
+          "fontSize": 28,
+          "color": "#ffffff",
+          "backgroundColor": "#0ea5e9",
+          "borderRadius": 12,
+          "align": "center"
+        }
+      },
+      {
+        "id": "high_score_display",
+        "type": "text",
+        "x": 175,
+        "y": 740,
+        "w": 400,
+        "h": 40,
+        "text": "High Score: {{highScore}}",
+        "style": {
+          "fontSize": 24,
+          "fill": "#ffffff",
+          "align": "center"
+        }
+      }
+    ]
+  }
+}

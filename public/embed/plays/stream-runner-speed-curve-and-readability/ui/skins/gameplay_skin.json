@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "ovoui-skin@1",
+  "name": "gameplay_skin",
+  "canvas": {
+    "width": 750,
+    "height": 1334
+  },
+  "root": {
+    "id": "root",
+    "type": "container",
+    "x": 0,
+    "y": 0,
+    "w": 750,
+    "h": 1334,
+    "style": {
+      "fill": "#0f172a"
+    },
+    "children": [
+      {
+        "id": "score_display",
+        "type": "text",
+        "x": 20,
+        "y": 40,
+        "w": 220,
+        "h": 40,
+        "text": "Score: {{runnerScore}}",
+        "style": {
+          "fontSize": 24,
+          "fill": "#ffffff",
+          "align": "left"
+        }
+      },
+      {
+        "id": "distance_display",
+        "type": "text",
+        "x": 265,
+        "y": 40,
+        "w": 220,
+        "h": 40,
+        "text": "Dist: {{runnerDistance}}",
+        "style": {
+          "fontSize": 24,
+          "fill": "#ffffff",
+          "align": "center"
+        }
+      },
+      {
+        "id": "lives_display",
+        "type": "text",
+        "x": 510,
+        "y": 40,
+        "w": 220,
+        "h": 40,
+        "text": "Lives: {{runnerLives}}",
+        "style": {
+          "fontSize": 24,
+          "fill": "#ffffff",
+          "align": "right"
+        }
+      },
+      {
+        "id": "jump_btn",
+        "type": "button",
+        "x": 50,
+        "y": 1100,
+        "w": 320,
+        "h": 100,
+        "text": "JUMP",
+        "event": "player.jump",
+        "style": {
+          "fontSize": 28,
+          "color": "#ffffff",
+          "backgroundColor": "#22c55e",
+          "borderRadius": 12,
+          "align": "center"
+        }
+      },
+      {
+        "id": "slide_btn",
+        "type": "button",
+        "x": 380,
+        "y": 1100,
+        "w": 320,
+        "h": 100,
+        "text": "SLIDE",
+        "event": "player.slide",
+        "style": {
+          "fontSize": 28,
+          "color": "#ffffff",
+          "backgroundColor": "#f59e0b",
+          "borderRadius": 12,
+          "align": "center"
+        }
+      }
+    ]
+  }
+}

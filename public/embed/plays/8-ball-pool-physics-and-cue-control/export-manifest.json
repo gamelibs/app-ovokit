@@ -1,0 +1,25 @@
+{
+  "version": "static-demo-export-v1",
+  "projectId": "cp_1019_10137_job_1782009366181_ogxgqh",
+  "engine": "other",
+  "exportedAt": "2026-09-30T12:26:43.131Z",
+  "gameModules": [
+    "common-ui",
+    "8-ball/pool-model",
+    "__OV.Games.EightBallPool.Game"
+  ],
+  "files": {
+    "indexHtml": "index.html",
+    "kernelFiles": 24,
+    "moduleFiles": [
+      "modules/common-ui.js",
+      "modules/8-ball/pool-model.js",
+      "modules/__OV.Games.EightBallPool.Game.js"
+    ],
+    "copiedDirs": [
+      "ui",
+      "resources"
+    ],
+    "resources": 25
+  }
+}

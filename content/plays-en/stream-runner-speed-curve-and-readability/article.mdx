@@ -1,0 +1,52 @@
+# Stream Runner: Difficulty as a Speed Curve, UI Reduced to Two Buttons
+
+## Essence in One Sentence
+Stream Runner is a minimalist auto-runner (Runner archetype with a Dodge / Avoid core): the character rolls forward on its own, and the player's only tools are JUMP and SLIDE to dodge randomly spawned air and ground obstacles. Your score is exactly your distance, and three crashes end the run. Difficulty is driven entirely by a single linear speed curve, while readability is guaranteed by a strict one-obstacle-one-button mapping.
+
+## Behavior Loop
+1. **Start**: tap Start Game on the menu; score and state reset, and the `core/runner` module starts.
+2. **Auto-move**: speed starts at 10 units/s and ramps +0.5 per second linearly; score and distance accumulate together (1 unit = 1 point).
+3. **Read the obstacle**: obstacles spawn randomly — 50% ground, 50% air.
+4. **React**: SLIDE for ground obstacles, JUMP for air ones; each action opens a 0.6-second dodge window of the matching type.
+5. **Take the consequence**: failing to dodge inside the window costs 1 of 3 lives and broadcasts a `runner.crash` event.
+6. **Settle**: the third crash triggers the result state, showing the final score and updating the high score; Play Again starts a new run immediately.
+
+Measured hands-off, one run lasts about 6 seconds and scores around 65 — a textbook "ten seconds per round" ultra-short loop. Try it yourself in the playable demo at the end of this article.
+
+## Primitive Annotations
+- `AutoMove(speed(t))` – continuous forward motion with a linearly ramping speed
+- `SpawnObstacle(interval(t))` – obstacle spawns on a shrinking interval
+- `Jump(window)` / `Slide(window)` – open a 0.6s type-matched dodge window
+- `Crash(type, lives)` – failed dodge: lose a life and broadcast the event
+- `Finish(reason)` – settle the run when lives deplete (or the time cap is reached)
+- `UpdateHighScore()` – compare and write back the high score at settlement
+
+## Parameter Cheat Sheet
+
+| Parameter | Meaning | Effective Value | Unit |
+|-----------|---------|-----------------|------|
+| `runnerSpeed` | Base speed | 10 | units/s |
+| Speed ramp | Acceleration per second | +0.5 | units/s² |
+| `obstacleInterval` | Initial spawn interval | 2 | s |
+| Interval shrink | Reduction per second | 0.05 | s |
+| Interval floor | Minimum spawn interval | 0.8 | s |
+| `jumpDuration` / `slideDuration` | Dodge window | 0.6 | s |
+| `runnerLives` | Lives | 3 | count |
+| `gameDuration` | Time cap (fallback; rarely reached) | 60 | s |
+
+## Design Trade-offs
+1. **The collection economy is cut entirely**: the original game is a Three.js 3D stream-rolling ball with two tiers of collectibles (droplets +10, stars +50). The rebuild removes all of it and keeps only dodging. The payoff: score equals distance with zero explanation, and the speed curve becomes the single difficulty knob — tune one number, tune the whole game.
+2. **A binary decision mapping**: ground → SLIDE, air → JUMP. Every obstacle maps to exactly one button, and the button label is the action name. No tutorial is needed, and failure attribution is unambiguous — a crash means you pressed wrong or didn't press, so players own their mistakes.
+3. **Window 0.6s < interval floor 0.8s**: even at maximum speed and obstacle density, only one obstacle is ever in play at a time. There is no such thing as an unfair barrage — a hard guarantee of readability at high speed.
+4. **Two stacked curves**: the linear speed ramp (+0.5/s) shrinks the reaction-time budget while the shrinking spawn interval (-0.05/s, floored at 0.8s) raises action density. Together they tighten pressure, but both slopes are gentle enough that the first few seconds play like a tutorial.
+5. **Three lives**: the first two crashes are free lessons; only the third settles the run. Failure tolerance manufactures the "so close" regret that fuels one more run.
+
+## Implementation Notes
+- **Module split**: `common-ui` binds and forwards skin button events; `core/runner` carries all gameplay logic (movement / spawning / collision / scoring), exposing five actions — start, jump, slide, setSpeed, reset — plus the `runner.crash` and `runner.finish` events.
+- **LogicGraph orchestration**: on entering gameplay, data is zeroed and `runner.start` is called; `player.jump` / `player.slide` events forward directly to module actions; `runner.finish` writes back score/distance, sets gameOver, and emits `game.over` to transition into the result state.
+- **Time-unit conversion**: v2-kernel's update callback passes milliseconds; the module divides by 1000 and integrates speed and distance in seconds.
+- **Fully data-key driven parameters**: runnerSpeed / obstacleInterval / jumpDuration / slideDuration / gameDuration / runnerLives are all read via `ctx.data`, so live tuning never touches code.
+- **Presentation layer**: a 750×1334 portrait canvas with PIXI rendering the skin layer; a one-line HUD of three text slots (Score / Dist / Lives) on top, and two large 320×100 buttons at the bottom inside the thumb zone.
+- **Known limitations of this build**: skin text `{{key}}` placeholders render literally (HUD numbers do not tick; data binding awaits kernel support), and initial values declared in the blueprint dataGraph (e.g. runnerSpeed=30) are not injected at runtime — the module fallbacks (10) are what actually take effect.
+
+These trade-offs make Stream Runner a minimal specimen for studying "speed curve + readability" design: the mechanics fit in a single table, yet every parameter directly shapes game feel. Tap Start Game in the demo below and see how far three lives take you.

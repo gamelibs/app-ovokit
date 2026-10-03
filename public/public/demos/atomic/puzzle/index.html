@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="icon" href="data:,">
+<title>Puzzle · Lights Out Lab | OVO Atomic Demo</title>
+</head>
+<body>
+<script src="../core.js"></script>
+<script>
+// 解谜母型原子 demo（Lights Out 反转灯阵 4×4）：行为原语 = choose + compare
+// 教学点（对应 content/archetypes/puzzle/meta.json 的 demoLab 三组实验）：
+//   - 难度曲线对照：难度不是"藏更深的答案"，而是"更长的推理链"——扰动步数 = 从全灭态随机按 N 个不同格；
+//     Lights Out 操作可交换且自逆，这条序列本身就是一条长度为 N 的已知解。
+//     剩余解集 = 初始解集 ⊕ 已点集合（每点一格就 XOR 一次），因此提示永远能给出精确的必点格。
+//   - 提示成本实验：提示预算是有限资源，点「提示」高亮一个必点格——把放弃率换成资源消耗，
+//     结算时每剩 1 个提示 +10 分，用不用是决策点。
+//   - 试错验证实验：每次点击后立即显示「还差几盏灯」+ 上一步增减（推进/倒退/原地）——可验证反馈是解谜的最小规则。
+// 无定时器设计：提示高亮保持到下一次点击，通知按 game.time 过期，reset 后无任何残留竞态。
+var STATS = { solved: 0, failed: 0, hints: 0 };   // 跨局战绩（reset 不清）
+AtomCore.create({
+  title: AtomCore.L('解谜 · 反转灯阵（Lights Out）', 'Puzzle · Lights Out'),
+  objective: AtomCore.L(
+    '点击一格会十字翻转它与邻格，让灯全部熄灭。难度 = 更长的推理链（扰动步数），提示 = 花预算换一个必点格——每一步都诚实告诉你还差几盏、是推进还是倒退。',
+    'Click a cell to cross-flip it and its neighbors; turn every light off. Difficulty = a longer reasoning chain (scramble steps); hints = spending a budget to reveal a sure cell — every move honestly reports how many lights remain and whether you advanced or regressed.'
+  ),
+  lives: 0,
+  seedable: true,
+  params: [
+    { key: 'scramble', label: AtomCore.L('扰动步数（= 推理链长）', 'Scramble Steps (= reasoning chain)'), min: 2, max: 14, step: 1, default: 5, unit: '' },
+    { key: 'hints', label: AtomCore.L('提示预算（高亮一个必点格）', 'Hint Budget (highlights a sure cell)'), min: 0, max: 5, step: 1, default: 2, unit: '' }
+  ],
+  toggles: [
+    { key: 'fixedSeed', label: '固定棋盘（可复盘对照）', labelEn: 'Fixed board (replayable)', seedable: true, default: false }
+  ],
+  hudExtra: function (g) {
+    var d = g.data;
+    if (d.moves == null) return '';
+    return AtomCore.L('步数 <b>', 'Moves <b>') + d.moves + '/' + d.maxMoves + '</b> · ' +
+      AtomCore.L('提示 <b>×', 'Hints <b>×') + d.hintsLeft + '</b> · ' +
+      AtomCore.L('战绩 <b>', 'Record <b>') + STATS.solved + AtomCore.L(' 胜 ', 'W ') + STATS.failed + AtomCore.L(' 负</b>', 'L</b>');
+  },
+  onParam: function (g) {
+    if (g.state !== 'playing') this.setup(g);   // 非对局中调参：即时重摆预览盘
+  },
+  setup: function (g) {
+    var d = g.data, n = g.params.scramble | 0;
+    d.moves = 0;
+    d.maxMoves = n * 2 + 8;             // 步数预算：够解 + 允许犯错；用完即败（能赢能输）
+    d.hintsLeft = g.params.hints | 0;
+    d.hintIdx = null;                   // 提示高亮格（保持到下一次点击，无定时器）
+    d.lastIdx = null;
+    d.lastDelta = null;                 // 上一步净灭灯数：>0 推进 / <0 倒退 / 0 原地
+    d.hover = null;
+    d.notice = ''; d.noticeT = -1;
+    // 从全灭态随机按 n 个不同格 ⇒ 局面必可解（解 = 同一组格）。4×4 存在"静 pattern"
+    // （按若干格后仍全灭），撞到就重摇，保证开局必有灯亮。
+    var tries = 0;
+    do {
+      var pool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+      for (var i = pool.length - 1; i > 0; i--) {
+        var j = Math.floor(g.rand(0, i + 1));
+        var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+      }
+      d.board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  // 1=亮 0=灭
+      d.solution = {};                                             // 剩余解集（idx→true）
+      for (var k = 0; k < n; k++) {
+        this.applyFlip(d, pool[k]);
+        d.solution[pool[k]] = true;
+      }
+      this.recount(d);
+    } while (d.lit === 0 && ++tries < 30);
+  },
+  applyFlip: function (d, idx) {        // 十字翻转：自身 + 四邻
+    var r = (idx / 4) | 0, c = idx % 4;
+    var offs = [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]];
+    for (var i = 0; i < offs.length; i++) {
+      var rr = r + offs[i][0], cc = c + offs[i][1];
+      if (rr < 0 || rr > 3 || cc < 0 || cc > 3) continue;
+      var j = rr * 4 + cc;
+      d.board[j] = d.board[j] ? 0 : 1;
+    }
+  },
+  recount: function (d) {
+    var n = 0;
+    for (var i = 0; i < 16; i++) if (d.board[i]) n++;
+    d.lit = n;                          // 可验证反馈的唯一事实源：还剩几盏灯
+  },
+  liveScore: function (g) {             // 每步代价可见：50 + 10×链长 − 2×已用步数
+    return Math.max(0, 50 + 10 * (g.params.scramble | 0) - 2 * g.data.moves);
+  },
+  layout: function (g) {
+    var s = Math.min((g.W - 64) / 4, g.H * 0.09, 88);
+    var x0 = (g.W - s * 4) / 2, y0 = g.H * 0.16;
+    var bw = 190, bh = 48;              // 触控目标 ≥44px
+    return { s: s, x0: x0, y0: y0, btn: { x: (g.W - bw) / 2, y: y0 + s * 4 + 30, w: bw, h: bh } };
+  },
+  onPointer: function (g, p) {
+    var d = g.data;
+    if (!d.board) return;
+    var L = this.layout(g);
+    if (p.type === 'move') {            // 悬停预览：将要翻转的十字区域
+      var mc = Math.floor((p.x - L.x0) / L.s), mr = Math.floor((p.y - L.y0) / L.s);
+      d.hover = (mr >= 0 && mr < 4 && mc >= 0 && mc < 4) ? mr * 4 + mc : null;
+      return;
+    }
+    if (p.type !== 'down') return;
+    // 提示按钮：消耗预算，高亮剩余解集里的一格（必点格，数学上精确）
+    var b = L.btn;
+    if (p.x >= b.x && p.x <= b.x + b.w && p.y >= b.y && p.y <= b.y + b.h) {
+      if (d.hintsLeft > 0) {
+        var keys = [];
+        for (var k in d.solution) if (d.solution[k]) keys.push(+k);
+        if (keys.length) {
+          d.hintsLeft--; STATS.hints++;
+          d.hintIdx = keys[Math.floor(g.rand(0, keys.length))];
+          d.notice = AtomCore.L('高亮格是必点格——提示买回的是成就感', 'A sure move, highlighted — hints buy back the aha');
+        }
+      } else {
+        d.notice = AtomCore.L('提示预算已用完', 'Hint budget exhausted');
+      }
+      d.noticeT = g.time + 1.6;
+      return;
+    }
+    // 棋盘点击
+    var c = Math.floor((p.x - L.x0) / L.s), r = Math.floor((p.y - L.y0) / L.s);
+    if (r < 0 || r >= 4 || c < 0 || c >= 4) return;
+    var idx = r * 4 + c;
+    d.hover = null;
+    var before = d.lit;
+    this.applyFlip(d, idx);
+    this.recount(d);
+    d.moves++;
+    d.lastIdx = idx;
+    d.lastDelta = before - d.lit;
+    d.hintIdx = null;
+    d.solution[idx] = !d.solution[idx];   // 剩余解集 = 初始解集 ⊕ 已点集合
+    if (d.lit === 0) {                    // 全灭：胜。结算 = 剩余价值 + 每个未用提示 10 分
+      STATS.solved++;
+      g.setScore(this.liveScore(g) + 10 * d.hintsLeft);
+      g.endGame(true);
+    } else if (d.moves >= d.maxMoves) {   // 步数预算耗尽：败
+      STATS.failed++;
+      g.setScore(this.liveScore(g));
+      g.endGame(false);
+    } else {
+      g.setScore(this.liveScore(g));
+    }
+  },
+  draw: function (g, gg) {
+    var d = g.data, C = AtomCore.COLORS;
+    if (!d.board) return;
+    var L = this.layout(g), s = L.s, ctx = gg.ctx;
+    // —— 可验证反馈（教学核心）：还剩几盏 + 上一步是推进还是倒退 ——
+    gg.text(AtomCore.L('还差 ' + d.lit + ' 盏灯', d.lit + (d.lit === 1 ? ' light' : ' lights') + ' to go'),
+      g.W / 2, g.H * 0.065, 22, d.lit <= 3 ? '#d97706' : C.INK);
+    var sub, subColor;
+    if (d.lastDelta == null) { sub = AtomCore.L('点一格试试：它会十字翻转', 'Click a cell: it cross-flips'); subColor = '#888'; }
+    else if (d.lastDelta > 0) { sub = AtomCore.L('上一步 −' + d.lastDelta + ' 盏 · 在推进 ✓', 'Last move −' + d.lastDelta + ' · progress ✓'); subColor = '#3a9b3a'; }
+    else if (d.lastDelta < 0) { sub = AtomCore.L('上一步 +' + (-d.lastDelta) + ' 盏 · 在倒退 ✗', 'Last move +' + (-d.lastDelta) + ' · setback ✗'); subColor = '#c0392b'; }
+    else { sub = AtomCore.L('上一步 ±0 · 原地绕圈', 'Last move ±0 · circling'); subColor = '#888'; }
+    gg.text(sub, g.W / 2, g.H * 0.115, 14, subColor);
+    // 悬停十字预览（鼠标；触摸无 hover 不影响）
+    if (d.hover != null && g.state === 'playing') {
+      var hr = (d.hover / 4) | 0, hc = d.hover % 4;
+      var offs = [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]];
+      ctx.fillStyle = 'rgba(255,218,106,0.28)';
+      for (var i = 0; i < offs.length; i++) {
+        var rr = hr + offs[i][0], cc = hc + offs[i][1];
+        if (rr < 0 || rr > 3 || cc < 0 || cc > 3) continue;
+        ctx.fillRect(L.x0 + cc * s + 2, L.y0 + rr * s + 2, s - 4, s - 4);
+      }
+    }
+    // 灯阵：亮 = 黄芯暖底，灭 = 空圈 + 灯芯点
+    for (var r = 0; r < 4; r++) {
+      for (var c = 0; c < 4; c++) {
+        var idx = r * 4 + c;
+        var x = L.x0 + c * s, y = L.y0 + r * s;
+        var on = d.board[idx] === 1;
+        gg.rect(x + 3, y + 3, s - 6, s - 6, on ? 'rgba(255,218,106,0.45)' : null, 1.5);
+        gg.circle(x + s / 2, y + s / 2, s * 0.3, on ? C.YELLOW : null, on ? 3 : 2);
+        if (!on) gg.circle(x + s / 2, y + s / 2, s * 0.1, null, 1);
+      }
+    }
+    // 提示高亮：蓝色呼吸粗圈（time 驱动，非定时器）
+    if (d.hintIdx != null) {
+      var hx = L.x0 + (d.hintIdx % 4) * s + s / 2, hy = L.y0 + ((d.hintIdx / 4) | 0) * s + s / 2;
+      var pulse = 1 + 0.12 * Math.sin(g.time * 6);
+      ctx.save(); ctx.strokeStyle = C.BLUE; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.arc(hx, hy, s * 0.42 * pulse, 0, Math.PI * 2); ctx.stroke();
+      ctx.restore();
+    }
+    // 上一步落点：墨点标记
+    if (d.lastIdx != null) {
+      gg.circle(L.x0 + (d.lastIdx % 4) * s + s - 10, L.y0 + ((d.lastIdx / 4) | 0) * s + 10, 3.5, C.INK, 1);
+    }
+    // 提示按钮
+    var b = L.btn;
+    gg.rect(b.x, b.y, b.w, b.h, d.hintsLeft > 0 ? C.YELLOW : '#e8e2d2', 2.5);
+    gg.text(AtomCore.L('提示（剩 ' + d.hintsLeft + '）', 'Hint (' + d.hintsLeft + ' left)'),
+      b.x + b.w / 2, b.y + b.h / 2, 17, d.hintsLeft > 0 ? C.INK : '#999');
+    if (d.notice && g.time < d.noticeT) {
+      gg.text(d.notice, g.W / 2, b.y + b.h + 26, 13, '#d97706');
+    }
+    // 底注：一句话规则
+    gg.text(AtomCore.L('点击＝十字翻转 · 全灭即胜 · 步数用完即败', 'Click = cross-flip · all out = win · out of moves = lose'),
+      g.W / 2, g.H - 18, 13, '#888');
+  }
+});
+</script>
+</body>
+</html>

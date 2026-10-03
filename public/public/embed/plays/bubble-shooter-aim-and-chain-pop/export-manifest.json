@@ -1,0 +1,27 @@
+{
+  "version": "static-demo-export-v1",
+  "projectId": "cp_1019_10019_bubble_shooter_v1",
+  "engine": "other",
+  "exportedAt": "2026-09-30T12:18:38.528Z",
+  "gameModules": [
+    "common-ui",
+    "core/bubble-shooter",
+    "core/scene-renderer",
+    "__OV.Games.BubbleShooter.Game"
+  ],
+  "files": {
+    "indexHtml": "index.html",
+    "kernelFiles": 24,
+    "moduleFiles": [
+      "modules/common-ui.js",
+      "modules/core/bubble-shooter.js",
+      "modules/core/scene-renderer.js",
+      "modules/__OV.Games.BubbleShooter.Game.js"
+    ],
+    "copiedDirs": [
+      "ui",
+      "resources"
+    ],
+    "resources": 16
+  }
+}
