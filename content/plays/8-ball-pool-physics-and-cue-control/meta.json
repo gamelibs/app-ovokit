@@ -7,7 +7,7 @@
   "tags": [
     "物理",
     "射击",
-    "空间规划"
+    "解谜"
   ],
   "lang": "zh-CN",
   "difficulty": "进阶",
@@ -15,7 +15,12 @@
     "PIXI",
     "v2-kernel"
   ],
-  "corePoints": [],
+  "corePoints": [
+    "拖拽距离直接映射 0-18 档力度，无蓄力条零等待",
+    "全停统一结算：球停稳后才判犯规、定归属、分胜负",
+    "犯规三态换手自由球，维持回合公平",
+    "AI 瞄准带随机误差，对局有来有回"
+  ],
   "stats": {
     "views": 0,
     "likes": 0
@@ -49,7 +54,18 @@
       ]
     }
   ],
-  "codeSnippets": [],
+  "codeSnippets": [
+    {
+      "title": "拖拽力度折叠成击球速度（8-ball/pool-model）",
+      "language": "js",
+      "code": "takeShot(_payload) {\n  const angle = getNumber(\"aimAngle\", 0);\n  const power = getNumber(\"power\", 0);   // 拖拽距离已映射为 0-18 档\n  const balls = getBalls();\n  const cue = balls.find((b) => b.id === 0);\n  if (!cue || cue.pocketed) return;\n  const speed = power * 180;\n  cue.vx = Math.cos(angle) * speed;\n  cue.vy = Math.sin(angle) * speed;\n  setBalls(balls);\n  ctx.data.set(\"ballsMoving\", true);\n  ctx.data.set(\"shotInProgress\", true);\n  events()?.emit(\"shot.taken\", { angle, power, speed });\n}\n"
+    },
+    {
+      "title": "球-球碰撞：先分离重叠再加法向冲量（8-ball/pool-model）",
+      "language": "js",
+      "code": "const dx = b.x - a.x;\nconst dy = b.y - a.y;\nconst dist = Math.hypot(dx, dy);\nconst minDist = a.radius + b.radius;\nif (dist < minDist && dist > 0) {\n  const nx = dx / dist;\n  const ny = dy / dist;\n  const overlap = (minDist - dist) / 2;   // 先把两球分离到刚好相切\n  a.x -= nx * overlap;\n  a.y -= ny * overlap;\n  b.x += nx * overlap;\n  b.y += ny * overlap;\n  const dvx = a.vx - b.vx;\n  const dvy = a.vy - b.vy;\n  const velAlongNormal = dvx * nx + dvy * ny;\n  if (velAlongNormal > 0) continue;       // 已在分离，不再加冲量\n  const impulse = -(1 + RESTITUTION) * velAlongNormal / 2;\n  a.vx += impulse * nx;\n  a.vy += impulse * ny;\n  b.vx -= impulse * nx;\n  b.vy -= impulse * ny;\n}\n"
+    }
+  ],
   "published": true,
   "demo": {
     "iframeSrc": "/embed/plays/8-ball-pool-physics-and-cue-control/index.html",

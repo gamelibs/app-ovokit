@@ -1,7 +1,7 @@
 {
   "slug": "choice-strategy-three-card-climb-lab",
   "title": "Three-Card Climb Lab: A Choice/Strategy Playground Where the Choice Space Is a Dial",
-  "subtitle": "Pick 1 card per round (attack/shield/economy); your stacked stats auto-resolve against a guardian that grows every round — survive 12 rounds to win. Cards-per-round and enemy growth slope are exposed as sliders, so you can feel that the size of the choice space IS the difficulty knob.",
+  "subtitle": "Pick 1 card per round; your stats auto-resolve against a guardian that grows each round. Sliders expose the choice space itself as the difficulty dial.",
   "cover": {
     "src": "/plays/choice-strategy-three-card-climb-lab/cover.svg",
     "alt": "Three-Card Climb Lab: A Choice/Strategy Playground Where the Choice Space Is a Dial"
@@ -13,8 +13,8 @@
   "archetype": "choice-strategy",
   "archetypeSecondary": "progression",
   "tags": [
-    "策略决策",
-    "成长 / 数值"
+    "Choice / Strategy",
+    "Growth / Numbers"
   ],
   "lang": "en",
   "difficulty": "Advanced",

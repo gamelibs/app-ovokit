@@ -1,7 +1,7 @@
 {
   "slug": "penalty-kick-aim-timing-and-pressure",
   "title": "Penalty Kick: One Shot, Two Inputs, Five Rounds of Mounting Pressure",
-  "subtitle": "A rebuild of Penalty World Cup 2026 as a minimal shoot-aim loop: aim parameters feed a probability model, every miss scores for the keeper, and a five-round sprint decides the match. Fully playable demo at the end.",
+  "subtitle": "A minimal penalty shootout: angle and power feed a probability model, every miss scores for the keeper, and a five-round sprint decides the match.",
   "archetype": "shoot-aim",
   "archetypeSecondary": "timing",
   "tags": [
@@ -16,7 +16,12 @@
     "PIXI",
     "v2-kernel"
   ],
-  "corePoints": [],
+  "corePoints": [
+    "Analytic probability instead of frame-by-frame ballistics: resolved in one frame, frame-rate independent",
+    "Five one-sided rounds: a miss scores for the keeper, so every kick carries more weight",
+    "The probability curve punishes both extremes; the optimum is medium-high power with a small angle",
+    "Presentation left blank on purpose: the state machine and settlement chain ship first"
+  ],
   "stats": {
     "views": 0,
     "likes": 0
@@ -49,7 +54,13 @@
       ]
     }
   ],
-  "codeSnippets": [],
+  "codeSnippets": [
+    {
+      "title": "Analytic shot-resolution model (penalty/physics-engine)",
+      "language": "js",
+      "code": "function computeShotResult(angle, power) {\n  const normalizedPower = power / 100;\n  const absAngle = Math.abs(angle);\n  const angleDifficulty = absAngle / 45;\n  let goalProbability = 0.7 * (1 - angleDifficulty * 0.5) * normalizedPower;\n  if (normalizedPower < 0.3) {\n    goalProbability *= normalizedPower / 0.3;   // too-soft shots get discounted further\n  } else if (normalizedPower > 0.9) {\n    goalProbability *= 0.85;                    // so do full-power blasts\n  }\n  goalProbability = Math.max(0.1, Math.min(0.9, goalProbability));\n  const random = Math.random();\n  if (random < goalProbability * 0.6) {\n    return \"goal\";\n  } else if (random < goalProbability * 0.6 + 0.25) {\n    return \"save\";\n  } else {\n    return \"miss\";\n  }\n}\n"
+    }
+  ],
   "published": true,
   "demo": {
     "iframeSrc": "/embed/plays/penalty-kick-aim-timing-and-pressure/index.html",

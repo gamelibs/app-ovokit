@@ -54,7 +54,7 @@
     }
   ],
   "demo": {
-    "iframeSrc": "/embed/plays/merge-level-core-loop",
+    "iframeSrc": "/demos/atomic/merge-unit/index.html",
     "note": "最小可交互：2 合 1 合成链（用于演示表驱动规则与合成节奏）。"
   },
   "cover": {

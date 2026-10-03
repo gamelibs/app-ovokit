@@ -45,7 +45,7 @@
     }
   ],
   "demo": {
-    "iframeSrc": "/embed/plays/finite-state-machine-for-combat",
+    "iframeSrc": "/demos/atomic/combat/index.html",
     "note": "最小可交互：事件驱动的战斗 FSM（用于演示状态切换与可测试转移）。"
   },
   "cover": {

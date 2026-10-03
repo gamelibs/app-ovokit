@@ -7,7 +7,7 @@
   "tags": [
     "射击",
     "时机 / 反应",
-    "动作反应"
+    "动作"
   ],
   "lang": "zh-CN",
   "difficulty": "入门",
@@ -16,7 +16,12 @@
     "PIXI",
     "v2-kernel"
   ],
-  "corePoints": [],
+  "corePoints": [
+    "解析概率结算替代逐帧弹道：一帧出结果，与帧率无关",
+    "5 轮单边射门：未进=守门员得分，每脚心理权重被放大",
+    "概率曲线两端惩罚：最优解落在中等偏大力度、小角度",
+    "表现层留白，先把状态机与结算链路跑通"
+  ],
   "stats": {
     "views": 0,
     "likes": 0
@@ -49,7 +54,13 @@
       ]
     }
   ],
-  "codeSnippets": [],
+  "codeSnippets": [
+    {
+      "title": "解析概率结算模型（penalty/physics-engine）",
+      "language": "js",
+      "code": "function computeShotResult(angle, power) {\n  const normalizedPower = power / 100;\n  const absAngle = Math.abs(angle);\n  const angleDifficulty = absAngle / 45;\n  let goalProbability = 0.7 * (1 - angleDifficulty * 0.5) * normalizedPower;\n  if (normalizedPower < 0.3) {\n    goalProbability *= normalizedPower / 0.3;   // 力度过轻再打折\n  } else if (normalizedPower > 0.9) {\n    goalProbability *= 0.85;                    // 爆射也打折\n  }\n  goalProbability = Math.max(0.1, Math.min(0.9, goalProbability));\n  const random = Math.random();\n  if (random < goalProbability * 0.6) {\n    return \"goal\";\n  } else if (random < goalProbability * 0.6 + 0.25) {\n    return \"save\";\n  } else {\n    return \"miss\";\n  }\n}\n"
+    }
+  ],
   "published": true,
   "demo": {
     "iframeSrc": "/embed/plays/penalty-kick-aim-timing-and-pressure/index.html",

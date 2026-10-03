@@ -7,7 +7,7 @@
   "tags": [
     "射击",
     "解谜",
-    "空间规划"
+    "网格"
   ],
   "lang": "zh-CN",
   "difficulty": "入门",
@@ -15,7 +15,13 @@
     "PIXI",
     "v2-kernel"
   ],
-  "corePoints": [],
+  "corePoints": [
+    "角度折叠成列：±80° 映射 8 列，落点下发前即确定",
+    "八向连通提高匹配率，新手前几发即可消除",
+    "压顶按步数不按秒表：10 发一行，压力可计算",
+    "悬空 20 分 > 消除 10 分，引导打支撑点",
+    "三色盘面保节奏，清空胜利真实可达"
+  ],
   "stats": {
     "views": 0,
     "likes": 0
@@ -49,7 +55,18 @@
       ]
     }
   ],
-  "codeSnippets": [],
+  "codeSnippets": [
+    {
+      "title": "瞄准角折叠成列与挂靠落点（core/bubble-shooter）",
+      "language": "js",
+      "code": "// 瞄准角钳制在 ±80°，线性映射到 8 列之一\nfunction angleToCol(angle) {\n  const clamped = Math.max(-80, Math.min(80, angle));\n  const t = (clamped + 80) / 160;\n  return Math.min(COLS - 1, Math.floor(t * COLS));\n}\n// 挂在该列最低泡泡之下；空列顶到天花板，列满返回 null（判负）\nfunction findAttachCell(grid, col) {\n  for (let r = ROWS - 1; r >= 0; r--) {\n    if (grid[r][col]) {\n      if (r + 1 >= ROWS) return null;\n      return { row: r + 1, col };\n    }\n  }\n  return { row: 0, col };\n}\n"
+    },
+    {
+      "title": "悬空检测：顶行出发的八向 BFS（core/bubble-shooter）",
+      "language": "js",
+      "code": "function findFloating(grid) {\n  const anchored = new Set();\n  const queue = [];\n  for (let c = 0; c < COLS; c++) {          // 顶行泡泡是天然锚点\n    if (grid[0][c]) {\n      anchored.add(`0,${c}`);\n      queue.push([0, c]);\n    }\n  }\n  while (queue.length > 0) {                // 八向 BFS 标记所有锚定泡泡\n    const [r, c] = queue.shift();\n    for (const [nr, nc] of neighbors(r, c)) {\n      if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;\n      const key = `${nr},${nc}`;\n      if (anchored.has(key)) continue;\n      if (grid[nr][nc]) {\n        anchored.add(key);\n        queue.push([nr, nc]);\n      }\n    }\n  }\n  // 未被锚定的泡泡即悬空：整片下落、每颗 20 分\n}\n"
+    }
+  ],
   "published": true,
   "demo": {
     "iframeSrc": "/embed/plays/bubble-shooter-aim-and-chain-pop/index.html",
