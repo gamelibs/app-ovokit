@@ -8,7 +8,7 @@ import { useFavorites } from "./FavoritesProvider";
 import { FavoriteCard } from "./FavoriteCard";
 import { PlayCard } from "@/components/plays/PlayCard";
 
-export function FavoritesPageClient({ plays }: { plays: PlayMeta[] }) {
+export function FavoritesPageClient({ plays, entityTitles }: { plays: PlayMeta[]; entityTitles?: Record<string, string> }) {
   const t = useTranslations("favorites");
   const { favorites } = useFavorites();
 
@@ -47,7 +47,11 @@ export function FavoritesPageClient({ plays }: { plays: PlayMeta[] }) {
           play ? (
             <PlayCard key={`${item.type}:${item.key}`} play={play} />
           ) : (
-            <FavoriteCard key={`${item.type}:${item.key}`} item={item} />
+            <FavoriteCard
+              key={`${item.type}:${item.key}`}
+              item={item}
+              resolvedTitle={entityTitles?.[`${item.type}:${item.key}`]}
+            />
           ),
         )}
       </div>

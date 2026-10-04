@@ -26,7 +26,7 @@ const TYPE_LABEL_KEYS = {
   feature: "typeFeature",
 } as const;
 
-export function FavoriteCard({ item }: { item: FavoriteItem }) {
+export function FavoriteCard({ item, resolvedTitle }: { item: FavoriteItem; resolvedTitle?: string }) {
   const t = useTranslations("favorites");
   const tFav = useTranslations("favorite");
   const { removeFavorite } = useFavorites();
@@ -39,7 +39,7 @@ export function FavoriteCard({ item }: { item: FavoriteItem }) {
         </div>
         <h3 className="font-kalam mt-0.5 text-base font-semibold text-ink">
           <Link href={itemHref(item)} className="hover:underline">
-            {item.title}
+            {resolvedTitle ?? item.title}
           </Link>
         </h3>
       </div>
