@@ -63,6 +63,10 @@ export async function generateMetadata({
       languages: {
         "zh-CN": `/play/${slug}`,
         en: `/en/play/${slug}`,
+        ja: `/ja/play/${slug}`,
+        ko: `/ko/play/${slug}`,
+        es: `/es/play/${slug}`,
+        pt: `/pt/play/${slug}`,
         "x-default": `/play/${slug}`,
       },
     },

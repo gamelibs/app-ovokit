@@ -27,6 +27,10 @@ export async function generateMetadata({
       languages: {
         "zh-CN": "/",
         en: "/en",
+        ja: "/ja",
+        ko: "/ko",
+        es: "/es",
+        pt: "/pt",
         "x-default": "/",
       },
     },

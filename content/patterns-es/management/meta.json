@@ -1,0 +1,72 @@
+{
+  "key": "management",
+  "lang": "es",
+  "name": "Gestión / Simulación",
+  "nameEn": "Management / Simulation",
+  "subtitle": "Construir → Producir → Consumir → Expandir",
+  "concept": "El modo de gestión se centra en producir, convertir, consumir y expandir recursos. El jugador expande su «imperio» construyendo instalaciones, configurando líneas de producción y gestionando inventario y demanda. La diversión viene de optimizar la eficiencia del sistema —producir más valor con menos recursos y menos tiempo— y de ver crecer la escala. El diseño debe prestar especial atención al bucle cerrado económico: las fuentes de ingreso, las cadenas de conversión y los sumideros de consumo deben existir todos simultáneamente; una economía sin sumideros inevitablemente se infla. La longitud de la cadena de producción es un compromiso central: las cadenas cortas reducen la espera pero aumentan el consumo de recursos por unidad, elevando los costes de expansión; las cadenas largas dan más puntos de decisión, profundizando la estrategia, pero pueden cansar al jugador con esperas y gestión de detalles. Otro compromiso clave es la automatización frente al control del jugador: la automatización excesiva libera al jugador de tareas tediosas y mejora la planificación macro, pero si los puntos de decisión son escasos, el jugador puede sentirse desconectado; a la inversa, el control manual extremo potencia la sensación de dominio pero puede llevar a la fatiga de gestión. Una idea antiintuitiva es que añadir un número moderado de sumideros económicos a menudo aumenta la inversión del jugador. Los diseñadores temen que demasiados sumideros reduzcan la libertad, pero proporcionan metas y desafíos continuos que sostienen el interés a largo plazo. Una conclusión menos obvia es que la abundancia de recursos no siempre es negativa; en algunos contextos, los recursos abundantes permiten al jugador centrarse en la optimización y la innovación en lugar de limitarse a adquirir recursos.",
+  "role": "Este modo satisface los deseos de planificación, control y logro del jugador. Abstrae la lógica de negocio del mundo real en un sistema jugable, dejando al jugador experimentar el proceso de expansión «de cero a uno a cien» en un entorno de bajo riesgo. Los modos de gestión son a menudo el núcleo de juegos de ciclo largo y alta retención.",
+  "significance": "Dominar el modo de gestión significa entender flujos de recursos, análisis de cuellos de botella, equilibrio oferta-demanda y bucles de retroalimentación positiva. Es el mejor escenario para aprender dinámica de sistemas, simulación económica y diseño sandbox, y es clave para expandir mecánicas simples en experiencias profundas.",
+  "loop": "Building → Production → Economy → Growth",
+  "abstractions": [
+    "Edificios",
+    "Cadenas de producción",
+    "Economía",
+    "Expansión",
+    "Equilibrio oferta-demanda"
+  ],
+  "cases": [
+    "Hay Day",
+    "SimCity BuildIt",
+    "Gestión de restaurantes",
+    "Factorio"
+  ],
+  "problemsSolved": [
+    "Dividir las metas a largo plazo en planes de construcción por etapas manejables.",
+    "Crear decisiones significativas bajo restricciones de recursos.",
+    "Proporcionar una sensación de crecimiento sostenida mediante expansión y mejoras."
+  ],
+  "learningGoals": [
+    "Diseñar cadenas de producción, inventario y sistemas de consumo.",
+    "Dominar el equilibrio económico y controlar la inflación/deflación.",
+    "Mantener la sensación de meta a largo plazo con eventos, encargos y mejoras."
+  ],
+  "minimalRules": [
+    "El jugador puede construir o mejorar instalaciones de producción.",
+    "Las instalaciones consumen recursos y producen productos o moneda.",
+    "Los recursos tienen límites o deben consumirse/venderse.",
+    "La expansión requiere coste y desbloquea contenido nuevo."
+  ],
+  "systemLoopHint": "Construir instalaciones → asignar recursos → esperar / acelerar la producción → recibir el producto → vender / consumir → invertir en expansión → desbloquear nuevas cadenas",
+  "combos": [
+    {
+      "formula": "Gestión + Gestión del tiempo",
+      "effect": "Crea puntos de ingreso mediante la espera y la aceleración, manteniendo la progresión gratuita."
+    },
+    {
+      "formula": "Gestión + Sistema de pedidos",
+      "effect": "Guía las prioridades de producción con demanda externa, aumentando la sensación de propósito."
+    },
+    {
+      "formula": "Gestión + Eventos aleatorios",
+      "effect": "Rompe la estabilidad con fluctuaciones de mercado o desastres para crear desafío."
+    }
+  ],
+  "advancedWarnings": [
+    "Los sistemas económicos pueden salirse de control; diseña sumideros para prevenir la inflación.",
+    "Las cadenas de producción largas pueden cansar al jugador; ofrece automatización o atajos.",
+    "La expansión puramente numérica puede volverse sosa; acompáñala de feedback visual, narrativo o social.",
+    "La automatización excesiva debilita la toma de decisiones del jugador; muy poca automatización causa fatiga de gestión.",
+    "Demasiados sumideros pueden limitar la libertad, pero pueden mejorar el juego guiado por metas y la inversión a largo plazo."
+  ],
+  "advancedAlgoRefs": [
+    "Diagramas de flujo de recursos y simulación de cadenas de producción.",
+    "Límites de inventario, curvas oferta-demanda y elasticidad de precios.",
+    "Ganancias sin conexión y restauración de estado entre sesiones."
+  ],
+  "intro": {
+    "what": "Construye, produce, vende y construye aún más: Hay Day, SimCity y los juegos de gestión de restaurantes ejecutan este bucle.",
+    "feel": "Planeas la línea de producción y ves entrar monedas mientras las materias primas se agotan; en cuanto puedes permitirte más, te torturas entre expandir ahora o ahorrar: cada decisión hace bola de nieve.",
+    "why": "Es el modelo completo más pequeño de una economía: el bucle de expansión «construir → producir → reinvertir» es el corazón de todo juego de gestión."
+  }
+}

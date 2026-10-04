@@ -7,9 +7,15 @@ export type FeatureSpec = FeatureMeta & {
   untranslated?: boolean;
 };
 
-/** 内容语言目录：zh-CN → content/features，en → content/features-en（缺失时回退中文） */
+/** 内容语言目录：zh-CN → content/features，其余语言 → content/features-{locale}（缺失按 自有→en→zh 链回退） */
 function featuresRootDir(locale: string = "zh-CN") {
-  return path.join(process.cwd(), "content", locale === "en" ? "features-en" : "features");
+  return path.join(process.cwd(), "content", locale === "zh-CN" ? "features" : `features-${locale}`);
+}
+
+function localeCandidates(locale: string): string[] {
+  if (locale === "zh-CN") return ["zh-CN"];
+  if (locale === "en") return ["en", "zh-CN"];
+  return [locale, "en", "zh-CN"];
 }
 
 async function readSpecFromDir(rootDir: string, key: FeatureKey): Promise<FeatureSpec | null> {
@@ -26,14 +32,14 @@ export async function readFeatureSpec(
   key: FeatureKey,
   locale: string = "zh-CN",
 ): Promise<FeatureSpec | null> {
-  if (locale === "en") {
-    const enSpec = await readSpecFromDir(featuresRootDir("en"), key);
-    if (enSpec) return enSpec;
-    const zhSpec = await readSpecFromDir(featuresRootDir("zh-CN"), key);
-    if (zhSpec) zhSpec.untranslated = true;
-    return zhSpec;
+  for (const candidate of localeCandidates(locale)) {
+    const spec = await readSpecFromDir(featuresRootDir(candidate), key);
+    if (spec) {
+      spec.untranslated = candidate !== locale;
+      return spec;
+    }
   }
-  return readSpecFromDir(featuresRootDir("zh-CN"), key);
+  return null;
 }
 
 export async function listFeatureSpecs(locale: string = "zh-CN"): Promise<FeatureSpec[]> {

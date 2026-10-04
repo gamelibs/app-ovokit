@@ -1,0 +1,69 @@
+{
+  "lang": "es",
+  "key": "narrative",
+  "name": "Narrativa interactiva",
+  "nameEn": "Interactive Narrative",
+  "subtitle": "Elección → Consecuencia → Rama → Final",
+  "concept": "El patrón de narrativa interactiva se centra en el bucle donde las elecciones del jugador alteran genuinamente la dirección de la historia. En los momentos clave, el jugador toma decisiones, cada una produciendo consecuencias observables o rastreables que hacen que la narrativa se ramifique en caminos y finales distintos. Fundamentalmente, es un árbol de estados ramificado: los nodos representan escenas, las aristas representan elecciones y las hojas representan finales. En la implementación, la narrativa ramificada se apoya en el seguimiento de estado y sistemas de condiciones, y todas las consecuencias de las elecciones deben ser legibles y reproducibles.",
+  "role": "El propósito central de la narrativa interactiva es mapear las decisiones del jugador directamente sobre los cambios en la trayectoria de la historia, transformando el juego de lectura pasiva en participación activa. Lo logra mediante el seguimiento de estado y los árboles de ramificación, dando al jugador una sensación de causalidad y control, mejorando así la inmersión y el valor de rejugabilidad.",
+  "significance": "Dominar la narrativa interactiva permite al diseñador crear experiencias de alto compromiso emocional con recursos limitados. Mezcla escritura y diseño de sistemas, enfatizando la explicabilidad y el coste de cada elección, impulsando una sinergia profunda entre historia y jugabilidad, y es una ventaja competitiva central de los juegos narrativos modernos.",
+  "loop": "Choice → Consequence → Branch → Ending",
+  "abstractions": [
+    "Nodo de escena",
+    "Elección ramificada",
+    "Variable de estado",
+    "Consecuencia diferida",
+    "Finales múltiples"
+  ],
+  "cases": [
+    "Juegos de Orange Light (Chengguang)",
+    "Life is Strange",
+    "60 Seconds!",
+    "Aventura de texto con múltiples finales"
+  ],
+  "problemsSolved": [
+    "Asegurar que las elecciones tengan consecuencias reales, evitando la pseudoramificación de «elijas lo que elijas».",
+    "Usar variables de estado para recordar lo que el jugador ha hecho, permitiendo que las consecuencias se difieran.",
+    "Usar los finales para dar al jugador una razón para rejugar."
+  ],
+  "learningGoals": [
+    "Entender la estructura mínima de un árbol ramificado (nodos/aristas/hojas).",
+    "Dominar el diseño de variables de estado: qué debe recordarse y cuándo debe materializarse.",
+    "Ser capaz de diseñar un bucle narrativo mínimo jugable con 3–5 finales distinguibles."
+  ],
+  "minimalRules": [
+    "Elección: cada nodo ofrece 2–4 opciones distinguibles.",
+    "Consecuencia: una elección debe alterar el estado (de inmediato o con visibilidad diferida).",
+    "Final: los estados convergen en resultados finales distinguibles (al menos 2)."
+  ],
+  "systemLoopHint": "Presentar narrativa → el jugador elige → actualizar variables de estado → entrar al siguiente nodo de ramificación → … → alcanzar el final → rejugable",
+  "combos": [
+    {
+      "formula": "Narrativa + Estrategia",
+      "effect": "Los resultados de combate influyen en la ramificación narrativa (narrativa táctica por turnos)."
+    },
+    {
+      "formula": "Narrativa + Gestión",
+      "effect": "Los resultados del negocio disparan distintos caminos narrativos."
+    },
+    {
+      "formula": "Narrativa + Puzle",
+      "effect": "El éxito en el puzle desbloquea historia oculta."
+    }
+  ],
+  "advancedWarnings": [
+    "La pseudoramificación (caminos distintos que convergen sin registro) erosiona de inmediato la confianza del jugador.",
+    "La explosión de ramificación hace el guion inmantenible; usa puntos de convergencia para contenerla.",
+    "Si todas las consecuencias son inmediatas, no hay suspense; si todas son diferidas, no hay feedback: mézclalas."
+  ],
+  "advancedAlgoRefs": [
+    "Máquina de estados / grafo dirigido: nodos narrativos y condiciones de ramificación.",
+    "Sistema de variables: flags, afinidad, colección de pistas.",
+    "Determinación de finales: umbrales multicondición y prioridad."
+  ],
+  "intro": {
+    "what": "Tus elecciones cambian de verdad adónde va la historia y cómo termina: la ficción interactiva, Life is Strange y los juegos de Orange Light (Chengguang) están construidos sobre esto.",
+    "feel": "Cada opción se siente como firmar en una encrucijada; en el final te preguntas «¿y si hubiera tomado el otro camino...?», y entonces de verdad vuelves y lo eliges.",
+    "why": "Es la frontera entre narrativa y jugabilidad: la estructura «elección → consecuencia → rama» da a una historia su primera sensación de «yo»."
+  }
+}

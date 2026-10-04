@@ -1,0 +1,68 @@
+{
+  "lang": "pt",
+  "key": "click",
+  "name": "Cliques",
+  "nameEn": "Clicker",
+  "subtitle": "Impulsione a progressão do jogo por meio de cliques de alta frequência.",
+  "concept": "A mecânica de clique centra-se em toques contínuos do jogador como entrada principal. Cada toque dispara feedback imediato — saltos numéricos, sinais sonoros e animação sincronizada. O design central equilibra a intensidade do feedback contra a fadiga do jogador, e alinha a curva de recompensa com os arcos de progressão. Sinais visuais/sonoros fortes demais podem causar superestimulação de curto prazo, quebrando o flow; fracos demais perdem a gratificação instantânea. A curva de recompensa precisa fornecer embalo inicial suficiente enquanto sustenta a viabilidade de longo prazo para evitar abandono. Conforme as recompensas de clique evoluem gradualmente para produção automatizada, o gameplay transiciona naturalmente para idle, formando um arco de crescimento da operação ativa à renda passiva — uma estrutura fundamental para a retenção de longo prazo em jogos de clique.",
+  "role": "Fornece um loop de feedback instantâneo, permitindo ao jogador confirmar imediatamente a eficácia de cada clique e manter o flow de curto prazo.",
+  "significance": "É a fundação do gameplay de baixa barreira e alto feedback, e serve como ponte para a transição da operação ativa para a renda passiva, moldando o arco de crescimento do clicar ao idle.",
+  "filterTags": [
+    "Clicker",
+    "Timing"
+  ],
+  "cases": [
+    "Cookie Clicker",
+    "Tap Titans",
+    "Click the Titan"
+  ],
+  "problemsSolved": [
+    "Engaja o jogador com custo operacional mínimo",
+    "Mantém a retenção de curto prazo por meio de feedback contínuo",
+    "Transforma o comportamento de clicar em objetivos de longo prazo via upgrades"
+  ],
+  "learningGoals": [
+    "Projetar feedback instantâneo e amplificação visual/sonora, equilibrando flow e fadiga",
+    "Construir incentivo inicial e sustentabilidade de longo prazo na curva de recompensa de cliques",
+    "Implementar mecanismos de conversão em automação para reduzir a fadiga do jogador",
+    "Equilibrar a relação complementar entre clicar e idle para formar um arco de crescimento",
+    "Identificar e evitar armadilhas contra-intuitivas que causam perda de flow por mecanização excessiva"
+  ],
+  "minimalRules": [
+    "O jogador gera recursos ou efeitos por meio de cliques",
+    "As recompensas de clique podem ser melhoradas para aumentar o valor por clique",
+    "Existe um caminho para converter cliques em crescimento permanente",
+    "Defina cooldowns ou limites de taxa para evitar cliques excessivos e fadiga"
+  ],
+  "combos": [
+    {
+      "formula": "Cliques + Idle",
+      "effect": "O clique ativo complementa a renda passiva, criando produção contínua"
+    },
+    {
+      "formula": "Cliques + Timing",
+      "effect": "Clicar dentro de janelas específicas concede bônus, melhorando o ritmo"
+    },
+    {
+      "formula": "Cliques + Progressão",
+      "effect": "As recompensas de clique evoluem permanentemente, formando objetivos de longo prazo"
+    }
+  ],
+  "advancedWarnings": [
+    "Clicar puro pode causar fadiga; forneça automação ou variação de ritmo",
+    "Garanta que a curva de recompensa de cliques não comece lenta demais nem exploda tarde demais",
+    "Preste atenção às zonas quentes de clique e toques acidentais no mobile",
+    "Evite dependência excessiva de uma única recompensa de clique para prevenir monotonia de gameplay"
+  ],
+  "advancedAlgoRefs": [
+    "Cooldowns de clique e determinação de combos",
+    "Equilíbrio entre recompensas de clique automatizadas e manuais",
+    "Design de probabilidades de acerto crítico / combo",
+    "Detalhes do algoritmo de determinação de combo: use janelas de tempo fixas e contagens de cliques para calcular multiplicadores de combo"
+  ],
+  "intro": {
+    "what": "Toque uma vez, ganhe um pouco; toque de novo, ganhe de novo — Cookie Clicker e Tap Titans construíram impérios sobre esse único toque.",
+    "feel": "Seu dedo não para de cutucar a tela enquanto os números saltam visivelmente; inflar de \"+1\" para \"+1000\" faz até a ação mais monótona ficar gostosa.",
+    "why": "Este é o livro-texto da menor unidade de interação — acerte o feedback de um único toque e o feel do jogo inteiro tem seu ponto de partida."
+  }
+}

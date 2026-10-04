@@ -1,0 +1,70 @@
+{
+  "key": "strategy",
+  "name": "Estrategia",
+  "nameEn": "Strategy",
+  "lang": "es",
+  "subtitle": "Preparación → Combate → Cálculo → Crecimiento",
+  "concept": "El modelo de crecimiento estratégico integra unidades, estadísticas, habilidades y reglas de combate en un sistema de batalla cuantificable. El jugador configura equipos, selecciona habilidades, calcula daño y probabilidades de supervivencia, y se enfrenta en confrontaciones profundas contra la IA u otros jugadores. El modelo numérico subyacente involucra vida, ataque, tasa de defensa, velocidad, estados y efectos especiales interactuando para producir resultados predecibles pero aleatorios. El principio de diseño central es «compromisos visibles»: cada configuración y acción conlleva costes y beneficios claros, requiriendo que el jugador equilibre asignación de recursos, evaluación de riesgos y predicción del oponente.",
+  "role": "Adecuado para juegos de estrategia y RPG de peso medio, enfatizando la profundidad en la preparación previa al combate y en la toma de decisiones durante el combate.",
+  "significance": "Dominar el modelo de crecimiento estratégico significa entender diseño de estadísticas, fórmulas de combate, relaciones de contra y curvas de crecimiento. Forma la base para diseñar juegos de peso medio como RPG, juegos de cartas, defensas de torres y auto-chess, y es clave para convertir la «acción» en «reflexión».",
+  "loop": "Unit → Stats → Combat → Reward",
+  "abstractions": [
+    "Unidad",
+    "Estadísticas",
+    "Combate",
+    "Recompensa",
+    "Relaciones de contra"
+  ],
+  "cases": [
+    "Clash Royale",
+    "Plants vs. Zombies",
+    "Tower Defense",
+    "Slay the Spire"
+  ],
+  "problemsSolved": [
+    "Crear un espacio estratégico rico con un conjunto limitado de unidades y habilidades.",
+    "Mantener el compromiso a largo plazo mediante crecimiento numérico y desbloqueos.",
+    "Mantener frescas las batallas repetidas con contrajuego y aleatoriedad."
+  ],
+  "learningGoals": [
+    "Diseñar modelos de estadísticas y fórmulas de combate (daño, defensa, velocidad, etc.).",
+    "Dominar el equilibrio de unidades, las relaciones de contra y el ciclo del meta.",
+    "Implementar sistemas de habilidades, buffs/debuffs y registros de combate."
+  ],
+  "minimalRules": [
+    "Existen unidades de combate con estadísticas (vida, ataque, tasa de defensa, velocidad, habilidades).",
+    "Las unidades pueden atacar, lanzar habilidades o generar efectos de estado.",
+    "Daño = Ataque × (1 – Tasa de defensa) × (1 + Multiplicador de habilidad) × (1 + Factor aleatorio).",
+    "Tras ganar el combate, el jugador recibe recursos, experiencia o unidades nuevas; las recompensas están ligadas al crecimiento de las unidades."
+  ],
+  "systemLoopHint": "Configurar equipo/mazo → entrar en combate → elegir acciones → resolver estadísticas y efectos → determinar victoria/derrota → recibir recompensas y crecimiento",
+  "combos": [
+    {
+      "formula": "Habilidad + Bonificación de velocidad",
+      "effect": "Usar una habilidad de aumento de velocidad dentro del mismo turno permite que el ataque ocurra primero, aumentando las oportunidades de combo."
+    },
+    {
+      "formula": "Defensa alta + Habilidad de contra",
+      "effect": "Las unidades de defensa alta combinadas con habilidades de contra pueden anular un ataque enemigo potente y disparar un contraataque."
+    },
+    {
+      "formula": "Habilidad AOE + Unidades de vida baja",
+      "effect": "Usar una habilidad AOE sobre un grupo de unidades de vida baja puede eliminar varios enemigos a la vez, ahorrando recursos."
+    }
+  ],
+  "advancedWarnings": [
+    "El desequilibrio numérico puede erosionar rápidamente la sensación estratégica; equilibra las tasas de ataque y defensa. Un ataque excesivo vuelve ineficaz la defensa, mientras que un ataque demasiado bajo hace la defensa dominante.",
+    "Demasiada aleatoriedad puede hacer que el jugador se sienta fuera de control; equilibra el «cálculo» con la «sorpresa». Un factor aleatorio grande debilita la profundidad estratégica, mientras que uno pequeño hace el combate demasiado predecible.",
+    "Una defensa alta de hecho fuerza a los atacantes a usar habilidades: cuando la tasa de defensa se acerca a 1, los ataques normales son casi ineficaces, así que los jugadores tienden a usar habilidades de multiplicador alto, agotando los recursos de habilidad rápidamente."
+  ],
+  "advancedAlgoRefs": [
+    "Fórmulas de estadísticas y cálculos de daño esperado.",
+    "Máquina de estados de combate por turnos / en tiempo real.",
+    "Árboles de comportamiento de IA y adaptación de dificultad."
+  ],
+  "intro": {
+    "what": "Prepara tu alineación y tus números antes de la pelea y luego mira cómo chocan hasta un resultado: Clash Royale, Plants vs. Zombies y Slay the Spire comparten esta estructura.",
+    "feel": "Sopesas la preparación una y otra vez en la fase de preparación; cuando empieza la batalla contienes la respiración mientras se desarrolla —en la defensa de torres sigues colocando y parcheando a media oleada—; las victorias se sienten ganadas, las derrotas te hacen rehacer el borrador y reintentar al instante.",
+    "why": "Es el modelo de «los números como estrategia»: abstrae el combate en configuración y liquidación, y la profundidad se esconde en las decisiones tomadas antes de la pelea."
+  }
+}

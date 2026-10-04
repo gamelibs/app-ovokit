@@ -1,0 +1,68 @@
+{
+  "lang": "es",
+  "key": "idle",
+  "name": "Idle",
+  "nameEn": "Idle",
+  "subtitle": "Incluso sin entrada activa, el sistema sigue generando producción.",
+  "concept": "El núcleo de la mecánica idle reside en que el progreso del juego no depende enteramente de la entrada en tiempo real del jugador. Las instalaciones, los personajes o los sistemas económicos siguen funcionando sin conexión o en segundo plano, y el jugador solo necesita volver periódicamente para recoger recompensas y tomar decisiones de mejora. El tiempo mismo se trata como un recurso de juego: cuanto más esperas, más rico el beneficio. Un buen diseño debe equilibrar esto con un «tope» y un «acelerador»: el tope evita una acumulación desbocada que podría desestabilizar la economía; el acelerador (anuncios, objetos de un solo uso, pagos de suscripción) convierte la espera en un punto de decisión, proporcionando ganancias instantáneas mientras sostiene la retención a largo plazo. Tanto el tope como el acelerador tienen consecuencias bidireccionales: un tope demasiado bajo fuerza recolecciones frecuentes y erosiona la sensación de progreso; un tope demasiado alto lleva al acaparamiento de recursos y al desequilibrio del sistema. El uso excesivo de aceleradores puede reducir la sensación de logro de la espera y dañar la retención; los aceleradores insuficientes pueden hacer que el jugador abandone por espera excesiva. La idea contraintuitiva es que un acelerador moderado puede de hecho aumentar la anticipación de la espera del jugador, porque le permite cambiar entre modos activo y pasivo, creando una experiencia de «espera controlada» que mejora la retención.",
+  "role": "Reduce la presión de entrada del jugador y se acomoda al tiempo fragmentado; convierte la espera misma en jugabilidad, creando espacio de pago y estrategia mediante la aceleración, la duplicación y otros mecanismos.",
+  "significance": "Dominar las características idle significa entender la monetización del tiempo, el cálculo de ganancias sin conexión y los bucles de retroalimentación positiva, convirtiéndose en una palanca clave para diseñar juegos de ciclo largo y alta retención.",
+  "filterTags": [
+    "Idle",
+    "Idle / Construction"
+  ],
+  "cases": [
+    "Cookie Clicker",
+    "AdVenture Capitalist",
+    "Idle Jianghu"
+  ],
+  "problemsSolved": [
+    "Permitir al jugador sentir crecimiento incluso en tiempo fragmentado.",
+    "Crear oportunidades de aceleración/puntos de pago mediante mecánicas de espera.",
+    "Bajar el umbral operativo y ampliar la audiencia."
+  ],
+  "learningGoals": [
+    "Diseñar ganancias sin conexión y mecanismos de tope.",
+    "Dominar la aceleración del tiempo y el diseño de puntos de pago.",
+    "Usar cadenas de mejora para sostener la sensación de meta a largo plazo.",
+    "Entender el equilibrio económico de los topes de ganancias sin conexión.",
+    "Diseñar mecanismos de aceleración escalables."
+  ],
+  "minimalRules": [
+    "Define una tasa de producción base (por segundo), un multiplicador de mejora y un tope acumulado para cada fuente de producción; las ganancias sin conexión se calculan como: min(baseRate * time * (1 + upgradeMultiplier), cap).",
+    "Todas las producciones deben ser recolectables por el jugador y usarse para mejoras o para desbloquear funciones, asegurando un ciclo de ingresos de bucle cerrado.",
+    "Los aceleradores (anuncios, objetos, opciones de pago) deben ser compatibles con los topes, evitando que el jugador supere los límites acumulados en un período corto, y los efectos de aceleración deben ser rastreables y con límite temporal."
+  ],
+  "combos": [
+    {
+      "formula": "Idle + Fusión",
+      "effect": "Generación de recursos sin conexión, fusionados y mejorados al iniciar sesión."
+    },
+    {
+      "formula": "Idle + Gestión",
+      "effect": "Sustituye la producción única por una cadena de producción, aumentando la profundidad estratégica."
+    },
+    {
+      "formula": "Idle + Clic",
+      "effect": "Permite al jugador alternar entre el clic activo y el ingreso pasivo."
+    }
+  ],
+  "advancedWarnings": [
+    "Unas ganancias sin conexión excesivamente altas pueden reducir el sentido del juego activo.",
+    "Los tiempos de espera largos pueden llevar al abandono del jugador.",
+    "El uso excesivo de aceleradores puede hacer que los jugadores de pago progresen demasiado rápido, debilitando la experiencia del jugador gratuito.",
+    "Prevén el tramposeo temporal y la explotación."
+  ],
+  "advancedAlgoRefs": [
+    "Fórmula de ganancias sin conexión y diseño de topes.",
+    "Sistema de aceleración temporal y multiplicadores.",
+    "Validación de tiempo antitrampas.",
+    "Ejemplo de cálculo de ganancias sin conexión.",
+    "Análisis de la compatibilidad entre el multiplicador del acelerador y el tope."
+  ],
+  "intro": {
+    "what": "Trabaja para ti mientras el juego está cerrado: vuelve y recoge. AdVenture Capitalist e Idle Jianghu están construidos sobre esto.",
+    "feel": "Montas la línea de producción antes de dormir y despiertas con recursos desbordando; tú solo planeas y mejoras mientras el tiempo hace el trabajo: relajante, y sin embargo sigues queriendo asomarte.",
+    "why": "Responde a «cómo continúa el juego mientras el jugador está desconectado»: la producción sin conexión y las recompensas de regreso son las estructuras de retención más importantes de la era de la atención fragmentada."
+  }
+}

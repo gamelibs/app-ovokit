@@ -1,0 +1,85 @@
+{
+  "key": "dodge-avoid",
+  "name": "Esquiva / Evasão",
+  "nameEn": "Dodge / Avoid",
+  "subtitle": "Sobreviva sob pressão contínua e restrições espaciais; o núcleo gira em torno de detecção de acertos, janelas e ritmo.",
+  "features": [
+    "数值成长",
+    "限时"
+  ],
+  "difficulty": "Iniciante → Avançado",
+  "demoRuleHint": "Regra: Geração de perigos → Aviso/trajetória → Movimento do jogador → Detecção de acerto (acerto/quase-acerto) → Feedback (dano/frames de invencibilidade)",
+  "problemsSolved": [
+    "Torna as razões de falha atribuíveis (por que você foi atingido, onde está a segurança)",
+    "Transforma quase-acertos em momentos satisfatórios, e não só em continuar vivo",
+    "Controla a intensidade com uma curva de pressão (densidade/velocidade/ritmo) para evitar puro empilhamento numérico"
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop mínimo de sobrevivência — surgir → telegrafar → mover → julgar → feedback — e reproduzir na demo um julgamento de raspão",
+    "Intermediário: escrever o contrato completo de julgamento de acertos (hitbox, zona de raspão, frames de invencibilidade, proteção de respawn) e ajustar parâmetros de tolerância que impeçam os iniciantes de desistir",
+    "Avançado: projetar a curva de pressão (estrutura de densidade × velocidade × rampa de tempo) e verificar a saúde da dificuldade com taxa de raspões e distribuição de tempo de sobrevivência"
+  ],
+  "minimalRules": [
+    "Perigo: regras de geração (frequência/direção/velocidade/quantidade)",
+    "Movimento: movimento do jogador e restrições (velocidade, curvas, limites)",
+    "Detecção de acerto: raio de acerto e resolução (dano/falha/frames de invencibilidade)"
+  ],
+  "systemLoopHint": "Entrada (movimento/esquiva) → Previsão (ler o aviso) → Detecção de acerto (acerto/quase-acerto) → Feedback (dano/sobrevivência) → Mudança de pressão → Nova entrada",
+  "combos": [
+    {
+      "formula": "Esquiva / Evasão + Tiro / Mira",
+      "effect": "Produzir enquanto esquiva, criando um loop de 'posicionamento e tiro'"
+    },
+    {
+      "formula": "Esquiva / Evasão + Progressão",
+      "effect": "Converte tempo de sobrevivência/esquivas perfeitas em recursos de progressão"
+    },
+    {
+      "formula": "Esquiva / Evasão + Aleatoriedade",
+      "effect": "Aleatoriza padrões de perigo, enfatizando adaptação e leitura do mapa"
+    }
+  ],
+  "advancedWarnings": [
+    "Avisos pouco claros tornam as falhas inexplicáveis (o jogador se sente injustiçado)",
+    "Velocidade alta demais com feedback fraco transforma a experiência em 'ser atingido passivamente'",
+    "Detecção de acerto rígida demais comprime o espaço expressivo; branda demais perde a tensão"
+  ],
+  "advancedAlgoRefs": [
+    "Geração: gerador de projéteis/obstáculos e curva de dificuldade",
+    "Detecção de acerto: colisão de círculo/cápsula, detecção de quase-acerto, janela de frames de invencibilidade"
+  ],
+  "lang": "pt",
+  "demoLab": [
+    {
+      "title": "Experimento de Tolerância de Acerto",
+      "action": "Arraste a \"Janela de Tolerância (redução da hitbox, px)\" de 0 até 24 e depois deixe os projéteis rasparem de propósito na sua nave",
+      "observe": "Tolerância = a hitbox é um anel menor que o visual: com 0px um raspão mata, com 24px o jogador ousa passar entre os projéteis. A folga entre os dois círculos é seu orçamento de quase-acerto — rígida demais esmaga a ousadia, solta demais mata a tensão"
+    },
+    {
+      "title": "Experimento de Recompensa por Raspão",
+      "action": "Puxe o \"Bônus de Raspão\" de 0 a 50, depois coloque a \"Densidade de Projéteis\" em 3+ e voe ativamente perto dos projéteis",
+      "observe": "Um bônus de raspão transforma a esquiva de sobrevivência em emoção perseguida: os perigos viram recursos de pontuação. Quanto maior a recompensa, mais o jogador cola no perigo — um único parâmetro reescreve toda a curva risco-recompensa"
+    },
+    {
+      "title": "Curva de Pressão da Densidade",
+      "action": "Suba a \"Densidade de Projéteis\" de 1 até 5, sobrevivendo 20 segundos em cada nível",
+      "observe": "Densidade é o botão da curva de pressão: cada +1 encolhe visivelmente a proporção de espaço seguro. Densidade sozinha não é dificuldade — dificuldade real é densidade × tolerância: denso + tolerante continua casual, esparso + rígido ainda mata"
+    }
+  ],
+  "intro": {
+    "what": "Perigos não param de voar na sua direção e seu trabalho é continuar vivo — bullet-hell shooters, Flappy Bird e jogos estilo queimado são todos construídos sobre isso.",
+    "feel": "Você arrasta seu personagem por uma tempestade de projéteis, costurando entre eles; o fração de segundo em que um raspa sem te matar faz o coração pular — essa emoção de \"foi por pouco\" é a assinatura do estilo.",
+    "why": "É a amostra mais pura de \"dificuldade como ritmo\" — se você quer aprender a deixar o jogador tenso sem se sentir enganado, comece por aqui."
+  },
+  "concept": "O gameplay de esquiva quebra \"sobrevivência\" em uma corrente de julgamentos legíveis, momento a momento: todo perigo tem um aviso, uma trajetória e uma hitbox, e toda esquiva relata imediatamente seu resultado e sua razão. A parte difícil não é esquivar — é a credibilidade e a tolerância do julgamento: a folga entre a hitbox e o círculo visual é seu orçamento de emoção, e os frames de invencibilidade mais o feedback de raspão decidem se uma falha é aprendível. A justiça que o jogador sente é construída a partir desses detalhes invisíveis do motor de julgamento.",
+  "designNotes": [
+    "Emoção é um recurso projetado: quantos pixels a hitbox fica para dentro do círculo visual é exatamente o quanto de coragem o jogador ousa ter — rígido demais e ele se fecha na defensiva, solto demais e a tensão some. Essa folga vale mais ajuste do que a velocidade dos projéteis.",
+    "\"Quase morri\" vence \"desviei perfeitamente\": bônus de raspão transformam ameaças em recursos, atraindo o jogador para o perigo — contra-intuitivamente, recompensar raspões deixa o jogador mais seguro, porque ele passa a estudar trajetórias de propósito.",
+    "Só a falha atribuível merece uma nova tentativa: com avisos pouco claros, o jogador se sente \"injustiçado\" em vez de \"eu errei\" — o tempo de antecedência do aviso não é um recurso de acessibilidade; é a fundação de justiça do gameplay de esquiva."
+  ],
+  "value": {
+    "player": "A esquiva alimenta um desejo seguro de perigo — um projétil que raspa sem matar é convertido pelo cérebro em emoção pura. Janelas de tolerância e bônus de raspão produzem esse momento em série, deixando o jogador colher pequenas vitórias oscilando entre \"quase morri\" e \"não acredito que sobrevivi\".",
+    "ecosystem": "Desviar de projéteis é uma das formas de menor barreira dos jogos de ação: um dedo, dez segundos por partida, naturalmente adequada a tempos fragmentados e compartilhamento em vídeos curtos.",
+    "transfer": "Aprenda o gameplay de esquiva e você aprende engenharia de curva de pressão e tolerância — rampas de densidade, escalonamento de hitbox, antecedência de aviso — botões que você vai continuar girando em runners, shooters e lutas de chefe."
+  }
+}

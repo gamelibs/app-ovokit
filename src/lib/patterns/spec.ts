@@ -11,9 +11,15 @@ export type CorePatternSpec = CorePatternMeta & {
   untranslated?: boolean;
 };
 
-/** 内容语言目录：zh-CN → content/patterns，en → content/patterns-en（缺失时回退中文） */
+/** 内容语言目录：zh-CN → content/patterns，其余语言 → content/patterns-{locale}（缺失按 自有→en→zh 链回退） */
 function patternsRootDir(locale: string = "zh-CN") {
-  return path.join(process.cwd(), "content", locale === "en" ? "patterns-en" : "patterns");
+  return path.join(process.cwd(), "content", locale === "zh-CN" ? "patterns" : `patterns-${locale}`);
+}
+
+function localeCandidates(locale: string): string[] {
+  if (locale === "zh-CN") return ["zh-CN"];
+  if (locale === "en") return ["en", "zh-CN"];
+  return [locale, "en", "zh-CN"];
 }
 
 async function readSpecFromDir(rootDir: string, key: CorePatternKey): Promise<CorePatternSpec | null> {
@@ -30,14 +36,14 @@ export async function readPatternSpec(
   key: CorePatternKey,
   locale: string = "zh-CN",
 ): Promise<CorePatternSpec | null> {
-  if (locale === "en") {
-    const enSpec = await readSpecFromDir(patternsRootDir("en"), key);
-    if (enSpec) return enSpec;
-    const zhSpec = await readSpecFromDir(patternsRootDir("zh-CN"), key);
-    if (zhSpec) zhSpec.untranslated = true;
-    return zhSpec;
+  for (const candidate of localeCandidates(locale)) {
+    const spec = await readSpecFromDir(patternsRootDir(candidate), key);
+    if (spec) {
+      spec.untranslated = candidate !== locale;
+      return spec;
+    }
   }
-  return readSpecFromDir(patternsRootDir("zh-CN"), key);
+  return null;
 }
 
 export async function listPatternSpecs(locale: string = "zh-CN"): Promise<CorePatternSpec[]> {

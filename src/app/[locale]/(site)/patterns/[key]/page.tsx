@@ -41,6 +41,10 @@ export async function generateMetadata({
       languages: {
         "zh-CN": `/patterns/${key}`,
         en: `/en/patterns/${key}`,
+        ja: `/ja/patterns/${key}`,
+        ko: `/ko/patterns/${key}`,
+        es: `/es/patterns/${key}`,
+        pt: `/pt/patterns/${key}`,
         "x-default": `/patterns/${key}`,
       },
     },

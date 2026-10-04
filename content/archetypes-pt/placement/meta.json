@@ -1,0 +1,87 @@
+{
+  "key": "placement",
+  "name": "Posicionamento / Construção",
+  "nameEn": "Placement / Building",
+  "lang": "pt",
+  "subtitle": "Regras de espaço e loops de feedback dirigem a estratégia e recompensas em cascata",
+  "features": [
+    "网格",
+    "关卡",
+    "数值成长"
+  ],
+  "difficulty": "Iniciante → Avançado",
+  "demoRuleHint": "Exemplo: Selecionar objeto → Destaque de prévia → Posicionar → Disparar renda/bloqueio → Ajustar o layout",
+  "problemsSolved": [
+    "Visualiza relações espaciais como ocupação de casas e conectividade para reduzir a carga cognitiva.",
+    "Permite pré-visualizar e desfazer posicionamentos errados para reduzir frustração e desperdício de tentativa e erro.",
+    "Usa otimização de layout e recompensas em cascata para gerar objetivos contínuos em vez de um posicionamento único."
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop de layout — escolher → pré-visualizar → posicionar → render/bloquear → ajustar — e reproduzir na demo um bônus de adjacência",
+    "Intermediário: escrever o contrato de ocupação e conectividade (grade, snapping, coeficiente de sinergia, custo de expansão) e ajustar o tradeoff densidade versus rendimento",
+    "Avançado: projetar bônus e riscos de borda (exposição defensiva), e verificar a profundidade da estratégia espacial com a distribuição de densidade de layout e a distribuição de timing de expansão"
+  ],
+  "minimalRules": [
+    "Verificação de posicionamento: tamanho do objeto ≤ 1×1 células de grade e sem sobreposição; tamanho > 1×1 precisa ocupar células contíguas e não cruzar objetos já ocupados.",
+    "Bônus de conectividade: construções adjacentes do mesmo tipo ganham +10% de renda; conectividade excessiva acelera o consumo de recursos, então equilibre a densidade do layout.",
+    "Bônus de borda: posicionamentos no perímetro ganham +5% de renda; porém ficam mais vulneráveis a ataques, então considere o layout defensivo.",
+    "Prévia/Destaque: antes do posicionamento, destaque as zonas legais/ilegais; zonas ilegais são marcadas em vermelho com uma razão para ajudar o jogador a corrigir rápido."
+  ],
+  "systemLoopHint": "Entrada (Posicionar/Rotacionar/Mover) → Validação (Legal/Ilegal) → Feedback (Destaque/Razão da Falha) → Mudança de Estado (Atualização do Layout) → Nova Entrada",
+  "combos": [
+    {
+      "formula": "Construção + Gerenciamento de Recursos",
+      "effect": "Organize construções de recursos em zonas de alto rendimento para criar um ciclo; cada nó de recurso precisa abrigar pelo menos uma estrutura de coleta para ativar a renda."
+    },
+    {
+      "formula": "Construção + Defesa",
+      "effect": "Posicione torres de defesa no perímetro para um bônus de defesa; ao mesmo tempo posicione estruturas de suporte no centro para reforçar a defesa geral."
+    },
+    {
+      "formula": "Construção + Conectividade",
+      "effect": "Organize construções do mesmo tipo ao longo de uma linha de conectividade para ganhar o bônus; mas mantenha pelo menos um caminho aberto para evitar bloqueio."
+    }
+  ],
+  "advancedWarnings": [
+    "Falta de prévia e de razões de falha quebra a experiência de posicionamento, dificultando o jogador julgar posicionamentos legais.",
+    "Restrições demais sem feedback suficiente deixam os novatos travados, tornando a curva de aprendizado mais íngreme.",
+    "Liquidação lenta de recompensas reduz a percepção de retorno estratégico, levando o jogador a achar que o layout não faz efeito."
+  ],
+  "advancedAlgoRefs": [
+    "Grade: posicionamento, encaixe, rotação, colisão",
+    "Caminho: viabilidade de caminho (caminhável/não caminhável) e verificações de conectividade"
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento do Bônus de Adjacência",
+      "action": "Continue usando \"Posicionar (primário)\" em construções do mesmo tipo (o mais adjacentes possível) e veja sinergia e renda se moverem juntas",
+      "observe": "Construções adjacentes do mesmo tipo concedem +10% de renda — relações espaciais traduzidas direto em números. A curva de sinergia deixa o jogador ver com os próprios olhos que onde você posiciona vale mais que o que você posiciona"
+    },
+    {
+      "title": "Experimento do Timing de Expansão",
+      "action": "Em uma partida: clique em \"Expandir (secundário)\" duas vezes antes de posicionar; em outra: encha tudo sem expandir. Compare a renda após 20 passos",
+      "observe": "Expandir é gastar agora por espaço depois: cedo demais dilui a renda atual, tarde demais e os slots te sufocam. Decisões de capacidade são o tradeoff investir-versus-gastar do gameplay de posicionamento — o ótimo geralmente fica logo antes dos slots encherem"
+    },
+    {
+      "title": "Observação do Limite de Densidade",
+      "action": "Sem expandir, preencha todos os slots e veja o crescimento da renda achatar",
+      "observe": "Com a grade cheia, a renda estagna — o retorno da densidade tem um limite, e layouts conectados demais queimam recursos mais rápido. O layout ótimo fica na borda do \"denso mas não cheio\": é exatamente assim que restrições espaciais fabricam estratégia"
+    }
+  ],
+  "intro": {
+    "what": "Posicione construções ou torres em uma grade limitada — um bom posicionamento dobra sua renda. Tower defense, SimCity e jogos de construção de base são construídos sobre isso.",
+    "feel": "Você paira uma construção sobre a grade, caçando a casa de maior rendimento para confirmar; a renda sobe linha por linha enquanto você já pondera o próximo posicionamento — a grade nunca é grande o bastante.",
+    "why": "A melhor demonstração de \"espaço como recurso\" — se você quer que a posição em si vire estratégia, o gameplay de posicionamento é estudo obrigatório."
+  },
+  "concept": "O gameplay de posicionamento traduz relações espaciais em rendimento numérico: adjacência, bordas e densidade mapeiam direto para diferenças de produção — o que o jogador posiciona não são construções, mas o formato de uma função de retorno. A parte difícil não é o que posicionar — é a pré-visualização e a cadência do feedback: casas ilegais precisam se explicar na hora, e a liquidação da renda precisa mostrar o layout rendendo. O jogador pensa \"que posicionamento inteligente\" porque decisões espaciais são visíveis e verificáveis.",
+  "designNotes": [
+    "Bônus de adjacência fazem o ONDE vencer o QUE: um bônus de +10% por vizinho digitaliza relações espaciais — a curva de sinergia é algo que o jogador consegue literalmente ver, e ensina estratégia melhor que qualquer fórmula escondida.",
+    "O timing de expansão é o eterno tradeoff investir-versus-gastar: expandir cedo demais dilui a renda atual, tarde demais e a capacidade te sufoca — o ótimo costuma se esconder na borda do \"quase cheio\", e essa borda é o ponto doce de decisão do gameplay de posicionamento.",
+    "Prévia e razões de falha não são recursos de acessibilidade: posicionamentos ilegais precisam destacar em vermelho na hora com a razão declarada, ou o jogador lê as regras como bugs — a UX de posicionamento desmorona não por regras complexas, mas por regras opacas."
+  ],
+  "value": {
+    "player": "O gameplay de posicionamento satisfaz o apetite do planejador por ordem: organize o espaço limitado no seu próprio ótimo e depois veja a curva de renda subir junto com o seu layout — a mais direta redenção da estética intelectual.",
+    "ecosystem": "Construção por posicionamento é um nicho de ouro entre estratégia e casual: tower defense, construção de base e gestão de cidades vivem aqui, e restrições espaciais deixam a profundidade de conteúdo crescer sem inflação numérica.",
+    "transfer": "Aprenda posicionamento e você aprende o ofício de digitalizar relações espaciais — bônus de adjacência, riscos de borda, limites de densidade — uma mentalidade que transforma mapas em funções de retorno, igualmente válida em jogos de tática, posicionamento de cartas e sistemas de economia."
+  }
+}

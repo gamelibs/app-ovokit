@@ -1,0 +1,88 @@
+{
+  "key": "puzzle",
+  "name": "Quebra-Cabeça",
+  "nameEn": "Puzzle",
+  "lang": "pt",
+  "subtitle": "Centrado em ocultação de informação e inferência para criar espaços de solução; o núcleo é curvas de aprendizado e estratégias de dicas.",
+  "features": [
+    "网格",
+    "关卡"
+  ],
+  "difficulty": "Iniciante → Avançado",
+  "demoRuleHint": "Regra: Observar a informação → Executar ação → Receber feedback → Inferir o próximo passo → Alcançar o objetivo",
+  "problemsSolved": [
+    "Define claramente os objetivos e os objetos acionáveis, evitando a pergunta 'O que eu deveria fazer?'",
+    "Usa dicas em camadas para reduzir o custo da frustração, encorajando o jogador a continuar tentando.",
+    "Torna o feedback de tentativa e erro verificável (correto/incorreto/progressão), evitando aleatoriedade e pistas falsas."
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop de puzzle — observar → agir → verificar feedback → raciocinar o próximo passo — e reproduzir na demo uma tentativa e uma dica",
+    "Intermediário: escrever o contrato de feedback (verificação instantânea certo/errado/neutro) e a política de dicas graduadas (orçamento, camadas, timing de disparo)",
+    "Avançado: projetar rampas de comprimento da cadeia de raciocínio e a curva de aprendizado, e verificar a saúde do puzzle com taxa de travamento, taxa de uso de dicas e tempo entre insights"
+  ],
+  "minimalRules": [
+    "Objetivo: satisfazer condições (mínimo: alcançar o ponto final / acionar o mecanismo).",
+    "Restrições: limites de operação (quantidade / ordem / recursos).",
+    "Feedback: cada passo pode ser verificado (correto / incorreto / neutro)."
+  ],
+  "systemLoopHint": "Entrada → Julgamento → Feedback → Mudança de estado → Nova entrada",
+  "combos": [
+    {
+      "formula": "Quebra-Cabeça + Física",
+      "effect": "Cadeias causais de física fornecem espaços de solução mais ricos."
+    },
+    {
+      "formula": "Quebra-Cabeça + Aleatoriedade",
+      "effect": "Reconfigurar o estado aumenta a rejogabilidade, mas a explicabilidade precisa ser controlada."
+    },
+    {
+      "formula": "Quebra-Cabeça + Progressão",
+      "effect": "Desbloqueia gradualmente ferramentas e regras, expandindo a capacidade de raciocínio."
+    }
+  ],
+  "advancedWarnings": [
+    "A falta de feedback verificável impede o jogador de avaliar o progresso.",
+    "Dicas fortes demais quebram a sensação de conquista; fracas demais levam ao abandono.",
+    "Quando a solução é única mas o caminho é longo, a frustração é amplificada.",
+    "Dicas demais enfraquecem o desafio; de menos fazem o jogador se perder — equilibrar a informação é o trade-off central do design.",
+    "Aleatorização excessiva pode aumentar a rejogabilidade, mas corrói a explicabilidade da cadeia causal, fazendo o jogador se sentir sem propósito.",
+    "Simplificar demais as dicas pode na verdade aumentar a curiosidade — o jogador tenta proativamente várias estratégias quando faltam pistas."
+  ],
+  "advancedAlgoRefs": [
+    "Fases: verificação de solubilidade, busca de solução, geração de dicas",
+    "Estado: máquina de estados / grafo de condições, usado para expressar cadeias causais"
+  ],
+  "demoLab": [
+    {
+      "title": "Verificação de Tentativa e Erro",
+      "action": "Sem raciocinar, clique em \"Tentar (primário)\" dez vezes e veja erros e progresso divergirem",
+      "observe": "Cada passo devolve um sinal de certo/errado — erros subindo enquanto o progresso estagna significa que você está chutando. Feedback verificável é a regra mínima dos puzzles: sem ele, o jogador não sabe dizer se está avançando ou regredindo"
+    },
+    {
+      "title": "Experimento do Custo das Dicas",
+      "action": "Trave de propósito, clique em \"Dica (secundário)\" e continue — veja o orçamento de dicas drenar",
+      "observe": "Dicas baixam o custo de estar travado, mas gastam um orçamento — fortes demais matam a conquista, fracas demais causam abandono. Dicas graduadas essencialmente convertem \"taxa de desistência\" em \"gasto de recurso\": o jogador compra de volta sua sensação de realização"
+    },
+    {
+      "title": "Contraste de Curva de Dificuldade",
+      "action": "No fácil versus no difícil, use \"Avançar 1 Passo\" 10 passos em cada e compare difficultyScore e o crescimento dos erros",
+      "observe": "No difícil, o difficultyScore é maior e os erros crescem mais rápido — dificuldade não é \"uma resposta melhor escondida\", mas \"uma cadeia de raciocínio mais longa\". O design da curva de aprendizado controla a velocidade com que a cadeia se alonga, não a profundidade em que a resposta está enterrada"
+    }
+  ],
+  "intro": {
+    "what": "Observe as pistas, raciocine e encontre a única solução — Sokoban, Monument Valley e jogos de escape room são construídos sobre isso.",
+    "feel": "Você encara o layout em pensamento profundo, tenta um passo, lê o feedback, tenta de novo; o momento \"eureca\" chega como uma porta se abrindo — a agonia de estar travado e o êxtase do insight são dois lados da mesma moeda.",
+    "why": "Um espécime central do design de curva de aprendizado — como manter o jogador travado-mas-sem-desistir é a lição mais importante que os puzzles ensinam."
+  },
+  "concept": "O gameplay de puzzle é uma \"duração de confusão\" cuidadosamente engendrada: a informação é deliberadamente retida, a cadeia de raciocínio é dimensionada para ser por pouco caminhável, e cada tentativa devolve feedback verificável. A parte difícil não é um enigma inteligente — é gerenciar o custo de estar travado: dicas fortes demais matam a conquista, fracas demais causam abandono, e feedback não verificável deixa o jogador sem saber se está avançando ou regredindo. A alegria do insight é cultivada com precisão pelo ritmo de revelação da informação.",
+  "designNotes": [
+    "Dicas trocam taxa de abandono por gasto de recurso: dicas graduadas deixam o jogador \"comprar de volta sua sensação de conquista\" — o orçamento de dicas transforma um momento de travamento de ponto de desistência em ponto de decisão.",
+    "Dificuldade não é esconder mais fundo — é encadear mais longe: uma cadeia de raciocínio longa com verificação a cada passo vence uma \"resposta bem escondida\", porque a primeira dá progresso enquanto a segunda só convida ao chute.",
+    "Pistas levemente escassas provocam exploração (contra-intuitivo): quando a informação fica um pouco rara, o jogador voluntariamente tenta várias estratégias — mas só se o feedback de cada passo for honesto; caso contrário, a escassez vira enganação."
+  ],
+  "value": {
+    "player": "Puzzles vendem o momento \"eureca\": a informação é deliberadamente retida e o jogador a completa com o próprio raciocínio — uma conquista que não se ganha na sorte, e preciosa exatamente por isso. A agonia de estar travado e a alegria do insight são racionadas com cuidado pelo designer em um barato intelectual único.",
+    "ecosystem": "Puzzle é uma categoria de cauda longa movida a boca a boca: os custos são controláveis, a produção de conteúdo É o design de fases, e uma equipe pequena com fases brilhantes consegue construir uma marca (Monument Valley, Baba Is You).",
+    "transfer": "Aprenda puzzles e você aprende o ritmo de revelação da informação — o que esconder, quando dar dicas, como deixar o jogador caminhar sozinho até a resposta — um ofício que se transfere para design de tutoriais, orientação narrativa e até onboarding de produto."
+  }
+}

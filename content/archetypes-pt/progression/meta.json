@@ -1,0 +1,87 @@
+{
+  "key": "progression",
+  "lang": "pt",
+  "name": "Progressão",
+  "nameEn": "Progression",
+  "subtitle": "Modele objetivos de longo prazo por meio de acúmulo e curvas; o núcleo é progressão controlável e limiares de estágio.",
+  "features": [
+    "点击",
+    "放置产出",
+    "数值成长"
+  ],
+  "difficulty": "Iniciante → Avançado",
+  "demoRuleHint": "Regra: Completar uma ação → Ganhar recursos → Fazer upgrade/Desbloquear → Aprimoramento de habilidade → Novos objetivos e custos mais altos.",
+  "problemsSolved": [
+    "Garante que a falha ainda renda crescimento (retorno/experiência garantidos), reduzindo frustração e abandono.",
+    "Equilibra atributos permanentes com habilidades de curto prazo, evitando puro grind ou pura punição.",
+    "Usa desbloqueios por marcos para guiar o retorno e a exploração, criando objetivos sustentáveis."
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop de crescimento — agir → ganhar recursos → upgrade/desbloqueio → ficar mais forte → novo objetivo — e reproduzir na demo um upgrade",
+    "Intermediário: escrever o contrato de curva de custo e piso garantido (regra de escalonamento, pagamento em falha, gatilho de compensação por sequência de derrotas) e ajustar a taxa de crescimento",
+    "Avançado: projetar o ritmo de limiares e a cadência de desbloqueio (o mapa de marcos), e verificar a saúde de longo prazo com curva de retenção, margem de lucro de farming e taxa de alcance de limiares"
+  ],
+  "minimalRules": [
+    "Recursos: ganhe 1 de energia por clique; a energia pode ser gasta em upgrades ou desbloqueios.",
+    "Upgrade: custo = nível atual × 10; após o upgrade, o atributo aumenta em +1.",
+    "Limiar: a cada 100 de energia desbloqueia uma nova habilidade; os limiares aumentam em 50 a cada vez."
+  ],
+  "systemLoopHint": "Entrada (ação) → Feedback (ganho de recurso) → Decisão (alocação) → Mudança de estado (upgrade/desbloqueio) → Nova habilidade → Nova entrada.",
+  "combos": [
+    {
+      "formula": "Progressão + Idle",
+      "effect": "A produção idle gera energia continuamente; a energia acumulada pode ser gasta em upgrades, criando um loop."
+    },
+    {
+      "formula": "Progressão + Combate",
+      "effect": "O combate consome energia; a vitória concede experiência, que é usada em upgrades, aumentando o poder de combate."
+    },
+    {
+      "formula": "Progressão + Combinar / Eliminar",
+      "effect": "A progressão de fases e os recursos encadeados dirigem o crescimento; completar uma combinação pode disparar upgrades adicionais."
+    }
+  ],
+  "advancedWarnings": [
+    "Custos de upgrade altos demais podem drenar a motivação do jogador, enquanto custos baixos demais diminuem o desafio e a sensação de conquista. O designer precisa equilibrar a curva de custo com o investimento do jogador para manter desafio e satisfação.",
+    "Uma curva de crescimento rápida demais encurta a vida útil do jogo, enquanto uma lenta demais leva ao abandono. Definir bem taxas de crescimento e marcos pode estender o ciclo de experiência.",
+    "A falta de objetivos de estágio faz a progressão parecer sem sentido. Cada limiar deve estar amarrado a uma recompensa visível ou a um novo elemento de gameplay para sustentar a motivação.",
+    "Quando o jogador abre mão de ganhos imediatos em prol de crescimento de longo prazo, a experiência geral pode melhorar, já que objetivos de longo prazo dão motivação sustentada. O designer deve introduzir marcos previsíveis cedo para encorajar o jogador em direção a objetivos maiores."
+  ],
+  "advancedAlgoRefs": [
+    "Atributos: curvas segmentadas, retornos garantidos e mecanismos anti-grind.",
+    "Economia: controle de inflação, tetos e tetos suaves (soft caps)."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento da Curva de Upgrade",
+      "action": "Junte moeda, clique em \"Upgrade (secundário)\" e veja o metaPower saltar enquanto o custo do próximo nível sobe",
+      "observe": "O custo de upgrade escala com o nível — a curva de custo define o ritmo de crescimento. Cada salto de metaPower entrega uma dose instantânea de \"fiquei mais forte\", enquanto o custo crescente do próximo nível mantém viva a atração do \"só mais um pouco\""
+    },
+    {
+      "title": "Observação de Crescimento Garantido",
+      "action": "Falhe várias partidas seguidas de propósito e veja se o badStreak aumenta enquanto a moeda continua crescendo",
+      "observe": "Mesmo a falha paga moeda — ganhos garantidos impedem que a frustração expulse o jogador. badStreak é o gatilho dos mecanismos de proteção: quanto maior a sequência de derrotas, mais forte a compensação, transformando \"pura punição\" em \"progressão controlada\""
+    },
+    {
+      "title": "Contraste de Dificuldade",
+      "action": "No fácil versus no difícil, use \"Avançar 1 Passo\" 10 passos em cada e compare runDepth com metaPower",
+      "observe": "No difícil, o runDepth é mais raso, mas o metaPower continua acumulando — o crescimento permanente se desacopla da habilidade em cada partida: falhar uma partida nunca bloqueia o crescimento fora dela. Essa é a saída de emergência da armadilha do \"puro grind ou pura dor\""
+    }
+  ],
+  "intro": {
+    "what": "Termine uma partida, colete recursos, suba de nível e vá mais longe na próxima — o leveling de RPGs e os power-ups permanentes entre partidas de Vampire Survivors são construídos sobre isso.",
+    "feel": "Você morreu nesta partida, mas a experiência ficou no banco e seu poder cresceu; na próxima você sente claramente \"estou mais forte agora\" — até a falha vira investimento, e isso prende.",
+    "why": "O motor clássico de retenção de longo prazo — amarrar pequenas vitórias em uma linha de crescimento visível que faz o jogador dizer \"só mais um nível e eu durmo\"."
+  },
+  "concept": "O gameplay de progressão converte tempo gasto em ativos de habilidade irreversíveis: toda ação produz retorno, a falha paga um piso garantido, e limiares em estágios continuam desbloqueando novos objetivos. A parte difícil não são os números — é o ritmo e a justiça da curva: custos que sobem rápido demais matam a motivação, crescimento rápido demais queima conteúdo, e puro grind ou pura dor expulsam o jogador. O \"só mais uma partida\" vem do senso preciso de distância — o próximo nível nunca parece longe.",
+  "designNotes": [
+    "A falha precisa pagar um piso garantido: a compensação por sequência de derrotas transforma \"pura dor\" em \"progressão controlada\" — o contador de sequência não é pena; garante que a frustração nunca saia de mãos vazias.",
+    "O crescimento meta precisa se desacoplar da habilidade em cada partida: uma partida rasa ainda faz o poder meta crescer — a falha dentro da partida nunca bloqueia o crescimento fora dela. Essa é a única saída da armadilha do \"puro grind ou pura dor\".",
+    "Marcos são faróis parafusados na curva: uma curva longa sem objetivos de estágio torna o progresso sem sentido — todo limiar precisa pendurar uma recompensa visível ou uma mecânica nova, ou os números só giram no lugar."
+  ],
+  "value": {
+    "player": "A progressão dá ao jogador a certeza de que tempo gasto é tempo depositado: mesmo uma derrota te deixa mais forte, então nenhuma partida é desperdiçada.",
+    "ecosystem": "A metaprogressão é o motor central da economia de retenção: pagamentos garantidos impedem que a frustração expulse o jogador, desbloqueios por marcos distribuem o consumo de conteúdo ao longo de objetivos de longo prazo, e a curva de custo mais a economia de energia definem diretamente o teto de LTV de um título de longa duração — os milagres comerciais de roguelikes e jogos idle são construídos em grande parte sobre essa estrutura.",
+    "transfer": "Aprenda design de progressão e você aprende a transformar o tempo do jogador em ativo: curvas de custo, compensação por pity, desbloqueios por limiar — uma estrutura que se transfere para qualquer coisa que precise de retenção, de battle passes a apps de aprendizado."
+  }
+}

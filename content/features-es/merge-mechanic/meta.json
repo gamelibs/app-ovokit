@@ -1,0 +1,63 @@
+{
+  "key": "merge-mechanic",
+  "name": "Mecánica de fusión",
+  "nameEn": "Merge Mechanic",
+  "lang": "es",
+  "subtitle": "Fusionar unidades idénticas o relacionadas en formas de nivel superior",
+  "concept": "La mecánica de fusión usa una tabla de recetas para combinar unidades base coleccionables en unidades de nivel superior, formando una cadena de niveles. El diseñador debe equilibrar tres dimensiones: la curva de costes, la curva de producción y el comportamiento del jugador. La curva de costes determina cuántos recursos debe invertir el jugador para alcanzar el siguiente nivel; si sube demasiado rápido, el jugador experimenta un patrón de «diversión temprana, grind tardío», mientras que si sube demasiado lento, el jugador pierde la sensación de logro. La curva de producción mide el aumento de valor tras una fusión y debe mantenerse en sincronía con la curva de costes para evitar una situación de «alto coste, bajo retorno». El comportamiento del jugador está influido por las caídas aleatorias y las mecánicas de garantía, que afectan a la predictibilidad de obtener las unidades necesarias para las recetas; un tope de ganancias sin conexión evita el llenado de pantalla y el desequilibrio económico. La fusión se combina a menudo con la cuadrícula, el idle y otras mecánicas para crear estrategia espacial, crecimiento sin conexión y otras experiencias multidimensionales. Por ejemplo, fusionar tres unidades de pradera en una unidad de bosque, o cuatro unidades de cristal en una unidad de zafiro, con la tabla de recetas listando todas las combinaciones viables. Contraintuitivamente, bajar el coste de fusión puede mejorar la retención porque el jugador experimenta el logro más rápido, disparando bucles de fusión de mayor frecuencia y resultando en una economía más sana.",
+  "role": "La fusión crea una sensación sostenida de crecimiento y deseo de colección. Amplifica el feedback de «hacer tareas pequeñas → ganar a lo grande», dando al jugador siempre una siguiente meta desbloqueable; ideal para juegos ultracasuales y mid-casual.",
+  "significance": "Dominar las características de fusión ayuda al desarrollador a entender curvas económicas, diseño de escasez y psicología del progreso. Enseña cómo reglas de fusión simples pueden generar metas complejas a largo plazo y evitar las trampas numéricas de la «diversión temprana, grind tardío».",
+  "filterTags": [
+    "Merge"
+  ],
+  "cases": [
+    "Merge Dragons!",
+    "Triple Town",
+    "Suika Game"
+  ],
+  "problemsSolved": [
+    "Mantener alta pegajosidad con acciones de baja frecuencia.",
+    "Proporcionar metas claras a largo plazo mediante cadenas de niveles.",
+    "Combinar caídas aleatorias con elección del jugador para crear sorpresa."
+  ],
+  "learningGoals": [
+    "Diseñar tablas escalables de niveles/recetas de fusión.",
+    "Dominar el equilibrio de curvas de coste y producción.",
+    "Gestionar las ganancias sin conexión y el guardado de progreso."
+  ],
+  "minimalRules": [
+    "El jugador puede obtener unidades base fusionables mediante encargos, caídas o compras.",
+    "Las unidades idénticas o que satisfacen una receta pueden fusionarse en cualquier ubicación en una unidad de nivel superior.",
+    "La unidad de nivel superior resultante tiene mayor producción o habilidades más fuertes y puede seguir fusionándose.",
+    "El límite diario de fusiones es 100 para prevenir el llenado de pantalla y el desequilibrio económico."
+  ],
+  "combos": [
+    {
+      "formula": "Fusión 3x3 + Espacio",
+      "effect": "Tras fusionar, las celdas adyacentes pueden recibir recompensas de espacio extra; por ejemplo, la unidad producida por la fusión puede ocupar un área mayor o disparar una cadena."
+    },
+    {
+      "formula": "Fusión + Encargo",
+      "effect": "Usa objetivos para guiar al jugador a fusionar unidades específicas, evitando el juego sin rumbo; completar el encargo otorga recompensas extra o desbloquea recetas nuevas."
+    },
+    {
+      "formula": "Fusión + Colocación",
+      "effect": "Incluso sin conexión, el crecimiento es posible; los recuentos de fusión tienen tope diario para prevenir el llenado de pantalla, y las fusiones pueden realizarse automáticamente mientras se está desconectado."
+    }
+  ],
+  "advancedWarnings": [
+    "Una curva de crecimiento empinada puede hacer que el contenido del juego tardío se sienta inalcanzable.",
+    "Las caídas aleatorias sin mecánica de garantía pueden llevar a una experiencia negativa.",
+    "Las ganancias sin conexión deben tener un tope para prevenir la explotación, p. ej., un máximo diario de fusiones o límites de marca de tiempo."
+  ],
+  "advancedAlgoRefs": [
+    "Curvas de coste y producción exponenciales / polinómicas.",
+    "Tablas de caídas aleatorias y distribuciones pseudoaleatorias.",
+    "Cálculo de progreso sin conexión."
+  ],
+  "intro": {
+    "what": "Dos de una clase se funden en una forma más fuerte: las frutas de Suika Game y los huevos de dragón de Merge Dragons juegan así.",
+    "feel": "En cuanto ves dos cosas idénticas, quieres juntarlas; la fusión en sí es extrañamente satisfactoria, e inmediatamente empiezas a cazar el siguiente par.",
+    "why": "Es una dimensión de progresión apilable: atorníllala a cualquier jugabilidad y aparece al instante una línea de crecimiento; un caso modelo de reutilización de mecánicas."
+  }
+}

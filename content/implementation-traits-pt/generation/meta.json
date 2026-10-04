@@ -1,0 +1,57 @@
+{
+  "lang": "pt",
+  "key": "generation",
+  "name": "Geração",
+  "nameEn": "Generation",
+  "subtitle": "Crie conteúdo de jogo com métodos procedurais",
+  "concept": "Geração refere-se a criar fases, mapas, inimigos, itens e outros conteúdos por meio de algoritmos em vez de design manual. Ela garante que cada partida pareça diferente, aumentando muito a rejogabilidade. A essência da geração é a \"aleatoriedade com restrições\": aleatoriedade pura produz ruído; só depois que regras e validação são aplicadas ela vira conteúdo utilizável. Técnicas comuns incluem terreno baseado em ruído, dungeons de salas e corredores, resolução de restrições e wave-function collapse. A tensão central do design de geração é equilibrar controlabilidade com novidade — controle demais deixa o jogador perceber padrões rapidamente; aleatoriedade demais pode render situações monótonas ou injustas. Por isso, sistemas maduros de geração sempre incluem mecanismos de validação para provar que o conteúdo é jogável antes de entregá-lo ao jogador.",
+  "role": "A geração resolve gargalos de produção de conteúdo e oferece variedade infinita ao jogador. É uma característica técnica central de jogos Roguelike, de mundo aberto e sandbox.",
+  "significance": "Dominar geração ajuda a entender aleatoriedade, satisfação de restrições e design emergente. É a chave para sair de conteúdo fixo para conteúdo infinito.",
+  "filterTags": [
+    "Generation"
+  ],
+  "cases": [
+    "Minecraft",
+    "Spelunky",
+    "No Man's Sky"
+  ],
+  "problemsSolved": [
+    "Reduz custos de criação manual de conteúdo",
+    "Aumenta o valor de replay por meio da aleatoriedade",
+    "Cria histórias emergentes de jogadores"
+  ],
+  "learningGoals": [
+    "Dominar técnicas de geração como ruído, particionamento de grafos e resolução de restrições",
+    "Projetar parâmetros de aleatoriedade controlável",
+    "Equilibrar conteúdo aleatório com justiça para o jogador"
+  ],
+  "minimalRules": [
+    "Existe um processo algorítmico de geração de conteúdo",
+    "Os resultados gerados precisam ser jogáveis/válidos",
+    "O jogador deve sentir que cada experiência é diferente"
+  ],
+  "combos": [
+    {
+      "formula": "Geração + Fases",
+      "effect": "O layout de cada fase difere a cada partida"
+    },
+    {
+      "formula": "Geração + Roguelike",
+      "effect": "Constrói variedade usando relíquias e mapas aleatórios"
+    },
+    {
+      "formula": "Geração + Progressão",
+      "effect": "Ajusta dinamicamente dificuldade e recompensas"
+    }
+  ],
+  "advancedWarnings": [
+    "Geração puramente aleatória pode produzir resultados monótonos ou injustos",
+    "O conteúdo gerado precisa ser validado para garantir jogabilidade",
+    "Alta complexidade algorítmica pode impactar o desempenho"
+  ],
+  "advancedAlgoRefs": [
+    "Ruído Perlin/Simplex para geração de terreno",
+    "Geração de dungeons de salas e corredores",
+    "Resolução de restrições e wave-function collapse"
+  ]
+}

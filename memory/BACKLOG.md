@@ -19,6 +19,7 @@
     - about/privacy/terms/contact 正文中文；这些静态页 hreflang 暂用根默认（指向 /），应补页面级 alternates
     - mod 后台、DevToolsPanel 不翻译（内部工具）
   - ja/ko 接入：`src/i18n/routing.ts` locales 追加 + `messages/{ja,ko}.json` + plays.ts `ContentLocale` 与目录映射（如需新内容目录）
+  - ko 进展（2026-10-04）：`messages/ko.json` + 30 支柱 meta（`*-ko` 目录）已完成并全量机检通过；运行时接线（routing/plays/spec）待 ja/es/pt 并行流 src 改动定稿后追加，详见 `memory/daily/2026-10-04.md`
 
 - [ ] **移动端玩法详情页结构优化** <!-- task:id=mobile-detail-001 priority:P1 category:ux -->
   - 文件：`src/app/(site)/play/[slug]/page.tsx`

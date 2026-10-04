@@ -1,0 +1,91 @@
+{
+  "lang": "es",
+  "key": "combat",
+  "name": "Combate",
+  "nameEn": "Combat",
+  "subtitle": "Centrado en el intercambio y el contraataque con oponentes y habilidades; el núcleo gira en torno a las ventanas, los recursos y la lectura de movimientos.",
+  "features": [
+    "数值成长",
+    "Roguelike",
+    "限时"
+  ],
+  "difficulty": "Avanzado",
+  "demoRuleHint": "Regla: observar al oponente → elegir habilidad → resolver (impacto/bloqueo/evasión) → feedback (daño/aturdimiento) → recuperación de recursos",
+  "problemsSolved": [
+    "Aclarar las ventanas de ataque/defensa (preparación/activo/aturdimiento) para reducir los «golpes injustos».",
+    "Usar recursos (resistencia/enfriamiento/distancia) para restringir el uso de habilidades, forzando decisiones y ritmo.",
+    "Equilibrar el peso del impacto y la relación riesgo/recompensa para que «atacar/esquivar/bloquear» tengan cada uno su valor.",
+    "Equilibrar la duración de la preparación y el ritmo: una preparación demasiado corta permite combos pero elimina las ventanas de contraataque; una demasiado larga es fácil de interrumpir pero permite leer los movimientos. El diseñador debe equilibrar la fluidez de los combos con la legibilidad defensiva.",
+    "Velocidad de recuperación de recursos frente a variedad de habilidades: una recuperación demasiado rápida lleva a bucles de habilidades sin pensar; una demasiado lenta limita la profundidad de los combos y aumenta la profundidad estratégica."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle de ataque/defensa — observar → golpear → juzgar → feedback → regeneración de recursos — y reproducir un ataque y un bloqueo en la demo",
+    "Intermedio: escribir el contrato de ventanas (preparación / ventana de bloqueo / aturdimiento por impacto) y el contrato de recursos (gasto y regeneración de resistencia/enfriamiento)",
+    "Avanzado: diseñar relaciones de contra entre movimientos y espacio de contrajuego, y verificar el equilibrio con la relación de intercambio, la tasa de bloqueo y la frecuencia de machacar botones"
+  ],
+  "minimalRules": [
+    "Acciones: el jugador puede elegir atacar, bloquear o moverse; los ataques requieren una ventana de preparación; el movimiento requiere una ventana de movimiento.",
+    "Resolución: la probabilidad de impacto se basa en la precisión + la evasión del oponente; si precisión > evasión, es un impacto; la probabilidad de bloqueo se basa en la tasa de bloqueo + el poder de ataque del oponente; si tasa de bloqueo > poder de ataque, es un bloqueo.",
+    "Comprobación de invencibilidad: si los fotogramas de invencibilidad de una habilidad superan la duración de la acción del oponente, este no puede ser golpeado.",
+    "Recursos: resistencia/enfriamiento; atacar consume resistencia/enfriamiento; moverse consume resistencia; bloquear consume resistencia.",
+    "Ventanas: preparación, ventana de bloqueo, ventana de movimiento, ventana de aturdimiento; la duración de cada ventana es configurable."
+  ],
+  "systemLoopHint": "Entrada (selección de habilidad) → Resolución (impacto/contra) → Feedback (daño/aturdimiento) → Cambio de recursos (enfriamiento/resistencia) → Nueva ventana → Nueva entrada",
+  "combos": [
+    {
+      "formula": "Combate + Combinación",
+      "effect": "Usa las combinaciones para disparar habilidades y puntos de ritmo."
+    },
+    {
+      "formula": "Combate + Elección/Estrategia",
+      "effect": "Añade construcción/selección, permitiendo que decisiones de medio y largo plazo influyan en el enfrentamiento."
+    },
+    {
+      "formula": "Combate + Aleatorio",
+      "effect": "Los afijos y el botín alteran las respuestas, aumentando la rejugabilidad."
+    }
+  ],
+  "advancedWarnings": [
+    "Las preparaciones poco claras inutilizan los contraataques y convierten el combate en un juego de números.",
+    "Una recuperación de recursos demasiado rápida lleva a bucles de habilidades sin pensar.",
+    "La ausencia de aturdimiento/retroceso quita peso a los impactos.",
+    "Las preparaciones más cortas aumentan el ritmo general, pero pueden reducir el espacio defensivo, forzando al jugador a ataques pasivos y bajando la experiencia de forma contraintuitiva."
+  ],
+  "advancedAlgoRefs": [
+    "Máquina de estados: estados de habilidad, cancelación, aturdimiento, impacto.",
+    "Detección de impactos: colisionadores, fotogramas de invencibilidad, ventanas de combo."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de intercambio de recursos",
+      "action": "Machaca «Atacar (principal)» hasta vaciar la resistencia, observando cómo cambian los impactos y el daño",
+      "observe": "La resistencia es el presupuesto de ataque: una vez vacía, los ataques fallan y te ves forzado a una ventana de regeneración. La restricción de recursos impone un ritmo de lucha/descanso: el coste de machacar botones hecho explícito."
+    },
+    {
+      "title": "Experimento de ventana de bloqueo",
+      "action": "Cuando el enemigo se acerque, cambia a «Bloquear (secundario)» y observa el trueque entre guardia y vida",
+      "observe": "Bloquear convierte el daño en desgaste de guardia: la defensa no es inmunidad, es sustitución de recursos. Cuando la guardia se agota, los bloqueos fallan; la ventana defensiva tiene su propio presupuesto, lo que pone techo a la estrategia tortuga."
+    },
+    {
+      "title": "Contraste de dificultad",
+      "action": "En fácil y en difícil, «Avanzar 1 paso» 10 pasos cada una y compara las curvas de pérdida de vida",
+      "observe": "En difícil, la vida enemiga es más gruesa y sus ataques más frecuentes: mismo bucle de ataque, pendiente de vida completamente distinta. La dificultad es, en el fondo, un ajuste de la relación de intercambio: cada uno de tus golpes compra menos vida enemiga."
+    }
+  ],
+  "intro": {
+    "what": "Intercambiar golpes con un oponente cuerpo a cuerpo: cuando tu barra de vida se vacía, pierdes. Los juegos de lucha y los jefes de los juegos de acción están construidos sobre esto.",
+    "feel": "Lees la preparación del oponente y golpeas en el hueco; cuando la resistencia se agota retrocedes jadeando: cada golpe cae con peso, cada bloqueo es una respiración contenida.",
+    "why": "Una disección introductoria de «la sensación de duelo»: una vez que las ventanas, los recursos y la lectura de movimientos encajan, todo diseño de enfrentamiento tiene su esqueleto."
+  },
+  "concept": "El juego de combate traduce el «conflicto» en intercambios legibles: los ataques tienen preparación, las defensas tienen ventanas, los recursos tienen presupuestos; cada golpe liquida riesgo contra recompensa en el acto. La parte difícil no es el número de movimientos, sino la explicabilidad del intercambio: las preparaciones poco claras matan el contrajuego, una regeneración de recursos demasiado rápida convierte las habilidades en bucles sin pensar, y la falta de aturdimiento por impacto roba peso a los golpes. El jugador siente «fue una pelea justa» porque las victorias y las derrotas se rastrean hasta lecturas y decisiones concretas.",
+  "designNotes": [
+    "La defensa no es inmunidad, es sustitución de recursos: bloquear convierte la pérdida de vida en desgaste del recurso de guardia, así que la estrategia tortuga se pone techo a sí misma con el presupuesto de defensa, sin ninguna prohibición extra.",
+    "Las preparaciones más cortas pueden empeorar el juego (contraintuitivo): los movimientos más rápidos suavizan los combos pero comprimen la ventana de lectura del defensor, degradando el duelo a un mero concurso de velocidad; el ritmo solo mejora si sobrevive el espacio de contrajuego.",
+    "El aturdimiento y el empuje son el «peso» de un golpe: el jugador no siente nada con decrementos de números; es la sacudida y el desplazamiento lo que dice «eso conectó». Sin ellos, el combate son dos barras de vida siendo picoteadas."
+  ],
+  "value": {
+    "player": "El combate satisface el placer profundo de leer a un oponente: las preparaciones, el aturdimiento y los intercambios de recursos convierten cada victoria en evidencia intelectual: sabes exactamente dónde ganaste.",
+    "ecosystem": "La profundidad adversaria es el nicho raíz de la categoría de acción: de los scrollers laterales a los esports de lucha, los sistemas de combate son el contenido más longevo; un gran sistema de combate mantiene a los jugadores estudiándolo durante años, y ese estudio mismo se vuelve comunidad y tráfico.",
+    "transfer": "Aprende combate y aprenderás diseño de duelos legibles: la tríada ventana/recurso/lectura reaparece en distintas formas en shooters, juegos de cartas y auto-battlers."
+  }
+}

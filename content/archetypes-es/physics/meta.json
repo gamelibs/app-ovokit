@@ -1,0 +1,87 @@
+{
+  "key": "physics",
+  "name": "Física",
+  "nameEn": "Physics",
+  "lang": "es",
+  "subtitle": "Crear jugabilidad usando reglas físicas y predictibilidad; el núcleo es la explicabilidad y la controlabilidad.",
+  "features": [
+    "关卡"
+  ],
+  "difficulty": "Avanzado → Hardcore",
+  "demoRuleHint": "Regla: aplicar fuerza / arrastrar → movimiento y colisión → decisión (disparo/fracaso) → feedback → reinicio / reintento",
+  "problemsSolved": [
+    "Hacer que los resultados físicos sean predecibles y aprendibles (la misma entrada produce resultados consistentes).",
+    "Mantener una simulación estable dentro de los presupuestos de rendimiento, reduciendo el temblor, la penetración y otros problemas que rompen la experiencia.",
+    "Permitir que los parámetros táctiles (fricción, elasticidad, amortiguación) sean ajustables y verificables para iterar rápido."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle físico — aplicar fuerza/arrastrar → movimiento y colisión → juicio → feedback → reinicio — y reproducir un corte y un derrumbe en la demo",
+    "Intermedio: escribir el contrato de estabilidad (detección de colisión continua, número de iteraciones, umbrales de reposo) y dar forma a la sensación con fricción/elasticidad/amortiguación",
+    "Avanzado: diseñar el presupuesto de acciones y un espacio de soluciones reproducible, y verificar la credibilidad física con la tasa de temblor, la tasa de tunelado y el coste de reinicio"
+  ],
+  "minimalRules": [
+    "Fuerza: usar RigidBody.AddForce(F), p. ej., F=10N, dirección arbitraria.",
+    "Velocidad: fijar RigidBody.velocity = v, p. ej., v=5m/s.",
+    "Gravedad: usar g=9,8m/s² por defecto, o ajustar con RigidBody.gravityScale.",
+    "Colisión: añadir un Collider (AABB/círculo/polígono) a los objetos y activar la detección de colisión continua (CCD) para evitar la penetración.",
+    "Objetivo: determinar llegada/contacto/mantenimiento mediante disparadores o máquinas de estados; la condición mínima es la llegada."
+  ],
+  "systemLoopHint": "Entrada (arrastre/fuerza) → Evolución (simulación física) → Decisión (¿se logró?) → Feedback (razón de éxito/fracaso) → Nueva entrada",
+  "combos": [
+    {
+      "formula": "Física + Puzle",
+      "effect": "Usa cadenas causales y mecanismos para crear múltiples soluciones."
+    },
+    {
+      "formula": "Física + Colocación",
+      "effect": "La estabilidad estructural y la optimización del diseño se convierten en el núcleo estratégico."
+    },
+    {
+      "formula": "Física + Combate",
+      "effect": "El empuje, la destrucción y el rebote introducen el combate espacial."
+    }
+  ],
+  "advancedWarnings": [
+    "Una fricción excesiva limita el movimiento de los objetos; muy poca fricción causa movimiento inestable y deslizamiento incontrolado: equilibrar la fricción es clave para un movimiento predecible.",
+    "Una elasticidad alta retiene demasiada energía, causando rebotes excesivos; una elasticidad baja disipa la energía rápido, llevando al estancamiento: una elasticidad razonable controla el ritmo del movimiento.",
+    "Una amortiguación excesiva detiene los objetos demasiado rápido; una amortiguación insuficiente prolonga el movimiento y puede causar oscilación: una amortiguación moderada logra paradas suaves.",
+    "Los objetos de masa alta aceleran menos con la misma fuerza, moviéndose más lento pero penetrando menos; los de masa baja aceleran más, arriesgando penetración o movimiento demasiado rápido."
+  ],
+  "advancedAlgoRefs": [
+    "Colisión: AABB/círculo/polígono, detección de colisión continua (CCD).",
+    "Estabilidad: paso de tiempo, amortiguación, resolución de restricciones."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de presupuesto de cortes",
+      "action": "Pulsa «Cortar (principal)» repetidamente hasta agotar el presupuesto, observando las piezas y qué estructura queda",
+      "observe": "El presupuesto es la restricción económica de las acciones: cada corte tiene un coste, y cortar sin cuidado te deja sin fondos antes de la estructura clave. El presupuesto convierte un «sandbox de física» en un «puzle de planificación»: el orden de los cortes se vuelve en sí mismo estrategia."
+    },
+    {
+      "title": "Vigilancia de estabilidad",
+      "action": "Tras cortar, pulsa «Avanzar 1 paso» una docena de pasos y sigue la métrica de oscilación",
+      "observe": "La oscilación visualiza la estabilidad estructural: un corte rompe las rutas de carga, y la oscilación se amplifica hasta el derrumbe. La jugabilidad física es predecible porque entradas idénticas dan resultados idénticos: los jugadores solo se atreven a hacer cortes precisos cuando pueden predecir hacia dónde caerán las cosas."
+    },
+    {
+      "title": "Experimento de limpiar-reiniciar",
+      "action": "Convierte la escena en un caos de cortes, pulsa «Limpiar (secundario)» y vuelve a cortar con un plan nuevo",
+      "observe": "Limpiar es un reintento de bajo coste: el ensayo y error físico necesita reinicios rápidos, o el temblor de un fracaso contamina cada experimento posterior. Un espacio de soluciones reproducible depende de la capacidad de volver al estado inicial a voluntad."
+    }
+  ],
+  "intro": {
+    "what": "Las cosas ruedan, chocan y se derrumban bajo reglas físicas reales, y tú las aprovechas para ganar: Angry Birds, Cut the Rope y Crayon Physics están construidos sobre esto.",
+    "feel": "Cortas una cuerda y ves el bloque oscilar, caer y aplastar el objetivo; cuando la reacción física en cadena aterriza de una vez, esa descarga de «exactamente como lo planeé» no tiene rival.",
+    "why": "Enseña el «caos predecible»: cualquiera puede conectar un motor de física, pero hacerlo «justo y divertido» es puro oficio de parámetros y estabilidad."
+  },
+  "concept": "El juego de física intercambia simulación determinista por la confianza intuitiva del jugador: la misma entrada debe producir el mismo resultado, o nadie se atreve a planear movimientos precisos. La parte difícil no es el motor, sino los parámetros de sensación y la ingeniería de estabilidad: la fricción, la elasticidad y la amortiguación marcan el ritmo del movimiento, mientras que el tunelado y el temblor marcan la credibilidad, y el presupuesto de cortes/demolición convierte un sandbox en un puzle. Cuando los jugadores dicen «esta física se siente real», quieren decir «puedo predecirla».",
+  "designNotes": [
+    "La predictibilidad le gana al realismo: los jugadores no necesitan una simulación perfecta; necesitan «misma entrada, mismo resultado». Un solo temblor aleatorio destruye toda la confianza en el control fino; el determinismo es la base del juego de física.",
+    "Un presupuesto de acciones convierte un sandbox en un puzle: cuando los cortes son limitados, el orden mismo se vuelve estrategia; la física sin presupuesto es un juguete, la física con presupuesto es un juego.",
+    "Una amortiguación alta de hecho detiene las cosas más rápido (contraintuitivo): los jugadores asumen que la amortiguación «ralentiza», pero en realidad «converge el movimiento»; los parámetros de sensación como este deben ser verificables experimentalmente: lo que los documentos no pueden explicar, que los jugadores lo descubran con las manos."
+  ],
+  "value": {
+    "player": "El juego de física recompensa al jugador con el subidón del «tal como lo predije»: cuando los bloques se derrumban exactamente como imaginaste, es una pequeña prueba de cómo funciona el mundo; una satisfacción que no se encuentra en ningún otro sitio.",
+    "ecosystem": "Los puzles de física son un nicho clásico de despegue para equipos pequeños: los motores están listos para usar y los niveles son contenido; Angry Birds y Cut the Rope demostraron su viabilidad comercial.",
+    "transfer": "Aprende el juego de física y aprenderás el oficio duro de la ingeniería de estabilidad: determinismo de misma-entrada-mismo-resultado, presupuestos de rendimiento, ajuste de parámetros de sensación; alfabetización de ingeniería central para cualquier sistema en tiempo real, y la habilidad interna más portable más allá de la física misma."
+  }
+}

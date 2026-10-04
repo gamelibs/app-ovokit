@@ -1,0 +1,88 @@
+{
+  "key": "shoot-aim",
+  "name": "Tiro / Mira",
+  "nameEn": "Shoot / Aim",
+  "subtitle": "Mirar, acertar e gerenciar recursos criam um loop fechado; o núcleo está no feedback de acerto e na relação risco-recompensa.",
+  "features": [
+    "数值成长",
+    "关卡"
+  ],
+  "difficulty": "Iniciante → Avançado",
+  "demoRuleHint": "Regra: Mirar → Atirar → Determinação de acerto → Feedback (knockback/explosão/pontuação) → Cooldown/Recarregar",
+  "problemsSolved": [
+    "Transforma detecção e feedback de acerto em uma janela rítmica aprendível (por que acertar é gostoso).",
+    "Usa restrições como munição, recuo e dispersão para controlar tiros erráticos e produção ilimitada.",
+    "Faz a pressão vir de alvos e ritmo interpretáveis, não só de empilhamento de monstros.",
+    "Equilibra limites de munição e produção: munição demais leva a exagero e falta de ritmo; munição de menos força recargas frequentes, quebrando o fluxo de combos.",
+    "Equilibra recuo e precisão: recuo excessivo torna o tiro instável e reduz combos; recuo fraco deixa o jogador preciso demais, diminuindo o desafio.",
+    "Tiro preciso demais enfraquece o ritmo do jogo: quando o jogador consegue acertar todos os alvos com facilidade, o jogo perde tensão e o jogador pode parar de buscar ativamente esquiva ou estratégia."
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop mínimo — mirar → atirar → julgamento de acerto → feedback → cooldown/recarga — e reproduzir na demo um acerto e uma recarga",
+    "Intermediário: escrever o contrato de trajetória e oclusão (julgamento de acerto, modelo de dispersão, economia de munição) e moldar a dificuldade de manejo com cadência de tiro e recuo",
+    "Avançado: projetar o ritmo de surgimento de alvos e curvas de pressão, e verificar o feel de tiro com distribuição de precisão e distribuição de timing de recarga"
+  ],
+  "minimalRules": [
+    "Mira: apontar por mouse/joystick/toque (mínimo: direção fixa).",
+    "Acerto: detecção e oclusão por raio ou projétil.",
+    "Recursos: munição/cooldown/energia (mínimo: cooldown)."
+  ],
+  "systemLoopHint": "Entrada (mirar/atirar) → Resolução (acerto/oclusão) → Feedback (dano/recuo) → Mudança de recursos (cooldown/munição) → Novo alvo.",
+  "combos": [
+    {
+      "formula": "Tiro / Mira + Esquiva / Evasão",
+      "effect": "O movimento cria janelas de oportunidade, formando um loop de alta pressão."
+    },
+    {
+      "formula": "Tiro / Mira + Progressão",
+      "effect": "Acumula recursos por meio de acertos/abates para dirigir a progressão de armas."
+    },
+    {
+      "formula": "Tiro / Mira + Física",
+      "effect": "Trajetórias de projéteis interagem com o ambiente, expandindo o espaço estratégico."
+    }
+  ],
+  "advancedWarnings": [
+    "Feedback de acerto fraco faz o tiro parecer 'tiro no ar'.",
+    "Recuo e dispersão sem explicação quebram a curva de aprendizado.",
+    "Regras de oclusão inconsistentes causam forte frustração."
+  ],
+  "advancedAlgoRefs": [
+    "Detecção de acerto: raios/projéteis, camadas de colisão, hitboxes.",
+    "Geração de spawns: ritmo de atualização de inimigos e design de waves."
+  ],
+  "lang": "pt",
+  "demoLab": [
+    {
+      "title": "Experimento do Ritmo de Munição",
+      "action": "Dispare \"Atirar (primário)\" sem parar até a munição acabar, veja a precisão decair e depois aperte \"Recarregar (secundário)\" para encher",
+      "observe": "Munição vazia força uma janela de recarga — o recurso corta o ritmo de produção. A precisão cai visivelmente durante o spray: a restrição de munição transforma \"produção infinita\" em \"cada puxada de gatilho tem um custo de oportunidade\""
+    },
+    {
+      "title": "Contraste de Dificuldade",
+      "action": "No fácil versus no difícil, clique em \"Avançar 1 Passo\" 10 passos em cada e compare alvos e precisão",
+      "observe": "A dificuldade muda a pressão de spawn: no difícil, os alvos se empilham mais rápido e a mesma cadência de tiro dilui a precisão. O botão de dificuldade é um teste de estresse sobre a taxa de acerto — a precisão deixa de ser uma métrica de satisfação e vira uma métrica de sobrevivência"
+    },
+    {
+      "title": "Experimento de Tiro Disciplinado",
+      "action": "Atire só uma vez a cada 3 ticks (clique em \"Avançar 1 Passo\" três vezes, depois \"Atirar (primário)\") e após 20 passos compare a precisão com o experimento um",
+      "observe": "O tiro disciplinado marca precisão nitidamente maior que o spray — a profundidade em um shooter vem da precisão, não do volume. É por isso que designs de produção punem o fogo rápido sem pensar com dispersão/recuo: precisão perfeita mataria a tensão"
+    }
+  ],
+  "intro": {
+    "what": "Mire no alvo e atire — acertos pontuam, a munição é limitada. Shooters, jogos de estande de tiro e títulos FPS são todos construídos sobre isso.",
+    "feel": "A mira assenta sobre um alvo, você aperta o gatilho e o feedback de acerto explode; quando o pente seca você se desespera para recarregar — perca o ritmo por um segundo e os alvos se empilham em montanha.",
+    "why": "\"Como o juice é fabricado\" não é mais visível em nenhum lugar do que no tiro — feedback de acerto, restrição de munição e risco-recompensa são disciplinas obrigatórias do design de feedback."
+  },
+  "concept": "O gameplay de tiro é um loop de recompensa extremamente curto: mirar, atirar, julgamento de acerto, explosão de feedback — cada puxada de gatilho é uma microdecisão avaliável. A parte difícil não é o acerto — é a explicabilidade das restrições: munição e cooldowns transformam produção infinita em gestão de ritmo, enquanto dispersão e recuo transformam \"atirar muito\" em \"atirar bem\". Uma arma \"fica gostosa na mão\" quando a razão por trás de cada acerto e cada erro está claramente visível.",
+  "designNotes": [
+    "Munição é uma válvula de ritmo, não embalagem de recurso: a janela de recarga interrompe à força a batida de produção — munição demais e o spray sem pensar mata a tensão, de menos e os combos quebram constantemente. O tamanho do pente é a frequência cardíaca de um shooter.",
+    "O spray precisa ser punido (contra-intuitivamente punindo o jogo de alta frequência): tiros no vazio custam precisão, a dispersão pune o fogo rápido — spray sem preço destrói o valor da precisão. A profundidade do tiro vem da contenção, não do poder de fogo.",
+    "Feedback de acerto fraco é atirar no ar: knockback, som e a explosão instantânea de pontuação SÃO o juice — não importa quão preciso seja o julgamento, feedback abafado nunca deixa o jogador sentir a própria habilidade."
+  ],
+  "value": {
+    "player": "O tiro satisfaz o impulso de julgamento instantâneo do \"acertar é justiça\": mira no lugar, gatilho puxado, alvo no chão — recompensa e punição liquidam em milissegundos, o loop de emoção mais imediato que existe.",
+    "ecosystem": "Tiro é um dos maiores nichos de categoria da indústria: de estandes de tiro ao esporte eletrônico de FPS, a precisão do feedback de acerto define o piso do produto, e a capacidade de ajustar feel é um ativo central da equipe.",
+    "transfer": "Aprenda tiro e você aprende engenharia de precisão de feedback: credibilidade do julgamento, ritmo de munição, a explosão instantânea de um acerto — esse controle fino sobre \"feel\" se transfere para qualquer mecânica que precise de ações com peso."
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "key": "timed",
+  "name": "Contrarreloj",
+  "nameEn": "Timed",
+  "lang": "es",
+  "subtitle": "Crear una sensación de urgencia con restricciones de tiempo claras",
+  "concept": "La característica contrarreloj impone un límite temporal medible que obliga al jugador a completar objetivos dentro de una ventana limitada. El tiempo puede aparecer como una cuenta atrás global, un límite de tiempo por nivel o una ventana de acción por turno; las tres formas desplazan el juego de la exploración sin guía a la acción rítmica. El diseñador debe responder tres preguntas centrales: ① ¿De dónde viene el drenaje de tiempo (paso natural, coste de acción o penalización por errores)? ② ¿Qué opciones tiene el jugador cuando el tiempo escasea (objetos de extensión de tiempo, saltar niveles o metas más bajas)? ③ ¿Cómo dispara el final de la cuenta atrás el feedback (muestra de puntuación, atribución del fracaso, escalado de recompensas)? Una mecánica contrarreloj bien diseñada crea «tensión, no ansiedad», recompensando al jugador con una sensación de «por poco» en lugar de un castigo injusto. Los elementos contrarreloj se entrelazan con la dificultad dinámica, la gestión de recursos y los objetos de extensión de tiempo, formando un espacio estratégico multidimensional; por ejemplo, en niveles de recursos escasos, la presión temporal magnifica el coste-beneficio de la asignación de recursos. Compromisos de diseño: ① Los límites excesivos inducen ansiedad y erosionan la inmersión; ② Los límites débiles dejan el ritmo suelto y pierden la urgencia. Idea contraintuitiva: las ventanas cortas agudizan la concentración al forzar un filtrado rápido y reducir las distracciones de la multitarea.",
+  "role": "Las mecánicas contrarreloj tensan la jugabilidad suelta en una experiencia rítmica. Dan al jugador una señal clara de «qué hacer ahora» y mantienen el flow ligeramente por encima del nivel de presión de la zona de confort.",
+  "significance": "Dominar las mecánicas contrarreloj ayuda al diseñador a entender curvas de presión, atribución del fracaso y feedback de liquidación. Es la herramienta fundacional para ajustar la dificultad, crear tensión y ejecutar eventos temporales (desafíos diarios, encargos por tiempo limitado).",
+  "filterTags": [
+    "Timed",
+    "Timing / Reaction"
+  ],
+  "cases": [
+    "Bejeweled Blitz",
+    "Overcooked",
+    "Niveles contrarreloj de Candy Crush Saga"
+  ],
+  "problemsSolved": [
+    "Inyectar ritmo y urgencia en la jugabilidad suelta.",
+    "Ajustar la dificultad a bajo coste con restricciones de tiempo.",
+    "Proporcionar una motivación de reintento de «por poco»."
+  ],
+  "learningGoals": [
+    "Equilibrar cuentas atrás y mecánicas de extensión de tiempo.",
+    "Dominar curvas de presión y atribución del fracaso.",
+    "Diseñar feedback de liquidación que haga el fracaso aceptable.",
+    "Entender la interacción entre el tiempo y la gestión de recursos.",
+    "Evaluar el impacto de los objetos de extensión de tiempo sobre la urgencia."
+  ],
+  "minimalRules": [
+    "Existe una restricción de tiempo explícita (global / por nivel / por turno).",
+    "El agotamiento o el cero del tiempo dispara la liquidación, y el resultado debe entregarse de inmediato.",
+    "El jugador recibe recompensas por cumplir la meta dentro del límite; si no, puede recibir recompensas parciales: las recompensas escalan con el porcentaje de completado, o incurre en penalizaciones como una deducción del 10 % de los puntos ganados o la pérdida de un recurso clave, preservando la justicia.",
+    "El jugador puede usar objetos o habilidades de extensión de tiempo durante la cuenta atrás, y la cantidad de tiempo añadida debe visualizarse en el juego."
+  ],
+  "combos": [
+    {
+      "formula": "Contrarreloj + Niveles",
+      "effect": "Una variante tensa de los niveles estándar que impulsa el valor de rejugabilidad."
+    },
+    {
+      "formula": "Contrarreloj + Números",
+      "effect": "Crea espacio económico y estratégico usando objetos de extensión de tiempo."
+    },
+    {
+      "formula": "Contrarreloj + Roguelike",
+      "effect": "Las decisiones de ruta bajo presión amplifican el riesgo-recompensa."
+    },
+    {
+      "formula": "Contrarreloj + Gestión de recursos",
+      "effect": "Asigna recursos limitados dentro de un tiempo fijo, profundizando la toma de decisiones; p. ej., un jugador solo puede ganar 10 de oro por nivel y debe decidir en 30 segundos si gastarlo en un objeto de aceleración o guardarlo para después, y el oro no usado expira cuando el tiempo se agota."
+    }
+  ],
+  "advancedWarnings": [
+    "Una presión de cuenta atrás excesiva convierte el flow en ansiedad.",
+    "Las penalizaciones de tiempo deben ser explicables; el jugador debe saber qué se está deduciendo.",
+    "Los eventos contrarreloj deben considerar la justicia entre zonas horarias: usa ventanas globalmente sincronizadas o eventos segmentados por tiempo, permitiendo al jugador reclamar recompensas dentro de su ventana local; o proporciona una ventana de precalentamiento antes de que empiece el evento para que los jugadores de distintas zonas puedan prepararse; calibra la hora del servidor con la hora local para evitar errores causados por la diferencia horaria.",
+    "El uso excesivo de objetos de extensión de tiempo puede diluir la urgencia."
+  ],
+  "advancedAlgoRefs": [
+    "Cuenta atrás independiente de la tasa de frames.",
+    "Dificultad dinámica: mecanismos de ayuda impulsados por el tiempo restante.",
+    "Liquidación contrarreloj y registro de datos de repetición."
+  ],
+  "intro": {
+    "what": "Tienes una cuenta atrás, y cuando llega a cero la partida se liquida: las cocinas de Overcooked y el blitz de un minuto de Bejeweled Blitz juegan así.",
+    "feel": "El temporizador hace tic, y tu velocidad y tu latido aceleran juntos; los últimos segundos son un sprint frenético, y la pena del «por poco» te hace reiniciar al instante.",
+    "why": "Es el dial de dificultad más antiguo: el mismo contenido con una línea temporal convierte lo acogedor en tenso a coste casi cero."
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "key": "state-machine",
+  "name": "Máquina de Estados",
+  "nameEn": "State Machine",
+  "lang": "pt",
+  "subtitle": "Dirige o comportamento de personagens ou sistemas por meio de transições de estado",
+  "concept": "O recurso de máquina de estados enfatiza a alternância de personagens, inimigos ou sistemas de jogo entre estados distintos. Cada estado tem condições claras de entrada, comportamentos e condições de saída, tornando o comportamento complexo previsível e depurável. É a estrutura de engenharia fundamental para IA, controle de personagens e gestão de fluxo global: menu para gameplay para resultados é uma máquina de estados, e o ciclo patrulhar/engajar/atacar de um inimigo também é uma máquina de estados. A maior ameaça às máquinas de estados é a inflação de estados — quando o número de estados cresce, as condições de transição conflitam e a depuração fica difícil. Nesse ponto, considere máquinas de estados hierárquicas ou árvores de comportamento. Um sistema só deve usar uma máquina de estados se seu comportamento puder ser decomposto em um conjunto finito de estágios mutuamente exclusivos e bem definidos.",
+  "role": "Máquinas de estados gerenciam lógica de comportamento complexa, permitindo que jogadores e desenvolvedores entendam \"em que estágio estamos e o que vai acontecer\". Elas formam a fundação de IA, controle de personagens e gestão de processos.",
+  "significance": "Dominar o recurso de máquina de estados ajuda a entender o padrão State, árvores de comportamento e arquiteturas orientadas a eventos. É o caminho essencial de scripts simples para sistemas complexos.",
+  "filterTags": [
+    "State Machine"
+  ],
+  "cases": [
+    "IA de inimigos de Dark Souls",
+    "Hollow Knight",
+    "Jogos de luta"
+  ],
+  "problemsSolved": [
+    "Decompõe comportamento complexo em estados gerenciáveis",
+    "Torna o comportamento de personagens/inimigos previsível e escalável",
+    "Previne confusão lógica causada por múltiplas verificações condicionais"
+  ],
+  "learningGoals": [
+    "Projetar máquinas de estados finitos (FSM)",
+    "Dominar condições de transição de estado e callbacks",
+    "Estender a complexidade usando máquinas de estados hierárquicas ou árvores de comportamento"
+  ],
+  "minimalRules": [
+    "Sistemas/personagens têm um número finito de estados distintos",
+    "Condições claras de transição entre estados",
+    "Cada estado define comportamentos específicos"
+  ],
+  "combos": [
+    {
+      "formula": "Máquina de Estados + IA",
+      "effect": "Permite que inimigos exibam ataques ritmados, patrulhas e reações de dano"
+    },
+    {
+      "formula": "Máquina de Estados + Animação",
+      "effect": "Usa transições de animação dirigidas por estado para garantir consistência"
+    },
+    {
+      "formula": "Máquina de Estados + Fluxo",
+      "effect": "Gerencia o fluxo global do jogo (Menu → Jogo → Resultados)"
+    }
+  ],
+  "advancedWarnings": [
+    "A FSM fica difícil de manter com estados demais",
+    "Condições de transição conflitantes podem causar deadlocks",
+    "Para IA complexa, recomenda-se migrar para árvores de comportamento ou FSMs hierárquicas"
+  ],
+  "advancedAlgoRefs": [
+    "Implementação de Máquina de Estados Finitos (FSM)",
+    "Máquina de Estados Finitos Hierárquica (HFSM)",
+    "Combinando Árvores de Comportamento com Máquinas de Estados"
+  ]
+}

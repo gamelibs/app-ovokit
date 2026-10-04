@@ -1,0 +1,66 @@
+{
+  "lang": "es",
+  "key": "numbers",
+  "name": "Crecimiento numérico",
+  "nameEn": "Numbers",
+  "subtitle": "Impulsar la experiencia de juego mediante el crecimiento y el equilibrio numérico",
+  "concept": "Los atributos numéricos abarcan propiedades cuantificables como vida, poder de ataque, recursos y puntuaciones. El jugador aumenta estos números mediante mejoras, equipamiento, habilidades y otros medios, influyendo así en el combate, la economía o la progresión. Los números son el recipiente directo de la «sensación de crecimiento»: convierten el progreso en cifras comparables que permiten al jugador percibir intuitivamente la mejora. El foco de diseño central es equilibrar la curva de crecimiento con el ritmo del juego: si la curva es demasiado empinada, el jugador pierde el desafío en las etapas posteriores al derrotar enemigos demasiado rápido; si es demasiado suave, el jugador se frustra por la falta de mejora apreciable. Contraintuitivamente, los números excesivamente altos pueden reducir el deseo de aventura: cuando el poder de ataque basta para matar fácilmente a todos los enemigos, el riesgo y la elección desaparecen, y el jugador tiende a quedarse en zonas seguras; los déficits moderados animan al jugador a probar estrategias de mayor riesgo, aumentando la profundidad y la diversión. El diseño numérico excelente busca «crecimiento perceptible, límites predecibles y equilibrio con reversión», sincronizando el crecimiento con el ritmo para mantener al jugador motivado.",
+  "role": "Los números son el mecanismo de feedback central de las decisiones del jugador, permitiendo que la sensación abstracta de progreso se cuantifique al instante e influya en las decisiones posteriores. Son la fuente de experiencia central en juegos de peso medio como RPG, estrategia y gestión.",
+  "significance": "El diseño numérico determina el equilibrio del juego y la retención del jugador. Dominar los rasgos numéricos significa ser capaz de predecir resultados de combate, controlar la inflación económica y mantener el atractivo a largo plazo.",
+  "filterTags": [
+    "Numbers",
+    "Growth / Numbers"
+  ],
+  "cases": [
+    "Diablo",
+    "Clash Royale",
+    "Genshin Impact"
+  ],
+  "problemsSolved": [
+    "Transformar la sensación de crecimiento en aumentos de atributos cuantificables.",
+    "Usar números para restringir las decisiones, creando decisiones significativas.",
+    "Mantener el espacio estratégico mediante el equilibrio."
+  ],
+  "learningGoals": [
+    "Diseñar modelos de atributos y fórmulas de combate.",
+    "Dominar curvas de coste y curvas de beneficio.",
+    "Lograr equilibrio numérico y matrices de prueba."
+  ],
+  "minimalRules": [
+    "Todos los atributos centrales deben tener curvas de crecimiento configurables, proporcionando al menos un aumento del 10 % en cada etapa de mejora; si un atributo no cumple este estándar, se considera un defecto de diseño.",
+    "Los cambios numéricos deben tener un impacto medible en la jugabilidad central; por ejemplo, un aumento del 10 % en poder de ataque debería resultar en al menos un 5 % de aumento en el daño medio, de lo contrario la fórmula debería ajustarse.",
+    "Las decisiones del jugador (como seleccionar equipamiento o habilidades) deberían influir en las trayectorias de atributos en 10 segundos; si el impacto se retrasa más allá de 30 segundos, el mecanismo de feedback debe optimizarse.",
+    "La tasa de crecimiento numérico debe mantenerse en sincronía con el ritmo del juego: durante el primer 10 % de la jugabilidad, la tasa media de aumento de atributos no debería caer por debajo del 0,5 % por minuto; durante el 90 % restante, no debería superar el 2 % por minuto; si cae fuera de estos límites, la curva de crecimiento debe rediseñarse."
+  ],
+  "combos": [
+    {
+      "formula": "Números + Estrategia",
+      "effect": "Usa números para calcular y soportar la configuración previa a la batalla."
+    },
+    {
+      "formula": "Números + Roguelike",
+      "effect": "Usa reliquias aleatorias para amplificar las diferencias numéricas."
+    },
+    {
+      "formula": "Números + Social",
+      "effect": "Muestra los logros numéricos mediante clasificaciones."
+    }
+  ],
+  "advancedWarnings": [
+    "El colapso numérico arruina rápidamente la experiencia de juego.",
+    "El crecimiento numérico rápido causa desequilibrio del juego.",
+    "La aleatoriedad excesiva puede hacer que el jugador se sienta fuera de control.",
+    "El crecimiento numérico debe igualar la tasa de consumo de contenido."
+  ],
+  "advancedAlgoRefs": [
+    "Fórmulas de combate y cálculos de daño esperado.",
+    "Ponderación de atributos y modelos de equilibrio.",
+    "Sumideros económicos y control de la inflación.",
+    "Análisis de la intersección entre las curvas de beneficio y las curvas de coste."
+  ],
+  "intro": {
+    "what": "El poder de ataque, los niveles y las valoraciones de combate no paran de inflarse: Diablo, Genshin Impact y Clash Royale enganchan a los jugadores con números que suben.",
+    "feel": "Tras una mejora tu daño salta de 100 a 150 y los monstruos se derriten visiblemente más rápido; crías a tu personaje en el panel poco a poco, y cada número que salta es feedback positivo.",
+    "why": "Es el motor de los juegos longevos: la curva numérica decide cuánto dura la motivación de «una hora más»."
+  }
+}

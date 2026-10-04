@@ -9,6 +9,10 @@ import { routing } from "@/i18n/routing";
 const LOCALE_LABELS: Record<string, string> = {
   "zh-CN": "中",
   en: "EN",
+  ja: "日",
+  ko: "한",
+  es: "ES",
+  pt: "PT",
 };
 
 function LanguageSwitcherInner() {

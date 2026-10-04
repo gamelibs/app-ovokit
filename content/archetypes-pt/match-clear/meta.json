@@ -1,0 +1,106 @@
+{
+  "key": "match-clear",
+  "name": "Combinar / Eliminar",
+  "nameEn": "Match / Clear",
+  "lang": "pt",
+  "subtitle": "Combine 3 ou mais peças iguais em uma linha para eliminá-las; as reposições podem formar encadeamentos. Regras mínimas, juice máximo.",
+  "features": [
+    "网格",
+    "关卡",
+    "数值成长",
+    "限时"
+  ],
+  "difficulty": "Iniciante → Avançado",
+  "demoRuleHint": "Regra: trocar/clicar → formar ≥3 iguais → eliminar → cair/repor → encadeamento (opcional)",
+  "problemsSolved": [
+    "Toda jogada dá um resultado imediato: peças combinadas desaparecem, as não combinadas ficam — fácil de entender já na primeira tentativa.",
+    "Combinar só 3 fica sem graça rápido, então combinar 4 ou 5 rende mais, incentivando o jogador a planejar em vez de combinar o que estiver mais perto.",
+    "Bloqueadores e pequenos objetivos no tabuleiro dão ao jogador um motivo para pensar qual jogada vale a pena, em vez de tocar aleatoriamente.",
+    "Se o tabuleiro ficar sem nenhuma combinação possível, o jogo reembaralha automaticamente para o jogador nunca ficar travado."
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop mínimo combinar → eliminar → repor e reproduzir na demo o feedback completo de uma troca",
+    "Intermediário: escrever o contrato completo de resolução de uma única troca (rollback, coleta de combinações em lote, ordem da cascata, reposição por gravidade)",
+    "Avançado: projetar detecção de impasse e reembaralhamento com restrições, e verificar a saúde da fase com métricas de qualidade (contagem de jogadas legais, profundidade de encadeamento, taxa de impasse)"
+  ],
+  "minimalRules": [
+    "Tabuleiro e peças: comece com algo simples, como um tabuleiro 6×6 preenchido com algumas cores ou formas. Três ou mais peças iguais em uma linha ou coluna contam como combinação.",
+    "Como jogar: o jogador só pode trocar duas peças vizinhas. Se a troca não criar uma combinação, ela é desfeita automaticamente, como se nada tivesse acontecido — o jogo nunca engana o jogador.",
+    "Como as combinações são eliminadas: após uma troca, encontre primeiro todas as combinações que a jogada criou e elimine todas juntas, em vez de uma por vez — caso contrário o resultado parece inconsistente.",
+    "Queda e reposição: as peças eliminadas deixam espaços para onde as peças de cima caem, e novas peças entram pelo topo; depois verifique se o novo layout por acaso forma outra combinação (um encadeamento).",
+    "O que acontece quando trava: se o tabuleiro não tiver nenhuma combinação possível, o jogo precisa reembaralhar as peças automaticamente para o jogador sempre ter uma jogada disponível."
+  ],
+  "systemLoopHint": "O jogador escolhe uma jogada (trocar duas peças vizinhas) → verifica se cria uma combinação de 3+ → se sim, elimina, deixa as peças caírem, repõe e verifica encadeamento → se não, trata como se nada tivesse acontecido → quando o tabuleiro estabiliza, verifica se ainda existe alguma jogada possível e reembaralha se não houver → devolve o controle ao jogador.",
+  "combos": [
+    {
+      "formula": "Combinar / Eliminar + Progressão",
+      "effect": "Transforma os pontos ganhos com as combinações em upgrades ou desbloqueios, dando ao jogador um objetivo de longo prazo em vez de só uma satisfação momentânea."
+    },
+    {
+      "formula": "Combinar / Eliminar + Combate",
+      "effect": "Transforma as cores combinadas ou o tamanho da combinação em efeitos de ataque ou cura, de modo que eliminar também é lutar — fundindo as duas coisas em uma só atividade."
+    },
+    {
+      "formula": "Combinar / Eliminar + Aleatoriedade",
+      "effect": "Faz o tabuleiro de cada partida ser um pouco diferente para variar, garantindo ao mesmo tempo que o jogador sempre tenha um caminho para vencer, em vez de depender só de sorte."
+    }
+  ],
+  "advancedWarnings": [
+    "Se as recompensas de encadeamento forem generosas demais, o jogador começa a torcer por combos grandes de sorte em vez de pensar cada jogada com cuidado: verifique se os jogadores continuam avançando o objetivo da fase quando grandes encadeamentos aparecem — se os dois continuarem se afastando, a recompensa está vencendo a estratégia.",
+    "Se uma fase der poucas jogadas ou pouco tempo demais, o jogador não terá tempo de pensar e vai acabar tocando aleatoriamente: não julgue só pela taxa de conclusão — procure nos tabuleiros perdidos uma jogada que era realmente melhor e foi desperdiçada. Se o problema real é \"não dá tempo de ler o tabuleiro\", a questão é ritmo, não dificuldade.",
+    "Se as novas peças forem secretamente manipuladas contra o jogador, ele vai sentir que \"o jogo está contra mim\": tudo bem ajudar discretamente depois de uma sequência de azar, mas o tabuleiro nunca pode ficar insolúvel, e nunca pode se resolver sozinho enquanto o jogador não faz nada.",
+    "Quando vários efeitos especiais acontecem ao mesmo tempo, decida com antecedência qual vem primeiro: posição de surgimento, depois se ele encadeia outra peça especial, e os efeitos de área por último — caso contrário a mesma jogada pode produzir resultados diferentes em momentos diferentes, fazendo as regras parecerem instáveis.",
+    "Reduzir um pouco a recompensa de encadeamento às vezes torna o jogo mais variado: quando o jogador precisa equilibrar objetivos, bloqueadores e formato do tabuleiro ao mesmo tempo, o encadeamento deixa de ser a única resposta certa e vira só uma opção entre várias — reduzir ou não deve depender de os jogadores ainda avançarem os objetivos e usarem as peças especiais."
+  ],
+  "advancedAlgoRefs": [
+    "Como encontrar todas as combinações possíveis do tabuleiro inteiro em uma única passada, sem perder nenhuma nem verificar o mesmo lugar duas vezes: uma abordagem comum é reverificar apenas as duas linhas e colunas tocadas pela troca, unir as células atingidas em um único conjunto e classificar o formato desse conjunto como linha reta, formato de L/T ou combinação cruzada.",
+    "Como saber quando o tabuleiro está \"travado\" (sem combinação possível): tente uma troca temporária entre cada célula e sua vizinha à direita e abaixo e veja se formaria combinação; se algum par formar, ainda existe jogada — essa mesma verificação também alimenta a geração de dicas.",
+    "Como reembaralhar o tabuleiro discretamente quando ele trava: embaralhe apenas as peças comuns, mantenha os objetos fixos da fase e as células travadas no lugar, e depois verifique se o novo layout não tem combinação imediata e ainda tem pelo menos uma jogada legal antes de usá-lo.",
+    "Mantenha os dados do tabuleiro separados do que é desenhado na tela: armazene a cor de cada célula, se é especial e se está travada em um único lugar, em vez de ler a imagem renderizada — é isso que torna o reembaralhamento, o replay e os testes confiáveis.",
+    "Uma combinação pode disparar várias rodadas seguidas (um encadeamento): calcule o que cada rodada elimina, quantos pontos adiciona e se gera uma peça especial antes de atualizar o tabuleiro, em vez de mudar o tabuleiro aos poucos — assim o resultado não depende da ordem de processamento.",
+    "Se você quiser ajustar esse conjunto de regras a sério, acompanhe ao longo do tempo: contagem de jogadas legais, taxa de impasse, taxa de trocas inválidas, profundidade média de encadeamento e com que frequência ocorrem combinações de 4/5 — compare configurações na mesma fase para ver se uma mudança realmente ajudou."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento do Multiplicador de Encadeamento",
+      "action": "Arraste o \"Multiplicador de Bônus de Encadeamento\" de 1x até 3x e depois provoque deliberadamente um segundo encadeamento",
+      "observe": "Quanto maior o multiplicador, mais dramática a pontuação das combinações encadeadas. Veja se o jogador começa a deixar uma combinação óbvia de lado só para esperar um encadeamento maior — é sinal de que a recompensa está mudando discretamente a forma de jogar."
+    },
+    {
+      "title": "Experimento do Orçamento de Jogadas",
+      "action": "Aperte as \"Jogadas por partida\" de 30 para 8",
+      "observe": "Menos jogadas significa que cada jogada exige mais reflexão. Compare as duas configurações: a versão de 8 jogadas faz o jogador pensar com mais cuidado, ou só faz ele perder mais rápido? Se for a segunda opção, são simplesmente jogadas demais a menos, não um desafio mais interessante."
+    },
+    {
+      "title": "Observação de Impasse",
+      "action": "Continue trocando até não restar nenhuma jogada válida no tabuleiro",
+      "observe": "Esta demo deixa a partida travar em um impasse de propósito; um jogo real precisa detectar isso automaticamente e reembaralhar o tabuleiro — o jogador nunca deve ficar olhando para um tabuleiro sem nada que possa fazer."
+    },
+    {
+      "title": "Experimento de Determinismo do Replay",
+      "action": "Escolha o mesmo tabuleiro inicial e a mesma sequência de trocas, jogue duas vezes e anote o que cada jogada eliminou, como as peças caíram e a pontuação (ative \"Tabuleiro Fixo\" na demo para testar na prática)",
+      "observe": "As duas partidas devem ser exatamente iguais. Se não forem, geralmente é porque o código apaga enquanto ainda está varrendo, ou a aleatoriedade da reposição não está fixa — esta é a base para um jogo de combinação que cumpre o que promete, e para ajustá-lo com segurança depois."
+    },
+    {
+      "title": "Experimento de Qualidade das Jogadas Legais",
+      "action": "Quando o tabuleiro estabilizar, encontre toda troca entre vizinhos que formaria combinação e classifique cada uma como \"só pontua\", \"avança o objetivo\" ou \"gera uma peça especial\" (ative \"Destacar Jogadas Legais\" na demo para testar na prática)",
+      "observe": "Ter uma jogada disponível não significa que o tabuleiro é interessante. Se toda jogada legal rende mais ou menos o mesmo, o jogador está executando, não escolhendo; se só uma jogada é claramente certa, vira uma caça à resposta. Os melhores tabuleiros misturam jogadas de alto e baixo valor para o jogador julgar por conta própria."
+    }
+  ],
+  "intro": {
+    "what": "Alinhe três ou mais peças iguais e elas desaparecem. Você com certeza já viu isso — Candy Crush, Anipop e Sheep a Sheep são todos construídos sobre essa base.",
+    "feel": "A cada jogada você troca uma peça para alinhar três iguais; elas são eliminadas e pontuam, as peças de cima caem para repor, e às vezes uma eliminação encadeia outra — quanto maior o encadeamento, melhor a sensação.",
+    "why": "A regra cabe em uma frase, mas \"juice\" e \"rejogabilidade\" são pura arte de design — esta é a melhor primeira lição sobre design de feedback em jogos."
+  },
+  "concept": "No fundo, combinar-e-eliminar é um loop de feedback muito curto e confiável: o jogador faz uma troca e as regras devolvem imediatamente um resultado determinístico. A parte difícil nunca é a eliminação em si — é a credibilidade de três coisas: trocas inválidas precisam ser desfeitas, cascatas precisam ser resolvidas em ordem fixa e reposições precisam continuar explicáveis. A confiança do jogador nas regras é construída exatamente a partir desses detalhes de engenharia invisíveis.",
+  "designNotes": [
+    "O juice vem da curva, não da animação: pontuação de encadeamento = base × multiplicador^(encadeamento−1), então o segundo encadeamento vale muito mais que o primeiro — a animação é só a embalagem dessa curva.",
+    "A dificuldade precisa vir de tabuleiros legíveis: orçamento de jogadas, bloqueadores e quantidade de cores são todos botões de ajuste, mas a premissa de qualquer dificuldade é o jogador conseguir ver o que deu errado. Remover jogadas legais silenciosamente no backend é a dificuldade mais barata — e a que mais mata a retenção.",
+    "Um impasse não é uma falha; é um momento de ensino: detecte-o, sugira uma jogada legal e reembaralhe com restrições. Essas três coisas decidem se um jogador travado aprende algo ou abandona o jogo."
+  ],
+  "value": {
+    "player": "Combinar-e-eliminar responde a um apetite primal por fechamento — transformar um tabuleiro bagunçado em ordem, uma pequena vitória certa e instantânea por vez. Suas regras são legíveis à primeira vista e seu feedback é imediato, o que a torna uma das raras mecânicas que funcionam em todas as idades e culturas.",
+    "ecosystem": "Match-3 é um dos modelos de monetização mais comprovados dos jogos casuais: onboarding quase zero amplia o topo do funil, a estrutura em fases sustenta expansão infinita de conteúdo, e as economias de jogadas/energia se encaixam limpo com anúncios premiados. O reinado de uma década do Candy Crush não é acidente.",
+    "transfer": "Aprenda combinar-e-eliminar e você aprende o ofício transferível do design de curvas de feedback — multiplicadores de recompensa, ritmo de encadeamento, rampas de dificuldade — botões que você vai continuar girando em jogos de números, combate e idle."
+  }
+}

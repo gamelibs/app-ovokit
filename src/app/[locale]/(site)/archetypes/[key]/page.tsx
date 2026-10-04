@@ -40,6 +40,10 @@ export async function generateMetadata({
       languages: {
         "zh-CN": `/archetypes/${key}`,
         en: `/en/archetypes/${key}`,
+        ja: `/ja/archetypes/${key}`,
+        ko: `/ko/archetypes/${key}`,
+        es: `/es/archetypes/${key}`,
+        pt: `/pt/archetypes/${key}`,
         "x-default": `/archetypes/${key}`,
       },
     },

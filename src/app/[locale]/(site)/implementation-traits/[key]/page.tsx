@@ -46,6 +46,10 @@ export async function generateMetadata({
       languages: {
         "zh-CN": `/implementation-traits/${key}`,
         en: `/en/implementation-traits/${key}`,
+        ja: `/ja/implementation-traits/${key}`,
+        ko: `/ko/implementation-traits/${key}`,
+        es: `/es/implementation-traits/${key}`,
+        pt: `/pt/implementation-traits/${key}`,
         "x-default": `/implementation-traits/${key}`,
       },
     },

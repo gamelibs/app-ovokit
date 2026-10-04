@@ -6,12 +6,17 @@ import { corePatternKeys } from "@/lib/patterns/patterns";
 import { featureKeys } from "@/lib/features/features";
 import { implementationTraitKeys } from "@/lib/implementation-traits/implementation-traits";
 
-// 每条 URL 输出双语 hreflang：zh-CN 无前缀 + en /en 前缀（与 localePrefix: "as-needed" 对齐）
+// 每条 URL 输出多语 hreflang：zh-CN 无前缀 + 其它语言 /en /ja /ko /es /pt 前缀（与 localePrefix: "as-needed" 对齐）
 function withLangs(origin: string, path: string) {
+  const suffix = path === "/" ? "" : path;
   return {
     languages: {
       "zh-CN": `${origin}${path}`,
-      en: `${origin}/en${path === "/" ? "" : path}`,
+      en: `${origin}/en${suffix}`,
+      ja: `${origin}/ja${suffix}`,
+      ko: `${origin}/ko${suffix}`,
+      es: `${origin}/es${suffix}`,
+      pt: `${origin}/pt${suffix}`,
       "x-default": `${origin}${path}`,
     },
   };

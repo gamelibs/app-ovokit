@@ -1,0 +1,62 @@
+{
+  "lang": "pt",
+  "key": "levels",
+  "name": "Fases",
+  "nameEn": "Levels",
+  "subtitle": "Use fases estruturadas para dirigir a progressão do jogo",
+  "concept": "O design de fases divide o conteúdo do jogo em uma série de desafios independentes e progressivamente mais difíceis. Cada fase tem um objetivo claro, restrições e pontuação, e o jogador desbloqueia o conteúdo seguinte ao completar fases. As fases são a ferramenta central para ritmar a experiência: elas quebram uma longa linha de progressão em objetivos pequenos que podem ser terminados de uma vez, fazendo de \"jogar mais uma fase\" a razão de menor custo para continuar. Ao projetar fases, o objetivo deve ser declarado em uma frase (combinar elementos específicos, alcançar um alvo dentro do tempo, proteger um núcleo). A dificuldade deve subir ao longo da curva de \"introduzir mecânica → combinar mecânicas → teste de pressão\", e as penalidades de falha precisam ser leves o bastante para o jogador topar tentar de novo imediatamente. As fases também servem como recipientes naturais para narrativa e instrução; mecânicas novas devem sempre ser ensinadas primeiro em fases de baixa pressão. Trade-offs de design: 1️⃣ Uma curva de dificuldade íngreme demais pode causar abandono; uma rasa demais remove desafio e motivação. 2️⃣ Penalidades de falha pesadas suprimem a experimentação, enquanto penalidades leves podem diminuir a sensação de conquista. Insight contra-intuitivo: penalidades de falha moderadas (ex.: uma breve dedução de tempo) frequentemente aumentam a rejogabilidade porque adicionam tensão sutil sem quebrar a experiência, encorajando o jogador a tentar estratégias de conclusão mais eficientes.",
+  "role": "As fases controlam o ritmo do jogador, quebrando objetivos de longo prazo em desafios gerenciáveis de curto prazo. São o veículo central para narrativa, ensino e design de curva de dificuldade.",
+  "significance": "Dominar o design de fases ajuda a entender definição de objetivos, escalonamento de dificuldade e expectativas psicológicas do jogador. É a chave para sair de um protótipo jogável para um produto completo.",
+  "filterTags": [
+    "Level"
+  ],
+  "cases": [
+    "Angry Birds",
+    "Candy Crush Saga",
+    "Super Mario"
+  ],
+  "problemsSolved": [
+    "Organiza o conteúdo do jogo em unidades consumíveis",
+    "Mantém o desafio por meio da curva de dificuldade",
+    "Guia o jogador a aprender novas mecânicas via objetivos de fase"
+  ],
+  "learningGoals": [
+    "Projetar objetivos de fase e condições de vitória",
+    "Dominar escalonamento de dificuldade e ritmo",
+    "Usar fases para ensino e introdução de mecânicas"
+  ],
+  "minimalRules": [
+    "Cada fase tem um objetivo claro",
+    "As fases têm condições de vitória/derrota",
+    "Completar uma fase desbloqueia novo conteúdo"
+  ],
+  "combos": [
+    {
+      "formula": "Fases + Avaliação de três estrelas",
+      "effect": "Aumenta o valor de replay e o espaço de maestria"
+    },
+    {
+      "formula": "Fases + História",
+      "effect": "Embrulha o desafio com narrativa, melhorando a imersão"
+    },
+    {
+      "formula": "Fases + Itens",
+      "effect": "Fornece opções de ajuda nas fases difíceis"
+    }
+  ],
+  "advancedWarnings": [
+    "Uma curva de dificuldade íngreme pode afastar o jogador",
+    "Penalidades de falha pesadas podem afetar negativamente a experiência",
+    "O design de fases precisa considerar jogadores de diferentes níveis de habilidade"
+  ],
+  "advancedAlgoRefs": [
+    "Avaliação de dificuldade de fases e ajuste dinâmico",
+    "Geração procedural de fases",
+    "Análise de desempenho do jogador e recomendação de fases"
+  ],
+  "intro": {
+    "what": "O jogo é fatiado em estágios, e completar um desbloqueia o próximo — Super Mario, Angry Birds e Candy Crush Saga todos avançam assim.",
+    "feel": "Cada fase é um desafio pequeno e autocontido: comece, tente, complete, veja as estrelas assentarem; \"só mais uma fase antes de dormir\" é seu feitiço mais famoso.",
+    "why": "Este é o esqueleto da progressão de conteúdo — rampas de dificuldade, ritmo de ensino e liquidação de conquistas todos viajam sobre a estrutura de fases."
+  }
+}

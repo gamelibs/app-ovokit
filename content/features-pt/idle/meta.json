@@ -1,0 +1,68 @@
+{
+  "lang": "pt",
+  "key": "idle",
+  "name": "Idle",
+  "nameEn": "Idle",
+  "subtitle": "Mesmo sem entrada ativa, o sistema continua gerando produção.",
+  "concept": "O núcleo da mecânica idle está no fato de que o progresso do gameplay não depende inteiramente da entrada em tempo real do jogador. Instalações, personagens ou sistemas econômicos continuam rodando offline ou em segundo plano, e o jogador só precisa voltar periodicamente para coletar recompensas e tomar decisões de upgrade. O próprio tempo é tratado como um recurso do jogo; quanto mais você espera, mais rica a recompensa. Um bom design precisa equilibrar isso com um \"teto\" e um \"acelerador\": o teto evita acúmulo descontrolado que poderia desestabilizar a economia; o acelerador (anúncios, itens únicos, assinaturas) transforma a espera em um ponto de decisão, fornecendo ganhos instantâneos enquanto sustenta a retenção de longo prazo. Tanto o teto quanto o acelerador têm consequências bidirecionais: um teto baixo demais força coletas frequentes e corrói a sensação de progresso; um teto alto demais leva a acumulação de recursos e desequilíbrio do sistema. Uso excessivo de aceleradores pode diminuir a sensação de conquista da espera e prejudicar a retenção; aceleradores insuficientes podem fazer o jogador desistir por espera excessiva. O insight contra-intuitivo é que um acelerador moderado pode na verdade aumentar a antecipação da espera, porque deixa o jogador alternar entre os modos ativo e passivo, criando uma experiência de \"espera controlada\" que melhora a retenção.",
+  "role": "Reduz a pressão de entrada do jogador e acomoda tempo fragmentado; transforma a própria espera em gameplay, criando espaço de pagamento e estratégia por meio de aceleração, dobro e outros mecanismos.",
+  "significance": "Dominar recursos idle significa entender monetização de tempo, cálculo de ganhos offline e loops de feedback positivo, tornando-se uma alavanca-chave para projetar jogos de ciclo longo e alta retenção.",
+  "filterTags": [
+    "Idle",
+    "Idle / Construction"
+  ],
+  "cases": [
+    "Cookie Clicker",
+    "AdVenture Capitalist",
+    "Idle Jianghu"
+  ],
+  "problemsSolved": [
+    "Permite ao jogador sentir crescimento mesmo em tempo fragmentado",
+    "Cria oportunidades de aceleração/ponto de pagamento por meio de mecânicas de espera",
+    "Reduz o limiar operacional e amplia o público"
+  ],
+  "learningGoals": [
+    "Projetar mecanismos de ganhos offline e tetos",
+    "Dominar design de aceleração de tempo e pontos de pagamento",
+    "Usar cadeias de upgrades para sustentar a sensação de objetivo de longo prazo",
+    "Entender o equilíbrio econômico dos tetos de ganhos offline",
+    "Projetar mecanismos de aceleração escaláveis"
+  ],
+  "minimalRules": [
+    "Defina uma taxa de produção base (por segundo), multiplicador de upgrade e teto cumulativo para cada fonte de produção; os ganhos offline são calculados como: min(taxaBase * tempo * (1 + multiplicadorUpgrade), teto).",
+    "Todas as produções precisam ser coletáveis pelo jogador e usadas em upgrades ou desbloqueio de recursos, garantindo um ciclo de receita em loop fechado.",
+    "Aceleradores (anúncios, itens, opções pagas) precisam ser compatíveis com os tetos, impedindo o jogador de exceder os limites cumulativos em um curto período, e os efeitos de aceleração precisam ser rastreáveis e limitados no tempo."
+  ],
+  "combos": [
+    {
+      "formula": "Idle + Fusão",
+      "effect": "Geração de recursos offline, fundidos e melhorados ao fazer login"
+    },
+    {
+      "formula": "Idle + Gerenciamento",
+      "effect": "Substitui a produção única por uma cadeia de produção, aumentando a profundidade estratégica"
+    },
+    {
+      "formula": "Idle + Cliques",
+      "effect": "Permite ao jogador alternar entre clique ativo e renda passiva"
+    }
+  ],
+  "advancedWarnings": [
+    "Ganhos offline altos demais podem diminuir o significado do jogo ativo",
+    "Tempos de espera longos podem levar ao abandono",
+    "Uso excessivo de aceleradores pode fazer jogadores pagantes progredirem rápido demais, enfraquecendo a experiência do jogador gratuito",
+    "Previna trapaça de tempo e exploração"
+  ],
+  "advancedAlgoRefs": [
+    "Fórmula de ganhos offline e design de teto",
+    "Sistema de aceleração de tempo e multiplicadores",
+    "Validação de tempo anti-trapaça",
+    "Exemplo de cálculo de ganhos offline",
+    "Análise da compatibilidade entre multiplicador de acelerador e teto"
+  ],
+  "intro": {
+    "what": "Ele trabalha para você enquanto o jogo está fechado — volte e colete. AdVenture Capitalist e Idle Jianghu são ambos construídos sobre isso.",
+    "feel": "Monte a linha de produção antes de dormir, acorde com recursos transbordando; você só planeja e faz upgrades enquanto o tempo faz o trabalho — relaxante, mas você não para de querer dar uma olhada.",
+    "why": "Responde a \"como o jogo continua enquanto o jogador está offline\" — produção offline e recompensas de retorno são as estruturas de retenção mais importantes da era da atenção fragmentada."
+  }
+}

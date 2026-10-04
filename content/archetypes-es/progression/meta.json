@@ -1,0 +1,87 @@
+{
+  "key": "progression",
+  "lang": "es",
+  "name": "Progresión",
+  "nameEn": "Progression",
+  "subtitle": "Dar forma a objetivos a largo plazo mediante la acumulación y las curvas; el núcleo es la progresión controlable y los umbrales por etapas.",
+  "features": [
+    "点击",
+    "放置产出",
+    "数值成长"
+  ],
+  "difficulty": "Principiante → Avanzado",
+  "demoRuleHint": "Regla: completar una acción → ganar recursos → mejorar/desbloquear → aumento de capacidad → nuevas metas y costes más altos.",
+  "problemsSolved": [
+    "Asegurar que el fracaso siga produciendo crecimiento (retornos/experiencia garantizados), reduciendo la frustración y el abandono.",
+    "Equilibrar estadísticas permanentes con habilidades a corto plazo, evitando el puro grind o el puro castigo.",
+    "Usar desbloqueos por hitos para guiar el regreso y la exploración, creando objetivos sostenibles."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle de crecimiento — actuar → ganar recursos → mejorar/desbloquear → potenciarse → nueva meta — y reproducir una mejora en la demo",
+    "Intermedio: escribir el contrato de curva de costes y suelo garantizado (regla de escalado, pago por fracaso, disparo de compensación por racha) y ajustar la tasa de crecimiento",
+    "Avanzado: diseñar el ritmo de umbrales y el ritmo de desbloqueo (el mapa de hitos), y verificar la salud a largo plazo con la curva de retención, el margen de beneficio del farmeo y la tasa de alcance de umbrales"
+  ],
+  "minimalRules": [
+    "Recursos: ganar 1 de energía por clic; la energía se puede gastar en mejoras o desbloqueos.",
+    "Mejora: coste = nivel actual × 10; tras mejorar, la estadística aumenta +1.",
+    "Umbral: cada 100 de energía se desbloquea una nueva habilidad; los umbrales aumentan 50 cada vez."
+  ],
+  "systemLoopHint": "Entrada (acción) → Feedback (ganancia de recursos) → Decisión (asignación) → Cambio de estado (mejora/desbloqueo) → Nueva habilidad → Nueva entrada.",
+  "combos": [
+    {
+      "formula": "Progresión + Idle",
+      "effect": "La producción idle genera energía continuamente; la energía acumulada se puede gastar en mejoras, creando un bucle."
+    },
+    {
+      "formula": "Progresión + Combate",
+      "effect": "El combate consume energía; la victoria otorga experiencia, que se usa en mejoras, aumentando el poder de combate."
+    },
+    {
+      "formula": "Progresión + Combinación",
+      "effect": "La progresión de niveles y los recursos encadenados impulsan el crecimiento; completar una combinación puede disparar mejoras adicionales."
+    }
+  ],
+  "advancedWarnings": [
+    "Unos costes de mejora excesivamente altos pueden agotar la motivación del jugador, mientras que unos demasiado bajos reducen el desafío y la sensación de logro. El diseñador debe equilibrar la curva de costes con la inversión del jugador para mantener tanto el desafío como la satisfacción.",
+    "Una curva de crecimiento demasiado rápida acorta la vida del juego, mientras que una lenta lleva al desgaste de jugadores. Fijar bien las tasas de crecimiento y los hitos puede extender el ciclo de experiencia.",
+    "La falta de metas por etapas hace que la progresión se sienta sin sentido. Cada umbral debería estar atado a una recompensa visible o a un nuevo elemento de jugabilidad para sostener la motivación.",
+    "Cuando los jugadores renuncian a ganancias inmediatas por crecimiento a largo plazo, la experiencia general puede mejorar, ya que las metas a largo plazo dan motivación sostenida. El diseñador debería introducir hitos predecibles desde el principio para animar a los jugadores hacia objetivos mayores."
+  ],
+  "advancedAlgoRefs": [
+    "Estadísticas: curvas segmentadas, retornos garantizados y mecanismos antigrind.",
+    "Economía: control de la inflación, topes y topes blandos."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de curva de mejora",
+      "action": "Ahorra moneda, pulsa «Mejorar (secundario)» y observa cómo salta metaPower mientras sube el coste del siguiente nivel",
+      "observe": "El coste de mejora escala con el nivel: la curva de costes marca el ritmo del crecimiento. Cada salto de metaPower da un golpe instantáneo de «me hice más fuerte», mientras el coste creciente del siguiente nivel mantiene viva la atracción de «un poco más»."
+    },
+    {
+      "title": "Vigilancia de crecimiento garantizado",
+      "action": "Fracasa varias partidas seguidas a propósito y comprueba si badStreak sube mientras la moneda sigue creciendo",
+      "observe": "Incluso el fracaso paga moneda: las ganancias garantizadas evitan que la frustración haga abandonar. badStreak es el disparador de las mecánicas de protección: cuanto más larga la racha de derrotas, más fuerte la compensación, convirtiendo el «puro castigo» en «progresión controlada»."
+    },
+    {
+      "title": "Contraste de dificultad",
+      "action": "En fácil y en difícil, «Avanzar 1 paso» 10 pasos cada una y compara runDepth contra metaPower",
+      "observe": "En difícil, runDepth es más bajo pero metaPower sigue acumulando: el crecimiento permanente se desacopla de la habilidad por partida; fracasar una partida nunca bloquea el crecimiento fuera de ella. Es la vía de escape de la trampa del «puro grind o puro dolor»."
+    }
+  ],
+  "intro": {
+    "what": "Termina una partida, recoge recursos, sube de nivel y llega más lejos la próxima vez: la subida de nivel de los RPG y las mejoras permanentes entre partidas de Vampire Survivors están construidas sobre esto.",
+    "feel": "Moriste en esta partida, pero la experiencia quedó en el banco y tu poder creció; la siguiente partida sientes claramente «ahora soy más fuerte»: incluso el fracaso se vuelve inversión, y te mantiene enganchado.",
+    "why": "El motor clásico de la retención a largo plazo: encadenar pequeñas victorias en una línea de crecimiento visible que mantiene al jugador diciendo «un nivel más y a dormir»."
+  },
+  "concept": "El juego de progresión convierte el tiempo invertido en activos de habilidad irreversibles: cada acción produce rendimiento, el fracaso paga un suelo garantizado y los umbrales por etapas siguen desbloqueando nuevas metas. La parte difícil no son los números, sino el ritmo y la justicia de la curva: los costes que suben demasiado matan la motivación, el crecimiento demasiado rápido quema contenido, y tanto el puro grind como el puro dolor hacen abandonar. El «una partida más» viene de la sensación precisa de distancia: el siguiente nivel nunca parece lejos.",
+  "designNotes": [
+    "El fracaso debe pagar un suelo garantizado: la compensación por racha de derrotas convierte el «puro dolor» en «progresión controlada»; el contador de rachas no es lástima, es la garantía de que la frustración nunca se va con las manos vacías.",
+    "El crecimiento meta debe desacoplarse de la habilidad por partida: una partida floja aún hace crecer el poder meta; el fracaso dentro de la partida nunca bloquea el crecimiento fuera de ella. Es la única vía de escape de la trampa del «puro grind o puro dolor».",
+    "Los hitos son faros atornillados a la curva: una curva larga sin metas por etapas hace que el progreso no signifique nada; cada umbral debe colgar una recompensa visible o una mecánica nueva, o los números solo giran en el sitio."
+  ],
+  "value": {
+    "player": "La progresión da al jugador la certeza de que el tiempo invertido es tiempo ahorrado: incluso una derrota te hace más fuerte, así que ninguna partida se desperdicia jamás.",
+    "ecosystem": "La metaprogresión es el motor central de la economía de retención: los pagos garantizados evitan que la frustración haga abandonar, los desbloqueos por hitos reparten el consumo de contenido a lo largo de metas a largo plazo, y la curva de costes más la economía de energía fijan directamente el techo de LTV de un título longevo; los milagros comerciales de los roguelikes y los juegos idle están construidos en su mayoría sobre esta estructura.",
+    "transfer": "Aprende diseño de progresión y aprenderás a convertir el tiempo del jugador en activo: curvas de costes, compensaciones de garantía, desbloqueos por umbrales; una estructura que se porta a cualquier cosa que necesite retención, de los pases de batalla a las apps de aprendizaje."
+  }
+}

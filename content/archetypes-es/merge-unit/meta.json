@@ -1,0 +1,89 @@
+{
+  "key": "merge-unit",
+  "name": "Fusión de unidades",
+  "nameEn": "Merge Units",
+  "lang": "es",
+  "subtitle": "Fusiona unidades del mismo nivel para mejorarlas, apoyándote en el crecimiento exponencial para objetivos a largo plazo; el núcleo está en las recetas, las curvas de producción y la gestión de celdas llenas.",
+  "features": [
+    "放置产出",
+    "网格",
+    "关卡",
+    "数值成长"
+  ],
+  "difficulty": "Principiante → Avanzado",
+  "demoRuleHint": "Regla: adquirir unidades → fusionar unidades del mismo nivel → mejorar a unidades de nivel superior → aumentar la producción → disparar la gestión de celda llena cuando una celda se llena.",
+  "problemsSolved": [
+    "Transformar acciones de baja frecuencia en objetivos claros a largo plazo mediante la fusión y la mejora.",
+    "Mantener una atracción continua hacia el siguiente nivel con una curva de crecimiento exponencial.",
+    "Asegurar que el tablero siga siendo jugable mediante la gestión de celdas llenas o no fusionables."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle mínimo — alimentar → fusión de mismo nivel → subir de nivel → mayor producción — y reproducir una fusión y una gestión de tablero lleno en la demo",
+    "Intermedio: escribir el contrato completo de reglas de fusión (juicio de mismo nivel, tabla de recetas, política de tablero lleno) y ajustar la curva coste/producción para controlar el ritmo de crecimiento",
+    "Avanzado: diseñar mecánicas de garantía y antiexplotación, y verificar la salud del tablero con la tasa de tablero lleno, el intervalo medio entre fusiones y la distribución de niveles"
+  ],
+  "minimalRules": [
+    "Regla de fusión de mismo nivel: al menos dos unidades del mismo nivel se fusionan en una unidad de nivel +1; si la celda de destino ya está llena tras la fusión, se dispara la gestión de celda llena.",
+    "Crecimiento de producción: la producción de cada unidad aumenta con el nivel, empezando en 1 en el nivel más bajo y hasta 10 en el más alto, formando una curva exponencial.",
+    "Gestión de celda llena: cuando una celda de destino está llena y no se puede fusionar, el sistema avisa y bloquea la colocación; si el jugador opta por forzar la colocación, el sistema consume automáticamente unidades de nivel bajo para liberar espacio.",
+    "Restricción de recetas: la fusión de mismo nivel solo se aplica cuando se cumple la tabla de recetas (p. ej., 2→1, 3→1); las unidades no listadas en la receta no pueden fusionarse."
+  ],
+  "systemLoopHint": "Entrada (colocar/arrastrar) → Evaluación (¿fusionable?) → Feedback (mejora por fusión) → Cambio de estado (aumento de producción / liberación de espacio) → Nuevo estado del tablero → Nueva entrada.",
+  "combos": [
+    {
+      "formula": "Fusión de unidades + Idle",
+      "effect": "Acumulación de recursos sin conexión para fusionar al volver, reduciendo la presión de actividad diaria."
+    },
+    {
+      "formula": "Fusión de unidades + Números",
+      "effect": "Las curvas de producción exponenciales amplifican la satisfacción de crecimiento, requiriendo un diseño de consumo sincronizado para evitar la inflación."
+    },
+    {
+      "formula": "Fusión de unidades + Niveles",
+      "effect": "Usa los objetivos de nivel para guiar la dirección de la fusión, evitando la falta de rumbo."
+    }
+  ],
+  "advancedWarnings": [
+    "Una curva de producción empinada puede hacer inalcanzables los niveles posteriores, mientras que una plana pierde impulso; equilibrar la tasa de crecimiento exponencial es un punto de ajuste central.",
+    "La falta de gestión de celda llena puede congelar el tablero; forzar el consumo de unidades de nivel bajo mantiene el flujo pero reduce su valor.",
+    "Una producción alta de las unidades de nivel bajo puede dar recursos abundantes al principio, a veces más importante que las unidades de nivel alto; es contraintuitivo, así que hay que considerar la asignación temprana de recursos.",
+    "Las caídas aleatorias sin red de seguridad amplifican la frustración; se necesita una garantía y un mecanismo antispam."
+  ],
+  "advancedAlgoRefs": [
+    "Determinación de fusión: coincidencia de mismo nivel, tabla de recetas, liquidación de fusiones en cadena.",
+    "Curva de crecimiento: diseño de coste y producción exponencial/segmentado, garantía y antispam."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de válvula de presión",
+      "action": "Aprieta «Intervalo de aparición (válvula de presión)» de 6s a 1s",
+      "observe": "El intervalo es la válvula de inflación del tablero: a 1s la presión de tablero lleno se dispara y te ves forzado a fusionar constantemente; a 6s tienes tiempo real de planificación. El intervalo de aparición fija el presupuesto de reflexión: el dial de ajuste del lado del coste más directo."
+    },
+    {
+      "title": "Tope de nivel y atracción exponencial",
+      "action": "Sube «Tope de nivel máximo» de 4 a 7 y compara cuánto tarda en alcanzarse el nivel más alto",
+      "observe": "La producción crece exponencialmente por nivel, así que cada +1 al tope duplica la distancia de atracción hacia «el siguiente nivel». Muy bajo y el juego tardío pierde su meta; muy alto y la meta se siente inalcanzable: dónde cortas la curva exponencial decide la vida útil del juego."
+    },
+    {
+      "title": "Vigilancia de tablero lleno",
+      "action": "Con un intervalo de 1s y un tope de nivel de 4, niégate a fusionar hasta que el tablero se atasque",
+      "observe": "Con el tablero lleno, el sistema avisa y bloquea la colocación (o consume a la fuerza unidades de nivel bajo para liberar espacio). Sin gestión de tablero lleno, el tablero se bloquea: es la línea entre un conjunto mínimo de reglas y un producto jugable."
+    }
+  ],
+  "intro": {
+    "what": "Arrastra dos piezas idénticas juntas y se fusionan en una de nivel superior: 2048, Suika Game y Merge Dragons están construidos sobre esto.",
+    "feel": "Apilas piezas iguales y las ves estallar en una más grande; la cuadrícula se va llenando mientras haces malabares con el espacio y persigues el siguiente nivel: simple, pero imposible de soltar.",
+    "why": "La atracción del crecimiento exponencial no se ve en ningún sitio más clara que aquí: si quieres aprender a dar al jugador una meta a largo plazo, la fusión es el mejor espécimen para diseccionar."
+  },
+  "concept": "El juego de fusión es un motor de crecimiento autorreforzado: la fusión de mismo nivel convierte acciones de baja frecuencia en saltos de nivel deterministas, y una curva de producción exponencial mantiene «el siguiente nivel» siempre más valioso que «este». La parte difícil no es la regla de fusión, sino tres detalles que cierran el bucle: un tablero lleno debe tener siempre una vía de escape que nunca bloquee, el ritmo de alimentación debe dejar un presupuesto de reflexión, y el tope de nivel decide hasta dónde llega la atracción. La adicción de «una fusión más y paro» viene de la forma de la curva, no del arte.",
+  "designNotes": [
+    "La atracción viene de la curva exponencial, no de la cantidad de recompensas: duplicar la producción por nivel significa que el siguiente nivel siempre merece ser perseguido; pero demasiado empinada y el juego tardío se siente inalcanzable, demasiado plana y la meta se diluye. Dónde pones el tope de la curva es el interruptor de la vida útil del juego.",
+    "Las unidades de nivel bajo valen más que las de nivel alto (contraintuitivo): la producción temprana cabalga sobre una base ancha de unidades baratas, y subir niveles a toda prisa mata de hambre tu propia producción; un buen diseño de fusión deja que los jugadores descubran por sí mismos «primero construye la base, luego escala».",
+    "Un tablero lleno no es un castigo; es una válvula de ritmo: consumir a la fuerza unidades de nivel bajo para liberar espacio parece una penalización, pero en realidad es el fusible que evita el bloqueo del tablero; convierte la «gestión del espacio» de una regla de fondo en una decisión explícita de cada movimiento."
+  ],
+  "value": {
+    "player": "La fusión alimenta los dos instintos de coleccionar y hacerse más fuerte: las unidades de nivel bajo son ahorros visibles, y cada fusión es una mejora segura; la cadena de metas siempre está clara y el siguiente nivel siempre está llamando.",
+    "ecosystem": "La fusión es doble ganadora de retención y monetización en el juego casual: la cadena de metas soporta nativamente la expansión de contenido (un nivel nuevo ES contenido nuevo), y la presión de la cuadrícula encaja limpiamente con la monetización de energía y potenciadores; probado repetidamente de Merge Dragons a Suika Game.",
+    "transfer": "Aprende fusión y aprenderás diseño de curvas de atracción exponencial: producción escalonada, colocación de topes, ritmo de alimentación; una estructura numérica que se sostiene igual de bien en juegos idle y de colección de cartas."
+  }
+}

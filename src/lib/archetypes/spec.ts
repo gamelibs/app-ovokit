@@ -65,9 +65,15 @@ export type ArchetypeSpec = {
   untranslated?: boolean;
 };
 
-/** 内容语言目录：zh-CN → content/archetypes，en → content/archetypes-en（缺失时回退中文） */
+/** 内容语言目录：zh-CN → content/archetypes，其余语言 → content/archetypes-{locale}（缺失按 自有→en→zh 链回退） */
 function archetypesRootDir(locale: string = "zh-CN") {
-  return path.join(process.cwd(), "content", locale === "en" ? "archetypes-en" : "archetypes");
+  return path.join(process.cwd(), "content", locale === "zh-CN" ? "archetypes" : `archetypes-${locale}`);
+}
+
+function localeCandidates(locale: string): string[] {
+  if (locale === "zh-CN") return ["zh-CN"];
+  if (locale === "en") return ["en", "zh-CN"];
+  return [locale, "en", "zh-CN"];
 }
 
 async function readSpecFromDir(rootDir: string, key: PlayArchetypeKey): Promise<ArchetypeSpec | null> {
@@ -84,14 +90,14 @@ export async function readArchetypeSpec(
   key: PlayArchetypeKey,
   locale: string = "zh-CN",
 ): Promise<ArchetypeSpec | null> {
-  if (locale === "en") {
-    const enSpec = await readSpecFromDir(archetypesRootDir("en"), key);
-    if (enSpec) return enSpec;
-    const zhSpec = await readSpecFromDir(archetypesRootDir("zh-CN"), key);
-    if (zhSpec) zhSpec.untranslated = true;
-    return zhSpec;
+  for (const candidate of localeCandidates(locale)) {
+    const spec = await readSpecFromDir(archetypesRootDir(candidate), key);
+    if (spec) {
+      spec.untranslated = candidate !== locale;
+      return spec;
+    }
   }
-  return readSpecFromDir(archetypesRootDir("zh-CN"), key);
+  return null;
 }
 
 export async function listArchetypeSpecs(locale: string = "zh-CN"): Promise<ArchetypeSpec[]> {

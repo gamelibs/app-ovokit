@@ -39,6 +39,10 @@ export async function generateMetadata({
       languages: {
         "zh-CN": `/features/${key}`,
         en: `/en/features/${key}`,
+        ja: `/ja/features/${key}`,
+        ko: `/ko/features/${key}`,
+        es: `/es/features/${key}`,
+        pt: `/pt/features/${key}`,
         "x-default": `/features/${key}`,
       },
     },

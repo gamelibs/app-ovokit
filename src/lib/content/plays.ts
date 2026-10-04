@@ -6,10 +6,18 @@ import type { PlayTag } from "./play-tags";
 import { corePatternKeys, fallbackCorePatternByKey, isCorePatternKey, type CorePatternKey } from "@/lib/patterns/patterns";
 import { featureKeys, fallbackFeatureByKey } from "@/lib/features/features";
 import { listFeatureSpecs } from "@/lib/features/spec";
+import type { SiteLocale } from "@/i18n/routing";
+
+/** 内容语言目录回退链：zh-CN 读自有目录；en → en→zh；ja/ko/es/pt → 自有→en→zh（命中非请求语言时标 untranslated） */
+function localeCandidates(locale: SiteLocale): SiteLocale[] {
+  if (locale === "zh-CN") return ["zh-CN"];
+  if (locale === "en") return ["en", "zh-CN"];
+  return [locale, "en", "zh-CN"];
+}
 
 export type PlayDifficulty = "入门" | "进阶" | "硬核" | "Beginner" | "Advanced" | "Hardcore";
-/** 内容语言：zh-CN → content/plays，en → content/plays-en（缺失时回退中文并标记 untranslated） */
-export type ContentLocale = "zh-CN" | "en";
+/** 内容语言目录：zh-CN → content/plays，其余语言 → content/plays-{locale}（缺失按 ja→en→zh 链回退并标记 untranslated） */
+export type ContentLocale = SiteLocale;
 export { availablePlayTags };
 export type { PlayTag };
 
@@ -343,7 +351,7 @@ export function resolvePlayBrowseState({
 }
 
 function playsRootDir(locale: ContentLocale = "zh-CN") {
-  return path.join(process.cwd(), "content", locale === "en" ? "plays-en" : "plays");
+  return path.join(process.cwd(), "content", locale === "zh-CN" ? "plays" : `plays-${locale}`);
 }
 
 function playDir(slug: string, locale: ContentLocale = "zh-CN") {
@@ -351,20 +359,18 @@ function playDir(slug: string, locale: ContentLocale = "zh-CN") {
 }
 
 /**
- * slug 全集以中文目录（content/plays）为准，en 目录允许缺稿（读取时回退中文）。
- * 返回并集是为了兼容「只有英文没有中文」的未来情况。
+ * slug 全集以中文目录（content/plays）为准，其它语言目录允许缺稿（读取时按
+ * localeCandidates 链回退）。返回并集是为了兼容「只有翻译稿没有中文」的未来情况。
  */
 export async function listPlaySlugs(locale: ContentLocale = "zh-CN"): Promise<string[]> {
   const readDirs = async (dir: string) => {
     const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => []);
     return entries.filter((e) => e.isDirectory()).map((e) => e.name);
   };
-  if (locale === "en") {
-    const [zh, en] = await Promise.all([
-      readDirs(playsRootDir("zh-CN")),
-      readDirs(playsRootDir("en")),
-    ]);
-    return [...new Set([...zh, ...en])].sort();
+  const locales = localeCandidates(locale);
+  if (locales.length > 1) {
+    const sets = await Promise.all(locales.map((l) => readDirs(playsRootDir(l))));
+    return [...new Set(sets.flat())].sort();
   }
   return (await readDirs(playsRootDir("zh-CN"))).sort();
 }
@@ -393,14 +399,14 @@ export async function readPlayMeta(
   slug: string,
   locale: ContentLocale = "zh-CN",
 ): Promise<PlayMeta | null> {
-  if (locale === "en") {
-    const enMeta = await readPlayMetaFromDir(playsRootDir("en"), slug);
-    if (enMeta) return enMeta;
-    const zhMeta = await readPlayMetaFromDir(playsRootDir("zh-CN"), slug);
-    if (zhMeta) zhMeta.untranslated = true;
-    return zhMeta;
+  for (const candidate of localeCandidates(locale)) {
+    const meta = await readPlayMetaFromDir(playsRootDir(candidate), slug);
+    if (meta) {
+      meta.untranslated = candidate !== locale;
+      return meta;
+    }
   }
-  return readPlayMetaFromDir(playsRootDir("zh-CN"), slug);
+  return null;
 }
 
 async function readPlayArticleMdxResolved(
@@ -414,12 +420,11 @@ async function readPlayArticleMdxResolved(
       return null;
     }
   };
-  if (locale === "en") {
-    const enText = await readFrom(playsRootDir("en"));
-    if (enText !== null) return { text: enText, fromFallback: false };
-    return { text: await readFrom(playsRootDir("zh-CN")), fromFallback: true };
+  for (const candidate of localeCandidates(locale)) {
+    const text = await readFrom(playsRootDir(candidate));
+    if (text !== null) return { text, fromFallback: candidate !== locale };
   }
-  return { text: await readFrom(playsRootDir("zh-CN")), fromFallback: false };
+  return { text: null, fromFallback: true };
 }
 
 export async function readPlayArticleMdx(

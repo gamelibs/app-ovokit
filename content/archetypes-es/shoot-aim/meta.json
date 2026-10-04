@@ -1,0 +1,88 @@
+{
+  "key": "shoot-aim",
+  "name": "Disparo / Puntería",
+  "nameEn": "Shoot / Aim",
+  "lang": "es",
+  "subtitle": "Apuntar, impactar y gestionar recursos crean un bucle cerrado; el núcleo está en el feedback del impacto y el riesgo-recompensa.",
+  "features": [
+    "数值成长",
+    "关卡"
+  ],
+  "difficulty": "Principiante → Avanzado",
+  "demoRuleHint": "Regla: apuntar → disparar → determinación de impacto → feedback (empuje/explosión/puntuación) → enfriamiento/recarga",
+  "problemsSolved": [
+    "Convertir la detección de impactos y el feedback en una ventana rítmica aprendible (por qué impactar se siente bien).",
+    "Usar restricciones como la munición, el retroceso y la dispersión para controlar los disparos erráticos y la producción ilimitada.",
+    "Hacer que la presión venga de objetivos y ritmos interpretables, no solo del apilado de monstruos.",
+    "Equilibrar los límites de munición y la producción: demasiada munición lleva al exceso de fuego y a la falta de ritmo; muy poca fuerza recargas frecuentes, rompiendo el flow de los combos.",
+    "Equilibrar retroceso y precisión: un retroceso excesivo hace el disparo inestable y reduce los combos; un retroceso débil hace al jugador demasiado preciso, reduciendo el desafío.",
+    "Un disparo demasiado preciso debilita el ritmo del juego: cuando el jugador puede acertar todos los objetivos con facilidad, el juego pierde tensión y el jugador puede dejar de buscar activamente esquivas o estrategia."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle mínimo — apuntar → disparar → juicio de impacto → feedback → enfriamiento/recarga — y reproducir un impacto y una recarga en la demo",
+    "Intermedio: escribir el contrato de trayectoria y oclusión (juicio de impacto, modelo de dispersión, economía de munición) y dar forma a la dificultad de manejo con la cadencia de fuego y el retroceso",
+    "Avanzado: diseñar el ritmo de aparición de objetivos y las curvas de presión, y verificar la sensación de disparo con la distribución de precisión y la distribución del momento de recarga"
+  ],
+  "minimalRules": [
+    "Apuntado: señalamiento con ratón/joystick/táctil (mínimo: dirección fija).",
+    "Impacto: detección por rayo o proyectil y oclusión.",
+    "Recursos: munición/enfriamiento/energía (mínimo: enfriamiento)."
+  ],
+  "systemLoopHint": "Entrada (apuntar/disparar) → Resolución (impacto/oclusión) → Feedback (daño/retroceso) → Cambio de recursos (enfriamiento/munición) → Nuevo objetivo.",
+  "combos": [
+    {
+      "formula": "Disparo / Puntería + Esquivar / Evitar",
+      "effect": "El movimiento crea ventanas de oportunidad, formando un bucle de alta presión."
+    },
+    {
+      "formula": "Disparo / Puntería + Progresión",
+      "effect": "Acumula recursos mediante impactos/bajas para impulsar la progresión de armas."
+    },
+    {
+      "formula": "Disparo / Puntería + Física",
+      "effect": "Las trayectorias de los proyectiles interactúan con el entorno, expandiendo el espacio estratégico."
+    }
+  ],
+  "advancedWarnings": [
+    "Un feedback de impacto débil hace que disparar se sienta como «disparar al aire».",
+    "El retroceso y la dispersión sin explicación rompen la curva de aprendizaje.",
+    "Las reglas de oclusión inconsistentes causan una frustración fuerte."
+  ],
+  "advancedAlgoRefs": [
+    "Detección de impactos: rayos/proyectiles, capas de colisión, hitboxes.",
+    "Generación de apariciones: ritmo de refresco de enemigos y diseño de oleadas."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de ritmo de munición",
+      "action": "Machaca «Disparar (principal)» hasta agotar la munición, observa cómo decae la precisión, y luego pulsa «Recargar (secundario)» para rellenar",
+      "observe": "La munición vacía fuerza una ventana de recarga: el recurso corta el ritmo de producción. La precisión cae visiblemente al rociar: la restricción de munición convierte la «producción infinita» en «cada apretón del gatillo tiene un coste de oportunidad»."
+    },
+    {
+      "title": "Contraste de dificultad",
+      "action": "En fácil y en difícil, pulsa «Avanzar 1 paso» 10 pasos cada una y compara objetivos y precisión",
+      "observe": "La dificultad cambia la presión de aparición: en difícil, los objetivos se apilan más rápido y la misma cadencia de fuego diluye la precisión. El dial de dificultad es una prueba de estrés sobre la tasa de impacto: la precisión pasa de métrica de buen sentir a métrica de supervivencia."
+    },
+    {
+      "title": "Experimento de fuego disciplinado",
+      "action": "Dispara solo una vez cada 3 ticks (pulsa «Avanzar 1 paso» tres veces, luego «Disparar (principal)») y tras 20 pasos compara la precisión con el experimento uno",
+      "observe": "El fuego disciplinado logra una precisión notablemente mayor que rociar: la profundidad de un shooter viene de la precisión, no del volumen. Por eso los diseños de producción castigan el fuego rápido sin pensar con dispersión/retroceso: la precisión perfecta mataría la tensión."
+    }
+  ],
+  "intro": {
+    "what": "Apunta al objetivo y dispara: los impactos puntúan y la munición es limitada. Los shooters, los juegos de tiro al blanco y los FPS están construidos sobre esto.",
+    "feel": "La mira se asienta sobre un objetivo, aprietas el gatillo y el feedback del impacto estalla; cuando el cargador se vacía te apuras a recargar: pierdes el ritmo un segundo y los objetivos se apilan en montaña.",
+    "why": "«Cómo se fabrica la sensación» no se ve en ningún sitio más claro que en el disparo: el feedback del impacto, las restricciones de munición y el riesgo-recompensa son asignaturas obligadas del diseño de feedback."
+  },
+  "concept": "El juego de disparo es un bucle de recompensa extremadamente corto: apuntar, disparar, juicio de impacto, estallido de feedback; cada apretón del gatillo es una microdecisión evaluable. La parte difícil no es el impacto, sino la explicabilidad de las restricciones: la munición y los enfriamientos convierten la producción infinita en gestión de ritmo, mientras la dispersión y el retroceso convierten «disparar mucho» en «disparar bien». Un arma «se siente bien en la mano» cuando la razón detrás de cada acierto y cada fallo es claramente visible.",
+  "designNotes": [
+    "La munición es una válvula de ritmo, no un empaquetado de recursos: la ventana de recarga interrumpe a la fuerza el compás de producción; demasiada munición y el rociado sin pensar mata la tensión, muy poca y los combos se rompen constantemente. El tamaño del cargador es la frecuencia cardíaca de un shooter.",
+    "Rociar debe ser castigado (contraintuitivamente castigando el juego de alta frecuencia): los disparos vacíos cuestan precisión, la dispersión castiga el fuego rápido; rociar sin precio destruye el valor de la precisión. La profundidad del disparo viene de la contención, no de la potencia de fuego.",
+    "Un feedback de impacto débil es disparar al aire: el empuje, el sonido y el estallido instantáneo de puntuación SON la sensación; por muy preciso que sea el juicio, un feedback apagado nunca deja al jugador sentir su propia habilidad."
+  ],
+  "value": {
+    "player": "El disparo satisface el impulso de adjudicación instantánea de «un impacto es justicia»: mira puesta, gatillo apretado, objetivo abajo; recompensa y castigo se cobran en milisegundos, el bucle de emoción más inmediato que existe.",
+    "ecosystem": "El disparo es uno de los nichos de categoría más grandes de la industria: de las galerías de tiro a los esports de FPS, la precisión del feedback de impacto fija el suelo del producto, y la capacidad de ajuste de la sensación es un activo central del equipo.",
+    "transfer": "Aprende disparo y aprenderás ingeniería de precisión del feedback: credibilidad del juicio, ritmo de munición, el estallido instantáneo de un impacto; este control fino sobre la «sensación» se transfiere a cualquier mecánica que necesite que las acciones tengan peso."
+  }
+}

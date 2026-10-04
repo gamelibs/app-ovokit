@@ -11,13 +11,19 @@ export type ImplementationTraitSpec = ImplementationTraitMeta & {
   untranslated?: boolean;
 };
 
-/** 内容语言目录：zh-CN → content/implementation-traits，en → content/implementation-traits-en（缺失时回退中文） */
+/** 内容语言目录：zh-CN → content/implementation-traits，其余语言 → content/implementation-traits-{locale}（缺失按 自有→en→zh 链回退） */
 function implementationTraitsRootDir(locale: string = "zh-CN") {
   return path.join(
     process.cwd(),
     "content",
-    locale === "en" ? "implementation-traits-en" : "implementation-traits",
+    locale === "zh-CN" ? "implementation-traits" : `implementation-traits-${locale}`,
   );
+}
+
+function localeCandidates(locale: string): string[] {
+  if (locale === "zh-CN") return ["zh-CN"];
+  if (locale === "en") return ["en", "zh-CN"];
+  return [locale, "en", "zh-CN"];
 }
 
 async function readSpecFromDir(
@@ -37,14 +43,14 @@ export async function readImplementationTraitSpec(
   key: ImplementationTraitKey,
   locale: string = "zh-CN",
 ): Promise<ImplementationTraitSpec | null> {
-  if (locale === "en") {
-    const enSpec = await readSpecFromDir(implementationTraitsRootDir("en"), key);
-    if (enSpec) return enSpec;
-    const zhSpec = await readSpecFromDir(implementationTraitsRootDir("zh-CN"), key);
-    if (zhSpec) zhSpec.untranslated = true;
-    return zhSpec;
+  for (const candidate of localeCandidates(locale)) {
+    const spec = await readSpecFromDir(implementationTraitsRootDir(candidate), key);
+    if (spec) {
+      spec.untranslated = candidate !== locale;
+      return spec;
+    }
   }
-  return readSpecFromDir(implementationTraitsRootDir("zh-CN"), key);
+  return null;
 }
 
 export async function listImplementationTraitSpecs(

@@ -1,0 +1,85 @@
+{
+  "lang": "pt",
+  "key": "simulation",
+  "name": "Simulação",
+  "nameEn": "Simulation",
+  "subtitle": "Gere comportamento de mundo observável por meio de regras de sistema; o núcleo é variáveis, cadeias causais e explicabilidade.",
+  "features": [
+    "放置产出",
+    "数值成长"
+  ],
+  "difficulty": "Avançado → Hardcore",
+  "demoRuleHint": "Exemplo de regra: Definir a taxa de geração de recursos → Observar o crescimento da população → Ajustar a alocação de recursos.",
+  "problemsSolved": [
+    "Torna as cadeias causais observáveis e explicáveis, evitando a 'caixa-preta de processamento de números'.",
+    "Fornece estados estáveis e condições de contorno para evitar fuga descontrolada do sistema ou estagnação entediante.",
+    "Dá ao jogador alavancas claras de intervenção (parâmetros/estratégias/recursos) para que os ajustes sejam eficazes."
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop de simulação — definir variáveis → o sistema evolui → observar métricas → ajustar — e reproduzir na demo uma intervenção de parâmetro",
+    "Intermediário: escrever o contrato de variáveis e cadeias causais (regras de atualização, atrasos de propagação, condições de contorno) e ajustar o comprimento do período de feedback",
+    "Avançado: projetar estados estáveis e fronteiras de colapso (emergência explicável), e verificar a vitalidade do sistema com variância de métricas, taxa de colapso e eficácia da intervenção"
+  ],
+  "minimalRules": [
+    "Variáveis: 2–4 variáveis-chave (mínimo 2).",
+    "Evolução: regras de atualização (a cada tick/turno).",
+    "Observação: deixe o jogador ver as mudanças das métricas-chave."
+  ],
+  "systemLoopHint": "Entrada (parâmetros/estratégias) → Evolução (atualizações de regras) → Observação (mudanças de métricas) → Decisão (sucesso/falha) → Ajuste → Nova entrada",
+  "combos": [
+    {
+      "formula": "Simulação + Progressão",
+      "effect": "Dirige a evolução e expansão do sistema com objetivos de longo prazo."
+    },
+    {
+      "formula": "Simulação + Escolha",
+      "effect": "Altera a trajetória do sistema por meio de decisões-chave."
+    },
+    {
+      "formula": "Simulação + Física",
+      "effect": "Regras de mundo mais realistas trazem gameplay emergente."
+    }
+  ],
+  "advancedWarnings": [
+    "Variáveis demais reduzem a explicabilidade; de menos reduzem a profundidade.",
+    "Ciclos de feedback longos fazem o jogador perder o feedback imediato; ciclos curtos causam ruído excessivo no sistema.",
+    "Restringir demais os parâmetros pode estimular o jogador a encontrar pontos de microajuste, produzindo comportamento emergente mais rico — limites forçam a exploração de estados de borda."
+  ],
+  "advancedAlgoRefs": [
+    "Evolução: atualizações por tick, fila de eventos, controle de estabilidade.",
+    "Visualização: painel de métricas, heatmap, replay."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento da Alavanca de Imposto",
+      "action": "Arraste o controle de \"Taxa de Imposto\" de 0,2 para 0,5, \"Avançar 1 Passo\" por 10 dias e veja dinheiro e felicidade divergirem",
+      "observe": "A taxa de imposto é o início da cadeia causal: o dinheiro dispara enquanto a felicidade escorrega, e felicidade baixa por sua vez suprime o crescimento populacional. Uma alavanca move várias métricas — a profundidade do gameplay de simulação vem do atraso de propagação entre as variáveis"
+    },
+    {
+      "title": "Caça ao Estado Estável",
+      "action": "Use \"Aumentar Imposto (primário)\" / \"Cortar Imposto (secundário)\" para afinar, caçando a faixa de imposto em que felicidade e dinheiro sobem juntos",
+      "observe": "O sistema alcança um estado estável nas taxas médias — os dois extremos colapsam (0% faminta o tesouro, 60% expulsa as pessoas). Uma fronteira de estado estável observável faz o \"ajuste funcionar\": o jogador encontra o próprio ótimo em vez de decorar um guia"
+    },
+    {
+      "title": "Observação de Colapso",
+      "action": "Empurre a taxa de imposto até 0,6 e use \"Avançar 1 Passo\" por 20 dias seguidos",
+      "observe": "a felicidade colapsa → a população drena → a arrecadação de imposto na verdade cai — um contra-intuitivo da curva de Laffer: taxa máxima ≠ arrecadação máxima. O colapso emergente é o momento de ensino central do gameplay de simulação: quando as cadeias causais são observáveis, o colapso se torna explicável"
+    }
+  ],
+  "intro": {
+    "what": "Defina os parâmetros das regras e veja um mundinho funcionar sozinho — simuladores de gestão, city builders e The Sims são construídos sobre isso.",
+    "feel": "Você ajusta a taxa de imposto; no dia seguinte o dinheiro subiu, mas o povo está infeliz; ajusta de novo e a população começa a drenar — cada botão puxa a teia inteira, e ver o sistema reagir é mais viciante que o controle direto.",
+    "why": "Um campo de treino para o \"pensamento sistêmico\" — cadeias causais, emergência e estados estáveis, conceitos que parecem místicos mas que você consegue tocar de verdade aqui."
+  },
+  "concept": "O gameplay de simulação deixa as regras contarem a história sozinhas: o jogador não opera os resultados diretamente — ajusta variáveis e vê as cadeias causais se propagarem em comportamento emergente. A parte difícil não é a quantidade de variáveis — é a explicabilidade e os estados estáveis: variáveis demais e a causalidade fica ilegível, de menos e o sistema perde profundidade, e tanto o colapso descontrolado quanto o tédio estagnado são falhas de simulação. O jogador diz \"esse sistema é fascinante\" porque todo ajuste pode ser explicado pela sua cadeia causal.",
+  "designNotes": [
+    "O atraso de propagação é a fonte da profundidade: uma mudança de imposto atinge o dinheiro na hora, a felicidade devagar e a população por último — a defasagem temporal de uma alavanca movendo várias métricas é o que dá \"feel\" a um sistema.",
+    "Parâmetros extremos precisam colapsar: imposto zero faminta o tesouro, imposto total expulsa todo mundo — um sistema que morre nas duas pontas tem um estado estável no meio que vale a caça; se toda configuração for \"ok\", a simulação não tem nada para explorar.",
+    "Restrições provocam emergência (contra-intuitivo): com os parâmetros cercados, o jogador explora ativamente os estados de borda caçando pontos de ajuste fino — dê liberdade sem limites e ele se entedia rápido."
+  ],
+  "value": {
+    "player": "A simulação satisfaz o impulso de controle da visão de deus: você não joga como ninguém — define as regras e vê um mundo crescer sozinho. Entender um sistema é mais viciante que vencer uma luta.",
+    "ecosystem": "Simulação é um campo de treino raro de pensamento sistêmico: city builders e simuladores de gestão deixam o jogador vivenciar cadeias causais e emergência na prática dentro de uma sandbox segura — uma capacidade que transborda para decisões do mundo real. É também por isso que ela é o nicho natural de jogos educacionais e sérios.",
+    "transfer": "Aprenda simulação e você aprende design de sistemas com variáveis e loops de feedback — regras de atualização, atrasos de propagação, fronteiras de estado estável — um pensamento que se transfere direto para sistemas de economia, equilíbrio de ecossistemas e até modelos de crescimento de produto."
+  }
+}

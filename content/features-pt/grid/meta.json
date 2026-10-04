@@ -1,0 +1,71 @@
+{
+  "key": "grid",
+  "lang": "pt",
+  "name": "Grade",
+  "nameEn": "Grid",
+  "subtitle": "Operações intuitivas dentro de um espaço de grade estruturado",
+  "concept": "O gameplay de grade mapeia regras abstratas em um espaço de grade discreto, permitindo ao jogador tomar decisões com base em coordenadas e adjacência. O designer primeiro decide a estrutura de dados da grade (array 2D, mapeamento de coordenadas ou grafo), depois define as operações legais para os elementos dentro da grade (mover, combinar, fundir) e as condições de vitória/derrota baseadas na grade. O formato da grade (quadrada, hexagonal etc.) determina as direções de adjacência (4 direções, 8 direções, 6 direções), influenciando diretamente os algoritmos de conectividade, a apresentação visual e a profundidade estratégica. Grades quadradas são fáceis de implementar e visualmente intuitivas, mas limitam padrões diversos de conectividade; grades hexagonais oferecem relações de adjacência mais ricas, expandindo o espaço estratégico mas adicionando custo de conversão de coordenadas e renderização. O designer precisa equilibrar usabilidade intuitiva com viabilidade algorítmica, selecionando regras de adjacência e tamanho de grade apropriados. Além disso, a frequência e a distribuição de eventos aleatórios afetam a formação de estratégias; aleatoriedade excessiva enfraquece o jogo estratégico. Ao fornecer feedback oportuno sobre as ações dentro do loop de jogo, o jogador percebe as mudanças imediatamente, mantendo ritmo e desafio. Ademais, o tamanho da grade também apresenta um trade-off: grades maiores fornecem espaço estratégico mais amplo, mas podem ficar visualmente poluídas e aumentar a carga cognitiva; grades menores são mais fáceis de gerenciar, mas podem parecer apertadas, reduzindo a exploração. Em alguns jogos de match-3, uma grade mais esparsa pode na verdade melhorar as taxas de sucesso de combinação, porque menos células adjacentes reduzem conflitos, facilitando o jogador encontrar combinações possíveis. Isso acontece porque o algoritmo de combinação encontra blocos conectados mais facilmente em ambientes esparsos, reduzindo a dependência de combinações aleatórias.",
+  "role": "A grade transforma regras abstratas em estruturas espaciais observáveis. Ela serve como a forma espacial fundamental para tipos de gameplay como match-3, fusão, puzzle e jogos de tabuleiro estratégicos.",
+  "significance": "Dominar as características da grade permite entender estruturas de dados espaciais, detecção de conectividade e geração de fases; é a chave para traduzir problemas lógicos em ações intuitivas.",
+  "filterTags": [
+    "Grid"
+  ],
+  "cases": [
+    "Candy Crush",
+    "2048",
+    "Tetris"
+  ],
+  "problemsSolved": [
+    "Converter regras em ações espaciais visuais",
+    "Criar combinações ricas dentro de uma grade limitada",
+    "Fornecer novidade contínua por meio de estados de tabuleiro mutáveis"
+  ],
+  "learningGoals": [
+    "Representar espaço usando arrays 2D ou grafos",
+    "Implementar detecção de componentes conectados e determinação de combinações",
+    "Projetar layouts de fases e curvas de dificuldade"
+  ],
+  "minimalRules": [
+    "Defina o espaço da grade e seus limites: represente as células com um array 2D ou mapeamento de coordenadas, e especifique explicitamente dimensões e faixas de coordenadas no código.",
+    "Defina as operações legais para os elementos dentro da grade: especifique direções de movimento, tamanhos de passo, detecção de obstáculos e eventos de gatilho (combinar, fundir).",
+    "Defina condições de vitória/derrota ou pontuação baseadas na grade: configure detecção de cadeias de combinação, métodos de pontuação ou critérios de conclusão de objetivo.",
+    "Defina o formato da grade e as regras de adjacência: escolha quadrada/hexagonal etc., e especifique as direções de adjacência (4, 8 ou 6 direções) para determinar os algoritmos de conectividade.",
+    "Considere a perspectiva do jogador e os mecanismos de feedback para garantir que os resultados das ações sejam percebidos intuitivamente: implemente feedback visual ou sonoro, verifique atualizações de UI ou saída de log.",
+    "Ajuste dinamicamente o tamanho da grade com base nos objetivos do jogo e na habilidade do jogador para evitar grades grandes demais que dispersam a atenção ou pequenas demais que carecem de senso espacial."
+  ],
+  "combos": [
+    {
+      "formula": "Grade + Combinar / Eliminar",
+      "effect": "Cria feedback instantâneo por meio de combinação posicional"
+    },
+    {
+      "formula": "Grade + Fusão",
+      "effect": "Combina posicionamento espacial com upgrades"
+    },
+    {
+      "formula": "Grade + Estratégia",
+      "effect": "Adiciona profundidade estratégica por meio de terreno e posicionamento"
+    },
+    {
+      "formula": "Grade + Gerenciamento de Recursos",
+      "effect": "Gerencia a distribuição de recursos via posicionamento na grade"
+    }
+  ],
+  "advancedWarnings": [
+    "Tamanho de grade grande ou pequeno demais impacta negativamente a experiência",
+    "Detecção de beco sem saída e mecanismos de dicas são cruciais",
+    "A explosão do espaço de estados pode dificultar a geração",
+    "Grades excessivamente simétricas podem fazer o jogador perder o senso de direção",
+    "Aleatoriedade excessiva impede o jogador de formar estratégias"
+  ],
+  "advancedAlgoRefs": [
+    "Travessia de array 2D e conversão de coordenadas",
+    "Detecção de componentes conectados (BFS/DFS)",
+    "Avaliação de estado de tabuleiro e busca heurística"
+  ],
+  "intro": {
+    "what": "Corte o mundo do jogo em células arrumadas e deixe cada ação acontecer nelas — Tetris, 2048 e Candy Crush todos jogam dentro de uma grade.",
+    "feel": "A grade torna tudo cristalino: o que pode se mover e o que não pode é óbvio à primeira vista; você nunca erra um toque trêmulo, só pensa na jogada ótima.",
+    "why": "Esta é a estrutura universal para baixar o piso de habilidade — discretizar um mundo contínuo em células faz cada clique ou toque pousar com precisão."
+  }
+}

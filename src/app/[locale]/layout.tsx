@@ -33,11 +33,15 @@ export async function generateMetadata({
     description: metaDescription,
     keywords: metaKeywords,
     alternates: {
-      // 默认 hreflang：首页双语互链；内页应在各自 page 的 metadata 里
+      // 默认 hreflang：首页多语互链；内页应在各自 page 的 metadata 里
       // 用页面级 languages 覆盖（如 play 详情页），避免指向错误 URL。
       languages: {
         "zh-CN": "/",
         en: "/en",
+        ja: "/ja",
+        ko: "/ko",
+        es: "/es",
+        pt: "/pt",
         "x-default": "/",
       },
     },
@@ -45,7 +49,10 @@ export async function generateMetadata({
       title: metaTitle,
       description: metaDescription,
       type: "website",
-      locale: locale === "en" ? "en_US" : "zh_CN",
+      locale:
+        { "zh-CN": "zh_CN", en: "en_US", ja: "ja_JP", ko: "ko_KR", es: "es_ES", pt: "pt_PT" }[
+          locale
+        ] ?? "zh_CN",
       siteName: siteConfig.name,
     },
     twitter: {
