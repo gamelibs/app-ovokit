@@ -1,0 +1,88 @@
+{
+  "key": "timing",
+  "name": "Ritmo / Reacción",
+  "nameEn": "Timing",
+  "lang": "es",
+  "subtitle": "Crear desafío mediante ventanas, tiempos y reacciones; el núcleo es las zonas de juicio y la latencia del feedback.",
+  "features": [
+    "数值成长",
+    "关卡"
+  ],
+  "difficulty": "Principiante → Avanzado",
+  "demoRuleHint": "Generación de tiempos → entrada → juicio → feedback → progresión de combo/dificultad",
+  "problemsSolved": [
+    "Hacer que las ventanas de juicio sean interpretables y consistentes, reduciendo la sensación de haber pulsado bien y ser juzgado mal.",
+    "Usar el diseño de tolerancia y recompensas para crear una curva de progresión que acomode tanto a principiantes como a expertos.",
+    "Usar secciones de tiempos para crear picos y zonas de recuperación, controlando la fatiga y la tensión.",
+    "Equilibrar el ancho de la ventana: demasiado estrecha frustra a los principiantes, demasiado ancha debilita el desafío.",
+    "El feedback retardado puede mejorar el sentido del ritmo: un retardo moderado deja al jugador anticipar los tiempos."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle mínimo — aparición del tiempo → entrada → juicio → feedback — y reproducir un juicio Perfect en la demo",
+    "Intermedio: escribir el contrato de juicio (ventanas Perfect/Good/Miss, gestión de tiempo agotado, reglas de combo) y combinar el ancho de ventana con el BPM en sensaciones distintas",
+    "Avanzado: diseñar ventanas progresivas y secciones de cambio de tempo (ingeniería de la curva de aprendizaje), y verificar la salud de la sensación con la distribución de juicios y la retención de combo"
+  ],
+  "minimalRules": [
+    "Ventana: cada tiempo define un intervalo temporal; Perfect ±30 ms (ventana de 60 ms), Good ±70 ms (ventana de 140 ms), Miss >70 ms; duración total de la ventana 140 ms.",
+    "Tiempo: ritmo generado a BPM fijo o variable, usando una cola de eventos para programar marcas de tiempo por adelantado, soportando cambios de tempo en tiempo real.",
+    "Feedback: dispara sonido, vibración y resaltado visual según el nivel de juicio; el mínimo es el resaltado visual; el error de sincronización audiovisual ≤5 ms."
+  ],
+  "systemLoopHint": "Entrada → calcular la diferencia con la marca de tiempo del tiempo → nivel de juicio → disparar feedback → actualizar combo/dificultad → generar la siguiente ventana",
+  "combos": [
+    {
+      "formula": "Ritmo + Combate",
+      "effect": "El timing perfecto dispara contraataque/bloqueo, creando un enfrentamiento rítmico."
+    },
+    {
+      "formula": "Ritmo + Progresión",
+      "effect": "El combo impulsa la adquisición de recursos y los desbloqueos."
+    },
+    {
+      "formula": "Ritmo + Simulación",
+      "effect": "Los eventos rítmicos afectan a las variables del sistema, expandiendo la profundidad estratégica."
+    }
+  ],
+  "advancedWarnings": [
+    "La pérdida de sincronización audiovisual arruinará directamente la mecánica de timing.",
+    "Las reglas de juicio opacas romperán la curva de aprendizaje.",
+    "Las ventanas demasiado estrechas sin progresión causarán picos de frustración.",
+    "El feedback excesivamente retardado debilitará la inmediatez, causando desequilibrio del ritmo."
+  ],
+  "advancedAlgoRefs": [
+    "Juicio: línea temporal, cálculo de ventanas, compensación de retardo.",
+    "Ritmo: cola de eventos, cambios de BPM, generación de partituras."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de ventana de timing",
+      "action": "Estira la «Ventana Perfect» de 40ms a 150ms",
+      "observe": "El ancho de la ventana es el dial de dificultad: 40ms se acerca al límite de reacción humana (hardcore), 150ms es casi infallible. Cada +10ms sube la retención de principiantes pero baja la satisfacción de los expertos: el compromiso central entre indulgencia y maestría."
+    },
+    {
+      "title": "Experimento de cambio de BPM",
+      "action": "Mantén fija la ventana Perfect y sube «BPM (velocidad del tiempo)» de 60 a 180",
+      "observe": "El BPM cambia la frecuencia de decisión, no la dificultad del juicio: la misma ventana de 100ms se siente tranquila a 60 BPM y casi machacar botones a 180. BPM y ventana son diales independientes: combinarlos da «denso e indulgente» frente a «escaso y estricto», dos sensaciones completamente distintas."
+    },
+    {
+      "title": "Vigilancia de la frontera de frustración",
+      "action": "Fija una ventana Perfect de 40ms a 180 BPM y aguanta 30 segundos",
+      "observe": "Esta es la zona de explosión de frustración de «ventana demasiado estrecha sin rampa»: la tasa de aciertos cae en picado. Un juego de ritmo de producción debe rampar la ventana (primero ancha, luego estrechar) a lo largo de la curva de aprendizaje, o los principiantes abandonan en la primera sección."
+    }
+  ],
+  "intro": {
+    "what": "Pulsa a tiempo con el ritmo o el momento perfecto: cuanto más preciso, más puntuación. Rhythm Master, Taiko no Tatsujin y los juegos de ritmo en general están construidos sobre esto.",
+    "feel": "Un anillo se encoge hacia el círculo de juicio y golpeas en la coincidencia exacta; cuando salta el Perfect, tu dedo y tu latido están sincronizados: acertar es puro alivio, fallar te hace querer otra oportunidad al instante.",
+    "why": "Es el espécimen definitivo de la «ingeniería de la sensación»: parámetros invisibles de milisegundos como la ventana de juicio y la latencia del feedback deciden si un juego se siente bien en la mano."
+  },
+  "concept": "El juego de timing exterioriza la «habilidad» como una ventana de juicio a escala de milisegundos: cada pulsación se mide como una desviación del momento ideal, y las recompensas escalan a medida que la desviación se estrecha. La parte difícil no es la ventana en sí, sino la consistencia y la sincronización: un error audiovisual de apenas unos milisegundos basta para que el jugador se sienta «mal juzgado», y las reglas de juicio opacas rompen la curva de aprendizaje. La sensación del jugador de «estoy mejorando» descansa en la premisa de que el juicio es siempre honesto.",
+  "designNotes": [
+    "El ancho de la ventana es un trueque entre retención y logro: cada +10ms sube la retención de principiantes pero baja el orgullo de los expertos; por eso los juegos de ritmo de producción usan ventanas progresivas (primero anchas, luego estrechas) para quedarse con ambos, en lugar de elegir un valor fijo.",
+    "Un retardo moderado mejora el groove (contraintuitivo): el feedback instantáneo interrumpe el flujo del tiempo, mientras que retardar el juicio al límite del tiempo mantiene al jugador enganchado; pero la dessincronización audiovisual es una sentencia de muerte, y el «retardo» debe separarse estrictamente del «desajuste».",
+    "BPM y ventana son diales independientes: el BPM fija la frecuencia de decisión mientras la ventana fija la exigencia; «denso e indulgente» y «escaso y estricto» son sensaciones completamente distintas, y mezclarlas no complace a ninguno de los dos públicos."
+  ],
+  "value": {
+    "player": "El juego de timing vende la maestría misma: la ventana de juicio cuantifica la habilidad en milisegundos, y el jugador se ve escalar de torpe a impecable. En el instante en que aterriza un Perfect, ritmo y nervios se sincronizan: una satisfacción que pocos otros feedbacks pueden igualar.",
+    "ecosystem": "Los juegos de ritmo mantienen una de las comunidades núcleo más estables de la industria: el contenido se expande por pista, y la sensación del juicio es un foso defensivo que los competidores no pueden copiar.",
+    "transfer": "Aprende timing y aprenderás ingeniería de la sensación: ventanas de juicio, latencia de feedback, sincronización audiovisual a escala de milisegundos; fundamentos sin los que los juegos de lucha, los shooters e incluso los clickers no pueden vivir."
+  }
+}

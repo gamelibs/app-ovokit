@@ -1,0 +1,72 @@
+{
+  "key": "management",
+  "lang": "pt",
+  "name": "Gerenciamento / Simulação",
+  "nameEn": "Management / Simulation",
+  "subtitle": "Construir → Produzir → Consumir → Expandir",
+  "concept": "O modo de gerenciamento centra-se em produzir, converter, consumir e expandir recursos. O jogador expande seu \"império\" construindo instalações, configurando linhas de produção e gerenciando estoque e demanda. A diversão vem de otimizar a eficiência do sistema — produzir mais valor com menos recursos e menos tempo — e de ver a escala crescer. O design precisa prestar atenção especial ao loop fechado da economia: fontes de renda, cadeias de conversão e sorvedouros de consumo precisam existir simultaneamente; uma economia sem sorvedouros inevitavelmente infla. O comprimento da cadeia de produção é um trade-off central: cadeias curtas reduzem o tempo de espera mas aumentam o consumo de recursos por unidade, elevando os custos de expansão; cadeias longas fornecem mais pontos de decisão, aprofundando a estratégia, mas podem cansar o jogador com espera e gestão de detalhes. Outro trade-off-chave é automação versus controle do jogador: automação excessiva liberta o jogador de tarefas tediosas e melhora o planejamento macro, mas se os pontos de decisão forem escassos, o jogador pode se sentir distante; por outro lado, controle manual extremo aumenta a sensação de maestria, mas pode levar à fadiga de gestão. Um insight anti-intuitivo é que adicionar uma quantidade moderada de sorvedouros econômicos frequentemente aumenta o investimento do jogador. O designer teme que sorvedouros demais reduzam a liberdade, mas eles fornecem objetivos e desafios contínuos que sustentam o interesse de longo prazo. Uma conclusão menos óbvia é que abundância de recursos nem sempre é negativa; em alguns contextos, recursos fartos permitem ao jogador focar em otimização e inovação em vez de meramente adquirir recursos.",
+  "role": "Este modo satisfaz os desejos de planejamento, controle e conquista do jogador. Ele abstrai a lógica de negócios do mundo real em um sistema jogável, deixando o jogador vivenciar o processo de expansão \"do zero ao um e ao cem\" em um ambiente de baixo risco. Modos de gerenciamento são frequentemente o núcleo de jogos de ciclo longo e alta retenção.",
+  "significance": "Dominar o modo de gerenciamento significa entender fluxos de recursos, análise de gargalos, equilíbrio de oferta e demanda e loops de feedback positivo. É o melhor cenário para aprender dinâmica de sistemas, simulação econômica e design de sandbox, e é a chave para expandir mecânicas simples em experiências profundas.",
+  "loop": "Construção → Produção → Economia → Crescimento",
+  "abstractions": [
+    "Construções",
+    "Cadeias de Produção",
+    "Economia",
+    "Expansão",
+    "Equilíbrio de Oferta e Demanda"
+  ],
+  "cases": [
+    "Hay Day",
+    "SimCity BuildIt",
+    "Restaurant Management",
+    "Factorio"
+  ],
+  "problemsSolved": [
+    "Quebra objetivos de longo prazo em planos de construção gerenciáveis e em estágios",
+    "Cria decisões significativas sob restrições de recursos",
+    "Fornece uma sensação sustentada de crescimento por meio de expansão e upgrades"
+  ],
+  "learningGoals": [
+    "Projetar cadeias de produção, estoque e sistemas de consumo",
+    "Dominar equilíbrio econômico e controlar inflação/deflação",
+    "Manter o senso de objetivo de longo prazo com eventos, missões e upgrades"
+  ],
+  "minimalRules": [
+    "O jogador pode construir ou melhorar instalações de produção",
+    "Instalações consomem recursos e produzem produtos ou moeda",
+    "Recursos têm limites ou precisam ser consumidos/vendidos",
+    "Expansão exige custo e desbloqueia novo conteúdo"
+  ],
+  "systemLoopHint": "Construir instalações → Alocar recursos → Esperar / Acelerar a produção → Receber a produção → Vender / Consumir → Investir em expansão → Desbloquear novas cadeias",
+  "combos": [
+    {
+      "formula": "Gerenciamento + Gestão de Tempo",
+      "effect": "Cria pontos de receita por meio de espera e aceleração enquanto mantém a progressão gratuita"
+    },
+    {
+      "formula": "Gerenciamento + Sistema de Pedidos",
+      "effect": "Guia prioridades de produção com demanda externa, aumentando o senso de propósito"
+    },
+    {
+      "formula": "Gerenciamento + Eventos Aleatórios",
+      "effect": "Quebra a estabilidade com flutuações de mercado ou desastres para criar desafio"
+    }
+  ],
+  "advancedWarnings": [
+    "Sistemas econômicos podem sair de controle; projete sorvedouros para evitar inflação",
+    "Cadeias de produção longas podem cansar o jogador; ofereça automação ou atalhos",
+    "Expansão puramente numérica pode ficar monótona; combine com feedback visual, narrativo ou social",
+    "Automação excessiva enfraquece a tomada de decisão do jogador; automação de menos causa fadiga de gestão",
+    "Sorvedouros demais podem limitar a liberdade, mas podem melhorar o jogo guiado por objetivos e o investimento de longo prazo"
+  ],
+  "advancedAlgoRefs": [
+    "Diagramas de fluxo de recursos e simulação de cadeias de produção",
+    "Limites de estoque, curvas de oferta e demanda e elasticidade de preço",
+    "Ganhos offline e restauração de estado entre sessões"
+  ],
+  "intro": {
+    "what": "Construa, produza, venda e construa ainda mais — Hay Day, SimCity e jogos de gestão de restaurante todos rodam esse loop.",
+    "feel": "Você planeja a linha de produção e vê as moedas rolarem enquanto as matérias-primas drenam; no momento em que pode pagar por mais, você se divide entre expandir agora ou poupar — toda decisão vira bola de neve.",
+    "why": "Este é o menor modelo completo de uma economia — o loop de expansão \"construir → produzir → reinvestir\" é o coração de todo jogo de gerenciamento."
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "lang": "pt",
+  "key": "merge",
+  "name": "Fusão / Incremental",
+  "nameEn": "Merge / Incremental",
+  "subtitle": "Adquirir → Fundir → Subir de Nível → Maior Produção",
+  "concept": "O modelo de progressão por fusão centra-se em fundir recursos de nível baixo em recursos de nível superior por meio de regras definidas. O jogador adquire continuamente unidades básicas e as funde combinando tipo ou receitas específicas, desbloqueando níveis mais altos, habilidades mais fortes ou maior produção. Sua mecânica subjacente segue uma curva de crescimento exponencial ou polinomial, complementada por espera, tomada de decisão e surpresa. Quando combinado com recursos idle, forma a estrutura clássica de retenção de produção offline e fusão online. Um equívoco comum é que mais regras de fusão aumentam a liberdade do jogador; na realidade, receitas demais podem enfraquecer o planejamento macro, transformando o jogo em puzzle em vez de estratégia. Por outro lado, limitar as opções de fusão força decisões mais profundas de alocação de recursos, aumentando a profundidade estratégica geral. Equilibrar a velocidade de fusão também é fundamental: fusões rápidas demais deixam pouco espaço de decisão e criam monotonia; lentas demais causam tédio de espera. A inclinação da curva de crescimento também importa: curvas íngremes dão sensação rápida de conquista, mas o conteúdo posterior se torna inalcançável; curvas rasas mantêm o jogador engajado a longo prazo, mas carecem de feedback imediato.",
+  "role": "Este modelo cria uma sensação persistente de progressão e coleção. Ele amplifica o loop de feedback \"pequenas ações → grandes recompensas\" e, por meio de cadeias de upgrades, sempre dá ao jogador um próximo objetivo. A progressão por fusão é ideal para títulos hiper-casuais e mid-core, e frequentemente aparece como subsistema em jogos de gerenciamento ou RPG.",
+  "significance": "Dominar o modelo de progressão por fusão significa entender curvas econômicas, design de escassez e psicologia de progressão. O desenvolvedor aprende como gerar objetivos complexos de longo prazo com regras simples de fusão, e como evitar as armadilhas numéricas do \"arranque rápido no início, grind no fim\".",
+  "loop": "Recurso → Fusão → Subir de Nível → Produção",
+  "abstractions": [
+    "Recursos",
+    "Regras de Fusão",
+    "Nível",
+    "Ritmo de Produção",
+    "Curva de Crescimento"
+  ],
+  "cases": [
+    "Merge Dragons!",
+    "Triple Town",
+    "Suika Game",
+    "Cookie Clicker"
+  ],
+  "problemsSolved": [
+    "Mantém alta aderência com ações de baixa frequência (idle + coleta temporizada)",
+    "Fornece objetivos claros de longo prazo via progressão de níveis",
+    "Combina drops aleatórios com escolha do jogador para criar surpresa e estratégia"
+  ],
+  "learningGoals": [
+    "Projetar tabelas escaláveis de níveis/receitas de fusão",
+    "Dominar curvas de custo, curvas de produção e equilíbrio econômico",
+    "Implementar produção automática, ganhos offline e persistência de progresso",
+    "Analisar trade-offs entre velocidade de fusão e tempo de decisão do jogador"
+  ],
+  "minimalRules": [
+    "Recursos/unidades básicos são coletáveis",
+    "Unidades iguais ou conforme a regra podem se fundir em níveis superiores",
+    "Unidades de nível superior rendem maior produção ou habilidades mais fortes",
+    "Produção ou desbloqueio de novo conteúdo exige espera ou ação ativa"
+  ],
+  "systemLoopHint": "Adquirir recursos → Selecionar alvos de fusão → Disparar upgrade → Aumentar produção/desbloquear conteúdo → Colher recursos → Loop",
+  "combos": [
+    {
+      "formula": "Fusão + Idle",
+      "effect": "Permite ao jogador crescer mesmo offline, reduzindo a pressão de atividade diária"
+    },
+    {
+      "formula": "Fusão + Missões",
+      "effect": "Guia o jogador a fundir unidades específicas com objetivos, evitando falta de propósito"
+    },
+    {
+      "formula": "Fusão + Espacial",
+      "effect": "Combina fusão com posicionamento no tabuleiro, adicionando estratégia de layout"
+    }
+  ],
+  "advancedWarnings": [
+    "Uma curva de crescimento íngreme faz o conteúdo posterior parecer inalcançável; uma curva rasa perde a empolgação",
+    "Drops aleatórios sem mecânica de garantia podem levar a experiências negativas",
+    "Ganhos offline precisam ser protegidos contra exploração; projete tetos ou mecanismos de verificação"
+  ],
+  "advancedAlgoRefs": [
+    "Design de curvas de custo e produção exponenciais/polinomiais",
+    "Tabelas de drop aleatório e distribuições pseudoaleatórias (garantias, pools)",
+    "Cálculo de progresso offline e sincronização de estado"
+  ],
+  "intro": {
+    "what": "Combine duas coisas idênticas em uma mais forte, repetidas vezes — as frutas de Suika Game, os ovos de dragão de Merge Dragons e as vilas de Triple Town todos fisgam o jogador assim.",
+    "feel": "Você acumula unidades de tier baixo, funde um par no momento em que combinam e vê os números de produção dobrarem; \"só mais uma fusão e eu paro\" — e aí o sol nasce.",
+    "why": "Este é o motor das economias idle e de progressão — o loop autorreforçado \"fundir → melhor produção\" é a estrutura mais valiosa para aprender quando o assunto é retenção de longo prazo."
+  }
+}

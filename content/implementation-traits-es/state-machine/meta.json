@@ -1,0 +1,57 @@
+{
+  "key": "state-machine",
+  "name": "Máquina de estados",
+  "nameEn": "State Machine",
+  "lang": "es",
+  "subtitle": "Impulsar el comportamiento de personajes o sistemas mediante transiciones de estado",
+  "concept": "Las características de máquina de estados enfatizan el cambio de personajes, enemigos o sistemas de juego entre estados distintos. Cada estado tiene condiciones de entrada, comportamientos y condiciones de salida claros, haciendo el comportamiento complejo predecible y depurable. Es la estructura de ingeniería fundacional para la IA, el control de personajes y la gestión del flujo global: de menú a jugabilidad a resultados es una máquina de estados, y el ciclo patrullar/enfrentar/atacar de un enemigo también es una máquina de estados. La mayor amenaza de las máquinas de estados es la inflación de estados: cuando el número de estados crece, las condiciones de transición chocan y la depuración se vuelve difícil. En ese punto, considera máquinas de estados jerárquicas o árboles de comportamiento. Un sistema solo debería usar una máquina de estados si su comportamiento puede descomponerse en un conjunto finito de etapas mutuamente excluyentes y bien definidas.",
+  "role": "Las máquinas de estados gestionan la lógica de comportamiento compleja, permitiendo a jugadores y desarrolladores entender «en qué etapa estamos y qué pasará». Forman la base de la IA, el control de personajes y la gestión de procesos.",
+  "significance": "Dominar las características de máquina de estados ayuda a entender el patrón State, los árboles de comportamiento y las arquitecturas orientadas a eventos. Es el camino esencial de los scripts simples a los sistemas complejos.",
+  "filterTags": [
+    "State Machine"
+  ],
+  "cases": [
+    "IA enemiga de Dark Souls",
+    "Hollow Knight",
+    "Juegos de lucha"
+  ],
+  "problemsSolved": [
+    "Descomponer el comportamiento complejo en estados manejables.",
+    "Hacer el comportamiento de personajes/enemigos predecible y escalable.",
+    "Prevenir la confusión lógica causada por múltiples comprobaciones condicionales."
+  ],
+  "learningGoals": [
+    "Diseñar máquinas de estados finitas (FSM).",
+    "Dominar las condiciones de transición de estado y los callbacks.",
+    "Extender la complejidad usando máquinas de estados jerárquicas o árboles de comportamiento."
+  ],
+  "minimalRules": [
+    "Los sistemas/personajes tienen un número finito de estados distintos.",
+    "Condiciones de transición claras entre estados.",
+    "Cada estado define comportamientos específicos."
+  ],
+  "combos": [
+    {
+      "formula": "Máquina de estados + IA",
+      "effect": "Permite a los enemigos exhibir reacciones rítmicas de ataque, patrulla e impacto."
+    },
+    {
+      "formula": "Máquina de estados + Animación",
+      "effect": "Usa transiciones de animación dirigidas por estado para asegurar la consistencia."
+    },
+    {
+      "formula": "Máquina de estados + Flujo",
+      "effect": "Gestiona el flujo global del juego (Menú → Juego → Resultados)."
+    }
+  ],
+  "advancedWarnings": [
+    "La FSM se vuelve difícil de mantener con demasiados estados.",
+    "Las condiciones de transición en conflicto pueden causar bloqueos.",
+    "Para la IA compleja se recomienda migrar a árboles de comportamiento o FSM jerárquicas."
+  ],
+  "advancedAlgoRefs": [
+    "Implementación de máquina de estados finita (FSM).",
+    "Máquina de estados finita jerárquica (HFSM).",
+    "Combinación de árboles de comportamiento con máquinas de estados."
+  ]
+}

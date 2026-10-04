@@ -1,0 +1,106 @@
+{
+  "key": "match-clear",
+  "name": "Combinar / Eliminar",
+  "nameEn": "Match / Clear",
+  "lang": "es",
+  "subtitle": "Alinea 3 o más fichas iguales para eliminarlas; las reposiciones pueden encadenar cascadas. Reglas mínimas, sensaciones al máximo.",
+  "features": [
+    "网格",
+    "关卡",
+    "数值成长",
+    "限时"
+  ],
+  "difficulty": "Principiante → Avanzado",
+  "demoRuleHint": "Regla: intercambiar/tocar → formar ≥3 iguales → eliminar → caída/reposición → cadena (opcional)",
+  "problemsSolved": [
+    "Cada movimiento da un resultado inmediato: las piezas combinadas desaparecen y las que no, no; se entiende incluso en el primer intento.",
+    "Combinar solo 3 se vuelve monótono enseguida, así que juntar 4 o 5 recompensa más, animando a planificar en vez de combinar lo que tengas más cerca.",
+    "Los bloqueos y los pequeños objetivos del tablero dan una razón para pensar qué movimiento vale la pena, en lugar de tocar al azar.",
+    "Si el tablero se queda sin combinaciones posibles, el juego rebaraja automáticamente para que el jugador nunca se quede atascado."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle mínimo combinar → eliminar → reponer y reproducir en la demo la respuesta completa de un intercambio",
+    "Intermedio: escribir el contrato completo de resolución de un intercambio (reversión, recolección de combinaciones por lotes, orden de cascada, reposición por gravedad)",
+    "Avanzado: diseñar detección de bloqueos y rebarajados con restricciones, y verificar la salud del nivel con métricas de calidad (número de movimientos legales, profundidad de cadena, tasa de bloqueo)"
+  ],
+  "minimalRules": [
+    "Tablero y piezas: empieza con algo simple, como un tablero de 6×6 lleno de unos pocos colores o formas. Tres o más piezas iguales en fila o columna cuentan como combinación.",
+    "Cómo se juega: solo se pueden intercambiar dos piezas adyacentes. Si el intercambio no crea una combinación, se deshace automáticamente, como si nada hubiera pasado: el juego nunca engaña al jugador.",
+    "Cómo se elimina: tras un intercambio, primero se encuentran todas las combinaciones que creó ese movimiento y luego se eliminan todas juntas, en lugar de una a una; si no, el resultado parece inconsistente.",
+    "Caída y reposición: las piezas eliminadas dejan huecos que ocupan las piezas de arriba, y entran piezas nuevas desde arriba; después se comprueba si la nueva disposición vuelve a combinar por casualidad (una cadena).",
+    "Qué pasa al atascarse: si el tablero se queda sin combinaciones posibles, el juego debe rebarajar las piezas automáticamente para que el jugador siempre tenga un movimiento disponible."
+  ],
+  "systemLoopHint": "El jugador elige un movimiento (intercambiar dos piezas adyacentes) → se comprueba si crea una combinación de 3+ → si sí, se elimina, caen las piezas, se repone y se busca una cadena → si no, se trata como si nada hubiera pasado → cuando el tablero se estabiliza, se comprueba si queda algún movimiento posible y se rebaraja si no → el control vuelve al jugador.",
+  "combos": [
+    {
+      "formula": "Combinar / Eliminar + Progresión",
+      "effect": "Convierte los puntos de las combinaciones en mejoras o desbloqueos, dando al jugador una meta a largo plazo y no solo un subidón rápido."
+    },
+    {
+      "formula": "Combinar / Eliminar + Combate",
+      "effect": "Convierte los colores combinados o el tamaño de la combinación en efectos de ataque o curación, de modo que eliminar también es luchar: dos actividades fundidas en una."
+    },
+    {
+      "formula": "Combinar / Eliminar + Aleatorio",
+      "effect": "Hace que el tablero de cada partida sea un poco distinto para dar variedad, asegurando siempre una forma de ganar en lugar de depender de pura suerte."
+    }
+  ],
+  "advancedWarnings": [
+    "Si las recompensas por cadena son demasiado generosas, los jugadores empiezan a esperar combos grandes de suerte en vez de pensar cada movimiento: comprueba si siguen avanzando el objetivo del nivel cuando aparecen las cadenas grandes; si ambas cosas se separan, la recompensa le está ganando a la estrategia.",
+    "Si un nivel da muy pocos movimientos o muy poco tiempo, los jugadores no tendrán tiempo de pensar y acabarán tocando al azar: no juzgues solo por la tasa de superación; busca en los tableros fallidos movimientos que eran mejores y se dejaron pasar. Si el verdadero problema es «no hay tiempo para leer el tablero», el problema es de ritmo, no de dificultad.",
+    "Si las piezas nuevas están secretamente en contra del jugador, sentirá que «el juego va a por mí»: está bien ayudar discretamente tras una racha de mala suerte, pero el tablero nunca debe quedarse sin solución, y nunca debe resolverse solo mientras el jugador no hace nada.",
+    "Cuando varios efectos especiales ocurren a la vez, decide de antemano cuál va primero: posición de aparición, luego si encadena con otra ficha especial, y los efectos de área al final; si no, el mismo movimiento puede dar resultados distintos en momentos distintos y las reglas parecen poco fiables.",
+    "Bajar un poco la recompensa por cadena a veces hace el juego más variado: cuando los jugadores deben equilibrar objetivos, bloqueos y forma del tablero a la vez, las cadenas dejan de ser la única respuesta correcta y pasan a ser una opción entre varias; conviene bajarla si los jugadores siguen avanzando objetivos y usando fichas especiales."
+  ],
+  "advancedAlgoRefs": [
+    "Cómo encontrar todas las combinaciones posibles del tablero en una sola pasada, sin saltarse ninguna ni revisar dos veces el mismo sitio: un enfoque habitual es revisar solo las dos filas y columnas tocadas por el intercambio, fusionar las celdas afectadas en un solo conjunto y clasificar su forma como línea recta, forma de L/T o combinación cruzada.",
+    "Cómo saber cuándo el tablero está «atascado» (sin combinaciones posibles): prueba un intercambio temporal entre cada celda y su vecina de la derecha y de abajo, y mira si produciría una combinación; si alguna pareja la produciría, aún hay movimiento. La misma comprobación alimenta la generación de pistas.",
+    "Cómo rebarajar discretamente el tablero cuando se atasca: baraja solo las piezas normales, mantén fijos los objetos del nivel y las celdas bloqueadas, y verifica que la nueva disposición no tenga combinaciones inmediatas y sí al menos un movimiento legal antes de usarla.",
+    "Mantén los datos del tablero separados de lo que se dibuja en pantalla: guarda el color de cada celda, si es especial y si está bloqueada en un solo lugar, en vez de leer la imagen renderizada; eso es lo que hace fiables el rebarajado, la repetición y las pruebas.",
+    "Una combinación puede disparar varias rondas seguidas (una cadena): calcula qué elimina cada ronda, cuántos puntos suma y si genera una ficha especial antes de actualizar el tablero, en vez de cambiarlo poco a poco; así el resultado no depende del orden de procesamiento.",
+    "Si quieres ajustar en serio este conjunto de reglas, registra en el tiempo: número de movimientos legales, tasa de bloqueo, tasa de intercambios inválidos, profundidad media de cadena y frecuencia de combinaciones de 4/5; compara configuraciones sobre el mismo nivel para ver si un cambio realmente ayudó."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de multiplicador de cadena",
+      "action": "Arrastra «Multiplicador de bonificación por cadena» de 1x a 3x y luego prepara una segunda cadena a propósito",
+      "observe": "Cuanto mayor es el multiplicador, más dramática es la puntuación de las combinaciones encadenadas. Fíjate si los jugadores empiezan a dejar una combinación obvia sin tocar para esperar una cadena mayor: es señal de que la recompensa está cambiando silenciosamente la forma de jugar."
+    },
+    {
+      "title": "Experimento de presupuesto de movimientos",
+      "action": "Aprieta «Movimientos por partida» de 30 a 8",
+      "observe": "Menos movimientos significa que cada uno exige más reflexión. Compara las dos configuraciones: ¿la versión de 8 movimientos hace pensar más al jugador o solo le hace perder antes? Si es lo segundo, simplemente hay muy pocos movimientos, no un desafío más interesante."
+    },
+    {
+      "title": "Vigilancia de bloqueos",
+      "action": "Sigue intercambiando hasta que no quede ningún movimiento válido en el tablero",
+      "observe": "Esta demo deja que la partida se atasque en un bloqueo a propósito; un juego real debe detectarlo automáticamente y rebarajar el tablero: el jugador nunca debe quedarse mirando un tablero sin nada que hacer."
+    },
+    {
+      "title": "Experimento de determinismo en la repetición",
+      "action": "Elige el mismo tablero inicial y la misma secuencia de intercambios, juégala dos veces y registra qué eliminó cada movimiento, cómo cayeron las piezas y la puntuación (activa «Tablero fijo» en la demo para probarlo en directo)",
+      "observe": "Ambas partidas deberían coincidir exactamente. Si no, suele ser porque el código borra mientras sigue escaneando, o porque la aleatoriedad de la reposición no está fijada. Es la base de un juego de combinaciones que cumple sus promesas, y de poder ajustarlo después con seguridad."
+    },
+    {
+      "title": "Experimento de calidad de movimientos legales",
+      "action": "Cuando el tablero se estabilice, encuentra cada intercambio adyacente que produciría combinación y etiquétalo como «solo puntos», «avanza el objetivo» o «genera ficha especial» (activa «Resaltar movimientos legales» en la demo para probarlo en directo)",
+      "observe": "Que haya un movimiento disponible no significa que el tablero sea interesante. Si todos los movimientos legales rinden más o menos igual, el jugador ejecuta en vez de elegir; si solo uno es claramente correcto, se convierte en una caza de respuestas. Los mejores tableros mezclan movimientos de alto y bajo valor para que el jugador juzgue por sí mismo."
+    }
+  ],
+  "intro": {
+    "what": "Alinea tres o más fichas iguales y desaparecen. Seguro que lo has visto: Candy Crush, Anipop y Sheep a Sheep están construidos sobre esto.",
+    "feel": "En cada movimiento intercambias una ficha para alinear tres; se eliminan y puntúan, las de arriba caen para rellenar, y a veces una eliminación encadena con otra: cuanto más larga la cadena, mejor se siente.",
+    "why": "La regla cabe en una frase, pero la «sensación» y la «rejugabilidad» son puro oficio de diseño: es la mejor primera lección sobre diseño de feedback en juegos."
+  },
+  "concept": "En el fondo, combinar y eliminar es un bucle de feedback muy corto y fiable: el jugador hace un intercambio y las reglas devuelven de inmediato un resultado determinista. La parte difícil nunca es la eliminación en sí, sino la credibilidad de tres cosas: los intercambios inválidos deben revertirse, las cascadas deben resolverse en un orden fijo y las reposiciones deben seguir siendo explicables. La confianza del jugador en las reglas se construye exactamente con estos detalles de ingeniería invisibles.",
+  "designNotes": [
+    "La sensación viene de la curva, no de la animación: puntuación de cadena = base × multiplicador^(cadena−1), así que la segunda cadena vale mucho más que la primera; la animación solo es el envoltorio de esa curva.",
+    "La dificultad debe venir de tableros legibles: presupuesto de movimientos, bloqueos y número de colores son diales, pero la premisa de cualquier dificultad es que el jugador pueda ver qué salió mal. Eliminar movimientos legales en silencio desde el backend es la dificultad más barata, y la que mata la retención.",
+    "Un bloqueo no es un fallo; es un momento didáctico: detéctalo, insinúa un movimiento legal y rebaraja con restricciones. Estas tres cosas deciden si un jugador atascado aprende algo o abandona."
+  ],
+  "value": {
+    "player": "Combinar y eliminar responde a un apetito primario de cierre: convertir un tablero caótico en orden, una pequeña victoria segura e instantánea cada vez. Sus reglas se leen de un vistazo y su feedback es inmediato, lo que la convierte en una de las pocas mecánicas que funcionan en todas las edades y culturas.",
+    "ecosystem": "El match-3 es uno de los modelos de monetización más probados del juego casual: una incorporación casi nula ensancha la boca del embudo, la estructura por niveles sostiene una expansión de contenido infinita y las economías de movimientos/energía encajan limpiamente con los anuncios recompensados. La década de reinado de Candy Crush no es casualidad.",
+    "transfer": "Aprende combinar y eliminar y habrás aprendido el oficio portable del diseño de curvas de recompensa: multiplicadores, ritmo de cadenas, rampas de dificultad; diales que seguirás girando en juegos de números, de combate y idle."
+  }
+}

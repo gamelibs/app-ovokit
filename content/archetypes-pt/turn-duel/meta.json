@@ -1,0 +1,89 @@
+{
+  "key": "turn-duel",
+  "name": "Duelo por Turnos",
+  "nameEn": "Turn-based Duel",
+  "subtitle": "Núcleo do combate por turnos: direitos de ação e adjudicação",
+  "features": [
+    "网格",
+    "数值成长"
+  ],
+  "difficulty": "Iniciante → Avançado",
+  "demoRuleHint": "Exemplo: o primeiro jogador coloca uma peça → o segundo jogador coloca uma peça → o primeiro jogador continua, até um lado conectar N ou o tabuleiro encher.",
+  "problemsSolved": [
+    "Usa a alternância de turnos e máquinas de fases para manter os direitos de ação de cada lado claros e controláveis.",
+    "Usa verificações de legalidade para transformar as fronteiras das regras em feedback de rejeição interpretável.",
+    "Fornece adjudicação clara de vitória/derrota/empate para dar a cada partida uma conclusão definitiva.",
+    "Ao limitar as ações a uma por turno, o ritmo fica equilibrado e evita combos excessivos que terminam o jogo rápido demais. Permitir múltiplas ações deixa o jogador jogar várias cartas em um único turno, aumentando a profundidade estratégica mas podendo estender a duração da partida.",
+    "Escolher o comprimento de linha N é um trade-off-chave: grande demais faz o jogador procurar mais tempo por uma conexão, desacelerando o ritmo; pequeno demais torna as conexões fáceis, acelerando o jogo. Experimentos mostram que N=5 em um tabuleiro 15×15 oferece o melhor equilíbrio.",
+    "Em sistemas de turnos com cartas, permitir múltiplas cartas por ação (combo) pode parecer que adiciona complexidade, mas deixa o jogador gerar valor maior por meio de combinações, na verdade aprofundando o jogo em vez de enfraquecê-lo."
+  ],
+  "learningGoals": [
+    "Iniciante: entender a máquina de estados de turnos (início do turno → ação → troca → adjudicação) e reproduzir na demo uma jogada legal mais um julgamento de vitória",
+    "Intermediário: escrever o contrato completo de verificação de legalidade e adjudicação (incluindo fechamento por empate/tabuleiro cheio) e conectar uma IA minimax",
+    "Avançado: projetar a escada de dificuldade da IA e regras de contagem de ações (combos/cooldowns), e verificar o equilíbrio com distribuição de duração de partidas e taxa de vitória de quem sai primeiro"
+  ],
+  "minimalRules": [
+    "Direitos de ação: cada turno começa com o jogador atual; após executar uma ação, o controle passa imediatamente para o oponente. O jogador da vez só pode executar uma ação por turno, e ela só conta como concluída depois de passar pelas verificações de legalidade. A contagem de turnos começa em 1 e registra o jogador atual.",
+    "Legalidade: o posicionamento precisa estar dentro do tabuleiro e desocupado; para ações de carta, o jogador precisa ter custo suficiente e pelo menos uma carta na mão; para habilidades especiais, cooldowns e recursos precisam ser satisfeitos. Ações ilegais retornam o código de erro \"InvalidMove\" com uma razão.",
+    "Adjudicação: se qualquer jogador formar uma sequência contínua de N símbolos iguais (horizontal, vertical ou diagonal), esse jogador vence; se o tabuleiro não tiver espaços vazios e não houver conexões, a partida é empate; se nenhuma condição for atendida, o turno continua. A verificação de adjudicação roda imediatamente após cada ação legal."
+  ],
+  "systemLoopHint": "Ação → Verificação de legalidade → Atualizar o tabuleiro → Determinar vitória/empate → Se indeciso, trocar de jogador → Seguir para o próximo turno",
+  "combos": [
+    {
+      "formula": "Turnos + Grade",
+      "effect": "Posicionamento no tabuleiro e adjacência viram o espaço de ação (ex.: Gomoku, Othello, Jogo da Velha)."
+    },
+    {
+      "formula": "Turnos + Números",
+      "effect": "Vida/Custo e outros gradientes numéricos sustentam o combate por turnos com cartas."
+    },
+    {
+      "formula": "Turnos + IA",
+      "effect": "O modo single-player tem a IA controlando o outro lado, com uma função de avaliação definindo o teto de dificuldade."
+    }
+  ],
+  "advancedWarnings": [
+    "A falta de verificações de legalidade pode fazer o jogador tratar brechas das regras como bugs (ou bugs como regras).",
+    "Dificuldade de IA não ajustável pode afastar tanto iniciantes quanto veteranos.",
+    "Omitir condições de empate pode deixar partidas sem resolução (tabuleiro cheio/jogo longo precisam ser tratados explicitamente).",
+    "Regras de adjudicação permissivas demais tornam as conexões fáceis demais, despindo a profundidade estratégica."
+  ],
+  "advancedAlgoRefs": [
+    "Determinação de vitória/derrota: varredura de N-em-sequência, lógica de comparação e regras de empate.",
+    "IA: minimax com poda alfa-beta e uma função de avaliação de tabuleiro."
+  ],
+  "lang": "pt",
+  "demoLab": [
+    {
+      "title": "Experimento da Escada de IA",
+      "action": "Jogue uma partida completa em cada nível da \"Força da IA (0=aleatória, 1=bloqueio, 2=busca de vitória forçada)\"",
+      "observe": "O nível 0 é uma sandbox de legalidade (qualquer jogada ensina as regras); o nível 1 de bloqueio ensina prioridades defensivas; o nível 2 expõe o custo de longo prazo de cada jogada. A escada de IA É a curva de aprendizado — uma IA de dificuldade fixa repele iniciantes e veteranos igualmente"
+    },
+    {
+      "title": "Observação de Atribuição de Vitória Forçada",
+      "action": "Contra a IA de nível 2, faça de propósito uma jogada ruim (ex.: ignorar uma trinca aberta)",
+      "observe": "A IA de busca pune na hora — a derrota remonta a uma jogada específica. Esta é a forma extrema das \"consequências explicáveis\" no gameplay por turnos: a falha se atribui a uma decisão, não à sorte, então o jogador sabe exatamente o que aprender em seguida"
+    },
+    {
+      "title": "Observação de Fechamento por Empate",
+      "action": "Contra a IA de nível 1, os dois lados bloqueiam conservadoramente até o tabuleiro encher",
+      "observe": "Um tabuleiro cheio sem linha é empate. A adjudicação precisa cobrir vitória/derrota/empate — perca o ramo do empate e a partida nunca fecha. É a regra mais comumente omitida de um conjunto mínimo de regras"
+    }
+  ],
+  "intro": {
+    "what": "Você joga um turno, o outro joga um turno — uma corrida para chegar ao objetivo primeiro. Jogo da velha, Gomoku e xadrez são todos construídos sobre isso.",
+    "feel": "No seu turno o tabuleiro congela e você pode pensar o quanto quiser; uma vez que você posiciona, a situação vira e o oponente responde na hora — cada jogada se pergunta \"o que ele vai fazer agora?\"",
+    "why": "É o modelo de oposição mais antigo e mais limpo — se você quer aprender de onde vem a profundidade estratégica, comece pelos direitos de turno e pela adjudicação."
+  },
+  "concept": "O duelo por turnos quebra o confronto em pontos de decisão discretos e explicáveis: os direitos de turno garantem que os dois lados expressem intenção em alternância, as verificações de legalidade mantêm a fronteira das regras nítida, e a adjudicação fecha toda partida. A parte difícil não são as regras — é o gradiente de inteligência do oponente e a completude dos finais: a escada de dificuldade da IA É a curva de aprendizado, e um ramo de empate faltando significa uma partida que nunca termina. O jogador \"perde sem reclamar\" porque toda consequência remonta a uma jogada específica.",
+  "designNotes": [
+    "A força da IA não é um botão de dificuldade — é um caminho de ensino: a IA aleatória é uma sandbox de legalidade, a IA de bloqueio ensina prioridades defensivas, a IA de busca de mate expõe consequências de longo prazo. Coloque as três lado a lado e o jogador escolhe o professor de que precisa agora.",
+    "Empates são adjudicação de primeira classe: um tabuleiro cheio sem vencedor precisa fechar explicitamente, ou a partida nunca termina — a entrada mais comumente omitida de um conjunto mínimo de regras é exatamente esta.",
+    "Limites de ação trocam ritmo por profundidade: uma ação por turno mantém o ritmo ágil mas limita a profundidade; permitir combos explode o espaço de estratégia mas incha a duração das partidas — o limite não é preguiça, é o que dá forma ao duelo."
+  ],
+  "value": {
+    "player": "O duelo por turnos satisfaz a competitividade intelectual mais antiga: sem desculpas de reflexo — o resultado vive inteiramente na sua cabeça. Perder parece justo; vencer parece merecido.",
+    "ecosystem": "A oposição por turnos é a forma de origem da socialização competitiva: as regras SÃO o protocolo social, e um tabuleiro é uma conexão cara a cara que dispensa rede. De jogos de tabuleiro a card battlers, continua sendo o alicerce ecológico do gameplay adversarial — e o campo de testes mais antigo do design de oponentes de IA.",
+    "transfer": "Aprenda duelos por turnos e você aprende design de pontos de decisão discretos — direitos de turno, legalidade, fechamento de adjudicação — um esqueleto que se estende direto para jogos de tática, deck-builders e até duelos sociais assíncronos."
+  }
+}

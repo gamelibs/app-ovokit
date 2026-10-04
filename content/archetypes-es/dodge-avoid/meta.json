@@ -1,0 +1,85 @@
+{
+  "key": "dodge-avoid",
+  "name": "Esquivar / Evitar",
+  "nameEn": "Dodge / Avoid",
+  "lang": "es",
+  "subtitle": "Sobrevivir bajo presión continua y restricciones espaciales; el núcleo gira en torno a la detección de impactos, las ventanas y el ritmo.",
+  "features": [
+    "数值成长",
+    "限时"
+  ],
+  "difficulty": "Principiante → Avanzado",
+  "demoRuleHint": "Regla: generación de peligros → aviso/trayectoria → movimiento del jugador → detección de impacto (golpe/rozadura) → feedback (daño/fotogramas de invencibilidad)",
+  "problemsSolved": [
+    "Hacer que las razones del fracaso sean atribuibles (por qué te golpearon, dónde está la seguridad).",
+    "Convertir las rozaduras en momentos satisfactorios y no en un simple seguir vivo.",
+    "Controlar la intensidad con una curva de presión (densidad/velocidad/ritmo) para evitar el mero apilado numérico."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle mínimo de supervivencia — aparición → aviso → movimiento → juicio → feedback — y reproducir un juicio de rozadura en la demo",
+    "Intermedio: escribir el contrato completo de juicio de impacto (hitbox, zona de rozadura, fotogramas de invencibilidad, protección de reaparición) y ajustar parámetros de indulgencia que eviten que los principiantes abandonen",
+    "Avanzado: diseñar la curva de presión (estructura de rampa densidad × velocidad × tiempo) y verificar la salud de la dificultad con la tasa de rozaduras y la distribución del tiempo de supervivencia"
+  ],
+  "minimalRules": [
+    "Peligro: reglas de generación (frecuencia/dirección/velocidad/cantidad).",
+    "Movimiento: movimiento del jugador y restricciones (velocidad, giro, límites).",
+    "Detección de impacto: radio de impacto y resolución (daño/fracaso/fotogramas de invencibilidad)."
+  ],
+  "systemLoopHint": "Entrada (movimiento/esquiva) → Predicción (leer el aviso) → Detección de impacto (golpe/rozadura) → Feedback (daño/supervivencia) → Cambio de presión → Nueva entrada",
+  "combos": [
+    {
+      "formula": "Esquivar / Evitar + Disparo / Puntería",
+      "effect": "Producir daño mientras se esquiva, creando un bucle de «posicionarse y disparar»."
+    },
+    {
+      "formula": "Esquivar / Evitar + Progresión",
+      "effect": "Convierte el tiempo de supervivencia y las esquivas perfectas en recursos de progresión."
+    },
+    {
+      "formula": "Esquivar / Evitar + Aleatorio",
+      "effect": "Aleatoriza los patrones de peligro, enfatizando la adaptación y la lectura del mapa."
+    }
+  ],
+  "advancedWarnings": [
+    "Los avisos poco claros hacen que los fracasos no se puedan atribuir (el jugador se siente tratado injustamente).",
+    "Una velocidad demasiado alta con feedback débil convierte la experiencia en «recibir golpes pasivamente».",
+    "Una detección de impacto demasiado estricta comprime el espacio expresivo; una demasiado laxa pierde la tensión."
+  ],
+  "advancedAlgoRefs": [
+    "Generación: generador de balas/obstáculos y curva de dificultad.",
+    "Detección de impacto: colisión de círculo/cápsula, detección de rozadura, ventana de fotogramas de invencibilidad."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de tolerancia de impacto",
+      "action": "Arrastra «Ventana de indulgencia (reducción del hitbox, px)» de 0 a 24 y luego deja que las balas rocen tu nave a propósito",
+      "observe": "Tolerancia = el hitbox es un anillo más pequeño que el gráfico: a 0px una rozadura mata, a 24px los jugadores se atreven a pasar entre las balas. El hueco entre los dos círculos es tu presupuesto de casi-impactos: demasiado estricto aplasta el lucimiento, demasiado laxo mata la tensión."
+    },
+    {
+      "title": "Experimento de recompensa por rozadura",
+      "action": "Sube «Bonificación por rozadura» de 0 a 50, pon «Densidad de balas» a 3+ y vuela cerca de las balas activamente",
+      "observe": "Una bonificación por rozadura convierte la esquiva de supervivencia en una emoción perseguida: los peligros se vuelven recursos de puntuación. Cuanto mayor la recompensa, más pegado al peligro vuela el jugador: un solo parámetro reescribe toda la curva riesgo-recompensa."
+    },
+    {
+      "title": "Curva de presión por densidad",
+      "action": "Sube «Densidad de balas» de 1 a 5, sobreviviendo 20 segundos en cada nivel",
+      "observe": "La densidad es el dial de la curva de presión: cada +1 reduce visiblemente la proporción de espacio seguro. La densidad por sí sola no es dificultad: la dificultad real es densidad × tolerancia: denso + indulgente sigue siendo casual, escaso + estricto sigue matando."
+    }
+  ],
+  "intro": {
+    "what": "Los peligros no paran de volar hacia ti y tu trabajo es seguir vivo: los bullet-hell, Flappy Bird y los juegos de esquivar están construidos sobre esto.",
+    "feel": "Arrastras a tu personaje a través de una tormenta de balas, zigzagueando entre ellas; la fracción de segundo en la que una te roza sin matarte hace que el corazón se salte un latido: esa emoción del «por los pelos» es el movimiento insignia.",
+    "why": "Es la muestra más pura de «la dificultad como ritmo»: si quieres aprender a poner a los jugadores tensos sin que se sientan engañados, empieza aquí."
+  },
+  "concept": "El juego de esquivar divide la «supervivencia» en una cadena de juicios legibles, momento a momento: cada peligro tiene un aviso, una trayectoria y un hitbox, y cada esquiva informa de inmediato de su resultado y de su razón. La parte difícil no es esquivar, sino la credibilidad y la indulgencia del juicio: el hueco entre el hitbox y el círculo visual es tu presupuesto de emoción, y los fotogramas de invencibilidad más el feedback de rozadura deciden si un fracaso es aprendible. La justicia que sienten los jugadores se construye con estos detalles invisibles del motor de juicio.",
+  "designNotes": [
+    "La emoción es un recurso diseñado: cuántos píxeles se mete el hitbox dentro del círculo visual es exactamente cuánto se atreve el jugador; demasiado estricto y se refugia, demasiado laxo y la tensión se va. Ese hueco merece más ajuste que la velocidad de las balas.",
+    "«Casi muero» le gana a «esquivé perfecto»: las bonificaciones por rozadura convierten las amenazas en recursos, atrayendo a los jugadores hacia el peligro; contraintuitivamente, recompensar las rozaduras hace a los jugadores más seguros, porque empiezan a estudiar las trayectorias a propósito.",
+    "Solo el fracaso atribuible gana un reintento: con avisos poco claros, el jugador siente «es injusto» en vez de «me equivoqué»; el tiempo de antelación del aviso no es una función de accesibilidad, es la base de justicia del juego de esquiva."
+  ],
+  "value": {
+    "player": "Esquivar alimenta un apetito seguro de peligro: una bala que te roza sin matarte es convertida por el cerebro en pura emoción. Las ventanas de indulgencia y las bonificaciones por rozadura producen ese momento en serie, dejando al jugador cosechar pequeñas victorias oscilando entre «casi muero» y «no puedo creer que no lo hiciera».",
+    "ecosystem": "La esquiva de balas es una de las formas de menor barrera del juego de acción: un dedo, diez segundos por partida, naturalmente apta para el tiempo fragmentado y el compartir en vídeo corto.",
+    "transfer": "Aprende el juego de esquiva y aprenderás ingeniería de curvas de presión e indulgencia: rampas de densidad, escalado de hitboxes, antelación de avisos; diales que seguirás girando en runners, shooters y peleas de jefes."
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "key": "grid",
+  "lang": "es",
+  "name": "Cuadrícula",
+  "nameEn": "Grid",
+  "subtitle": "Operaciones intuitivas dentro de un espacio de cuadrícula estructurado",
+  "concept": "La jugabilidad de cuadrícula mapea reglas abstractas sobre un espacio de cuadrícula discreto, permitiendo al jugador tomar decisiones basadas en coordenadas y adyacencia. El diseñador primero decide la estructura de datos de la cuadrícula (array 2D, mapeo de coordenadas o grafo), luego define las operaciones legales de los elementos dentro de la cuadrícula (mover, combinar, fusionar) y las condiciones de victoria/derrota basadas en la cuadrícula. La forma de la cuadrícula (cuadrada, hexagonal, etc.) determina las direcciones de adyacencia (4 vías, 8 vías, 6 vías), influyendo directamente en los algoritmos de conectividad, la presentación visual y la profundidad estratégica. Las cuadrículas cuadradas son fáciles de implementar y visualmente intuitivas pero limitan los patrones diversos de conectividad; las cuadrículas hexagonales ofrecen relaciones de adyacencia más ricas, expandiendo el espacio estratégico pero añadiendo conversión de coordenadas y coste de renderizado. El diseñador debe equilibrar la usabilidad intuitiva con la viabilidad algorítmica, seleccionando reglas de adyacencia y tamaño de cuadrícula apropiados. Además, la frecuencia y distribución de los eventos aleatorios afecta a la formación de estrategias; la aleatoriedad excesiva debilita el juego estratégico. Al proporcionar feedback oportuno sobre las acciones dentro del bucle de juego, el jugador puede percibir los cambios de inmediato, manteniendo el paso y el desafío. Es más, el tamaño de la cuadrícula también presenta un compromiso: las cuadrículas más grandes dan un espacio estratégico más amplio pero pueden volverse visualmente recargadas y aumentar la carga cognitiva; las más pequeñas son más fáciles de gestionar pero pueden sentirse estrechas, reduciendo la exploración. En algunos juegos match-3, una cuadrícula más dispersa puede de hecho mejorar las tasas de éxito de las combinaciones porque menos celdas adyacentes reducen los conflictos, haciendo más fácil al jugador encontrar combinaciones posibles. Esto ocurre porque el algoritmo de coincidencia encuentra bloques conectados más fácilmente en entornos dispersos, reduciendo la dependencia de las coincidencias aleatorias.",
+  "role": "La cuadrícula transforma reglas abstractas en estructuras espaciales observables. Sirve de forma espacial fundacional para tipos de jugabilidad como match-3, fusión, puzle y juegos de tablero de estrategia.",
+  "significance": "Dominar las características de la cuadrícula permite entender estructuras de datos espaciales, detección de conectividad y generación de niveles; es clave para traducir problemas lógicos en acciones intuitivas.",
+  "filterTags": [
+    "Grid"
+  ],
+  "cases": [
+    "Candy Crush",
+    "2048",
+    "Tetris"
+  ],
+  "problemsSolved": [
+    "Convertir reglas en acciones espaciales visuales.",
+    "Crear combinaciones ricas dentro de una cuadrícula limitada.",
+    "Proporcionar novedad continua mediante estados de tablero cambiantes."
+  ],
+  "learningGoals": [
+    "Representar el espacio usando arrays 2D o grafos.",
+    "Implementar detección de componentes conectados y determinación de coincidencias.",
+    "Diseñar disposiciones de niveles y curvas de dificultad."
+  ],
+  "minimalRules": [
+    "Definir el espacio de cuadrícula y sus límites: representa las celdas con un array 2D o mapeo de coordenadas, y especifica explícitamente las dimensiones y rangos de coordenadas en el código.",
+    "Definir las operaciones legales de los elementos dentro de la cuadrícula: especifica direcciones de movimiento, tamaños de paso, detección de obstáculos y eventos de disparo (combinación, fusión).",
+    "Definir condiciones de victoria/derrota o puntuación basadas en la cuadrícula: fija la detección de cadenas de coincidencia, métodos de puntuación o criterios de cumplimiento de objetivos.",
+    "Definir la forma de la cuadrícula y las reglas de adyacencia: elige cuadrada/hexagonal, etc., y especifica las direcciones de adyacencia (4 vías, 8 vías, 6 vías) para determinar los algoritmos de conectividad.",
+    "Considera la perspectiva del jugador y los mecanismos de feedback para asegurar que los resultados de las acciones se perciban intuitivamente: implementa feedback visual o sonoro, verifica las actualizaciones de UI o la salida de registro.",
+    "Ajusta dinámicamente el tamaño de la cuadrícula según las metas del juego y la habilidad del jugador para evitar cuadrículas demasiado grandes que dispersen la atención o demasiado pequeñas que carezcan de sentido espacial."
+  ],
+  "combos": [
+    {
+      "formula": "Cuadrícula + Combinación",
+      "effect": "Crea feedback instantáneo mediante la coincidencia posicional."
+    },
+    {
+      "formula": "Cuadrícula + Fusión",
+      "effect": "Combina el posicionamiento espacial con las mejoras."
+    },
+    {
+      "formula": "Cuadrícula + Estrategia",
+      "effect": "Añade profundidad estratégica mediante el terreno y el posicionamiento."
+    },
+    {
+      "formula": "Cuadrícula + Gestión de recursos",
+      "effect": "Gestiona la distribución de recursos mediante la colocación en la cuadrícula."
+    }
+  ],
+  "advancedWarnings": [
+    "Un tamaño de cuadrícula demasiado grande o demasiado pequeño impacta negativamente la experiencia.",
+    "La detección de callejones sin salida y los mecanismos de pistas son cruciales.",
+    "La explosión del espacio de estados puede dificultar la generación.",
+    "Las cuadrículas excesivamente simétricas pueden hacer que el jugador pierda el sentido de la orientación.",
+    "La aleatoriedad excesiva impide al jugador formar estrategias."
+  ],
+  "advancedAlgoRefs": [
+    "Recorrido de arrays 2D y conversión de coordenadas.",
+    "Detección de componentes conectados (BFS/DFS).",
+    "Evaluación de estado del tablero y búsqueda heurística."
+  ],
+  "intro": {
+    "what": "Corta el mundo del juego en celdas ordenadas y deja que cada acción ocurra sobre ellas: Tetris, 2048 y Candy Crush juegan todos dentro de una cuadrícula.",
+    "feel": "La cuadrícula lo hace todo cristalino: qué se puede mover y qué no es obvio de un vistazo; nunca fallas un toque tembloroso, solo piensas en el movimiento óptimo.",
+    "why": "Es la estructura universal para bajar el suelo de habilidad: discretizar un mundo continuo en celdas hace que cada clic o toque aterrice con precisión."
+  }
+}

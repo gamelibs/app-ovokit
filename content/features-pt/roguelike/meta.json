@@ -1,0 +1,59 @@
+{
+  "key": "roguelike",
+  "name": "Roguelike",
+  "nameEn": "Roguelike",
+  "lang": "pt",
+  "subtitle": "Mapas aleatórios, permadeath e crescimento progressivo por partida",
+  "concept": "O núcleo do Roguelike está em três mecânicas-chave: mapas, inimigos e recompensas gerados proceduralmente; crescimento e escolhas dentro de uma única partida; e um reset após a falha que preserva o progresso meta. Cada tentativa oferece um novo espaço estratégico por meio de combinações aleatórias, e a falha é tratada como oportunidade de aprendizado. O design precisa equilibrar aleatoriedade, intensidade de crescimento e ritmo meta: aleatoriedade demais rouba o controle do jogador, enquanto de menos leva à repetição; desbloquear o meta rápido demais aumenta a motivação, mas devagar demais abafa a vontade de rejogar. Um insight contra-intuitivo é que uma redução moderada na aleatoriedade (aumentando a previsibilidade) pode na verdade aprofundar o jogo estratégico, pois o jogador consegue avaliar risco e recompensa com mais precisão, fazendo escolhas mais significativas.",
+  "role": "O Roguelike dá ao jogador desafios em constante mudança e uma curva de crescimento, transformando a falha em um motor de exploração e aprendizado, provocando uma vontade persistente de jogar mais uma partida.",
+  "significance": "Para o designer, o Roguelike mostra como construir alta aderência e rejogabilidade por meio de combinações aleatórias, crescimento instantâneo e progressão meta, tornando-se um paradigma-chave para criar profundidade estratégica e engajamento do jogador.",
+  "filterTags": [
+    "Roguelike"
+  ],
+  "cases": [
+    "Hades",
+    "Slay the Spire",
+    "The Binding of Isaac"
+  ],
+  "problemsSolved": [
+    "Estende a longevidade do jogo por meio de combinações aleatórias",
+    "Transforma a falha em aprendizado em vez de punição",
+    "Cria tensão e sensação de conquista por meio do crescimento dentro da partida"
+  ],
+  "learningGoals": [
+    "Projetar mecanismos de geração procedural para manter a diversidade",
+    "Equilibrar o crescimento dentro da partida com o ritmo meta",
+    "Dominar o trade-off entre aleatoriedade e senso de controle do jogador",
+    "Identificar e evitar combinações poderosas demais que causam desequilíbrio"
+  ],
+  "minimalRules": [
+    "O mapa, os inimigos e as recompensas de cada partida são gerados por um algoritmo aleatório",
+    "Os personagens crescem dentro de uma partida derrotando inimigos, usando itens etc., e são resetados após falha ou conclusão",
+    "O progresso meta é retido após a falha, como relíquias permanentes, expansão do pool de cartas ou desbloqueio de habilidades, para dirigir a estratégia da próxima partida"
+  ],
+  "combos": [
+    {
+      "formula": "Roguelike + Cartas",
+      "effect": "Ao coletar e combinar cartas, o jogador pode construir estratégias diversas a cada partida"
+    },
+    {
+      "formula": "Roguelike + Ação",
+      "effect": "Combinar ação em tempo real com inimigos gerados aleatoriamente aumenta tensão e habilidade"
+    }
+  ],
+  "advancedWarnings": [
+    "Aleatoriedade excessiva pode fazer o jogador perder o senso de controle",
+    "Desbloqueio meta lento pode enfraquecer a motivação de rejogar",
+    "Se o crescimento dentro da partida for forte demais, o jogador pode ganhar poder demais após uma única conclusão, levando a desequilíbrio posterior"
+  ],
+  "advancedAlgoRefs": [
+    "Geração procedural de dungeons e grafos de salas",
+    "Design de pools de relíquias/cartas e mecanismos de fallback",
+    "Curva de dificuldade e equilíbrio de taxa de vitória do jogador"
+  ],
+  "intro": {
+    "what": "Cada partida gera um mapa aleatório; a morte te manda de volta ao início, mas você volta mais forte — Hades, Slay the Spire e The Binding of Isaac são as obras canônicas.",
+    "feel": "Cada partida é totalmente nova: salas aleatórias, tesouros aleatórios; a morte deixa de assustar porque você volta com experiência — \"mais uma partida\" é seu mantra.",
+    "why": "Resolve o problema final do consumo de conteúdo — combinações aleatorizadas transformam conteúdo finito em valor de replay quase infinito."
+  }
+}

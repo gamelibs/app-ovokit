@@ -1,0 +1,91 @@
+{
+  "lang": "pt",
+  "key": "combat",
+  "name": "Combate",
+  "nameEn": "Combat",
+  "subtitle": "Centrado em trocas e contra-ataques com oponentes e habilidades; o núcleo gira em torno de janelas, recursos e leitura de movimentos.",
+  "features": [
+    "数值成长",
+    "Roguelike",
+    "限时"
+  ],
+  "difficulty": "Avançado",
+  "demoRuleHint": "Regra: Observar o oponente → Escolher habilidade → Resolver (acerto/bloqueio/esquiva) → Feedback (dano/atordoamento) → Recuperação de recursos",
+  "problemsSolved": [
+    "Esclarece as janelas de ataque/defesa (preparação/ativação/atordoamento) para reduzir os 'golpes injustos'.",
+    "Usa recursos (stamina/cooldown/distância) para restringir o uso de habilidades, forçando escolhas e ritmo.",
+    "Equilibra o peso dos acertos e a relação risco/recompensa para que 'atacar/esquivar/bloquear' tenham cada um seu valor.",
+    "Equilibra a duração da preparação e o ritmo: uma preparação curta demais permite combos, mas remove as janelas de contra-ataque; uma preparação longa demais é fácil de interromper, mas permite a leitura de movimentos. O designer precisa equilibrar fluidez de combo com legibilidade defensiva.",
+    "Velocidade de recuperação de recursos versus variedade de habilidades: recuperação rápida demais leva a loops de habilidades sem pensar; lenta demais limita a profundidade dos combos, aumentando a profundidade estratégica."
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop de ataque/defesa — observar → golpear → julgar → feedback → regenerar recursos — e reproduzir na demo um ataque e um bloqueio",
+    "Intermediário: escrever o contrato de janelas (preparação / janela de bloqueio / atordoamento de acerto) e o contrato de recursos (gasto e regeneração de stamina/cooldown)",
+    "Avançado: projetar relações de movimento e contramedida e o espaço de contra-jogo, e verificar o equilíbrio com taxa de troca, taxa de bloqueio e frequência de button mashing"
+  ],
+  "minimalRules": [
+    "Ações: o jogador pode escolher atacar, bloquear ou se mover; ataques exigem uma janela de preparação; movimento exige uma janela de movimento.",
+    "Resolução: a chance de acerto se baseia em precisão + esquiva do oponente; se precisão > esquiva, é acerto; a chance de bloqueio se baseia em taxa de bloqueio + poder de ataque do oponente; se taxa de bloqueio > poder de ataque, é bloqueio.",
+    "Verificação de invencibilidade: se os frames de invencibilidade de uma habilidade excederem a duração da ação do oponente, o oponente não pode ser atingido.",
+    "Recursos: stamina/cooldown; ataques consomem stamina/cooldown; movimento consome stamina; bloqueio consome stamina.",
+    "Janelas: preparação, janela de bloqueio, janela de movimento, janela de atordoamento; cada duração de janela é configurável."
+  ],
+  "systemLoopHint": "Entrada (seleção de habilidade) → Resolver (acerto/contra-ataque) → Feedback (dano/atordoamento) → Mudança de recursos (cooldown/stamina) → Nova janela → Nova entrada",
+  "combos": [
+    {
+      "formula": "Combate + Combinar / Eliminar",
+      "effect": "Usa combinações para disparar habilidades e pontos de ritmo"
+    },
+    {
+      "formula": "Combate + Escolha / Estratégia",
+      "effect": "Adiciona construção/seleção, permitindo que decisões de médio e longo prazo influenciem o confronto"
+    },
+    {
+      "formula": "Combate + Aleatoriedade",
+      "effect": "Afixos/loot alteram as respostas, aumentando a rejogabilidade"
+    }
+  ],
+  "advancedWarnings": [
+    "Preparações pouco claras tornam os contra-ataques inúteis, transformando o combate em um jogo de números.",
+    "Recuperação de recursos rápida demais leva a loops de habilidades sem pensar.",
+    "A ausência de atordoamento/recuo tira o peso dos acertos.",
+    "Preparações mais curtas aumentam o ritmo geral, mas podem encolher o espaço defensivo, forçando o jogador a ataques passivos e, contra-intuitivamente, piorando a experiência."
+  ],
+  "advancedAlgoRefs": [
+    "Máquina de Estados: estados de habilidade, cancelamento, atordoamento, acerto",
+    "Detecção de Acertos: colliders, frames de invencibilidade, janelas de combo"
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de Troca de Recursos",
+      "action": "Use \"Ataque (primário)\" sem parar até a stamina zerar, observando como acertos e dano mudam",
+      "observe": "Stamina é o orçamento de ataque: quando acaba, os ataques falham e você é forçado a uma janela de regeneração. A restrição de recurso impõe um ritmo de luta/descanso — o custo do button mashing tornado explícito"
+    },
+    {
+      "title": "Experimento da Janela de Bloqueio",
+      "action": "Quando o inimigo se aproximar, mude para \"Bloquear (secundário)\" e veja guarda e hp trocarem de lugar",
+      "observe": "Bloquear converte dano em dreno de guarda: defesa não é imunidade, é substituição de recurso. Quando a guarda acaba, os bloqueios seguintes falham — a janela defensiva tem seu próprio orçamento, limitando a estratégia tartaruga"
+    },
+    {
+      "title": "Contraste de Dificuldade",
+      "action": "No fácil versus no difícil, use \"Avançar 1 Passo\" 10 passos em cada e compare as curvas de dreno de hp",
+      "observe": "No difícil, o enemyHp é mais grosso e os ataques inimigos mais frequentes — mesmo loop de ataque, inclinação de hp completamente diferente. Dificuldade é, no fundo, um ajuste da taxa de troca: cada acerto seu compra menos vida inimiga"
+    }
+  ],
+  "intro": {
+    "what": "Troque golpes com um oponente cara a cara — quando sua barra de vida esvaziar, você perde. Jogos de luta e chefes de jogos de ação são construídos sobre isso.",
+    "feel": "Você lê a preparação do oponente e golpeia na brecha; quando a stamina seca, você recua ofegante — cada acerto pousa com peso, cada bloqueio é uma respiração presa.",
+    "why": "Uma dissecação introdutória da \"sensação de duelo\" — quando janelas, recursos e leitura de movimentos se encaixam, todo design de confronto ganha seu esqueleto."
+  },
+  "concept": "O gameplay de combate traduz \"conflito\" em trocas legíveis: ataques têm preparação, defesas têm janelas, recursos têm orçamentos — cada golpe acerta risco contra recompensa na hora. A parte difícil não é a quantidade de movimentos — é a explicabilidade da troca: preparações pouco claras matam o contra-jogo, regeneração de recursos rápida demais transforma habilidades em loops mecânicos, e a falta de atordoamento de acerto rouba o peso dos impactos. O jogador sente \"foi uma luta justa\" porque vitórias e derrotas remontam a leituras e escolhas específicas.",
+  "designNotes": [
+    "Defesa não é imunidade — é substituição de recurso: bloquear converte perda de vida em dreno do recurso de guarda, então a estratégia tartaruga se autolimita no orçamento de defesa sem precisar de nenhuma proibição extra.",
+    "Preparações mais curtas podem piorar o jogo (contra-intuitivo): movimentos mais rápidos suavizam os combos, mas comprimem a janela de leitura do defensor, degradando o duelo em uma pura disputa de velocidade — o ritmo só melhora se o espaço de contra-jogo sobreviver.",
+    "Atordoamento de acerto e knockback são o \"peso\" de um golpe: o jogador não sente nada com decrementos de número — é a reação e o deslocamento que dizem \"esse pegou\". Sem eles, o combate vira duas barras de vida sendo bicadas."
+  ],
+  "value": {
+    "player": "O combate satisfaz o prazer profundo de ler um oponente: preparações, atordoamento de acerto e trocas de recursos transformam cada vitória em evidência intelectual — você sabe exatamente onde venceu.",
+    "ecosystem": "A profundidade adversarial é o nicho raiz da categoria de ação: de side-scrollers ao esporte eletrônico de luta, sistemas de combate são o conteúdo mais longevo — um ótimo sistema de combate mantém o jogador estudando por anos, e esse estudo vira comunidade e tráfego.",
+    "transfer": "Aprenda combate e você aprende design de duelos legíveis: a tríade janela/recurso/leitura reaparece em formas diferentes em shooters, jogos de cartas e auto-battlers."
+  }
+}

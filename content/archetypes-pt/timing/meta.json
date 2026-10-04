@@ -1,0 +1,88 @@
+{
+  "key": "timing",
+  "name": "Timing / Reação",
+  "nameEn": "Timing",
+  "lang": "pt",
+  "subtitle": "Crie desafio por meio de janelas, batidas e reações; o núcleo é zonas de julgamento e latência de feedback.",
+  "features": [
+    "数值成长",
+    "关卡"
+  ],
+  "difficulty": "Iniciante → Avançado",
+  "demoRuleHint": "Geração de batidas → Entrada → Julgamento → Feedback → Progressão de combo/dificuldade",
+  "problemsSolved": [
+    "Torna as janelas de julgamento interpretáveis e consistentes, reduzindo a sensação de apertar certo mas ser julgado errado.",
+    "Usa design de tolerância e recompensa para criar uma curva de progressão que acomoda iniciantes e veteranos.",
+    "Usa seções de batidas para criar picos e zonas de recuperação, controlando fadiga e tensão.",
+    "Equilibra a largura da janela: estreita demais frustra os iniciantes, larga demais enfraquece o desafio.",
+    "Feedback com atraso pode melhorar o senso de ritmo: um atraso moderado deixa o jogador antecipar as batidas."
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop mínimo — batida surge → entrada → julgar → feedback — e reproduzir na demo um julgamento Perfect",
+    "Intermediário: escrever o contrato de julgamento (janelas Perfect/Good/Miss, tratamento de timeout, regras de combo) e combinar largura de janela com BPM em feels distintos",
+    "Avançado: projetar janelas progressivas e seções com mudança de tempo (engenharia de curva de aprendizado), e verificar a saúde do feel com distribuição de julgamentos e retenção de combo"
+  ],
+  "minimalRules": [
+    "Janela: cada batida define um intervalo de tempo; Perfect ±30 ms (janela de 60 ms), Good ±70 ms (janela de 140 ms), Miss >70 ms; duração total da janela de 140 ms.",
+    "Batida: ritmo gerado em BPM fixo ou variável, usando uma fila de eventos para pré-agendar timestamps, suportando mudanças de tempo em tempo real.",
+    "Feedback: dispara som, vibração e destaque visual conforme o nível do julgamento; o mínimo é destaque visual; erro de sincronia audiovisual ≤5 ms."
+  ],
+  "systemLoopHint": "Entrada → Calcular a diferença com o timestamp da batida → Nível de julgamento → Disparar feedback → Atualizar combo/dificuldade → Gerar a próxima janela",
+  "combos": [
+    {
+      "formula": "Timing + Combate",
+      "effect": "Timing perfeito dispara contra-ataque/bloqueio, criando confronto rítmico."
+    },
+    {
+      "formula": "Timing + Progressão",
+      "effect": "O combo dirige a aquisição de recursos e desbloqueios."
+    },
+    {
+      "formula": "Timing + Simulação",
+      "effect": "Eventos rítmicos afetam variáveis do sistema, expandindo a profundidade estratégica."
+    }
+  ],
+  "advancedWarnings": [
+    "Perda de sincronia audiovisual arruína diretamente as mecânicas de timing.",
+    "Regras de julgamento opacas quebram a curva de aprendizado.",
+    "Janelas estreitas demais sem progressão causam picos de frustração.",
+    "Feedback atrasado em excesso enfraquece a imediatez, causando desequilíbrio de ritmo."
+  ],
+  "advancedAlgoRefs": [
+    "Julgamento: timeline, cálculo de janela, compensação de atraso",
+    "Ritmo: fila de eventos, mudanças de BPM, geração de partituras"
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento da Janela de Timing",
+      "action": "Estique a \"Janela Perfect\" de 40ms até 150ms",
+      "observe": "A largura da janela é o botão de dificuldade: 40ms beira o limite de reação humana (hardcore), 150ms é quase impossível de errar. Cada +10ms aumenta a retenção de iniciantes mas diminui a satisfação dos veteranos — o trade-off central entre tolerância e maestria"
+    },
+    {
+      "title": "Experimento de Mudança de BPM",
+      "action": "Mantenha a Janela Perfect fixa e suba o \"BPM (velocidade da batida)\" de 60 para 180",
+      "observe": "BPM muda a frequência de decisão, não a dificuldade do julgamento: a mesma janela de 100ms parece tranquila a 60 BPM e quase button mashing a 180. BPM e janela são botões independentes — combiná-los dá \"denso e tolerante\" versus \"esparso e rígido\", dois feels completamente diferentes"
+    },
+    {
+      "title": "Observação da Fronteira de Frustração",
+      "action": "Configure uma Janela Perfect de 40ms a 180 BPM e aguente 30 segundos",
+      "observe": "Esta é a zona de explosão de frustração do \"janela estreita demais sem rampa\": a taxa de acerto despenca. Um jogo de ritmo de produção precisa fazer a janela rampar (larga primeiro, depois aperta) ao longo da curva de aprendizado, ou os iniciantes desistem já na primeira seção"
+    }
+  ],
+  "intro": {
+    "what": "Toque no compasso da batida ou no momento perfeito — quanto mais preciso, maior a pontuação. Rhythm Master, Taiko no Tatsujin e jogos de ritmo em geral são construídos sobre isso.",
+    "feel": "Um anel encolhe em direção ao círculo de julgamento e você golpeia na sobreposição exata; quando o Perfect aparece, seu dedo e seu batimento cardíaco estão em sincronia — acertar é puro alívio, errar faz você querer outra tentativa na hora.",
+    "why": "É o espécime supremo da \"engenharia de feel\" — parâmetros invisíveis de milissegundos como a janela de julgamento e a latência de feedback decidem se um jogo fica gostoso na mão."
+  },
+  "concept": "O gameplay de timing externaliza a \"habilidade\" como uma janela de julgamento em escala de milissegundos: cada toque é medido como um desvio do momento ideal, e as recompensas escalam conforme o desvio encolhe. A parte difícil não é a janela em si — é consistência e sincronização: um erro de áudio-vídeo de poucos milissegundos já basta para o jogador se sentir \"mal julgado\", e regras de julgamento opacas rompem a curva de aprendizado. A sensação de \"estou melhorando\" do jogador depende da premissa de que o julgamento é sempre honesto.",
+  "designNotes": [
+    "A largura da janela é uma troca entre retenção e conquista: cada +10ms aumenta a retenção de iniciantes mas diminui o orgulho dos veteranos — então jogos de ritmo de produção usam janelas progressivas (largas primeiro, depois estreitas) para manter os dois, em vez de escolher um valor fixo.",
+    "Atraso moderado melhora o groove (contra-intuitivo): feedback instantâneo interrompe o fluxo da batida, enquanto atrasar o julgamento para a fronteira da batida mantém o jogador travado no ritmo — mas dessincronia audiovisual é sentença de morte, e \"atraso\" precisa ser estritamente separado de \"desalinhamento\".",
+    "BPM e janela são botões independentes: BPM define a frequência de decisão enquanto a janela define o rigor — \"denso e tolerante\" e \"esparso e rígido\" são feels inteiramente diferentes, e confundi-los não agrada nenhum dos dois públicos."
+  ],
+  "value": {
+    "player": "O gameplay de timing vende a maestria em si: a janela de julgamento quantifica a habilidade em milissegundos, e o jogador se vê subir do desajeitado ao impecável. No instante em que um Perfect pousa, ritmo e nervos sincronizam — uma satisfação que poucos outros feedbacks igualam.",
+    "ecosystem": "Jogos de ritmo sustentam uma das comunidades centrais mais estáveis da indústria: o conteúdo se expande por faixa, e o feel do julgamento é um fosso que concorrentes não conseguem copiar.",
+    "transfer": "Aprenda timing e você aprende engenharia de feel — janelas de julgamento, latência de feedback, sincronia audiovisual em escala de milissegundos — fundamentos sem os quais jogos de luta, shooters e até clickers não vivem."
+  }
+}

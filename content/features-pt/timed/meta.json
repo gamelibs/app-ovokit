@@ -1,0 +1,71 @@
+{
+  "key": "timed",
+  "name": "Tempo Limitado",
+  "nameEn": "Timed",
+  "lang": "pt",
+  "subtitle": "Crie senso de urgência com restrições de tempo claras",
+  "concept": "O recurso de tempo limitado impõe uma fronteira de tempo mensurável que força o jogador a completar objetivos dentro de uma janela limitada. O tempo pode aparecer como uma contagem regressiva global, um limite de tempo por fase ou uma janela de ação por turno; os três deslocam o jogo de exploração sem guia para ação ritmada. O designer precisa responder a três perguntas centrais: ① De onde vem o dreno de tempo (passagem natural, custo de ação ou penalidade por erros)? ② Que opções o jogador tem quando o tempo está acabando (itens de extensão de tempo, pular fases ou objetivos menores)? ③ Como o fim da contagem regressiva dispara o feedback (exibição de pontuação, atribuição de falha, escalonamento de recompensa)? Uma mecânica de tempo bem projetada cria \"tensão, não ansiedade\", recompensando o jogador com uma sensação de \"foi por pouco\" em vez de uma punição injusta. Elementos de tempo se entrelaçam com dificuldade dinâmica, gerenciamento de recursos e itens de extensão de tempo, formando um espaço estratégico multidimensional; por exemplo, em fases de recursos escassos, a pressão do tempo amplifica o custo-benefício da alocação de recursos. Trade-offs de design: ① Limites excessivos induzem ansiedade e corroem a imersão; ② Limites fracos deixam o ritmo frouxo e perdem a urgência. Insight contra-intuitivo: janelas curtas afiam o foco ao forçar filtragem rápida e reduzir distrações de multitarefa.",
+  "role": "Mecânicas de tempo limitado apertam o gameplay frouxo em uma experiência ritmada. Elas dão ao jogador uma deixa clara de \"o que fazer agora\" e mantêm o flow levemente acima do nível de pressão da zona de conforto.",
+  "significance": "Dominar mecânicas de tempo ajuda o designer a entender curvas de pressão, atribuição de falha e feedback de liquidação. É a ferramenta fundamental para ajustar dificuldade, criar tensão e rodar eventos temporizados (desafios diários, missões por tempo limitado).",
+  "filterTags": [
+    "Timed",
+    "Timing / Reaction"
+  ],
+  "cases": [
+    "Bejeweled Blitz",
+    "Overcooked",
+    "Fases cronometradas de Candy Crush Saga"
+  ],
+  "problemsSolved": [
+    "Injeta ritmo e urgência no gameplay frouxo",
+    "Ajusta a dificuldade a baixo custo com restrições de tempo",
+    "Fornece uma motivação de retry do tipo \"foi por pouco\""
+  ],
+  "learningGoals": [
+    "Equilibrar contagens regressivas e mecânicas de extensão de tempo",
+    "Dominar curvas de pressão e atribuição de falha",
+    "Projetar feedback de liquidação que torna a falha aceitável",
+    "Entender a interação entre tempo e gerenciamento de recursos",
+    "Avaliar o impacto dos itens de extensão de tempo na urgência"
+  ],
+  "minimalRules": [
+    "Existe uma restrição de tempo explícita (global / por fase / por turno)",
+    "O esgotamento ou zero do tempo dispara a liquidação, e o resultado precisa ser entregue imediatamente",
+    "O jogador recebe recompensas por cumprir o objetivo dentro do limite; se não cumprir, pode receber recompensas parciais: as recompensas escalam com a porcentagem de conclusão, ou ele incorre em penalidades como uma dedução de 10% dos pontos ganhos ou perda de um recurso-chave, preservando a justiça",
+    "O jogador pode usar itens ou habilidades de extensão de tempo durante a contagem regressiva, e a quantidade de tempo adicionada precisa ser visualizada no jogo"
+  ],
+  "combos": [
+    {
+      "formula": "Tempo Limitado + Fases",
+      "effect": "Uma variante tensa das fases padrão que aumenta o valor de replay"
+    },
+    {
+      "formula": "Tempo Limitado + Números",
+      "effect": "Cria espaço econômico e estratégico usando itens de extensão de tempo"
+    },
+    {
+      "formula": "Tempo Limitado + Roguelike",
+      "effect": "Escolhas de rota sob pressão amplificam o risco-recompensa"
+    },
+    {
+      "formula": "Tempo Limitado + Gerenciamento de Recursos",
+      "effect": "Aloque recursos limitados dentro de um tempo fixo, aprofundando a tomada de decisão; ex.: um jogador só pode ganhar 10 de ouro por fase e precisa decidir em 30 segundos se gasta em um item de aceleração ou guarda para depois, com o ouro não usado expirando quando o tempo acaba"
+    }
+  ],
+  "advancedWarnings": [
+    "Pressão excessiva de contagem regressiva transforma flow em ansiedade",
+    "Penalidades de tempo precisam ser explicáveis; o jogador precisa saber o que está sendo deduzido",
+    "Eventos temporizados precisam considerar justiça entre fusos horários: use janelas globalmente sincronizadas ou eventos segmentados por horário, permitindo ao jogador resgatar recompensas dentro da sua janela local; ou forneça uma janela de aquecimento antes do evento começar para que jogadores de zonas diferentes possam se preparar; calibre o horário do servidor com o horário local para evitar erros causados pela diferença de fuso",
+    "Uso excessivo de itens de extensão de tempo pode diluir a urgência"
+  ],
+  "advancedAlgoRefs": [
+    "Contagem regressiva independente da taxa de frames",
+    "Dificuldade dinâmica: mecanismos de ajuda guiados pelo tempo restante",
+    "Liquidação temporizada e registro de dados de replay"
+  ],
+  "intro": {
+    "what": "Você recebe uma contagem regressiva, e quando ela zera a partida é liquidada — as cozinhas de Overcooked e o blitz de um minuto de Bejeweled Blitz jogam assim.",
+    "feel": "O timer tiqueja, e sua velocidade e seu batimento aceleram juntos; os últimos segundos são um sprint frenético, e o arrependimento do \"foi por pouco\" faz você recomeçar na hora.",
+    "why": "Este é o seletor de dificuldade mais antigo — o mesmo conteúdo com uma linha do tempo transforma aconchego em tensão a custo quase zero."
+  }
+}

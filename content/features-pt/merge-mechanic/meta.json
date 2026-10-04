@@ -1,0 +1,63 @@
+{
+  "key": "merge-mechanic",
+  "name": "Mecânica de Fusão",
+  "nameEn": "Merge Mechanic",
+  "lang": "pt",
+  "subtitle": "Fundir unidades idênticas ou relacionadas em formas de tier superior",
+  "concept": "A mecânica de fusão usa uma tabela de receitas para combinar unidades básicas coletáveis em unidades de tier superior, formando uma cadeia de tiers. O designer precisa equilibrar três dimensões: a curva de custo, a curva de produção e o comportamento do jogador. A curva de custo determina quantos recursos o jogador precisa investir para alcançar o próximo tier; se subir rápido demais, o jogador vive o padrão \"diversão no início, grind no fim\", enquanto se subir devagar demais, o jogador perde a sensação de conquista. A curva de produção mede o aumento de valor após uma fusão e precisa ficar em sincronia com a curva de custo para evitar uma situação de \"custo alto, retorno baixo\". O comportamento do jogador é influenciado por drops aleatórios e mecânicas garantidas, que afetam a previsibilidade de obter as unidades necessárias para as receitas; um teto de ganhos offline evita encher a tela e desequilíbrio econômico. A fusão é frequentemente combinada com grade, idle e outras mecânicas para criar estratégia espacial, crescimento offline e outras experiências multidimensionais. Por exemplo, fundir três unidades de campina em uma unidade de floresta, ou quatro unidades de cristal em uma unidade de safira, com a tabela de receitas listando todas as combinações viáveis. Contra-intuitivamente, baixar o custo de fusão pode melhorar a retenção porque o jogador experimenta conquista mais rápido, disparando loops de fusão de maior frequência e resultando em uma economia mais saudável.",
+  "role": "A fusão cria uma sensação sustentada de crescimento e desejo de coleção. Ela amplifica o feedback \"faça tarefas pequenas → ganhe grande\", dando ao jogador sempre um próximo objetivo desbloqueável, ideal para jogos ultra-casuais e mid-core.",
+  "significance": "Dominar recursos de fusão ajuda o desenvolvedor a entender curvas econômicas, design de escassez e psicologia de progresso. Ensina como regras simples de fusão podem gerar objetivos complexos de longo prazo e evitar as armadilhas numéricas do \"diversão no início, grind no fim\".",
+  "filterTags": [
+    "Merge"
+  ],
+  "cases": [
+    "Merge Dragons!",
+    "Triple Town",
+    "Suika Game"
+  ],
+  "problemsSolved": [
+    "Mantém alta aderência com ações de baixa frequência",
+    "Fornece objetivos claros de longo prazo via cadeias de tiers",
+    "Combina drops aleatórios com escolha do jogador para criar surpresa"
+  ],
+  "learningGoals": [
+    "Projetar tabelas escaláveis de tiers/receitas de fusão",
+    "Dominar o equilíbrio das curvas de custo e produção",
+    "Lidar com ganhos offline e salvamento de progresso"
+  ],
+  "minimalRules": [
+    "O jogador pode obter unidades básicas fundíveis por meio de missões, drops ou compras.",
+    "Unidades idênticas ou que satisfaçam uma receita podem ser fundidas em qualquer local em uma unidade de tier superior.",
+    "A unidade de tier superior resultante tem maior produção ou habilidades mais fortes e pode continuar sendo fundida.",
+    "O limite diário de fusões é 100 para evitar encher a tela e desequilíbrio econômico."
+  ],
+  "combos": [
+    {
+      "formula": "Fusão 3x3 + Espaço",
+      "effect": "Após a fusão, células adjacentes podem receber recompensas extras de espaço; por exemplo, a unidade produzida pela fusão pode ocupar uma área maior ou disparar um encadeamento."
+    },
+    {
+      "formula": "Fusão + Missões",
+      "effect": "Usa objetivos para guiar o jogador a fundir unidades específicas, evitando jogo sem propósito; completar a missão concede recompensas extras ou desbloqueia novas receitas."
+    },
+    {
+      "formula": "Fusão + Posicionamento / Construção",
+      "effect": "Mesmo offline, o crescimento é possível; as contagens de fusão são limitadas diariamente para evitar encher a tela, e as fusões podem ser executadas automaticamente enquanto offline."
+    }
+  ],
+  "advancedWarnings": [
+    "Uma curva de crescimento íngreme pode fazer o conteúdo do fim de jogo parecer inalcançável.",
+    "Drops aleatórios sem mecânica garantida podem levar a experiências negativas.",
+    "Os ganhos offline precisam ter um teto para prevenir exploração, ex.: um máximo diário de fusões ou limites por timestamp."
+  ],
+  "advancedAlgoRefs": [
+    "Curvas de custo e produção exponenciais / polinomiais",
+    "Tabelas de drop aleatório e distribuições pseudoaleatórias",
+    "Cálculo de progresso offline"
+  ],
+  "intro": {
+    "what": "Dois iguais se fundem em uma forma mais forte — as frutas de Suika Game e os ovos de dragão de Merge Dragons jogam assim.",
+    "feel": "No momento em que você avista duas coisas idênticas, quer juntá-las; a fusão em si é estranhamente satisfatória, e você já sai caçando o próximo par.",
+    "why": "Esta é uma dimensão de progressão empilhável — parafuse-a em qualquer gameplay e uma linha de crescimento aparece instantaneamente; um caso modelo de reúso de mecânica."
+  }
+}

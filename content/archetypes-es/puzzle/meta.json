@@ -1,0 +1,88 @@
+{
+  "key": "puzzle",
+  "name": "Puzle",
+  "nameEn": "Puzzle",
+  "lang": "es",
+  "subtitle": "Centrado en la ocultación de información y la inferencia para crear espacios de soluciones; el núcleo es las curvas de aprendizaje y las estrategias de pistas.",
+  "features": [
+    "网格",
+    "关卡"
+  ],
+  "difficulty": "Principiante → Avanzado",
+  "demoRuleHint": "Regla: observar la información → realizar una acción → recibir feedback → inferir el siguiente paso → lograr el objetivo",
+  "problemsSolved": [
+    "Definir claramente los objetivos y los objetos accionables, evitando la pregunta «¿qué se supone que debo hacer?».",
+    "Usar pistas escalonadas para reducir el coste de frustración, animando al jugador a seguir intentando.",
+    "Hacer que el feedback del ensayo y error sea verificable (correcto/incorrecto/progreso), evitando la aleatoriedad y el engaño."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle del puzle — observar → actuar → verificar el feedback → razonar el siguiente paso — y reproducir un intento y una pista en la demo",
+    "Intermedio: escribir el contrato de feedback (verificación instantánea correcto/incorrecto/neutro) y la política de pistas graduadas (presupuesto, niveles, momento de disparo)",
+    "Avanzado: diseñar rampas de longitud de la cadena de razonamiento y la curva de aprendizaje, y verificar la salud del puzle con la tasa de atasco, la tasa de uso de pistas y el tiempo entre revelaciones"
+  ],
+  "minimalRules": [
+    "Objetivo: satisfacer condiciones (mínimo: llegar al final / activar el mecanismo).",
+    "Restricciones: límites de operación (cantidad / orden / recursos).",
+    "Feedback: cada paso se puede verificar (correcto / incorrecto / neutro)."
+  ],
+  "systemLoopHint": "Entrada → Juicio → Feedback → Cambio de estado → Nueva entrada",
+  "combos": [
+    {
+      "formula": "Puzle + Física",
+      "effect": "Las cadenas causales físicas proporcionan espacios de solución más ricos."
+    },
+    {
+      "formula": "Puzle + Aleatorio",
+      "effect": "Reconfigurar el estado aumenta la rejugabilidad, pero hay que controlar la explicabilidad."
+    },
+    {
+      "formula": "Puzle + Progresión",
+      "effect": "Desbloquea gradualmente herramientas y reglas, expandiendo la capacidad de razonamiento."
+    }
+  ],
+  "advancedWarnings": [
+    "La falta de feedback verificable impide al jugador evaluar su progreso.",
+    "Las pistas demasiado fuertes rompen la sensación de logro; las demasiado débiles llevan al abandono.",
+    "Cuando la solución es única pero el camino es largo, la frustración se amplifica.",
+    "Demasiadas pistas debilitan el desafío; muy pocas hacen que el jugador se pierda: equilibrar la información es el compromiso de diseño central.",
+    "La aleatorización excesiva puede aumentar la rejugabilidad pero mina la explicabilidad de la cadena causal, haciendo que el jugador se sienta sin propósito.",
+    "Sobresimplificar las pistas puede de hecho aumentar la curiosidad: los jugadores probarán varias estrategias por iniciativa propia cuando faltan pistas."
+  ],
+  "advancedAlgoRefs": [
+    "Niveles: verificación de resolubilidad, búsqueda de soluciones, generación de pistas.",
+    "Estado: máquina de estados / grafo de condiciones, usado para expresar cadenas causales."
+  ],
+  "demoLab": [
+    {
+      "title": "Verificación de ensayo y error",
+      "action": "Sin razonar, pulsa «Probar (principal)» diez veces y observa cómo divergen los errores y el progreso",
+      "observe": "Cada paso devuelve una señal de correcto/incorrecto: los errores subiendo mientras el progreso se estanca significa que estás adivinando. El feedback verificable es la regla mínima de los puzles: sin él, el jugador no puede saber si avanza o retrocede."
+    },
+    {
+      "title": "Experimento de coste de pistas",
+      "action": "Atáscate a propósito, pulsa «Pista (secundario)» y continúa; observa cómo se agota el presupuesto de pistas",
+      "observe": "Las pistas bajan el coste de estar atascado pero gastan un presupuesto: demasiado fuertes matan el logro, demasiado débiles causan abandono. Las pistas graduadas convierten en esencia la «tasa de abandono» en «gasto de recursos»: el jugador se recompra su sensación de logro."
+    },
+    {
+      "title": "Contraste de curva de dificultad",
+      "action": "En fácil y en difícil, «Avanzar 1 paso» 10 pasos cada una y compara difficultyScore con el crecimiento de errores",
+      "observe": "En difícil, difficultyScore es más alto y los errores crecen más rápido: la dificultad no es «una respuesta mejor escondida» sino «una cadena de razonamiento más larga». El diseño de la curva de aprendizaje controla a qué velocidad se alarga la cadena, no a qué profundidad se entierra la respuesta."
+    }
+  ],
+  "intro": {
+    "what": "Observa las pistas, razona y encuentra la única solución: Sokoban, Monument Valley y los juegos de escape room están construidos sobre esto.",
+    "feel": "Miras fijamente la disposición en profundo pensamiento, pruebas un paso, lees el feedback, pruebas otra vez; el momento «ajá» llega como una puerta que se abre: la agonía de estar atascado y el éxtasis de la revelación son dos caras de la misma moneda.",
+    "why": "Un espécimen central del diseño de curvas de aprendizaje: cómo mantener a los jugadores atascados-pero-sin-rendirse es la lección más importante que enseñan los puzles."
+  },
+  "concept": "El juego de puzle es una «duración de la confusión» cuidadosamente diseñada: la información se retiene deliberadamente, la cadena de razonamiento se dimensiona para ser apenas transitable, y cada intento devuelve feedback verificable. La parte difícil no es un acertijo ingenioso, sino gestionar el coste de estar atascado: pistas demasiado fuertes matan el logro, demasiado débiles causan abandono, y el feedback no verificable deja al jugador sin saber si avanza o retrocede. La alegría de la revelación se cultiva con precisión mediante el ritmo de revelación de la información.",
+  "designNotes": [
+    "Las pistas intercambian tasa de abandono por gasto de recursos: las pistas graduadas dejan que el jugador «se recompra su sensación de logro»; el presupuesto de pistas convierte un momento de atasco de un punto de abandono en un punto de decisión.",
+    "La dificultad no es esconder más hondo, es encadenar más largo: una cadena de razonamiento larga con verificación paso a paso le gana a una «respuesta bien escondida», porque la primera da progreso mientras la segunda solo invita a adivinar.",
+    "Unas pistas ligeramente escasas despiertan la exploración (contraintuitivo): cuando la información escasea un poco, el jugador prueba varias estrategias por voluntad propia; pero solo si el feedback de cada paso es honesto, de lo contrario la escasez se vuelve engaño."
+  ],
+  "value": {
+    "player": "Los puzles venden el momento «ajá»: la información se retiene deliberadamente y el jugador la completa con su propio razonamiento; un logro que no puede caer de suerte, y precioso exactamente por eso. La agonía de estar atascado y la alegría de la revelación son racionadas con cuidado por el diseñador en un subidón intelectual único.",
+    "ecosystem": "El puzle es una categoría de larga cola y boca a boca: los costes son controlables, la producción de contenido ES el diseño de niveles, y un equipo pequeño con niveles brillantes puede construir una marca (Monument Valley, Baba Is You).",
+    "transfer": "Aprende puzles y aprenderás el ritmo de revelación de la información: qué ocultar, cuándo dar pistas, cómo dejar que el jugador camine solo hasta la respuesta; un oficio que se transfiere al diseño de tutoriales, a la guía narrativa e incluso a la incorporación de producto."
+  }
+}

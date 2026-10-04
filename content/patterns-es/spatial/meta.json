@@ -1,0 +1,70 @@
+{
+  "key": "spatial",
+  "name": "Planificación espacial",
+  "nameEn": "Spatial",
+  "lang": "es",
+  "subtitle": "Observar → Pensar → Colocar → Verificar",
+  "concept": "Los patrones de planificación espacial se centran en el tablero, la cuadrícula, el camino o las relaciones posicionales como estructuras de datos centrales. El jugador observa el estado, infiere reglas y ejecuta movimientos, intercambios o colocaciones para transicionar el sistema de su estado actual a un estado objetivo. La diversión viene del momento «ajá»: descubrir una solución óptima o única dentro de un espacio restringido. El principio de diseño principal de la jugabilidad espacial es «reglas que se entienden al instante pero infinitamente variadas»: cuantas menos reglas iniciales, más rica la evolución del estado. Los diseñadores se enfrentan a menudo a dos grandes compromisos: primero, simplicidad de reglas frente a explosión del espacio de estados; simplificar las reglas permite al jugador empezar rápido, pero unas reglas demasiado simples pueden hacer la jugabilidad rancia; a la inversa, añadir reglas aumenta la profundidad pero causa un crecimiento exponencial del espacio de estados, dificultando el diseño de niveles a mano o por algoritmo. Segundo, tamaño espacial frente a profundidad estratégica; expandir la cuadrícula ofrece más combinaciones de disposición y opciones estratégicas, pero una cuadrícula demasiado grande dificulta al jugador ver el panorama completo de una vez, debilitando la intuición. Una idea contraintuitiva es que limitar moderadamente el número de pasos movibles puede de hecho despertar la creatividad: cuando el jugador debe terminar una meta dentro de un número limitado de movimientos, debe encontrar caminos más eficientes o usar los espacios «en blanco» de la cuadrícula para crear cadenas, lo que a menudo anima a explorar combinaciones ocultas más que la libertad ilimitada.",
+  "role": "Este patrón transforma reglas abstractas en estructuras espaciales observables y manipulables. Permite al jugador apoyarse en la intuición visual y espacial en lugar de cálculos complejos, sirviendo de marco subyacente para muchas mecánicas como puzle, combinación, fusión y planificación de rutas. Los juegos de planificación espacial suelen tener reglas simples pero espacios de estados masivos, produciendo la cualidad de «fácil de aprender, difícil de dominar».",
+  "significance": "El patrón de planificación espacial es una herramienta didáctica natural para entender máquinas de estados, algoritmos de búsqueda, explosión combinatoria y evaluación heurística. El desarrollador puede aprender cómo traducir problemas lógicos complejos en operaciones de cuadrícula intuitivas, y cómo dar forma a la curva de experiencia mediante el diseño de niveles en lugar de la complejidad del código.",
+  "loop": "Board → Cell → Rule → State Change",
+  "abstractions": [
+    "Tablero",
+    "Cuadrícula",
+    "Camino",
+    "Relación posicional",
+    "Espacio de estados"
+  ],
+  "cases": [
+    "Candy Crush",
+    "2048",
+    "Klotski",
+    "Tetris"
+  ],
+  "problemsSolved": [
+    "Transformar reglas abstractas en acciones espaciales que el jugador puede ver.",
+    "Usar una cuadrícula limitada para crear combinaciones y restricciones ricas.",
+    "Proporcionar frescura continua mediante cambios de estado sin depender de narrativa compleja."
+  ],
+  "learningGoals": [
+    "Dominar estructuras de datos de cuadrícula/grafo y sus algoritmos de recorrido.",
+    "Diseñar sistemas de evaluación de reglas claros y extensibles.",
+    "Controlar la experiencia del jugador mediante generación de niveles y escalado de dificultad."
+  ],
+  "minimalRules": [
+    "Definir el espacio de juego (cuadrícula, tablero, área).",
+    "Definir los elementos interactivos y sus reglas de colocación/movimiento.",
+    "Definir condiciones de victoria/derrota o puntuación.",
+    "Actualizar el estado espacial tras cada acción según las reglas."
+  ],
+  "systemLoopHint": "Observar el tablero → elegir una acción → aplicar reglas → actualizar el estado espacial → comprobar objetivos → generar un tablero nuevo o el siguiente nivel",
+  "combos": [
+    {
+      "formula": "Espacial + Combinación",
+      "effect": "Crea feedback instantáneo y reacciones en cadena mediante reglas de coincidencia."
+    },
+    {
+      "formula": "Espacial + Fusión",
+      "effect": "Combina la estrategia posicional con las mejoras de recursos para formar metas a largo plazo."
+    },
+    {
+      "formula": "Espacial + Limitación",
+      "effect": "Aumenta la densidad de decisión con restricciones de pasos, tiempo o área."
+    }
+  ],
+  "advancedWarnings": [
+    "La explosión del espacio de estados puede dificultar la resolución o la generación; pueden ser necesarias heurísticas o resolución de restricciones.",
+    "Las reglas demasiado complejas pueden quitar al jugador la intuición; mantenlas comprensibles al instante.",
+    "La detección de bloqueos y los mecanismos de pistas son cruciales para la retención."
+  ],
+  "advancedAlgoRefs": [
+    "Representación con array 2D / grafo con recorrido BFS/DFS.",
+    "Detección de componentes conectados y coincidencia de formas.",
+    "Resolución por backtracking / problema de satisfacción de restricciones (CSP)."
+  ],
+  "intro": {
+    "what": "Lee el tablero, piénsalo bien y luego haz tu movimiento: Tetris, 2048 y Klotski están construidos sobre esto.",
+    "feel": "No tienes prisa: primero ejecutas unos movimientos en tu cabeza; tras cada colocación el tablero se remodela a sí mismo y aparece una solución aún más ingeniosa: cada movimiento es gimnasia mental silenciosa.",
+    "why": "Es el esqueleto de todo juego de tablero y disposición: una vez que «estado → regla → nuevo estado» encaja, los puzles y los juegos de estrategia caen todos en su sitio."
+  }
+}

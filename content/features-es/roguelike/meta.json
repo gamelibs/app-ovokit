@@ -1,0 +1,59 @@
+{
+  "key": "roguelike",
+  "name": "Roguelike",
+  "nameEn": "Roguelike",
+  "lang": "es",
+  "subtitle": "Mapas aleatorios, muerte permanente y crecimiento progresivo por partida",
+  "concept": "El núcleo del roguelike reside en tres mecánicas clave: mapas, enemigos y recompensas generados proceduralmente; crecimiento y decisiones dentro de una sola partida; y un reinicio tras el fracaso que preserva el progreso meta. Cada intento ofrece un espacio estratégico nuevo mediante combinaciones aleatorias, y el fracaso se trata como una oportunidad de aprendizaje. El diseño debe equilibrar aleatoriedad, intensidad de crecimiento y ritmo del meta: demasiada aleatoriedad roba al jugador el control, mientras que muy poca lleva a la repetición; desbloquear el meta demasiado rápido impulsa la motivación, pero demasiado lento apaga el deseo de rejugar. Una idea contraintuitiva es que una reducción moderada de la aleatoriedad (aumentando la predictibilidad) puede de hecho profundizar el juego estratégico, ya que el jugador puede evaluar con más precisión el riesgo y la recompensa, haciendo elecciones más significativas.",
+  "role": "El roguelike da al jugador desafíos en constante cambio y una curva de crecimiento, convirtiendo el fracaso en un motor de exploración y aprendizaje, despertando un impulso persistente de jugar otra partida.",
+  "significance": "Para el diseñador, el roguelike muestra cómo construir alta pegajosidad y rejugabilidad mediante combinaciones aleatorias, crecimiento instantáneo y progresión meta, convirtiéndolo en un paradigma clave para crear profundidad estratégica y compromiso del jugador.",
+  "filterTags": [
+    "Roguelike"
+  ],
+  "cases": [
+    "Hades",
+    "Slay the Spire",
+    "The Binding of Isaac"
+  ],
+  "problemsSolved": [
+    "Extender la longevidad del juego mediante combinaciones aleatorias.",
+    "Transformar el fracaso en aprendizaje en lugar de castigo.",
+    "Crear tensión y sensación de logro mediante el crecimiento dentro de la partida."
+  ],
+  "learningGoals": [
+    "Diseñar mecanismos de generación procedural para mantener la diversidad.",
+    "Equilibrar el crecimiento dentro de la partida con el ritmo del meta.",
+    "Dominar el compromiso entre aleatoriedad y sensación de control del jugador.",
+    "Identificar y evitar combinaciones demasiado poderosas que causan desequilibrio."
+  ],
+  "minimalRules": [
+    "El mapa, los enemigos y las recompensas de cada partida se generan con un algoritmo aleatorio.",
+    "El personaje crece dentro de una partida derrotando enemigos, usando objetos, etc., y se reinicia al fracasar o completarla.",
+    "El progreso meta se conserva tras el fracaso, como reliquias permanentes, expansión del pool de cartas o desbloqueos de habilidades, para impulsar la estrategia en la siguiente partida."
+  ],
+  "combos": [
+    {
+      "formula": "Roguelike + Cartas",
+      "effect": "Coleccionando y combinando cartas, el jugador puede construir estrategias diversas en cada partida."
+    },
+    {
+      "formula": "Roguelike + Acción",
+      "effect": "Combinar la acción en tiempo real con enemigos generados aleatoriamente aumenta la tensión y la habilidad."
+    }
+  ],
+  "advancedWarnings": [
+    "La aleatoriedad excesiva puede hacer que el jugador pierda la sensación de control.",
+    "El desbloqueo lento del meta puede debilitar la motivación de rejugar.",
+    "Si el crecimiento dentro de la partida es demasiado fuerte, el jugador puede ganar demasiado poder tras una sola completación, llevando al desequilibrio posterior."
+  ],
+  "advancedAlgoRefs": [
+    "Generación procedural de mazmorras y grafos de habitaciones.",
+    "Diseño de pools de reliquias/cartas y mecanismos de respaldo.",
+    "Curva de dificultad y equilibrio de la tasa de victoria del jugador."
+  ],
+  "intro": {
+    "what": "Cada partida genera un mapa aleatorio; la muerte te devuelve al inicio, pero vuelves más fuerte: Hades, Slay the Spire y The Binding of Isaac son las obras canónicas.",
+    "feel": "Cada partida es completamente nueva: habitaciones aleatorias, tesoros aleatorios; la muerte deja de dar miedo porque regresas con experiencia: «una partida más» es su mantra.",
+    "why": "Resuelve el problema definitivo del consumo de contenido: las combinaciones aleatorizadas convierten el contenido finito en valor de rejugabilidad casi infinito."
+  }
+}

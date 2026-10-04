@@ -1,0 +1,87 @@
+{
+  "key": "physics",
+  "name": "Física",
+  "nameEn": "Physics",
+  "subtitle": "Crie gameplay usando regras de física e previsibilidade; o núcleo é explicabilidade e controlabilidade.",
+  "features": [
+    "关卡"
+  ],
+  "difficulty": "Avançado → Hardcore",
+  "demoRuleHint": "Regra: Aplicar força / arrastar → Movimento e colisão → Decisão (gatilho/falha) → Feedback → Reiniciar / tentar de novo",
+  "problemsSolved": [
+    "Torna os resultados físicos previsíveis e aprendíveis (a mesma entrada produz resultados consistentes)",
+    "Mantém a simulação estável dentro dos orçamentos de desempenho, reduzindo jitter, penetração e outros problemas que quebram a experiência",
+    "Permite que parâmetros táteis (atrito, elasticidade, amortecimento) sejam ajustáveis e verificáveis para iteração rápida"
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop de física — aplicar força/arrastar → movimento e colisão → julgamento → feedback → reiniciar — e reproduzir na demo um corte e um colapso",
+    "Intermediário: escrever o contrato de estabilidade (detecção contínua de colisão, contagens de iteração, limiares de sleep) e moldar o feel com atrito/elasticidade/amortecimento",
+    "Avançado: projetar o orçamento de ações e um espaço de soluções reproduzível, e verificar a credibilidade da física com taxa de jitter, taxa de tunneling e custo de reinício"
+  ],
+  "minimalRules": [
+    "Força: use RigidBody.AddForce(F), ex.: F=10N, direção arbitrária.",
+    "Velocidade: defina RigidBody.velocity = v, ex.: v=5m/s.",
+    "Gravidade: use o padrão g=9.8m/s², ou ajuste via RigidBody.gravityScale.",
+    "Colisão: adicione um Collider (AABB/círculo/polígono) aos objetos e ative a Detecção Contínua de Colisão (CCD) para evitar penetração.",
+    "Objetivo: determine chegada/contato/sustentação via gatilhos ou máquinas de estados; a condição mínima é a chegada."
+  ],
+  "systemLoopHint": "Entrada (arrastar/força) → Evolução (simulação física) → Decisão (se foi alcançado) → Feedback (razão de sucesso/falha) → Nova entrada",
+  "combos": [
+    {
+      "formula": "Física + Quebra-Cabeça",
+      "effect": "Usa cadeias causais e mecanismos para criar múltiplas soluções"
+    },
+    {
+      "formula": "Física + Posicionamento / Construção",
+      "effect": "Estabilidade estrutural e otimização de layout viram o núcleo estratégico"
+    },
+    {
+      "formula": "Física + Combate",
+      "effect": "Knockback, destruição e ricochete introduzem combate espacial"
+    }
+  ],
+  "advancedWarnings": [
+    "Atrito excessivo limita o movimento dos objetos; atrito de menos causa movimento instável e deslizamento descontrolado — equilibrar o atrito é a chave para um movimento previsível.",
+    "Elasticidade alta retém energia demais, causando rebotes excessivos; elasticidade baixa dissipa energia rápido, levando à estagnação — elasticidade razoável controla o ritmo do movimento.",
+    "Amortecimento excessivo para os objetos rápido demais; amortecimento insuficiente prolonga o movimento e pode causar oscilação — amortecimento moderado produz paradas suaves.",
+    "Objetos de massa alta aceleram menos sob a mesma força, movendo-se mais devagar mas penetrando menos; objetos de massa baixa aceleram mais, arriscando penetração ou movimento rápido demais."
+  ],
+  "advancedAlgoRefs": [
+    "Colisão: AABB/círculo/polígono, Detecção Contínua de Colisão (CCD)",
+    "Estabilidade: passo de tempo, amortecimento, resolução de restrições"
+  ],
+  "lang": "pt",
+  "demoLab": [
+    {
+      "title": "Experimento do Orçamento de Cortes",
+      "action": "Clique em \"Cortar (primário)\" repetidamente até o orçamento acabar, observando as peças e a estrutura que sobra",
+      "observe": "O orçamento é a restrição econômica das ações: cada corte tem um custo, e cortar sem cuidado deixa você sem recursos antes da estrutura-chave. O orçamento transforma uma \"sandbox de física\" em um \"puzzle de planejamento\" — a ordem dos cortes vira estratégia"
+    },
+    {
+      "title": "Observação de Estabilidade",
+      "action": "Depois de cortar, clique em \"Avançar 1 Passo\" uma dúzia de passos e acompanhe a métrica de oscilação",
+      "observe": "A oscilação visualiza a estabilidade estrutural: um corte rompe caminhos de sustentação, e a oscilação amplifica até o colapso. O gameplay de física é previsível porque entradas idênticas dão resultados idênticos — o jogador só ousa fazer cortes precisos quando consegue prever para que lado as coisas caem"
+    },
+    {
+      "title": "Experimento de Limpar e Reiniciar",
+      "action": "Corte a cena até virar uma bagunça, aperte \"Limpar (secundário)\" e depois corte de novo com um novo plano",
+      "observe": "Limpar é uma nova tentativa de baixo custo: a tentativa e erro da física precisa de reinícios rápidos, ou o jitter de uma falha contamina todos os experimentos seguintes. Um espaço de soluções reproduzível depende da capacidade de voltar ao estado inicial quando quiser"
+    }
+  ],
+  "intro": {
+    "what": "Coisas rolam, colidem e desabam sob regras reais de física, e você as aproveita para vencer — Angry Birds, Cut the Rope e Crayon Physics são construídos sobre isso.",
+    "feel": "Você corta uma corda e vê o bloco balançar, cair e esmagar o alvo; quando a reação em cadeia física fecha de uma vez, aquela descarga de \"exatamente como planejado\" é incomparável.",
+    "why": "Ensina o \"caos previsível\" — qualquer um consegue ligar um motor de física, mas fazê-lo \"justo e divertido\" é pura artesania de parâmetros e estabilidade."
+  },
+  "concept": "O gameplay de física troca simulação determinística pela confiança intuitiva do jogador: a mesma entrada precisa produzir o mesmo resultado, ou ninguém ousa planejar movimentos precisos. A parte difícil não é o motor — são os parâmetros de feel e a engenharia de estabilidade: atrito, elasticidade e amortecimento definem o ritmo do movimento, enquanto tunneling e jitter definem a credibilidade, e o orçamento de cortar/demolir transforma uma sandbox em puzzle. Quando o jogador diz \"essa física parece real\", ele quer dizer \"eu consigo prever\".",
+  "designNotes": [
+    "Previsibilidade vence realismo: o jogador não precisa de uma simulação perfeita — precisa de \"mesma entrada, mesmo resultado\". Um único jitter aleatório destrói toda a confiança no controle fino; determinismo é a fundação do gameplay de física.",
+    "Um orçamento de ações transforma sandbox em puzzle: quando os cortes são limitados, a ordem vira estratégia — física sem orçamento é brinquedo; física com orçamento é jogo.",
+    "Amortecimento alto na verdade para as coisas mais rápido (contra-intuitivo): o jogador assume que amortecimento \"deixa mais lento\", mas ele na verdade \"converge o movimento\" — parâmetros de feel como esse precisam ser verificáveis experimentalmente; o que a documentação não consegue explicar, deixe o jogador descobrir na mão."
+  ],
+  "value": {
+    "player": "O gameplay de física recompensa o jogador com o acerto do \"como eu previ\": quando os blocos desabam exatamente do jeito que você imaginou, é uma pequena prova de como o mundo funciona — uma satisfação que não existe em nenhum outro lugar.",
+    "ecosystem": "Puzzles de física são um nicho clássico de estreia para equipes pequenas: os motores são prontos e as fases são conteúdo — Angry Birds e Cut the Rope provaram sua viabilidade comercial.",
+    "transfer": "Aprenda gameplay de física e você aprende o ofício duro da engenharia de estabilidade: determinismo de mesma-entrada-mesmo-resultado, orçamentos de desempenho, ajuste de parâmetros de feel — literacia de engenharia essencial para qualquer sistema em tempo real, e a habilidade interna mais portátil além da física em si."
+  }
+}

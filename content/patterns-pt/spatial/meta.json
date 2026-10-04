@@ -1,0 +1,70 @@
+{
+  "key": "spatial",
+  "name": "Planejamento Espacial",
+  "nameEn": "Spatial",
+  "lang": "pt",
+  "subtitle": "Observar → Pensar → Posicionar → Verificar",
+  "concept": "O padrão de planejamento espacial centra-se em tabuleiro, grade, caminho ou relações posicionais como estruturas de dados centrais. O jogador observa o estado, infere regras e executa movimentos, trocas ou posicionamentos para transitar o sistema do estado atual para um estado-alvo. A diversão vem do momento \"eureca\" — descobrir uma solução ótima ou única dentro de um espaço restrito. O princípio de design primário do gameplay espacial é \"regras instantaneamente compreensíveis mas infinitamente variadas\" — menos regras iniciais levam a uma evolução de estados mais rica. O designer frequentemente enfrenta dois grandes trade-offs: primeiro, simplicidade de regras versus explosão do espaço de estados; simplificar as regras deixa o jogador aprender rápido, mas regras simples demais podem tornar o gameplay batido; por outro lado, adicionar regras aumenta a profundidade mas causa crescimento exponencial do espaço de estados, dificultando o design de fases à mão ou por algoritmo. Segundo, tamanho do espaço versus profundidade estratégica; expandir a grade oferece mais combinações de layout e opções estratégicas, mas uma grade grande demais prejudica a capacidade do jogador de ver o todo de uma vez, enfraquecendo a intuição. Um insight contra-intuitivo é que limitar moderadamente o número de passos móveis pode na verdade provocar criatividade: quando o jogador precisa concluir um objetivo dentro de um número limitado de jogadas, ele precisa encontrar caminhos mais eficientes ou usar os espaços \"vazios\" da grade para criar encadeamentos, o que frequentemente encoraja a exploração de combinações escondidas mais do que a liberdade ilimitada.",
+  "role": "Este padrão transforma regras abstratas em estruturas espaciais observáveis e manipuláveis. Ele deixa o jogador confiar na intuição visual e espacial em vez de cálculos complexos, servindo como estrutura subjacente de muitas mecânicas como puzzle, combinar-eliminar, fusão e planejamento de caminho. Jogos de planejamento espacial normalmente têm regras simples mas espaços de estados massivos, rendendo uma qualidade de \"fácil de aprender, difícil de dominar\".",
+  "significance": "O padrão de planejamento espacial é uma ferramenta de ensino natural para entender máquinas de estados, algoritmos de busca, explosão combinatória e avaliação heurística. O desenvolvedor aprende como traduzir problemas lógicos complexos em operações intuitivas de grade, e como moldar a curva de experiência por meio de design de fases em vez de complexidade de código.",
+  "loop": "Tabuleiro → Célula → Regra → Mudança de Estado",
+  "abstractions": [
+    "Tabuleiro",
+    "Grade",
+    "Caminho",
+    "Relação Posicional",
+    "Espaço de Estados"
+  ],
+  "cases": [
+    "Candy Crush",
+    "2048",
+    "Klotski",
+    "Tetris"
+  ],
+  "problemsSolved": [
+    "Transforma regras abstratas em ações espaciais que o jogador consegue ver.",
+    "Usa uma grade limitada para criar combinações e restrições ricas.",
+    "Fornece frescor contínuo por meio de mudanças de estado sem depender de narrativa complexa."
+  ],
+  "learningGoals": [
+    "Dominar estruturas de dados de grade/grafo e seus algoritmos de travessia.",
+    "Projetar sistemas de avaliação de regras claros e extensíveis.",
+    "Controlar a experiência do jogador por meio de geração de fases e escalonamento de dificuldade."
+  ],
+  "minimalRules": [
+    "Defina o espaço do jogo (grade, tabuleiro, área).",
+    "Defina os elementos interativos e suas regras de posicionamento/movimento.",
+    "Defina as condições de vitória/derrota ou pontuação.",
+    "Atualize o estado espacial após cada ação de acordo com as regras."
+  ],
+  "systemLoopHint": "Observar o tabuleiro → Escolher uma ação → Aplicar as regras → Atualizar o estado espacial → Verificar os objetivos → Gerar um novo tabuleiro ou próxima fase.",
+  "combos": [
+    {
+      "formula": "Espacial + Combinar / Eliminar",
+      "effect": "Cria feedback instantâneo e reações em cadeia por meio de regras de combinação."
+    },
+    {
+      "formula": "Espacial + Fusão",
+      "effect": "Combina estratégia posicional com upgrades de recursos para formar objetivos de longo prazo."
+    },
+    {
+      "formula": "Espacial + Limitação",
+      "effect": "Aumenta a densidade de decisão com restrições de passos, tempo ou área."
+    }
+  ],
+  "advancedWarnings": [
+    "A explosão do espaço de estados pode dificultar a solução ou a geração; heurísticas ou resolução de restrições podem ser necessárias.",
+    "Regras complexas demais podem tirar a intuição do jogador; mantenha-as instantaneamente compreensíveis.",
+    "Detecção de impasse e mecanismos de dicas são cruciais para a retenção."
+  ],
+  "advancedAlgoRefs": [
+    "Representação por array 2D / grafo com travessia BFS/DFS.",
+    "Detecção de componentes conectados e correspondência de formas.",
+    "Resolução por backtracking / problema de satisfação de restrições (CSP)."
+  ],
+  "intro": {
+    "what": "Leia o tabuleiro, pense com calma e faça sua jogada — Tetris, 2048 e Klotski são todos construídos sobre isso.",
+    "feel": "Você não tem pressa: roda algumas jogadas na cabeça primeiro; após cada posicionamento o tabuleiro se remodela, e uma solução ainda mais esperta aparece — cada jogada é uma ginástica mental silenciosa.",
+    "why": "Este é o esqueleto de todo jogo de tabuleiro e layout — quando \"estado → regra → novo estado\" clica, jogos de puzzle e estratégia todos se encaixam."
+  }
+}

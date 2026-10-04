@@ -1,0 +1,93 @@
+{
+  "key": "choice-strategy",
+  "lang": "pt",
+  "name": "Escolha / Estratégia",
+  "nameEn": "Choice / Strategy",
+  "subtitle": "Tome decisões críticas sob restrições de informação e recursos; o núcleo é a apresentação da informação e a explicabilidade das consequências.",
+  "features": [
+    "数值成长",
+    "关卡",
+    "Roguelike"
+  ],
+  "difficulty": "Avançado",
+  "demoRuleHint": "Exemplo de regra: aparecem 2–3 opções visíveis → o jogador escolhe uma → um custo e uma recompensa fixos são gerados → a situação é atualizada → próxima rodada de escolhas.",
+  "problemsSolved": [
+    "Elimina as 'pseudoescolhas' causadas pela pouca diferenciação entre opções.",
+    "Equilibra revelação de informação e aleatoriedade para evitar puro palpite ou pura aritmética.",
+    "Sustenta profundidade estratégica por meio de rodadas e curvas de recursos, evitando finais de um clique só.",
+    "Controla o volume de informação para prevenir fadiga de decisão e palpites em excesso.",
+    "Limita recursos para aumentar a profundidade estratégica, evitando decisões rasas causadas por excesso de recursos.",
+    "Equilibra a proporção de informação oculta e o número de opções visíveis para melhorar a capacidade do jogador de explicar as consequências."
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop de decisão — opções apresentadas → escolher → custo e retorno → situação atualizada — e reproduzir na demo uma escolha entre três",
+    "Intermediário: escrever o contrato de geração de opções e liquidação de consequências (magnitude do retorno, custo de rerrolagem, taxa de atualização da informação) e aprender a identificar escolhas falsas",
+    "Avançado: projetar proporções de revelação de informação e visualização de risco, e verificar a qualidade das decisões com a distribuição de escolhas e a diferença de taxa de vitória entre opções"
+  ],
+  "minimalRules": [
+    "Informação: número de opções visíveis ≤ 3, proporção de informação oculta ≤ 30%.",
+    "Recursos: quantidade de recursos disponível por rodada ≤ 2, e no máximo 2 tipos de recursos.",
+    "Consequências: as mudanças de estado (recompensas/punições) resultantes de cada escolha precisam ser rastreáveis e explicáveis, e a magnitude da mudança ≤ 20% dos recursos atuais.",
+    "Custo da decisão: cada escolha consome um custo fixo, com proporção custo-recompensa ≤ 1:1; custo alto limita a frequência de escolhas, aumentando a profundidade; custo baixo aumenta a frequência, reduzindo a profundidade.",
+    "Frequência de atualização da informação: informação atualizada por rodada ≤ 1/3 das opções visíveis atuais; atualizações frequentes aumentam a adaptabilidade, reduzindo a profundidade de planejamento; atualizações esparsas aumentam a profundidade de planejamento, reduzindo a adaptabilidade.",
+    "Uma proporção moderada de informação oculta pode melhorar a qualidade das decisões; baixa demais leva à análise excessiva, alta demais leva à fadiga de decisão."
+  ],
+  "systemLoopHint": "Entrada (escolha) → Verificação (suficiência de recursos) → Feedback (recompensa/punição) → Mudança de estado (atualização da situação) → Nova informação → Nova entrada.",
+  "combos": [
+    {
+      "formula": "Estratégia + Combate",
+      "effect": "Em uma rodada de combate, o jogador pode escolher 'Atacar' ou 'Defender'. Atacar consome 1 ponto de poder de ataque, defender consome 1 ponto de poder de defesa; a escolha determina o caminho do resultado do combate."
+    },
+    {
+      "formula": "Estratégia + Aleatoriedade",
+      "effect": "No início de cada rodada, 1–2 eventos são sorteados aleatoriamente de um pool de eventos; o jogador faz uma escolha com base no conteúdo do evento, e os pesos do pool podem ser ajustados."
+    },
+    {
+      "formula": "Estratégia + Progressão",
+      "effect": "Ao final de cada temporada, o jogador escolhe um caminho de upgrade com base nos recursos acumulados; o caminho escolhido afeta as recompensas e a visibilidade das opções seguintes."
+    }
+  ],
+  "advancedWarnings": [
+    "Diferenciação insuficiente entre opções pode levar a 'pseudoescolhas'.",
+    "Consequências sem explicação impedem o jogador de aprender e melhorar.",
+    "Informação em excesso fatiga os novatos; de menos, vira adivinhação.",
+    "Aleatorização excessiva enfraquece a sensação de controle estratégico do jogador."
+  ],
+  "advancedAlgoRefs": [
+    "Eventos: pool de eventos e pesos, eventos garantidos e deduplicação.",
+    "Economia: curvas de recursos, controle de inflação, design de limiares."
+  ],
+  "demoLab": [
+    {
+      "title": "Identificando Escolhas Falsas",
+      "action": "Escolha cada uma das opções \"Ganhar Ouro\" / \"Buff de Dano\" / \"Curar\" uma vez por rodada, acompanhando a variação líquida de poder e risco",
+      "observe": "Se as três opções convergirem em valor líquido, a escolha degenera em falsa. Veja qual opção vence no longo prazo — as diferenças entre opções precisam pousar em números explicáveis, ou os jogadores estão só rolando dados"
+    },
+    {
+      "title": "Observação de Acúmulo de Risco",
+      "action": "Escolha apenas \"Ganhar Ouro\" toda rodada e veja a métrica de risco subir",
+      "observe": "Uma estratégia de trilha única empurra o risco para cima — ganhos de curto prazo trocados por fragilidade de longo prazo. O risco carrega \"consequências explicáveis\": quando toda escolha é rastreável, o jogador aprende e melhora em vez de sentir que o sistema está contra ele"
+    },
+    {
+      "title": "Experimento do Custo de Rerrolagem",
+      "action": "Clique em \"Rerrolar (secundário)\" antes de escolher a cada rodada e compare a curva de poder com nunca rerrolar",
+      "observe": "Rerrolar troca um custo fixo por opções melhores: enquanto custo ≤ benefício, é a jogada racional; passado esse ponto, vira uma armadilha. O custo da decisão é ele mesmo um botão de design — custo alto torna as escolhas raras e profundas, custo baixo as torna frequentes e rasas"
+    }
+  ],
+  "intro": {
+    "what": "A cada rodada você recebe algumas opções — escolhe uma e convive com as consequências. Card battlers, auto-chess e escolhas táticas no estilo Clash Royale são construídos sobre isso.",
+    "feel": "Três recompensas estão à sua frente, cada uma tentadora e cada uma com um preço; você pondera sem fim, escolhe uma, e rodadas depois essa escolha começa a render — ou a cobrar de volta.",
+    "why": "\"Escolha significativa\" é a alma dos jogos de estratégia — escolhas falsas, volume de informação e explicação de consequências estão todos expostos aqui."
+  },
+  "concept": "A estratégia baseada em escolhas embrulha a \"aleatoriedade\" como \"destino governável\": as opções são limitadas e as consequências rastreáveis, então o jogador acredita que os resultados foram escolhidos por ele. A parte difícil não é o número de opções — é a explicabilidade das diferenças entre elas: retornos que convergem degeneram em escolhas falsas, informação demais causa fadiga de decisão, de menos transforma o jogo em adivinhação. A sensação de \"estratégia\" do jogador depende de poder revisar e rastrear cada escolha depois.",
+  "designNotes": [
+    "Uma escolha falsa é pior que nenhuma escolha: três opções com valor líquido convergente fazem o jogador se sentir enganado — as diferenças entre opções precisam pousar em números explicáveis, ou o ritual de seleção é só rolagem de dados.",
+    "A rerrolagem é uma armadilha gentil: trocar um custo fixo por opções melhores é racional enquanto custo ≤ benefício, e um buraco negro de recursos além disso — o custo da decisão é ele mesmo o botão mais valioso de ajustar.",
+    "O risco precisa ser visível para se acumular: tornar o risco uma métrica explícita permite ao jogador sentir a fragilidade de uma estratégia de trilha única — risco invisível nunca vira estratégia, só reclamação."
+  ],
+  "value": {
+    "player": "A estratégia guiada por escolhas satisfaz a ilusão — e a realidade — do \"destino em minhas mãos\": a escolha de cada rodada é rastreável e revisável. Vitórias e derrotas não são sorte; são o meu julgamento.",
+    "ecosystem": "O gameplay guiado por decisões é a estrutura mais eficiente em conteúdo: poucas opções conseguem carregar a profundidade de uma partida inteira, e deck-builders e auto-battlers provaram sua simpatia por equipes pequenas — com a mecânica certa, o custo de conteúdo fica muito abaixo dos jogos de ação.",
+    "transfer": "Aprenda estratégia guiada por escolhas e você aprende design de densidade de decisão: diferenças entre opções, proporções de informação, consequências explicáveis — um ofício que se transfere direto para drafting de roguelike, ramificações narrativas e até experimentos de precificação de produto."
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "key": "placement",
+  "name": "Colocación / Construcción",
+  "nameEn": "Placement / Building",
+  "lang": "es",
+  "subtitle": "Las reglas del espacio y los bucles de feedback impulsan la estrategia y las recompensas en cascada",
+  "features": [
+    "网格",
+    "关卡",
+    "数值成长"
+  ],
+  "difficulty": "Principiante → Avanzado",
+  "demoRuleHint": "Ejemplo: seleccionar objeto → resaltar vista previa → colocar → disparar ingreso/bloqueo → ajustar el diseño",
+  "problemsSolved": [
+    "Visualizar relaciones espaciales como la ocupación de casillas y la conectividad para reducir la carga cognitiva.",
+    "Permitir previsualizar y deshacer colocaciones incorrectas para reducir la frustración y el desperdicio de ensayo y error.",
+    "Usar la optimización del diseño y las recompensas en cascada para impulsar objetivos continuos en lugar de una colocación única."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle de diseño — elegir → previsualizar → colocar → rendimiento/bloqueo → ajustar — y reproducir una bonificación por adyacencia en la demo",
+    "Intermedio: escribir el contrato de ocupación y conectividad (cuadrícula, ajuste a rejilla, coeficiente de sinergia, coste de expansión) y ajustar el equilibrio densidad-rendimiento",
+    "Avanzado: diseñar bonificaciones y riesgos de borde (exposición defensiva), y verificar la profundidad de la estrategia espacial con la distribución de densidad del diseño y la distribución del momento de expansión"
+  ],
+  "minimalRules": [
+    "Comprobación de colocación: tamaño del objeto ≤ 1×1 celdas de la cuadrícula y sin solapamiento; tamaño > 1×1 debe ocupar celdas contiguas y no intersectar objetos ya ocupados.",
+    "Bonificación por conectividad: los edificios adyacentes del mismo tipo ganan +10 % de ingreso; la conectividad excesiva acelera el consumo de recursos, así que equilibra la densidad del diseño.",
+    "Bonificación de borde: las colocaciones en el perímetro ganan +5 % de ingreso; sin embargo, son más vulnerables al ataque, así que considera el diseño defensivo.",
+    "Vista previa/Resaltado: antes de colocar, resalta las zonas legales/ilegales; las zonas ilegales se marcan en rojo con una razón para ayudar al jugador a corregir rápido."
+  ],
+  "systemLoopHint": "Entrada (colocar/rotar/mover) → Validación (legal/ilegal) → Feedback (resaltado/razón de fallo) → Cambio de estado (actualización del diseño) → Nueva entrada",
+  "combos": [
+    {
+      "formula": "Construcción + Gestión de recursos",
+      "effect": "Coloca edificios de recursos en zonas de alto rendimiento para crear un ciclo; cada nodo de recursos debe albergar al menos una estructura de recolección para activar el ingreso."
+    },
+    {
+      "formula": "Construcción + Defensa",
+      "effect": "Coloca torres defensivas en el perímetro para una bonificación defensiva; al mismo tiempo coloca estructuras de apoyo en el centro para potenciar la defensa general."
+    },
+    {
+      "formula": "Construcción + Conectividad",
+      "effect": "Coloca edificios del mismo tipo a lo largo de una línea de conectividad para ganar una bonificación; pero mantén al menos un camino abierto para no quedar bloqueado."
+    }
+  ],
+  "advancedWarnings": [
+    "La falta de vista previa y de razones de fallo romperá la experiencia de colocación, dificultando al jugador juzgar las colocaciones legales.",
+    "Demasiadas restricciones sin feedback suficiente dejarán atascados a los novatos, empinando la curva de aprendizaje.",
+    "Una liquidación de recompensas lenta reduce la percepción de retorno estratégico, llevando al jugador a pensar que el diseño no funciona."
+  ],
+  "advancedAlgoRefs": [
+    "Cuadrícula: colocación, anclaje, rotación, colisión.",
+    "Ruta: viabilidad de caminos (transitable/intransitable) y comprobaciones de conectividad."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de bonificación por adyacencia",
+      "action": "Sigue usando «Colocar (principal)» sobre edificios del mismo tipo (tan adyacentes como sea posible) y observa cómo se mueven juntas la sinergia y el ingreso",
+      "observe": "Los edificios adyacentes del mismo tipo dan +10 % de ingreso: las relaciones espaciales traducidas directamente a números. La curva de sinergia deja al jugador ver con sus propios ojos que el dónde colocas le gana al qué colocas."
+    },
+    {
+      "title": "Experimento de momento de expansión",
+      "action": "Una partida: pulsa «Expandir (secundario)» dos veces antes de colocar; otra: llena todo sin expandir. Compara el ingreso tras 20 pasos",
+      "observe": "Expandir es gastar ahora por espacio después: demasiado pronto diluye el ingreso actual, demasiado tarde y los huecos te ahogan. Las decisiones de capacidad son el compromiso invertir-frente-a-gastar del juego de colocación: el óptimo suele estar justo antes de que se llenen los huecos."
+    },
+    {
+      "title": "Vigilancia del límite de densidad",
+      "action": "Sin expandir, llena cada hueco y observa cómo el crecimiento del ingreso se aplana",
+      "observe": "Con la cuadrícula llena, el ingreso se estanca: el rendimiento de la densidad tiene un límite, y los diseños sobreconectados queman recursos más rápido. El diseño óptimo está en el borde de «denso pero no lleno»: así es exactamente como las restricciones espaciales fabrican estrategia."
+    }
+  ],
+  "intro": {
+    "what": "Coloca edificios o torres sobre una cuadrícula limitada: una buena colocación duplica tu ingreso. La defensa de torres, SimCity y los juegos de construcción de bases están construidos sobre esto.",
+    "feel": "Pasas un edificio sobre la cuadrícula, cazando la casilla de mayor rendimiento para confirmar; el ingreso sube línea a línea mientras ya meditas la siguiente colocación: la cuadrícula nunca es lo bastante grande.",
+    "why": "La mejor demostración de «el espacio como recurso»: si quieres que la posición misma se vuelva estrategia, el juego de colocación es estudio obligado."
+  },
+  "concept": "El juego de colocación traduce las relaciones espaciales en rendimiento numérico: la adyacencia, los bordes y la densidad se mapean directamente sobre diferencias de producción; lo que el jugador coloca no son edificios sino la forma de una función de recompensa. La parte difícil no es qué colocar, sino la previsualización y la cadencia del feedback: las casillas ilegales deben explicarse al instante, y la liquidación del ingreso debe mostrar que el diseño está rindiendo. Un jugador piensa «esa colocación fue lista» porque las decisiones espaciales son visibles y verificables.",
+  "designNotes": [
+    "Las bonificaciones por adyacencia hacen que el DÓNDE le gane al QUÉ: una bonificación del +10 % por vecindad digitaliza las relaciones espaciales; la curva de sinergia es algo que el jugador puede literalmente ver, y enseña estrategia mejor que cualquier fórmula oculta.",
+    "El momento de expansión es el eterno compromiso invertir-frente-a-gastar: expandir demasiado pronto diluye el ingreso actual, demasiado tarde y la capacidad te ahoga; el óptimo suele esconderse en el borde de «casi lleno», y ese borde es el punto dulce de decisión del juego de colocación.",
+    "La vista previa y las razones de fallo no son funciones de accesibilidad: las colocaciones ilegales deben resaltarse en rojo al instante con la razón indicada, o el jugador lee las reglas como errores; la UX de colocación no se derrumba por reglas complejas sino por reglas opacas."
+  ],
+  "value": {
+    "player": "El juego de colocación satisface el apetito de orden del planificador: ordena el espacio limitado hasta tu propio óptimo y luego mira la curva de ingreso subir siguiendo tu diseño; la redención más directa de la estética intelectual.",
+    "ecosystem": "La construcción por colocación es un nicho dorado entre la estrategia y el casual: la defensa de torres, la construcción de bases y la gestión de ciudades viven aquí, y las restricciones espaciales dejan crecer la profundidad del contenido sin inflación numérica.",
+    "transfer": "Aprende colocación y aprenderás el oficio de digitalizar las relaciones espaciales: bonificaciones por adyacencia, riesgos de borde, límites de densidad; una mentalidad que convierte los mapas en funciones de recompensa, igual de válida en juegos de táctica, posicionamiento de cartas y sistemas de economía."
+  }
+}

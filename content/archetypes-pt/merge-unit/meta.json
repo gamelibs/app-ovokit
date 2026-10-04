@@ -1,0 +1,89 @@
+{
+  "key": "merge-unit",
+  "name": "Fusão de Unidades",
+  "nameEn": "Merge Units",
+  "subtitle": "Fundir unidades de mesmo nível para evoluir, usando crescimento exponencial para objetivos de longo prazo; o núcleo está nas receitas, curvas de produção e tratamento de célula cheia.",
+  "features": [
+    "放置产出",
+    "网格",
+    "关卡",
+    "数值成长"
+  ],
+  "difficulty": "Iniciante → Avançado",
+  "demoRuleHint": "Regra: Adquirir unidades → Fundir unidades de mesmo nível → Evoluir para unidades de nível superior → Aumentar a produção → Disparar o tratamento de célula cheia quando uma célula lotar.",
+  "problemsSolved": [
+    "Transforma ações de baixa frequência em objetivos claros de longo prazo por meio da fusão-e-evolução.",
+    "Mantém atração contínua pelo próximo nível com uma curva de crescimento exponencial.",
+    "Garante que o tabuleiro continue jogável por meio do tratamento de célula cheia ou de impossibilidade de fusão."
+  ],
+  "learningGoals": [
+    "Iniciante: entender o loop mínimo — alimentar → fusão de mesmo nível → subir de nível → maior produção — e reproduzir na demo uma fusão e um tratamento de grade cheia",
+    "Intermediário: escrever o contrato completo da regra de fusão (julgamento de mesmo nível, tabela de receitas, política de grade cheia) e ajustar a curva de custo/produção para controlar o ritmo de crescimento",
+    "Avançado: projetar mecânicas de garantia (pity) e anti-farming, e verificar a saúde do tabuleiro com taxa de grade cheia, intervalo médio entre fusões e distribuição de tiers"
+  ],
+  "minimalRules": [
+    "Regra de fusão de mesmo nível: pelo menos duas unidades do mesmo nível se fundem em uma unidade de nível +1; se a célula de destino já estiver cheia após a fusão, dispara o tratamento de célula cheia.",
+    "Crescimento da produção: a produção de cada unidade aumenta com o nível, começando em 1 no nível mais baixo e chegando a 10 no mais alto, formando uma curva exponencial.",
+    "Tratamento de célula cheia: quando uma célula de destino está cheia e não pode fundir, o sistema alerta e bloqueia o posicionamento; se o jogador optar por forçar o posicionamento, o sistema consome automaticamente unidades de nível baixo para liberar espaço.",
+    "Restrição de receita: a fusão de mesmo nível só se aplica quando a tabela de receitas (ex.: 2→1, 3→1) é satisfeita; unidades não listadas na receita não podem fundir."
+  ],
+  "systemLoopHint": "Entrada (posicionar/arrastar) → Avaliação (fundível?) → Feedback (upgrade por fusão) → Mudança de estado (aumento de produção / liberação de espaço) → Novo estado do tabuleiro → Nova entrada.",
+  "combos": [
+    {
+      "formula": "Fusão de Unidades + Idle",
+      "effect": "Acúmulo de recursos offline para fundir ao voltar, reduzindo a pressão de atividade diária."
+    },
+    {
+      "formula": "Fusão de Unidades + Números",
+      "effect": "Curvas exponenciais de produção amplificam a satisfação de crescimento, exigindo design de consumo sincronizado para evitar inflação."
+    },
+    {
+      "formula": "Fusão de Unidades + Fases",
+      "effect": "Usa objetivos de fase para guiar a direção das fusões, evitando falta de propósito."
+    }
+  ],
+  "advancedWarnings": [
+    "Uma curva de produção íngreme pode tornar os níveis finais inalcançáveis, enquanto uma curva rasa perde o embalo; equilibrar a taxa de crescimento exponencial é um ponto central de ajuste.",
+    "A falta de tratamento de célula cheia pode congelar o tabuleiro; forçar o consumo de unidades de nível baixo mantém o fluxo, mas diminui o valor delas.",
+    "Produção alta vinda de unidades de nível baixo pode fornecer recursos abundantes no início, às vezes mais importante que unidades de nível alto — contra-intuitivo, então a alocação inicial de recursos precisa ser considerada.",
+    "Drops aleatórios sem rede de segurança amplificam a frustração; é preciso um mecanismo de garantia e anti-spam."
+  ],
+  "advancedAlgoRefs": [
+    "Determinação de fusão: correspondência de mesmo nível, tabela de receitas, liquidação de fusão em cadeia.",
+    "Curva de crescimento: design de custo e produção exponencial/segmentado, garantia e anti-spam."
+  ],
+  "lang": "pt",
+  "demoLab": [
+    {
+      "title": "Experimento da Válvula de Pressão",
+      "action": "Aperte o \"Intervalo de Geração (válvula de pressão)\" de 6s para 1s",
+      "observe": "O intervalo é a válvula de inflação do tabuleiro: com 1s, a pressão de grade cheia dispara e você é forçado a fundir sem parar; com 6s você ganha tempo real de planejamento. O intervalo de geração define o orçamento de raciocínio — o botão de ajuste mais direto do lado do custo"
+    },
+    {
+      "title": "Teto de Nível e Atração Exponencial",
+      "action": "Suba o \"Teto de Nível Máximo\" de 4 para 7 e compare quanto tempo leva para alcançar o tier máximo",
+      "observe": "A produção cresce exponencialmente por nível, então cada +1 no teto dobra a distância de atração até \"o próximo nível\". Baixo demais e o late game perde o objetivo; alto demais e o objetivo parece inalcançável — onde você corta a curva exponencial decide a vida útil do jogo"
+    },
+    {
+      "title": "Observação de Grade Cheia",
+      "action": "Com intervalo de 1s e teto de nível 4, recuse-se a fundir até o tabuleiro travar",
+      "observe": "Com a grade cheia, o sistema avisa e bloqueia o posicionamento (ou consome à força unidades de tier baixo para liberar espaço). Sem tratamento de grade cheia o tabuleiro entra em impasse — é a linha entre regras mínimas e um produto jogável"
+    }
+  ],
+  "intro": {
+    "what": "Arraste duas peças idênticas uma sobre a outra e elas se fundem em uma de tier maior — 2048, Suika Game e Merge Dragons são todos construídos sobre isso.",
+    "feel": "Você empilha peças iguais e as vê estourarem em uma maior; a grade não para de encher enquanto você faz malabarismo com o espaço e persegue o próximo tier — simples, mas impossível de largar.",
+    "why": "A atração do crescimento exponencial não é mais clara em nenhum outro lugar — se você quer aprender a dar ao jogador um objetivo de longo prazo, a fusão é o melhor espécime para dissecar."
+  },
+  "concept": "O gameplay de fusão é um motor de crescimento autorreforçado: a fusão de mesmo nível converte ações de baixa frequência em saltos de tier determinísticos, e uma curva de produção exponencial mantém \"o próximo tier\" sempre mais valioso que \"este\". A parte difícil não é a regra de fusão — são três detalhes que fecham o loop: uma grade cheia precisa sempre ter uma saída que nunca trava, o ritmo de alimentação precisa deixar um orçamento de raciocínio, e o teto de nível decide até onde a atração alcança. O vício de \"só mais uma fusão\" vem do formato da curva, não da arte.",
+  "designNotes": [
+    "A atração vem da curva exponencial, não da quantidade de recompensas: dobrar a produção por tier significa que o próximo tier sempre vale a perseguição — mas íngreme demais e o late game parece inalcançável, plana demais e o objetivo se dilui. Onde você corta a curva é o interruptor da vida útil do jogo.",
+    "Unidades de tier baixo valem mais que as de tier alto (contra-intuitivo): a produção inicial depende de uma base ampla de unidades baratas, e correr para subir de tier faminta a sua própria produção — bom design de fusão deixa o jogador descobrir sozinho o \"construa a base primeiro, depois escale\".",
+    "Uma grade cheia não é punição; é uma válvula de ritmo: consumir à força unidades de tier baixo para liberar espaço parece penalidade, mas na verdade é o fusível que evita o impasse do tabuleiro — ela transforma \"gestão de espaço\" de regra de fundo em decisão explícita a cada jogada."
+  ],
+  "value": {
+    "player": "A fusão alimenta os instintos gêmeos de colecionar e ficar mais forte: unidades de tier baixo são economia visível, e toda fusão é um upgrade certo — a cadeia de objetivos está sempre clara, e o próximo tier está sempre acenando.",
+    "ecosystem": "Fusão é uma vencedora dupla de retenção e monetização nos jogos casuais: a cadeia de objetivos suporta nativamente expansão de conteúdo (um novo tier É conteúdo novo), e a pressão da grade se encaixa limpo com monetização de energia e boosters — provado repetidamente de Merge Dragons a Suika Game.",
+    "transfer": "Aprenda fusão e você aprende design de curvas de atração exponencial — produção escalonada, posicionamento de teto, ritmo de alimentação — uma estrutura numérica que funciona igualmente bem em jogos idle e coleção de cartas."
+  }
+}

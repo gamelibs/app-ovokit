@@ -1,0 +1,80 @@
+{
+  "key": "runner",
+  "name": "Runner / Carrera",
+  "nameEn": "Runner",
+  "lang": "es",
+  "subtitle": "Avanzar continuamente gestionando camino, obstáculos y ritmo; el núcleo es la legibilidad y el coste de decisión.",
+  "features": [
+    "关卡",
+    "数值成长"
+  ],
+  "difficulty": "Principiante → Avanzado",
+  "demoRuleHint": "Regla: avance automático (base 5 m/s) → aparece obstáculo/bifurcación → entrada (deslizar/saltar/girar) → juicio (pasar/fallar) → cambios de velocidad/combo",
+  "problemsSolved": [
+    "Usar una entrada mínima para crear múltiples decisiones de bifurcación (carril/salto/giro/bifurcación).",
+    "Estandarizar la legibilidad de los obstáculos y el aviso previo, reduciendo el «no lo vi y morí».",
+    "Usar la velocidad y la estructura por segmentos para crear picos y valles de ritmo, evitando la línea recta monótona."
+  ],
+  "learningGoals": [
+    "Principiante: entender el bucle mínimo — avance automático → aparece obstáculo → entrada → juicio → cambio de velocidad — y reproducir una esquiva con cambio de carril en la demo",
+    "Intermedio: escribir el contrato de legibilidad de obstáculos (tiempo de antelación, espaciado de carriles, ritmo de segmentos) y dar forma a la dificultad con la velocidad inicial más la curva de aceleración",
+    "Avanzado: diseñar la estructura de segmentos con picos y valles (respiración de la dificultad) y verificar el ritmo del nivel con la tasa de mala lectura, la curva de supervivencia y la tasa de superación por segmento"
+  ],
+  "minimalRules": [
+    "Velocidad de avance: base 5 m/s, bonificación de combo +0,5 m/s por combo, máximo 8 m/s.",
+    "Juicio de obstáculos: pasar con salto requiere disparar el salto dentro de los 0,3 s previos al obstáculo, altura de salto ≥1,2 m; pasar deslizándose requiere deslizarse dentro de los 0,2 s previos; pasar con giro requiere completar el giro cuando el espaciado de carriles es ≥1,5 m.",
+    "Sistema de recompensas: recoger objetos aumenta el combo +1; combo ≥5 dispara una bonificación de combo de velocidad 1,2×; el combo dura 10 s."
+  ],
+  "systemLoopHint": "Entrada (salto/deslizamiento/giro) → Juicio (¿pasó?) → Feedback (velocidad/combo) → Progresión de la escena → Nuevo obstáculo → Nueva entrada",
+  "combos": [
+    {
+      "formula": "Runner + Progresión",
+      "effect": "Gana 1 punto de experiencia cada 10 m; al llegar a 5 puntos, desbloquea una nueva postura de carrera u objeto, elevando el tope máximo de combo."
+    },
+    {
+      "formula": "Runner + Combate",
+      "effect": "Recoge objetos de energía para disparar habilidades (p. ej., sprint, escudo); la carga de habilidad se acumula con los combos, y los combos se reinician tras usarla."
+    },
+    {
+      "formula": "Runner + Aleatorio",
+      "effect": "Une segmentos de pista proceduralmente; los tipos y la densidad de obstáculos se generan al azar siguiendo una curva de dificultad, manteniendo la adaptabilidad del jugador."
+    }
+  ],
+  "advancedWarnings": [
+    "La legibilidad insuficiente lleva a «fracaso de reacción» en lugar de «fracaso de decisión», haciendo que el jugador pierda el ritmo.",
+    "Una densidad de obstáculos demasiado alta abruma las decisiones, convirtiendo el juego en pura reacción y reduciendo la profundidad.",
+    "Un tiempo de aviso de obstáculos demasiado bajo puede de hecho aumentar el ritmo, pero también sube las tasas de error de juicio porque el jugador debe decidir más rápido, llevando a sobreanticipación y reacción tardía."
+  ],
+  "advancedAlgoRefs": [
+    "Nivel: unión de segmentos, disposición del ritmo de dificultad.",
+    "Juicio: colisión con el terreno, trayectoria de salto, seguimiento de cámara."
+  ],
+  "demoLab": [
+    {
+      "title": "Experimento de velocidad inicial",
+      "action": "Arrastra «Velocidad inicial» de 120 a 320px/s",
+      "observe": "La velocidad comprime la ventana de decisión: a 320px/s el mismo tiempo de aviso de obstáculo reduce a la mitad tu presupuesto de reacción. La velocidad no cambia la densidad de obstáculos; cambia el coste de evaluación por obstáculo. Esa es la frontera entre «morí porque no lo vi» y «morí porque no pude elegir a tiempo»."
+    },
+    {
+      "title": "Contraste de curva de aceleración",
+      "action": "Corre «Curva de aceleración» a 0 y a 30px/s², 60 segundos cada una",
+      "observe": "A 0 la dificultad es plana y los jugadores tocan techo rápido; a 30px/s² cada minuto es un juego nuevo. Una curva de aceleración es progresión de dificultad gratis a costa de un arranque lento: mueve la «estructura de ritmo» del diseño de niveles al diseño de parámetros."
+    }
+  ],
+  "intro": {
+    "what": "Tu personaje corre hacia adelante automáticamente mientras tú esquivas, saltas y te deslizas: Temple Run y Subway Surfers están construidos sobre esto.",
+    "feel": "La pantalla no para de desplazarse mientras cambias de carril y saltas en el último momento; la velocidad sigue subiendo y las palmas empiezan a sudar: cada segundo pregunta «¿cuánto más puedes durar?».",
+    "why": "Hace tangible la «rampa de dificultad»: si quieres aprender a subir la tensión sin espantar a los principiantes, el runner es la respuesta estándar."
+  },
+  "concept": "El juego de runner empaqueta la dificultad en la dimensión temporal: el avance automático convierte cada segundo en una fecha límite de decisión, así que la curva de velocidad ES la curva de dificultad. La parte difícil no es la colocación de obstáculos, sino la ingeniería de legibilidad: el tiempo de aviso de los obstáculos decide si el jugador fracasa una decisión o fracasa una reacción, y la cámara más la velocidad fijan juntas la densidad de información. Detrás de cada reseña de «este juego es justo» hay una proporción precisa de tiempo de aviso frente a velocidad.",
+  "designNotes": [
+    "La velocidad no cambia la densidad de obstáculos; cambia el coste de evaluación: el mismo obstáculo a 320px/s reduce a la mitad tu tiempo de reacción. Una curva de aceleración es progresión de dificultad gratis al precio de una apertura mansa, así que el juego temprano debe sostenerse en la composición de obstáculos, no en la velocidad.",
+    "Un tiempo de aviso más corto puede mejorar el flow (contraintuitivo, pero acotado): comprimir el aviso sumerge al jugador en un flow de puro instinto; pasado el umbral se degrada en «muerto antes de verlo». Los buenos runners aparcan el tiempo de aviso en el borde de «apenas legible».",
+    "El fracaso debe culpar a la decisión, no al reflejo: cuando el jugador piensa «no reaccioné mal, elegí el carril equivocado», encola otra partida; convertir el «fracaso de reacción» en «fracaso de decisión» es el trabajo de retención central de los runners."
+  ],
+  "value": {
+    "player": "Los runners satisfacen el impulso primario de avanzar: los obstáculos siguen viniendo, tú sigues esquivando, y la distancia misma es la barra de progreso; simple, tenso, y siempre quieres saber hasta dónde puedes llegar.",
+    "ecosystem": "El runner es la plantilla industrializada del hipercasual: mecánica mínima, contenido que escala infinitamente por parámetros, y uno de los embudos de monetización por anuncios más probados del negocio.",
+    "transfer": "Aprende runners y aprenderás ingeniería de ritmo y legibilidad: cómo rampan las curvas de velocidad, cuánto aviso dar a los obstáculos, cómo disponer la respiración de la dificultad; esta habilidad de «composición tipográfica de la línea temporal» es igual de central en el diseño de niveles y las peleas de jefes."
+  }
+}

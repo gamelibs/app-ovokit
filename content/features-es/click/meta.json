@@ -1,0 +1,68 @@
+{
+  "lang": "es",
+  "key": "click",
+  "name": "Clic",
+  "nameEn": "Clicker",
+  "subtitle": "Impulsar la progresión del juego mediante clics de alta frecuencia.",
+  "concept": "La mecánica de clic se centra en las pulsaciones continuas del jugador como entrada principal. Cada pulsación dispara feedback inmediato: saltos numéricos, señales de sonido y animación sincronizada. El diseño central equilibra la intensidad del feedback frente a la fatiga del jugador, y alinea la curva de recompensas con los arcos de progresión. Las señales visuales/sonoras demasiado fuertes pueden causar sobreestimulación a corto plazo, rompiendo el flow; las demasiado débiles pierden la gratificación instantánea. La curva de recompensas debe proporcionar suficiente impulso inicial mientras sostiene la viabilidad a largo plazo para prevenir el abandono. A medida que las recompensas por clic se mejoran gradualmente hasta producción automatizada, la jugabilidad transiciona naturalmente a idle, formando un arco de crecimiento de la operación activa al ingreso pasivo: una estructura fundacional para la retención a largo plazo de los juegos de clic.",
+  "role": "Proporciona un bucle de feedback instantáneo, permitiendo al jugador confirmar de inmediato la efectividad de cada clic y mantener el flow a corto plazo.",
+  "significance": "Es la base de la jugabilidad de baja barrera y alto feedback, y sirve de puente para la transición de la operación activa al ingreso pasivo, dando forma al arco de crecimiento del clic al idle.",
+  "filterTags": [
+    "Clicker",
+    "Timing"
+  ],
+  "cases": [
+    "Cookie Clicker",
+    "Tap Titans",
+    "Click the Titan"
+  ],
+  "problemsSolved": [
+    "Enganchar al jugador con un coste operativo mínimo.",
+    "Mantener la retención a corto plazo mediante feedback continuo.",
+    "Transformar el comportamiento de clic en metas a largo plazo mediante mejoras."
+  ],
+  "learningGoals": [
+    "Diseñar feedback instantáneo y amplificación visual/sonora, equilibrando flow y fatiga.",
+    "Construir incentivo temprano y sostenibilidad a largo plazo en la curva de recompensas por clic.",
+    "Implementar mecanismos de conversión a automatización para reducir la fatiga del jugador.",
+    "Equilibrar la relación complementaria entre clic e idle para formar un arco de crecimiento.",
+    "Identificar y evitar las trampas contraintuitivas que causan pérdida de flow por mecanización excesiva."
+  ],
+  "minimalRules": [
+    "El jugador genera recursos o efectos mediante clics.",
+    "Las recompensas por clic se pueden mejorar para aumentar el valor por clic.",
+    "Existe un camino para convertir los clics en crecimiento permanente.",
+    "Fija enfriamientos o límites de ritmo para prevenir el clic excesivo y la fatiga."
+  ],
+  "combos": [
+    {
+      "formula": "Clic + Idle",
+      "effect": "El clic activo complementa el ingreso pasivo, creando producción continua."
+    },
+    {
+      "formula": "Clic + Ritmo",
+      "effect": "Hacer clic dentro de ventanas específicas otorga bonificaciones, mejorando el ritmo."
+    },
+    {
+      "formula": "Clic + Progresión",
+      "effect": "Las recompensas por clic mejoran permanentemente, formando metas a largo plazo."
+    }
+  ],
+  "advancedWarnings": [
+    "El clic puro puede causar fatiga; proporciona automatización o variación rítmica.",
+    "Asegúrate de que la curva de recompensas por clic no empiece demasiado lenta ni explote demasiado tarde.",
+    "Presta atención a las zonas calientes de clic y los toques accidentales en móvil.",
+    "Evita la dependencia excesiva de una única recompensa por clic para prevenir la monotonía de la jugabilidad."
+  ],
+  "advancedAlgoRefs": [
+    "Enfriamientos de clic y determinación de combos.",
+    "Equilibrio entre recompensas de clic automatizadas y manuales.",
+    "Diseño de probabilidades de golpe crítico / combo.",
+    "Detalles del algoritmo de determinación de combo: usa ventanas de tiempo fijas y recuentos de clics para calcular los multiplicadores de combo."
+  ],
+  "intro": {
+    "what": "Toca una vez, gana un poco; toca otra vez, gana otra vez: Cookie Clicker y Tap Titans construyeron imperios sobre ese único toque.",
+    "feel": "Tu dedo no para de picar la pantalla mientras los números saltan a la vista; inflar de «+1» a «+1000» hace que incluso la acción más monótona se sienta bien.",
+    "why": "Es el manual de la unidad de interacción más pequeña: clava el feedback de un solo toque, y la sensación de todo el juego tiene su punto de partida."
+  }
+}

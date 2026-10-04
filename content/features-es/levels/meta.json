@@ -1,0 +1,62 @@
+{
+  "lang": "es",
+  "key": "levels",
+  "name": "Niveles",
+  "nameEn": "Levels",
+  "subtitle": "Usar niveles estructurados para impulsar la progresión del juego",
+  "concept": "El diseño de niveles divide el contenido del juego en una serie de desafíos independientes y progresivamente más difíciles. Cada nivel tiene un objetivo, restricciones y puntuación claros, y el jugador desbloquea el contenido posterior completando niveles. Los niveles son la herramienta central para marcar el ritmo de la experiencia: rompen una línea de progresión larga en objetivos del tamaño de un bocado que se pueden terminar de una sentada, haciendo de «un nivel más» la razón de menor coste para continuar. Al diseñar niveles, el objetivo debería enunciarse en una frase (combinar elementos específicos, alcanzar una meta dentro de un límite de tiempo, proteger un núcleo). La dificultad debería subir a lo largo de la curva de «introducir mecánica → combinar mecánicas → prueba de presión», y las penalizaciones por fracaso deben ser lo bastante ligeras para que el jugador esté dispuesto a reintentar de inmediato. Los niveles también sirven como vasos naturales para la narrativa y la instrucción; las mecánicas nuevas siempre deberían enseñarse primero en niveles de baja presión. Compromisos de diseño: 1️⃣ Una curva de dificultad demasiado empinada puede causar abandono; una demasiado suave elimina el desafío y la motivación. 2️⃣ Las penalizaciones de fracaso pesadas suprimen la experimentación, mientras que las ligeras pueden reducir la sensación de logro. Idea contraintuitiva: las penalizaciones de fracaso moderadas (p. ej., una breve deducción de tiempo) a menudo aumentan la rejugabilidad porque añaden una tensión sutil sin romper la experiencia, animando al jugador a probar estrategias de completado más eficientes.",
+  "role": "Los niveles controlan el ritmo del jugador, rompiendo las metas a largo plazo en desafíos manejables a corto plazo. Son el vehículo central para la narrativa, la enseñanza y el diseño de la curva de dificultad.",
+  "significance": "Dominar el diseño de niveles ayuda a entender el establecimiento de objetivos, el escalado de dificultad y las expectativas psicológicas del jugador. Es clave para pasar de un prototipo jugable a un producto completo.",
+  "filterTags": [
+    "Level"
+  ],
+  "cases": [
+    "Angry Birds",
+    "Candy Crush Saga",
+    "Super Mario"
+  ],
+  "problemsSolved": [
+    "Organizar el contenido del juego en unidades consumibles.",
+    "Mantener el desafío mediante la curva de dificultad.",
+    "Guiar al jugador para aprender mecánicas nuevas mediante los objetivos de nivel."
+  ],
+  "learningGoals": [
+    "Diseñar objetivos de nivel y condiciones de victoria.",
+    "Dominar el escalado de dificultad y el ritmo.",
+    "Usar niveles para la enseñanza y la introducción de mecánicas."
+  ],
+  "minimalRules": [
+    "Cada nivel tiene un objetivo claro.",
+    "Los niveles tienen condiciones de victoria/derrota.",
+    "Completar un nivel desbloquea contenido nuevo."
+  ],
+  "combos": [
+    {
+      "formula": "Nivel + Calificación de tres estrellas",
+      "effect": "Aumenta el valor de rejugabilidad y el espacio de maestría."
+    },
+    {
+      "formula": "Nivel + Historia",
+      "effect": "Envuelve el desafío con narrativa, mejorando la inmersión."
+    },
+    {
+      "formula": "Nivel + Objeto",
+      "effect": "Proporciona opciones de asistencia en los niveles difíciles."
+    }
+  ],
+  "advancedWarnings": [
+    "Una curva de dificultad empinada puede disuadir a los jugadores.",
+    "Las penalizaciones de fracaso pesadas pueden afectar negativamente la experiencia.",
+    "El diseño de niveles debe considerar jugadores de distintos niveles de habilidad."
+  ],
+  "advancedAlgoRefs": [
+    "Evaluación de dificultad de niveles y ajuste dinámico.",
+    "Generación procedural de niveles.",
+    "Análisis de rendimiento del jugador y recomendación de niveles."
+  ],
+  "intro": {
+    "what": "El juego está rebanado en etapas, y superar una desbloquea la siguiente: Super Mario, Angry Birds y Candy Crush Saga avanzan todos así.",
+    "feel": "Cada nivel es un pequeño desafío autocontenido: empezar, intentar, superar, ver asentarse las estrellas; «un nivel más antes de dormir» es su hechizo más famoso.",
+    "why": "Es el esqueleto de la progresión de contenido: las rampas de dificultad, el ritmo de enseñanza y la liquidación de logros cabalgan todos sobre la estructura de niveles."
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "key": "action",
+  "name": "Acción / Reacción",
+  "nameEn": "Action",
+  "lang": "es",
+  "subtitle": "Percepción → Acción → Feedback inmediato",
+  "concept": "El patrón acción-reacción se centra en el feedback en tiempo real entre la entrada del jugador y el mundo del juego. Su núcleo es que el jugador controla una o más entidades mediante acciones continuas de alta frecuencia (clics, deslizamientos, pulsaciones de teclas) para esquivar obstáculos, alcanzar objetivos o ejecutar movimientos rítmicos en un entorno dinámico. La estructura subyacente suele incluir muestreo de entrada, actualizaciones de estado de entidades, cálculos de física o pseudofísica, detección de colisiones y resolución de puntuación o supervivencia. El diseñador debe equilibrar la latencia de entrada frente a la tolerancia de colisión: una latencia demasiado baja se siente «rígida», mientras que una demasiado alta erosiona la inmediatez. Igualmente, el equilibrio entre la densidad de obstáculos y la curva de habilidad del jugador es crucial; una densidad excesiva puede agotar la sensación de progreso, mientras que una densidad escasa reduce el desafío. Los aumentos de velocidad y el flow son un arma de doble filo: acelerar demasiado rápido puede convertir el flow en ansiedad. Curiosamente, un retardo de entrada moderado puede de hecho mejorar la anticipación al dar al jugador una ventana temporal más clara para ajustar sus acciones, agudizando su sensación de los eventos inminentes.",
+  "role": "Este patrón se usa para crear tensión y flow. Traduce directamente la velocidad de reacción, la anticipación y la precisión del jugador en rendimiento de juego, convirtiéndolo en uno de los estilos de juego más intuitivos y accesibles. En los títulos hipercasuales y arcade, el patrón acción-reacción constituye esencialmente toda la experiencia.",
+  "significance": "Dominar el patrón acción-reacción significa entender dimensiones de diseño clave como el retardo de entrada, la tolerancia de colisión y las curvas de dificultad. Es el mejor punto de entrada para aprender sistemas en tiempo real, simulación física, animación y sincronización de feedback, y sustenta muchas mecánicas complejas como el plataformeo, los bullet-hell y los juegos de ritmo.",
+  "loop": "Input → Avatar → Physics → Score",
+  "abstractions": [
+    "Velocidad de reacción",
+    "Coordinación ojo-mano",
+    "Operación en tiempo real",
+    "Detección de colisiones",
+    "Ventana de entrada"
+  ],
+  "cases": [
+    "Flappy Bird",
+    "Temple Run",
+    "Fruit Ninja",
+    "Geometry Dash"
+  ],
+  "problemsSolved": [
+    "Proporcionar el bucle de feedback más corto para que el jugador entienda de inmediato lo que hizo.",
+    "Crear tensión sostenida mediante variaciones de velocidad, densidad y ritmo.",
+    "Bajar la curva de aprendizaje con controles simples de un dedo/una tecla."
+  ],
+  "learningGoals": [
+    "Entender las relaciones temporales entre muestreo de entrada, actualizaciones de frame y renderizado.",
+    "Dominar cajas de colisión, detección de impactos y diseño de tolerancia.",
+    "Diseñar curvas de dificultad de velocidad/densidad escalables."
+  ],
+  "minimalRules": [
+    "El jugador controla una entidad movible.",
+    "Los obstáculos u objetivos aparecen continuamente en la escena.",
+    "Las colisiones/impactos disparan feedback inmediato (puntuación, fracaso, efecto visual).",
+    "La velocidad del juego o la densidad de obstáculos aumenta con el tiempo."
+  ],
+  "systemLoopHint": "Leer entrada → actualizar estado del jugador/objeto → detectar colisiones → disparar feedback → resolver puntuación/estado de supervivencia → avanzar al siguiente frame",
+  "combos": [
+    {
+      "formula": "Acción + Colección",
+      "effect": "Añade objetivos de recursos más allá de esquivar/atacar, cambiando las prioridades del jugador."
+    },
+    {
+      "formula": "Acción + Progresión",
+      "effect": "Transforma las puntuaciones de rendimiento en mejoras permanentes, extendiendo la vida útil."
+    },
+    {
+      "formula": "Acción + Ritmo",
+      "effect": "Sincroniza las ventanas de acción con los tiempos musicales, creando una experiencia de juego de ritmo."
+    }
+  ],
+  "advancedWarnings": [
+    "Un retardo de entrada excesivo o una detección de colisiones demasiado estricta puede ahuyentar rápido a los jugadores.",
+    "Los obstáculos puramente aleatorios pueden crear situaciones sin solución; introduce algoritmos de generación controlables.",
+    "Los aumentos rápidos de velocidad pueden convertir el flow en ansiedad; vigila el ritmo de la dificultad."
+  ],
+  "advancedAlgoRefs": [
+    "Actualizaciones de física de paso fijo independientes de la tasa de frames.",
+    "Detección de colisiones AABB / círculo y optimización por partición espacial.",
+    "Generación procedural de obstáculos y control de la curva de dificultad."
+  ],
+  "intro": {
+    "what": "No paras de tocar la pantalla o el teclado para esquivar o golpear lo que sigue viniendo hacia ti: Flappy Bird, Fruit Ninja y Geometry Dash funcionan con este ritmo.",
+    "feel": "Ojos en la pantalla, dedos en modo instinto; cada entrada aterriza un resultado instantáneo: esquiva y sigues, falla y reinicias. Ni un segundo para respirar.",
+    "why": "Esta es la estructura subyacente de todo juego de acción: afina bien el bucle «entrada → feedback», y la sensación de cualquier juego de acción tiene su base."
+  }
+}
