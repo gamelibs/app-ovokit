@@ -40,7 +40,7 @@
     "likes": 0
   },
   "td-waves-and-ai-scaling": {
-    "views": 6,
+    "views": 14,
     "likes": 0
   },
   "2048-variant-probability-control": {
@@ -133,6 +133,10 @@
   },
   "bubble-shooter-aim-and-chain-pop": {
     "views": 2,
+    "likes": 0
+  },
+  "timing-window-reaction-lab": {
+    "views": 1,
     "likes": 0
   }
 }
