@@ -5,9 +5,9 @@
   "archetype": "runner",
   "archetypeSecondary": "dodge-avoid",
   "tags": [
-    "Runner",
-    "Dodge / Avoid",
-    "Action"
+    "行进 / 跑酷",
+    "躲避",
+    "动作"
   ],
   "lang": "en",
   "difficulty": "Beginner",

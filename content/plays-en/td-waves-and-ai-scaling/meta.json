@@ -11,7 +11,7 @@
   "difficulty": "Advanced",
   "techStack": [
     "TypeScript",
-    "状态机",
+    "State Machine",
     "Pixi.js"
   ],
   "corePoints": [
@@ -48,7 +48,7 @@
   ],
   "demo": {
     "iframeSrc": "/demos/atomic/placement/index.html",
-    "note": "最小可交互：预算函数生成波次怪物组合（用于解释压力曲线与变体）。"
+    "note": "Minimal interactive demo: a budget function generating wave compositions (explains pressure curves and variants)."
   },
   "cover": {
     "src": "/plays/td-waves-and-ai-scaling/cover.webp",

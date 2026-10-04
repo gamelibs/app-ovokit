@@ -5,9 +5,9 @@
   "archetype": "shoot-aim",
   "archetypeSecondary": "puzzle",
   "tags": [
-    "Shoot / Aim",
-    "Puzzle",
-    "Grid"
+    "射击",
+    "解谜",
+    "网格"
   ],
   "lang": "en",
   "difficulty": "Beginner",

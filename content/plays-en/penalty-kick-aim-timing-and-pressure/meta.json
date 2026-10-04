@@ -5,9 +5,9 @@
   "archetype": "shoot-aim",
   "archetypeSecondary": "timing",
   "tags": [
-    "Shoot / Aim",
-    "Timing",
-    "Action"
+    "射击",
+    "时机 / 反应",
+    "动作"
   ],
   "lang": "en",
   "difficulty": "Beginner",

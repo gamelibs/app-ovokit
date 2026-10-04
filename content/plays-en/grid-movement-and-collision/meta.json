@@ -46,7 +46,7 @@
   ],
   "demo": {
     "iframeSrc": "/embed/plays/grid-movement-and-collision",
-    "note": "最小可试玩：网格移动 + 墙体阻挡（用于演示占用/阻挡模型）。"
+    "note": "Minimal playable demo: grid movement + wall blocking (demonstrates the occupancy/blocking model)."
   },
   "cover": {
     "src": "/plays/grid-movement-and-collision/cover.webp",

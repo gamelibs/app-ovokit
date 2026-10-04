@@ -13,9 +13,9 @@
   "archetype": "dodge-avoid",
   "archetypeSecondary": "puzzle",
   "tags": [
-    "Dodge / Avoid",
-    "Puzzle",
-    "Action"
+    "躲避",
+    "解谜",
+    "动作"
   ],
   "lang": "en",
   "difficulty": "Advanced",

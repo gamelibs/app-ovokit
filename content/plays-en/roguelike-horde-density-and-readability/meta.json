@@ -19,9 +19,9 @@
   ],
   "difficulty": "Hardcore",
   "techStack": [
-    "配置表(通用)",
+    "Config Tables",
     "TypeScript",
-    "Unity/UE(可迁移)"
+    "Unity/UE (Portable)"
   ],
   "corePoints": [
     "Density Curve",

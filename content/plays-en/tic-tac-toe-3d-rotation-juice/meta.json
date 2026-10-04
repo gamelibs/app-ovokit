@@ -4,9 +4,9 @@
   "subtitle": "Tic-tac-toe is a solved game — optimal play always ends in a draw. See how 3D rotation, sound and confetti rebuild the feel without changing a single rule.",
   "archetype": "turn-duel",
   "tags": [
-    "Turn-Based",
-    "Board",
-    "Strategy"
+    "回合",
+    "棋盘",
+    "回合博弈"
   ],
   "lang": "en",
   "difficulty": "Beginner",

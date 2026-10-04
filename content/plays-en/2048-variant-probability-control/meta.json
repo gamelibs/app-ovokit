@@ -10,7 +10,7 @@
   "difficulty": "Advanced",
   "techStack": [
     "TypeScript",
-    "配置表(通用)"
+    "Config Tables"
   ],
   "corePoints": [
     "Failure Probability",

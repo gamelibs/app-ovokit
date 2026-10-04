@@ -11,7 +11,7 @@
   "difficulty": "Advanced",
   "techStack": [
     "TypeScript",
-    "生成/校验(通用)"
+    "Generation / Validation"
   ],
   "corePoints": [
     "Pseudo-Puzzle",

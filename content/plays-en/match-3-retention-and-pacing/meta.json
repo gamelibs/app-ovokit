@@ -12,8 +12,8 @@
   "difficulty": "Advanced",
   "techStack": [
     "TypeScript",
-    "配置表(通用)",
-    "Unity/UE(可迁移)"
+    "Config Tables",
+    "Unity/UE (Portable)"
   ],
   "corePoints": [
     "3/4/5 Match Stratification",
@@ -57,7 +57,7 @@
   ],
   "demo": {
     "iframeSrc": "/embed/demos/match3",
-    "note": "可试玩 Demo：最小三消核心（相邻交换→成消判定→消除→下落→补齐→连锁）。后续可在此基础上扩展 4/5 消、特殊块与关卡目标。"
+    "note": "Playable demo: a minimal match-3 core (swap adjacent tiles → match check → clear → gravity → refill → cascades). Extend it later with 4/5-matches, special pieces and level goals."
   },
   "cover": {
     "src": "/plays/match-3-retention-and-pacing/cover.webp",
