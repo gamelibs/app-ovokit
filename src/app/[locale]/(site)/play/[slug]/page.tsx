@@ -7,7 +7,7 @@ function isSvg(src: string) {
   return src.endsWith(".svg");
 }
 import { CodeBlock } from "@/components/plays/CodeBlock";
-import { localizeTag } from "@/lib/content/play-tags";
+import { localizeTag, localizeDifficulty } from "@/lib/content/play-tags";
 import { TagPill } from "@/components/plays/TagPill";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { ArticleMarkdown } from "@/components/content/ArticleMarkdown";
@@ -374,7 +374,7 @@ export default async function PlayDetailPage({
             <dl className="mt-3 space-y-2 text-sm">
               <div className="flex items-center justify-between gap-3">
                 <dt className="text-ink-muted font-kalam">{t("difficultyLabel")}</dt>
-                <dd className="font-semibold">{play.difficulty}</dd>
+                <dd className="font-semibold">{localizeDifficulty(play.difficulty, locale)}</dd>
               </div>
               <div className="flex items-start justify-between gap-3">
                 <dt className="text-ink-muted font-kalam">{t("techStackLabel")}</dt>

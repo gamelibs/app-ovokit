@@ -200,7 +200,8 @@ export function PatternPage({
 }) {
   const t = useTranslations("pillar");
   const locale = useLocale();
-  const advancedCode = (locale === "en" ? ADVANCED_CODE_EN : ADVANCED_CODE)[spec.key];
+  // 代码示例只有 zh/en 双份：zh-CN 看中文注释版，其余语言一律英文版（好过漏中文）
+  const advancedCode = (locale === "zh-CN" ? ADVANCED_CODE : ADVANCED_CODE_EN)[spec.key];
   const content = (
     <div className="space-y-4">
       <section className="rounded-3xl sketch-border bg-paper/70 p-4 shadow-sm">

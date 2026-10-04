@@ -4,8 +4,6 @@ import Image from "next/image";
 import { DemoEmbed } from "@/components/demos/DemoEmbed";
 import { getDemoSrc } from "@/lib/demos/registry";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
-import { fallbackCorePatternByKey, type CorePatternKey } from "@/lib/patterns/patterns";
-import { featureKeyByName, localizeFeatureName } from "@/lib/features/features";
 import { localizeDifficulty } from "@/lib/content/play-tags";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -132,20 +130,19 @@ export function ArchetypePage({
               <div className="grid gap-1 sm:grid-cols-[120px_1fr]">
                 <div className="text-xs font-semibold text-ink-muted font-kalam">{t("playFeatures")}</div>
                 <div className="flex flex-wrap items-center gap-2">
-                  {model.features.map((name) => {
-                    const featureKey = featureKeyByName[name];
-                    if (!featureKey) {
+                  {model.featureRefs.map((ref) => {
+                    if (!ref.key) {
                       return (
-                        <span key={name} className="text-ink-light">{name}</span>
+                        <span key={ref.name} className="text-ink-light">{ref.name}</span>
                       );
                     }
                     return (
                       <Link
-                        key={name}
-                        href={`/features/${encodeURIComponent(featureKey)}`}
+                        key={ref.key}
+                        href={`/features/${encodeURIComponent(ref.key)}`}
                         className="inline-flex items-center rounded-full sketch-border bg-highlight-green/20 px-2.5 py-0.5 text-xs text-ink hover:bg-highlight-green/45"
                       >
-                        {localizeFeatureName(name, locale)}
+                        {ref.name}
                       </Link>
                     );
                   })}
@@ -178,26 +175,22 @@ export function ArchetypePage({
               ))}
             </ul>
           </div>
-          {model.patternKeys.length > 0 && (
+          {model.patternRefs.length > 0 && (
             <div className="sm:min-w-[180px]">
               <div className="text-xs font-semibold uppercase tracking-wide text-ink-muted font-kalam">
                 {t("belongsToPattern")}
               </div>
               <div className="mt-2 flex flex-wrap gap-2">
-                {model.patternKeys.map((key) => {
-                  const pattern = fallbackCorePatternByKey[key as CorePatternKey];
-                  if (!pattern) return null;
-                  return (
-                    <Link
-                      key={key}
-                      href={`/patterns/${encodeURIComponent(key)}`}
-                      className="inline-flex items-center gap-1.5 rounded-full sketch-border bg-highlight-green/20 px-2.5 py-1 text-sm font-medium text-ink hover:bg-highlight-green/45"
-                    >
-                      <span>{locale === "en" ? pattern.nameEn : pattern.name}</span>
-                      {locale !== "en" && <span className="text-xs text-ink-light">{pattern.nameEn}</span>}
-                    </Link>
-                  );
-                })}
+                {model.patternRefs.map((ref) => (
+                  <Link
+                    key={ref.key}
+                    href={`/patterns/${encodeURIComponent(ref.key)}`}
+                    className="inline-flex items-center gap-1.5 rounded-full sketch-border bg-highlight-green/20 px-2.5 py-1 text-sm font-medium text-ink hover:bg-highlight-green/45"
+                  >
+                    <span>{ref.name}</span>
+                    {ref.nameEn !== ref.name && <span className="text-xs text-ink-light">{ref.nameEn}</span>}
+                  </Link>
+                ))}
               </div>
             </div>
           )}

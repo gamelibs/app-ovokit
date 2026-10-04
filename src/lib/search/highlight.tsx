@@ -1,10 +1,9 @@
-"use client";
-
 import { tokenizeQuery } from "./match";
 
 /**
  * 将文本中与查询词匹配的部分用 <mark> 高亮。
  * 返回 React 片段数组，避免使用 dangerouslySetInnerHTML。
+ * 纯函数模块（无 "use client"）：服务端组件（PlayCard 搜索结果高亮）与客户端均可调用。
  */
 export function highlightText(text: string, query: string): React.ReactNode {
   const tokens = tokenizeQuery(query).filter((t) => t.length > 0);

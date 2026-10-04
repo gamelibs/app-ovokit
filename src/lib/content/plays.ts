@@ -1,11 +1,14 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { getPlayStats } from "./views";
-import { availablePlayTags, localizeTag } from "./play-tags";
+import { availablePlayTags, localizeTag, searchAliasesForTags } from "./play-tags";
 import type { PlayTag } from "./play-tags";
 import { corePatternKeys, fallbackCorePatternByKey, isCorePatternKey, type CorePatternKey } from "@/lib/patterns/patterns";
 import { featureKeys, fallbackFeatureByKey } from "@/lib/features/features";
 import { listFeatureSpecs } from "@/lib/features/spec";
+import { listArchetypeSpecs } from "@/lib/archetypes/spec";
+import { listPatternSpecs } from "@/lib/patterns/spec";
+import type { PlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import type { SiteLocale } from "@/i18n/routing";
 
 /** 内容语言目录回退链：zh-CN 读自有目录；en → en→zh；ja/ko/es/pt → 自有→en→zh（命中非请求语言时标 untranslated） */
@@ -304,12 +307,42 @@ export async function getPlayCategoriesForGroupAsync(
   group: PlayBrowseGroupKey,
   locale: string = "zh-CN",
 ): Promise<PlayCategory[]> {
-  if (group === "feature") {
-    const specs = await listFeatureSpecs();
-    return [forYouCategory, ...specs.map((s) => ({ key: s.key, label: s.name, filterTags: s.filterTags as PlayTag[] }))]
-      .map((c) => ({ ...c, label: localizeTag(c.label, locale) }));
+  // 「推荐」标签名走标签词表本地化；filterTags/filterPattern 保持中文常量不动
+  // （它们是匹配 plays meta 中文 tags 的内部过滤键，不做本地化）。
+  const forYou: PlayCategory = { ...forYouCategory, label: localizeTag(forYouCategory.label, locale) };
+  // 分类标签数据锁定：label 一律取当前 locale 支柱 spec 的 name（loader 自带 自有→en→zh 回退链），
+  // 不用代码常量造词；spec 缺失时回退标签词表。
+  if (group === "archetype") {
+    const specs = await listArchetypeSpecs(locale);
+    const nameByKey = new Map(specs.map((s) => [s.key, s.name]));
+    return [
+      forYou,
+      ...archetypeCategories.map((c) => ({
+        ...c,
+        label: nameByKey.get(c.key as PlayArchetypeKey) ?? localizeTag(c.label, locale),
+      })),
+    ];
   }
-  return getPlayCategoriesForGroup(group, locale);
+  if (group === "pattern") {
+    const specs = await listPatternSpecs(locale);
+    const nameByKey = new Map(specs.map((s) => [s.key, s.name]));
+    return [
+      forYou,
+      ...patternCategories.map((c) => ({
+        ...c,
+        label: nameByKey.get(c.key as CorePatternKey) ?? c.label,
+      })),
+    ];
+  }
+  const specs = await listFeatureSpecs(locale);
+  return [
+    forYou,
+    ...specs.map((s) => ({
+      key: s.key,
+      label: s.name,
+      filterTags: fallbackFeatureByKey[s.key].filterTags as PlayTag[],
+    })),
+  ];
 }
 
 const legacyCatKeyMap: Record<string, { group: PlayBrowseGroupKey; cat: string }> = {
@@ -471,11 +504,15 @@ export async function listPlaySearchIndex(
       const meta = await readPlayMeta(slug, locale);
       if (!meta || meta.published === false) return null;
       const articleMdx = await readPlayArticleMdx(slug, locale);
+      // 本地化搜索别名：非中文 locale 下把标签的本地化名/英文别名追加进索引文本，
+      // 让本地化热门词（ja マッチ / pt Combinar 等）能命中中文原始标签携带的内容。
+      const aliases = searchAliasesForTags(meta.tags, locale);
+      const text = [buildPlaySearchText(meta, articleMdx), ...aliases].join(" ");
       return {
         slug,
         title: meta.title,
         subtitle: meta.subtitle,
-        text: buildPlaySearchText(meta, articleMdx),
+        text,
       };
     }),
   );

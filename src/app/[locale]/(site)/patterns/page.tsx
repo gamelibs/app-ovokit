@@ -6,7 +6,7 @@ import { PatternPage } from "@/components/patterns/PatternPage";
 import { isCorePatternKey, type CorePatternKey } from "@/lib/patterns/patterns";
 import { listPatternSpecs, readPatternSpec } from "@/lib/patterns/spec";
 import { getPatternImageSet } from "@/lib/patterns/assets";
-import { listPlays } from "@/lib/content/plays";
+import { listPlays, type ContentLocale } from "@/lib/content/plays";
 
 function normalizeQueryParam(v: string | string[] | undefined) {
   return Array.isArray(v) ? v[0] : v;
@@ -28,7 +28,8 @@ export default async function PatternsPage({
     readPatternSpec(selectedKey, locale),
     getPatternImageSet(selectedKey),
     listPatternSpecs(locale),
-    listPlays(locale === "en" ? "en" : "zh-CN"),
+    // 按请求 locale 读（自有→en→zh 回退链）：ja/ko/es/pt 优先拿到英文标题而非中文原文
+    listPlays(locale as ContentLocale),
   ]);
 
   if (!spec) {

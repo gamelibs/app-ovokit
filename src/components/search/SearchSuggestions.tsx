@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Search, TrendingUp } from "lucide-react";
 import { SketchBorder } from "@/components/sketch/SketchBorder";
-import { POPULAR_SEARCH_TERMS } from "@/lib/search/match";
+import { getPopularSearchTerms } from "@/lib/search/match";
 
 type SearchSuggestionsProps = {
   query: string;
@@ -20,14 +20,16 @@ export function SearchSuggestions({
   visible,
 }: SearchSuggestionsProps) {
   const t = useTranslations("search");
+  const locale = useLocale();
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const normalized = query.trim().toLowerCase();
   const suggestions = useMemo(() => {
-    if (!normalized) return POPULAR_SEARCH_TERMS.slice(0, 8);
-    return POPULAR_SEARCH_TERMS.filter((t) => t.toLowerCase().includes(normalized));
-  }, [normalized]);
+    const terms = getPopularSearchTerms(locale);
+    if (!normalized) return terms.slice(0, 8);
+    return terms.filter((term) => term.toLowerCase().includes(normalized));
+  }, [normalized, locale]);
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {

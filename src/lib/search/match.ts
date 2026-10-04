@@ -70,6 +70,7 @@ export function filterPlaysBySearchResults(plays: PlayMeta[], results: SearchRes
   return plays.filter((p) => matched.has(p.slug));
 }
 
+/** 热门搜索词（zh-CN，中文常量；其它语言见 POPULAR_SEARCH_TERMS_BY_LOCALE） */
 export const POPULAR_SEARCH_TERMS = [
   "三消",
   "消除",
@@ -86,3 +87,76 @@ export const POPULAR_SEARCH_TERMS = [
   "状态机",
   "物理",
 ];
+
+/**
+ * 热门搜索词按语言锁定：术语与标签词表（play-tags.ts TAG_LABELS_I18N）一致，
+ * 词选配合搜索索引的本地化别名（listPlaySearchIndex 注入），保证点了能搜到内容。
+ */
+export const POPULAR_SEARCH_TERMS_BY_LOCALE: Record<string, string[]> = {
+  "zh-CN": POPULAR_SEARCH_TERMS,
+  en: [
+    "Match-3",
+    "Match",
+    "Runner",
+    "Shooter",
+    "Roguelike",
+    "Tower Defense",
+    "Idle",
+    "Merge",
+    "Levels",
+    "Numbers",
+  ],
+  ja: [
+    "マッチ3",
+    "マッチ",
+    "ランナー",
+    "シューター",
+    "ローグライク",
+    "タワーディフェンス",
+    "放置",
+    "マージ",
+    "レベル",
+    "数値",
+  ],
+  ko: [
+    "매치3",
+    "매치",
+    "러너",
+    "슈팅",
+    "로그라이크",
+    "타워 디펜스",
+    "방치",
+    "합성",
+    "스테이지",
+    "수치",
+  ],
+  es: [
+    "match-3",
+    "combinar",
+    "runner",
+    "disparos",
+    "roguelike",
+    "tower defense",
+    "idle",
+    "fusión",
+    "niveles",
+    "números",
+  ],
+  pt: [
+    "match-3",
+    "combinar",
+    "corrida",
+    "tiro",
+    "roguelike",
+    "tower defense",
+    "idle",
+    "fusão",
+    "fases",
+    "números",
+  ],
+};
+
+/** 当前 locale 的热门搜索词（未知 locale 回退中文） */
+export function getPopularSearchTerms(locale: string): string[] {
+  return POPULAR_SEARCH_TERMS_BY_LOCALE[locale] ?? POPULAR_SEARCH_TERMS;
+}

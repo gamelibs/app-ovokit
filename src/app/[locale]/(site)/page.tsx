@@ -4,7 +4,7 @@ import { PlayCard } from "@/components/plays/PlayCard";
 import { RightSidebar } from "@/components/plays/RightSidebar";
 import { ComplexityFilterBar } from "@/components/plays/ComplexityFilterBar";
 import { complexityTiers, getPlayCategory, listPlays, listPlaySearchIndex, playDifficultyTier, resolvePlayBrowseState, type ComplexityTierKey, type ContentLocale, type PlayBrowseGroupKey, type PlayTag } from "@/lib/content/plays";
-import { filterPlaysBySearchResults, POPULAR_SEARCH_TERMS, searchPlayDocs, sortPlaysBySearchResults } from "@/lib/search/match";
+import { filterPlaysBySearchResults, getPopularSearchTerms, searchPlayDocs, sortPlaysBySearchResults } from "@/lib/search/match";
 import { DiscoverLanding } from "@/components/home/DiscoverLanding";
 import { isModerator } from "@/lib/mod/auth";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -169,7 +169,7 @@ export default async function Home({
                   <>
                     <p className="mt-2">{t("tryPopular")}</p>
                     <div className="mt-2 flex flex-wrap gap-2">
-                      {POPULAR_SEARCH_TERMS.slice(0, 8).map((term) => (
+                      {getPopularSearchTerms(locale).slice(0, 8).map((term) => (
                         <Link
                           key={term}
                           href={{ pathname: "/", query: { q: term, all: "1" } }}

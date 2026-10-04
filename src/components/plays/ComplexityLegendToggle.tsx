@@ -14,7 +14,8 @@ export function ComplexityFilterBarShell({ children }: { children: React.ReactNo
   return (
     <div className="mt-0.5">
       <div className="flex items-center gap-1.5 text-xs">
-        <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto py-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {/* 长语言标签（如 pt "Complexidade"）允许换行，禁止横向裁切截字 */}
+        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 py-0.5">
           {children}
         </div>
         <button

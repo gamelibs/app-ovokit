@@ -2,7 +2,11 @@ import type { PlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import { getPatternsForArchetype, isPlayArchetypeKey } from "@/lib/archetypes/archetypes";
 import { inferArchetypeFromTags } from "@/lib/archetypes/tag-map";
 import { readArchetypeSpec, type ArchetypeDemoLabCard, type ArchetypeIntro, type ArchetypeValueNotes } from "@/lib/archetypes/spec";
-import { listPlays } from "@/lib/content/plays";
+import { listPlays, type ContentLocale } from "@/lib/content/plays";
+import { listFeatureSpecs } from "@/lib/features/spec";
+import { featureKeyByName, type FeatureKey } from "@/lib/features/features";
+import { listPatternSpecs } from "@/lib/patterns/spec";
+import { isCorePatternKey } from "@/lib/patterns/patterns";
 
 export type ArchetypeComboCard = {
   formula: string;
@@ -35,6 +39,13 @@ export type ArchetypePageModel = {
   advancedWarnings: string[];
   advancedAlgoRefs: string[];
   patternKeys: string[];
+  /**
+   * 玩法特征 chips（数据锁定）：name 取当前 locale 特征 spec 的 name；
+   * key 为 null 表示该名称不在特征词表内（不可链接，按纯文本渲染）。
+   */
+  featureRefs: { key: FeatureKey | null; name: string }[];
+  /** 所属核心循环 chips（数据锁定）：name/nameEn 取当前 locale 核心循环 spec */
+  patternRefs: { key: string; name: string; nameEn: string }[];
   /** 归属本母型的案例文章（显式 meta.archetype 优先，tag 推断兜底） */
   relatedPlays: ArchetypeRelatedPlay[];
   /** 导语（快速认识三小段）；缺省 null 不渲染 */
@@ -59,13 +70,28 @@ export async function getArchetypePageModel(
   key: PlayArchetypeKey,
   locale: string = "zh-CN",
 ): Promise<ArchetypePageModel> {
-  const [spec, plays] = await Promise.all([
+  const [spec, plays, featureSpecs, patternSpecs] = await Promise.all([
     readArchetypeSpec(key, locale),
-    listPlays(locale === "en" ? "en" : "zh-CN"),
+    listPlays(locale as ContentLocale),
+    listFeatureSpecs(locale),
+    listPatternSpecs(locale),
   ]);
   const relatedPlays: ArchetypeRelatedPlay[] = plays
     .filter((p) => resolvePlayArchetype(p) === key)
     .map((p) => ({ slug: p.slug, title: p.title, subtitle: p.subtitle }));
+  const patternKeys = getPatternsForArchetype(key);
+  const featureNameByKey = new Map(featureSpecs.map((s) => [s.key, s.name]));
+  const resolveFeatureRefs = (names: string[]) =>
+    names.map((name) => {
+      const featureKey = featureKeyByName[name] ?? null;
+      // 特征 spec 的 name 已按 locale 本地化（loader 回退链）；查不到 spec 用原名兜底
+      return { key: featureKey, name: (featureKey && featureNameByKey.get(featureKey)) || name };
+    });
+  const patternNameByKey = new Map(patternSpecs.map((s) => [s.key, s]));
+  const patternRefs = patternKeys.map((k) => {
+    const s = isCorePatternKey(k) ? patternNameByKey.get(k) : undefined;
+    return { key: k, name: s?.name ?? k, nameEn: s?.nameEn ?? k };
+  });
   if (!spec) {
     return {
       key,
@@ -84,7 +110,9 @@ export async function getArchetypePageModel(
       combos: [],
       advancedWarnings: [],
       advancedAlgoRefs: [],
-      patternKeys: getPatternsForArchetype(key),
+      patternKeys,
+      featureRefs: [],
+      patternRefs,
       relatedPlays,
       intro: null,
       concept: "",
@@ -110,7 +138,9 @@ export async function getArchetypePageModel(
     combos: spec.combos,
     advancedWarnings: spec.advancedWarnings,
     advancedAlgoRefs: spec.advancedAlgoRefs,
-    patternKeys: getPatternsForArchetype(key),
+    patternKeys,
+    featureRefs: resolveFeatureRefs(spec.features),
+    patternRefs,
     relatedPlays,
     intro: spec.intro ?? null,
     concept: spec.concept ?? "",
