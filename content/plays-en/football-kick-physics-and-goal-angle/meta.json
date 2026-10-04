@@ -5,9 +5,9 @@
   "archetype": "shoot-aim",
   "archetypeSecondary": "physics",
   "tags": [
-    "Shoot / Aim",
-    "Physics",
-    "Action"
+    "动作",
+    "物理",
+    "射击"
   ],
   "lang": "en",
   "difficulty": "Advanced",

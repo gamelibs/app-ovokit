@@ -46,7 +46,7 @@
   ],
   "demo": {
     "iframeSrc": "/demos/atomic/combat/index.html",
-    "note": "最小可交互：事件驱动的战斗 FSM（用于演示状态切换与可测试转移）。"
+    "note": "Minimal interactive demo: an event-driven combat FSM (demonstrates state transitions and testable transitions)."
   },
   "cover": {
     "src": "/plays/finite-state-machine-for-combat/cover.webp",

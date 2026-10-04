@@ -5,9 +5,9 @@
   "archetype": "timing",
   "archetypeSecondary": "dodge-avoid",
   "tags": [
-    "Timing",
-    "Dodge / Avoid",
-    "Action"
+    "时机 / 反应",
+    "躲避",
+    "动作"
   ],
   "lang": "en",
   "difficulty": "Beginner",

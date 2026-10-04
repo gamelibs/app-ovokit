@@ -10,7 +10,7 @@
   "difficulty": "Hardcore",
   "techStack": [
     "TypeScript",
-    "2D 物理"
+    "2D Physics"
   ],
   "corePoints": [
     "Cutting Detection",

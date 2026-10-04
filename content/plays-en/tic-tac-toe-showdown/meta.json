@@ -7,8 +7,8 @@
     "alt": "Tic Tac Toe Showdown: Turn-Based Line-Matching Game"
   },
   "tags": [
-    "Turn-Based",
-    "Grid"
+    "回合博弈",
+    "网格"
   ],
   "difficulty": "Beginner",
   "pattern": "spatial",

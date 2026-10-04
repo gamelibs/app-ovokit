@@ -11,7 +11,7 @@
   "difficulty": "Advanced",
   "techStack": [
     "TypeScript",
-    "图论(通用)"
+    "Graph Theory"
   ],
   "corePoints": [
     "Euler Path",

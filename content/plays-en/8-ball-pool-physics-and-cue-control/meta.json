@@ -5,9 +5,9 @@
   "archetype": "physics",
   "archetypeSecondary": "shoot-aim",
   "tags": [
-    "Physics",
-    "Shoot / Aim",
-    "Puzzle"
+    "物理",
+    "射击",
+    "解谜"
   ],
   "lang": "en",
   "difficulty": "Advanced",
