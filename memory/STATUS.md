@@ -7,6 +7,8 @@
 
 ## 当前阶段
 
+**i18n 第二轮清扫（2026-10-04 追加）**：代码块组件 `codeBlock`（expand/collapse/lines）+ about/privacy/terms/contact 四页全语言化（`aboutPage`/`privacyPage`/`termsPage`/`contactPage` 命名空间，六语言各 +93 key，en 新译、ja/ko/es/pt 全新翻译；contact API 中文错误统一映射本地化通用文案）。grep 复核用户可见中文残留清零（白名单：mod/api 内部、SEO meta、demo 内部文案、内容数据键）。验证 typecheck 0 错 + Playwright 全过。详见 `memory/daily/2026-10-04.md`。
+
 **i18n 数据锁定修复（2026-10-04 追加）**：六语言（zh-CN/en/ja/ko/es/pt）用户可见文案全部锁定到各语言数据，ja/ko/es/pt 页面中文漏出清零。`play-tags.ts` 新增 `TAG_LABELS_I18N`（4 语言 × 26 键与 en 键集机检一致）/`DIFFICULTY_LABELS_I18N`/搜索别名表；分类标签行三组统一读 locale 支柱 spec 的 name（filterTags 保持中文内部键）；搜索建议按语言锁定 + 索引注入本地化别名（热词命中审计 6 语言全中）；顺带修复搜索结果页 `"use client"` 500（pre-existing）、pt 复杂度行截字（flex-wrap）、母型页 chips 中文漏出（pageModel featureRefs/patternRefs）；10 篇 plays-en meta 英文 tags 回收 canonical 中文键、23 篇 techStack + 5 篇 demo.note 英文化。验证：typecheck 0 错、Playwright 35/35 + console 零错误。未提交 git。详见 `memory/daily/2026-10-04.md`。
 
 **ko 语言包落地（2026-10-04）**：`messages/ko.json`（227 键与 en 逐键一致）+ 30 个支柱 meta 韩语版（archetypes-ko 14 / patterns-ko 6 / features-ko 8 / implementation-traits-ko 2，name 本地化、nameEn 锚点不动、features[]/cases[] 照抄 en、lang=ko）。术语统一：playable demo=플레이 가능한 데모、behavior loop=행동 루프。键集合/数组长度/JSON.parse/计数 31 全部机检通过。未改 src、未提交。**遗留**：ko 运行时接线（routing.ts locales、plays.ts、支柱 spec）待 ja/es/pt 并行流的 src 改动定稿后按同模式追加。详见 `memory/daily/2026-10-04.md`。

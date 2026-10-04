@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface CodeBlockProps {
   language: string;
@@ -13,6 +14,7 @@ export function CodeBlock({
   code,
   defaultExpanded = false,
 }: CodeBlockProps) {
+  const t = useTranslations("codeBlock");
   const [expanded, setExpanded] = useState(defaultExpanded);
   const totalLines = code.split("\n").length;
 
@@ -22,14 +24,14 @@ export function CodeBlock({
       <div className="flex items-center justify-between border-b border-white/10 px-4 py-2">
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-zinc-400">{language}</span>
-          <span className="text-xs text-zinc-500">· {totalLines} 行</span>
+          <span className="text-xs text-zinc-500">· {t("lines", { count: totalLines })}</span>
         </div>
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
           className="rounded-md px-2 py-1 text-xs font-medium text-zinc-400 transition hover:bg-white/10 hover:text-zinc-200"
         >
-          {expanded ? "收起" : "查看代码"}
+          {expanded ? t("collapse") : t("expand")}
         </button>
       </div>
 
