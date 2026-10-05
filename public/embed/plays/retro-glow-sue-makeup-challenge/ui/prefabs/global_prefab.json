@@ -1,6 +1,6 @@
 {
   "schemaVersion": "ovoui-prefab@1",
-  "name": "paused_prefab",
+  "name": "global_prefab",
   "canvas": {
     "width": 750,
     "height": 1334

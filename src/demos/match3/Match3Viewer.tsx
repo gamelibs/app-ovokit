@@ -162,11 +162,11 @@ export function Match3Viewer({ mode, initial }: Props) {
     <section className={mode === "embed" ? "h-full w-full" : "space-y-3"}>
       <div className={mode === "embed" ? "h-full w-full" : "rounded-2xl bg-zinc-950/95 p-3 shadow-inner ring-1 ring-zinc-900"}>
         <GameShell
-          title={mode === "dev" ? "三消 Demo（Match-3 Core）" : "三消 Demo"}
+          title={mode === "dev" ? "Match-3 Demo (Core)" : "Match-3 Demo"}
           subtitle={
             mode === "dev"
-              ? "规则：点击一格选中 → 点击相邻格交换 → 若未成消则回退"
-              : "目标：在步数用尽前达到目标分数。"
+              ? "Rules: tap a cell to select → tap an adjacent cell to swap → swaps with no match revert"
+              : "Goal: reach the target score before you run out of moves."
           }
           phase={phase}
           loading={loading}
@@ -180,12 +180,12 @@ export function Match3Viewer({ mode, initial }: Props) {
           onStageResize={mode === "embed" ? setStageSize : undefined}
           primaryHud={
             <span className="tabular-nums">
-              分数 {score}/{targetScore}
+              Score {score}/{targetScore}
             </span>
           }
           secondaryHud={
             <span className="tabular-nums">
-              步数 {movesLeft}/{maxMoves}
+              Moves {movesLeft}/{maxMoves}
             </span>
           }
         >
@@ -202,7 +202,7 @@ export function Match3Viewer({ mode, initial }: Props) {
         {mode === "dev" ? (
           <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {events.length === 0 ? (
-              <div className="rounded-xl bg-white/5 px-3 py-2 text-xs text-zinc-500">暂无事件（交换产生事件）</div>
+              <div className="rounded-xl bg-white/5 px-3 py-2 text-xs text-zinc-500">No events yet (events appear on swaps)</div>
             ) : (
               events.slice(0, 12).map((e, idx) => (
                 <div

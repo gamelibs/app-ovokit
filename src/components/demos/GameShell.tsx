@@ -93,25 +93,25 @@ export function GameShell({
   const overlay = useMemo(() => {
     if (phase === "idle") {
       return {
-        title: "准备开始",
-        desc: subtitle ?? "点击开始进入对局。",
-        primary: { label: "开始", onClick: onStart },
+        title: "Ready to Start",
+        desc: subtitle ?? "Click Start to begin the match.",
+        primary: { label: "Start", onClick: onStart },
         secondary: null as null | { label: string; onClick: () => void },
       };
     }
     if (phase === "won") {
       return {
-        title: "胜利",
-        desc: "目标已达成。",
-        primary: { label: "再来一局", onClick: onRestart },
+        title: "Victory",
+        desc: "Goal achieved.",
+        primary: { label: "Play Again", onClick: onRestart },
         secondary: null as null | { label: string; onClick: () => void },
       };
     }
     if (phase === "lost") {
       return {
-        title: "失败",
-        desc: "步数用尽。",
-        primary: { label: "再试一次", onClick: onRestart },
+        title: "Defeat",
+        desc: "Out of moves.",
+        primary: { label: "Try Again", onClick: onRestart },
         secondary: null as null | { label: string; onClick: () => void },
       };
     }
@@ -133,7 +133,7 @@ export function GameShell({
               onClick={() => void enterFullscreen()}
               disabled={Boolean(loading)}
             >
-              全屏
+              Fullscreen
             </button>
           ) : (
             <button
@@ -142,7 +142,7 @@ export function GameShell({
               onClick={() => void exitFullscreen()}
               disabled={Boolean(loading)}
             >
-              退出全屏
+              Exit Fullscreen
             </button>
           )
         ) : null}
@@ -163,7 +163,7 @@ export function GameShell({
             onClick={onRestart}
             disabled={Boolean(loading)}
           >
-            重开
+            Restart
           </button>
         ) : null}
       </div>
@@ -204,7 +204,7 @@ export function GameShell({
                   onClick={overlay.primary.onClick}
                   disabled={Boolean(loading)}
                 >
-                  {loading ? "处理中..." : overlay.primary.label}
+                  {loading ? "Processing..." : overlay.primary.label}
                 </button>
                 {overlay.secondary ? (
                   <button

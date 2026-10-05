@@ -1,7 +1,7 @@
 {
   "$schema": "ovoui-skins@2",
   "name": "global_skin",
-  "title": "全局皮肤",
+  "title": "Global Skin",
   "canvas": {
     "width": 750,
     "height": 1334

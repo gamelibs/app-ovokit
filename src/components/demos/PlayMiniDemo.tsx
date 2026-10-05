@@ -88,8 +88,8 @@ function GridMoveDemo() {
 
   return (
     <Panel
-      title="网格移动（最小版）"
-      description="方向键或按钮移动；墙体阻挡。用于演示“占用/阻挡”的最小闭环。"
+      title="Grid Movement (Minimal)"
+      description="Move with the arrow keys or buttons; walls block. Minimal loop for occupancy/collision."
     >
       <div className="grid h-full grid-rows-[1fr_auto] gap-4">
         <div
@@ -191,8 +191,8 @@ function FsmDemo() {
 
   return (
     <Panel
-      title="战斗 FSM（最小版）"
-      description="用事件按钮触发状态变化；演示“事件驱动 + 可测试转移”。"
+      title="Combat FSM (Minimal)"
+      description="Trigger state changes with event buttons; demonstrates event-driven, testable transitions."
     >
       <div className="grid h-full grid-rows-[auto_auto_1fr] gap-4">
         <div className="flex flex-wrap items-center gap-2">
@@ -208,7 +208,7 @@ function FsmDemo() {
               checked={hasTarget}
               onChange={(e) => setHasTarget(e.target.checked)}
             />
-            有目标
+            Has Target
           </label>
           <label className="flex items-center gap-2 text-xs text-ink-light">
             <input
@@ -216,7 +216,7 @@ function FsmDemo() {
               checked={inRange}
               onChange={(e) => setInRange(e.target.checked)}
             />
-            在范围
+            In Range
           </label>
         </div>
 
@@ -287,9 +287,9 @@ function FsmDemo() {
         </div>
 
         <div className="overflow-hidden rounded-xl sketch-border bg-paper p-3 text-xs text-ink-light">
-          <div className="mb-2 font-semibold">最近事件</div>
+          <div className="mb-2 font-semibold">Recent Events</div>
           <ul className="space-y-1">
-            {log.length ? log.map((e, i) => <li key={`${e}-${i}`}>- {e}</li>) : <li>- （无）</li>}
+            {log.length ? log.map((e, i) => <li key={`${e}-${i}`}>- {e}</li>) : <li>- (none)</li>}
           </ul>
         </div>
       </div>
@@ -344,13 +344,13 @@ function TdWaveDemo() {
 
   return (
     <Panel
-      title="塔防波次（预算 + 变体）"
-      description="用一个预算函数生成本波怪物组合（示意版），用于解释“压力曲线”。"
+      title="TD Waves (Budget + Variants)"
+      description="Generate this wave's enemy mix from a budget function (illustrative); used to explain the pressure curve."
     >
       <div className="grid h-full grid-rows-[auto_auto_1fr] gap-4">
         <div className="flex flex-wrap items-center gap-3">
           <label className="text-xs text-ink-light">
-            波次：{wave}
+            Wave: {wave}
             <input
               type="range"
               min={1}
@@ -376,7 +376,7 @@ function TdWaveDemo() {
                     : "sketch-border bg-paper text-ink",
                 ].join(" ")}
               >
-                {k === "swarm" ? "群怪" : "精英"}
+                {k === "swarm" ? "Swarm" : "Elite"}
               </button>
             ))}
           </div>
@@ -385,7 +385,7 @@ function TdWaveDemo() {
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div className="rounded-xl sketch-border bg-paper p-3">
             <div className="text-xs font-semibold text-ink-light">
-              组合统计
+              Composition
             </div>
             <ul className="mt-2 space-y-1">
               {counts.map(([id, c]) => (
@@ -400,23 +400,23 @@ function TdWaveDemo() {
           </div>
           <div className="rounded-xl sketch-border bg-paper p-3">
             <div className="text-xs font-semibold text-ink-light">
-              预算余量
+              Budget Left
             </div>
             <div className="mt-2 text-2xl font-semibold tabular-nums">
               {picked.remaining}
             </div>
             <div className="mt-2 text-xs text-ink-light">
-              余量越大表示“生成规则不够充分”，需要更合理的池/权重/约束。
+              A larger remainder means the generator rules are under-constrained; improve the pool, weights, and constraints.
             </div>
           </div>
         </div>
 
         <div className="overflow-hidden rounded-xl sketch-border bg-paper p-3 text-xs text-ink-light">
-          <div className="mb-2 font-semibold">示例调参建议</div>
+          <div className="mb-2 font-semibold">Tuning Tips</div>
           <ul className="space-y-1">
-            <li>- 用预算控制“总体强度”，用节拍控制“瞬时压力”。</li>
-            <li>- 用变体制造“识别与对策”，但要加冷却避免连坐。</li>
-            <li>- 先保证可解释的波峰/波谷，再做随机变化。</li>
+            <li>- Use budget for overall intensity and pacing for moment-to-moment pressure.</li>
+            <li>- Use variants to force recognition and counterplay; add cooldowns to avoid streaks.</li>
+            <li>- Nail explainable peaks and valleys first, then add randomness.</li>
           </ul>
         </div>
       </div>
@@ -449,8 +449,8 @@ function MergeDemo() {
 
   return (
     <Panel
-      title="合成升级（表驱动思维）"
-      description="用最小资源计数演示“2 合 1”的合成链与节奏。"
+      title="Merge Upgrade (Table-Driven)"
+      description="A minimal resource-count demo of the 2-into-1 merge chain and its pacing."
     >
       <div className="grid h-full grid-rows-[auto_1fr] gap-4">
         <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
@@ -480,7 +480,7 @@ function MergeDemo() {
             onClick={() => setTier1((v) => v + 1)}
             className="h-10 rounded-xl bg-highlight-blue px-3 text-sm font-semibold text-ink"
           >
-            产出 u_1
+            Produce u_1
           </button>
           <button
             type="button"
@@ -508,7 +508,7 @@ function MergeDemo() {
             onClick={() => (setTier1(6), setTier2(1), setTier3(0), setTier4(0))}
             className="ml-auto h-10 rounded-xl sketch-border bg-paper px-3 text-sm font-semibold text-ink hover:bg-paper-warm"
           >
-            重置
+            Reset
           </button>
         </div>
       </div>
@@ -519,8 +519,8 @@ function MergeDemo() {
 function GenericDemo({ slug }: { slug: string }) {
   return (
     <Panel
-      title="Demo（文本版）"
-      description="该玩法暂无专用可试玩 Demo；先提供文本化结构信息。"
+      title="Demo (Text Version)"
+      description="No dedicated playable demo for this pattern yet; showing structural info as text."
     >
       <div className="text-sm text-ink-light">
         <div className="font-semibold">slug</div>

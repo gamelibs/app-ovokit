@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "ovo-ui-prefab-index@1",
+  "projectId": "cp_1019_10156_job_1782132525591_3iolpa",
+  "items": [
+    {
+      "name": "boot_prefab",
+      "path": "./ui/prefabs/boot_prefab.json",
+      "updateTime": "2026-07-04T08:07:24.541Z"
+    },
+    {
+      "name": "gameplay_prefab",
+      "path": "./ui/prefabs/gameplay_prefab.json",
+      "updateTime": "2026-07-04T08:07:24.543Z"
+    },
+    {
+      "name": "global_prefab",
+      "path": "./ui/prefabs/global_prefab.json",
+      "updateTime": "2026-07-04T08:07:24.544Z"
+    },
+    {
+      "name": "menu_prefab",
+      "path": "./ui/prefabs/menu_prefab.json",
+      "updateTime": "2026-07-04T08:07:24.542Z"
+    },
+    {
+      "name": "result_prefab",
+      "path": "./ui/prefabs/result_prefab.json",
+      "updateTime": "2026-07-04T08:07:24.544Z"
+    },
+    {
+      "name": "tool_palette",
+      "path": "./ui/prefabs/tool_palette.json",
+      "updateTime": "2026-07-04T08:07:24.539Z"
+    }
+  ]
+}

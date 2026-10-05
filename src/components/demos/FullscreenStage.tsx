@@ -114,7 +114,7 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
               onClick={() => void enterFullscreen()}
               className="inline-flex h-9 items-center justify-center rounded-xl bg-ink/50 px-3 text-xs font-semibold text-ink ring-1 ring-white/10 backdrop-blur hover:bg-ink/60"
             >
-              全屏
+              Fullscreen
             </button>
           ) : (
             <button
@@ -122,7 +122,7 @@ export const FullscreenStage = forwardRef<HTMLDivElement, Props>(function Fullsc
               onClick={() => void exitFullscreen()}
               className="inline-flex h-9 items-center justify-center rounded-xl bg-ink/50 px-3 text-xs font-semibold text-ink ring-1 ring-white/10 backdrop-blur hover:bg-ink/60"
             >
-              退出全屏
+              Exit Fullscreen
             </button>
           )}
         </div>

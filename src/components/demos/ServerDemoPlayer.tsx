@@ -67,14 +67,17 @@ function Button({
 export function ServerDemoPlayer({
   demoId,
   initInput,
-  lang = "en",
+  lang: _lang,
 }: {
   demoId: string;
   initInput?: unknown;
-  /** 语言：显式 "zh" 才中文，其余一律英文 */
+  /**
+   * 语言：已废弃。用户指令「所有 demo 界面一律英文」，外部传入的 lang 被忽略，
+   * 组件文案与 API 请求（服务端 view 文案）均强制 en。
+   */
   lang?: "zh" | "en";
 }) {
-  const L = (zh: string, en: string) => (lang === "zh" ? zh : en);
+  const lang = "en" as const;
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [state, setState] = useState<unknown>(null);
@@ -158,17 +161,17 @@ export function ServerDemoPlayer({
     if (list.length === 0 || hasTickControl) return list;
     return [
       ...list,
-      { kind: "button" as const, label: L("推进（tick）", "Advance (tick)"), action: { type: "tick" } },
+      { kind: "button" as const, label: "Advance (tick)", action: { type: "tick" } },
     ];
   }, [view?.controls, hasTickControl, lang]);
 
   if (error) {
     return (
       <div className="rounded-xl border-2 border-highlight-red bg-paper p-4 text-sm text-ink">
-        <div className="font-semibold">{L("Demo 初始化失败", "Demo init failed")}</div>
+        <div className="font-semibold">Demo init failed</div>
         <div className="mt-1 text-ink-light">{error}</div>
         <Button variant="secondary" onClick={() => void init()}>
-          {L("重试", "Retry")}
+          Retry
         </Button>
       </div>
     );
@@ -177,7 +180,7 @@ export function ServerDemoPlayer({
   if (!view) {
     return (
       <div className="grid h-full place-items-center rounded-xl sketch-border bg-paper p-6 text-sm text-ink-light">
-        {busy ? L("正在加载 Demo…", "Loading demo…") : L("准备中…", "Preparing…")}
+        {busy ? "Loading demo…" : "Preparing…"}
       </div>
     );
   }
@@ -193,7 +196,7 @@ export function ServerDemoPlayer({
       {/* Status + Metrics */}
       <div className="grid shrink-0 gap-3 sm:grid-cols-2">
         <div className="rounded-xl sketch-border bg-paper p-3">
-          <div className="text-xs font-semibold text-ink-muted font-kalam">{L("状态", "Status")}</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">Status</div>
           <ul className="mt-2 space-y-1 text-xs text-ink-light sm:text-sm">
             {view.status.map((s, i) => (
               <li key={i} className="whitespace-pre-wrap leading-relaxed">
@@ -203,7 +206,7 @@ export function ServerDemoPlayer({
           </ul>
         </div>
         <div className="rounded-xl sketch-border bg-paper p-3">
-          <div className="text-xs font-semibold text-ink-muted font-kalam">{L("指标", "Metrics")}</div>
+          <div className="text-xs font-semibold text-ink-muted font-kalam">Metrics</div>
           <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs sm:text-sm">
             {view.metrics.map((m) => (
               <div key={m.label} className="flex items-center justify-between gap-2">
@@ -283,7 +286,7 @@ export function ServerDemoPlayer({
 
       {/* Events */}
       <div className="min-h-0 flex-1 rounded-xl sketch-border bg-paper p-3">
-        <div className="mb-2 text-xs font-semibold text-ink-muted font-kalam">{L("事件", "Events")}</div>
+        <div className="mb-2 text-xs font-semibold text-ink-muted font-kalam">Events</div>
         {events.length ? (
           <ul className="max-h-28 space-y-1 overflow-auto text-xs text-ink-light sm:max-h-36 sm:text-sm">
             {events.slice(0, 20).map((e, i) => (
@@ -291,7 +294,7 @@ export function ServerDemoPlayer({
             ))}
           </ul>
         ) : (
-          <div className="text-xs text-ink-muted">{L("（暂无）", "(none)")}</div>
+          <div className="text-xs text-ink-muted">(none)</div>
         )}
       </div>
     </div>

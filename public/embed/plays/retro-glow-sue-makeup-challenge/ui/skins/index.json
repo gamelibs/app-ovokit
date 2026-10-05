@@ -1,31 +1,31 @@
 {
   "schemaVersion": "ovo-ui-skin-index@1",
-  "projectId": "cp_1789444098231",
+  "projectId": "cp_1019_10156_job_1782132525591_3iolpa",
   "items": [
     {
       "name": "boot_skin",
-      "path": "creative/projects/cp_1789444098231/ui/skins/boot_skin.json",
-      "updateTime": "2026-09-15T03:48:18.234Z"
+      "path": "creative/projects/cp_1019_10156_job_1782132525591_3iolpa/ui/skins/boot_skin.json",
+      "updateTime": "2026-07-04T08:07:24.531Z"
     },
     {
       "name": "menu_skin",
-      "path": "creative/projects/cp_1789444098231/ui/skins/menu_skin.json",
-      "updateTime": "2026-09-15T03:48:18.235Z"
+      "path": "creative/projects/cp_1019_10156_job_1782132525591_3iolpa/ui/skins/menu_skin.json",
+      "updateTime": "2026-07-04T08:07:24.533Z"
     },
     {
       "name": "gameplay_skin",
-      "path": "creative/projects/cp_1789444098231/ui/skins/gameplay_skin.json",
-      "updateTime": "2026-09-15T03:48:18.235Z"
-    },
-    {
-      "name": "paused_skin",
-      "path": "creative/projects/cp_1789444098231/ui/skins/paused_skin.json",
-      "updateTime": "2026-09-15T03:48:18.235Z"
+      "path": "creative/projects/cp_1019_10156_job_1782132525591_3iolpa/ui/skins/gameplay_skin.json",
+      "updateTime": "2026-07-04T08:07:24.535Z"
     },
     {
       "name": "result_skin",
-      "path": "creative/projects/cp_1789444098231/ui/skins/result_skin.json",
-      "updateTime": "2026-09-15T03:48:18.235Z"
+      "path": "creative/projects/cp_1019_10156_job_1782132525591_3iolpa/ui/skins/result_skin.json",
+      "updateTime": "2026-07-04T08:07:24.536Z"
+    },
+    {
+      "name": "global_skin",
+      "path": "creative/projects/cp_1019_10156_job_1782132525591_3iolpa/ui/skins/global_skin.json",
+      "updateTime": "2026-07-04T08:07:24.538Z"
     }
   ]
 }
