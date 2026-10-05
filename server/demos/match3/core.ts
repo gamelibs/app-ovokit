@@ -203,11 +203,11 @@ export function stepMatch3(state: Match3State, action: { type: "swap"; from: Vec
   }
 
   if (state.movesLeft <= 0) {
-    return { state, events, hint: "步数已用尽" };
+    return { state, events, hint: "Out of moves" };
   }
 
   if (!inBounds(state, action.from) || !inBounds(state, action.to) || !adjacent(action.from, action.to)) {
-    return { state, events, hint: "仅支持交换相邻两格" };
+    return { state, events, hint: "Only adjacent cells can be swapped" };
   }
 
   const board = cloneBoard(state.board);
@@ -221,7 +221,7 @@ export function stepMatch3(state: Match3State, action: { type: "swap"; from: Vec
     swapInPlace(board, action.from, action.to);
     events.push({ type: "swap-revert", payload: { from: action.from, to: action.to } });
     const nextState: Match3State = { ...state, board, movesLeft, score };
-    return { state: nextState, events, hint: "未形成消除，交换回退" };
+    return { state: nextState, events, hint: "No match — swap reverted" };
   }
 
   let safety = 0;
