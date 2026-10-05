@@ -2,7 +2,7 @@
   "version": "static-demo-export-v1",
   "projectId": "cp_1019_10158_pacman_city_v1",
   "engine": "pixi",
-  "exportedAt": "2026-09-30T12:20:05.572Z",
+  "exportedAt": "2026-10-05T03:19:03.821Z",
   "gameModules": [
     "common-ui",
     "core/pacman-city",

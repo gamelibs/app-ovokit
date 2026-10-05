@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>预览 — 8-Ball Pool</title>
+<title>8-Ball Pool</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
@@ -16,7 +16,7 @@
 </style>
 </head>
 <body>
-  <div id="preview-status" style="display:none">加载中...</div>
+  <div id="preview-status" style="display:none">Loading...</div>
   <canvas id="game-canvas" data-design-width="750" data-design-height="1334"></canvas>
   <script type="module">
     import { OvoKernel } from './kernel/v2-kernel/src/index.js';
@@ -291,7 +291,7 @@
           }
         }
         if (sm) {
-          statusEl.textContent = '状态: ' + sm.getState();
+          statusEl.textContent = 'State: ' + sm.getState();
 
           // boot 自动推进兜底：初始状态为 boot 且存在迁移事件时，在事件桥接完成后自动触发
           const bootStateDef = blueprint.design?.stateMachine?.states?.find((s) => s.id === 'boot');
@@ -307,7 +307,7 @@
           }
 
           sm.onStateChange((from, to) => {
-            statusEl.textContent = '状态: ' + to;
+            statusEl.textContent = 'State: ' + to;
             if (window.parent !== window) {
               window.parent.postMessage({ type: 'stateChanged', from, to, projectId: 'cp_1019_10137_job_1782009366181_ogxgqh' }, '*');
             }
@@ -370,7 +370,7 @@
           window.parent.postMessage({ type: 'previewReady', projectId: 'cp_1019_10137_job_1782009366181_ogxgqh' }, '*');
         }
       } catch (err) {
-        statusEl.textContent = '错误: ' + err.message;
+        statusEl.textContent = 'Error: ' + err.message;
         statusEl.style.color = '#f87171';
         console.error('[Preview] 启动失败:', err);
       }

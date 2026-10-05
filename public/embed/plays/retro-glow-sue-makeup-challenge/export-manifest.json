@@ -1,25 +1,23 @@
 {
   "version": "static-demo-export-v1",
-  "projectId": "cp_1789444098231",
+  "projectId": "cp_1019_10156_job_1782132525591_3iolpa",
   "engine": "other",
-  "exportedAt": "2026-09-15T07:23:07.704Z",
+  "exportedAt": "2026-10-05T03:16:22.924Z",
   "gameModules": [
     "common-ui",
-    "core/interaction-progress",
-    "makeup-challenge/makeup-model"
+    "core/interaction-progress"
   ],
   "files": {
     "indexHtml": "index.html",
     "kernelFiles": 24,
     "moduleFiles": [
       "modules/common-ui.js",
-      "modules/core/interaction-progress.js",
-      "modules/makeup-challenge/makeup-model.js"
+      "modules/core/interaction-progress.js"
     ],
     "copiedDirs": [
       "ui",
       "resources"
     ],
-    "resources": 22
+    "resources": 1
   }
 }

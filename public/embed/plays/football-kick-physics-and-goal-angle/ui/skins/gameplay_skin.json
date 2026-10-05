@@ -20,7 +20,7 @@
         "y": 200,
         "w": 300,
         "h": 300,
-        "text": "3D球场渲染区域",
+        "text": "3D Stadium",
         "style": {
           "fontSize": 28,
           "fill": "#ffffff",
@@ -48,7 +48,7 @@
         "y": 612,
         "w": 400,
         "h": 48,
-        "text": "第1轮",
+        "text": "Round 1",
         "style": {
           "fontSize": 28,
           "fill": "#ffffff",
@@ -62,7 +62,7 @@
         "y": 692,
         "w": 300,
         "h": 300,
-        "text": "瞄准控制区域",
+        "text": "Aim Control",
         "style": {
           "fontSize": 28,
           "fill": "#ffffff",
@@ -76,7 +76,7 @@
         "y": 1024,
         "w": 240,
         "h": 72,
-        "text": "射门",
+        "text": "Shoot",
         "style": {
           "fontSize": 24,
           "color": "#ffffff",

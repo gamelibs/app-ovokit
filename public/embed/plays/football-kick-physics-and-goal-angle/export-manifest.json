@@ -2,7 +2,7 @@
   "version": "static-demo-export-v1",
   "projectId": "cp_1019_10165_football",
   "engine": "threejs",
-  "exportedAt": "2026-09-30T12:20:48.917Z",
+  "exportedAt": "2026-10-05T03:19:23.870Z",
   "gameModules": [
     "common-ui",
     "football/football-model"

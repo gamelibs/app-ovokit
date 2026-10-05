@@ -62,7 +62,7 @@
         "y": 440,
         "w": 240,
         "h": 72,
-        "text": "再来一局",
+        "text": "Play Again",
         "style": {
           "fontSize": 24,
           "color": "#ffffff",
@@ -80,7 +80,7 @@
         "y": 544,
         "w": 240,
         "h": 72,
-        "text": "返回菜单",
+        "text": "Back to Menu",
         "style": {
           "fontSize": 24,
           "color": "#ffffff",

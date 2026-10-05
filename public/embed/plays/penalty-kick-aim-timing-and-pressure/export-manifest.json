@@ -2,7 +2,7 @@
   "version": "static-demo-export-v1",
   "projectId": "cp_1019_10161_penalty",
   "engine": "threejs",
-  "exportedAt": "2026-09-30T12:19:53.609Z",
+  "exportedAt": "2026-10-05T03:16:16.902Z",
   "gameModules": [
     "common-ui",
     "penalty/audio-manager",

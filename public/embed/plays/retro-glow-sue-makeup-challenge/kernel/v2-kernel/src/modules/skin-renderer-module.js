@@ -1,3 +1,61 @@
+const SKIN_THEMES = {
+    'sketch-paper': {
+        label: '手稿纸（gameslog）',
+        canvasBackground: '#faf7ef',
+        fontFamily: 'Kalam, "Kaiti SC", "STKaiti", "Microsoft YaHei", cursive',
+        text: { fill: '#1a1a1a' },
+        button: {
+            backgroundColor: '#faf7ef',
+            color: '#1a1a1a',
+            borderColor: '#1a1a1a',
+            borderWidth: 2,
+            borderRadius: 4,
+            primaryBackgroundColor: '#ffda6a',
+            primaryColor: '#1a1a1a',
+        },
+        rect: { backgroundColor: '#f5f1e6', borderColor: 'rgba(26,26,26,0.35)', borderWidth: 1 },
+    },
+};
+function resolveSkinTheme(skin) {
+    const key = String(skin?.theme || '').trim();
+    return key && SKIN_THEMES[key] ? SKIN_THEMES[key] : null;
+}
+/** 主题变换：返回覆盖后的 style 视图（不改原节点） */
+function themedStyle(node, theme) {
+    const raw = (node.style || {});
+    if (!theme || raw.noTheme === true)
+        return raw;
+    const out = { ...raw };
+    if (theme.fontFamily && !out.fontFamily)
+        out.fontFamily = theme.fontFamily;
+    // 文本墨色为主题强覆盖（AI 生成的白字在纸底上不可见）；noTheme 可豁免
+    if (node.type === 'text' && theme.text?.fill) {
+        out.fill = theme.text.fill;
+        delete out.color;
+    }
+    if (node.type === 'button' && theme.button) {
+        const b = theme.button;
+        const primary = raw.variant === 'primary';
+        out.backgroundColor = primary ? (b.primaryBackgroundColor || b.backgroundColor) : b.backgroundColor;
+        out.color = primary ? (b.primaryColor || b.color) : b.color;
+        if (b.borderRadius != null)
+            out.borderRadius = b.borderRadius;
+        if (b.borderWidth) {
+            out.borderWidth = b.borderWidth;
+            out.borderColor = b.borderColor;
+        }
+    }
+    if (node.type === 'rect' && theme.rect) {
+        const r = theme.rect;
+        if (r.backgroundColor && !out.backgroundColor && !out.fill)
+            out.backgroundColor = r.backgroundColor;
+        if (r.borderWidth) {
+            out.borderWidth = r.borderWidth;
+            out.borderColor = r.borderColor;
+        }
+    }
+    return out;
+}
 function hexToNumber(value, fallback = 0x000000) {
     try {
         const hex = String(value || '').replace('#', '').trim();
@@ -118,7 +176,7 @@ function ensureSceneUiApi(sceneRuntime) {
     }
     return sceneRuntime.ui;
 }
-async function renderNode(ctx, pixi, node, parent, registry) {
+async function renderNode(ctx, pixi, node, parent, registry, theme = null) {
     const prefabName = String(node.prefab || (node.type === 'prefab' ? node.name || node.ref || '' : '') || '').trim();
     if (prefabName) {
         const prefab = await loadPrefabJson(prefabName);
@@ -149,6 +207,7 @@ async function renderNode(ctx, pixi, node, parent, registry) {
     }
     applyContainerLayout(node);
     const type = node.type;
+    const style = themedStyle(node, theme);
     const container = new pixi.Container();
     container.x = Number(node.x ?? 0);
     container.y = Number(node.y ?? 0);
@@ -161,10 +220,10 @@ async function renderNode(ctx, pixi, node, parent, registry) {
     switch (type) {
         case 'text': {
             const text = new pixi.Text(String(node.text || ''), {
-                fontFamily: 'Microsoft YaHei, sans-serif',
-                fontSize: Number(node.style?.fontSize ?? 18),
-                fill: hexToNumber(node.style?.fill ?? node.style?.color, 0xffffff),
-                align: node.style?.align || 'left',
+                fontFamily: String(style.fontFamily || 'Microsoft YaHei, sans-serif'),
+                fontSize: Number(style.fontSize ?? 18),
+                fill: hexToNumber(style?.fill ?? style?.color, 0xffffff),
+                align: style?.align || 'left',
                 wordWrap: true,
                 wordWrapWidth: Number(node.w ?? 200),
             });
@@ -191,9 +250,13 @@ async function renderNode(ctx, pixi, node, parent, registry) {
         }
         case 'rect': {
             const graphics = new pixi.Graphics();
-            const fill = hexToNumber(node.style?.fill ?? node.style?.backgroundColor, 0x334155);
-            const radius = Number(node.style?.borderRadius ?? 0);
-            graphics.beginFill(fill, node.style?.opacity == null ? 1 : Number(node.style.opacity));
+            const fill = hexToNumber(style?.fill ?? style?.backgroundColor, 0x334155);
+            const radius = Number(style?.borderRadius ?? 0);
+            const borderWidth = Number(style?.borderWidth ?? 0);
+            if (borderWidth > 0 && typeof graphics.lineStyle === 'function') {
+                graphics.lineStyle(borderWidth, hexToNumber(String(style?.borderColor || '#000000')));
+            }
+            graphics.beginFill(fill, style?.opacity == null ? 1 : Number(style.opacity));
             if (radius > 0 && typeof graphics.drawRoundedRect === 'function') {
                 graphics.drawRoundedRect(0, 0, Number(node.w ?? 1), Number(node.h ?? 1), radius);
             }
@@ -207,8 +270,12 @@ async function renderNode(ctx, pixi, node, parent, registry) {
         }
         case 'button': {
             const bg = new pixi.Graphics();
-            const fill = hexToNumber(node.style?.backgroundColor ?? '#0ea5e9', 0x0ea5e9);
-            const radius = Number(node.style?.borderRadius ?? 8);
+            const fill = hexToNumber(style?.backgroundColor ?? '#0ea5e9', 0x0ea5e9);
+            const radius = Number(style?.borderRadius ?? 8);
+            const borderWidth = Number(style?.borderWidth ?? 0);
+            if (borderWidth > 0 && typeof bg.lineStyle === 'function') {
+                bg.lineStyle(borderWidth, hexToNumber(String(style?.borderColor || '#000000')));
+            }
             bg.beginFill(fill);
             if (radius > 0) {
                 bg.drawRoundedRect(0, 0, Number(node.w ?? 1), Number(node.h ?? 1), radius);
@@ -220,9 +287,9 @@ async function renderNode(ctx, pixi, node, parent, registry) {
             container.addChild(bg);
             if (node.text) {
                 const text = new pixi.Text(String(node.text), {
-                    fontFamily: 'Microsoft YaHei, sans-serif',
-                    fontSize: Number(node.style?.fontSize ?? 18),
-                    fill: hexToNumber(node.style?.color ?? '#ffffff', 0xffffff),
+                    fontFamily: String(style.fontFamily || 'Microsoft YaHei, sans-serif'),
+                    fontSize: Number(style?.fontSize ?? 18),
+                    fill: hexToNumber(style?.color ?? '#ffffff', 0xffffff),
                     align: 'center',
                 });
                 text.anchor.set(0.5, 0.5);
@@ -244,7 +311,7 @@ async function renderNode(ctx, pixi, node, parent, registry) {
     }
     if (node.children) {
         for (const child of node.children) {
-            await renderNode(ctx, pixi, child, container, registry);
+            await renderNode(ctx, pixi, child, container, registry, theme);
         }
     }
     parent.addChild(container);
@@ -312,17 +379,31 @@ export default {
                 const sceneUi = ensureSceneUiApi(sceneRuntime);
                 if (sceneUi?.nodes?.clear)
                     sceneUi.nodes.clear();
+                // 主题（风格）：skin 顶层 theme 字段 → 节点样式变换 + 画布底色
+                const theme = resolveSkinTheme(skin);
+                if (theme?.canvasBackground) {
+                    try {
+                        const app = ctx.engine.app;
+                        const c = hexToNumber(theme.canvasBackground);
+                        // PIXI v7: renderer.background.color；v6: renderer.backgroundColor
+                        if (app?.renderer?.background && 'color' in app.renderer.background)
+                            app.renderer.background.color = c;
+                        else if (app?.renderer && 'backgroundColor' in app.renderer)
+                            app.renderer.backgroundColor = c;
+                    }
+                    catch { /* 背景设置失败不阻断 */ }
+                }
                 const previousScene = ctx.scene;
                 ctx.scene = sceneRuntime;
                 try {
                     if (isGlobalScene) {
                         clearContainer(globalSkinContainer);
-                        await renderNode(ctx, pixi, rootNode, globalSkinContainer, sceneUi?.nodes);
+                        await renderNode(ctx, pixi, rootNode, globalSkinContainer, sceneUi?.nodes, theme);
                         ctx.logger.info(`[SkinRenderer] 全局皮肤渲染完成: ${skinName}`);
                     }
                     else {
                         clearContainer(sceneSkinContainer);
-                        await renderNode(ctx, pixi, rootNode, sceneSkinContainer, sceneUi?.nodes);
+                        await renderNode(ctx, pixi, rootNode, sceneSkinContainer, sceneUi?.nodes, theme);
                     }
                 }
                 finally {
