@@ -1,4 +1,7 @@
 {
   "version": 1,
-  "functions": {}
+  "functions": {
+    "/api/ovo-track/collect": {},
+    "/api/ovo-track/pull": {}
+  }
 }

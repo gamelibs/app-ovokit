@@ -617,6 +617,18 @@
       "namedRegex": "^/api/mod/regen\\-cover(?:/)?$"
     },
     {
+      "page": "/api/ovo-track/collect",
+      "regex": "^/api/ovo\\-track/collect(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/ovo\\-track/collect(?:/)?$"
+    },
+    {
+      "page": "/api/ovo-track/pull",
+      "regex": "^/api/ovo\\-track/pull(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/ovo\\-track/pull(?:/)?$"
+    },
+    {
       "page": "/apple-icon.png",
       "regex": "^/apple\\-icon\\.png(?:/)?$",
       "routeKeys": {},
