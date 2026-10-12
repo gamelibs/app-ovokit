@@ -15,6 +15,7 @@
     "algo:pm2": "pm2 start ecosystem.algo.config.js",
     "web:pm2": "pm2 start ecosystem.web.config.js",
     "release": "bash scripts/release.sh",
+    "release:push": "bash scripts/release.sh --push",
     "deploy:check": "bash scripts/deploy-check.sh",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
