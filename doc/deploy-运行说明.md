@@ -11,6 +11,9 @@ bash scripts/release.sh          # 构建 standalone → 提交 deploy/gameslog.
 git push origin deploy/gameslog.top
 git push origin main             # 触发 GitHub Actions（若 secrets 配置正确）
 
+# 一键方式（等价上面前两行，结尾打印版本号与后续指引）：
+pnpm release:push
+
 # 服务器：拉取并启动
 cd /var/www/gameslog
 bash deploy.sh deploy            # update(拉取) → check(环境) → start(reload+健康验证)

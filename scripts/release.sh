@@ -6,7 +6,8 @@
 # deploy/gameslog.top 分支上的一次纯产物提交（分支不含源码，服务器免构建）。
 #
 # 用法：
-#   bash scripts/release.sh        # 或 pnpm release
+#   bash scripts/release.sh          # 或 pnpm release：构建 + 产物提交（不推送）
+#   bash scripts/release.sh --push   # 或 pnpm release:push：一键（含推送产物分支）
 #
 # 流程：
 #   1. 校验：当前在 main、工作区干净、.env.local 存在且 NEXT_PUBLIC_SITE_URL 为 https 真实域名
@@ -60,6 +61,15 @@ log_info() {
 
 # --- 常量 -----------------------------------------------------------------------
 DEPLOY_BRANCH="deploy/gameslog.top"
+
+# --- 参数 -------------------------------------------------------------------------
+AUTO_PUSH=0
+for arg in "$@"; do
+  case "$arg" in
+    --push) AUTO_PUSH=1 ;;
+    *) echo "未知参数: $arg（支持 --push）" >&2; exit 1 ;;
+  esac
+done
 
 # --- 工具函数 ---------------------------------------------------------------------
 parse_env_value() {
@@ -286,6 +296,20 @@ fi
 DURATION=$(( $(date +%s) - START_TS ))
 echo
 log_ok "发布完成，总耗时 ${DURATION}s"
+
+# --- 6. 可选：推送产物分支（--push） --------------------------------------------
+if [[ "${AUTO_PUSH}" == "1" ]]; then
+  log_section "推送产物分支 ${DEPLOY_BRANCH}"
+  git push origin "${DEPLOY_BRANCH}"
+  log_ok "产物分支已推送，服务器执行 bash deploy.sh deploy 即可更新"
+else
+  log_warn "本脚本不执行 git push，推送请人工确认后执行：git push origin ${DEPLOY_BRANCH}"
+fi
+
+# --- 发布摘要 -------------------------------------------------------------------
+echo
+log_section "发布摘要"
+log_info "版本号（菜单抽屉展示）: ${APP_VERSION}"
+log_info "main commit: ${MAIN_COMMIT}"
 log_info "产物分支: ${DEPLOY_BRANCH}（$(git rev-parse --short "$DEPLOY_BRANCH")）"
-log_info "服务器更新：在服务器仓库执行 bash deploy.sh deploy"
-log_warn "本脚本不执行 git push，推送请人工确认后执行：git push origin ${DEPLOY_BRANCH}"
+log_info "下一步：服务器执行 sudo bash deploy.sh deploy，然后到 Cloudflare Purge Cache"
