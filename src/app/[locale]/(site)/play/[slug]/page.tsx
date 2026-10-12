@@ -296,6 +296,7 @@ export default async function PlayDetailPage({
                 <DemoEmbed
                   title={`${play.title} Demo`}
                   src={play.demo.iframeSrc}
+                  gameSlug={slug}
                   controls="toolbar"
                   showRestart
                   restartStrategy={isStaticDemo ? "reload" : "postMessage"}
@@ -309,6 +310,7 @@ export default async function PlayDetailPage({
                 <DemoEmbed
                   title={`${play.title} Pattern Demo`}
                   src={fallbackPatternDemoSrc}
+                  gameSlug={slug}
                   controls="toolbar"
                   showRestart
                   restartStrategy="postMessage"
@@ -320,6 +322,7 @@ export default async function PlayDetailPage({
                 <DemoEmbed
                   title={`${play.title} Archetype Demo`}
                   src={fallbackArchetypeDemoSrc}
+                  gameSlug={slug}
                   controls="toolbar"
                   showRestart
                   restartStrategy="postMessage"

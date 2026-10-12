@@ -89,6 +89,14 @@ export default async function LocaleLayout({
         className={`${inter.variable} ${kalam.variable} ${notoSerif.variable} bg-paper text-ink antialiased`}
       >
         <GoogleAnalytics gaId={gaId} />
+        {/* OVO 站点访问统计 SDK（契约：同源托管 + defer，覆盖 embed 组符合预期） */}
+        <script
+          src="/ovo-track.js"
+          defer
+          data-ovo-site="gameslog"
+          data-ovo-endpoint="/api/ovo-track/collect"
+          data-ovo-game-regex="^/(?:[a-z]{2}/)?play/([a-z0-9-]+)"
+        />
         {/* NextIntlClientProvider 在服务端组件中自动继承 getRequestConfig 的
             locale/messages，供客户端组件 useTranslations 使用 */}
         <NextIntlClientProvider>{children}</NextIntlClientProvider>

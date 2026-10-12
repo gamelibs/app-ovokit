@@ -31,6 +31,14 @@ export default function EmbedLayout({ children }: { children: React.ReactNode })
           }}
         />
         <GoogleAnalytics gaId={gaId} />
+        {/* OVO 站点访问统计 SDK（embed demo 页同样统计，契约约定不排除） */}
+        <script
+          src="/ovo-track.js"
+          defer
+          data-ovo-site="gameslog"
+          data-ovo-endpoint="/api/ovo-track/collect"
+          data-ovo-game-regex="^/(?:[a-z]{2}/)?play/([a-z0-9-]+)"
+        />
         <div className="h-dvh w-full overflow-hidden bg-transparent">{children}</div>
       </body>
     </html>

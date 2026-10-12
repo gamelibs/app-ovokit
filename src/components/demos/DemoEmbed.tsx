@@ -1,12 +1,15 @@
 "use client";
 
 import { FullscreenStage } from "@/components/demos/FullscreenStage";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { useGameStartOnDemoReady, reportGameStart } from "@/lib/ovo-analytics/game-start";
 
 type Props = {
   title: string;
   src: string;
+  /** play 详情页传入文章 slug：demo 引擎初始化完成时上报一次 game_start（会话内去重） */
+  gameSlug?: string;
   wrapperClassName?: string;
   stageClassName?: string;
   iframeClassName?: string;
@@ -24,6 +27,7 @@ type Props = {
 export function DemoEmbed({
   title,
   src,
+  gameSlug,
   wrapperClassName,
   stageClassName,
   iframeClassName,
@@ -41,6 +45,32 @@ export function DemoEmbed({
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [reloadToken, setReloadToken] = useState(0);
   const [loaded, setLoaded] = useState(false);
+
+  useGameStartOnDemoReady(gameSlug);
+
+  // 引擎初始化完成口径兜底：previewReady 可能在 hydration 完成前发出（SSR 页消息监听错过），
+  // iframe load 后同源轮询 v2 静态包的 boot 完成标记（__OVO_EVENTS/__OVO_DATA）；跨源读不到则只靠消息监听。
+  useEffect(() => {
+    if (!loaded || !gameSlug) return;
+    const win = iframeRef.current?.contentWindow as
+      | (Window & { __OVO_EVENTS?: unknown; __OVO_DATA?: unknown })
+      | undefined;
+    if (!win) return;
+    let tries = 0;
+    const timer = setInterval(() => {
+      tries += 1;
+      try {
+        if (win.__OVO_EVENTS && win.__OVO_DATA) {
+          reportGameStart(gameSlug);
+          clearInterval(timer);
+        }
+      } catch {
+        clearInterval(timer);
+      }
+      if (tries >= 50) clearInterval(timer);
+    }, 200);
+    return () => clearInterval(timer);
+  }, [loaded, gameSlug]);
 
   // 加载占位图标：缺省取 iframe 同目录 icon.svg（平台静态包自带）
   const resolvedIconSrc = useMemo(() => {

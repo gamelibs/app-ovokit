@@ -93,3 +93,17 @@
 - **决定**：选项 2。所有可玩 demo 必须是自包含静态包（零 runtime-gateway 依赖、零 localhost），经 ovo_system `scripts/export-static-demo.ts`（v2 项目）或 AtomCore 单文件（母型原子 demo）产出；localhost/外部托管引用视为发布缺陷必须清零。
 - **原因**：单包 0.8~3.3MB 对 git 与产物体积均可接受；deploy 分支通道已存在且被验证（服务器 `bash deploy.sh deploy` 免构建生效）；零外部依赖 = 线上可玩性与本地验证完全一致，无第二真相源；R2/三方托管在当前资产规模下是纯增加运维面。
 - **影响**：tic-tac-toe-showdown 的 localhost 引用已清零（content/ 全目录 grep 通过）；未来大资产（>10MB）再评估 R2；已落地：14/14 母型原子 demo + 11 篇可玩 demo 案例全部走本通道。
+
+---
+
+## 决策 007：game_start 双口径上报 + 浏览器会话去重 + SSR 竞态兜底
+
+- **日期**：2026-10-12
+- **问题**：plays 详情页的「游戏启动」如何统计才既准确又不重复？且 demo iframe 的引擎就绪消息（`previewReady`）可能在 SSR 页面 hydration 完成前发出，React 消息监听会错过。
+- **决定**：
+  1. **双口径 whichever 先**：显式「开始」控件点击（`reportGameStart(slug)`，供未来按钮用）与 demo iframe 引擎初始化完成消息（`demo:ready`，v2 静态导出包实际发 `previewReady`，两者都认）都算一次 game_start。
+  2. **会话去重**：sessionStorage 键 `ovo_gs_<slug>`，同一浏览器会话同 slug 只上报一次（重启浏览器后重新计数，符合「启动」语义）。
+  3. **SSR 竞态兜底**：仅靠 message 监听不可靠（实测本地 dev 下 iframe boot 早于 hydration），iframe load 后同源轮询 `contentWindow.__OVO_EVENTS/__OVO_DATA`（v2 包 boot 完成标记）兜底；跨源 iframe 读不到则只靠消息监听。去重保证两路只落一条。
+  4. OVOT（SDK）缺失或被拦截时静默跳过，绝不影响页面——采集端失败不影响站点是硬规则。
+- **原因**：详情页 demo iframe 自动加载、无显式开始按钮，「引擎初始化完成」是最接近真实启动的可观测口径；SPA/iframe 时序不可靠，双保险 + 去重缺一不可。
+- **影响**：`src/lib/ovo-analytics/game-start.ts` + `DemoEmbed` 可选 `gameSlug` prop（仅 play 详情页传入）；母型/原型页等其它 DemoEmbed 调用方不传参、行为不变。slug 取自页面路由参数，与 SDK regex 自动提取的 game_slug 同源一致。

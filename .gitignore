@@ -47,6 +47,10 @@ next-env.d.ts
 # runtime stats
 data/plays-views.json
 
+# ovo analytics 采集端本地库（运行时生成，不入 git）
+data/ovo-analytics.sqlite
+data/ovo-analytics.sqlite-*
+
 # deploy meta (deploy.sh 写入，不入 git)
 .deploy-meta
 tmp/

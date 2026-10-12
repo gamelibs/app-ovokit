@@ -1,11 +1,15 @@
 # GamesLog 项目状态（原 OVOFORGE）
 
-> 最后更新：2026-09-30
+> 最后更新：2026-10-12
 > 更新者：Kimi Code CLI
 
 ---
 
 ## 当前阶段
+
+**OVO 站点访问统计 · P2 采集端增强落地（2026-10-12 追加）**：SDK 升 v1.1（`data-ovo-game-slug` 固定 slug，regex 保留给详情页路由）逐字节同步；plays 页 `game_start` 埋点落地——详情页无显式「开始」控件（demo iframe 自动加载），实际接线点 = v2 静态导出包的 `previewReady` postMessage + 同源轮询 `__OVO_EVENTS/__OVO_DATA` 兜底（SSR hydration 竞态：消息可能在 React effect 挂载前发出），sessionStorage `ovo_gs_<slug>` 会话去重（两口径 whichever 先）；Playwright 真实链路（标准 UA）验证 game_start 落库 + 二次加载去重 + page_view regex 提取全过，验证行已清、`plays-views.json` 已还原。GA/CF/plays-views 未动。未提交 git。生产生效需 `pnpm release`。详见 `memory/daily/2026-10-12.md`。
+
+**OVO 站点访问统计 · 采集端落地（2026-10-12）**：按 ovo_system P2 泳道契约（`docs/task-board/lanes/p2-site-analytics.md` v1）完成 gameslog 采集端：node:sqlite（WAL，`data/ovo-analytics.sqlite`）存储层 `src/lib/ovo-analytics/store.mjs`、采集路由 `/api/ovo-track/collect`（校验/UA bot 过滤/10 次每分限流/ip_hash 隐私最小化，恒 204 或 4xx）、拉取路由 `/api/ovo-track/pull`（x-ovo-key 鉴权 + since/limit 增量）、SDK 同源托管 `public/ovo-track.js`（与 ovo_system 定稿逐字节一致）、`[locale]` 与 `(embed)` 两个 root layout 注入 defer script。curl + sqlite 直查全量验证通过（含限流 10/10 落库上限、413/400/401、HTML 注入、embed 覆盖），测试行已清，dev server 已停、19600 已释放。typecheck 0 错。GA/CF/plays-views 并存未动。未提交 git。**待生产 release 部署后线上生效；中心汇聚/看板由 ovo_system 侧联调**。详见 `memory/daily/2026-10-12.md`。
 
 **i18n 第二轮清扫（2026-10-04 追加）**：代码块组件 `codeBlock`（expand/collapse/lines）+ about/privacy/terms/contact 四页全语言化（`aboutPage`/`privacyPage`/`termsPage`/`contactPage` 命名空间，六语言各 +93 key，en 新译、ja/ko/es/pt 全新翻译；contact API 中文错误统一映射本地化通用文案）。grep 复核用户可见中文残留清零（白名单：mod/api 内部、SEO meta、demo 内部文案、内容数据键）。验证 typecheck 0 错 + Playwright 全过。详见 `memory/daily/2026-10-04.md`。
 

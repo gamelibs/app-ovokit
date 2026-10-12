@@ -10,6 +10,13 @@
 
 ## In Progress
 
+- [ ] **OVO 站点访问统计（P2 泳道 · gameslog 采集端，已落地待联调/上线）** <!-- task:id=ovo-analytics-001 priority:P1 category:analytics -->
+  - 契约：ovo_system `docs/task-board/lanes/p2-site-analytics.md`（唯一真相源，改动须 bump）
+  - 文件：`src/lib/ovo-analytics/{config,store}.mjs`、`src/app/api/ovo-track/{collect,pull}/route.ts`、`public/ovo-track.js`、`src/app/[locale]/layout.tsx`、`src/app/(embed)/layout.tsx`、`.gitignore`
+  - 状态（2026-10-12）：采集端全量实现并 dev 验证通过（校验/UA 过滤/限流/ip_hash、pull 鉴权、SDK 同源托管、双 root layout 注入、sqlite 直查断言、测试行已清）。详见 `memory/daily/2026-10-12.md`
+  - P2 进展（2026-10-12 追加）：SDK v1.1 已同步（`data-ovo-game-slug` 固定 slug 属性）；plays 页 `game_start` 埋点已落地并 Playwright 真实链路验证通过——`src/lib/ovo-analytics/game-start.ts`（`reportGameStart` 导出 + `useGameStartOnDemoReady` 消息监听）、`DemoEmbed` 增可选 `gameSlug` prop（详情页 3 处传入 slug）；详情页无显式开始按钮，接线点 = demo iframe `previewReady`（v2 静态包实际协议，等同契约 `demo:ready` 口径）+ iframe load 后同源轮询 `__OVO_EVENTS/__OVO_DATA` 兜底（SSR hydration 竞态）；sessionStorage `ovo_gs_<slug>` 会话去重已验证（二次加载不产生第二条）
+  - 下一步：① ovo_system 侧中心汇聚 sync + 看板联调（拉 `http://127.0.0.1:19600/api/ovo-track/pull`，key `dev-local-gameslog`）；② 生产 release 部署（standalone 下 `data/ovo-analytics.sqlite` 落 cwd，需确认服务器 data 卷持久化）；③ ovo_system 侧静态导出包注入（`buildV2PreviewHtml` 增 `options.tracker` 用 `data-ovo-game-slug`，照 `options.ads` 模式）+ 转化率看板
+
 - [ ] **多语言 M2：遗留 UI 串与内容英文化** <!-- task:id=i18n-m2-001 priority:P1 category:i18n -->
   - 背景：M1（2026-09-16）已完成——next-intl v4、`[locale]` 段（zh-CN 无前缀 / en `/en`）、`localeDetection:false`、多 root layout（`[locale]/layout.tsx` + `(embed)/layout.tsx`）、plays.ts locale 读取 + untranslated 回退、导航/页脚/首页/文章页 UI 串入 messages、语言切换器、hreflang + sitemap 双语。详见 `memory/daily/2026-09-16.md`
   - 遗留清单：
