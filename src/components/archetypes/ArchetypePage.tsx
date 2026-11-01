@@ -115,7 +115,6 @@ export function ArchetypePage({
                     ] as const
                   ).map(([key, text]) => (
                     <div key={key}>
-                      <div className="font-kalam text-xs font-semibold text-ink-muted">{t(key)}</div>
                       <p className="mt-0.5 text-sm leading-relaxed text-ink-light">{text}</p>
                     </div>
                   ))}
